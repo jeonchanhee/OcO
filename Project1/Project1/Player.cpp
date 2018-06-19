@@ -5,17 +5,7 @@ using namespace std;
 
 Player::Player()
 {
-	cout << "¿Ã·È´Ù" << endl;
-}
-
-
-Player::~Player()
-{
-}
-
-
-Player::Player()
-{
+	cout << "¼ö¿ì : ¿Ã·È´Ù" << endl;
 }
 
 
