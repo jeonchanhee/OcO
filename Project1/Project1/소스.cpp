@@ -9,7 +9,7 @@ int main()
 
 	cout << "팀장안해!!!!!!!!!!!!!!!!!!" << endl;
 
-	cout << "안뇽 나는 이뿐 효워니야" << endl;
+	cout << "안뇽 나는 효워니야" << endl;
 	cout << "은지언니가 씀 " << endl;
 	return;
 }  
