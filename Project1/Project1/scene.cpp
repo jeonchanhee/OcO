@@ -1,6 +1,6 @@
 #include "scene.h"
 #include <iostream>
-
+//해해 나는 바부다
 
 scene::scene()
 {
