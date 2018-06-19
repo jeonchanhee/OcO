@@ -1,6 +1,7 @@
 #include<iostream>
+
 using namespace std;
-int main()
+int main(void)
 {
 	cout << "¾È³ç!" << endl;
 	cout << "ÇÏÀÌ!!"<< endl;
