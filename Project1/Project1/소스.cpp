@@ -1,15 +1,9 @@
 #include<iostream>
-#include "scene.h"
-#include "ui.h"
-#include "enemy.h"
-#include "Player.h"
 
 using namespace std;
-
-
-int main()
+int main(void)
 {
-	/*cout << "안녕!" << endl;
+	cout << "안녕!" << endl;
 	cout << "하이!!"<< endl;
 	cout << "메롱!!!"<< endl;
 	cout << "까꿍!!!!" << endl;
@@ -26,19 +20,7 @@ int main()
 	cout << "그래 맞아 난 모든걸 가진 수우지" << endl;
 	cout << "하지만 가련하고 연약해서 모두가 지켜주 줘야 해" << endl;
 
-	cout << "던그리드 재밌게해 수우오빠 ♥ 가녀린소녀 .... " << endl;*/
+	cout << "던그리드 재밌게해 수우오빠 ♥ 가녀린소녀 .... " << endl;
 
-	scene Scene;
-	cout << endl;
-
-	ui UI;
-	cout << endl;
-
-	enemy Enemy;
-
-	Player player;
-
-
-
-	return 0;
+	return;
 }  
