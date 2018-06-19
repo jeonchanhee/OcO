@@ -139,13 +139,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="item.cpp" />
+    <ClCompile Include="enemy.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="scene.cpp" />
+    <ClCompile Include="ui.cpp" />
     <ClCompile Include="소스.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="item.h" />
+    <ClInclude Include="enemy.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="scene.h" />
+    <ClInclude Include="ui.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -4,5 +4,6 @@ class enemy
 public:
 	enemy();
 	~enemy();
+
 };
 
