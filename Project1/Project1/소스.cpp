@@ -13,5 +13,6 @@ int main()
 	cout << "은지언니가 씀 " << endl;
 
 	cout << "앙뇽 나는 쌍큼한 수우야" << endl;
+	cout << "아니야 나는 섹시한 수우야" << endl;
 	return;
 }  
