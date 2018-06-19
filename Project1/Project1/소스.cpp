@@ -14,5 +14,8 @@ int main()
 
 	cout << "앙뇽 나는 쌍큼한 수우야" << endl;
 	cout << "아니야 나는 섹시한 수우야" << endl;
+	
+	cout << "그래 맞아 난 모든걸 가진 수우지" << endl;
+
 	return;
 }  
