@@ -5,5 +5,6 @@ int main()
 	cout << "¾È³ç!" << endl;
 	cout << "ÇÏÀÌ!!"<< endl;
 	cout << "¸Ş·Õ!!!"<< endl;
+	cout << "±î²á!!!!" << endl;
 	return;
 }
