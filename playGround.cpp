@@ -9,7 +9,6 @@ playGround::playGround()
 
 playGround::~playGround()
 {
-
 }
 
 HRESULT playGround::init(void)	
