@@ -6,4 +6,4 @@ int main()
 	cout << "ÇÏÀÌ!!"<< endl;
 	cout << "¸Ş·Õ!!!"<< endl;
 	return;
-}
+}  
