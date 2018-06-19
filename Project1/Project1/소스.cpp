@@ -27,7 +27,7 @@ int main()
 	cout << "¹ÎÈ£¾ß ³ª´ëÁö¸¶¶ó" << endl;
 
 	cout << "´ıº­ " << endl; 
-	cout << " ·é»©°í ÇØµµ ÀÌ±ä´Ù" << endl;
+	cout << " ·é»©°í ÇØµµ ÀÌ±ä´Ù" << endl;;
 
 	return;
 }  
