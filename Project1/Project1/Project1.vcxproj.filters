@@ -21,7 +21,7 @@
     <ClCompile Include="scene.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="enemy.cpp">
+    <ClCompile Include="ui.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -29,7 +29,7 @@
     <ClInclude Include="scene.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="enemy.h">
+    <ClInclude Include="ui.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
