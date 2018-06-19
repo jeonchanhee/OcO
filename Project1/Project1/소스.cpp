@@ -23,5 +23,8 @@ int main()
 	cout << "제가 말한건  바로 프로그래밍입니다....." << endl;
 	cout << " 3년 게임을 해도 불가능 하십니다 ..." << endl;
 
+	cout << "민호야 롤 덤벼" << endl;
+	cout << "민호야 나대지마라" << endl;
+
 	return;
 }  
