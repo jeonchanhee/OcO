@@ -36,7 +36,7 @@ void playGround::render(void)
 {
 	
 	//흰색도화지 한 장 깔아둔다
-	PatBlt(getMemDC(), 0, 0, WINSIZEX, WINSIZEY, BLACKNESS);
+	PatBlt(getMemDC(), 0, 0, WINSIZEX, WINSIZEY, WHITENESS);
 	//============== 이 위로는 건드리지 말자 ==============
 	
 	

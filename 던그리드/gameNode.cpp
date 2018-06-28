@@ -114,6 +114,16 @@ LRESULT gameNode::MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lPara
 			_ptMouse.y = HIWORD(lParam);
 		break;
 
+		case WM_KEYDOWN:
+			switch (wParam)
+			{
+			case VK_ESCAPE:
+				//뒤지시겠습니까 사시겠습니까?
+				PostMessage(hWnd, WM_DESTROY, 0, 0);
+				break;
+			}
+			break;
+
 		case WM_DESTROY:
 			PostQuitMessage(0);
 		break;

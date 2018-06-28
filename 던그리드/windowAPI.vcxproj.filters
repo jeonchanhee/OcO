@@ -171,9 +171,6 @@
     <ClInclude Include="Dialog.h">
       <Filter>playGround\Diaiog</Filter>
     </ClInclude>
-    <ClInclude Include="townScene.h">
-      <Filter>playGround\Scene</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -262,9 +259,6 @@
     </ClCompile>
     <ClCompile Include="Dialog.cpp">
       <Filter>playGround\Diaiog</Filter>
-    </ClCompile>
-    <ClCompile Include="townScene.cpp">
-      <Filter>playGround\Scene</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
