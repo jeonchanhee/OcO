@@ -33,7 +33,8 @@ enum OBJECT
 // 포지션 정의
 enum POS
 {
-	POS_PLAYER, POS_ENEMY1, POS_ENEMY2
+	//워프할 때 플레이어 나오는 곳(워프지점)	플레이어 입장시 리젠		마법진 리젠
+	POS_PLAYER,								 POS_ENEMY1,			POS_ENEMY2
 };
 
 // 타일 구조체
