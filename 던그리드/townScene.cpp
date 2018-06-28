@@ -19,7 +19,7 @@ void townSene::render()
 {
 }
 
-townSene::townSene(){}
+townSene::townSene() {}
 
 
-townSene::~townSene(){}
+townSene::~townSene() {}
