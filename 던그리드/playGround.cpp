@@ -16,6 +16,9 @@ HRESULT playGround::init(void)
 {
 	gameNode::init(true);
 
+	_mapTool = new MapTool;
+	_mapTool->init();
+
 	return S_OK;
 }
 
@@ -29,7 +32,7 @@ void playGround::release(void)
 void playGround::update(void)	
 {
 	gameNode::update();
-
+	_mapTool->update();
 }
 
 void playGround::render(void)
@@ -39,7 +42,7 @@ void playGround::render(void)
 	PatBlt(getMemDC(), 0, 0, WINSIZEX, WINSIZEY, WHITENESS);
 	//============== 이 위로는 건드리지 말자 ==============
 	
-	
+	_mapTool->render();
 	
 	//================이 밑으로도 건드리지 말자 =============
 	this->getBackBuffer()->render(getHDC(), 0, 0);

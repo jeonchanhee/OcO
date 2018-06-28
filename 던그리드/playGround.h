@@ -1,10 +1,11 @@
 #pragma once
 #include "gameNode.h"
+#include "MapTool.h"
 
 class playGround : public gameNode
 {
 private:
-	
+	MapTool * _mapTool;
 
 public:
 	virtual HRESULT init(void);
