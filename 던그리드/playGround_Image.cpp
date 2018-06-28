@@ -4,6 +4,6 @@
 
 HRESULT playGround::Image_init(void)
 {
-
+	 
 	return S_OK;
 }
