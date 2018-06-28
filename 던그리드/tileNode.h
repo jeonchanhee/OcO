@@ -2,6 +2,7 @@
 
 // 타일 규격
 #define TILESIZE 96
+#define TILESIZE2 32
 
 // 타일 갯수
 #define TILEX 10
@@ -12,14 +13,14 @@
 #define TILESIZEY TILESIZE * TILEY
 
 // 타일셋 갯수
-#define SAMPLETILEX 32
-#define SAMPLETILEY 15
+#define SAMPLETILEX 23
+#define SAMPLETILEY 26
 
 // 지형	
 enum TERRAIN
 {
-	// 얼음	 흙			풀			던전				가시
-	TR_ICE,  TR_SOIL,	TR_GRASS,	TR_DUNGEON,		TR_THORN
+	// 
+	TR_WALL,  TR_GROUND, TR_GOGROUND,	TR_THORN
 };
 
 // 오브젝트
@@ -31,7 +32,7 @@ enum OBJECT
 // 포지션 정의
 enum POS
 {
-	POS_PLAYER, POS_ENEMY
+	POS_PLAYER, POS_ENEMY1, POS_ENEMY2
 };
 
 // 타일 구조체

@@ -34,7 +34,7 @@ public:
 	virtual void load();											// 로드
 	virtual void setmap();
 
-	TERRAIN		terrainSelect(int FrameX, int FrameY);		// 어떤 지형을 선택했는지
+	//TERRAIN		terrainSelect(int FrameX, int FrameY);		// 어떤 지형을 선택했는지
 	OBJECT		objSelect(int FrameX, int FrameY);			// 어던 오브젝트를 선택했는지
 
 	tagTile*	getTiles()		{ return _tiles; }			// 타일 접근자
