@@ -19,14 +19,15 @@
 // 지형	
 enum TERRAIN
 {
-	// 
-	TR_WALL,  TR_GROUND, TR_GOGROUND,	TR_THORN
+	//무조건 지나갈 수 있는 배경 벽지
+	TR_WALL
 };
 
 // 오브젝트
 enum OBJECT
 {
-	OBJ_NONE
+	//비어있음	못지나가는땅	아래점프로 내려가는땅		못지나가는 벽 기둥	지나가는 잔디		가시
+	OBJ_NONE,	TR_GROUND,	TR_GOGROUND,			TR_CULUMN,			TR_GRASS,		TR_THORN
 };
 
 // 포지션 정의
