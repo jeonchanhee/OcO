@@ -32,7 +32,7 @@ void MapTool::render()
 	// 버튼 렉트
 	for (int i = 0; i < 5; i++)
 	{
-		Rectangle(getMemDC(), _rc[i].left, _rc[i].top, _rc[i].right, _rc[i].bottom);
+		Rectangle(CAMERAMANAGER->getCameraDC()->getMemDC(), _rc[i].left, _rc[i].top, _rc[i].right, _rc[i].bottom);
 	}
 
 	// 폰트

@@ -2,24 +2,34 @@
 #include "dungeonScene.h"
 
 
-HRESULT dungeonScene::init()
+HRESULT dungeonScene::init(void)
 {
+
 	return S_OK;
 }
 
-void dungeonScene::release()
+void dungeonScene::release(void)
+{
+
+}
+
+void dungeonScene::update(void)
+{
+
+
+	KEYANIMANAGER->update();
+}
+
+void dungeonScene::render(void)
+{
+
+}
+
+dungeonScene::dungeonScene()
 {
 }
 
-void dungeonScene::update()
+
+dungeonScene::~dungeonScene()
 {
 }
-
-void dungeonScene::render()
-{
-}
-
-dungeonScene::dungeonScene(){}
-
-
-dungeonScene::~dungeonScene(){}
