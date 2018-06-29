@@ -1,12 +1,35 @@
 #include "stdafx.h"
-#include "enemyManager.h"
+#include "EnemyManager.h"
 
 
-enemyManager::enemyManager()
+EnemyManager::EnemyManager()
 {
 }
 
 
-enemyManager::~enemyManager()
+EnemyManager::~EnemyManager()
+{
+}
+
+HRESULT EnemyManager::init()
+{
+
+
+	return S_OK;
+}
+
+void EnemyManager::release()
+{
+}
+
+void EnemyManager::update()
+{
+}
+
+void EnemyManager::render()
+{
+}
+
+void EnemyManager::setMonster()
 {
 }
