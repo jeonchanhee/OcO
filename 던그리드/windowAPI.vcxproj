@@ -149,9 +149,20 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="animation.h" />
+    <ClInclude Include="Arrow.h" />
+    <ClInclude Include="Bat.h" />
+    <ClInclude Include="BigBat.h" />
+    <ClInclude Include="BigBone.h" />
+    <ClInclude Include="BigRedBat.h" />
+    <ClInclude Include="Boss.h" />
+    <ClInclude Include="Bullet.h" />
     <ClInclude Include="button.h" />
+    <ClInclude Include="cameraManager.h" />
     <ClInclude Include="commonMacroFunction.h" />
+    <ClInclude Include="Cow.h" />
     <ClInclude Include="Dialog.h" />
+    <ClInclude Include="dungeonScene.h" />
+    <ClInclude Include="DogBone.h" />
     <ClInclude Include="DialogElder.h" />
     <ClInclude Include="DialogStore.h" />
     <ClInclude Include="DialogTownStore.h" />
@@ -160,6 +171,7 @@
     <ClInclude Include="effect.h" />
     <ClInclude Include="effectManager.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="EnemyManager.h" />
     <ClInclude Include="gameNode.h" />
     <ClInclude Include="image.h" />
     <ClInclude Include="imageManager.h" />
@@ -170,10 +182,12 @@
     <ClInclude Include="keyManager.h" />
     <ClInclude Include="loadingScene.h" />
     <ClInclude Include="MapTool.h" />
+    <ClInclude Include="MusicAngel.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="playGround.h" />
     <ClInclude Include="progressBar.h" />
     <ClInclude Include="randomFunction.h" />
+    <ClInclude Include="RedBat.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="sceneManager.h" />
     <ClInclude Include="singletonBase.h" />
@@ -183,14 +197,26 @@
     <ClInclude Include="tileNode.h" />
     <ClInclude Include="timeManager.h" />
     <ClInclude Include="timer.h" />
+    <ClInclude Include="titleScene.h" />
     <ClInclude Include="txtData.h" />
     <ClInclude Include="UI.h" />
     <ClInclude Include="utils.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="animation.cpp" />
+    <ClCompile Include="Arrow.cpp" />
+    <ClCompile Include="Bat.cpp" />
+    <ClCompile Include="BigBat.cpp" />
+    <ClCompile Include="BigBone.cpp" />
+    <ClCompile Include="BigRedBat.cpp" />
+    <ClCompile Include="Boss.cpp" />
+    <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="button.cpp" />
+    <ClCompile Include="cameraManager.cpp" />
+    <ClCompile Include="Cow.cpp" />
     <ClCompile Include="Dialog.cpp" />
+    <ClCompile Include="dungeonScene.cpp" />
+    <ClCompile Include="DogBone.cpp" />
     <ClCompile Include="DialogElder.cpp" />
     <ClCompile Include="DialogStore.cpp" />
     <ClCompile Include="DialogTownStore.cpp" />
@@ -199,6 +225,7 @@
     <ClCompile Include="effect.cpp" />
     <ClCompile Include="effectManager.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="EnemyManager.cpp" />
     <ClCompile Include="gameNode.cpp" />
     <ClCompile Include="image.cpp" />
     <ClCompile Include="imageManager.cpp" />
@@ -209,10 +236,12 @@
     <ClCompile Include="keyManager.cpp" />
     <ClCompile Include="loadingScene.cpp" />
     <ClCompile Include="MapTool.cpp" />
+    <ClCompile Include="MusicAngel.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="playGround.cpp" />
     <ClCompile Include="playGround_Image.cpp" />
     <ClCompile Include="progressBar.cpp" />
+    <ClCompile Include="RedBat.cpp" />
     <ClCompile Include="sceneManager.cpp" />
     <ClCompile Include="soundManager.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -223,6 +252,7 @@
     </ClCompile>
     <ClCompile Include="timeManager.cpp" />
     <ClCompile Include="timer.cpp" />
+    <ClCompile Include="titleScene.cpp" />
     <ClCompile Include="txtData.cpp" />
     <ClCompile Include="UI.cpp" />
     <ClCompile Include="utils.cpp" />

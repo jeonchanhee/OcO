@@ -1,11 +1,14 @@
 #pragma once
 #include "gameNode.h"
+#include "MapTool.h"
+#include "titleScene.h"
+#include "dunGeonScene.h"
 #include "DialogWeapon.h"
 
 class playGround : public gameNode
 {
 private:
-	
+	MapTool * _mapTool;
 
 public:
 	virtual HRESULT init(void);
