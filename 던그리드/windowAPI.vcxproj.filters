@@ -84,9 +84,6 @@
     <ClInclude Include="Resource.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="commonMacroFunction.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="singletonBase.h">
       <Filter>2DFramework\singletonBase</Filter>
     </ClInclude>
@@ -173,6 +170,12 @@
     </ClInclude>
     <ClInclude Include="tileNode.h">
       <Filter>playGround\MapTool</Filter>
+    </ClInclude>
+    <ClInclude Include="cameraManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="commonMacroFunction.h">
+      <Filter>2DFramework\Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -262,6 +265,9 @@
     </ClCompile>
     <ClCompile Include="Dialog.cpp">
       <Filter>playGround\Diaiog</Filter>
+    </ClCompile>
+    <ClCompile Include="cameraManager.cpp">
+      <Filter>2DFramework\Manager</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
