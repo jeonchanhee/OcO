@@ -27,12 +27,12 @@ void MapTool::update()
 
 void MapTool::render()
 {
-	IMAGEMANAGER->render("map2", getMemDC(), WINSIZEX - IMAGEMANAGER->findImage("map2")->getWidth(), 0);
+	IMAGEMANAGER->render("map2", DC, WINSIZEX - IMAGEMANAGER->findImage("map2")->getWidth(), 0);
 	
 	// 버튼 렉트
 	for (int i = 0; i < 5; i++)
 	{
-		Rectangle(CAMERAMANAGER->getCameraDC()->getMemDC(), _rc[i].left, _rc[i].top, _rc[i].right, _rc[i].bottom);
+		Rectangle(DC, _rc[i].left, _rc[i].top, _rc[i].right, _rc[i].bottom);
 	}
 
 	// 폰트
@@ -45,11 +45,11 @@ void MapTool::render()
 		OUT_STRING_PRECIS, CLIP_CHARACTER_PRECIS, PROOF_QUALITY,
 		DEFAULT_PITCH | FF_SWISS, TEXT("Bernard MT Condensed"));
 	oldFont = (HFONT)SelectObject(getMemDC(), font);
-	DrawText(getMemDC(), TEXT("저장"), strlen("저장"), &_rc[0], DT_CENTER | DT_VCENTER | DT_SINGLELINE);
-	DrawText(getMemDC(), TEXT("불러오기"), strlen("불러오기"), &_rc[1], DT_CENTER | DT_VCENTER | DT_SINGLELINE);
-	DrawText(getMemDC(), TEXT("지형"), strlen("지형"), &_rc[2], DT_CENTER | DT_VCENTER | DT_SINGLELINE);
-	DrawText(getMemDC(), TEXT("오브젝트"), strlen("오브젝트"), &_rc[3], DT_CENTER | DT_VCENTER | DT_SINGLELINE);
-	DrawText(getMemDC(), TEXT("지우개"), strlen("지우개"), &_rc[4], DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+	DrawText(DC, TEXT("저장"), strlen("저장"), &_rc[0], DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+	DrawText(DC, TEXT("불러오기"), strlen("불러오기"), &_rc[1], DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+	DrawText(DC, TEXT("지형"), strlen("지형"), &_rc[2], DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+	DrawText(DC, TEXT("오브젝트"), strlen("오브젝트"), &_rc[3], DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+	DrawText(DC, TEXT("지우개"), strlen("지우개"), &_rc[4], DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 	SelectObject(getMemDC(), oldFont);
 	DeleteObject(font);
 
@@ -57,7 +57,7 @@ void MapTool::render()
 	// 지형
 	for (int i = 0; i < TILEX * TILEY; i++)
 	{
-		IMAGEMANAGER->frameRender("map", getMemDC(), _tiles[i].rc.left, _tiles[i].rc.top, _tiles[i].terrainFrameX, _tiles[i].terrainFrameY);
+		IMAGEMANAGER->frameRender("map", DC, _tiles[i].rc.left, _tiles[i].rc.top, _tiles[i].terrainFrameX, _tiles[i].terrainFrameY);
 	}
 
 	// 오브젝트
@@ -66,19 +66,19 @@ void MapTool::render()
 		// 오브젝트 속성이 아니면 그리지마
 		if (_tiles[i].object == OBJ_NONE) continue;
 		
-		IMAGEMANAGER->frameRender("map", getMemDC(), _tiles[i].rc.left, _tiles[i].rc.top, _tiles[i].objFrameX, _tiles[i].objFrameY);
+		IMAGEMANAGER->frameRender("map", DC, _tiles[i].rc.left, _tiles[i].rc.top, _tiles[i].objFrameX, _tiles[i].objFrameY);
 	}
 
 	if (KEYMANAGER->isToggleKey(VK_TAB))
 	{
 		for (int i = 0; i < TILEX * TILEY; i++)
 		{
-			Rectangle(getMemDC(),_tiles[i].rc.left, _tiles[i].rc.top, _tiles[i].rc.right, _tiles[i].rc.bottom);
+			Rectangle(DC,_tiles[i].rc.left, _tiles[i].rc.top, _tiles[i].rc.right, _tiles[i].rc.bottom);
 		}
 
 		for (int i = 0; i < SAMPLETILEX * SAMPLETILEY; i++)
 		{
-			Rectangle(getMemDC(), _sampleTile[i].rctile.left, _sampleTile[i].rctile.top, _sampleTile[i].rctile.right, _sampleTile[i].rctile.bottom);
+			Rectangle(DC, _sampleTile[i].rctile.left, _sampleTile[i].rctile.top, _sampleTile[i].rctile.right, _sampleTile[i].rctile.bottom);
 		}
 	}
 }
