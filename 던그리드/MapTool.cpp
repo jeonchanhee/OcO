@@ -32,7 +32,7 @@ void MapTool::render()
 	// 버튼 렉트
 	for (int i = 0; i < 5; i++)
 	{
-		Rectangle(getMemDC(), _rc[i].left, _rc[i].top, _rc[i].right, _rc[i].bottom);
+		Rectangle(CAMERAMANAGER->getCameraDC()->getMemDC(), _rc[i].left, _rc[i].top, _rc[i].right, _rc[i].bottom);
 	}
 
 	// 폰트
@@ -104,21 +104,7 @@ void MapTool::load()
 
 void MapTool::setup()
 {
-	//_select = TRRAINDRAW;
-
-	// 샘플타일셋	
-	/*for (int i = 0; i < SAMPLETILEY; i++)
-	{
-		for (int j = 0; j < SAMPLETILEX; i++)
-		{
-			_sampleTile[i * SAMPLETILEX + j].terrainFrameX = j;
-			_sampleTile[i * SAMPLETILEX + j].terrainFrameY = i;
-
-			SetRect(&_sampleTile[i * SAMPLETILEX + j].rctile, (WINSIZEX - IMAGEMANAGER->findImage("map2")->getWidth()) + j * TILESIZE, i * TILESIZE,
-				(WINSIZEX - IMAGEMANAGER->findImage("map2")->getWidth()) + j * TILESIZE + TILESIZE, i * TILESIZE + TILESIZE);
-		}
-	}*/
-
+	
 	for (int i = 0; i < SAMPLETILEY; ++i)
 	{
 		for (int j = 0; j < SAMPLETILEX; ++j)
@@ -215,14 +201,14 @@ void MapTool::setmap()
 	}
 }
 
-//TERRAIN MapTool::terrainSelect(int FrameX, int FrameY)
-//{
-//	if(FrameX == 1 && FrameY == 0) return TR_ICE;
-//	if (FrameX == 2 && FrameY == 0) return TR_SOIL;
-//	if (FrameX == 3 && FrameY == 0) return TR_GRASS;
-//	if (FrameX == 4 && FrameY == 0) return TR_DUNGEON;
-//	return TR_GRASS;
-//}
+TERRAIN MapTool::terrainSelect(int FrameX, int FrameY)
+{
+	if(FrameX == 1 && FrameY == 0) return TR_ICE;
+	if (FrameX == 2 && FrameY == 0) return TR_SOIL;
+	if (FrameX == 3 && FrameY == 0) return TR_GRASS;
+	if (FrameX == 4 && FrameY == 0) return TR_DUNGEON;
+	return TR_GRASS;
+}
 
 OBJECT MapTool::objSelect(int FrameX, int FrameY)
 {

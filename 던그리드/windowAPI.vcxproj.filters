@@ -84,9 +84,6 @@
     <ClInclude Include="Resource.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="commonMacroFunction.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="singletonBase.h">
       <Filter>2DFramework\singletonBase</Filter>
     </ClInclude>
@@ -172,13 +169,16 @@
       <Filter>playGround\Diaiog</Filter>
     </ClInclude>
     <ClInclude Include="tileNode.h">
-      <Filter>playGround\MapTool</Filter>
+      <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="titleScene.h">
-      <Filter>playGround\Scene</Filter>
+    <ClInclude Include="enemyManager.h">
+      <Filter>playGround\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="dungeonScene.h">
-      <Filter>playGround\Scene</Filter>
+    <ClInclude Include="cameraManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="commonMacroFunction.h">
+      <Filter>2DFramework\Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -269,11 +269,11 @@
     <ClCompile Include="Dialog.cpp">
       <Filter>playGround\Diaiog</Filter>
     </ClCompile>
-    <ClCompile Include="titleScene.cpp">
-      <Filter>playGround\Scene</Filter>
+    <ClCompile Include="cameraManager.cpp">
+      <Filter>2DFramework\Manager</Filter>
     </ClCompile>
-    <ClCompile Include="dungeonScene.cpp">
-      <Filter>playGround\Scene</Filter>
+    <ClCompile Include="enemyManager.cpp">
+      <Filter>playGround\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
