@@ -27,14 +27,14 @@ enum TERRAIN
 enum OBJECT
 {
 	//비어있음	못지나가는땅		아래점프로 내려가는땅		못지나가는 벽 기둥	미닫이문			가시
-	OBJ_NONE, OBJ_GROUND, OBJ_GOGROUND, OBJ_CULUMN, OBJ_DOOR, OBJ_THORN
+	OBJ_NONE,	 OBJ_GROUND,	OBJ_GOGROUND,			 OBJ_CULUMN,		 OBJ_DOOR,		 OBJ_THORN
 };
 
 // 포지션 정의
 enum POS
 {
 	//워프할 때 플레이어 나오는 곳(워프지점)	플레이어 입장시 리젠		마법진 리젠		보물상자
-	POS_PLAYER, POS_ENEMY1, POS_ENEMY2, POS_TREASURE
+	POS_PLAYER,								POS_ENEMY1,				 POS_ENEMY2,	POS_TREASURE
 };
 
 // 타일 구조체
