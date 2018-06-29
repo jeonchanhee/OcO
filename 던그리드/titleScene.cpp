@@ -58,38 +58,38 @@ void titleScene::update(void)
 
 void titleScene::render(void)
 {
-	IMAGEMANAGER->render("T_back", getMemDC(),0, 0);
-	IMAGEMANAGER->loopRender("T_cloud0", getMemDC(), &RectMake(0, 0, WINSIZEX, WINSIZEY), _loop0, 0);
-	IMAGEMANAGER->loopRender("T_cloud1", getMemDC(), &RectMake(0, 0, WINSIZEX, WINSIZEY), _loop1, 0);
-	_birdImg0->aniRender(getMemDC(), _bird0.x, _bird0.y, _abird0);
-	_birdImg1->aniRender(getMemDC(), _bird1.x, _bird1.y, _abird1);
+	IMAGEMANAGER->render("T_back", DC,0, 0);
+	IMAGEMANAGER->loopRender("T_cloud0", DC, &RectMake(0, 0, WINSIZEX, WINSIZEY), _loop0, 0);
+	IMAGEMANAGER->loopRender("T_cloud1", DC, &RectMake(0, 0, WINSIZEX, WINSIZEY), _loop1, 0);
+	_birdImg0->aniRender(DC, _bird0.x, _bird0.y, _abird0);
+	_birdImg1->aniRender(DC, _bird1.x, _bird1.y, _abird1);
 	if (PtInRect(&_button[0], _ptMouse))
 	{
-		IMAGEMANAGER->frameRender("T_start", getMemDC(), 850, 700, 1, 0);
+		IMAGEMANAGER->frameRender("T_start", DC, 850, 700, 1, 0);
 		if(KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
 			SCENEMANAGER->changeScene("´øÀü");
 	}
 	else
-		IMAGEMANAGER->frameRender("T_start", getMemDC(),850, 700,0,0);
+		IMAGEMANAGER->frameRender("T_start", DC,850, 700,0,0);
 	if (PtInRect(&_button[1], _ptMouse))
 	{
-		IMAGEMANAGER->frameRender("T_option", getMemDC(), 850, 800, 1, 0);
+		IMAGEMANAGER->frameRender("T_option", DC, 850, 800, 1, 0);
 	}
 	else
-		IMAGEMANAGER->frameRender("T_option", getMemDC(), 850, 800, 0, 0);
+		IMAGEMANAGER->frameRender("T_option", DC, 850, 800, 0, 0);
 	if (PtInRect(&_button[2], _ptMouse))
 	{
-		IMAGEMANAGER->frameRender("T_exit", getMemDC(), 850, 900, 1, 0);
+		IMAGEMANAGER->frameRender("T_exit", DC, 850, 900, 1, 0);
 		if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
 			PostMessage(_hWnd, WM_DESTROY, 0, 0);
 	}
 	else
-		IMAGEMANAGER->frameRender("T_exit", getMemDC(), 850, 900, 0, 0);
-	IMAGEMANAGER->render("title", getMemDC(),0, 0);
+		IMAGEMANAGER->frameRender("T_exit", DC, 850, 900, 0, 0);
+	IMAGEMANAGER->render("title", DC,0, 0);
 	if(KEYMANAGER->isToggleKey(VK_TAB))
 	{
 		for(int i=0;i<3;i++)
-		Rectangle(getMemDC(),_button[i].left, _button[i].top, _button[i].right, _button[i].bottom);
+		Rectangle(DC,_button[i].left, _button[i].top, _button[i].right, _button[i].bottom);
 	}
 }
 
