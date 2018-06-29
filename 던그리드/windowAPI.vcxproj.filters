@@ -171,22 +171,10 @@
     <ClInclude Include="Dialog.h">
       <Filter>playGround\Diaiog</Filter>
     </ClInclude>
-    <ClInclude Include="enemyManager.h">
-      <Filter>playGround\Enemy</Filter>
+    <ClInclude Include="cameraManager.h">
+      <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="commonMacroFunction.h">
-      <Filter>2DFramework\Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="titleScene.h">
-      <Filter>playGround\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="tileNode.h">
-      <Filter>playGround\MapTool</Filter>
-    </ClInclude>
-    <ClInclude Include="dungeonScene.h">
-      <Filter>playGround\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="cameraManager.h">
       <Filter>2DFramework\Manager</Filter>
     </ClInclude>
     <ClInclude Include="EnemyManager.h">
@@ -224,6 +212,15 @@
     </ClInclude>
     <ClInclude Include="Bullet.h">
       <Filter>playGround\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="titleScene.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="tileNode.h">
+      <Filter>playGround\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="dungeonScene.h">
+      <Filter>playGround\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
