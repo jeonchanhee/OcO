@@ -2,22 +2,18 @@
 #include "playGround.h"
 
 
-playGround::playGround()
-{
-}
+playGround::playGround(){}
+playGround::~playGround(){}
 
-
-playGround::~playGround()
-{
-
-}
 
 HRESULT playGround::init(void)	
 {
 	gameNode::init(true);
-
+	Image_init();
 	_mapTool = new MapTool;
 	_mapTool->init();
+	_player  = new Player;
+	_player->init();
 
 	return S_OK;
 }
@@ -33,7 +29,7 @@ void playGround::update(void)
 {
 	gameNode::update();
 	_mapTool->update();
-	if (KEYMANAGER->isStayKeyDown(VK_LEFT)) CAMERAMANAGER->setCameraX(CAMERAMANAGER->getCameraX() - 5);
+	_player->update();
 
 }
 
@@ -45,6 +41,8 @@ void playGround::render(void)
 	//============== 이 위로는 건드리지 말자 ==============
 	
 	_mapTool->render();
+	_player->render();
+	
 	
 	//================이 밑으로도 건드리지 말자 =============
 	CAMERAMANAGER->getCameraDC()->render(getHDC() , 0 , 0 , CAMERAMANAGER->getCameraRc().left, CAMERAMANAGER->getCameraRc().top, CAMERAMANAGER->getCameraRc().right, CAMERAMANAGER->getCameraRc().bottom); 

@@ -201,14 +201,14 @@ void MapTool::setmap()
 	}
 }
 
-TERRAIN MapTool::terrainSelect(int FrameX, int FrameY)
-{
-	if(FrameX == 1 && FrameY == 0) return TR_ICE;
-	if (FrameX == 2 && FrameY == 0) return TR_SOIL;
-	if (FrameX == 3 && FrameY == 0) return TR_GRASS;
-	if (FrameX == 4 && FrameY == 0) return TR_DUNGEON;
-	return TR_GRASS;
-}
+//TERRAIN MapTool::terrainSelect(int FrameX, int FrameY)
+//{
+//	if(FrameX == 1 && FrameY == 0) return TR_ICE;
+//	if (FrameX == 2 && FrameY == 0) return TR_SOIL;
+//	if (FrameX == 3 && FrameY == 0) return TR_GRASS;
+//	if (FrameX == 4 && FrameY == 0) return TR_DUNGEON;
+//	return TR_GRASS;
+//}
 
 OBJECT MapTool::objSelect(int FrameX, int FrameY)
 {
