@@ -172,7 +172,10 @@
       <Filter>playGround\Diaiog</Filter>
     </ClInclude>
     <ClInclude Include="tileNode.h">
-      <Filter>playGround\MapTool</Filter>
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="enemyManager.h">
+      <Filter>playGround\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -262,6 +265,9 @@
     </ClCompile>
     <ClCompile Include="Dialog.cpp">
       <Filter>playGround\Diaiog</Filter>
+    </ClCompile>
+    <ClCompile Include="enemyManager.cpp">
+      <Filter>playGround\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
