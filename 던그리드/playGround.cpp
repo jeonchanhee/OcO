@@ -54,6 +54,8 @@ void playGround::render(void)
 	//SCENEMANAGER->render();
 
 	
+	//_mapTool;
+
 	//================이 밑으로도 건드리지 말자 =============
 	IMAGEMANAGER->render("cursor", DC, _ptMouse.x, _ptMouse.y);
 	CAMERAMANAGER->getCameraDC()->render(getHDC() , 0 , 0 , CAMERAMANAGER->getCameraRc().left, CAMERAMANAGER->getCameraRc().top, CAMERAMANAGER->getCameraRc().right, CAMERAMANAGER->getCameraRc().bottom); 
