@@ -22,7 +22,7 @@ void MapTool::release(){}
 
 void MapTool::update()
 {
-	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON)) setmap();
+	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))setmap();
 }
 
 void MapTool::render()
@@ -75,8 +75,12 @@ void MapTool::render()
 		{
 			Rectangle(DC,_tiles[i].rc.left, _tiles[i].rc.top, _tiles[i].rc.right, _tiles[i].rc.bottom);
 		}
+
+		for (int i = 0; i < SAMPLETILEX * SAMPLETILEY; i++)
+		{
+			Rectangle(DC, _sampleTile[i].rctile.left, _sampleTile[i].rctile.top, _sampleTile[i].rctile.right, _sampleTile[i].rctile.bottom);
+		}
 	}
-	
 }
 
 void MapTool::save()
@@ -114,10 +118,10 @@ void MapTool::setup()
 			_sampleTile[i * SAMPLETILEX + j].terrainFrameY = i;
 
 			SetRect(&_sampleTile[i * SAMPLETILEX + j].rctile,
-				(WINSIZEX - IMAGEMANAGER->findImage("map2")->getWidth()) + j * TILESIZE,
-				i * TILESIZE,
-				(WINSIZEX - IMAGEMANAGER->findImage("map2")->getWidth()) + j * TILESIZE + TILESIZE,
-				i * TILESIZE + TILESIZE);
+				(WINSIZEX - IMAGEMANAGER->findImage("map2")->getWidth()) + j * TILESIZE /3,
+				i * TILESIZE /3,
+				(WINSIZEX - IMAGEMANAGER->findImage("map2")->getWidth()) + j * TILESIZE /3 + TILESIZE /3,
+				i * TILESIZE /3 + TILESIZE /3);
 		}
 	}
 
@@ -161,8 +165,8 @@ void MapTool::setmap()
 	{
 		if (PtInRect(&_sampleTile[i].rctile, _ptMouse))
 		{
-			_tiles[i].terrainFrameX = _currentTile.x;
-			_tiles[i].terrainFrameY = _currentTile.y;
+			_currentTile.x = _sampleTile[i].terrainFrameX;
+			_currentTile.y = _sampleTile[i].terrainFrameY;
 			break;
 		}
 	}
@@ -171,48 +175,61 @@ void MapTool::setmap()
 	{
 		if (PtInRect(&_tiles[i].rc, _ptMouse))
 		{
-			if (PtInRect(&_tiles[i].rc, _ptMouse))
+			if (_select == TRRAINDRAW)
 			{
-				if (_select == TRRAINDRAW)
-				{
-					_tiles[i].terrainFrameX = _currentTile.x;
-					_tiles[i].terrainFrameY = _currentTile.y;
+				_tiles[i].terrainFrameX = _currentTile.x;
+				_tiles[i].terrainFrameY = _currentTile.y;
 
-					//_tiles[i].terrain = terrainSelect(_currentTile.x, _currentTile.y);
-				}
-				else if (_select == OBJDRAW)
-				{
-					_tiles[i].objFrameX = _currentTile.x;
-					_tiles[i].objFrameY = _currentTile.y;
-
-					_tiles[i].object = objSelect(_currentTile.x, _currentTile.y);
-				}
-				else if (_select == ERASER)
-				{
-					_tiles[i].objFrameX = NULL;
-					_tiles[i].objFrameY = NULL;
-
-					_tiles[i].object = OBJ_NONE;
-				}
-
-				InvalidateRect(_hWnd, NULL, false);
-				break;
+				_tiles[i].terrain = terrainSelect(_currentTile.x, _currentTile.y);
 			}
+			else if (_select == OBJDRAW)
+			{
+				_tiles[i].objFrameX = _currentTile.x;
+				_tiles[i].objFrameY = _currentTile.y;
+
+				_tiles[i].object = objSelect(_currentTile.x, _currentTile.y);
+			}
+			else if (_select == ERASER)
+			{
+				_tiles[i].objFrameX = NULL;
+				_tiles[i].objFrameY = NULL;
+
+				_tiles[i].object = OBJ_NONE;
+			}
+		
+			InvalidateRect(_hWnd, NULL, false);
+			break;
 		}
 	}
 }
 
-//TERRAIN MapTool::terrainSelect(int FrameX, int FrameY)
-//{
-//	if(FrameX == 1 && FrameY == 0) return TR_ICE;
-//	if (FrameX == 2 && FrameY == 0) return TR_SOIL;
-//	if (FrameX == 3 && FrameY == 0) return TR_GRASS;
-//	if (FrameX == 4 && FrameY == 0) return TR_DUNGEON;
-//	return TR_GRASS;
-//}
+TERRAIN MapTool::terrainSelect(int FrameX, int FrameY)
+{
+	for (int i = 15; i < 19; i++)
+	{
+		for (int j = 0; j < 5; j++)
+		{
+			if (FrameX == i && FrameY == j) return TR_WALL;
+		}
+	}
+
+	for (int i = 19; i < 24; i++)
+	{
+		for (int j = 0; j < 18; j++)
+		{
+			if (FrameX == i && FrameY == j) return TR_WALL;
+		}
+	}
+
+	return TR_WALL;
+}
 
 OBJECT MapTool::objSelect(int FrameX, int FrameY)
 {
+
+
+
+
 	return OBJECT();
 }
 
