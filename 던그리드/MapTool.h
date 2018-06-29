@@ -18,7 +18,7 @@ private:
 	tagSampleTile	_sampleTile[SAMPLETILEX * SAMPLETILEY];
 	DWORD		_attribute[TILEX * TILEY];				// 타일 속성	
 
-	RECT		_rc[5];									// 버튼 렉트
+	RECT		_rc[7];									// 버튼 렉트
 	SELECT		_select;
 
 	int			_pos[2];

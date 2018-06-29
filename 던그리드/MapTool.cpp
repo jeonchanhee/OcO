@@ -8,18 +8,14 @@ HRESULT MapTool::init()
 
 	setup();
 
-
 	// 버튼 렉트
 	for (int i = 0; i < 5; i++)
 	{
-		if (i <= 3)
-		{
-			_rc[i] = RectMakeCenter((WINSIZEX / 2 + 500) + i * 125, WINSIZEY / 2 + 50, 120, 50);
-		}
-		else
-		{
-			_rc[i] = RectMakeCenter((WINSIZEX / 2 + 500), (WINSIZEY / 2 + 50) + 80, 120, 50);
-		}
+			if (i <= 3)	_rc[i] = RectMakeCenter((WINSIZEX / 2 + 500) + i * 125, WINSIZEY / 2 + 50, 120, 50);
+			else
+			{
+				_rc[i] = RectMakeCenter((WINSIZEX / 2 + 500), (WINSIZEY / 2 + 50) + 100, 120, 50);
+			}
 	}
 	
 
@@ -38,7 +34,7 @@ void MapTool::render()
 	IMAGEMANAGER->render("map", getMemDC(), WINSIZEX - IMAGEMANAGER->findImage("map")->getWidth(), 0);
 	
 	// 버튼 렉트
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < 7; i++)
 	{
 		Rectangle(getMemDC(), _rc[i].left, _rc[i].top, _rc[i].right, _rc[i].bottom);
 	}
@@ -115,18 +111,7 @@ void MapTool::setup()
 	//_select = TRRAINDRAW;
 
 	// 샘플타일셋	
-	/*for (int i = 0; i < SAMPLETILEY; i++)
-	{
-		for (int j = 0; j < SAMPLETILEX; i++)
-		{
-			_sampleTile[i * SAMPLETILEX + j].terrainFrameX = j;
-			_sampleTile[i * SAMPLETILEX + j].terrainFrameY = i;
-
-			SetRect(&_sampleTile[i * SAMPLETILEX + j].rctile, (WINSIZEX - IMAGEMANAGER->findImage("map")->getWidth()) + j * TILESIZE, i * TILESIZE,
-				(WINSIZEX - IMAGEMANAGER->findImage("map")->getWidth()) + j * TILESIZE + TILESIZE, i * TILESIZE + TILESIZE);
-		}
-	}*/
-
+		
 	for (int i = 0; i < SAMPLETILEY; ++i)
 	{
 		for (int j = 0; j < SAMPLETILEX; ++j)
@@ -154,7 +139,7 @@ void MapTool::setup()
 
 void MapTool::setmap()
 {
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < 7; i++)
 	{
 		if (PtInRect(&_rc[i], _ptMouse))
 		{
