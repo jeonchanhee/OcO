@@ -161,6 +161,7 @@
     <ClInclude Include="commonMacroFunction.h" />
     <ClInclude Include="Cow.h" />
     <ClInclude Include="Dialog.h" />
+    <ClInclude Include="dungeonScene.h" />
     <ClInclude Include="DogBone.h" />
     <ClInclude Include="effect.h" />
     <ClInclude Include="effectManager.h" />
@@ -191,6 +192,7 @@
     <ClInclude Include="tileNode.h" />
     <ClInclude Include="timeManager.h" />
     <ClInclude Include="timer.h" />
+    <ClInclude Include="titleScene.h" />
     <ClInclude Include="txtData.h" />
     <ClInclude Include="UI.h" />
     <ClInclude Include="utils.h" />
@@ -208,6 +210,7 @@
     <ClCompile Include="cameraManager.cpp" />
     <ClCompile Include="Cow.cpp" />
     <ClCompile Include="Dialog.cpp" />
+    <ClCompile Include="dungeonScene.cpp" />
     <ClCompile Include="DogBone.cpp" />
     <ClCompile Include="effect.cpp" />
     <ClCompile Include="effectManager.cpp" />
@@ -239,6 +242,7 @@
     </ClCompile>
     <ClCompile Include="timeManager.cpp" />
     <ClCompile Include="timer.cpp" />
+    <ClCompile Include="titleScene.cpp" />
     <ClCompile Include="txtData.cpp" />
     <ClCompile Include="UI.cpp" />
     <ClCompile Include="utils.cpp" />

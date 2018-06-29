@@ -106,6 +106,9 @@ LRESULT gameNode::MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lPara
 
 	switch (iMessage)
 	{
+		case WM_SETCURSOR:
+			SetCursor(NULL);
+			return TRUE;
 		case WM_LBUTTONDOWN:
 			_leftButtonDown = true;
 			
