@@ -213,9 +213,6 @@
     <ClInclude Include="Bullet.h">
       <Filter>playGround\Bullet</Filter>
     </ClInclude>
-    <ClInclude Include="titleScene.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="tileNode.h">
       <Filter>playGround\Scene</Filter>
     </ClInclude>
@@ -239,6 +236,9 @@
     </ClInclude>
     <ClInclude Include="DialogWeapon.h">
       <Filter>playGround\Diaiog</Filter>
+    </ClInclude>
+    <ClInclude Include="titleScene.h">
+      <Filter>playGround\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
