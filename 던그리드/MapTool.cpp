@@ -4,21 +4,17 @@
 
 HRESULT MapTool::init()
 {
-	IMAGEMANAGER->addFrameImage("map", "Map.bmp", 0, 0, 3072, 1440, SAMPLETILEX, SAMPLETILEY, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("map", "image/map/Map(2208x2496,23x26).bmp", 0, 0, 2208, 2496, SAMPLETILEX, SAMPLETILEY, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("map2", "image/map/Map2(736x832,23x26).bmp", 0, 0, 736, 832, SAMPLETILEX, SAMPLETILEY, true, RGB(255, 0, 255));
 
 	setup();
 
 	// 버튼 렉트
 	for (int i = 0; i < 5; i++)
 	{
-			if (i <= 3)	_rc[i] = RectMakeCenter((WINSIZEX / 2 + 500) + i * 125, WINSIZEY / 2 + 50, 120, 50);
-			else
-			{
-				_rc[i] = RectMakeCenter((WINSIZEX / 2 + 500), (WINSIZEY / 2 + 50) + 100, 120, 50);
-			}
+			_rc[i] = RectMakeCenter((WINSIZEX / 2 + 300) + i * 125, WINSIZEY / 2 + 400, 120, 50);
 	}
 	
-
 	return S_OK;
 }
 
@@ -31,10 +27,10 @@ void MapTool::update()
 
 void MapTool::render()
 {
-	IMAGEMANAGER->render("map", getMemDC(), WINSIZEX - IMAGEMANAGER->findImage("map")->getWidth(), 0);
+	IMAGEMANAGER->render("map2", getMemDC(), WINSIZEX - IMAGEMANAGER->findImage("map2")->getWidth(), 0);
 	
 	// 버튼 렉트
-	for (int i = 0; i < 7; i++)
+	for (int i = 0; i < 5; i++)
 	{
 		Rectangle(getMemDC(), _rc[i].left, _rc[i].top, _rc[i].right, _rc[i].bottom);
 	}
@@ -111,7 +107,18 @@ void MapTool::setup()
 	//_select = TRRAINDRAW;
 
 	// 샘플타일셋	
-		
+	/*for (int i = 0; i < SAMPLETILEY; i++)
+	{
+		for (int j = 0; j < SAMPLETILEX; i++)
+		{
+			_sampleTile[i * SAMPLETILEX + j].terrainFrameX = j;
+			_sampleTile[i * SAMPLETILEX + j].terrainFrameY = i;
+
+			SetRect(&_sampleTile[i * SAMPLETILEX + j].rctile, (WINSIZEX - IMAGEMANAGER->findImage("map2")->getWidth()) + j * TILESIZE, i * TILESIZE,
+				(WINSIZEX - IMAGEMANAGER->findImage("map2")->getWidth()) + j * TILESIZE + TILESIZE, i * TILESIZE + TILESIZE);
+		}
+	}*/
+
 	for (int i = 0; i < SAMPLETILEY; ++i)
 	{
 		for (int j = 0; j < SAMPLETILEX; ++j)
@@ -120,9 +127,9 @@ void MapTool::setup()
 			_sampleTile[i * SAMPLETILEX + j].terrainFrameY = i;
 
 			SetRect(&_sampleTile[i * SAMPLETILEX + j].rctile,
-				(WINSIZEX - IMAGEMANAGER->findImage("map")->getWidth()) + j * TILESIZE,
+				(WINSIZEX - IMAGEMANAGER->findImage("map2")->getWidth()) + j * TILESIZE,
 				i * TILESIZE,
-				(WINSIZEX - IMAGEMANAGER->findImage("map")->getWidth()) + j * TILESIZE + TILESIZE,
+				(WINSIZEX - IMAGEMANAGER->findImage("map2")->getWidth()) + j * TILESIZE + TILESIZE,
 				i * TILESIZE + TILESIZE);
 		}
 	}
@@ -139,7 +146,7 @@ void MapTool::setup()
 
 void MapTool::setmap()
 {
-	for (int i = 0; i < 7; i++)
+	for (int i = 0; i < 5; i++)
 	{
 		if (PtInRect(&_rc[i], _ptMouse))
 		{
@@ -184,7 +191,7 @@ void MapTool::setmap()
 					_tiles[i].terrainFrameX = _currentTile.x;
 					_tiles[i].terrainFrameY = _currentTile.y;
 
-					_tiles[i].terrain = terrainSelect(_currentTile.x, _currentTile.y);
+					//_tiles[i].terrain = terrainSelect(_currentTile.x, _currentTile.y);
 				}
 				else if (_select == OBJDRAW)
 				{
@@ -208,14 +215,14 @@ void MapTool::setmap()
 	}
 }
 
-TERRAIN MapTool::terrainSelect(int FrameX, int FrameY)
-{
-	if(FrameX == 1 && FrameY == 0) return TR_ICE;
-	if (FrameX == 2 && FrameY == 0) return TR_SOIL;
-	if (FrameX == 3 && FrameY == 0) return TR_GRASS;
-	if (FrameX == 4 && FrameY == 0) return TR_DUNGEON;
-	return TR_GRASS;
-}
+//TERRAIN MapTool::terrainSelect(int FrameX, int FrameY)
+//{
+//	if(FrameX == 1 && FrameY == 0) return TR_ICE;
+//	if (FrameX == 2 && FrameY == 0) return TR_SOIL;
+//	if (FrameX == 3 && FrameY == 0) return TR_GRASS;
+//	if (FrameX == 4 && FrameY == 0) return TR_DUNGEON;
+//	return TR_GRASS;
+//}
 
 OBJECT MapTool::objSelect(int FrameX, int FrameY)
 {

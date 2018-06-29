@@ -2,6 +2,7 @@
 
 // 타일 규격
 #define TILESIZE 96
+#define TILESIZE2 32
 
 // 타일 갯수
 #define TILEX 10
@@ -12,26 +13,28 @@
 #define TILESIZEY TILESIZE * TILEY
 
 // 타일셋 갯수
-#define SAMPLETILEX 32
-#define SAMPLETILEY 15
+#define SAMPLETILEX 23
+#define SAMPLETILEY 26
 
 // 지형	
 enum TERRAIN
 {
-	// 얼음	 흙			풀			던전				가시
-	TR_ICE,  TR_SOIL,	TR_GRASS,	TR_DUNGEON,		TR_THORN
+	//무조건 지나갈 수 있는 배경 벽지
+	TR_WALL
 };
 
 // 오브젝트
 enum OBJECT
 {
-	OBJ_NONE
+	//비어있음	못지나가는땅	아래점프로 내려가는땅		못지나가는 벽 기둥	지나가는 잔디		가시
+	OBJ_NONE,	TR_GROUND,	TR_GOGROUND,			TR_CULUMN,			TR_GRASS,		TR_THORN
 };
 
 // 포지션 정의
 enum POS
 {
-	POS_PLAYER, POS_ENEMY
+	//워프할 때 플레이어 나오는 곳(워프지점)	플레이어 입장시 리젠		마법진 리젠
+	POS_PLAYER,								 POS_ENEMY1,			POS_ENEMY2
 };
 
 // 타일 구조체
