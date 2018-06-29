@@ -18,7 +18,7 @@ private:
 	tagSampleTile	_sampleTile[SAMPLETILEX * SAMPLETILEY];
 	DWORD		_attribute[TILEX * TILEY];				// 타일 속성	
 
-	RECT		_rc[5];									// 버튼 렉트
+	RECT		_rc[7];									// 버튼 렉트
 	SELECT		_select;
 
 	int			_pos[2];
@@ -34,7 +34,7 @@ public:
 	virtual void load();											// 로드
 	virtual void setmap();
 
-	//TERRAIN		terrainSelect(int FrameX, int FrameY);		// 어떤 지형을 선택했는지
+	TERRAIN		terrainSelect(int FrameX, int FrameY);		// 어떤 지형을 선택했는지
 	OBJECT		objSelect(int FrameX, int FrameY);			// 어던 오브젝트를 선택했는지
 
 	tagTile*	getTiles()		{ return _tiles; }			// 타일 접근자
