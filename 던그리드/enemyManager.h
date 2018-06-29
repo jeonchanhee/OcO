@@ -1,5 +1,7 @@
 #pragma once
 #include "gameNode.h"
+#include "Bullet.h"
+#include "progressBar.h"
 #include "MusicAngel.h"
 #include "BigBat.h"
 #include "DogBone.h"
@@ -10,7 +12,6 @@
 #include "BigBat.h"
 #include "Bat.h"
 #include "Boss.h"
-#include <vector>
 
 class EnemyManager : public gameNode
 {
@@ -21,6 +22,12 @@ private:
 	vEnemy _vMonster;
 	viEnemy _viMonster;
 
+	Bullet* _bullet;
+	progressBar* _hpBar;
+
+	float _currentHP, _maxHP;
+	int _count;
+
 public:
 	EnemyManager();
 	~EnemyManager();
@@ -30,7 +37,14 @@ public:
 	void update();
 	void render();
 
-	void setMonster();
+	
+	void setMonster(); //몬스터 생성 함수
+	void hitDamage(); //HP깎는 함수
+	void monsterBulletFire();
+	void removeMonster();
+	bool isFinish();
+	
+	
 
 	//몬스터 접근자
 	vector<Enemy*> getVMonster() { return _vMonster; }

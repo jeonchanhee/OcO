@@ -39,7 +39,7 @@ void Enemy::update()
 
 void Enemy::render()
 {
-	_img->frameRender(getMemDC(), _rc.left, _rc.top, _frameX, _frameY);
+	_img->frameRender(DC, _rc.left, _rc.top, _frameX, _frameY);
 }
 
 void Enemy::changeFrmae()
