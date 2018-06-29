@@ -1,16 +1,18 @@
 #include "stdafx.h"
-#include "Dialog.h"
+#include "DialogTraining.h"
 
 
-Dialog::Dialog() {}
-Dialog::~Dialog() {}
+DialogTraining::DialogTraining() {}
+DialogTraining::~DialogTraining() {}
 
-HRESULT Dialog::init()
+HRESULT DialogTraining::init()
 {
+	_name = "카블로비나";
+
 	_training = TRAINING_RESCUE;
 	for (int i = 0; i < 3; i++)
 	{
-		_rc[i] = RectMake(100, WINSIZEY - 500 + i*100, 1800, 100);
+		_rc[i] = RectMake(100, WINSIZEY - 500 + i * 100, 1800, 100);
 		_button[i] = RectMake(1100, WINSIZEY - 900 + i * 100, 100, 100);
 	}
 	_click = RectMakeCenter(100, 100, 100, 100);
@@ -19,41 +21,19 @@ HRESULT Dialog::init()
 	return S_OK;
 }
 
-void Dialog::release()
+void DialogTraining::release()
 {
 
 }
 
-void Dialog::update()
+void DialogTraining::update()
 {
-	_count++;
-	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
-	{
-		//changeDialog();
-		_idX = _dialog[(int)_training][_idY].size() - 1;
-	}
-	if (KEYMANAGER->isOnceKeyDown(VK_RBUTTON))
-	{
-		changeDialog();
-	}
-
+	keyControl();
 	clickButton();
-
-	if (!(_count % 3))
-	{
-		if (_idX >= _dialog[(int)_training][_idY].size() && (_idY + 1) < _dialogSize[(int)_training])
-		{
-			_idY++;
-			_idX = 0;
-			if (!((int)_training == 4 && _idY == 1))
-			Sleep(1200);
-		}
-		else _idX++;
-		//_count = 0;
-	}
+	setFrame();
 }
 
-void Dialog::render()
+void DialogTraining::render()
 {
 	Rectangle(getMemDC(), _click.left, _click.top, _click.right, _click.bottom);
 
@@ -64,25 +44,63 @@ void Dialog::render()
 	}
 
 	HFONT font, oldFont;
+	font = CreateFont(80, 0, 0, 0, 100, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("소야바른9"));
+	oldFont = (HFONT)SelectObject(getMemDC(), font);
+	SetTextColor(getMemDC(), RGB(255, 94, 0));
+	DrawText(getMemDC(), _name.c_str(), strlen(_name.c_str()), &_rc[0], DT_VCENTER);
+	SelectObject(getMemDC(), oldFont);
+	DeleteObject(font);
+
 	font = CreateFont(50, 0, 0, 0, 100, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("소야바른9"));
 	oldFont = (HFONT)SelectObject(getMemDC(), font);
+	SetTextColor(getMemDC(), RGB(0, 0, 0));
 	if ((int)_training == 4 && _idY == 1)
-		DrawText(getMemDC(), _dialog[4][0].c_str(), strlen(_dialog[4][0].c_str()), &_rc[0], DT_VCENTER);
+		DrawText(getMemDC(), _dialog[4][0].c_str(), strlen(_dialog[4][0].c_str()), &_rc[1], DT_VCENTER);
 	string str = _dialog[(int)_training][_idY].substr(0, _idX);
 	//DrawText(getMemDC(), _dialog[(int)_training][_idY].c_str(), strlen(_dialog[(int)_training][_idY].c_str()), &_rc[0], DT_VCENTER);
 	if ((int)_training == 4 && _idY == 1)
-		DrawText(getMemDC(), str.c_str(), strlen(str.c_str()), &_rc[1], DT_VCENTER);
+		DrawText(getMemDC(), str.c_str(), strlen(str.c_str()), &_rc[2], DT_VCENTER);
 	else
-		DrawText(getMemDC(), str.c_str(), strlen(str.c_str()), &_rc[0], DT_VCENTER);
+		DrawText(getMemDC(), str.c_str(), strlen(str.c_str()), &_rc[1], DT_VCENTER);
 	SelectObject(getMemDC(), oldFont);
 	DeleteObject(font);
 
 	char str1[128];
-	sprintf_s(str1, "size : %d, count : %d", _dialog[(int)_training][_idY].size(), _count/10);
+	sprintf_s(str1, "size : %d, count : %d", _dialog[(int)_training][_idY].size(), _count / 10);
 	TextOut(getMemDC(), 300, 100, str1, strlen(str1));
 }
 
-void Dialog::setDialog()
+void DialogTraining::keyControl()
+{
+	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
+	{
+		//changeDialog();
+		_idX = _dialog[(int)_training][_idY].size() - 1;
+	}
+	if (KEYMANAGER->isOnceKeyDown(VK_RBUTTON))
+	{
+		changeDialog();
+	}
+}
+
+void DialogTraining::setFrame()
+{
+	_count++;
+
+	if (!(_count % 3))
+	{
+		if (_idX >= _dialog[(int)_training][_idY].size() && (_idY + 1) < _dialogSize[(int)_training])
+		{
+			_idY++;
+			_idX = 0;
+			if (!((int)_training == 4 && _idY == 1))
+				Sleep(1200);
+		}
+		else _idX++;
+	}
+}
+
+void DialogTraining::setDialog()
 {
 	switch (_training)
 	{
@@ -90,7 +108,7 @@ void Dialog::setDialog()
 		_dialog[0][0] = "자네는..모험가인가? 옛날에 기사 훈련을 하면서 자네같은 모험가를 많이 보았지.";
 		_dialog[0][1] = "그 목걸이... 생각해보니 그런 방법이 있었군. 일단 마을에서 보도록 하지!";
 		_dialogSize[0] = 2;
-	break;
+		break;
 	case TRAINING_AFTER_RESCUE:
 		_dialog[1][0] = "마을! 드디어!";
 		_dialog[1][1] = "지금까지 마을지도를 가지고 다녀서 괜찮았건만..!";
@@ -98,26 +116,26 @@ void Dialog::setDialog()
 		_dialog[1][3] = "이곳도 새로 지도를 그려야 하는가. 아 참, 내 이름은 카블로비나.";
 		_dialog[1][4] = "이 마을에서 마을 경비대의 훈련을 맡고 있지. 잘 부탁하네!";
 		_dialogSize[1] = 5;
-	break;
+		break;
 	case TRAINING_BUILD:
 		_dialog[2][0] = "훈련장을 지어줬군! 고맙네!";
 		_dialog[2][1] = "자네의 능력을 훈련하고 싶으면 언제든지 내게로 오게나. 마을 서쪽에 있으니!";
 		_dialogSize[2] = 2;
-	break;
+		break;
 	case TRAINING_BUILDING:
 		_dialog[3][0] = "자네 왔군! 훈련할 텐가?";
 		_dialogSize[3] = 1;
-	break;
+		break;
 	case TRAINING_DIALOG:
 		_dialog[4][0] = "율포드님에게 말씀드려서, 건물들을 원래 있던 자리에 다시 세워달라고 말씀드렸는데,";
 		_dialog[4][1] = "거절하셨네.";
 		_dialog[4][2] = "재건하는 사람들이 다른 곳을 느껴보고 싶다나..훈련장만이 예전 위치 그대로라네.";
 		_dialogSize[4] = 3;
-	break;
+		break;
 	}
 }
 
-void Dialog::changeDialog()
+void DialogTraining::changeDialog()
 {
 	switch (_training)
 	{
@@ -137,7 +155,7 @@ void Dialog::changeDialog()
 	_count = _idX = _idY = 0;
 	setDialog();
 }
-void Dialog::clickButton()
+void DialogTraining::clickButton()
 {
 	if (_training != TRAINING_BUILDING) return;
 
@@ -153,7 +171,6 @@ void Dialog::clickButton()
 					_count = _idX = _idY = 0;
 					setDialog();
 				}
-				break;
 			}
 		}
 	}

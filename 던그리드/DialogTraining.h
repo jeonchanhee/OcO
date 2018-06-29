@@ -1,8 +1,8 @@
 #pragma once
 #include "gameNode.h"
 
-enum TRAINING_NPC {TRAINING_RESCUE, TRAINING_AFTER_RESCUE, TRAINING_BUILD, TRAINING_BUILDING, TRAINING_DIALOG };
-class Dialog :	public gameNode
+enum TRAINING_NPC { TRAINING_RESCUE, TRAINING_AFTER_RESCUE, TRAINING_BUILD, TRAINING_BUILDING, TRAINING_DIALOG };
+class DialogTraining : public gameNode
 {
 	string _name, _dialog[5][5];
 	TRAINING_NPC _training;
@@ -19,13 +19,14 @@ public:
 	void update();
 	void render();
 
+	void keyControl();
+
+	void setFrame();
+
 	void setDialog();
-
 	void changeDialog();
-
 	void clickButton();
 
-	Dialog();
-	~Dialog();
+	DialogTraining();
+	~DialogTraining();
 };
-

@@ -171,6 +171,24 @@
     <ClInclude Include="Dialog.h">
       <Filter>playGround\Diaiog</Filter>
     </ClInclude>
+    <ClInclude Include="tileNode.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="DialogTraining.h">
+      <Filter>playGround\Diaiog</Filter>
+    </ClInclude>
+    <ClInclude Include="DialogElder.h">
+      <Filter>playGround\Diaiog</Filter>
+    </ClInclude>
+    <ClInclude Include="DialogTownStore.h">
+      <Filter>playGround\Diaiog</Filter>
+    </ClInclude>
+    <ClInclude Include="DialogStore.h">
+      <Filter>playGround\Diaiog</Filter>
+    </ClInclude>
+    <ClInclude Include="DialogWeapon.h">
+      <Filter>playGround\Diaiog</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -258,6 +276,21 @@
       <Filter>playGround</Filter>
     </ClCompile>
     <ClCompile Include="Dialog.cpp">
+      <Filter>playGround\Diaiog</Filter>
+    </ClCompile>
+    <ClCompile Include="DialogTraining.cpp">
+      <Filter>playGround\Diaiog</Filter>
+    </ClCompile>
+    <ClCompile Include="DialogElder.cpp">
+      <Filter>playGround\Diaiog</Filter>
+    </ClCompile>
+    <ClCompile Include="DialogTownStore.cpp">
+      <Filter>playGround\Diaiog</Filter>
+    </ClCompile>
+    <ClCompile Include="DialogStore.cpp">
+      <Filter>playGround\Diaiog</Filter>
+    </ClCompile>
+    <ClCompile Include="DialogWeapon.cpp">
       <Filter>playGround\Diaiog</Filter>
     </ClCompile>
   </ItemGroup>

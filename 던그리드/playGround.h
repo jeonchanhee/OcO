@@ -1,5 +1,6 @@
 #pragma once
 #include "gameNode.h"
+#include "DialogWeapon.h"
 
 class playGround : public gameNode
 {
