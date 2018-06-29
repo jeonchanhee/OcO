@@ -33,10 +33,64 @@ void Enemy::release()
 
 void Enemy::update()
 {
-
+	changeFrmae();
+	move();
 }
 
 void Enemy::render()
 {
+	_img->frameRender(getMemDC(), _rc.left, _rc.top, _frameX, _frameY);
 }
 
+void Enemy::changeFrmae()
+{
+	_count++;
+	if (_count % 2 == 0)
+	{
+		if (_frameX >= _img->getMaxFrameX())
+			_frameX = 0;
+
+		_img->setFrameX(_frameX);
+		_frameX++;
+
+		_count = 0;
+	}
+}
+
+void Enemy::move()
+{
+	_x = cosf(_angle)* _speed;
+	_y = -sinf(_angle) * _speed;
+
+	_rc = RectMake(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
+}
+
+bool Enemy::bulletCountFire()
+{
+	_fireCount++;
+	if (_fireCount % _rndFireCount == 0)
+	{
+		_fireCount = 0;
+		_rndFireCount = RND->getFromIntTo(1, 1000);
+
+		return true;
+	}
+
+	return false;
+}
+
+void Enemy::setAngle(float angle)
+{
+	_angle = angle;
+}
+
+float Enemy::getAngle()
+{
+	return _angle;
+}
+
+void Enemy::setPoint(float x, float y)
+{
+	_x = x;
+	_y = y;
+}

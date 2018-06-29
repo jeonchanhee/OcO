@@ -37,20 +37,20 @@ void MapTool::render()
 
 	// 폰트
 
-	SetTextColor(getMemDC(), RGB(0, 0, 0));
+	SetTextColor(DC, RGB(0, 0, 0));
 
 	HFONT font, oldFont;
 	
 	font = CreateFont(30, 0, 0, 0, 100, 0, 0, 0, DEFAULT_CHARSET,
 		OUT_STRING_PRECIS, CLIP_CHARACTER_PRECIS, PROOF_QUALITY,
 		DEFAULT_PITCH | FF_SWISS, TEXT("Bernard MT Condensed"));
-	oldFont = (HFONT)SelectObject(getMemDC(), font);
+	oldFont = (HFONT)SelectObject(DC, font);
 	DrawText(DC, TEXT("저장"), strlen("저장"), &_rc[0], DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 	DrawText(DC, TEXT("불러오기"), strlen("불러오기"), &_rc[1], DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 	DrawText(DC, TEXT("지형"), strlen("지형"), &_rc[2], DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 	DrawText(DC, TEXT("오브젝트"), strlen("오브젝트"), &_rc[3], DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 	DrawText(DC, TEXT("지우개"), strlen("지우개"), &_rc[4], DT_CENTER | DT_VCENTER | DT_SINGLELINE);
-	SelectObject(getMemDC(), oldFont);
+	SelectObject(DC, oldFont);
 	DeleteObject(font);
 
 

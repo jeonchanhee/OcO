@@ -18,13 +18,22 @@ protected:
 
 public:
 
+	Enemy();
+	~Enemy();
+
 	HRESULT init();
 	HRESULT init(const char* imageName, POINT position, float angle, float speed);
 	void release();
 	void update();
 	void render();
 
-	Enemy();
-	~Enemy();
+	void changeFrmae();//프레임변화 함수
+	void move();//움직이는 함수
+	bool bulletCountFire(); //총알 발사 함수
+	inline RECT getRect() { return _rc; } //렉트 반환 함수
+
+	void setAngle(float angle); //각도 바꾸는 함수
+	float getAngle();			//각도 받는 함수
+	void setPoint(float x, float y);	//좌표 바꾸는 함수
 };
 
