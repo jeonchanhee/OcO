@@ -26,15 +26,15 @@ enum TERRAIN
 // 오브젝트
 enum OBJECT
 {
-	//비어있음	못지나가는땅	아래점프로 내려가는땅		못지나가는 벽 기둥	지나가는 잔디		가시
-	OBJ_NONE,	TR_GROUND,	TR_GOGROUND,			TR_CULUMN,			TR_GRASS,		TR_THORN
+	//비어있음	못지나가는땅		아래점프로 내려가는땅		못지나가는 벽 기둥	미닫이문			가시
+	OBJ_NONE, OBJ_GROUND, OBJ_GOGROUND, OBJ_CULUMN, OBJ_DOOR, OBJ_THORN
 };
 
 // 포지션 정의
 enum POS
 {
-	//워프할 때 플레이어 나오는 곳(워프지점)	플레이어 입장시 리젠		마법진 리젠
-	POS_PLAYER,								 POS_ENEMY1,			POS_ENEMY2
+	//워프할 때 플레이어 나오는 곳(워프지점)	플레이어 입장시 리젠		마법진 리젠		보물상자
+	POS_PLAYER, POS_ENEMY1, POS_ENEMY2, POS_TREASURE
 };
 
 // 타일 구조체
@@ -42,6 +42,7 @@ struct tagTile
 {
 	TERRAIN terrain;			// 지형
 	OBJECT	object;				// 오브젝트
+	POS		position;			//포지션
 	RECT	rc;					// 렉트
 	int		terrainFrameX;		// 지형 프레임 번호
 	int		terrainFrameY;		// 지형 프레임 번호
