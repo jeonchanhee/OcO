@@ -4,8 +4,8 @@
 
 
 // 전체 맵 사이즈 입니다   수정 부우탁 드립니다
-#define BACKGROUNDSIZEX 2000
-#define BACKGROUNDSIZEY 2000
+#define BACKGROUNDSIZEX 3000
+#define BACKGROUNDSIZEY 3000
 
 class cameraManager  : public  singletonBase<cameraManager>
 {
