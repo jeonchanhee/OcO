@@ -17,6 +17,10 @@ HRESULT titleScene::init(void)
 	_abird1 = KEYANIMANAGER->findAnimation("bird1");
 	_abird0->start();
 	_abird1->start();
+	_button[0]=RectMake(850,700,210,62);
+	_button[1]=RectMake(912,800,92,62);
+	_button[2]=RectMake(907,900,102,62);
+
 	return S_OK;
 }
 
@@ -46,6 +50,9 @@ void titleScene::update(void)
 		_abird1->start();
 	}
 
+			
+
+
 	KEYANIMANAGER->update();
 }
 
@@ -56,10 +63,34 @@ void titleScene::render(void)
 	IMAGEMANAGER->loopRender("T_cloud1", getMemDC(), &RectMake(0, 0, WINSIZEX, WINSIZEY), _loop1, 0);
 	_birdImg0->aniRender(getMemDC(), _bird0.x, _bird0.y, _abird0);
 	_birdImg1->aniRender(getMemDC(), _bird1.x, _bird1.y, _abird1);
-	IMAGEMANAGER->frameRender("T_start", getMemDC(),850, 700);
-	IMAGEMANAGER->frameRender("T_option", getMemDC(),850, 800);
-	IMAGEMANAGER->frameRender("T_exit", getMemDC(),850, 900);
+	if (PtInRect(&_button[0], _ptMouse))
+	{
+		IMAGEMANAGER->frameRender("T_start", getMemDC(), 850, 700, 1, 0);
+		if(KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
+			SCENEMANAGER->changeScene("´øÀü");
+	}
+	else
+		IMAGEMANAGER->frameRender("T_start", getMemDC(),850, 700,0,0);
+	if (PtInRect(&_button[1], _ptMouse))
+	{
+		IMAGEMANAGER->frameRender("T_option", getMemDC(), 850, 800, 1, 0);
+	}
+	else
+		IMAGEMANAGER->frameRender("T_option", getMemDC(), 850, 800, 0, 0);
+	if (PtInRect(&_button[2], _ptMouse))
+	{
+		IMAGEMANAGER->frameRender("T_exit", getMemDC(), 850, 900, 1, 0);
+		if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
+			PostMessage(_hWnd, WM_DESTROY, 0, 0);
+	}
+	else
+		IMAGEMANAGER->frameRender("T_exit", getMemDC(), 850, 900, 0, 0);
 	IMAGEMANAGER->render("title", getMemDC(),0, 0);
+	if(KEYMANAGER->isToggleKey(VK_TAB))
+	{
+		for(int i=0;i<3;i++)
+		Rectangle(getMemDC(),_button[i].left, _button[i].top, _button[i].right, _button[i].bottom);
+	}
 }
 
 titleScene::titleScene()

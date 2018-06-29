@@ -7,6 +7,7 @@ class titleScene : public gameNode
 	POINT _bird0, _bird1;
 	image* _birdImg0, *_birdImg1;
 	animation* _abird0, *_abird1;
+	RECT _button[3];
 
 public:
 	virtual HRESULT init(void);

@@ -177,6 +177,9 @@
     <ClInclude Include="titleScene.h">
       <Filter>playGround\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="dungeonScene.h">
+      <Filter>playGround\Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -267,6 +270,9 @@
       <Filter>playGround\Diaiog</Filter>
     </ClCompile>
     <ClCompile Include="titleScene.cpp">
+      <Filter>playGround\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="dungeonScene.cpp">
       <Filter>playGround\Scene</Filter>
     </ClCompile>
   </ItemGroup>

@@ -2,6 +2,7 @@
 #include "gameNode.h"
 #include "MapTool.h"
 #include "titleScene.h"
+#include "dunGeonScene.h"
 
 class playGround : public gameNode
 {
