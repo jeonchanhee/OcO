@@ -149,13 +149,20 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="animation.h" />
+    <ClInclude Include="Assist.h" />
+    <ClInclude Include="Bow.h" />
     <ClInclude Include="button.h" />
+    <ClInclude Include="Coin.h" />
     <ClInclude Include="commonMacroFunction.h" />
     <ClInclude Include="Dialog.h" />
     <ClInclude Include="effect.h" />
     <ClInclude Include="effectManager.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="gameNode.h" />
+    <ClInclude Include="Goldbar.h" />
+    <ClInclude Include="Gun.h" />
+    <ClInclude Include="Hammer.h" />
+    <ClInclude Include="Healingfairy.h" />
     <ClInclude Include="image.h" />
     <ClInclude Include="imageManager.h" />
     <ClInclude Include="inGameScene.h" />
@@ -165,15 +172,19 @@
     <ClInclude Include="keyManager.h" />
     <ClInclude Include="loadingScene.h" />
     <ClInclude Include="MapTool.h" />
+    <ClInclude Include="Necklace.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="playGround.h" />
     <ClInclude Include="progressBar.h" />
     <ClInclude Include="randomFunction.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="ring.h" />
     <ClInclude Include="sceneManager.h" />
+    <ClInclude Include="Shield.h" />
     <ClInclude Include="singletonBase.h" />
     <ClInclude Include="soundManager.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="Sword.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="tileNode.h" />
     <ClInclude Include="timeManager.h" />
@@ -184,12 +195,19 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="animation.cpp" />
+    <ClCompile Include="Assist.cpp" />
+    <ClCompile Include="Bow.cpp" />
     <ClCompile Include="button.cpp" />
+    <ClCompile Include="Coin.cpp" />
     <ClCompile Include="Dialog.cpp" />
     <ClCompile Include="effect.cpp" />
     <ClCompile Include="effectManager.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="gameNode.cpp" />
+    <ClCompile Include="Goldbar.cpp" />
+    <ClCompile Include="Gun.cpp" />
+    <ClCompile Include="Hammer.cpp" />
+    <ClCompile Include="Healingfairy.cpp" />
     <ClCompile Include="image.cpp" />
     <ClCompile Include="imageManager.cpp" />
     <ClCompile Include="inGameScene.cpp" />
@@ -199,11 +217,14 @@
     <ClCompile Include="keyManager.cpp" />
     <ClCompile Include="loadingScene.cpp" />
     <ClCompile Include="MapTool.cpp" />
+    <ClCompile Include="Necklace.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="playGround.cpp" />
     <ClCompile Include="playGround_Image.cpp" />
     <ClCompile Include="progressBar.cpp" />
+    <ClCompile Include="ring.cpp" />
     <ClCompile Include="sceneManager.cpp" />
+    <ClCompile Include="Shield.cpp" />
     <ClCompile Include="soundManager.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -211,6 +232,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Sword.cpp" />
     <ClCompile Include="timeManager.cpp" />
     <ClCompile Include="timer.cpp" />
     <ClCompile Include="txtData.cpp" />
