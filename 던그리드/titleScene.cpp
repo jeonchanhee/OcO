@@ -4,8 +4,8 @@
 
 HRESULT titleScene::init(void)
 {
-	_birdImg0 = IMAGEMANAGER->addFrameImage("T_bird", "image/UI/Bird(800x58,8x1).bmp", 0, 0, 800, 58, 8, 1, true, RGB(255, 0, 255));
-	_birdImg1 = IMAGEMANAGER->addFrameImage("T_bird1", "image/UI/Bird(800x58,8x1).bmp", 0, 0, 800, 58, 8, 1, true, RGB(255, 0, 255));
+	_birdImg0 = IMAGEMANAGER->addFrameImage("T_bird", "image/UI/Bird(800x58,8x1).bmp", 0, 0, 800, 58, 8, 1, true, RGB(255, 0, 255), true);
+	_birdImg1 = IMAGEMANAGER->addFrameImage("T_bird1", "image/UI/Bird(800x58,8x1).bmp", 0, 0, 800, 58, 8, 1, true, RGB(255, 0, 255), true);
 	_bird0 = { RND->getFromIntTo(-200,-50),RND->getFromIntTo(500,900) };
 	_bird1 = { RND->getFromIntTo(-700,-500),RND->getFromIntTo(200,500) };
 	_loop0= _loop1 = 0;
@@ -21,6 +21,12 @@ HRESULT titleScene::init(void)
 	_button[1]=RectMake(912,800,92,62);
 	_button[2]=RectMake(907,900,102,62);
 
+	_alpha = 255;
+	_clickData = false;
+	for (int i = 0; i < 3; i++)
+	{
+		_deleteRect[i] = RectMake(220 + i * 610, 150, IMAGEMANAGER->findImage("T_delete")->getWidth(), IMAGEMANAGER->findImage("T_delete")->getHeight());
+	}
 	return S_OK;
 }
 
@@ -49,47 +55,145 @@ void titleScene::update(void)
 		_bird1 = { RND->getFromIntTo(-900,-600),RND->getFromIntTo(100,900) };
 		_abird1->start();
 	}
-
-			
-
+	
+	deleteData();
 
 	KEYANIMANAGER->update();
 }
 
 void titleScene::render(void)
 {
-	IMAGEMANAGER->render("T_back", DC,0, 0);
-	IMAGEMANAGER->loopRender("T_cloud0", DC, &RectMake(0, 0, WINSIZEX, WINSIZEY), _loop0, 0);
-	IMAGEMANAGER->loopRender("T_cloud1", DC, &RectMake(0, 0, WINSIZEX, WINSIZEY), _loop1, 0);
-	_birdImg0->aniRender(DC, _bird0.x, _bird0.y, _abird0);
-	_birdImg1->aniRender(DC, _bird1.x, _bird1.y, _abird1);
-	if (PtInRect(&_button[0], _ptMouse))
+	/*IMAGEMANAGER->alphaRender("T_back", DC,0, 0, _alpha);
+	IMAGEMANAGER->alphaLoopRender("T_cloud0", DC, &RectMake(0, 0, WINSIZEX, WINSIZEY), _loop0, 0, _alpha);
+	IMAGEMANAGER->alphaLoopRender("T_cloud1", DC, &RectMake(0, 0, WINSIZEX, WINSIZEY), _loop1, 0, _alpha);
+	_birdImg0->alphaAniRender(DC, _bird0.x, _bird0.y, _abird0, _alpha);
+	_birdImg1->alphaAniRender(DC, _bird1.x, _bird1.y, _abird1, _alpha);*/
+
+	IMAGEMANAGER->alphaRender("T_back", DC, 0, 0, _alpha);
+	IMAGEMANAGER->alphaLoopRender("T_cloud0", DC, &RectMake(0, 0, WINSIZEX, WINSIZEY), _loop0, 0, _alpha);
+	IMAGEMANAGER->alphaLoopRender("T_cloud1", DC, &RectMake(0, 0, WINSIZEX, WINSIZEY), _loop1, 0, _alpha);
+	_birdImg0->alphaAniRender(DC, _bird0.x, _bird0.y, _abird0, _alpha);
+	_birdImg1->alphaAniRender(DC, _bird1.x, _bird1.y, _abird1, _alpha);
+
+	if (!_clickData)
 	{
-		IMAGEMANAGER->frameRender("T_start", DC, 850, 700, 1, 0);
-		if(KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
-			SCENEMANAGER->changeScene("던전");
+		if (PtInRect(&_button[0], _ptMouse))
+		{
+			IMAGEMANAGER->frameRender("T_start", DC, 850, 700, 1, 0);
+			if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
+			{
+				//SCENEMANAGER->changeScene("던전");
+				loadData();
+			}
+		}
+		else
+			IMAGEMANAGER->frameRender("T_start", DC, 850, 700, 0, 0);
+		if (PtInRect(&_button[1], _ptMouse))
+		{
+			IMAGEMANAGER->frameRender("T_option", DC, 850, 800, 1, 0);
+		}
+		else
+			IMAGEMANAGER->frameRender("T_option", DC, 850, 800, 0, 0);
+		if (PtInRect(&_button[2], _ptMouse))
+		{
+			IMAGEMANAGER->frameRender("T_exit", DC, 850, 900, 1, 0);
+			if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
+				PostMessage(_hWnd, WM_DESTROY, 0, 0);
+		}
+		else
+			IMAGEMANAGER->frameRender("T_exit", DC, 850, 900, 0, 0);
+		IMAGEMANAGER->render("title", DC, 0, 0);
 	}
 	else
-		IMAGEMANAGER->frameRender("T_start", DC,850, 700,0,0);
-	if (PtInRect(&_button[1], _ptMouse))
 	{
-		IMAGEMANAGER->frameRender("T_option", DC, 850, 800, 1, 0);
+		drawData();
 	}
-	else
-		IMAGEMANAGER->frameRender("T_option", DC, 850, 800, 0, 0);
-	if (PtInRect(&_button[2], _ptMouse))
-	{
-		IMAGEMANAGER->frameRender("T_exit", DC, 850, 900, 1, 0);
-		if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
-			PostMessage(_hWnd, WM_DESTROY, 0, 0);
-	}
-	else
-		IMAGEMANAGER->frameRender("T_exit", DC, 850, 900, 0, 0);
-	IMAGEMANAGER->render("title", DC,0, 0);
+
 	if(KEYMANAGER->isToggleKey(VK_TAB))
 	{
 		for(int i=0;i<3;i++)
 		Rectangle(DC,_button[i].left, _button[i].top, _button[i].right, _button[i].bottom);
+	}
+}
+
+void titleScene::loadData()
+{
+	if (_clickData) return;
+
+	_clickData = true;
+
+	_alpha = 100;
+
+	vector<string> vStr = TXTDATA->txtLoad("data.txt");
+
+	_vData.clear();
+	_vData.resize(3);
+
+	for (int i = 0; i < 3; i++)
+	{
+		_vData[i].idx = -1;
+	}
+
+	for (int i = 0; i < vStr.size() / 6; i++)
+	{
+		int idx = atoi(vStr[i * 6].c_str());
+		_vData[idx].idx = idx;
+		_vData[idx].hour = atoi(vStr[i * 6 + 1].c_str());
+		_vData[idx].min = atoi(vStr[i * 6 + 2].c_str());
+		_vData[idx].floor = atoi(vStr[i * 6 + 3].c_str());
+		_vData[idx].gold = atoi(vStr[i * 6 + 4].c_str());
+		_vData[idx].dash = atoi(vStr[i * 6 + 5].c_str());
+	}
+}
+
+void titleScene::drawData()
+{
+	for (int i = 0; i < 3; i++)
+	{
+		IMAGEMANAGER->frameRender("T_textBack", DC, 50 + i * 610, 50, 0, 0);
+		IMAGEMANAGER->frameRender("T_text", DC, 220 + i * 610, 120, i, 0);
+		IMAGEMANAGER->render("T_delete", DC, 220 + i * 610, 150);
+
+		if (_vData[i].idx != -1)
+		{
+			HFONT font, oldFont;
+			font = CreateFont(50, 0, 0, 0, 50, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("소야바른9"));
+			oldFont = (HFONT)SelectObject(DC, font);
+			char str[128];
+			sprintf_s(str, "<플레이 시간>");
+			TextOut(DC, 220 + i * 610, 300, str, strlen(str));
+			sprintf_s(str, "%02dH %02dM", _vData[i].hour, _vData[i].min);
+			TextOut(DC, 220 + i * 610, 400, str, strlen(str));
+			sprintf_s(str, "<도달한 층>");
+			TextOut(DC, 220 + i * 610, 500, str, strlen(str));
+			sprintf_s(str, "%3dF", _vData[i].floor);
+			TextOut(DC, 240 + i * 610, 600, str, strlen(str));
+			sprintf_s(str, "<소지금>");
+			TextOut(DC, 220 + i * 610, 700, str, strlen(str));
+			sprintf_s(str, "%5d", _vData[i].gold);
+			TextOut(DC, 220 + i * 610, 800, str, strlen(str));
+			SelectObject(DC, oldFont);
+			DeleteObject(font);
+		}
+	}
+}
+
+void titleScene::deleteData()
+{
+	if(!_clickData) return;
+
+	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
+	{
+		for (int i = 0; i < 3; i++)
+		{
+			if (PtInRect(&_deleteRect[i], _ptMouse))
+			{
+				tagData temp;
+				ZeroMemory(&temp, sizeof(tagData));
+				_vData[i] = temp;
+				_vData[i].idx = -1;
+			}
+		}
 	}
 }
 
