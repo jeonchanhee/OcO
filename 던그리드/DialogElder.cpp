@@ -13,18 +13,27 @@ DialogElder::~DialogElder()
 
 HRESULT DialogElder::init()
 {
-	_name = "율포드";
+	Dialog::init();
 
+	_ansBack = IMAGEMANAGER->findImage("ansBack");
+
+	_name = "율포드";
 	_elder = ELDER_BUILD;
 
-	for (int i = 0; i < 3; i++)
+	_vButton.resize(3);
+	_vButtonDialog.resize(3);
+	_vDialog.resize(2);
+
+	for (int i = 0; i < _vButton.size(); i++)
 	{
-		_rc[i] = RectMake(100, WINSIZEY - 500 + i * 100, 1800, 100);
-		_button[i] = RectMake(1100, WINSIZEY - 900 + i * 100, 100, 100);
+		_vButton[i] = RectMake(WINSIZEX - 180, WINSIZEY - 550 + i * 50, 200, 50);
 	}
-	_click = RectMakeCenter(100, 100, 100, 100);
-	_count = _idX = _idY = 0;
+	_vButtonDialog[0] = "건설";
+	_vButtonDialog[1] = "이야기하기";
+	_vButtonDialog[2] = "아무것도";
+
 	setDialog();
+
 	return S_OK;
 }
 
@@ -41,44 +50,50 @@ void DialogElder::update()
 
 void DialogElder::render()
 {
-	Rectangle(DC, _click.left, _click.top, _click.right, _click.bottom);
+	Dialog::render();
 
-	for (int i = 0; i < 3; i++)
+	_ansBack->render(DC, WINSIZEX - 200, WINSIZEY - 600);
+
+	if (KEYMANAGER->isToggleKey(VK_TAB))
 	{
-		Rectangle(DC, _rc[i].left, _rc[i].top, _rc[i].right, _rc[i].bottom);
-		Rectangle(DC, _button[i].left, _button[i].top, _button[i].right, _button[i].bottom);
+		for (int i = 0; i < _vButton.size(); i++)
+		{
+			Rectangle(DC, _vButton[i].left, _vButton[i].top, _vButton[i].right, _vButton[i].bottom);
+		}
 	}
-
 	HFONT font, oldFont;
-	font = CreateFont(80, 0, 0, 0, 100, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("소야바른9"));
-	oldFont = (HFONT)SelectObject(DC, font);
-	SetTextColor(DC, RGB(255, 94, 0));
-	//DrawText(DC, _dialog[(int)_training][_idY].c_str(), strlen(_dialog[(int)_training][_idY].c_str()), &_rc[0], DT_VCENTER);
-	DrawText(DC, _name.c_str(), strlen(_name.c_str()), &_rc[0], DT_VCENTER);
-	SelectObject(DC, oldFont);
-	DeleteObject(font);
-
 	font = CreateFont(50, 0, 0, 0, 100, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("소야바른9"));
 	oldFont = (HFONT)SelectObject(DC, font);
-	SetTextColor(DC, RGB(0, 0, 0));
-	string str = _dialog[(int)_elder][_idY].substr(0, _idX);
+	SetTextColor(DC, RGB(255, 255, 255));
+	SetBkMode(DC, TRANSPARENT);
+	string str = _vDialog[(int)_elder][_idY].substr(0, _idX);
 	//DrawText(DC, _dialog[(int)_training][_idY].c_str(), strlen(_dialog[(int)_training][_idY].c_str()), &_rc[0], DT_VCENTER);
 	DrawText(DC, str.c_str(), strlen(str.c_str()), &_rc[1], DT_VCENTER);
 	SelectObject(DC, oldFont);
 	DeleteObject(font);
 
-	char str1[128];
-	sprintf_s(str1, "size : %d, count : %d", _dialog[(int)_elder][_idY].size(), _count / 10);
-	TextOut(DC, 300, 100, str1, strlen(str1));
-
+	font = CreateFont(50, 0, 0, 0, 100, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("소야바른9"));
+	oldFont = (HFONT)SelectObject(DC, font);
+	for (int i = 0; i < _vButton.size(); i++)
+	{
+		DrawText(DC, _vButtonDialog[i].c_str(), strlen(_vButtonDialog[i].c_str()), &_vButton[i], DT_VCENTER | DT_CENTER);
+	}
+	SelectObject(DC, oldFont);
+	DeleteObject(font);
 }
 
 void DialogElder::keyControl()
 {
-	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
+	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON) && PtInRect(&_uiBack->boundingBox(), _ptMouse))
 	{
 		//changeDialog();
-		_idX = _dialog[(int)_elder][_idY].size() - 1;
+		if (_idX < _vDialog[(int)_elder][_idY].size() - 1)
+			_idX = _vDialog[(int)_elder][_idY].size() - 1;
+		else if ((_idY + 1) < _vDialog[(int)_elder].size())
+		{
+			_idY++;
+			_idX = 0;
+		}
 	}
 	if (KEYMANAGER->isOnceKeyDown(VK_RBUTTON))
 	{
@@ -92,13 +107,11 @@ void DialogElder::setFrame()
 
 	if (!(_count % 3))
 	{
-		if (_idX >= _dialog[(int)_elder][_idY].size() && (_idY + 1) < _dialogSize[(int)_elder])
+		_count = 0;
+		if (_idX < _vDialog[(int)_elder][_idY].size())
 		{
-			_idY++;
-			_idX = 0;
-			Sleep(1200);
+			_idX++;
 		}
-		else _idX++;
 	}
 }
 
@@ -107,14 +120,16 @@ void DialogElder::setDialog()
 	switch (_elder)
 	{
 	case ELDER_BUILD:
-		_dialog[0][0] = "오, 자네군.";
-		_dialogSize[0] = 1;
+		if (_vDialog[0].size() == 0) _vDialog[0].resize(1);
+		else return;
+		_vDialog[0][0] = "오, 자네군.";
 		break;
 	case ELDER_DIALOG:
-		_dialog[1][0] = "옛날에 마왕이 세상을 위협하던 시절, 마왕을 막기 위해 용사가 나타났다고 하네.";
-		_dialog[1][1] = "맛있는 요리로 마왕들의 수하를 굴복시키고 죽은 동료까지 살려냈다고 하더군.";
-		_dialog[1][2] = "황당한 이야기지만, 이야기가 담긴 책에 그려진 스테이크는 정말 먹음직스러웠지...";
-		_dialogSize[1] = 3;
+		if (_vDialog[1].size() == 0) _vDialog[1].resize(3);
+		else return;
+		_vDialog[1][0] = "옛날에 마왕이 세상을 위협하던 시절, 마왕을 막기 위해 용사가 나타났다고 하네.";
+		_vDialog[1][1] = "맛있는 요리로 마왕들의 수하를 굴복시키고 죽은 동료까지 살려냈다고 하더군.";
+		_vDialog[1][2] = "황당한 이야기지만, 이야기가 담긴 책에 그려진 스테이크는 정말 먹음직스러웠지...";
 		break;
 	}
 }
@@ -140,13 +155,13 @@ void DialogElder::clickButton()
 
 	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
 	{
-		for (int i = 0; i < 3; i++)
+		for (int i = 0; i < _vButton.size(); i++)
 		{
-			if (PtInRect(&_button[i], _ptMouse))
+			if (PtInRect(&_vButton[i], _ptMouse))
 			{
 				if (i == 1)
 				{
-					_elder = ELDER_BUILD;
+					_elder = ELDER_DIALOG;
 					_count = _idX = _idY = 0;
 					setDialog();
 				}

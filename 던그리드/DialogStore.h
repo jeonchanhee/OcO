@@ -1,16 +1,10 @@
 #pragma once
-#include "gameNode.h"
+#include "Dialog.h"
 enum STORE_NPC {STORE_MEET, STORE_BUY };
-class DialogStore : public gameNode
+class DialogStore : public Dialog
 {
-	string _name, _dialog[2][4];
 	STORE_NPC _store;
-	RECT _rc[3];
-	RECT _button[3];
-	int _count, _idX, _idY;
-	int _dialogSize[2];
 
-	RECT _click;
 public:
 	DialogStore();
 	~DialogStore();
