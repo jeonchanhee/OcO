@@ -243,9 +243,6 @@
     <ClInclude Include="RedBat.h">
       <Filter>playGround\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="Bullet.h">
-      <Filter>playGround\Bullet</Filter>
-    </ClInclude>
     <ClInclude Include="tileNode.h">
       <Filter>playGround\Scene</Filter>
     </ClInclude>
@@ -305,6 +302,9 @@
     </ClInclude>
     <ClInclude Include="Healingfairy.h">
       <Filter>playGround\Item\Food</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet.h">
+      <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -431,9 +431,6 @@
     <ClCompile Include="RedBat.cpp">
       <Filter>playGround\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="Bullet.cpp">
-      <Filter>playGround\Bullet</Filter>
-    </ClCompile>
     <ClCompile Include="titleScene.cpp">
       <Filter>playGround\Scene</Filter>
     </ClCompile>
@@ -487,6 +484,12 @@
     </ClCompile>
     <ClCompile Include="Healingfairy.cpp">
       <Filter>playGround\Item\Food</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="playGround_Sound.cpp">
+      <Filter>playGround</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

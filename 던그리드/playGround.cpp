@@ -10,18 +10,20 @@ HRESULT playGround::init(void)
 {
 	gameNode::init(true);
 	Image_init();
+	Sound_init();
 	_mapTool = new MapTool;
 	_mapTool->init();
 	_player  = new Player;
 	_player->init();
 
-	SCENEMANAGER->addScene("타이틀", new titleScene);
+	/*SCENEMANAGER->addScene("타이틀", new titleScene);
 	SCENEMANAGER->addScene("던전", new dungeonScene);
 
-	SCENEMANAGER->changeScene("타이틀");
+	SCENEMANAGER->changeScene("타이틀");*/
 
-	//SCENEMANAGER->addScene("대사씬", new DialogWeapon);
-	//SCENEMANAGER->changeScene("대사씬");
+	SCENEMANAGER->addScene("대사씬", new Dialog);
+	SCENEMANAGER->changeScene("대사씬");
+
 	return S_OK;
 }
 
@@ -35,9 +37,14 @@ void playGround::release(void)
 void playGround::update(void)	
 {
 	gameNode::update();
-	_mapTool->update();
-	_player->update();
-	//SCENEMANAGER->update(); 
+	/*_mapTool->update();
+	_player->update();*/
+	SCENEMANAGER->update(); 
+	if (KEYMANAGER->isOnceKeyDown(VK_F1))
+	{
+		SOUNDMANAGER->play("title");
+	}
+
 //	if (KEYMANAGER->isStayKeyDown(VK_LEFT)) CAMERAMANAGER->setCameraX(CAMERAMANAGER->getCameraX() - 5);
 
 }
@@ -49,12 +56,10 @@ void playGround::render(void)
 	PatBlt(DC, 0, 0, WINSIZEX, WINSIZEY, WHITENESS); // 카메라 매니저 DC -> getMemDC 로 바꾸었습니다.
 	//============== 이 위로는 건드리지 말자 ==============
 	
-	_mapTool->render();
-	_player->render();
+	/*_mapTool->render();
+	_player->render();*/
 	
-	//SCENEMANAGER->render();
-
-	
+	SCENEMANAGER->render();
 
 	//================이 밑으로도 건드리지 말자 =============
 	IMAGEMANAGER->render("cursor", DC, _ptMouse.x, _ptMouse.y);
