@@ -308,6 +308,9 @@
     </ClInclude>
     <ClInclude Include="cameraManager.h">
       <Filter>2DFramework\Manager</Filter>
+      <Filter>헤더 파일</Filter>
+
+      <Filter>2DFramework\Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -487,12 +490,6 @@
     </ClCompile>
     <ClCompile Include="Healingfairy.cpp">
       <Filter>playGround\Item\Food</Filter>
-    </ClCompile>
-    <ClCompile Include="playGround_Sound.cpp">
-      <Filter>playGround</Filter>
-    </ClCompile>
-    <ClCompile Include="Bullet.cpp">
-      <Filter>playGround\bullet</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
