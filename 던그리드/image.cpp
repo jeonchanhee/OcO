@@ -179,6 +179,118 @@ HRESULT image::init(const char * fileName, float x, float y, int width, int heig
 	return S_OK;
 }
 
+HRESULT image::rotateInit(const char * fileName, int width, int height, BOOL trans, COLORREF transColor)
+{
+	if (fileName == NULL) return E_FAIL;
+
+	if (_imageInfo != NULL) release();
+
+	HDC hdc = GetDC(_hWnd);
+
+	_imageInfo = new IMAGE_INFO;
+	_imageInfo->loadType = LOAD_FILE;
+	_imageInfo->resID = 0;
+	_imageInfo->hMemDC = CreateCompatibleDC(hdc);
+	_imageInfo->hBit = (HBITMAP)LoadImage(_hInstance, fileName, IMAGE_BITMAP, width, height, LR_LOADFROMFILE);
+	_imageInfo->hOBit = (HBITMAP)SelectObject(_imageInfo->hMemDC, _imageInfo->hBit);
+	_imageInfo->width = width;
+	_imageInfo->height = height;
+
+
+
+	//rotate
+
+	int size;
+	(width > height ? size = width : size = height);
+	_rotateImage = new IMAGE_INFO;
+	_rotateImage->loadType = LOAD_EMPTY;
+	_rotateImage->resID = 0;
+	_rotateImage->hMemDC = CreateCompatibleDC(hdc);
+	_rotateImage->hBit = (HBITMAP)CreateCompatibleBitmap(hdc, size, size);
+	_rotateImage->hOBit = (HBITMAP)SelectObject(_rotateImage->hMemDC, _rotateImage->hBit);
+	_rotateImage->width = size;
+	_rotateImage->height = size;
+
+	int len = strlen(fileName);
+	_fileName = new CHAR[len + 1];
+	strcpy_s(_fileName, len + 1, fileName);
+
+	_trans = trans;
+	_transColor = transColor;
+
+	if (_imageInfo->hBit == NULL)
+	{
+		release();
+		return E_FAIL;
+	}
+	ReleaseDC(_hWnd, hdc);
+
+
+
+	return S_OK;
+}
+
+HRESULT image::rotateInit(const char * fileName, int width, int height, int frameX, int frameY, BOOL trans, COLORREF transColor)
+{
+	if (fileName == NULL) return E_FAIL;
+
+	//이미지 정보가 조금이라도 남아있으면 지워라
+	if (_imageInfo != NULL) release();
+
+	HDC hdc = GetDC(_hWnd);
+
+	_imageInfo = new IMAGE_INFO;
+	_imageInfo->loadType = LOAD_FILE;
+	_imageInfo->resID = 0;
+	_imageInfo->hMemDC = CreateCompatibleDC(hdc);
+	_imageInfo->hBit = (HBITMAP)LoadImage(_hInstance, fileName, IMAGE_BITMAP, width, height, LR_LOADFROMFILE);
+	_imageInfo->hOBit = (HBITMAP)SelectObject(_imageInfo->hMemDC, _imageInfo->hBit);
+	_imageInfo->width = width;
+	_imageInfo->height = height;
+	_imageInfo->frameWidth = width / frameX;
+	_imageInfo->frameHeight = height / frameY;
+	_imageInfo->currentFrameX = 0;
+	_imageInfo->currentFrameY = 0;
+	_imageInfo->maxFrameX = frameX - 1;
+	_imageInfo->maxFrameY = frameY - 1;
+
+	int size;
+	(width > height ? size = width : size = height);
+	_rotateImage = new IMAGE_INFO;
+	_rotateImage->loadType = LOAD_EMPTY;
+	_rotateImage->resID = 0;
+	_rotateImage->hMemDC = CreateCompatibleDC(hdc);
+	_rotateImage->hBit = (HBITMAP)CreateCompatibleBitmap(hdc, size, size);
+	_rotateImage->hOBit = (HBITMAP)SelectObject(_rotateImage->hMemDC, _rotateImage->hBit);
+	_rotateImage->width = size;
+	_rotateImage->height = size;
+
+
+
+	int len = strlen(fileName);
+
+	//파일경로 및 이름 받아온다
+	_fileName = new CHAR[len + 1];
+	strcpy_s(_fileName, len + 1, fileName);
+
+	//특정컬러 제외할지 여부 및 컬러 값
+	_trans = trans;
+	_transColor = transColor;
+
+	//이미지가 제대로 불러져오지 않았다면
+	if (_imageInfo->hBit == NULL)
+	{
+		//해제하고 에러를 띄워주자
+		release();
+
+		return E_FAIL;
+	}
+
+	ReleaseDC(_hWnd, hdc);
+
+	return S_OK;
+}
+
 HRESULT image::init(const char * fileName, float x, float y, int width, int height, int frameX, int frameY, BOOL trans, COLORREF transColor)
 {
 	//파일이름이 없으면 에러를 띄워줘라
@@ -374,6 +486,108 @@ void image::render(HDC hdc, int destX, int destY)
 		BitBlt(hdc, destX, destY,
 			_imageInfo->width, _imageInfo->height,
 			_imageInfo->hMemDC, 0, 0, SRCCOPY);
+	}
+}
+
+void image::rotateRender(HDC hdc, float x, float y, float angle)
+{
+	POINT rPoint[3];
+	int dist = sqrt((_imageInfo->width / 2) * (_imageInfo->width / 2) + (_imageInfo->height / 2) * (_imageInfo->height / 2));
+	float baseAngle[3];
+	baseAngle[0] = PI - atanf(((float)_imageInfo->height / 2) / ((float)_imageInfo->width / 2));
+	baseAngle[1] = atanf(((float)_imageInfo->height / 2) / ((float)_imageInfo->width / 2));
+	baseAngle[2] = PI + atanf(((float)_imageInfo->height / 2) / ((float)_imageInfo->width / 2));
+
+	for (int i = 0; i < 3; ++i)
+	{
+		rPoint[i].x = (_rotateImage->width / 2 + cosf(baseAngle[i] + angle) * dist);
+		rPoint[i].y = (_rotateImage->height / 2 + -sinf(baseAngle[i] + angle)* dist);
+	}
+
+	if (_trans)
+	{
+		BitBlt(_rotateImage->hMemDC, 0, 0,
+			_rotateImage->width, _rotateImage->height,
+			hdc,
+			0, 0, BLACKNESS);
+		HBRUSH hBrush = CreateSolidBrush(_transColor);
+		HBRUSH oBrush = (HBRUSH)SelectObject(_rotateImage->hMemDC, hBrush);
+		ExtFloodFill(_rotateImage->hMemDC, 1, 1, RGB(0, 0, 0), FLOODFILLSURFACE);
+		DeleteObject(hBrush);
+
+		PlgBlt(_rotateImage->hMemDC, rPoint, _imageInfo->hMemDC,
+			0,
+			0,
+			_imageInfo->width,
+			_imageInfo->height,
+			NULL, 0, 0);
+		GdiTransparentBlt(hdc,
+			x - _rotateImage->width / 2,
+			y - _rotateImage->height / 2,
+			_rotateImage->width,
+			_rotateImage->height,
+			_rotateImage->hMemDC,
+			0,
+			0,
+			_rotateImage->width,
+			_rotateImage->height,
+			_transColor);
+	}
+	else
+	{
+		PlgBlt(hdc, rPoint, _imageInfo->hMemDC, 0, 0, _imageInfo->width, _imageInfo->height, NULL, 0, 0);
+	}
+}
+
+void image::rotateFrameRender(HDC hdc, float x, float y, float angle)
+{
+	POINT rPoint[3];
+	int dist = sqrt((_imageInfo->frameWidth / 2) *  (_imageInfo->frameWidth / 2) + (_imageInfo->frameHeight / 2) * (_imageInfo->frameHeight / 2));
+	float baseAngle[3];
+	baseAngle[0] = PI - atanf(((float)_imageInfo->frameHeight / 2) / ((float)_imageInfo->frameWidth / 2));
+	baseAngle[1] =  atanf(((float)_imageInfo->frameHeight / 2) / ((float)_imageInfo->frameWidth / 2));
+	baseAngle[2] = PI + atanf(((float)_imageInfo->frameHeight / 2) / ((float)_imageInfo->frameWidth / 2));
+	
+	for (int i = 0; i < 3; ++i)
+	{
+		rPoint[i].x = (_rotateImage->width / 2 + cosf(baseAngle[i] + angle) *dist);
+		rPoint[i].y = (_rotateImage->height / 2 + -sinf(baseAngle[i] + angle) *dist);
+	}
+
+	if (_trans)
+	{
+		BitBlt(_rotateImage->hMemDC, 0, 0,
+			_rotateImage->width, _rotateImage->height,
+			hdc,
+			0, 0, BLACKNESS);
+
+		HBRUSH hBrush = CreateSolidBrush(_transColor);
+		HBRUSH oBrush = (HBRUSH)SelectObject(_rotateImage->hMemDC, hBrush);
+		ExtFloodFill(_rotateImage->hMemDC, 1, 1 , RGB(0, 0, 0), FLOODFILLSURFACE);
+		DeleteObject(hBrush);
+
+		PlgBlt(_rotateImage->hMemDC, rPoint, _imageInfo->hMemDC,
+			_imageInfo->currentFrameX * _imageInfo->frameWidth,
+			_imageInfo->currentFrameY * _imageInfo->frameHeight,
+			_imageInfo->frameWidth,
+			_imageInfo->frameHeight,
+			NULL, 0, 0);
+
+		GdiTransparentBlt(hdc,
+			x - _rotateImage->width / 2,
+			y - _rotateImage->height / 2,
+			_rotateImage->width,
+			_rotateImage->height,
+			_rotateImage->hMemDC,
+			0,
+			0,
+			_rotateImage->width,
+			_rotateImage->height,
+			_transColor);
+	}
+	else
+	{
+		PlgBlt(hdc, rPoint, _imageInfo->hMemDC, _imageInfo->currentFrameX, _imageInfo->currentFrameY, _rotateImage->frameWidth, _rotateImage->frameHeight,  NULL, 0, 0);
 	}
 }
 

@@ -155,6 +155,45 @@ image* imageManager::addFrameImage(string strKey, const char* fileName, int widt
 	return img;
 }
 
+image * imageManager::addRotateImage(string strKey, const char * fileName,  int width, int height, bool trans, COLORREF transColor)
+{
+	image* img = findImage(strKey);
+
+	if (img) return img;
+
+	img = new image;
+
+	if (FAILED(img->rotateInit(fileName, width, height, trans, transColor)))
+	{
+		SAFE_DELETE(img);
+
+		return NULL;
+	}
+	// 맵 컨테이너에 추가 
+	_mImageList.insert(make_pair(strKey, img));
+
+	return img;
+}
+
+image * imageManager::addRotateFrameImage(string strKey, const char * fileName, int width, int height, int frameX, int frameY, bool trans, COLORREF transColor)
+{
+	image * img = findImage(strKey);
+
+	if (img) return img;
+
+	img = new image;
+
+	if (FAILED(img->rotateInit(fileName, width, height, frameX, frameY, trans, transColor)))
+	{
+		SAFE_DELETE(img);
+
+		return NULL;
+	}
+
+	_mImageList.insert(make_pair(strKey, img));
+	return img;
+}
+
 
 //키 값 찾는 함수
 image* imageManager::findImage(string strKey)
@@ -248,6 +287,20 @@ void imageManager::frameRender(string strKey, HDC hdc, int destX, int destY, int
 	image* img = findImage(strKey);
 
 	if (img) img->frameRender(hdc, destX, destY, currentFrameX, currentFrameY);
+}
+
+void imageManager::rotateRender(string strKey, HDC hdc, float x, float y, float angle)
+{
+	image *img = findImage(strKey);
+
+	img->rotateRender(hdc, x, y, angle);
+}
+
+void imageManager::rotateFrameRender(string strKey, HDC hdc, float x, float y, float angle)
+{
+	image *img = findImage(strKey);
+
+	img->rotateFrameRender(hdc, x, y, angle);
 }
 
 void imageManager::loopRender(string strKey, HDC hdc, const LPRECT drawArea, int offSetX, int offSetY)
