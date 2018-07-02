@@ -20,7 +20,7 @@ HRESULT playGround::init(void)
 	SCENEMANAGER->addScene("던전", new dungeonScene);
 	SCENEMANAGER->addScene("도그본", new EnemyManager);
 
-	SCENEMANAGER->changeScene("도그본");
+	//SCENEMANAGER->changeScene("도그본");
 
 	/*SCENEMANAGER->addScene("대사씬", new Dialog);
 	SCENEMANAGER->changeScene("대사씬");
@@ -38,8 +38,8 @@ void playGround::release(void)
 void playGround::update(void)	
 {
 	gameNode::update();
-	/*_mapTool->update();
-	_player->update();*/
+	_mapTool->update();
+	_player->update();
 	SCENEMANAGER->update();
 
 	/*if (KEYMANAGER->isOnceKeyDown(VK_F1))
@@ -59,10 +59,10 @@ void playGround::render(void)
 	PatBlt(DC, 0, 0, WINSIZEX, WINSIZEY, BLACKNESS); // 카메라 매니저 DC -> getMemDC 로 바꾸었습니다.
 	//============== 이 위로는 건드리지 말자 ==============
 	
-	/*_mapTool->render();
-	_player->render();*/
+	_mapTool->render();
+	_player->render();
 	
-	SCENEMANAGER->render();
+	//SCENEMANAGER->render();
 
 	//================이 밑으로도 건드리지 말자 =============
 	IMAGEMANAGER->render("cursor", DC, _ptMouse.x, _ptMouse.y);

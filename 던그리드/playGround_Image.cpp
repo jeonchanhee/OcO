@@ -27,7 +27,12 @@ HRESULT playGround::Image_init(void)
 	IMAGEMANAGER->addRotateImage("플레이어손", "image/player/hand(8x8,1x1).bmp", 15, 15, true, RGB(1, 2, 5));
 	IMAGEMANAGER->addImage("체력바", "image/player/hpBar(50x50,1x1).bmp", 50, 50, false, RGB(0, 0, 0));
 	IMAGEMANAGER->addFrameImage("체력바출렁출렁", "image/player/hpBarWave(120x50,6x1).bmp", 120, 50, 6, 1, true, RGB(255, 0, 255));
-	EFFECTMANAGER->addEffect("대시", "dashMan(320x190,4x2).bmp", 320, 190, 80, 95, 1.0f, 2.0f, 2);
+	EFFECTMANAGER->addEffect("대시왼쪽", "image/player/dashManLeft(320x95,4x1).bmp", 320, 95, 80, 95, 1.0f,0.3f, 5);
+	EFFECTMANAGER->addEffect("대시오른쪽",  "image/player/dashManRight(320x95,4x1).bmp", 320, 95, 80, 95, 1.0f, 0.3f, 5);
+	EFFECTMANAGER->addEffect("왼쪽걸을때",  "image/player/leftRunDust(200x40,5x1).bmp", 250, 50, 50, 50, 1.0f, 0.3f, 1);
+	EFFECTMANAGER->addEffect("오른쪽걸을때","image/player/rightRunDust(200x40,5x1).bmp", 250, 50, 50, 50, 1.0f, 0.3f,1);
+	EFFECTMANAGER->addEffect("점프야압", "image/player/jumpEffect(350x70,5x1).bmp", 350, 70, 70, 70, 1.0f, 0.3f, 1);
+	EFFECTMANAGER->addEffect("이건이단점프야압", "image/player/doubleJumpEffect(420x70,6x1).bmp", 420, 70, 70, 70, 1.0f, 0.3f, 1);
 
 
 	//==========적 이미지=============
