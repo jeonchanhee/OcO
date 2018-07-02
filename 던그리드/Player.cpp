@@ -139,7 +139,7 @@ void Player::mouseControl()
 	_ptMouseX = CAMERAMANAGER->getCameraX() + _ptMouse.x, _ptMouseY = CAMERAMANAGER->getCameraY() + _ptMouse.y;
 	_mouseAngle = getAngle(_x, _y, _ptMouse.x, _ptMouse.y);
 	//ptmouse 좌표에따라 왼쪽을볼건지 오른쪽을 볼건지 설정 
-	if (_x > CAMERAMANAGER->getCameraX() + _ptMouse.x)
+	if (_x > _ptMouseX)
 	{
 		if (_direction == RIGHT_STOP)
 		{
@@ -151,7 +151,7 @@ void Player::mouseControl()
 			_playerAnimation = KEYANIMANAGER->findAnimation("왼쪽뛰기");
 		}
 	}
-	else if (_x < CAMERAMANAGER->getCameraX() + _ptMouse.x)
+	else if (_x < _ptMouseX)
 	{
 		if (_direction == LEFT_STOP)
 		{

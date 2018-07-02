@@ -65,6 +65,7 @@ public:
 
 private:
 	LPIMAGE_INFO	_imageInfo;		//이미지 정보
+	LPIMAGE_INFO	_rotateImage;	//회전 
 	CHAR*			_fileName;		//파일이름
 	BOOL			_trans;			//특정 칼라 지울지여부
 	COLORREF		_transColor;	//제외할 칼라 값
@@ -90,6 +91,16 @@ public:
 
 	HRESULT init(const char* fileName, int width, int height, int frameX, int frameY,
 		BOOL trans = FALSE, COLORREF transColor = FALSE, BOOL blend = FALSE);
+
+	//회전 
+	HRESULT rotateInit(const char * fileName, int width, int height,
+		BOOL trans = FALSE, COLORREF transColor = RGB(0, 0, 0));
+
+	HRESULT rotateInit(const char * fileName, int width, int height,
+		int frameX, int frameY, BOOL trans = FALSE, COLORREF transColor = RGB(0, 0, 0));
+
+	void rotateRender(HDC hdc, float x, float y, float angle);
+	void rotateFrameRender(HDC hdc, float x, float y, float angle);
 
 	void release(void);
 
