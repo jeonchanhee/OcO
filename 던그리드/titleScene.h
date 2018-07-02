@@ -18,7 +18,6 @@ class titleScene : public gameNode
 	animation* _abird0, *_abird1;
 	RECT _button[3];
 
-	int _alpha;
 	vector<tagData> _vData;
 	bool _clickData;
 	RECT _deleteRect[3];
