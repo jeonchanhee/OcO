@@ -58,7 +58,7 @@ void playGround::render(void)
 	//흰색도화지 한 장 깔아둔다
 	//PatBlt(DC, 0, 0, WINSIZEX, WINSIZEY, WHITENESS); // 카메라 매니저 DC -> getMemDC 로 바꾸었습니다.
 	PatBlt(DC, 0, 0, WINSIZEX, WINSIZEY, WHITENESS); // 카메라 매니저 DC -> getMemDC 로 바꾸었습니다.
-	PatBlt(DC2, 0, 0, 3000, 3000, WHITENESS); // 카메라 매니저 DC -> getMemDC 로 바꾸었습니다.
+	PatBlt(DC2, 0, 0, BACKGROUNDSIZEX, BACKGROUNDSIZEY, WHITENESS);
 	//============== 이 위로는 건드리지 말자 ==============
 	
 	_mapTool->render();
