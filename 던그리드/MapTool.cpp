@@ -226,11 +226,36 @@ TERRAIN MapTool::terrainSelect(int FrameX, int FrameY)
 
 OBJECT MapTool::objSelect(int FrameX, int FrameY)
 {
+	for (int i = 0; i < 3; i++)
+	{
+		for (int j = 0; j < 7; j++)
+		{
+			if (FrameX == i && FrameY == j) return OBJ_CULUMN;
+		}
+	}
+
+	for (int i = 3; i < 13; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			if (FrameX == i && FrameY == j) return OBJ_GROUND;
+		}
+	}
+
+	for (int i = 3; i < 5; i++)
+	{
+		if (FrameX == i && FrameY == 3) return OBJ_GROUND;
+	}
+	
+
+
+	if (FrameX == 12 && FrameY == 3) return	OBJ_GOGROUND;
 
 
 
 
-	return OBJECT();
+
+	return OBJ_NONE;
 }
 
 MapTool::MapTool(){}
