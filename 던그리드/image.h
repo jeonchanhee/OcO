@@ -65,6 +65,7 @@ public:
 
 private:
 	LPIMAGE_INFO	_imageInfo;		//이미지 정보
+	LPIMAGE_INFO	_rotateImage;	//로테이트 
 	CHAR*			_fileName;		//파일이름
 	BOOL			_trans;			//특정 칼라 지울지여부
 	COLORREF		_transColor;	//제외할 칼라 값

@@ -22,7 +22,7 @@ HRESULT playGround::Image_init(void)
 	IMAGEMANAGER->addImage("플레이어손", "image/player/hand(8x8,1x1).bmp", 8, 8, false, RGB(0, 0, 0));
 	IMAGEMANAGER->addImage("체력바", "image/player/hpBar(50x50,1x1).bmp", 50, 50, false, RGB(0, 0, 0));
 	IMAGEMANAGER->addFrameImage("체력바출렁출렁", "image/player/hpBarWave(120x50,6x1).bmp", 120, 50, 6, 1, true, RGB(255, 0, 255));
-
+	EFFECTMANAGER->addEffect("대시", "dashMan(320x190,4x2).bmp", 320, 190, 80, 95, 1.0f, 2.0f, 2);
 
 
 
