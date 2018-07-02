@@ -309,6 +309,12 @@
     <ClInclude Include="cameraManager.h">
       <Filter>2DFramework\Manager</Filter>
     </ClInclude>
+    <ClInclude Include="Bullet.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="tileNode.h">
+      <Filter>playGround\MapTool</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -493,6 +499,9 @@
     </ClCompile>
     <ClCompile Include="Bullet.cpp">
       <Filter>playGround\bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
