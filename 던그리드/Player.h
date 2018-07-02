@@ -1,5 +1,8 @@
 #pragma once
 #include "gameNode.h"
+#define DASHSPEED 40
+#define GRAVITY 0.25
+
 enum DIRECTION
 {
 	LEFT_STOP,
@@ -22,7 +25,8 @@ private:
 	//bool 
 	bool _isGun;													 //현재 원거리 무기인지 체크 
 	bool _isAlive;													 //자네 생존중인가 ????
-	bool _isJumping;													 //점프중인가 ?
+	bool _isJumping;												 //점프중인가 ?
+	bool _isDashing;												//대시중?
 	// int 
 	int _currentHp, _maxHp;											 //현재 , 전체 체력 
 	int _armor;														 //방어력
@@ -35,7 +39,8 @@ private:
 	int  _inventory[15];											 //전체인벤토리 15칸 
 	int  _gold;														 //돈
 	int  _count;													 //카운트 값 
-
+	int  _currentExp, _maxExp;										 //현재 , 최대 경험치  
+	int  _currentFullNess , _maxFullNess;							 //현재 , 최대 만복도 
 
 
 	//float 
@@ -44,8 +49,11 @@ private:
 	float _evasionPersent, _guardPersent;							 //회피확률 , 막을확률  	
 	float _moveMentSpeed;											 //이동속도 
 	float _criticalPercent, _criticalAttackDamage;					 //크리티컬 확률 , 크리티컬 데미지 증가율 
-	float _dashDamage;												 //대시할때 데미지 . !!!! 
-	float _gravity, _jumpPower , _jump;
+	float _dashDamage , _dashSpeed;									 //대시할때 데미지 , 스피드
+	float _gravity, _jumpPower , _jump;								 //중력 , 플레이어의 점프력 , 지금받고있는 점프파워
+	float _dashX, _dashY;											 //대시할 x좌표 y좌표
+	float _mouseAngle,_ptMouseX,_ptMouseY;							//플레이어와 마우스 의 getAngle  , 카메라에서 마우스 x좌표 y좌표
+	
  
 public:
 
@@ -57,41 +65,44 @@ public:
 
 	void keyAnimation();
 	void keyInput();
+	void mouseControl();
 	void move();
 	void keyMouse();
 	void leftJump(void * obj);
 	void rightJump(void * obj);
 
 
-
-
 	//접근자 (get)      
-	bool getIsGun()			   { return _isGun; }						     //원거리 무기장착 ?
-	bool getIsAlive()		   { return _isAlive; }							 //생존 ?
-
-	int getCurrentHp()		   { return _currentHp; }						 //현재 hp
-	int getMaxHp()			   { return _maxHp; }							//전체hp
-	int getArmor()			   { return _armor; }							 // 방어력
-	int getCurrentDash()	   { return _currentDash; }						// 현재대시수
-	int getMaxDash()		   { return _maxDash; }								// 전체 대시수 
-	int getAttackMinD()		   { return _attackMinDamage; }			         //최소 데미지
-	int getAttackMaxD()		   { return _attackMaxDamage; }					//최대 대미지
-	int getAttackPower()	   { return _attackPower; }				    	//위력
-	int getMainWeapon(int i)   { return _mainWeapon[i]; }					// 주무기 배열 2개
-	int getAssistWeapon(int i) { return _assistWeapon[i]; }					 // 보조무기배열 2개
-	int getInventory(int i)    { return _inventory[i]; }					 // 인벤토리 배열 15개
-	int getGold()			   { return _gold; }							  // 가진		돈 돈 돈 
-
-	float getPlayerX()		   { return _x; }								 // 플레이어 x 좌표
-	float getPlayerY()		   { return _y; }								 // 플레이어 y좌표
-	float getAttackSpeed()	   { return _attackSpeed; }						  // 공격속도
-	float getreloadSpeed()     { return _reloadSpeed; }						  // 재장전속도
-	float getDashDamage()	   { return _dashDamage; }						  // 대시 데미지 
-	float getMoveMentSpeed()   { return _moveMentSpeed; }				 	 // 이동속도
-	float getEvasionPer()	   { return _evasionPersent; }				 	// 회피할 확률 
-	float getGuardPer()		   { return _guardPersent; }					 // 방어할 확률 
-	float getCriticalPer()	   { return _criticalPercent; }				    //크리티컬 확률 
-	float getCritiacalDPer()   { return _criticalAttackDamage; }			 // 크리티컬 데미지 증가율 
+	bool getIsGun()						    { return _isGun; }						     //원거리 무기장착 ?
+	bool getIsAlive()					    { return _isAlive; }							 //생존 ?
+										   
+	int getCurrentHp()					    { return _currentHp; }						 //현재 hp
+	int getMaxHp()						    { return _maxHp; }							//전체hp
+	int getArmor()						    { return _armor; }							 // 방어력
+	int getCurrentDash()				    { return _currentDash; }						// 현재대시수
+	int getMaxDash()					    { return _maxDash; }								// 전체 대시수 
+	int getAttackMinD()					    { return _attackMinDamage; }			         //최소 데미지
+	int getAttackMaxD()					    { return _attackMaxDamage; }					//최대 대미지
+	int getAttackPower()				    { return _attackPower; }				    	//위력
+	int getMainWeapon(int i)			    { return _mainWeapon[i]; }					// 주무기 배열 2개
+	int getAssistWeapon(int i)			    { return _assistWeapon[i]; }					 // 보조무기배열 2개
+	int getInventory(int i)				    { return _inventory[i]; }					 // 인벤토리 배열 15개
+	int getGold()						    { return _gold; }							  // 가진		돈 돈 돈 
+	int getCurrentExp()						{ return _currentExp; }							//현재경험치
+	int getMaxExp()							{ return _maxExp; }
+	int getCurrentFullNess()				{ return _currentFullNess; }					//현재 만복도 
+	int getMaxFullNess()				    { return _maxFullNess; }
+										   
+	float getPlayerX()					    { return _x; }								 // 플레이어 x 좌표
+	float getPlayerY()					    { return _y; }								 // 플레이어 y좌표
+	float getAttackSpeed()				    { return _attackSpeed; }						  // 공격속도
+	float getreloadSpeed()				    { return _reloadSpeed; }						  // 재장전속도
+	float getDashDamage()				    { return _dashDamage; }						  // 대시 데미지 
+	float getMoveMentSpeed()			    { return _moveMentSpeed; }				 	 // 이동속도
+	float getEvasionPer()				    { return _evasionPersent; }				 	// 회피할 확률 
+	float getGuardPer()					    { return _guardPersent; }					 // 방어할 확률 
+	float getCriticalPer()				    { return _criticalPercent; }				    //크리티컬 확률 
+	float getCritiacalDPer()			    { return _criticalAttackDamage; }			 // 크리티컬 데미지 증가율 
 
 	
 
@@ -119,8 +130,10 @@ public:
 	void setCriticalPer(float per)			{ _criticalPercent = per; }
 	void setCriticalDPer(float per)			{ _criticalAttackDamage = per; }
 	void setGold(int gold)					{ _gold = gold; }
-
-
+	void setCurrentFullNess(int fullNess)	{ _currentFullNess = fullNess; }
+	void setMaxFullNess(int fullNess)		{ _maxFullNess = fullNess; }
+	void setCurrentExp(int exp)				{ _currentExp = exp; }
+	void setMaxExp(int exp)				    { _maxExp = exp; }
 
 	Player();
 	~Player();

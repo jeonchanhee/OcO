@@ -2,15 +2,27 @@
 #include "Player.h"
 
 
+
+Player::Player()
+{
+
+}
+Player::~Player() {}
+
 HRESULT Player::init()
 {
 
 	_player = IMAGEMANAGER->findImage("기본플레이어");
-	
+	_playerHand[0] = IMAGEMANAGER->findImage("플레이어손");
+	_playerHand[1] = IMAGEMANAGER->findImage("플레이어손");
+	_playerWeapon = IMAGEMANAGER->findImage("공주플레이어");
+
 	_x = WINSIZEX / 2; _y = WINSIZEY / 2;
 	_count = 0;
+	_mouseAngle = 0;
+
+	_jumpPower = 12.0f;
 	_moveMentSpeed = 3.0f;
-	_jumpPower = 5.0f;
 	_direction = RIGHT_STOP;
 
 	int rightStop[] = { 0,1,2,3,4 };
@@ -42,23 +54,34 @@ void Player::update()
 {
 	keyInput();
 	move();
+	mouseControl();
 }
 
 void Player::render() 
 {
+	if (_direction == LEFT_RUN || _direction == LEFT_STOP)
+	{
+		_playerHand[0]->rotateRender(DC, _x + 15 , _y + 60 , _mouseAngle);
+		_playerHand[1]->render(DC, _x + 60 , _y + 60);
+	}
+	if (_direction == RIGHT_RUN || _direction == RIGHT_STOP)
+	{
+		 _playerHand[0]->render(DC, _x + 10 , _y + 60);
+		 _playerHand[1]->rotateRender(DC, _x + 65 , _y + 60 , _mouseAngle);
+	}
+	
 	_player->aniRender(CAMERAMANAGER->getCameraDC()->getMemDC(), _x, _y, _playerAnimation);
+	
 }
 
 
 
-void Player::keyAnimation()
-{
-
-}
+void Player::keyAnimation(){}
 
 void Player::keyInput()
 {
 	KEYANIMANAGER->update();
+
 	if (KEYMANAGER->isOnceKeyDown('A'))
 	{
 		_direction = LEFT_RUN;
@@ -90,7 +113,6 @@ void Player::keyInput()
 	if (KEYMANAGER->isOnceKeyDown(VK_SPACE))
 	{
 		_jump = _jumpPower;
-		_gravity = 0.05f;
 		_isJumping = true;
 		if (_direction == LEFT_RUN || _direction == LEFT_STOP)
 		{
@@ -103,17 +125,76 @@ void Player::keyInput()
 			_playerAnimation->start();
 		}
 	}
+	if (KEYMANAGER->isOnceKeyDown(VK_RBUTTON))
+	{
+		_dashSpeed = DASHSPEED;
+		_isDashing = true;
+		_dashX = _ptMouse.x, _dashY = _ptMouse.y;
+	}
+	
+}
+
+void Player::mouseControl()
+{
+	_ptMouseX = CAMERAMANAGER->getCameraX() + _ptMouse.x, _ptMouseY = CAMERAMANAGER->getCameraY() + _ptMouse.y;
+	_mouseAngle = getAngle(_x, _y, _ptMouse.x, _ptMouse.y);
+	//ptmouse 좌표에따라 왼쪽을볼건지 오른쪽을 볼건지 설정 
+	if (_x > CAMERAMANAGER->getCameraX() + _ptMouse.x)
+	{
+		if (_direction == RIGHT_STOP)
+		{
+			_playerAnimation = KEYANIMANAGER->findAnimation("왼쪽보고서있기");
+			_direction = LEFT_STOP;
+		}
+		else if (_direction == RIGHT_RUN || _direction == LEFT_RUN)
+		{
+			_playerAnimation = KEYANIMANAGER->findAnimation("왼쪽뛰기");
+		}
+	}
+	else if (_x < CAMERAMANAGER->getCameraX() + _ptMouse.x)
+	{
+		if (_direction == LEFT_STOP)
+		{
+			_playerAnimation = KEYANIMANAGER->findAnimation("오른쪽보고서있기");
+			_direction = RIGHT_STOP;
+		}
+		else if (_direction == LEFT_RUN || _direction == RIGHT_RUN)
+		{
+			_playerAnimation = KEYANIMANAGER->findAnimation("오른쪽뛰기");
+		}
+	}
 }
 
 void Player::move()
 {
-	_jump -= _gravity;  	_y -= _jump;
-	if (_isJumping == false)
-	{		
-		_jump = 0;
-		_gravity = 0.1;
-	}
 	
+
+	if (_isJumping)
+	{
+		_jump -= GRAVITY;
+		_y -= _jump;
+	}
+	else if (!_isJumping)
+	{
+		_jump = 0;
+	}
+	if (_jump <= -11.7)
+	{
+		_isJumping = false;
+	}
+
+	if (_isDashing)
+	{
+		_dashSpeed -= 2.0f;
+		_x += cosf(getAngle(_x, _y, _dashX, _dashY)) * _dashSpeed;
+		_y += -sinf(getAngle(_x, _y, _dashX, _dashY)) * _dashSpeed;
+	}
+	if (_dashSpeed < 0)
+	{
+		_dashSpeed = 0;
+		_isDashing = false;
+		
+	}
 	if (_direction == LEFT_RUN)
 	{
 		_x -= _moveMentSpeed;
@@ -136,6 +217,3 @@ void Player::rightJump(void * obj)
 {
 }
 
-Player::Player(){}
-
-Player::~Player(){}

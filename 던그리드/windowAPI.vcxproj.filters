@@ -109,6 +109,9 @@
     <Filter Include="playGround\Item\Food">
       <UniqueIdentifier>{bc80371c-6763-4b69-9eed-957346f6b2fd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="playGround\bullet">
+      <UniqueIdentifier>{da504023-5401-4c49-b9e5-d2f47fd3d9ad}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -204,9 +207,6 @@
     <ClInclude Include="Dialog.h">
       <Filter>playGround\Diaiog</Filter>
     </ClInclude>
-    <ClInclude Include="cameraManager.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="commonMacroFunction.h">
       <Filter>2DFramework\Manager</Filter>
     </ClInclude>
@@ -242,9 +242,6 @@
     </ClInclude>
     <ClInclude Include="RedBat.h">
       <Filter>playGround\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Bullet.h">
-      <Filter>playGround\Bullet</Filter>
     </ClInclude>
     <ClInclude Include="tileNode.h">
       <Filter>playGround\Scene</Filter>
@@ -305,6 +302,12 @@
     </ClInclude>
     <ClInclude Include="Healingfairy.h">
       <Filter>playGround\Item\Food</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet.h">
+      <Filter>playGround\bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="cameraManager.h">
+      <Filter>2DFramework\Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -431,9 +434,6 @@
     <ClCompile Include="RedBat.cpp">
       <Filter>playGround\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="Bullet.cpp">
-      <Filter>playGround\Bullet</Filter>
-    </ClCompile>
     <ClCompile Include="titleScene.cpp">
       <Filter>playGround\Scene</Filter>
     </ClCompile>
@@ -487,6 +487,12 @@
     </ClCompile>
     <ClCompile Include="Healingfairy.cpp">
       <Filter>playGround\Item\Food</Filter>
+    </ClCompile>
+    <ClCompile Include="playGround_Sound.cpp">
+      <Filter>playGround</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>playGround\bullet</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
