@@ -26,6 +26,10 @@ public:
 	image* addFrameImage(string strKey, const char* fileName, float x, float y, int width, int height, int frameX, int frameY, bool trans, COLORREF transColor, BOOL blend = FALSE);
 	image* addFrameImage(string strKey, const char* fileName, int width, int height, int frameX, int frameY, bool trans, COLORREF transColor, BOOL blend = FALSE);
 
+	image * addRotateImage(string strKey, const char * fileName, int width, int height, bool trans, COLORREF transColor, BOOL blend = FALSE);
+
+	image * addRotateFrameImage(string strKey, const char * fileName, int width, int height, int frameX, int frameY, bool trans, COLORREF transColor, BOOL blend = FALSE);
+
 
 	//rotate
 	image* addRotateImage(string strKey, const char* fileName, int width, int height, bool trans, COLORREF transColor);
@@ -49,6 +53,10 @@ public:
 	//프레임렌더 + 루프렌더는 여러분이 추가해보세영~
 	void frameRender(string strKey, HDC hdc, int destX, int destY);
 	void frameRender(string strKey, HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY);
+
+	void rotateRender(string strKey, HDC hdc, float x, float y, float angle);
+
+	void rotateFrameRender(string strKey, HDC hdc, float x, float y, float angle);
 	
 	void loopRender(string strKey, HDC hdc, const LPRECT drawArea, int offSetX, int offSetY);
 

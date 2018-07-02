@@ -155,7 +155,7 @@ image* imageManager::addFrameImage(string strKey, const char* fileName, int widt
 	return img;
 }
 
-image * imageManager::addRotateImage(string strKey, const char * fileName,  int width, int height, bool trans, COLORREF transColor)
+image* imageManager::addRotateImage(string strKey, const char * fileName,  int width, int height, bool trans, COLORREF transColor, BOOL blend)
 {
 	image* img = findImage(strKey);
 
@@ -163,7 +163,7 @@ image * imageManager::addRotateImage(string strKey, const char * fileName,  int 
 
 	img = new image;
 
-	if (FAILED(img->rotateInit(fileName, width, height, trans, transColor)))
+	if (FAILED(img->rotateInit(fileName, width, height, trans, transColor, blend)))
 	{
 		SAFE_DELETE(img);
 
@@ -175,7 +175,7 @@ image * imageManager::addRotateImage(string strKey, const char * fileName,  int 
 	return img;
 }
 
-image * imageManager::addRotateFrameImage(string strKey, const char * fileName, int width, int height, int frameX, int frameY, bool trans, COLORREF transColor)
+image * imageManager::addRotateFrameImage(string strKey, const char * fileName, int width, int height, int frameX, int frameY, bool trans, COLORREF transColor, BOOL blend)
 {
 	image * img = findImage(strKey);
 
@@ -183,7 +183,7 @@ image * imageManager::addRotateFrameImage(string strKey, const char * fileName, 
 
 	img = new image;
 
-	if (FAILED(img->rotateInit(fileName, width, height, frameX, frameY, trans, transColor)))
+	if (FAILED(img->rotateInit(fileName, width, height, frameX, frameY, trans, transColor, blend)))
 	{
 		SAFE_DELETE(img);
 
