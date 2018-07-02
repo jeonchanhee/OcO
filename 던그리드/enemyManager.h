@@ -3,7 +3,7 @@
 #include "Bullet.h"
 #include "progressBar.h"
 #include "MusicAngel.h"
-#include "BigBat.h"
+#include "BigBone.h"
 #include "DogBone.h"
 #include "Cow.h"
 #include "Arrow.h"

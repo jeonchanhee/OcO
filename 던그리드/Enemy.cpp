@@ -33,7 +33,7 @@ void Enemy::release()
 
 void Enemy::update()
 {
-	changeFrmae();
+	changeFrame();
 	move();
 }
 
@@ -42,7 +42,7 @@ void Enemy::render()
 	_img->frameRender(DC, _rc.left, _rc.top, _frameX, _frameY);
 }
 
-void Enemy::changeFrmae()
+void Enemy::changeFrame()
 {
 	_count++;
 	if (_count % 2 == 0)
