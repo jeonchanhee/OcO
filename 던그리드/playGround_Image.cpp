@@ -23,15 +23,15 @@ HRESULT playGround::Image_init(void)
 
 	//==========플레이어==========
 	IMAGEMANAGER->addFrameImage("기본플레이어", "image/player/normalPlayer(640x360,8x4).bmp", 640, 360, 8, 4, true, RGB(255, 0, 255));
-	//IMAGEMANAGER->addRotateFrameImage("공주플레이어", "image/player/princessPlayer(480x320,6x4).bmp", 480, 320, 6, 4, true, RGB(255, 0, 255));
-	//IMAGEMANAGER->addRotateImage("플레이어손", "image/player/hand(8x8,1x1).bmp", 15, 15, true, RGB(1, 2, 5));
+	IMAGEMANAGER->addRotateFrameImage("공주플레이어", "image/player/princessPlayer(480x320,6x4).bmp", 480, 320, 6, 4, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addRotateImage("플레이어손", "image/player/hand(8x8,1x1).bmp", 15, 15, true, RGB(1, 2, 5));
 	IMAGEMANAGER->addImage("체력바", "image/player/hpBar(50x50,1x1).bmp", 50, 50, false, RGB(0, 0, 0));
 	IMAGEMANAGER->addFrameImage("체력바출렁출렁", "image/player/hpBarWave(120x50,6x1).bmp", 120, 50, 6, 1, true, RGB(255, 0, 255));
 	EFFECTMANAGER->addEffect("대시", "dashMan(320x190,4x2).bmp", 320, 190, 80, 95, 1.0f, 2.0f, 2);
 
 
 	//==========적 이미지=============
-	IMAGEMANAGER->addFrameImage("archerIdleMoveAttack", "image/archerIdleMoveAttack(810x440,9x4).bmp", 0, 0 , 810, 440, 9, 4, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("archerIdleMoveAttack", "image/enarcherIdleMoveAttack(810x440,9x4).bmp", 0, 0 , 810, 440, 9, 4, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("arrow", "image/arrow(120x50,1x1).bmp", 0, 0, 120, 50, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("arrowEffect", "image/arrowEffect(720x370,3x1).bmp", 0, 0, 720, 370, 3, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("bansheeBigBullet", "image/bansheeBigBullet(480x110,6x1).bmp", 0, 0, 480, 110, 6, 1, true, RGB(255, 0, 255));
