@@ -17,7 +17,7 @@ protected:
 
 	float _jumpPower;
 	float _gravity;
-
+	bool _isJumping;
 
 public:
 
@@ -30,7 +30,7 @@ public:
 	void update();
 	void render();
 
-	void changeFrmae();//프레임변화 함수
+	void changeFrame();//프레임변화 함수
 	void move();//움직이는 함수
 	bool bulletCountFire(); //총알 발사 함수
 	inline RECT getRect() { return _rc; } //렉트 반환 함수

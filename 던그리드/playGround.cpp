@@ -12,12 +12,15 @@ HRESULT playGround::init(void)
 
 
 	gameNode::init(true);
-	Image_init();
-	Sound_init();
-	_mapTool = new MapTool;
-	_mapTool->init();
-	_player  = new Player;
-	_player->init();
+	//Image_init();
+	//Sound_init();
+	//_mapTool = new MapTool;
+	//_mapTool->init();
+	//_player  = new Player;
+	//_player->init();
+	_im = new itemManager;
+	_im->init();
+
 
 	SCENEMANAGER->addScene("타이틀", new titleScene);
 	SCENEMANAGER->addScene("던전", new dungeonScene);
@@ -40,6 +43,9 @@ HRESULT playGround::init(void)
 		break;
 	case 플레이어:
 		break;
+	case 아이템:
+		break;
+
 	case 기타추가하셈:
 		break;
 	default:
@@ -69,10 +75,10 @@ void playGround::update(void)
 		SOUNDMANAGER->play("title");
 	}
 
-	if (KEYMANAGER->isStayKeyDown('D')) CAMERAMANAGER->setCameraX2(CAMERAMANAGER->getCameraX2() + 15);
-	if (KEYMANAGER->isStayKeyDown('S')) CAMERAMANAGER->setCameraY2(CAMERAMANAGER->getCameraY2() + 15);
-	if (KEYMANAGER->isStayKeyDown('A')) CAMERAMANAGER->setCameraX2(CAMERAMANAGER->getCameraX2() - 15);
-	if (KEYMANAGER->isStayKeyDown('W')) CAMERAMANAGER->setCameraY2(CAMERAMANAGER->getCameraY2() - 15);
+	if (KEYMANAGER->isStayKeyDown('D') && CAMERAMANAGER->getCameraRc2().right<BACKGROUNDSIZEX) CAMERAMANAGER->setCameraX2(CAMERAMANAGER->getCameraX2() + 50);
+	if (KEYMANAGER->isStayKeyDown('S') && CAMERAMANAGER->getCameraRc2().bottom<BACKGROUNDSIZEY) CAMERAMANAGER->setCameraY2(CAMERAMANAGER->getCameraY2() + 50);
+	if (KEYMANAGER->isStayKeyDown('A') && CAMERAMANAGER->getCameraRc2().left>0) CAMERAMANAGER->setCameraX2(CAMERAMANAGER->getCameraX2() - 50);
+	if (KEYMANAGER->isStayKeyDown('W') && CAMERAMANAGER->getCameraRc2().top>0) CAMERAMANAGER->setCameraY2(CAMERAMANAGER->getCameraY2() - 50);
 
 }
 
@@ -104,6 +110,10 @@ void playGround::render(void)
 	case 플레이어:
 		_player->render();
 		break;
+	case 아이템:
+		_im->render();
+		break;
+
 	case 기타추가하셈:
 		break;
 	default:

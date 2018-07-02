@@ -23,6 +23,17 @@ void MapTool::release(){}
 void MapTool::update()
 {
 	if (KEYMANAGER->isStayKeyDown(VK_LBUTTON))setmap();
+
+	if (KEYMANAGER->isOnceKeyDown('Y'))
+	{
+		for (int i = 0; i < TILEX * TILEY; i++)
+		{
+			_tiles[i].terrainFrameX = _currentTile.x;
+			_tiles[i].terrainFrameY = _currentTile.y;
+
+			_tiles[i].terrain = terrainSelect(_currentTile.x, _currentTile.y);
+		}
+	}
 }
 
 void MapTool::render()
@@ -171,6 +182,7 @@ void MapTool::setmap()
 			break;
 		}
 	}
+
 
 	for (int i = 0; i < TILEX * TILEY; i++)
 	{
