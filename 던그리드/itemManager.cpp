@@ -14,7 +14,7 @@ itemManager::~itemManager()
 
 HRESULT itemManager::init()
 {
-	_item->init();
+	//_item->init();
 
 	return S_OK;
 }
