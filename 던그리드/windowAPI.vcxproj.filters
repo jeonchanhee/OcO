@@ -73,42 +73,6 @@
     <Filter Include="playGround\Scene">
       <UniqueIdentifier>{3f183012-16db-4d1d-a3a3-cb3bde644fff}</UniqueIdentifier>
     </Filter>
-    <Filter Include="playGround\Item\Weapon">
-      <UniqueIdentifier>{db612874-b389-4298-96c8-3a8526dd3fcd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="playGround\Item\Weapon\Bow">
-      <UniqueIdentifier>{c2cf4dcd-5a00-4156-832a-116cdb3ea19f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="playGround\Item\Weapon\Gun">
-      <UniqueIdentifier>{5d448028-9053-431a-b169-429ce5656002}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="playGround\Item\Weapon\Hammer">
-      <UniqueIdentifier>{28564559-ef96-48e5-b14b-c42d994e5e8d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="playGround\Item\Weapon\sword">
-      <UniqueIdentifier>{0e0785fd-1d2e-4110-bace-8b719053435a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="playGround\Item\Defence">
-      <UniqueIdentifier>{75cdc708-d95c-46f3-9d55-d0365f784240}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="playGround\Item\Defence\Shield">
-      <UniqueIdentifier>{d35d2954-d5b2-45f0-acb8-d583d1fe9397}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="playGround\Item\Defence\Necklace">
-      <UniqueIdentifier>{150a5624-3bb2-4e35-8a0d-1a8865d127df}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="playGround\Item\Defence\Assist">
-      <UniqueIdentifier>{3a2f8a6a-2a3b-4b7a-bdbe-81fceeacd35d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="playGround\Item\Defence\Ring">
-      <UniqueIdentifier>{3d0bf438-3e04-4d33-9609-f6922378ccc6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="playGround\Item\Treasure">
-      <UniqueIdentifier>{58c7012e-99b8-4be6-a8a1-e924f07f9c17}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="playGround\Item\Food">
-      <UniqueIdentifier>{bc80371c-6763-4b69-9eed-957346f6b2fd}</UniqueIdentifier>
-    </Filter>
     <Filter Include="playGround\bullet">
       <UniqueIdentifier>{da504023-5401-4c49-b9e5-d2f47fd3d9ad}</UniqueIdentifier>
     </Filter>
@@ -270,44 +234,14 @@
     <ClInclude Include="titleScene.h">
       <Filter>playGround\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Sword.h">
-      <Filter>playGround\Item\Weapon\sword</Filter>
-    </ClInclude>
-    <ClInclude Include="Bow.h">
-      <Filter>playGround\Item\Weapon\Bow</Filter>
-    </ClInclude>
-    <ClInclude Include="Gun.h">
-      <Filter>playGround\Item\Weapon\Gun</Filter>
-    </ClInclude>
-    <ClInclude Include="Hammer.h">
-      <Filter>playGround\Item\Weapon\Hammer</Filter>
-    </ClInclude>
-    <ClInclude Include="ring.h">
-      <Filter>playGround\Item\Defence\Ring</Filter>
-    </ClInclude>
-    <ClInclude Include="Necklace.h">
-      <Filter>playGround\Item\Defence\Necklace</Filter>
-    </ClInclude>
-    <ClInclude Include="Assist.h">
-      <Filter>playGround\Item\Defence\Assist</Filter>
-    </ClInclude>
-    <ClInclude Include="Shield.h">
-      <Filter>playGround\Item\Defence\Shield</Filter>
-    </ClInclude>
-    <ClInclude Include="Goldbar.h">
-      <Filter>playGround\Item\Treasure</Filter>
-    </ClInclude>
-    <ClInclude Include="Coin.h">
-      <Filter>playGround\Item\Treasure</Filter>
-    </ClInclude>
-    <ClInclude Include="Healingfairy.h">
-      <Filter>playGround\Item\Food</Filter>
-    </ClInclude>
     <ClInclude Include="Bullet.h">
       <Filter>playGround\bullet</Filter>
     </ClInclude>
     <ClInclude Include="cameraManager.h">
       <Filter>2DFramework\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="itemManager.h">
+      <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -455,44 +389,14 @@
     <ClCompile Include="DialogWeapon.cpp">
       <Filter>playGround\Diaiog</Filter>
     </ClCompile>
-    <ClCompile Include="Sword.cpp">
-      <Filter>playGround\Item\Weapon\sword</Filter>
-    </ClCompile>
-    <ClCompile Include="Bow.cpp">
-      <Filter>playGround\Item\Weapon\Bow</Filter>
-    </ClCompile>
-    <ClCompile Include="Gun.cpp">
-      <Filter>playGround\Item\Weapon\Gun</Filter>
-    </ClCompile>
-    <ClCompile Include="Hammer.cpp">
-      <Filter>playGround\Item\Weapon\Hammer</Filter>
-    </ClCompile>
-    <ClCompile Include="ring.cpp">
-      <Filter>playGround\Item\Defence\Ring</Filter>
-    </ClCompile>
-    <ClCompile Include="Necklace.cpp">
-      <Filter>playGround\Item\Defence\Necklace</Filter>
-    </ClCompile>
-    <ClCompile Include="Assist.cpp">
-      <Filter>playGround\Item\Defence\Assist</Filter>
-    </ClCompile>
-    <ClCompile Include="Shield.cpp">
-      <Filter>playGround\Item\Defence\Shield</Filter>
-    </ClCompile>
-    <ClCompile Include="Coin.cpp">
-      <Filter>playGround\Item\Treasure</Filter>
-    </ClCompile>
-    <ClCompile Include="Goldbar.cpp">
-      <Filter>playGround\Item\Treasure</Filter>
-    </ClCompile>
-    <ClCompile Include="Healingfairy.cpp">
-      <Filter>playGround\Item\Food</Filter>
-    </ClCompile>
     <ClCompile Include="playGround_Sound.cpp">
       <Filter>playGround</Filter>
     </ClCompile>
     <ClCompile Include="Bullet.cpp">
       <Filter>playGround\bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="itemManager.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
