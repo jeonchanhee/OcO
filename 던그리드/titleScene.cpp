@@ -84,6 +84,7 @@ void titleScene::render(void)
 			{
 				//SCENEMANAGER->changeScene("´øÀü");
 				loadData();
+				//training();
 			}
 		}
 		else
@@ -114,6 +115,11 @@ void titleScene::render(void)
 		for(int i=0;i<3;i++)
 		Rectangle(DC,_button[i].left, _button[i].top, _button[i].right, _button[i].bottom);
 	}
+}
+
+void titleScene::training()
+{
+
 }
 
 void titleScene::loadData()

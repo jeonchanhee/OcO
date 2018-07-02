@@ -1,7 +1,7 @@
 #pragma once
 #include "Item.h"
 class Goldbar :
-	public Treasure
+	public TreasureBox
 {
 public:
 	Goldbar();
