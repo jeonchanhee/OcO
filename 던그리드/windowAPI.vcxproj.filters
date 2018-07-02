@@ -243,9 +243,6 @@
     <ClInclude Include="RedBat.h">
       <Filter>playGround\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="tileNode.h">
-      <Filter>playGround\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="dungeonScene.h">
       <Filter>playGround\Scene</Filter>
     </ClInclude>
@@ -311,6 +308,9 @@
     </ClInclude>
     <ClInclude Include="Bullet.h">
       <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="tileNode.h">
+      <Filter>playGround\MapTool</Filter>
     </ClInclude>
     <ClInclude Include="tileNode.h">
       <Filter>playGround\MapTool</Filter>
