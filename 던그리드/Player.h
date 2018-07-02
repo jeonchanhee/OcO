@@ -11,10 +11,10 @@ enum DIRECTION
 	RIGHT_RUN
 };
 
-class Player :	public gameNode
+class Player : public gameNode
 {
 private:
-	
+
 	image * _player;
 	image * _playerHand[2];
 	image * _playerWeapon;
@@ -30,11 +30,11 @@ private:
 	// int 
 	int _currentHp, _maxHp;											 //현재 , 전체 체력 
 	int _armor;														 //방어력
-	int _currentDash , _maxDash;									 //대시 횟수 
-	int _attackMinDamage , _attackMaxDamage, _attackPower;			 //최소 ~ 최대 데미지 , 위력 ()
+	int _currentDash, _maxDash;									 //대시 횟수 
+	int _attackMinDamage, _attackMaxDamage, _attackPower;			 //최소 ~ 최대 데미지 , 위력 ()
 	int _fixedDamage;												 //고정데미지 
-	int _jumpCount , _jumpMax;										 // 점프 카운트 , 맥스 점프 
-	// inven
+	int _jumpCount, _jumpMax;										 // 점프 카운트 , 맥스 점프 
+																	 // inven
 	int  _mainWeapon[2], _assistWeapon[2];							 //현재 장착중인 메인 , 보조 무기들 
 	int  _inventory[15];											 //전체인벤토리 15칸 
 	int  _gold;														 //돈
@@ -45,7 +45,7 @@ private:
 
 	//float 
 	float _x, _y;													 //player x,y 
-	float _attackSpeed , _reloadSpeed;								 //공속 재장전속도 
+	float _attackSpeed, _reloadSpeed;								 //공속 재장전속도 
 	float _evasionPersent, _guardPersent;							 //회피확률 , 막을확률  	
 	float _moveMentSpeed;											 //이동속도 
 	float _criticalPercent, _criticalAttackDamage;					 //크리티컬 확률 , 크리티컬 데미지 증가율 
@@ -104,9 +104,9 @@ public:
 	float getCriticalPer()				    { return _criticalPercent; }				    //크리티컬 확률 
 	float getCritiacalDPer()			    { return _criticalAttackDamage; }			 // 크리티컬 데미지 증가율 
 
-	
 
-	//설정자 (set) 
+
+																		 //설정자 (set) 
 
 	void setIsGun(bool isGun)				{ _isGun = isGun; }
 	void setIsAlive(bool isAlive)			{ _isAlive = isAlive; }

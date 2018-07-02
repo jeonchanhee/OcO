@@ -22,7 +22,7 @@ void MapTool::release(){}
 
 void MapTool::update()
 {
-	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))setmap();
+	if (KEYMANAGER->isStayKeyDown(VK_LBUTTON))setmap();
 }
 
 void MapTool::render()
@@ -57,7 +57,7 @@ void MapTool::render()
 	// 지형
 	for (int i = 0; i < TILEX * TILEY; i++)
 	{
-		IMAGEMANAGER->frameRender("map", DC, _tiles[i].rc.left, _tiles[i].rc.top, _tiles[i].terrainFrameX, _tiles[i].terrainFrameY);
+		IMAGEMANAGER->frameRender("map", DC2, _tiles[i].rc.left, _tiles[i].rc.top, _tiles[i].terrainFrameX, _tiles[i].terrainFrameY);
 	}
 
 	// 오브젝트
@@ -66,14 +66,14 @@ void MapTool::render()
 		// 오브젝트 속성이 아니면 그리지마
 		if (_tiles[i].object == OBJ_NONE) continue;
 		
-		IMAGEMANAGER->frameRender("map", DC, _tiles[i].rc.left, _tiles[i].rc.top, _tiles[i].objFrameX, _tiles[i].objFrameY);
+		IMAGEMANAGER->frameRender("map", DC2, _tiles[i].rc.left, _tiles[i].rc.top, _tiles[i].objFrameX, _tiles[i].objFrameY);
 	}
 
 	if (KEYMANAGER->isToggleKey(VK_TAB))
 	{
 		for (int i = 0; i < TILEX * TILEY; i++)
 		{
-			Rectangle(DC,_tiles[i].rc.left, _tiles[i].rc.top, _tiles[i].rc.right, _tiles[i].rc.bottom);
+			Rectangle(DC2,_tiles[i].rc.left, _tiles[i].rc.top, _tiles[i].rc.right, _tiles[i].rc.bottom);
 		}
 
 		for (int i = 0; i < SAMPLETILEX * SAMPLETILEY; i++)
@@ -88,9 +88,9 @@ void MapTool::save()
 	HANDLE	file;
 	DWORD	save;
 
-	file = CreateFile("mapTool.map", GENERIC_READ, NULL, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+	file = CreateFile("mapTool.map", GENERIC_WRITE, NULL, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 
-	ReadFile(file, _tiles, sizeof(tagTile) * TILEX * TILEY, &save, NULL);
+	WriteFile(file, _tiles, sizeof(tagTile) * TILEX * TILEY, &save, NULL);
 
 	CloseHandle(file);
 }
@@ -127,7 +127,7 @@ void MapTool::setup()
 
 	for (int i = 0; i < TILEY; i++)
 	{
-		for (int j = 0; j < TILEY; j++)
+		for (int j = 0; j < TILEX; j++)
 		{
 			SetRect(&_tiles[i * TILEX + j].rc, j * TILESIZE, i * TILESIZE, j* TILESIZE + TILESIZE, i * TILESIZE + TILESIZE);
 		}
@@ -137,6 +137,7 @@ void MapTool::setup()
 
 void MapTool::setmap()
 {
+	POINT mouse = { _ptMouse.x + CAMERAMANAGER->getCameraRc2().left,_ptMouse.y + CAMERAMANAGER->getCameraRc2().top };
 	for (int i = 0; i < 5; i++)
 	{
 		if (PtInRect(&_rc[i], _ptMouse))
@@ -173,7 +174,7 @@ void MapTool::setmap()
 
 	for (int i = 0; i < TILEX * TILEY; i++)
 	{
-		if (PtInRect(&_tiles[i].rc, _ptMouse))
+		if (PtInRect(&_tiles[i].rc, mouse))
 		{
 			if (_select == TRRAINDRAW)
 			{
@@ -226,11 +227,80 @@ TERRAIN MapTool::terrainSelect(int FrameX, int FrameY)
 
 OBJECT MapTool::objSelect(int FrameX, int FrameY)
 {
+	for (int i = 0; i < 3; i++)
+	{
+		for (int j = 0; j < 7; j++)
+		{
+			if (FrameX == i && FrameY == j) return OBJ_CULUMN;
+		}
+	}
+
+	for (int i = 3; i < 13; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			if (FrameX == i && FrameY == j) return OBJ_GROUND; 
+		}
+	}
+
+	for (int i = 3; i < 5; i++)
+	{
+		if (FrameX == i && FrameY == 3) return OBJ_GROUND;
+	}
+	
+	for (int i = 3; i < 10; i++)
+	{
+		if (FrameX == i && FrameY == 4) return OBJ_GROUND;
+	}
+	
+	for (int i = 10; i < 19; i++)
+	{
+		if (FrameX == i && FrameY == 1) return OBJ_GROUND;
+	}
+
+	for (int i = 5; i < 10; i++)
+	{
+		for (int j = 17; j < 18; j++)
+		{
+			if(FrameX == i && FrameY == j) return OBJ_GROUND;
+		}
+	}
+	
+	for (int i = 15; i < 21; i++)
+	{
+		if (FrameX == i && FrameY == 18) return OBJ_GROUND;
+	}
+
+	for (int i = 0; i < 4; i++)
+	{
+		if (FrameX == i && FrameY == 24) return OBJ_GROUND;
+	}
+
+	for (int i = 0; i < 19; i++)
+	{
+		if (FrameX == i && FrameY == 25) return OBJ_GROUND;
+	}
+
+	for (int i = 17; i < 20; i++)
+	{
+		if (FrameX == i && FrameY == 13) return OBJ_THORN;
+	}
+
+	if (FrameX == 11 && FrameY == 0) return OBJ_GROUND;
+	if (FrameX == 12 && FrameY == 0) return OBJ_GROUND;
+	if (FrameX == 13 && FrameY == 0) return OBJ_GROUND;
+	if (FrameX == 7 && FrameY == 3) return OBJ_GROUND;
+	if (FrameX == 8 && FrameY == 3) return OBJ_GROUND;
+	if (FrameX == 10 && FrameY == 3) return OBJ_GROUND;
+	if (FrameX == 11 && FrameY == 18) return OBJ_GROUND;
+	if (FrameX == 12 && FrameY == 18) return OBJ_GROUND;
+	if (FrameX == 3 && FrameY == 12) return	OBJ_GOGROUND;
+	if (FrameX == 6 && FrameY == 24) return OBJ_GROUND;
+	if (FrameX == 7 && FrameY == 24) return OBJ_GROUND;
+	if (FrameX == 8 && FrameY == 24) return OBJ_GROUND;
 
 
-
-
-	return OBJECT();
+	return OBJ_NONE;
 }
 
 MapTool::MapTool(){}
