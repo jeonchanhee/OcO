@@ -21,7 +21,6 @@ HRESULT titleScene::init(void)
 	_button[1]=RectMake(912,800,92,62);
 	_button[2]=RectMake(907,900,102,62);
 
-	_alpha = 255;
 	_clickData = false;
 	for (int i = 0; i < 3; i++)
 	{
@@ -63,18 +62,13 @@ void titleScene::update(void)
 
 void titleScene::render(void)
 {
-	/*IMAGEMANAGER->alphaRender("T_back", DC,0, 0, _alpha);
-	IMAGEMANAGER->alphaLoopRender("T_cloud0", DC, &RectMake(0, 0, WINSIZEX, WINSIZEY), _loop0, 0, _alpha);
-	IMAGEMANAGER->alphaLoopRender("T_cloud1", DC, &RectMake(0, 0, WINSIZEX, WINSIZEY), _loop1, 0, _alpha);
-	_birdImg0->alphaAniRender(DC, _bird0.x, _bird0.y, _abird0, _alpha);
-	_birdImg1->alphaAniRender(DC, _bird1.x, _bird1.y, _abird1, _alpha);*/
-
 	IMAGEMANAGER->render("T_back", DC, 0, 0);
 	IMAGEMANAGER->loopRender("T_cloud0", DC, &RectMake(0, 0, WINSIZEX, WINSIZEY), _loop0, 0);
 	IMAGEMANAGER->loopRender("T_cloud1", DC, &RectMake(0, 0, WINSIZEX, WINSIZEY), _loop1, 0);
 	_birdImg0->aniRender(DC, _bird0.x, _bird0.y, _abird0);
 	_birdImg1->aniRender(DC, _bird1.x, _bird1.y, _abird1);
-
+	
+	
 	if (!_clickData)
 	{
 		if (PtInRect(&_button[0], _ptMouse))
@@ -122,8 +116,6 @@ void titleScene::loadData()
 
 	_clickData = true;
 
-	_alpha = 100;
-
 	vector<string> vStr = TXTDATA->txtLoad("data.txt");
 
 	_vData.clear();
@@ -148,6 +140,8 @@ void titleScene::loadData()
 
 void titleScene::drawData()
 {
+	IMAGEMANAGER->alphaRender("black", DC, 0, 0, 100);
+
 	for (int i = 0; i < 3; i++)
 	{
 		IMAGEMANAGER->frameRender("T_textBack", DC, 50 + i * 610, 90, 0, 0);
