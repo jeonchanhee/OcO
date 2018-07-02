@@ -22,7 +22,7 @@ void MapTool::release(){}
 
 void MapTool::update()
 {
-	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))setmap();
+	if (KEYMANAGER->isStayKeyDown(VK_LBUTTON))setmap();
 }
 
 void MapTool::render()
@@ -88,9 +88,9 @@ void MapTool::save()
 	HANDLE	file;
 	DWORD	save;
 
-	file = CreateFile("mapTool.map", GENERIC_READ, NULL, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+	file = CreateFile("mapTool.map", GENERIC_WRITE, NULL, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 
-	ReadFile(file, _tiles, sizeof(tagTile) * TILEX * TILEY, &save, NULL);
+	WriteFile(file, _tiles, sizeof(tagTile) * TILEX * TILEY, &save, NULL);
 
 	CloseHandle(file);
 }
@@ -239,7 +239,7 @@ OBJECT MapTool::objSelect(int FrameX, int FrameY)
 	{
 		for (int j = 0; j < 3; j++)
 		{
-			if (FrameX == i && FrameY == j) return OBJ_GROUND;
+			if (FrameX == i && FrameY == j) return OBJ_GROUND; 
 		}
 	}
 
@@ -248,12 +248,56 @@ OBJECT MapTool::objSelect(int FrameX, int FrameY)
 		if (FrameX == i && FrameY == 3) return OBJ_GROUND;
 	}
 	
+	for (int i = 3; i < 10; i++)
+	{
+		if (FrameX == i && FrameY == 4) return OBJ_GROUND;
+	}
+	
+	for (int i = 10; i < 19; i++)
+	{
+		if (FrameX == i && FrameY == 1) return OBJ_GROUND;
+	}
 
+	for (int i = 5; i < 10; i++)
+	{
+		for (int j = 17; j < 18; j++)
+		{
+			if(FrameX == i && FrameY == j) return OBJ_GROUND;
+		}
+	}
+	
+	for (int i = 15; i < 21; i++)
+	{
+		if (FrameX == i && FrameY == 18) return OBJ_GROUND;
+	}
 
-	if (FrameX == 12 && FrameY == 3) return	OBJ_GOGROUND;
+	for (int i = 0; i < 4; i++)
+	{
+		if (FrameX == i && FrameY == 24) return OBJ_GROUND;
+	}
 
+	for (int i = 0; i < 19; i++)
+	{
+		if (FrameX == i && FrameY == 25) return OBJ_GROUND;
+	}
 
+	for (int i = 17; i < 20; i++)
+	{
+		if (FrameX == i && FrameY == 13) return OBJ_THORN;
+	}
 
+	if (FrameX == 11 && FrameY == 0) return OBJ_GROUND;
+	if (FrameX == 12 && FrameY == 0) return OBJ_GROUND;
+	if (FrameX == 13 && FrameY == 0) return OBJ_GROUND;
+	if (FrameX == 7 && FrameY == 3) return OBJ_GROUND;
+	if (FrameX == 8 && FrameY == 3) return OBJ_GROUND;
+	if (FrameX == 10 && FrameY == 3) return OBJ_GROUND;
+	if (FrameX == 11 && FrameY == 18) return OBJ_GROUND;
+	if (FrameX == 12 && FrameY == 18) return OBJ_GROUND;
+	if (FrameX == 3 && FrameY == 12) return	OBJ_GOGROUND;
+	if (FrameX == 6 && FrameY == 24) return OBJ_GROUND;
+	if (FrameX == 7 && FrameY == 24) return OBJ_GROUND;
+	if (FrameX == 8 && FrameY == 24) return OBJ_GROUND;
 
 
 	return OBJ_NONE;
