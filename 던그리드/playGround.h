@@ -12,12 +12,14 @@
 #include "Dialog.h"
 #include "EnemyManager.h"
 
+enum changeMode { 맵툴, 타이틀, 다이얼로그, 도그본, 플레이어, 기타추가하셈 };
 
 class playGround : public gameNode
 {
 private:
 	MapTool * _mapTool;
 	Player *  _player;
+	changeMode mode;
 
 
 public:
