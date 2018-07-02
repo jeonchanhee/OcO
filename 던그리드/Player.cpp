@@ -5,6 +5,7 @@
 
 Player::Player()
 {
+
 }
 Player::~Player() {}
 
@@ -26,14 +27,14 @@ HRESULT Player::init()
 
 	int rightStop[] = { 0,1,2,3,4 };
 	KEYANIMANAGER->addArrayFrameAnimation("오른쪽보고서있기", "기본플레이어", rightStop, 5, 10, true);
-	int rightRun[] = { 8 ,9 ,10 ,11 ,12 ,13 ,14 ,15 };
+	int rightRun[] = { 8 ,9 ,10 ,11 ,12 ,13 ,14 ,15 }; 
 	KEYANIMANAGER->addArrayFrameAnimation("오른쪽뛰기", "기본플레이어", rightRun, 8, 10, true);
 	int rightJump[] = { 5 };
 	KEYANIMANAGER->addArrayFrameAnimation("오른쪽점프", "기본플레이어", rightJump, 1, 10, true);
 	int rightDie[] = { 6,7 };
 	KEYANIMANAGER->addArrayFrameAnimation("오른쪽죽음", "기본플레이어", rightDie, 2, 10, true);
 
-	int leftStop[] = { 19, 20 ,21 ,22 ,23 };
+	int leftStop[] = {19, 20 ,21 ,22 ,23};
 	KEYANIMANAGER->addArrayFrameAnimation("왼쪽보고서있기", "기본플레이어", leftStop, 5, 10, true);
 	int leftRun[] = { 24, 25 ,26 ,27 ,28 ,29 ,30 , 31 };
 	KEYANIMANAGER->addArrayFrameAnimation("왼쪽뛰기", "기본플레이어", leftRun, 8, 10, true);
@@ -47,7 +48,7 @@ HRESULT Player::init()
 	return S_OK;
 }
 
-void Player::release() {}
+void Player::release(){}
 
 void Player::update()
 {
@@ -56,26 +57,26 @@ void Player::update()
 	mouseControl();
 }
 
-void Player::render()
+void Player::render() 
 {
 	if (_direction == LEFT_RUN || _direction == LEFT_STOP)
 	{
-		_playerHand[0]->rotateRender(DC, _x + 15, _y + 60, _mouseAngle);
-		_playerHand[1]->render(DC, _x + 60, _y + 60);
+		_playerHand[0]->rotateRender(DC, _x + 15 , _y + 60 , _mouseAngle);
+		_playerHand[1]->render(DC, _x + 60 , _y + 60);
 	}
 	if (_direction == RIGHT_RUN || _direction == RIGHT_STOP)
 	{
-		_playerHand[0]->render(DC, _x + 10, _y + 60);
-		_playerHand[1]->rotateRender(DC, _x + 65, _y + 60, _mouseAngle);
+		 _playerHand[0]->render(DC, _x + 10 , _y + 60);
+		 _playerHand[1]->rotateRender(DC, _x + 65 , _y + 60 , _mouseAngle);
 	}
-
+	
 	_player->aniRender(CAMERAMANAGER->getCameraDC()->getMemDC(), _x, _y, _playerAnimation);
-
+	
 }
 
 
 
-void Player::keyAnimation() {}
+void Player::keyAnimation(){}
 
 void Player::keyInput()
 {
@@ -130,7 +131,7 @@ void Player::keyInput()
 		_isDashing = true;
 		_dashX = _ptMouse.x, _dashY = _ptMouse.y;
 	}
-
+	
 }
 
 void Player::mouseControl()
@@ -138,7 +139,7 @@ void Player::mouseControl()
 	_ptMouseX = CAMERAMANAGER->getCameraX() + _ptMouse.x, _ptMouseY = CAMERAMANAGER->getCameraY() + _ptMouse.y;
 	_mouseAngle = getAngle(_x, _y, _ptMouse.x, _ptMouse.y);
 	//ptmouse 좌표에따라 왼쪽을볼건지 오른쪽을 볼건지 설정 
-	if (_x > CAMERAMANAGER->getCameraX() + _ptMouse.x)
+	if (_x > _ptMouseX)
 	{
 		if (_direction == RIGHT_STOP)
 		{
@@ -150,7 +151,7 @@ void Player::mouseControl()
 			_playerAnimation = KEYANIMANAGER->findAnimation("왼쪽뛰기");
 		}
 	}
-	else if (_x < CAMERAMANAGER->getCameraX() + _ptMouse.x)
+	else if (_x < _ptMouseX)
 	{
 		if (_direction == LEFT_STOP)
 		{
@@ -166,7 +167,7 @@ void Player::mouseControl()
 
 void Player::move()
 {
-
+	
 
 	if (_isJumping)
 	{
@@ -192,7 +193,7 @@ void Player::move()
 	{
 		_dashSpeed = 0;
 		_isDashing = false;
-
+		
 	}
 	if (_direction == LEFT_RUN)
 	{
@@ -204,7 +205,9 @@ void Player::move()
 	}
 }
 
-
+void Player::keyMouse()
+{
+}
 
 void Player::leftJump(void * obj)
 {

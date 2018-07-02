@@ -24,7 +24,7 @@ void imageManager::release(void)
 }
 
 
-image* imageManager::addImage(string strKey, int width, int height)																			
+image* imageManager::addImage(string strKey, int width, int height, BOOL blend)																			
 {
 	//해당 키 값을 찾아보고
 	image* img = findImage(strKey);
@@ -37,7 +37,7 @@ image* imageManager::addImage(string strKey, int width, int height)
 	img = new image;
 
 	//이미지를 초기화 한다, (만약 실패시 널 값 반환)
-	if (FAILED(img->init(width, height)))
+	if (FAILED(img->init(width, height, blend)))
 	{
 		SAFE_DELETE(img);
 
@@ -50,7 +50,7 @@ image* imageManager::addImage(string strKey, int width, int height)
 	return img;
 }
 
-image* imageManager::addImage(string strKey, const char* fileName, int width, int height, bool trans, COLORREF transColor)					
+image* imageManager::addImage(string strKey, const char* fileName, int width, int height, bool trans, COLORREF transColor, BOOL blend)					
 {
 	//해당 키 값을 찾아보고
 	image* img = findImage(strKey);
@@ -63,7 +63,7 @@ image* imageManager::addImage(string strKey, const char* fileName, int width, in
 	img = new image;
 
 	//이미지를 초기화 한다, (만약 실패시 널 값 반환)
-	if (FAILED(img->init(fileName, width, height, trans, transColor)))
+	if (FAILED(img->init(fileName, width, height, trans, transColor, blend)))
 	{
 		SAFE_DELETE(img);
 
@@ -76,7 +76,7 @@ image* imageManager::addImage(string strKey, const char* fileName, int width, in
 	return img;
 }
 
-image* imageManager::addImage(string strKey, const char* fileName, float x, float y, int width, int height, bool trans, COLORREF transColor)
+image* imageManager::addImage(string strKey, const char* fileName, float x, float y, int width, int height, bool trans, COLORREF transColor, BOOL blend)
 {
 	//해당 키 값을 찾아보고
 	image* img = findImage(strKey);
@@ -89,7 +89,7 @@ image* imageManager::addImage(string strKey, const char* fileName, float x, floa
 	img = new image;
 
 	//이미지를 초기화 한다, (만약 실패시 널 값 반환)
-	if (FAILED(img->init(fileName, x, y, width, height, trans, transColor)))
+	if (FAILED(img->init(fileName, x, y, width, height, trans, transColor, blend)))
 	{
 		SAFE_DELETE(img);
 
@@ -103,7 +103,7 @@ image* imageManager::addImage(string strKey, const char* fileName, float x, floa
 }
 
 
-image* imageManager::addFrameImage(string strKey, const char* fileName, float x, float y, int width, int height, int frameX, int frameY, bool trans, COLORREF transColor)
+image* imageManager::addFrameImage(string strKey, const char* fileName, float x, float y, int width, int height, int frameX, int frameY, bool trans, COLORREF transColor, BOOL blend)
 {
 	//해당 키 값을 찾아보고
 	image* img = findImage(strKey);
@@ -116,7 +116,7 @@ image* imageManager::addFrameImage(string strKey, const char* fileName, float x,
 	img = new image;
 
 	//이미지를 초기화 한다, (만약 실패시 널 값 반환)
-	if (FAILED(img->init(fileName, x, y, width, height, frameX, frameY, trans, transColor)))
+	if (FAILED(img->init(fileName, x, y, width, height, frameX, frameY, trans, transColor, blend)))
 	{
 		SAFE_DELETE(img);
 
@@ -129,7 +129,7 @@ image* imageManager::addFrameImage(string strKey, const char* fileName, float x,
 	return img;
 }
 
-image* imageManager::addFrameImage(string strKey, const char* fileName, int width, int height, int frameX, int frameY, bool trans, COLORREF transColor)					 
+image* imageManager::addFrameImage(string strKey, const char* fileName, int width, int height, int frameX, int frameY, bool trans, COLORREF transColor, BOOL blend)					 
 {
 	//해당 키 값을 찾아보고
 	image* img = findImage(strKey);
@@ -142,7 +142,7 @@ image* imageManager::addFrameImage(string strKey, const char* fileName, int widt
 	img = new image;
 	
 	//이미지를 초기화 한다, (만약 실패시 널 값 반환)
-	if (FAILED(img->init(fileName, width, height, frameX, frameY, trans, transColor)))
+	if (FAILED(img->init(fileName, width, height, frameX, frameY, trans, transColor, blend)))
 	{
 		SAFE_DELETE(img);
 
@@ -152,6 +152,45 @@ image* imageManager::addFrameImage(string strKey, const char* fileName, int widt
 	//초기화 한 이미지를 키 값 붙여서 맵컨테이너에 추가한다
 	_mImageList.insert(make_pair(strKey, img));
 
+	return img;
+}
+
+image* imageManager::addRotateImage(string strKey, const char * fileName,  int width, int height, bool trans, COLORREF transColor, BOOL blend)
+{
+	image* img = findImage(strKey);
+
+	if (img) return img;
+
+	img = new image;
+
+	if (FAILED(img->rotateInit(fileName, width, height, trans, transColor, blend)))
+	{
+		SAFE_DELETE(img);
+
+		return NULL;
+	}
+	// 맵 컨테이너에 추가 
+	_mImageList.insert(make_pair(strKey, img));
+
+	return img;
+}
+
+image * imageManager::addRotateFrameImage(string strKey, const char * fileName, int width, int height, int frameX, int frameY, bool trans, COLORREF transColor, BOOL blend)
+{
+	image * img = findImage(strKey);
+
+	if (img) return img;
+
+	img = new image;
+
+	if (FAILED(img->rotateInit(fileName, width, height, frameX, frameY, trans, transColor, blend)))
+	{
+		SAFE_DELETE(img);
+
+		return NULL;
+	}
+
+	_mImageList.insert(make_pair(strKey, img));
 	return img;
 }
 
@@ -250,6 +289,20 @@ void imageManager::frameRender(string strKey, HDC hdc, int destX, int destY, int
 	if (img) img->frameRender(hdc, destX, destY, currentFrameX, currentFrameY);
 }
 
+void imageManager::rotateRender(string strKey, HDC hdc, float x, float y, float angle)
+{
+	image *img = findImage(strKey);
+
+	img->rotateRender(hdc, x, y, angle);
+}
+
+void imageManager::rotateFrameRender(string strKey, HDC hdc, float x, float y, float angle)
+{
+	image *img = findImage(strKey);
+
+	img->rotateFrameRender(hdc, x, y, angle);
+}
+
 void imageManager::loopRender(string strKey, HDC hdc, const LPRECT drawArea, int offSetX, int offSetY)
 {
 	image* img = findImage(strKey);
@@ -257,10 +310,45 @@ void imageManager::loopRender(string strKey, HDC hdc, const LPRECT drawArea, int
 	if (img) img->loopRender(hdc, drawArea, offSetX, offSetY);
 }
 
+void imageManager::alphaRender(string strKey, HDC hdc, BYTE alpha)
+{
+	image* img = findImage(strKey);
+
+	if (img) img->alphaRender(hdc, alpha);
+}
+
 void imageManager::alphaRender(string strKey, HDC hdc, int destX, int destY, BYTE alpha)
 {
 	image* img = findImage(strKey);
 
 	if (img) img->alphaRender(hdc, destX, destY, alpha);
+}
+
+void imageManager::alphaRender(string strKey, HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight, BYTE alpha)
+{
+	image* img = findImage(strKey);
+
+	if (img) img->alphaRender(hdc, destX, destY, sourX, sourY, sourWidth, sourHeight, alpha);
+}
+
+void imageManager::alphaFrameRender(string strKey, HDC hdc, int destX, int destY, BYTE alpha)
+{
+	image* img = findImage(strKey);
+
+	if (img) img->alphaFrameRender(hdc, destX, destY, alpha);
+}
+
+void imageManager::alphaFrameRender(string strKey, HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY, BYTE alpha)
+{
+	image* img = findImage(strKey);
+
+	if (img) img->alphaFrameRender(hdc, destX, destY, currentFrameX, currentFrameY, alpha);
+}
+
+void imageManager::alphaLoopRender(string strKey, HDC hdc, const LPRECT drawArea, int offSetX, int offSetY, BYTE alpha)
+{
+	image* img = findImage(strKey);
+
+	if (img) img->alphaLoopRender(hdc, drawArea, offSetX, offSetY, alpha);
 }
 

@@ -39,10 +39,10 @@ public:
 
 	
 	void setMonster(); //몬스터 생성 함수
-	void hitDamage(); //HP깎는 함수
-	void monsterBulletFire();
-	void removeMonster();
-	bool isFinish();
+	//void hitDamage(); //HP깎는 함수
+	//void monsterBulletFire();
+	//void removeMonster();
+	//bool isFinish();
 	
 	
 

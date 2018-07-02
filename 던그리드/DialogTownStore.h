@@ -1,17 +1,11 @@
 #pragma once
-#include "gameNode.h"
+#include "Dialog.h"
 
-enum TOWNSTORE_NPC { TOWNSTORE_RESCUE };
-class DialogTownStore : public gameNode
+enum TOWNSTORE_NPC { TOWNSTORE_RESCUE, TOWNSTORE_BUILD, TOWNSTORE_NORMAL };
+class DialogTownStore : public Dialog
 {
-	string _name, _dialog[1][5];
 	TOWNSTORE_NPC _townStore;
-	RECT _rc[3];
-	RECT _button[3];
-	int _count, _idX, _idY;
-	int _dialogSize[1];
-
-	RECT _click;
+	
 public:
 	HRESULT init();
 	void release();

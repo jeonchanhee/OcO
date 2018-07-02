@@ -13,17 +13,27 @@ DialogWeapon::~DialogWeapon()
 
 HRESULT DialogWeapon::init()
 {
+	Dialog::init();
+
+	_ansBack = new image;
+	_ansBack->init("image/UI/UIdias(400x250).bmp", 400, 180, true, RGB(255, 0, 255));
+
 	_name = "크록";
 
-	_dialog = "반갑다. 좋은것들 가져왔다.";
+	_vButton.resize(2);
+	_vButtonDialog.resize(2);
+	_vDialog.resize(1);
 
-	for (int i = 0; i < 3; i++)
+	_vDialog[0].push_back("반갑다. 좋은것들 가져왔다.");
+
+	for (int i = 0; i < _vButton.size(); i++)
 	{
-		_rc[i] = RectMake(100, WINSIZEY - 500 + i * 100, 1800, 100);
-		_button[i] = RectMake(1100, WINSIZEY - 900 + i * 100, 100, 100);
+		_vButton[i] = RectMake(WINSIZEX - 180, WINSIZEY - 520 + i * 50, 200, 50);
 	}
-	_click = RectMakeCenter(100, 100, 100, 100);
-	_count = _idX = _idY = 0;
+	_vButtonDialog[0] = "상점";
+	_vButtonDialog[1] = "아무것도";
+
+	setDialog();
 
 	return S_OK;
 }
@@ -41,44 +51,43 @@ void DialogWeapon::update()
 
 void DialogWeapon::render()
 {
-	Rectangle(DC, _click.left, _click.top, _click.right, _click.bottom);
+	Dialog::render();
 
-	for (int i = 0; i < 3; i++)
+	_ansBack->render(DC, WINSIZEX - 200, WINSIZEY - 550);
+
+	if (KEYMANAGER->isToggleKey(VK_TAB))
 	{
-		Rectangle(DC, _rc[i].left, _rc[i].top, _rc[i].right, _rc[i].bottom);
-		Rectangle(DC, _button[i].left, _button[i].top, _button[i].right, _button[i].bottom);
+		Rectangle(DC, _uiBack->boundingBox().left, _uiBack->boundingBox().top, _uiBack->boundingBox().right, _uiBack->boundingBox().bottom);
+		for (int i = 0; i < _vButton.size(); i++)
+		{
+			Rectangle(DC, _vButton[i].left, _vButton[i].top, _vButton[i].right, _vButton[i].bottom);
+		}
 	}
-
 	HFONT font, oldFont;
-	font = CreateFont(80, 0, 0, 0, 100, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("소야바른9"));
+	font = CreateFont(50, 0, 0, 0, 100, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("소야바른9"));
 	oldFont = (HFONT)SelectObject(DC, font);
-	SetTextColor(DC, RGB(255, 94, 0));
-	//DrawText(DC, _dialog[(int)_training][_idY].c_str(), strlen(_dialog[(int)_training][_idY].c_str()), &_rc[0], DT_VCENTER);
-	DrawText(DC, _name.c_str(), strlen(_name.c_str()), &_rc[0], DT_VCENTER);
+	SetTextColor(DC, RGB(255, 255, 255));
+	SetBkMode(DC, TRANSPARENT);
+	string str = _vDialog[0][0].substr(0, _idX);
+	DrawText(DC, str.c_str(), strlen(str.c_str()), &_rc[1], DT_VCENTER);
 	SelectObject(DC, oldFont);
 	DeleteObject(font);
 
 	font = CreateFont(50, 0, 0, 0, 100, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("소야바른9"));
 	oldFont = (HFONT)SelectObject(DC, font);
-	SetTextColor(DC, RGB(0, 0, 0));
-	string str = _dialog.substr(0, _idX);
-	//DrawText(DC, _dialog[(int)_training][_idY].c_str(), strlen(_dialog[(int)_training][_idY].c_str()), &_rc[0], DT_VCENTER);
-	DrawText(DC, str.c_str(), strlen(str.c_str()), &_rc[1], DT_VCENTER);
+	for (int i = 0; i < _vButton.size(); i++)
+	{
+		DrawText(DC, _vButtonDialog[i].c_str(), strlen(_vButtonDialog[i].c_str()), &_vButton[i], DT_VCENTER | DT_CENTER);
+	}
 	SelectObject(DC, oldFont);
 	DeleteObject(font);
-
-	char str1[128];
-	sprintf_s(str1, "size : %d, count : %d", _dialog.size(), _count / 10);
-	TextOut(DC, 300, 100, str1, strlen(str1));
-
 }
 
 void DialogWeapon::keyControl()
 {
 	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
 	{
-		//changeDialog();
-		_idX = _dialog.size() - 1;
+		_idX = _vDialog[0][0].size() - 1;
 	}
 }
 
@@ -88,7 +97,7 @@ void DialogWeapon::setFrame()
 
 	if (!(_count % 3))
 	{
-		if (_idX < _dialog.size())
+		if (_idX < _vDialog[0][0].size())
 			_idX++;
 	}
 }
@@ -99,9 +108,9 @@ void DialogWeapon::clickButton()
 
 	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
 	{
-		for (int i = 0; i < 3; i++)
+		for (int i = 0; i < _vButton.size(); i++)
 		{
-			if (PtInRect(&_button[i], _ptMouse))
+			if (PtInRect(&_vButton[i], _ptMouse))
 			{
 				if (i == 1)
 				{
