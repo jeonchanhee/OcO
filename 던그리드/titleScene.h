@@ -28,6 +28,8 @@ public:
 	virtual void update(void);
 	virtual void render(void);
 
+	void training();
+
 	void loadData();
 
 	void drawData();

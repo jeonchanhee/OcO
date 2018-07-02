@@ -1,7 +1,7 @@
 #pragma once
 #include "Item.h"
 class Coin :
-	public Treasure
+	public TreasureBox
 {
 public:
 	Coin();
