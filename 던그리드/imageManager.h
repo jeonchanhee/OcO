@@ -54,9 +54,7 @@ public:
 	void frameRender(string strKey, HDC hdc, int destX, int destY);
 	void frameRender(string strKey, HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY);
 
-	void rotateRender(string strKey, HDC hdc, float x, float y, float angle);
 
-	void rotateFrameRender(string strKey, HDC hdc, float x, float y, float angle);
 	
 	void loopRender(string strKey, HDC hdc, const LPRECT drawArea, int offSetX, int offSetY);
 

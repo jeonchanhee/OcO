@@ -74,7 +74,7 @@ private:
 	BLENDFUNCTION	_blendFunc;		//알파블렌드 관련 함수를 사용할수있음.
 	LPIMAGE_INFO	_blendImage;	//알파블렌드 먹일 이미지
 
-	LPIMAGE_INFO    _rotateImage;   //로테이션 이미지
+
 public:
 	image();
 	~image();
@@ -118,9 +118,6 @@ public:
 	//렌더함수 뿌려줄DC , X좌표(left), Y좌표(top)
 	void render(HDC hdc, int destX, int destY);
 
-	void rotateRender(HDC hdc, float x, float y, float angle);
-
-	void rotateFrameRender(HDC hdc, float x, float y, float angle);
 
 	//렌더함수 뿌려줄DC, 뿌려줄X,(left) 뿌려줄Y(top)   복사해올X(left),복사해올Y(top) 가로크기, 세로크기
 	void render(HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight);
