@@ -27,14 +27,14 @@ HRESULT Player::init()
 
 	int rightStop[] = { 0,1,2,3,4 };
 	KEYANIMANAGER->addArrayFrameAnimation("오른쪽보고서있기", "기본플레이어", rightStop, 5, 10, true);
-	int rightRun[] = { 8 ,9 ,10 ,11 ,12 ,13 ,14 ,15 }; 
+	int rightRun[] = { 8 ,9 ,10 ,11 ,12 ,13 ,14 ,15 };
 	KEYANIMANAGER->addArrayFrameAnimation("오른쪽뛰기", "기본플레이어", rightRun, 8, 10, true);
 	int rightJump[] = { 5 };
 	KEYANIMANAGER->addArrayFrameAnimation("오른쪽점프", "기본플레이어", rightJump, 1, 10, true);
 	int rightDie[] = { 6,7 };
 	KEYANIMANAGER->addArrayFrameAnimation("오른쪽죽음", "기본플레이어", rightDie, 2, 10, true);
 
-	int leftStop[] = {19, 20 ,21 ,22 ,23};
+	int leftStop[] = { 19, 20 ,21 ,22 ,23 };
 	KEYANIMANAGER->addArrayFrameAnimation("왼쪽보고서있기", "기본플레이어", leftStop, 5, 10, true);
 	int leftRun[] = { 24, 25 ,26 ,27 ,28 ,29 ,30 , 31 };
 	KEYANIMANAGER->addArrayFrameAnimation("왼쪽뛰기", "기본플레이어", leftRun, 8, 10, true);
@@ -48,7 +48,7 @@ HRESULT Player::init()
 	return S_OK;
 }
 
-void Player::release(){}
+void Player::release() {}
 
 void Player::update()
 {
@@ -57,7 +57,7 @@ void Player::update()
 	mouseControl();
 }
 
-void Player::render() 
+void Player::render()
 {
 	if (_direction == LEFT_RUN || _direction == LEFT_STOP)
 	{
@@ -205,9 +205,7 @@ void Player::move()
 	}
 }
 
-void Player::keyMouse()
-{
-}
+
 
 void Player::leftJump(void * obj)
 {

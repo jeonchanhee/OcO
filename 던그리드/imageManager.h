@@ -31,9 +31,7 @@ public:
 	image * addRotateFrameImage(string strKey, const char * fileName, int width, int height, int frameX, int frameY, bool trans, COLORREF transColor, BOOL blend = FALSE);
 
 
-	//rotate
-	image* addRotateImage(string strKey, const char* fileName, int width, int height, bool trans, COLORREF transColor);
-	image* addRotateFrameImage(string strKey, const char* fileName, int width, int height, int frameX, int frameY, bool trans, COLORREF transColor);
+	
 	//rotate
 	void rotateRender(string strKey, HDC hdc, float x, float y, float angle);
 	void rotateFrameRender(string strKey, HDC hdc, float x, float y, float angle);
