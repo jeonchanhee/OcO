@@ -2,215 +2,85 @@
 #include "Item.h"
 
 
-/////////////////////////////////// 무기 ///////////////////////////////////////
 
-Weapon::Weapon() {}Weapon::~Weapon() {}
-
-HRESULT Weapon::init(const char* imageName, POINT position)
+HRESULT Item::init()
 {
-	_weapon.image = IMAGEMANAGER->findImage(imageName);
-	_weapon.x = position.x;
-	_weapon.y = position.y;
-	_weapon.itemtype = WEAPON;
-	_weapon.rc = RectMakeCenter(_weapon.x, _weapon.y, _weapon.image->getWidth(),
-		_weapon.image->getHeight());
-	
+
 	return S_OK;
 }
 
-HRESULT Weapon::init2(const char* imageName, POINT position)
-{
-	_weapon.image = IMAGEMANAGER->findImage(imageName);
-	_weapon.x = position.x;
-	_weapon.y = position.y;
-	_weapon.itemtype = WEAPON;
-	_weapon.rc = RectMakeCenter(_weapon.x, _weapon.y, _weapon.image->getFrameWidth(), 
-		_weapon.image->getFrameHeight());
 
-	_weapon.count = 0;
-	
-	return S_OK;
-}
-
-void Weapon::release()
+void Item::release()
 {
 
 }
 
-void Weapon::update()
-{
 
+void Item::update()
+{
 
 }
 
-void Weapon::render()
+
+void Item::render()
 {
 	
+	for (int i = 0 ; i < 3; i ++)
+	{
+		_viItem->image[i]->render(getMemDC(), _viItem->rc.left, _viItem->rc.top);
+
+	}
 
 }
 
-////////////////////////////////// 무기 ///////////////////////////////////////////
-
-
-
-
-
-
-///////////////////////////////// 음식 ////////////////////////////////////////////
-
-Food::Food(){}Food::~Food(){}
-
-
-
-HRESULT Food::init(const char* imageName, POINT position)
+void Item::createItem(int value, ITEMTYPE type, bool frame)
 {
-	_food.image = IMAGEMANAGER->findImage(imageName);
-	_food.x = position.x;
-	_food.y = position.y;
-	_food.itemtype = FOOD;
-	_food.rc = RectMakeCenter(_food.x, _food.y, _food.image->getWidth(),
-		_food.image->getHeight());
+	tagItem _item;
+	if (type == LONG_ATTACK)		
+	{
+		for (int i = 0; i < 3; ++i)		// 0 착용 1 드랍 2 인벤토리
+		{
+			char str[128];
+			sprintf_s(str, "총%d%d", value, i);
+			_item.image[i] = IMAGEMANAGER->findImage(str);
+			
+		}
+			if (value == 0) //기본무기 
+			{
+				_item.ad = 10;
+				_item.attackSpeed = 20;
+				_item.criticalPersent = 30;
+				_item.fixedDamage = 7;	                                                                                                                                                                               
+		
+			}
 
-	return S_OK;
-}
+			if (value == 1) // 첫번째 무기
+			{
+				_item.ad = 10;
+				_item.attackSpeed = 20;
+				_item.criticalPersent = 30;
+				_item.fixedDamage = 7;
+			}
 
-HRESULT Food::init2(const char * imageName, POINT position)
-{
-	_food.image = IMAGEMANAGER->findImage(imageName);
-	_food.x = position.x;
-	_food.y = position.y;
-	_food.itemtype = FOOD;
-	_food.rc = RectMakeCenter(_food.x, _food.y, _food.image->getFrameWidth(),
-		_food.image->getFrameHeight());
+			if (value == 2) // 두번째 무기
+			{
+				_item.ad = 10;
+				_item.attackSpeed = 20;
+				_item.criticalPersent = 30;
+				_item.fixedDamage = 7;
+			}
 
-	_food.count = 0;
-	return S_OK;
-}
+			if (value == 3) // 세번째 무기
+			{
+				_item.ad = 10;
+				_item.attackSpeed = 20;
+				_item.criticalPersent = 30;
+				_item.fixedDamage = 7;
+			}
 
-
-void Food::release()
-{
-}
-
-void Food::update()
-{
-
-}
-
-void Food::render()
-{
+		
+		_item.type = type;
+	}
 	
+	_item.isFrame = frame;
 }
-
-///////////////////////////////// 음식 ////////////////////////////////////////////
-
-
-
-
-
-
-///////////////////////////////// 방어구 //////////////////////////////////////////
-
-Defence::Defence(){}Defence::~Defence(){}
-
-
-HRESULT Defence::init(const char * imageName, POINT position)
-{
-	_defence.image = IMAGEMANAGER->findImage(imageName);
-	_defence.x = position.x;
-	_defence.y = position.y;
-	_defence.itemtype = DEFENCE;
-	_defence.rc = RectMakeCenter(_defence.x, _defence.y, _defence.image->getWidth(),
-		_defence.image->getHeight());
-
-	
-
-	return S_OK;
-}
-
-HRESULT Defence::init2(const char * imageName, POINT position)
-{
-	_defence.image = IMAGEMANAGER->findImage(imageName);
-	_defence.x = position.x;
-	_defence.y = position.y;
-	_defence.itemtype = DEFENCE;
-	_defence.rc = RectMakeCenter(_defence.x, _defence.y, _defence.image->getFrameWidth(),
-		_defence.image->getFrameHeight());
-	_defence.count = 0;
-	return S_OK;
-}
-
-void Defence::release()
-{
-
-}
-
-void Defence::update()
-{
-
-}
-
-void Defence::render()
-{
-
-}
-
-
-///////////////////////////////// 방어구 //////////////////////////////////////////
-
-
-
-
-
-///////////////////////////////// 코인/골드 바 ////////////////////////////////////
-
-Treasure::Treasure(){}Treasure::~Treasure(){}
-
-HRESULT Treasure::init(const char* imageName, POINT position)
-{
-	
-	_treasure.image = IMAGEMANAGER->findImage(imageName);
-	_treasure.x = position.x;
-	_treasure.y = position.y;
-	_treasure.itemtype = TREASURE;
-	_treasure.rc = RectMakeCenter(_treasure.x, _treasure.y, _treasure.image->getWidth(),
-		_treasure.image->getHeight());
-
-	return S_OK;
-}
-
-HRESULT Treasure::init2(const char * imageName, POINT position)
-{
-
-	_treasure.image = IMAGEMANAGER->findImage(imageName);
-	_treasure.x = position.x;
-	_treasure.y = position.y;
-	_treasure.itemtype = TREASURE;
-	_treasure.rc = RectMakeCenter(_treasure.x, _treasure.y, _treasure.image->getFrameWidth(),
-		_treasure.image->getFrameHeight());
-
-	_treasure.count = 0;
-
-	return S_OK;
-}
-
-void Treasure::release()
-{
-
-
-}
-
-void Treasure::update()
-{
-
-
-}
-
-void Treasure::render()
-{
-
-
-}
-
-
-///////////////////////////////// 코인/골드 바 ////////////////////////////////////

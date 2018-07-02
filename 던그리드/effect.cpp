@@ -57,7 +57,7 @@ void effect::render()
 	//애니메이션 작동중이 아니면 불편해~
 	if (!_isRunning) return;
 
-	_effectImage->aniRender(getMemDC(), _x, _y, _effectAnimation);
+	_effectImage->aniRender(DC , _x, _y, _effectAnimation);
 }
 
 void effect::startEffect(int x, int y)

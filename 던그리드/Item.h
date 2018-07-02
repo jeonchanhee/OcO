@@ -4,105 +4,56 @@
 
 enum ITEMTYPE // 아이템의 타입
 {
-	WEAPON, DEFENCE, // 무기 , 방어구(악세사리 포함)
-	FOOD, TREASURE  // 음식(힐링 포함), 코인, 골드바
+	SHORT_ATTACK,	// 근접무기
+	LONG_ATTACK,	// 원거리 무기
+	SECOND_EQUIPMENT, // 보조장비 
+	ACCESSORY,		// 액세서리
+	FOOD,			// 음식
+	HEALING,		// 힐링
+	TREASUREBOX,	// 보물박스
+	GOLD			// 코인 / 골드바
 };
 
-struct tagItem		//모든 아이들이 쓸 아이템 구조췌~~			
+
+struct tagItem
 {
-	image*		image;			// 아이템의 이미지
-	ITEMTYPE	itemtype;		// 아이템 타입
-	RECT		rc;				// 아이템의 렉트
-	float		x;				// 아이템 x좌표~
-	float		y;				// 아이템 y좌표~
-	bool		itemCreate;		// 아이템이 생성 되었나 안되었나 확인.
-	int			count;			// 프레임 카운트용~
-	int			currentFrameX;	// 프레임 이미지를 움직이기 위해 필요~
-	int			currentFrameY;	// 얘돟 마찬가지임 ㅇㅇ
+	image* image[3];		//이미지 0배열 : 떨궛을때 1 : 배열 인벤토리에서볼때 2배열 :장착했을땐데  (이것만프레임있는지 bool준다)
+	ITEMTYPE type;			//d아이템무슨타입??
+	RECT rc;				// 렉트
+	bool isFrame;			//bool 값 프레임인가 ??
+	int ad;					//공격력
+	int armor;				//방어력	
+	int attackSpeed;		//공격속도
+	float moveMentSpeed;	//이동속도	
+	float criticalPersent;	//크리티컬확률
+	float dashPower;		//대시공격력 증감률 
+	int addMaxHp;			//최대 HP 증가
+	int fullNess;			//공복도 어느정도 ? food일때만 ㅇㅋ??
+	int evasionPersent;		//회피율 
+	int fixedDamage;		//고정딜 
+	int price;				//가격 ?? 상점에서 살때 3천원이라고하면 팔때는 X 0.2 해서 600 이런식으로 가격책정
 };
 
-class Weapon :	public gameNode
+
+class Item : public gameNode
 {
 private:
 
-	tagItem _weapon;
+	vector<tagItem>				_vItem;
+	vector<tagItem>::iterator	_viItem;
 
 public:
 
-	Weapon();
-	~Weapon();
-
-	HRESULT init(const char* imageName, POINT position);
-	HRESULT init2(const char* imageName, POINT position);
+	HRESULT init();
 	void release();
 	void update();
 	void render();
+
+	void createItem(int value , ITEMTYPE type , bool frame);
 	
 
+
+
+	vector<tagItem>				getvItem()		{ return _vItem; }
+	vector<tagItem>::iterator	getviItem()		{ return _viItem; }
 };
-
-
-class Food : public gameNode
-{
-private:
-
-	tagItem _food;
-
-public:
-
-	Food();
-	~Food();
-
-	HRESULT init(const char* imageName, POINT position);
-	HRESULT init2(const char* imageName, POINT position);
-	void release();
-	void update();
-	void render();
-};
-
-
-
-
-
-class Treasure : public gameNode
-{
-private:
-
-	tagItem _treasure;
-
-public:
-
-	Treasure();
-	~Treasure();
-
-	HRESULT init(const char* imageName, POINT position);
-	HRESULT init2(const char* imageName, POINT position);
-	void release();
-	void update();
-	void render();
-	
-};
-
-
- 
-class Defence: public gameNode
-{
-private:
-
-	tagItem _defence;
-
-public:
-
-	Defence();
-	~Defence();
-
-	HRESULT init(const char* imageName, POINT position);
-	HRESULT init2(const char* imageName, POINT position);
-	void release();
-	void update();
-	void render();
-
-};
-
-
-

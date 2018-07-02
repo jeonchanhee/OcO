@@ -6,7 +6,6 @@ Bow::Bow()
 {
 }
 
-
 Bow::~Bow()
 {
 }
