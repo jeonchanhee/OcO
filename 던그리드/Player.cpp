@@ -5,6 +5,26 @@
 
 Player::Player()
 {
+
+}
+Player::~Player() {}
+
+HRESULT Player::init()
+{
+
+	_player = IMAGEMANAGER->findImage("기본플레이어");
+	_playerHand[0] = IMAGEMANAGER->findImage("플레이어손");
+	_playerHand[1] = IMAGEMANAGER->findImage("플레이어손");
+	_playerWeapon = IMAGEMANAGER->findImage("공주플레이어");
+
+	_x = WINSIZEX / 2 - 400; _y = WINSIZEY / 2;
+	_count = 0;
+	_mouseAngle = 0;
+
+	_jumpPower = 12.0f;
+	_moveMentSpeed = 3.0f;
+	_direction = RIGHT_STOP;
+
 	int rightStop[] = { 0,1,2,3,4 };
 	KEYANIMANAGER->addArrayFrameAnimation("오른쪽보고서있기", "기본플레이어", rightStop, 5, 10, true);
 	int rightRun[] = { 8 ,9 ,10 ,11 ,12 ,13 ,14 ,15 };

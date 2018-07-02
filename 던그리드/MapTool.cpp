@@ -23,6 +23,17 @@ void MapTool::release(){}
 void MapTool::update()
 {
 	if (KEYMANAGER->isStayKeyDown(VK_LBUTTON))setmap();
+
+	if (KEYMANAGER->isOnceKeyDown('Y'))
+	{
+		for (int i = 0; i < TILEX * TILEY; i++)
+		{
+			_tiles[i].terrainFrameX = _currentTile.x;
+			_tiles[i].terrainFrameY = _currentTile.y;
+
+			_tiles[i].terrain = terrainSelect(_currentTile.x, _currentTile.y);
+		}
+	}
 }
 
 void MapTool::render()
@@ -88,7 +99,7 @@ void MapTool::save()
 	HANDLE	file;
 	DWORD	save;
 
-	file = CreateFile("mapTool.map", GENERIC_WRITE, NULL, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+	file = CreateFile("Dungeon2.map", GENERIC_WRITE, NULL, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 
 	WriteFile(file, _tiles, sizeof(tagTile) * TILEX * TILEY, &save, NULL);
 
@@ -100,7 +111,7 @@ void MapTool::load()
 	HANDLE	file;
 	DWORD	load;
 
-	file = CreateFile("mapTool.map", GENERIC_READ, NULL, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+	file = CreateFile("Dungeon2.map", GENERIC_READ, NULL, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 
 	ReadFile(file, _tiles, sizeof(tagTile) * TILEX * TILEY, &load, NULL);
 
@@ -171,6 +182,7 @@ void MapTool::setmap()
 			break;
 		}
 	}
+
 
 	for (int i = 0; i < TILEX * TILEY; i++)
 	{
