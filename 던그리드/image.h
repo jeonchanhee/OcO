@@ -73,6 +73,7 @@ private:
 	BLENDFUNCTION	_blendFunc;		//알파블렌드 관련 함수를 사용할수있음.
 	LPIMAGE_INFO	_blendImage;	//알파블렌드 먹일 이미지
 
+	LPIMAGE_INFO    _rotateImage;   //로테이션 이미지
 public:
 	image();
 	~image();
@@ -83,6 +84,10 @@ public:
 		BOOL trans = FALSE, COLORREF transColor = RGB(0, 0, 0), BOOL blend = FALSE);
 	HRESULT init(const char* fileName, float x, float y, int width, int height,
 		BOOL trans = FALSE, COLORREF transColor = RGB(0, 0, 0), BOOL blend = FALSE);
+
+	HRESULT rotateInit(const char * fileName, int width, int height, BOOL trans, COLORREF transColor, BOOL blend = FALSE);
+
+	HRESULT rotateInit(const char * fileName, int width, int height, int frameX, int frameY, BOOL trans, COLORREF transColor, BOOL blend = FALSE);
 
 	//프레임 이미지 초기화
 	HRESULT init(const char* fileName, float x, float y, int width, int height,
@@ -101,6 +106,10 @@ public:
 
 	//렌더함수 뿌려줄DC , X좌표(left), Y좌표(top)
 	void render(HDC hdc, int destX, int destY);
+
+	void rotateRender(HDC hdc, float x, float y, float angle);
+
+	void rotateFrameRender(HDC hdc, float x, float y, float angle);
 
 	//렌더함수 뿌려줄DC, 뿌려줄X,(left) 뿌려줄Y(top)   복사해올X(left),복사해올Y(top) 가로크기, 세로크기
 	void render(HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight);

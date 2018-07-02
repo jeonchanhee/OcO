@@ -69,11 +69,11 @@ void titleScene::render(void)
 	_birdImg0->alphaAniRender(DC, _bird0.x, _bird0.y, _abird0, _alpha);
 	_birdImg1->alphaAniRender(DC, _bird1.x, _bird1.y, _abird1, _alpha);*/
 
-	IMAGEMANAGER->alphaRender("T_back", DC, 0, 0, _alpha);
-	IMAGEMANAGER->alphaLoopRender("T_cloud0", DC, &RectMake(0, 0, WINSIZEX, WINSIZEY), _loop0, 0, _alpha);
-	IMAGEMANAGER->alphaLoopRender("T_cloud1", DC, &RectMake(0, 0, WINSIZEX, WINSIZEY), _loop1, 0, _alpha);
-	_birdImg0->alphaAniRender(DC, _bird0.x, _bird0.y, _abird0, _alpha);
-	_birdImg1->alphaAniRender(DC, _bird1.x, _bird1.y, _abird1, _alpha);
+	IMAGEMANAGER->render("T_back", DC, 0, 0);
+	IMAGEMANAGER->loopRender("T_cloud0", DC, &RectMake(0, 0, WINSIZEX, WINSIZEY), _loop0, 0);
+	IMAGEMANAGER->loopRender("T_cloud1", DC, &RectMake(0, 0, WINSIZEX, WINSIZEY), _loop1, 0);
+	_birdImg0->aniRender(DC, _bird0.x, _bird0.y, _abird0);
+	_birdImg1->aniRender(DC, _bird1.x, _bird1.y, _abird1);
 
 	if (!_clickData)
 	{
