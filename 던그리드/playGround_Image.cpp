@@ -25,9 +25,6 @@ HRESULT playGround::Image_init(void)
 
 
 
-
-
-
 	//==========적 이미지=============
 	IMAGEMANAGER->addFrameImage("archerIdleMoveAttack", "image/archerIdleMoveAttack(810x440,9x4).bmp", 0, 0 , 810, 440, 9, 4, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("arrow", "image/arrow(120x50,1x1).bmp", 0, 0, 120, 50, true, RGB(255, 0, 255));
