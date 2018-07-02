@@ -10,6 +10,7 @@
 #include "DialogStore.h"
 #include "DialogTraining.h"
 #include "Dialog.h"
+#include "EnemyManager.h"
 
 
 class playGround : public gameNode

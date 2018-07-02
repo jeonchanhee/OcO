@@ -18,8 +18,9 @@ HRESULT playGround::init(void)
 
 	SCENEMANAGER->addScene("타이틀", new titleScene);
 	SCENEMANAGER->addScene("던전", new dungeonScene);
+	SCENEMANAGER->addScene("도그본", new EnemyManager);
 
-	SCENEMANAGER->changeScene("타이틀");
+	SCENEMANAGER->changeScene("도그본");
 
 	/*SCENEMANAGER->addScene("대사씬", new Dialog);
 	SCENEMANAGER->changeScene("대사씬");
@@ -41,10 +42,10 @@ void playGround::update(void)
 	_player->update();*/
 	SCENEMANAGER->update();
 
-	if (KEYMANAGER->isOnceKeyDown(VK_F1))
+	/*if (KEYMANAGER->isOnceKeyDown(VK_F1))
 	{
 		SOUNDMANAGER->play("title");
-	}
+	}*/
 
 //	if (KEYMANAGER->isStayKeyDown(VK_LEFT)) CAMERAMANAGER->setCameraX(CAMERAMANAGER->getCameraX() - 5);
 
