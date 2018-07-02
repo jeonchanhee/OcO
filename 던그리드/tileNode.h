@@ -5,8 +5,8 @@
 #define TILESIZE2 32
 
 // 타일 갯수
-#define TILEX 20
-#define TILEY 20
+#define TILEX 29
+#define TILEY 12
 
 // 타일 총 사이즈
 #define TILESIZEX TILESIZE * TILEX
@@ -20,7 +20,7 @@
 enum TERRAIN
 {
 	//무조건 지나갈 수 있는 배경 벽지
-	TR_WALL
+	TR_WALL, TR_NULL
 };
 
 // 오브젝트

@@ -17,7 +17,7 @@ HRESULT Player::init()
 	_playerHand[1] = IMAGEMANAGER->findImage("플레이어손");
 	_playerWeapon = IMAGEMANAGER->findImage("공주플레이어");
 
-	_x = WINSIZEX / 2; _y = WINSIZEY / 2;
+	_x = WINSIZEX / 2 - 400; _y = WINSIZEY / 2;
 	_count = 0;
 	_mouseAngle = 0;
 
