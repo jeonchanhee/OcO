@@ -11,8 +11,9 @@
 #include "DialogTraining.h"
 #include "Dialog.h"
 #include "EnemyManager.h"
+#include "itemManager.h"
 
-enum changeMode { 맵툴, 타이틀, 다이얼로그, 도그본, 플레이어, 기타추가하셈 };
+enum changeMode { 맵툴, 타이틀, 다이얼로그, 도그본, 플레이어, 아이템, 기타추가하셈 };
 
 class playGround : public gameNode
 {
@@ -20,7 +21,7 @@ private:
 	MapTool * _mapTool;
 	Player *  _player;
 	changeMode mode;
-
+	itemManager* _im;
 
 public:
 	virtual HRESULT init(void);

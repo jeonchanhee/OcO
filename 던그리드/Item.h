@@ -15,10 +15,11 @@ enum ITEMTYPE // 아이템의 타입
 };
 
 
-struct ITEM
+struct tagItem
 {
 	image* image[3];		//이미지 0배열 : 떨궛을때 1 : 배열 인벤토리에서볼때 2배열 :장착했을땐데  (이것만프레임있는지 bool준다)
 	ITEMTYPE type;			//d아이템무슨타입??
+	RECT rc;				// 렉트
 	bool isFrame;			//bool 값 프레임인가 ??
 	int ad;					//공격력
 	int armor;				//방어력	
@@ -36,14 +37,23 @@ struct ITEM
 
 class Item : public gameNode
 {
-	vector<ITEM> _vItem;
-	vector<ITEM> _viItem;
+private:
+
+	vector<tagItem>				_vItem;
+	vector<tagItem>::iterator	_viItem;
+
+public:
+
+	HRESULT init();
+	void release();
+	void update();
+	void render();
 
 	void createItem(int value , ITEMTYPE type , bool frame);
 	
 
 
 
-	vector<ITEM> getvItem()		{ return _vItem; }
-	vector<ITEM> getviItem()	{ return _viItem; }
+	vector<tagItem>				getvItem()		{ return _vItem; }
+	vector<tagItem>::iterator	getviItem()		{ return _viItem; }
 };

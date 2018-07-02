@@ -12,12 +12,15 @@ HRESULT playGround::init(void)
 
 
 	gameNode::init(true);
-	Image_init();
-	Sound_init();
-	_mapTool = new MapTool;
-	_mapTool->init();
-	_player  = new Player;
-	_player->init();
+	//Image_init();
+	//Sound_init();
+	//_mapTool = new MapTool;
+	//_mapTool->init();
+	//_player  = new Player;
+	//_player->init();
+	_im = new itemManager;
+	_im->init();
+
 
 	SCENEMANAGER->addScene("타이틀", new titleScene);
 	SCENEMANAGER->addScene("던전", new dungeonScene);
@@ -40,6 +43,9 @@ HRESULT playGround::init(void)
 		break;
 	case 플레이어:
 		break;
+	case 아이템:
+		break;
+
 	case 기타추가하셈:
 		break;
 	default:
@@ -104,6 +110,10 @@ void playGround::render(void)
 	case 플레이어:
 		_player->render();
 		break;
+	case 아이템:
+		_im->render();
+		break;
+
 	case 기타추가하셈:
 		break;
 	default:
