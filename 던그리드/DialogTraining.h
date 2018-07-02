@@ -1,18 +1,10 @@
 #pragma once
-#include "gameNode.h"
+#include "Dialog.h"
 
 enum TRAINING_NPC { TRAINING_RESCUE, TRAINING_AFTER_RESCUE, TRAINING_BUILD, TRAINING_BUILDING, TRAINING_DIALOG };
-class DialogTraining : public gameNode
+class DialogTraining : public Dialog
 {
-	string _name, _dialog[5][5];
 	TRAINING_NPC _training;
-	RECT _rc[3];
-	RECT _button[3];
-	int _count, _idX, _idY;
-	int _dialogSize[4];
-
-	RECT _click;
-
 public:
 	HRESULT init();
 	void release();

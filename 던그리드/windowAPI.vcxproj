@@ -259,6 +259,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="playGround.cpp" />
     <ClCompile Include="playGround_Image.cpp" />
+    <ClCompile Include="playGround_Sound.cpp" />
     <ClCompile Include="progressBar.cpp" />
     <ClCompile Include="RedBat.cpp" />
     <ClCompile Include="ring.cpp" />

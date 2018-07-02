@@ -42,6 +42,16 @@ public:
 	bool isPlaySound(string keyName);
 	bool isPauseSound(string keyName);
 
+	int getLength(string keyName);
+
+	int getPlayTime(string keyName);
+
+	void setPlayTime(string keyName, unsigned int time);
+
+	void setVolume(string keyName, float volume);
+
+	float getVolume(string keyName);
+
 
 	soundManager();
 	~soundManager();

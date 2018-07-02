@@ -1,29 +1,33 @@
 #pragma once
 #include "gameNode.h"
 
-enum TRAINING_NPC {TRAINING_RESCUE, TRAINING_AFTER_RESCUE, TRAINING_BUILD, TRAINING_BUILDING, TRAINING_DIALOG };
 class Dialog :	public gameNode
 {
-	string _name, _dialog[5][5];
-	TRAINING_NPC _training;
-	RECT _rc[3];
-	RECT _button[3];
+protected:
+	//부모에서 정의
+	image * _uiBack, *_ansBack, *_ansCur, *_uiNext;
 	int _count, _idX, _idY;
-	int _dialogSize[4];
+	RECT _rc[3];
 
-	RECT _click;
+	//자식에서 정의
+	string _name;
+	//다이얼로그마다 버튼과 대사가 달라서 벡터로 처리 
+	vector<RECT> _vButton;
+	vector<string> _vButtonDialog;
+	vector<vector<string>> _vDialog;
 
 public:
-	HRESULT init();
-	void release();
-	void update();
-	void render();
+	virtual HRESULT init();
+	virtual void release();
+	virtual void update();
+	virtual void render();
+	 
+	virtual void setDialog();
+	virtual void changeDialog();
+	virtual void clickButton();
 
-	void setDialog();
-
-	void changeDialog();
-
-	void clickButton();
+	virtual void keyControl();
+	virtual void setFrame();
 
 	Dialog();
 	~Dialog();
