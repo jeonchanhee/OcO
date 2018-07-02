@@ -6,7 +6,7 @@ HRESULT playGround::Image_init(void)
 {
 	IMAGEMANAGER->addImage("cursor", "image/UI/Cursor(61,70).bmp", 0, 0, 61, 70, true, RGB(255, 0, 255));
 
-	//==========타이틀이미지==========
+	//==========타이틀==========
 	//데이터 선택할 때 뒷 배경 어둡게 보이게 하려고 알파블렌드 처리했어요! - 0701은
 	IMAGEMANAGER->addImage("title", "image/UI/Title(1920x1080).bmp", 0, 0, 1920,1080, true, RGB(255, 0, 255), true);
 	IMAGEMANAGER->addImage("T_back", "image/UI/Blue(1920x1080).bmp", 0, 0, 1920,1080, true, RGB(255, 0, 255), true);
@@ -20,6 +20,10 @@ HRESULT playGround::Image_init(void)
 	IMAGEMANAGER->addFrameImage("T_textBack", "image/UI/slotBase(1152x858).bmp", 0, 0, 1152, 858, 2, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("T_delete", "image/UI/slotDeleteButton(372x102).bmp", 0, 0, 372, 102, true, RGB(255, 0, 255));
 
+	//==========트레이닝==========
+	IMAGEMANAGER->addImage("training", "image/UI/UItraning(1920x1080).bmp", 0, 0, 1920, 1080, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("trainB", "image/UI/UItrainB(535x214,5x2).bmp", 0, 0, 535, 214 ,5 ,2, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("trainI", "image/UI/Ticon(1080x216,5x3).bmp", 0, 0, 1080, 216 ,5 ,3, true, RGB(255, 0, 255));
 
 	//==========플레이어==========
 	IMAGEMANAGER->addFrameImage("기본플레이어", "image/player/normalPlayer(640x360,8x4).bmp", 640, 360, 8, 4, true, RGB(255, 0, 255));
@@ -30,7 +34,7 @@ HRESULT playGround::Image_init(void)
 	EFFECTMANAGER->addEffect("대시", "dashMan(320x190,4x2).bmp", 320, 190, 80, 95, 1.0f, 2.0f, 2);
 
 
-	//==========적 이미지=============
+	//==========적=============
 	IMAGEMANAGER->addFrameImage("archerIdleMoveAttack", "image/enemy/archerIdleMoveAttack(810x440,9x4).bmp", 0, 0 , 810, 440, 9, 4, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("arrow", "image/enemy/arrow(120x50,1x1).bmp", 0, 0, 120, 50, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("arrowEffect", "image/enemy/arrowEffect(720x370,3x1).bmp", 0, 0, 720, 370, 3, 1, true, RGB(255, 0, 255));
@@ -66,7 +70,7 @@ HRESULT playGround::Image_init(void)
 	IMAGEMANAGER->addFrameImage("skelDogMoveDie", "image/enemy/skelDogMoveDie(700x270,7x3).bmp", 0, 0, 700, 270, 7, 3, true, RGB(255, 0, 255));
 
 
-	//다이얼로그 이미지
+	//==========다이얼로그=============
 	IMAGEMANAGER->addImage("uiBack", "image/UI/UIdia(1920x400).bmp", 1920, 400, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("ansBack", "image/UI/UIdias(400x250).bmp", 400, 250, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("ansFront", "image/UI/UIdiac(313x63).bmp", 313, 63, true, RGB(255, 0, 255));
