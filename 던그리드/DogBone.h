@@ -1,7 +1,7 @@
 #pragma once
 #include "Enemy.h"
 
-#define DOGBONESPEED 3.0f
+#define DOGBONESPEED 5.0f
 
 enum DOGBONEDIRECTION
 {
@@ -10,7 +10,9 @@ enum DOGBONEDIRECTION
 	RIGHT_MOVE,
 	LEFT_MOVE,
 	RIGHT_DIE,
-	LEFT_DIE
+	LEFT_DIE,
+	RIGHT_JUMP,
+	LEFT_JUMP
 };
 
 class DogBone : public Enemy
@@ -28,6 +30,6 @@ public:
 	void update();
 	void render();
 
-	/*void move();*/
+	void move();
 };
 
