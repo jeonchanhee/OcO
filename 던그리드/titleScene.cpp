@@ -150,28 +150,29 @@ void titleScene::drawData()
 {
 	for (int i = 0; i < 3; i++)
 	{
-		IMAGEMANAGER->frameRender("T_textBack", DC, 50 + i * 610, 50, 0, 0);
-		IMAGEMANAGER->frameRender("T_text", DC, 220 + i * 610, 120, i, 0);
-		IMAGEMANAGER->render("T_delete", DC, 220 + i * 610, 150);
+		IMAGEMANAGER->frameRender("T_textBack", DC, 50 + i * 610, 90, 0, 0);
+		IMAGEMANAGER->frameRender("T_text", DC, 220 + i * 610, 180, i, 0);
+		IMAGEMANAGER->render("T_delete", DC, 150 + i * 610, 730);
 
 		if (_vData[i].idx != -1)
 		{
 			HFONT font, oldFont;
-			font = CreateFont(50, 0, 0, 0, 50, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("소야바른9"));
+			font = CreateFont(40, 0, 0, 0, 40, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("소야바른9"));
 			oldFont = (HFONT)SelectObject(DC, font);
+			SetBkMode(DC, TRANSPARENT);
 			char str[128];
 			sprintf_s(str, "<플레이 시간>");
-			TextOut(DC, 220 + i * 610, 300, str, strlen(str));
+			TextOut(DC, 230 + i * 610, 300, str, strlen(str));
 			sprintf_s(str, "%02dH %02dM", _vData[i].hour, _vData[i].min);
-			TextOut(DC, 220 + i * 610, 400, str, strlen(str));
+			TextOut(DC, 250 + i * 610, 350, str, strlen(str));
 			sprintf_s(str, "<도달한 층>");
-			TextOut(DC, 220 + i * 610, 500, str, strlen(str));
-			sprintf_s(str, "%3dF", _vData[i].floor);
-			TextOut(DC, 240 + i * 610, 600, str, strlen(str));
+			TextOut(DC, 240 + i * 610, 440, str, strlen(str));
+			sprintf_s(str, "%5dF", _vData[i].floor);
+			TextOut(DC, 250 + i * 610, 490, str, strlen(str));
 			sprintf_s(str, "<소지금>");
-			TextOut(DC, 220 + i * 610, 700, str, strlen(str));
-			sprintf_s(str, "%5d", _vData[i].gold);
-			TextOut(DC, 220 + i * 610, 800, str, strlen(str));
+			TextOut(DC, 260 + i * 610, 580, str, strlen(str));
+			sprintf_s(str, "%5dG", _vData[i].gold);
+			TextOut(DC, 260 + i * 610, 630, str, strlen(str));
 			SelectObject(DC, oldFont);
 			DeleteObject(font);
 		}
