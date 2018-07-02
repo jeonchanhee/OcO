@@ -5,8 +5,8 @@
 #define TILESIZE2 32
 
 // 타일 갯수
-#define TILEX 11
-#define TILEY 11
+#define TILEX 20
+#define TILEY 20
 
 // 타일 총 사이즈
 #define TILESIZEX TILESIZE * TILEX

@@ -57,7 +57,7 @@ void MapTool::render()
 	// 지형
 	for (int i = 0; i < TILEX * TILEY; i++)
 	{
-		IMAGEMANAGER->frameRender("map", DC, _tiles[i].rc.left, _tiles[i].rc.top, _tiles[i].terrainFrameX, _tiles[i].terrainFrameY);
+		IMAGEMANAGER->frameRender("map", DC2, _tiles[i].rc.left, _tiles[i].rc.top, _tiles[i].terrainFrameX, _tiles[i].terrainFrameY);
 	}
 
 	// 오브젝트
@@ -66,14 +66,14 @@ void MapTool::render()
 		// 오브젝트 속성이 아니면 그리지마
 		if (_tiles[i].object == OBJ_NONE) continue;
 		
-		IMAGEMANAGER->frameRender("map", DC, _tiles[i].rc.left, _tiles[i].rc.top, _tiles[i].objFrameX, _tiles[i].objFrameY);
+		IMAGEMANAGER->frameRender("map", DC2, _tiles[i].rc.left, _tiles[i].rc.top, _tiles[i].objFrameX, _tiles[i].objFrameY);
 	}
 
 	if (KEYMANAGER->isToggleKey(VK_TAB))
 	{
 		for (int i = 0; i < TILEX * TILEY; i++)
 		{
-			Rectangle(DC,_tiles[i].rc.left, _tiles[i].rc.top, _tiles[i].rc.right, _tiles[i].rc.bottom);
+			Rectangle(DC2,_tiles[i].rc.left, _tiles[i].rc.top, _tiles[i].rc.right, _tiles[i].rc.bottom);
 		}
 
 		for (int i = 0; i < SAMPLETILEX * SAMPLETILEY; i++)
@@ -137,6 +137,7 @@ void MapTool::setup()
 
 void MapTool::setmap()
 {
+	POINT mouse = { _ptMouse.x + CAMERAMANAGER->getCameraRc2().left,_ptMouse.y + CAMERAMANAGER->getCameraRc2().top };
 	for (int i = 0; i < 5; i++)
 	{
 		if (PtInRect(&_rc[i], _ptMouse))
@@ -173,7 +174,7 @@ void MapTool::setmap()
 
 	for (int i = 0; i < TILEX * TILEY; i++)
 	{
-		if (PtInRect(&_tiles[i].rc, _ptMouse))
+		if (PtInRect(&_tiles[i].rc, mouse))
 		{
 			if (_select == TRRAINDRAW)
 			{

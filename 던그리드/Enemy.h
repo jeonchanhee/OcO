@@ -15,6 +15,9 @@ protected:
 	int _fireCount;			//발사 카운트
 	int _rndFireCount;		//랜덤하게 발사할 카운트
 
+	float _jumpPower;
+	float _gravity;
+
 
 public:
 
