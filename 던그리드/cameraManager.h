@@ -5,7 +5,7 @@
 
 // 전체 맵 사이즈 입니다   수정 부우탁 드립니다
 #define BACKGROUNDSIZEX 3000
-#define BACKGROUNDSIZEY 3000
+#define BACKGROUNDSIZEY 8000
 
 #define CAMERA2X 1100
 #define CAMERA2Y 1080

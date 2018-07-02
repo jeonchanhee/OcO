@@ -127,7 +127,7 @@ void MapTool::setup()
 
 	for (int i = 0; i < TILEY; i++)
 	{
-		for (int j = 0; j < TILEY; j++)
+		for (int j = 0; j < TILEX; j++)
 		{
 			SetRect(&_tiles[i * TILEX + j].rc, j * TILESIZE, i * TILESIZE, j* TILESIZE + TILESIZE, i * TILESIZE + TILESIZE);
 		}

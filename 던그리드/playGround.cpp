@@ -8,7 +8,7 @@ playGround::~playGround(){}
 
 HRESULT playGround::init(void)	
 {
-	mode = 타이틀;				//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
+	mode = 맵툴;				//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
 
 
 	gameNode::init(true);
@@ -69,10 +69,10 @@ void playGround::update(void)
 		SOUNDMANAGER->play("title");
 	}
 
-	if (KEYMANAGER->isStayKeyDown('D')) CAMERAMANAGER->setCameraX2(CAMERAMANAGER->getCameraX2() + 5);
-	if (KEYMANAGER->isStayKeyDown('S')) CAMERAMANAGER->setCameraY2(CAMERAMANAGER->getCameraY2() + 5);
-	if (KEYMANAGER->isStayKeyDown('A')) CAMERAMANAGER->setCameraX2(CAMERAMANAGER->getCameraX2() - 5);
-	if (KEYMANAGER->isStayKeyDown('W')) CAMERAMANAGER->setCameraY2(CAMERAMANAGER->getCameraY2() - 5);
+	if (KEYMANAGER->isStayKeyDown('D') && CAMERAMANAGER->getCameraRc2().right<BACKGROUNDSIZEX) CAMERAMANAGER->setCameraX2(CAMERAMANAGER->getCameraX2() + 20);
+	if (KEYMANAGER->isStayKeyDown('S') && CAMERAMANAGER->getCameraRc2().bottom<BACKGROUNDSIZEY) CAMERAMANAGER->setCameraY2(CAMERAMANAGER->getCameraY2() + 20);
+	if (KEYMANAGER->isStayKeyDown('A') && CAMERAMANAGER->getCameraRc2().left>0) CAMERAMANAGER->setCameraX2(CAMERAMANAGER->getCameraX2() - 20);
+	if (KEYMANAGER->isStayKeyDown('W') && CAMERAMANAGER->getCameraRc2().top>0) CAMERAMANAGER->setCameraY2(CAMERAMANAGER->getCameraY2() - 20);
 
 }
 
