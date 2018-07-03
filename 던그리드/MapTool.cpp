@@ -24,6 +24,28 @@ void MapTool::update()
 {
 	if (KEYMANAGER->isStayKeyDown(VK_LBUTTON))setmap();
 
+	if (KEYMANAGER->isStayKeyDown(VK_RBUTTON))
+	{
+		POINT mouse = { _ptMouse.x + CAMERAMANAGER->getCameraRc2().left,_ptMouse.y + CAMERAMANAGER->getCameraRc2().top };
+
+		if (_ptMouse.x < CAMERA2X&&_ptMouse.y < CAMERA2Y)
+		{
+			for (int i = 0; i < TILEX * TILEY; i++)
+			{
+				if (PtInRect(&_tiles[i].rc, mouse))
+				{
+					_tiles[i].objFrameX = NULL;
+					_tiles[i].objFrameY = NULL;
+
+					_tiles[i].object = OBJ_NONE;
+
+					InvalidateRect(_hWnd, NULL, false);
+					break;
+				}
+			}
+		}
+	}
+
 	if (KEYMANAGER->isOnceKeyDown('Y'))
 	{
 		for (int i = 0; i < TILEX * TILEY; i++)
