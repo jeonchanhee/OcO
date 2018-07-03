@@ -8,7 +8,7 @@ playGround::~playGround(){}
 
 HRESULT playGround::init(void)	
 {
-	mode = 맵툴;				//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
+	mode = 도그본;				//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
 
 
 	gameNode::init(true);
@@ -22,7 +22,7 @@ HRESULT playGround::init(void)
 
 	SCENEMANAGER->addScene("타이틀", new titleScene);
 	SCENEMANAGER->addScene("던전", new dungeonScene);
-	SCENEMANAGER->addScene("도그본", new EnemyManager);
+	SCENEMANAGER->addScene("적", new EnemyManager);
 	SCENEMANAGER->addScene("대사씬", new Dialog);
 	SCENEMANAGER->addScene("아이템씬", new itemManager);
 	
@@ -38,7 +38,7 @@ HRESULT playGround::init(void)
 		SCENEMANAGER->changeScene("대사씬");
 		break;
 	case 도그본:
-		SCENEMANAGER->changeScene("도그본");
+		SCENEMANAGER->changeScene("적");
 		break;
 	case 플레이어:
 		break;
