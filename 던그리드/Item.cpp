@@ -32,6 +32,7 @@ void Item::update()
 				_item.image[i]->setFrameX(_item.frameX);
 				_item.frameX++;
 				_count = 0;
+				break;
 			}
 		}
 	}
