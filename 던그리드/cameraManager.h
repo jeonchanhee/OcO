@@ -10,6 +10,7 @@
 #define CAMERA2X 1100
 #define CAMERA2Y 1080
 
+
 class cameraManager  : public  singletonBase<cameraManager>
 {
 private:
