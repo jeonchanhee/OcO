@@ -35,6 +35,6 @@ void itemManager::update()
 
 void itemManager::render()
 {
-	_item->render();
+	//_item->render();
 
 }
