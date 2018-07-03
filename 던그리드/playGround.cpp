@@ -119,7 +119,6 @@ void playGround::render(void)
 	default:
 		break;
 	}
-	SCENEMANAGER->render();
 
 	//================이 밑으로도 건드리지 말자 =============
 	

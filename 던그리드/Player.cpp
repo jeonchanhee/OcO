@@ -1,12 +1,9 @@
-#include "stdafx.h"
+#include "stdafx.h" 
 #include "Player.h"
 
 
 
-Player::Player()
-{
-
-}
+Player::Player(){}
 Player::~Player() {}
 
 
@@ -15,21 +12,27 @@ HRESULT Player::init()
 	_player			= IMAGEMANAGER->findImage("기본플레이어");
 	_playerHand[0]  = IMAGEMANAGER->findImage("플레이어손");
 	_playerHand[1]  = IMAGEMANAGER->findImage("플레이어손");
-	_playerWeapon   = IMAGEMANAGER->findImage("공주플레이어");
+	_playerWeapon   = IMAGEMANAGER->findImage("검10");
 	_x = WINSIZEX / 2; _y = WINSIZEY / 2;
 	_count = 0;  _mouseAngle = 0;
 
 	_currentHp = 80; _maxHp = 80;
 	_currentDash = 2; _maxDash = 2;
 	_armor = 0;
+	_currentDash = 2 , _maxDash = 2;
 	_currentFullNess = 0; _maxFullNess = 100;
 	_jumpPower = 12.0f;
 	_moveMentSpeed = 3.0f;
 	_direction = RIGHT_STOP;
 	_gold = 0;
 	_jumpMax = 1; _jumpCount = 0;
+	_locusX = 0 , _locusY = 0;
+	_weaponAngle = 0;
 	_fixedDamage = 0;
 	_youUsingCount = 0;
+	_isDashing = false;
+	_isAttacking = false;
+
 
 	int rightStop[] = { 0,1,2,3,4 };
 	KEYANIMANAGER->addArrayFrameAnimation("오른쪽보고서있기", "기본플레이어", rightStop, 5, 10, true);
@@ -52,11 +55,8 @@ HRESULT Player::init()
 	_playerAnimation = KEYANIMANAGER->findAnimation("오른쪽보고서있기");
 	
 	//equipment
-	for (int i = 0; i < 2; ++i)
-	{
-		_mainWeapon[i] = 0;
-		_assistWeapon[i] = 0;
-	}
+	_mainWeapon[0] = 1;
+	_mainWeapon[1] = 0;
 	for (int i = 0; i < 15; ++i)
 	{
 		_inventory[i] = 0;
@@ -77,6 +77,7 @@ void Player::update()
 	move();
 	mouseControl();
 	effect();
+	attack();
 	KEYANIMANAGER->update();
 	EFFECTMANAGER->update();
 }
@@ -86,24 +87,45 @@ void Player::render()
 	EFFECTMANAGER->render();
 	if (_direction == LEFT_RUN || _direction == LEFT_STOP)
 	{
-		_playerHand[0]->rotateRender(DC, _x + 15 , _y + 60 , _mouseAngle);
-		_playerHand[1]->render(DC, _x + 60 , _y + 60);
+		_playerHand[0]->rotateRender(DC, _leftHandX , _leftHandY , _mouseAngle);
+		_playerHand[1]->render(DC, _rightHandX , _rightHandY);
+		
 	}
 	if (_direction == RIGHT_RUN || _direction == RIGHT_STOP)
 	{
-		 _playerHand[0]->render(DC, _x + 10 , _y + 60);
-		 _playerHand[1]->rotateRender(DC, _x + 65 , _y + 60 , _mouseAngle);
+		 _playerHand[0]->render(DC, _leftHandX , _leftHandY	);
+		 _playerHand[1]->rotateRender(DC, _rightHandX , _rightHandY , _mouseAngle);
 	}
+	if(_x + _player->getFrameWidth() / 2 > PTMOUSE_X && _mainWeapon[_youUsingCount !=0])
+		_playerWeapon->rotateRender(DC, _leftHandX - 15, _leftHandY - 10, _mouseAngle);
+	else if(_x + _player->getFrameWidth() / 2 < PTMOUSE_X && _mainWeapon[_youUsingCount] != 0)	
+		_playerWeapon->rotateRender(DC, _rightHandX + 15, _rightHandY - 10, _mouseAngle);
+
 	_player->aniRender(CAMERAMANAGER->getCameraDC()->getMemDC(), _x, _y, _playerAnimation);
-	char str[128]; sprintf_s(str, "지금 쓰고있는 무기인덱스 : %d", _youUsingCount);
+
+	//text !
+	char str[128]; sprintf_s(str, "Weapon Index : %d", _youUsingCount);
 	TextOut(DC, _x -50 , _y - 50, str, strlen(str));
+	sprintf_s(str, "Current Dash : %d", _currentDash);
+	TextOut(DC, _x - 50, _y - 100, str, strlen(str));
+	sprintf_s(str, "Max Dash : %d", _maxDash);
+	TextOut(DC, _x  + 100, _y - 100, str, strlen(str));
+	if (_isAttacking) sprintf_s(str, "Attacking : true");
+	else sprintf_s(str, "Attacking : false");
+	TextOut(DC, _x + 100, _y - 50, str, strlen(str));
+	if (_isJumping)  sprintf_s(str, "점프 : true");
+	else if (!_isJumping) sprintf_s(str, "점프 : false");
+	TextOut(DC, _x + 30, _y - 150, str, strlen(str));
+	sprintf_s(str, "main Weapon[count] : %d", _mainWeapon[_youUsingCount]);
+	TextOut(DC, _x -10, _y - 30, str, strlen(str));
+	sprintf(str, "앙각도 : %f", _mouseAngle);
+	TextOut(DC, _x - 10, _y + 100, str, strlen(str));
 }
 
 void Player::keyInput()
 {
-	if (KEYMANAGER->isOnceKeyDown('1')) _youUsingCount = 0;
+	if (KEYMANAGER->isOnceKeyDown('1'))		 _youUsingCount = 0;
 	else if (KEYMANAGER->isOnceKeyDown('2')) _youUsingCount = 1;
-
 
 	if (KEYMANAGER->isOnceKeyDown('A'))
 	{
@@ -157,23 +179,33 @@ void Player::keyInput()
 	}
 	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
 	{
-		attack();
+		if (!_isAttacking)
+		{
+			_punchSpeed = PUNCHSPEED;
+			_angle = getAngle(_x + _player->getFrameWidth() / 2, _y + _player->getFrameHeight() / 2, PTMOUSE_X, PTMOUSE_Y);
+			_isAttacking = true;
+			if (_x + _player->getFrameWidth() / 2 > PTMOUSE_X) _isLeftAttack = true;
+			else _isLeftAttack = false;
+		}
+		
 	}
 	if (KEYMANAGER->isOnceKeyDown(VK_RBUTTON))
 	{	
-		_dashSpeed = DASHSPEED;
-		_isDashing = true;
-		_angle = getAngle(_x, _y, CAMERAMANAGER->getCameraX() + _ptMouseX, CAMERAMANAGER->getCameraY() + _ptMouseY);
+		if (_currentDash > 0)
+		{
+			_currentDash--;
+			_dashSpeed = DASHSPEED;
+			_isDashing = true;
+			_angle = getAngle(_x + _player->getFrameWidth() / 2, _y + _player->getFrameHeight() / 2, PTMOUSE_X, PTMOUSE_Y);
+		}
 	}
-	
 }
 
 void Player::mouseControl()
 {
-	_ptMouseX = CAMERAMANAGER->getCameraX() + _ptMouse.x, _ptMouseY = CAMERAMANAGER->getCameraY() + _ptMouse.y;
-	_mouseAngle = getAngle(_x, _y, _ptMouse.x, _ptMouse.y);
+	_mouseAngle = getAngle(_x, _y, PTMOUSE_X, PTMOUSE_Y);
 	//ptmouse 좌표에따라 왼쪽을볼건지 오른쪽을 볼건지 설정 
-	if (_x > _ptMouseX)
+	if (_x + _player->getFrameWidth()/2 > PTMOUSE_X)
 	{
 		if (_direction == RIGHT_STOP)
 		{
@@ -185,7 +217,7 @@ void Player::mouseControl()
 			_playerAnimation = KEYANIMANAGER->findAnimation("왼쪽뛰기");
 		}
 	}
-	else if (_x < _ptMouseX)
+	else if (_x + _player->getFrameWidth() / 2  < PTMOUSE_X)
 	{
 		if (_direction == LEFT_STOP)
 		{
@@ -201,6 +233,13 @@ void Player::mouseControl()
 
 void Player::move()
 {
+	static int count;
+	count++;
+	if (count > 100)
+	{
+		count = 0;
+		if(!(_currentDash >= _maxDash)) _currentDash++;
+	}
 	if (_isJumping)
 	{
 		_jump -= GRAVITY;
@@ -238,40 +277,84 @@ void Player::move()
 	}
 	if (!_isAttacking)
 	{
-
+		if (_direction ==  LEFT_RUN || _direction ==  LEFT_STOP)
+		{
+			_leftHandX = _x + 15, _leftHandY = _y + 60;
+			_rightHandX = _x + 60, _rightHandY = _y + 60;
+		}
+		if (_direction == RIGHT_RUN || _direction == RIGHT_STOP)
+		{
+			_leftHandX = _x + 10, _leftHandY = _y + 60;
+			_rightHandX = _x + 65, _rightHandY = _y + 60;
+		}
 	}
 }
 
 void Player::attack()
 {
-	if (_mainWeapon[_youUsingCount] == 0)
+	if(_isAttacking)
 	{
-		if (_direction == LEFT_STOP || _direction == LEFT_RUN)
+		_punchSpeed -= 0.7;
+		//punch
+		if (_mainWeapon[_youUsingCount] == 0)
 		{
-			
+			if (_isLeftAttack)
+			{
+				_locusX +=  cosf(_angle) * _punchSpeed; 
+				_locusY += -sinf(_angle) * _punchSpeed;
+				_leftHandX = _x + 15 + _locusX , _leftHandY = _y + 60 + _locusY;
+				_rightHandX = _x + 60, _rightHandY = _y + 60;
+			}
+			if (!_isLeftAttack)
+			{
+				_locusX += cosf(_angle) * _punchSpeed;
+				_locusY += -sinf(_angle) * _punchSpeed;
+				_leftHandX = _x + 10, _leftHandY = _y + 60;
+				_rightHandX = _x + 65 + _locusX, _rightHandY = _y + 60 + _locusY;
+			}
 		}
- 	}
-	
+		else if (_mainWeapon[_youUsingCount] == 1)
+		{
+			if (_isLeftAttack)
+			{
+				_weaponAngle = -_weaponAngle;
+				_leftHandX = _x + 15, _leftHandY = _y + 60;
+				_rightHandX = _x + 60, _rightHandY = _y + 60;
+			}
+			else if (!_isLeftAttack)
+			{
+				_weaponAngle = -_weaponAngle;
+				_leftHandX = _x + 10, _leftHandY = _y + 60;
+				_rightHandX = _x + 65 , _rightHandY = _y + 60 ;
+			}
+		}
+	}
+	if (_punchSpeed < -PUNCHSPEED)
+	{
+		_isAttacking = false;
+		_locusX = 0, _locusY = 0;
+	}
+
 }
 
 void Player::effect()
 {
-	if (KEYMANAGER->isStayKeyDown('A')) EFFECTMANAGER->play("왼쪽걸을때", _x + 70, _y + 70);
-	if (KEYMANAGER->isStayKeyDown('D')) EFFECTMANAGER->play("오른쪽걸을때", _x  , _y + 70);
+	if (!_isJumping)
+	{
+		if (KEYMANAGER->isStayKeyDown('A')) EFFECTMANAGER->play("왼쪽걸을때", _x + 70, _y + 70);
+		if (KEYMANAGER->isStayKeyDown('D')) EFFECTMANAGER->play("오른쪽걸을때", _x, _y + 70);
+	}
 	if (_isDashing) ++_count;
 	if (_count > 5)
 	{
 		_count = 0;
-		if (_x > _ptMouseX)
+		if (_x > PTMOUSE_X)
 		{
 			EFFECTMANAGER->play("대시왼쪽", _x + 30 , _y +10 + _player->getFrameWidth() / 2);
 		}
-		else if (_x < _ptMouseX)
+		else if (_x < PTMOUSE_X)
 		{
 			EFFECTMANAGER->play("대시오른쪽", _x + 20, _y + 10 +_player->getFrameWidth() / 2);
 		}
 	}
 }
-
-
-

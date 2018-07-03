@@ -434,9 +434,6 @@
     <ClCompile Include="DialogWeapon.cpp">
       <Filter>playGround\Diaiog</Filter>
     </ClCompile>
-    <ClCompile Include="playGround_Sound.cpp">
-      <Filter>playGround</Filter>
-    </ClCompile>
     <ClCompile Include="Bullet.cpp">
       <Filter>playGround\bullet</Filter>
     </ClCompile>
@@ -445,6 +442,9 @@
     </ClCompile>
     <ClCompile Include="itemManager.cpp">
       <Filter>playGround\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="playGround_Sound.cpp">
+      <Filter>playGround</Filter>
     </ClCompile>
     <ClCompile Include="introScene.cpp">
       <Filter>playGround\Scene</Filter>
