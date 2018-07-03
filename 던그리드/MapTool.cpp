@@ -331,6 +331,23 @@ OBJECT MapTool::objSelect(int FrameX, int FrameY)
 		if (FrameX == i && FrameY == 13) return OBJ_THORN;
 	}
 
+	//오브젝트인지 잘 모르겠음
+	for (int i = 5; i < 8; i++)
+	{
+		for (int j = 5; j < 8; j++)
+		{
+			if (i == 6 && j == 6) continue;
+			if (FrameX == i && FrameY == j) return OBJ_GROUND;
+		}
+	}
+	for (int i = 8; i < 11; i++)
+	{
+		if (FrameX = i && FrameY == 5) return OBJ_GROUND;
+	}
+
+	if (FrameX == 8 && FrameY == 6) return OBJ_GROUND;
+	//여기까지
+
 	if (FrameX == 11 && FrameY == 0) return OBJ_GROUND;
 	if (FrameX == 12 && FrameY == 0) return OBJ_GROUND;
 	if (FrameX == 13 && FrameY == 0) return OBJ_GROUND;
