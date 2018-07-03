@@ -25,7 +25,7 @@ public:
 	void update();
 	void render();
 
-	void move();
+	void attackMove();
 	void changeAnimation(BIGBATDIRECTION direction);
 
 	static void rightAttack(void* obj);

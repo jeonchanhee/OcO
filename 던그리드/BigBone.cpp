@@ -17,7 +17,6 @@ HRESULT BigBone::init()
 	_x = WINSIZEX / 2;
 	_y = WINSIZEY / 2;
 	_count = 0;
-	//_isAttack = false;
 	
 	_img = IMAGEMANAGER->findImage("bigWhiteSkelIdleMove");
 	
