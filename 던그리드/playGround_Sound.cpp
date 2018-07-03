@@ -3,7 +3,7 @@
 
 HRESULT playGround::Sound_init(void)
 {
-	SOUNDMANAGER->addSound("title", "sound/01_title.mp3", true, false);
+	SOUNDMANAGER->addSound("intro", "sound/back/intro.mp3", true, false);
 
 	return S_OK;
 }
