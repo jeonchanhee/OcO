@@ -32,8 +32,6 @@ HRESULT BigBone::init()
 	KEYANIMANAGER->addCoordinateFrameAnimation("bigBoneRightAttack", "bigWhiteSkelAttack", 0, 11, 10, false, false, rightAttack, this);
 	KEYANIMANAGER->addCoordinateFrameAnimation("bigBoneLeftAttack", "bigWhiteSkelAttack", 12, 23, 10, false, false, leftAttack, this);
 	
-
-
 	//DIE상태
 	//IMAGEMANAGER->findImage("skelBone");
 
@@ -58,7 +56,7 @@ void BigBone::update()
 	changeDirection();
 	move();
 	
-	///////////테스트!///////////////////
+	///////////die테스트!///////////////////
 	if (KEYMANAGER->isOnceKeyDown(VK_F2))
 	{
 		
@@ -75,10 +73,6 @@ void BigBone::update()
 
 void BigBone::render()
 {
-	//if (_bigBoneDirection == BIGBONE_DIE)
-	//	_img->frameRender(DC, _rc.left, _rc.top);
-	//else
-
 	switch (_bigBoneDirection)
 	{
 	case BIGBONE_RIGHT_IDLE:
@@ -103,7 +97,7 @@ void BigBone::render()
 	}
 
 	
-
+	///////////테스트
 	if (KEYMANAGER->isToggleKey('Q')) RectangleMakeCenter(DC, _x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 
 }

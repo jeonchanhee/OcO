@@ -19,8 +19,8 @@ class BigBone : public Enemy
 private:
 	BIGBONEDIRECTION _bigBoneDirection;
 	animation* _bigBoneMotion;
-	POINT		_renPoint[2];
-	bool _isAttack;
+	POINT		_renPoint[2]; //∑ª¥ı«“ x,y¡¬«• 2∞≥
+
 
 public:
 	BigBone();
