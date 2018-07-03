@@ -1,6 +1,8 @@
 #pragma once
 #include "Item.h"
-class itemManager
+#include "gameNode.h"
+
+class itemManager : public gameNode
 {
 private:
 	//typedef vector <item*> Vitem;
@@ -11,5 +13,12 @@ private:
 public:
 	itemManager();
 	~itemManager();
+
+	HRESULT init();
+	void release();
+	void update();
+	void render();
+
+
 };
 

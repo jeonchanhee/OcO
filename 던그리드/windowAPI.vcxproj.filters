@@ -270,9 +270,6 @@
     <ClInclude Include="cameraManager.h">
       <Filter>2DFramework\Manager</Filter>
     </ClInclude>
-    <ClInclude Include="itemManager.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Bullet.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -284,6 +281,9 @@
     </ClInclude>
     <ClInclude Include="tileNode.h">
       <Filter>playGround\MapTool</Filter>
+    </ClInclude>
+    <ClInclude Include="itemManager.h">
+      <Filter>playGround\Item</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -437,11 +437,11 @@
     <ClCompile Include="Bullet.cpp">
       <Filter>playGround\bullet</Filter>
     </ClCompile>
-    <ClCompile Include="itemManager.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Bullet.cpp">
       <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="itemManager.cpp">
+      <Filter>playGround\Item</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

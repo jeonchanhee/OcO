@@ -49,7 +49,7 @@ HRESULT playGround::Image_init(void)
 	IMAGEMANAGER->addFrameImage("bansheeNormalBullet", "image/enemy/bansheeNormalBullet(280x80,4x1).bmp", 0, 0, 280, 80, 4, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("bat", "image/enemy/bat(960x90,7x1).bmp", 0, 0, 960, 90, 7, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("bigWhiteSkelAttack", "image/enemy/bigWhiteSkelAttack(2160x340,12x2).bmp", 0, 0, 2160, 340, 12, 2, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("bigWhiteSkelIdleMove", "image/enemy/bigWhiteSkelIdleMove(1080x680,6x4).bmp", 0, 0, 1080, 680, 6, 4, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("bigWhiteSkelIdleMove", "image/enemy/bigWhiteSkelIdleMove(540x400,6x4).bmp", 0, 0, 540, 400, 6, 4, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("BombBatExplosion", "image/enemy/BombBatExplosion(486x27,18x1).bmp", 0, 0, 486, 27, 18, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("bossBack", "image/enemy/bossBack(2400x300,8x1).bmp", 0, 0, 2400, 300, 8, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("bossBullet", "image/enemy/bossBullet(650x65,10x1).bmp", 0, 0, 650, 65, 10, 1, true, RGB(255, 0, 255));
@@ -104,52 +104,52 @@ HRESULT playGround::Image_init(void)
 	IMAGEMANAGER->addImage("∞À31", "image/item/weapon/sword/FireDragonKillerDrop(92x40)1x1.bmp", 92, 40, true, RGB(255, 0, 255)); //µÂ∂¯
 	IMAGEMANAGER->addImage("∞À32", "image/item/weapon/sword/FireDragonKillerInven(13x30)1x1.bmp", 13, 30, true, RGB(255, 0, 255)); //¿Œ∫•
 
-	IMAGEMANAGER->addFrameImage("∞À40", "image/item/weapon/sword/CosmosSword(360x90)12x1.bmp", 360, 90, 12, 1, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("∞À41", "image/item/weapon/sword/CosmosSwordDrop(90x30)1x1.bmp", 90, 30, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("∞À42", "image/item/weapon/sword/CosmosSwordInven(11x30)1x1.bmp", 11, 30, 1, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("∞À40", "image/item/weapon/sword/CosmosSword(360x90)12x1.bmp", 360, 90, 12, 1, true, RGB(255, 0, 255)); // ¬¯øÎ
+	IMAGEMANAGER->addImage("∞À41", "image/item/weapon/sword/CosmosSwordDrop(90x30)1x1.bmp", 90, 30, true, RGB(255, 0, 255)); // µÂ∂¯
+	IMAGEMANAGER->addImage("∞À42", "image/item/weapon/sword/CosmosSwordInven(11x30)1x1.bmp", 11, 30, 1, 1, true, RGB(255, 0, 255)); // ¿Œ∫•
 
 
 
 	//ø¯∞≈∏Æπ´±‚ ¿ÃπÃ¡ˆ 
-	IMAGEMANAGER->addImage("√—10", "image/item/weapon/gun/deadlyKiss(80x20)1x1.bmp", 80, 20, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("√—11", "image/item/weapon/gun/deadlyKissDrop(80x20)1x1.bmp", 80, 20, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("√—12", "image/item/weapon/gun/deadlyKissInven(40x10)1x1.bmp", 40, 10, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("√—10", "image/item/weapon/gun/deadlyKiss(80x20)1x1.bmp", 80, 20, true, RGB(255, 0, 255)); // ¬¯øÎ
+	IMAGEMANAGER->addImage("√—11", "image/item/weapon/gun/deadlyKissDrop(80x20)1x1.bmp", 80, 20, true, RGB(255, 0, 255));			// µÂ∂¯
+	IMAGEMANAGER->addImage("√—12", "image/item/weapon/gun/deadlyKissInven(40x10)1x1.bmp", 40, 10, true, RGB(255, 0, 255));			// ¿Œ∫•
 
-	IMAGEMANAGER->addImage("√—20", "image/item/weapon/gun/matchlockGun(70x18)1x1.bmp", 70, 18, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("√—21", "image/item/weapon/gun/matchlockGunDrop(70x18)1x1.bmp", 70, 18, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("√—22", "image/item/weapon/gun/matchlockGunInven(27x8)1x1.bmp", 27, 8, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("√—20", "image/item/weapon/gun/matchlockGun(70x18)1x1.bmp", 70, 18, true, RGB(255, 0, 255));				// ¬¯øÎ
+	IMAGEMANAGER->addImage("√—21", "image/item/weapon/gun/matchlockGunDrop(70x18)1x1.bmp", 70, 18, true, RGB(255, 0, 255));			// µÂ∂¯
+	IMAGEMANAGER->addImage("√—22", "image/item/weapon/gun/matchlockGunInven(27x8)1x1.bmp", 27, 8, true, RGB(255, 0, 255));			// ¿Œ∫•
 
-	IMAGEMANAGER->addFrameImage("√—30", "image/item/weapon/gun/railGun(600x30)7x1.bmp", 600, 30, 7, 1, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("√—31", "image/item/weapon/gun/RailGunInvenDrop(86x30)1x1.bmp", 86, 30, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("√—32", "image/item/weapon/gun/RailGunInven(21x9)1x1.bmp", 21, 9, 1, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("√—30", "image/item/weapon/gun/railGun(600x30)7x1.bmp", 600, 30, 7, 1, true, RGB(255, 0, 255));		// ¬¯øÎ
+	IMAGEMANAGER->addImage("√—31", "image/item/weapon/gun/RailGunInvenDrop(86x30)1x1.bmp", 86, 30, true, RGB(255, 0, 255));			// µÂ∂¯
+	IMAGEMANAGER->addImage("√—32", "image/item/weapon/gun/RailGunInven(21x9)1x1.bmp", 21, 9, 1, 1, true, RGB(255, 0, 255));			// ¿Œ∫•
 
 
-	IMAGEMANAGER->addImage("√—40", "image/item/weapon/gun/flameThrower(80x40)1x1.bmp", 80, 40, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("√—41", "image/item/weapon/gun/flameThrowerDrop(80x40)1x1.bmp", 80, 40, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("√—42", "image/item/weapon/gun/flameThrowerInven(22x11)1x1.bmp", 40, 10, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("√—40", "image/item/weapon/gun/flameThrower(80x40)1x1.bmp", 80, 40, true, RGB(255, 0, 255));				// ¬¯øÎ
+	IMAGEMANAGER->addImage("√—41", "image/item/weapon/gun/flameThrowerDrop(80x40)1x1.bmp", 80, 40, true, RGB(255, 0, 255));			// µÂ∂¯
+	IMAGEMANAGER->addImage("√—42", "image/item/weapon/gun/flameThrowerInven(22x11)1x1.bmp", 40, 10, true, RGB(255, 0, 255));			// ¿Œ∫•
 
-	IMAGEMANAGER->addFrameImage("»∞10", "image/item/weapon/bow/Crossbow(100x34)2x1.bmp", 100, 34, 2, 1, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("»∞11", "image/item/weapon/bow/CrossbowDrop(50x31)1x1.bmp", 50, 31, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("»∞12", "image/item/weapon/bow/CrossbowDrop(18x11)1x1.bmp", 18, 11, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("»∞10", "image/item/weapon/bow/Crossbow(100x34)2x1.bmp", 100, 34, 2, 1, true, RGB(255, 0, 255));		// ¬¯øÎ
+	IMAGEMANAGER->addImage("»∞11", "image/item/weapon/bow/CrossbowDrop(50x31)1x1.bmp", 50, 31, true, RGB(255, 0, 255));				// µÂ∂¯
+	IMAGEMANAGER->addImage("»∞12", "image/item/weapon/bow/CrossbowDrop(18x11)1x1.bmp", 18, 11, true, RGB(255, 0, 255));				// ¿Œ∫•
 
-	IMAGEMANAGER->addFrameImage("»∞20", "image/item/weapon/bow/darkbow(300x50)6x1.bmp", 300, 50, 6, 1, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("»∞21", "image/item/weapon/bow/darkbowDrop(50x27)1x1.bmp", 50, 31, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("»∞22", "image/item/weapon/bow/darkbowInven(17x15)1x1.bmp", 50, 31, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("»∞20", "image/item/weapon/bow/darkbow(300x50)6x1.bmp", 300, 50, 6, 1, true, RGB(255, 0, 255));		// ¬¯øÎ
+	IMAGEMANAGER->addImage("»∞21", "image/item/weapon/bow/darkbowDrop(50x27)1x1.bmp", 50, 31, true, RGB(255, 0, 255));				// µÂ∂¯ 
+	IMAGEMANAGER->addImage("»∞22", "image/item/weapon/bow/darkbowInven(17x15)1x1.bmp", 50, 31, true, RGB(255, 0, 255));				// ¿Œ∫•
 
-	IMAGEMANAGER->addImage("»∞30", "image/item/weapon/bow/lightbringer(300x50)6x1.bmp", 300, 50, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("»∞31", "image/item/weapon/bow/lightbringerDrop(50x22)1x1.bmp", 50, 22, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("»∞32", "image/item/weapon/bow/CrossbowDrop(50x31)1x1.bmp", 50, 31, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("»∞30", "image/item/weapon/bow/lightbringer(300x50)6x1.bmp", 300, 50, true, RGB(255, 0, 255));			// ¬¯øÎ
+	IMAGEMANAGER->addImage("»∞31", "image/item/weapon/bow/lightbringerDrop(50x22)1x1.bmp", 50, 22, true, RGB(255, 0, 255));			// µÂ∂¯
+	IMAGEMANAGER->addImage("»∞32", "image/item/weapon/bow/CrossbowDrop(50x31)1x1.bmp", 50, 31, true, RGB(255, 0, 255));				// ¿Œ∫•
 
 
 	//πÊ∆– ¿ÃπÃ¡ˆ
 
-	IMAGEMANAGER->addImage("πÊ∆–10", "image/item/weapon/shield/DashShield(50x45)1x1.bmp", 50, 45, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("πÊ∆–11", "image/item/weapon/shield/DashShieldDrop(50x45)1x1.bmp", 50, 45, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("πÊ∆–12", "image/item/weapon/shield/DashShieldInven(28x25)1x1.bmp", 28, 25, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("πÊ∆–10", "image/item/weapon/shield/DashShield(50x45)1x1.bmp", 50, 45, true, RGB(255, 0, 255));			// ¬¯øÎ
+	IMAGEMANAGER->addImage("πÊ∆–11", "image/item/weapon/shield/DashShieldDrop(50x45)1x1.bmp", 50, 45, true, RGB(255, 0, 255));		// µÂ∂¯
+	IMAGEMANAGER->addImage("πÊ∆–12", "image/item/weapon/shield/DashShieldInven(28x25)1x1.bmp", 28, 25, true, RGB(255, 0, 255));		// ¿Œ∫•
 
-	IMAGEMANAGER->addImage("πÊ∆–20", "image/item/weapon/shield/HeaterShield(40x65)1x1.bmp", 40, 65, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("πÊ∆–21", "image/item/weapon/shield/HeaterShieldDrop(65x40)1x1.bmp", 65, 40, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("πÊ∆–22", "image/item/weapon/shield/HeaterShieldInven(11x18)1x1.bmp", 11, 18, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("πÊ∆–20", "image/item/weapon/shield/HeaterShield(40x65)1x1.bmp", 40, 65, true, RGB(255, 0, 255));			// ¬¯øÎ
+	IMAGEMANAGER->addImage("πÊ∆–21", "image/item/weapon/shield/HeaterShieldDrop(65x40)1x1.bmp", 65, 40, true, RGB(255, 0, 255));		// µÂ∂¯
+	IMAGEMANAGER->addImage("πÊ∆–22", "image/item/weapon/shield/HeaterShieldInven(11x18)1x1.bmp", 11, 18, true, RGB(255, 0, 255));	// ¿Œ∫•
 
 
 

@@ -13,11 +13,15 @@ EnemyManager::~EnemyManager()
 
 HRESULT EnemyManager::init()
 {
-	Enemy* dogBone;
-	dogBone = new DogBone;
-	dogBone->init();
+	//Enemy* dogBone;
+	//dogBone = new DogBone;
+	//dogBone->init();
+	//_vMonster.push_back(dogBone);
 
-	_vMonster.push_back(dogBone);
+	Enemy* bigBone;
+	bigBone = new BigBone;
+	bigBone->init();
+	_vMonster.push_back(bigBone);
 
 	return S_OK;
 }
