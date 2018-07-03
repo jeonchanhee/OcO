@@ -45,14 +45,13 @@ void Item::createItem(int value, ITEMTYPE type, bool frame)
 			_item.image[i] = IMAGEMANAGER->findImage(str);
 			
 		}
-			if (value == 0) //기본무기 
-			{
-				_item.ad = 10;
-				_item.attackSpeed = 20;
-				_item.criticalPersent = 30;
-				_item.fixedDamage = 7;	                                                                                                                                                                               
-		
-			}
+		if (value == 0) //기본무기 
+		{
+			_item.ad = 10;
+			_item.attackSpeed = 20;
+			_item.criticalPersent = 30;
+			_item.fixedDamage = 7;                                                                                                                                     	
+		}
 
 			if (value == 1) // 첫번째 무기
 			{
