@@ -6,7 +6,7 @@
 
 // 타일 갯수
 #define TILEX 29
-#define TILEY 12
+#define TILEY 14
 
 // 타일 총 사이즈
 #define TILESIZEX TILESIZE * TILEX
@@ -15,6 +15,9 @@
 // 타일셋 갯수
 #define SAMPLETILEX 23
 #define SAMPLETILEY 26
+
+// 맵이름
+#define MAPNAME "Dungeon5.map"
 
 // 지형	
 enum TERRAIN
