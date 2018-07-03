@@ -9,21 +9,27 @@ Player::Player()
 }
 Player::~Player() {}
 
+
 HRESULT Player::init()
 {
+	_player			= IMAGEMANAGER->findImage("기본플레이어");
+	_playerHand[0]  = IMAGEMANAGER->findImage("플레이어손");
+	_playerHand[1]  = IMAGEMANAGER->findImage("플레이어손");
+	_playerWeapon   = IMAGEMANAGER->findImage("공주플레이어");
+	_x = WINSIZEX / 2; _y = WINSIZEY / 2;
+	_count = 0;  _mouseAngle = 0;
 
-	_player = IMAGEMANAGER->findImage("기본플레이어");
-	_playerHand[0] = IMAGEMANAGER->findImage("플레이어손");
-	_playerHand[1] = IMAGEMANAGER->findImage("플레이어손");
-	_playerWeapon = IMAGEMANAGER->findImage("공주플레이어");
-
-	_x = WINSIZEX / 2 - 400; _y = WINSIZEY / 2;
-	_count = 0;
-	_mouseAngle = 0;
-
+	_currentHp = 80; _maxHp = 80;
+	_currentDash = 2; _maxDash = 2;
+	_armor = 0;
+	_currentFullNess = 0; _maxFullNess = 100;
 	_jumpPower = 12.0f;
 	_moveMentSpeed = 3.0f;
 	_direction = RIGHT_STOP;
+	_gold = 0;
+	_jumpMax = 1; _jumpCount = 0;
+	_fixedDamage = 0;
+	_youUsingCount = 0;
 
 	int rightStop[] = { 0,1,2,3,4 };
 	KEYANIMANAGER->addArrayFrameAnimation("오른쪽보고서있기", "기본플레이어", rightStop, 5, 10, true);
@@ -42,51 +48,26 @@ HRESULT Player::init()
 	KEYANIMANAGER->addArrayFrameAnimation("왼쪽점프", "기본플레이어", leftJump, 1, 10, true);
 	int leftDie[] = { 16 ,17 };
 	KEYANIMANAGER->addArrayFrameAnimation("왼쪽죽음", "기본플레이어", leftDie, 2, 10, true);
-	
+
 	_playerAnimation = KEYANIMANAGER->findAnimation("오른쪽보고서있기");
+	
+	//equipment
+	for (int i = 0; i < 2; ++i)
+	{
+		_mainWeapon[i] = 0;
+		_assistWeapon[i] = 0;
+	}
+	for (int i = 0; i < 15; ++i)
+	{
+		_inventory[i] = 0;
+	}
+	for (int i = 0; i < 4; ++i)
+	{
+		_accessory[i] = 0;
+	}
 	
 	return S_OK;
 }
-//Player::~Player() {}
-
-//HRESULT Player::init()
-//{
-//	_player			= IMAGEMANAGER->findImage("기본플레이어");
-//	_playerHand[0]  = IMAGEMANAGER->findImage("플레이어손");
-//	_playerHand[1]  = IMAGEMANAGER->findImage("플레이어손");
-//	_playerWeapon   = IMAGEMANAGER->findImage("공주플레이어");
-//	_x = WINSIZEX / 2; _y = WINSIZEY / 2;
-//	_count = 0;  _mouseAngle = 0;
-//
-//	_currentHp = 80; _maxHp = 80;
-//	_currentDash = 2; _maxDash = 2;
-//	_armor = 0;
-//	_currentFullNess = 0; _maxFullNess = 100;
-//	_jumpPower = 12.0f;
-//	_moveMentSpeed = 3.0f;
-//	_direction = RIGHT_STOP;
-//	_gold = 0;
-//	_jumpMax = 1; _jumpCount = 0;
-//	_fixedDamage = 0;
-//	_youUsingCount = 0;
-//	
-//	//equipment
-//	for (int i = 0; i < 2; ++i)
-//	{
-//		_mainWeapon[i] = 0;
-//		_assistWeapon[i] = 0;
-//	}
-//	for (int i = 0; i < 15; ++i)
-//	{
-//		_inventory[i] = 0;
-//	}
-//	for (int i = 0; i < 4; ++i)
-//	{
-//		_accessory[i] = 0;
-//	}
-//	
-//	return S_OK;
-//}
 
 void Player::release() {}
 

@@ -4,6 +4,7 @@
 
 HRESULT titleScene::init(void)
 {
+	SOUNDMANAGER->play("title");
 	_birdImg0 = IMAGEMANAGER->addFrameImage("T_bird", "image/UI/Bird(800x58,8x1).bmp", 0, 0, 800, 58, 8, 1, true, RGB(255, 0, 255), true);
 	_birdImg1 = IMAGEMANAGER->addFrameImage("T_bird1", "image/UI/Bird(800x58,8x1).bmp", 0, 0, 800, 58, 8, 1, true, RGB(255, 0, 255), true);
 	_bird0 = { RND->getFromIntTo(-200,-50),RND->getFromIntTo(500,900) };
@@ -173,6 +174,18 @@ void titleScene::drawData()
 			TextOut(DC, 260 + i * 610, 580, str, strlen(str));
 			sprintf_s(str, "%5dG", _vData[i].gold);
 			TextOut(DC, 260 + i * 610, 630, str, strlen(str));
+			SelectObject(DC, oldFont);
+			DeleteObject(font);
+		}
+		else
+		{
+			HFONT font, oldFont;
+			font = CreateFont(40, 0, 0, 0, 40, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("소야바른9"));
+			oldFont = (HFONT)SelectObject(DC, font);
+			SetBkMode(DC, TRANSPARENT);
+			char str[128];
+			sprintf_s(str, "데이터 없음");
+			TextOut(DC, 250, 350, str, strlen(str));
 			SelectObject(DC, oldFont);
 			DeleteObject(font);
 		}

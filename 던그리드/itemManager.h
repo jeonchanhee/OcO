@@ -5,13 +5,11 @@
 class itemManager : public gameNode
 {
 private:
-	typedef vector <Item*> Vitem;
-	typedef vector <Item*>::iterator VIitem;
-
+	//typedef vector <item*> Vitem;
+	//typedef vector <item*>::iterator VIitem;
 private:
-	Vitem _vItem;
-	VIitem _viItem;
-
+	//Vitem _vItem;
+	//VIitem _viItem;
 public:
 	itemManager();
 	~itemManager();
@@ -20,7 +18,5 @@ public:
 	void release();
 	void update();
 	void render();
-
-
 };
 

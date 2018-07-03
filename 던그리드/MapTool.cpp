@@ -24,6 +24,28 @@ void MapTool::update()
 {
 	if (KEYMANAGER->isStayKeyDown(VK_LBUTTON))setmap();
 
+	if (KEYMANAGER->isStayKeyDown(VK_RBUTTON))
+	{
+		POINT mouse = { _ptMouse.x + CAMERAMANAGER->getCameraRc2().left,_ptMouse.y + CAMERAMANAGER->getCameraRc2().top };
+
+		if (_ptMouse.x < CAMERA2X&&_ptMouse.y < CAMERA2Y)
+		{
+			for (int i = 0; i < TILEX * TILEY; i++)
+			{
+				if (PtInRect(&_tiles[i].rc, mouse))
+				{
+					_tiles[i].objFrameX = NULL;
+					_tiles[i].objFrameY = NULL;
+
+					_tiles[i].object = OBJ_NONE;
+
+					InvalidateRect(_hWnd, NULL, false);
+					break;
+				}
+			}
+		}
+	}
+
 	if (KEYMANAGER->isOnceKeyDown('Y'))
 	{
 		for (int i = 0; i < TILEX * TILEY; i++)
@@ -99,7 +121,7 @@ void MapTool::save()
 	HANDLE	file;
 	DWORD	save;
 
-	file = CreateFile("Dungeon2.map", GENERIC_WRITE, NULL, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+	file = CreateFile(MAPNAME, GENERIC_WRITE, NULL, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 
 	WriteFile(file, _tiles, sizeof(tagTile) * TILEX * TILEY, &save, NULL);
 
@@ -111,7 +133,7 @@ void MapTool::load()
 	HANDLE	file;
 	DWORD	load;
 
-	file = CreateFile("Dungeon2.map", GENERIC_READ, NULL, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+	file = CreateFile(MAPNAME, GENERIC_READ, NULL, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 
 	ReadFile(file, _tiles, sizeof(tagTile) * TILEX * TILEY, &load, NULL);
 
@@ -144,6 +166,15 @@ void MapTool::setup()
 		}
 	}
 
+	for (int i = 0; i < TILEX * TILEY; ++i)
+	{
+		_tiles[i].terrainFrameX = 0;
+		_tiles[i].terrainFrameY = 0;
+		_tiles[i].objFrameX = 0;
+		_tiles[i].objFrameY = 0;
+		_tiles[i].terrain = terrainSelect(_tiles[i].terrainFrameX, _tiles[i].terrainFrameY);
+		_tiles[i].object = OBJ_NONE;
+	}
 }
 
 void MapTool::setmap()
@@ -183,35 +214,37 @@ void MapTool::setmap()
 		}
 	}
 
-
-	for (int i = 0; i < TILEX * TILEY; i++)
+	if (_ptMouse.x < CAMERA2X&&_ptMouse.y < CAMERA2Y)
 	{
-		if (PtInRect(&_tiles[i].rc, mouse))
+		for (int i = 0; i < TILEX * TILEY; i++)
 		{
-			if (_select == TRRAINDRAW)
+			if (PtInRect(&_tiles[i].rc, mouse))
 			{
-				_tiles[i].terrainFrameX = _currentTile.x;
-				_tiles[i].terrainFrameY = _currentTile.y;
+				if (_select == TRRAINDRAW)
+				{
+					_tiles[i].terrainFrameX = _currentTile.x;
+					_tiles[i].terrainFrameY = _currentTile.y;
 
-				_tiles[i].terrain = terrainSelect(_currentTile.x, _currentTile.y);
-			}
-			else if (_select == OBJDRAW)
-			{
-				_tiles[i].objFrameX = _currentTile.x;
-				_tiles[i].objFrameY = _currentTile.y;
+					_tiles[i].terrain = terrainSelect(_currentTile.x, _currentTile.y);
+				}
+				else if (_select == OBJDRAW)
+				{
+					_tiles[i].objFrameX = _currentTile.x;
+					_tiles[i].objFrameY = _currentTile.y;
 
-				_tiles[i].object = objSelect(_currentTile.x, _currentTile.y);
-			}
-			else if (_select == ERASER)
-			{
-				_tiles[i].objFrameX = NULL;
-				_tiles[i].objFrameY = NULL;
+					_tiles[i].object = objSelect(_currentTile.x, _currentTile.y);
+				}
+				else if (_select == ERASER)
+				{
+					_tiles[i].objFrameX = NULL;
+					_tiles[i].objFrameY = NULL;
 
-				_tiles[i].object = OBJ_NONE;
+					_tiles[i].object = OBJ_NONE;
+				}
+
+				InvalidateRect(_hWnd, NULL, false);
+				break;
 			}
-		
-			InvalidateRect(_hWnd, NULL, false);
-			break;
 		}
 	}
 }
@@ -260,7 +293,7 @@ OBJECT MapTool::objSelect(int FrameX, int FrameY)
 		if (FrameX == i && FrameY == 3) return OBJ_GROUND;
 	}
 	
-	for (int i = 3; i < 10; i++)
+	for (int i = 3; i < 11; i++)
 	{
 		if (FrameX == i && FrameY == 4) return OBJ_GROUND;
 	}
@@ -297,6 +330,23 @@ OBJECT MapTool::objSelect(int FrameX, int FrameY)
 	{
 		if (FrameX == i && FrameY == 13) return OBJ_THORN;
 	}
+
+	//오브젝트인지 잘 모르겠음
+	for (int i = 5; i < 8; i++)
+	{
+		for (int j = 5; j < 8; j++)
+		{
+			if (i == 6 && j == 6) continue;
+			if (FrameX == i && FrameY == j) return OBJ_GROUND;
+		}
+	}
+	for (int i = 8; i < 11; i++)
+	{
+		if (FrameX = i && FrameY == 5) return OBJ_GROUND;
+	}
+
+	if (FrameX == 8 && FrameY == 6) return OBJ_GROUND;
+	//여기까지
 
 	if (FrameX == 11 && FrameY == 0) return OBJ_GROUND;
 	if (FrameX == 12 && FrameY == 0) return OBJ_GROUND;
