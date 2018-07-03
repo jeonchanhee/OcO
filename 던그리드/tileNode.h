@@ -1,12 +1,20 @@
 #pragma once
 
+// 전체 맵 사이즈 입니다   수정 부우탁 드립니다
+#define BACKGROUNDSIZEX TILEX*96
+#define BACKGROUNDSIZEY TILEY*96
+
+//작은 카메라 사이즈
+#define CAMERA2X 1100
+#define CAMERA2Y 1080
+
 // 타일 규격
 #define TILESIZE 96
 #define TILESIZE2 32
 
-// 타일 갯수
-#define TILEX 29
-#define TILEY 12
+// 타일 갯수 
+#define TILEX 50
+#define TILEY 50
 
 // 타일 총 사이즈
 #define TILESIZEX TILESIZE * TILEX

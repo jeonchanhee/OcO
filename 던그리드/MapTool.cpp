@@ -99,7 +99,7 @@ void MapTool::save()
 	HANDLE	file;
 	DWORD	save;
 
-	file = CreateFile("Dungeon2.map", GENERIC_WRITE, NULL, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+	file = CreateFile("Dungeon6", GENERIC_WRITE, NULL, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 
 	WriteFile(file, _tiles, sizeof(tagTile) * TILEX * TILEY, &save, NULL);
 
@@ -111,7 +111,7 @@ void MapTool::load()
 	HANDLE	file;
 	DWORD	load;
 
-	file = CreateFile("Dungeon2.map", GENERIC_READ, NULL, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+	file = CreateFile("Dungeon6", GENERIC_READ, NULL, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 
 	ReadFile(file, _tiles, sizeof(tagTile) * TILEX * TILEY, &load, NULL);
 
@@ -183,35 +183,37 @@ void MapTool::setmap()
 		}
 	}
 
-
-	for (int i = 0; i < TILEX * TILEY; i++)
+	if (_ptMouse.x < CAMERA2X&&_ptMouse.y < CAMERA2Y)
 	{
-		if (PtInRect(&_tiles[i].rc, mouse))
+		for (int i = 0; i < TILEX * TILEY; i++)
 		{
-			if (_select == TRRAINDRAW)
+			if (PtInRect(&_tiles[i].rc, mouse))
 			{
-				_tiles[i].terrainFrameX = _currentTile.x;
-				_tiles[i].terrainFrameY = _currentTile.y;
+				if (_select == TRRAINDRAW)
+				{
+					_tiles[i].terrainFrameX = _currentTile.x;
+					_tiles[i].terrainFrameY = _currentTile.y;
 
-				_tiles[i].terrain = terrainSelect(_currentTile.x, _currentTile.y);
-			}
-			else if (_select == OBJDRAW)
-			{
-				_tiles[i].objFrameX = _currentTile.x;
-				_tiles[i].objFrameY = _currentTile.y;
+					_tiles[i].terrain = terrainSelect(_currentTile.x, _currentTile.y);
+				}
+				else if (_select == OBJDRAW)
+				{
+					_tiles[i].objFrameX = _currentTile.x;
+					_tiles[i].objFrameY = _currentTile.y;
 
-				_tiles[i].object = objSelect(_currentTile.x, _currentTile.y);
-			}
-			else if (_select == ERASER)
-			{
-				_tiles[i].objFrameX = NULL;
-				_tiles[i].objFrameY = NULL;
+					_tiles[i].object = objSelect(_currentTile.x, _currentTile.y);
+				}
+				else if (_select == ERASER)
+				{
+					_tiles[i].objFrameX = NULL;
+					_tiles[i].objFrameY = NULL;
 
-				_tiles[i].object = OBJ_NONE;
+					_tiles[i].object = OBJ_NONE;
+				}
+
+				InvalidateRect(_hWnd, NULL, false);
+				break;
 			}
-		
-			InvalidateRect(_hWnd, NULL, false);
-			break;
 		}
 	}
 }
