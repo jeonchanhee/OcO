@@ -87,7 +87,7 @@ HRESULT playGround::Image_init(void)
 	// ===========아이템 이미지 =============
 
 	// 근거리 무기 이미지
-	IMAGEMANAGER->addImage("검10", "image/item/weapon/sword/ShortSword(30x81)1x1.bmp", 30, 96, true, RGB(255, 0, 255)); //착용
+	IMAGEMANAGER->addRotateImage("검10", "image/item/weapon/sword/ShortSword(30x81)1x1.bmp",81,30, true, RGB(255, 0, 255)); //착용
 	IMAGEMANAGER->addImage("검11", "image/item/weapon/sword/ShortSwordDrop(81x30)1x1.bmp", 96, 30, true, RGB(255, 0, 255)); //드랍
 	IMAGEMANAGER->addImage("검12", "image/item/weapon/sword/ShortSwordInven(7x19)1x1.bmp", 10, 32, true, RGB(255, 0, 255)); //인벤
 
