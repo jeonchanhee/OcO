@@ -73,7 +73,6 @@ void DogBone::update()
 
 
 	////////////////////DIE테스트임///////////////////////////
-
 	if (KEYMANAGER->isOnceKeyDown(VK_F1))
 	{
 		if (_dogBoneDirection == DOGBONE_RIGHT_MOVE || _dogBoneDirection == DOGBONE_RIGHT_IDLE || _dogBoneDirection == DOGBONE_RIGHT_JUMP)
