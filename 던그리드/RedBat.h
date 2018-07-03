@@ -3,12 +3,12 @@
 
 enum REDBATDIRECTION
 {
-	RIGHT_MOVE,
-	LEFT_MOVE,
-	RIGHT_ATTACK,
-	LEFT_ATTACK,
-	RIGHT_DIE,
-	LEFT_DIE
+	REDBAT_RIGHT_MOVE,
+	REDBAT_LEFT_MOVE,
+	REDBAT_RIGHT_ATTACK,
+	REDBAT_LEFT_ATTACK,
+	REDBAT_RIGHT_DIE,
+	REDBAT_LEFT_DIE
 };
 
 class RedBat : public Enemy
@@ -30,7 +30,21 @@ public:
 	void move();
 	void rightMove();
 	void leftMove();
+
+	void Attack();
+	
 	void changeAnimation(REDBATDIRECTION direction);
+
+
+	static void rightAttack(void* obj);
+	static void leftAttack(void* obj);
+
+	//콜백함수
+	REDBATDIRECTION getRedBatDirection() { return _redBatDirection; }
+	void setRedBatDirection(REDBATDIRECTION dir) { _redBatDirection = dir; }
+
+	animation* getRedBatMotion() { return _redBatMotion; }
+	void setRedBatMotion(animation* ani) { _redBatMotion = ani; }
 
 };
 

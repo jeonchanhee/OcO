@@ -20,22 +20,19 @@ HRESULT RedBat::init()
 	_angle = 0;
 	_speed = 300.0f;
 
-	_redBatDirection = RIGHT_MOVE;
+	_redBatDirection = REDBAT_RIGHT_MOVE;
 
 	_img = IMAGEMANAGER->findImage("redBatMoveAttackDie");
 	
-	//¿À¸¥ÂÊ ÀÌµ¿
+	//Move
 	KEYANIMANAGER->addCoordinateFrameAnimation("redBatRightMove", "redBatMoveAttackDie", 0, 7, 10, false, true);
-	//¿ŞÂÊ ÀÌµ¿
 	KEYANIMANAGER->addCoordinateFrameAnimation("redBatLeftMove", "redBatMoveAttackDie", 8, 15, 10, false, true);
-	//¿À¸¥ÂÊ °ø°İ
-	KEYANIMANAGER->addCoordinateFrameAnimation("redBatRightAttack", "redBatMoveAttackDie", 16, 23, 10, false, false);
-	//¿ŞÂÊ °ø°İ
-	KEYANIMANAGER->addCoordinateFrameAnimation("redBatLeftAttack", "redBatMoveAttackDie", 24, 31, 10, false, true);
-	//¿À¸¥ÂÊ Á×À½
+	//Attack
+	KEYANIMANAGER->addCoordinateFrameAnimation("redBatRightAttack", "redBatMoveAttackDie", 16, 23, 10, false, false, rightAttack, this);
+	KEYANIMANAGER->addCoordinateFrameAnimation("redBatLeftAttack", "redBatMoveAttackDie", 24, 31, 10, false, false , leftAttack, this);
+	//Die
 	int rightDie[] = { 32 };
 	KEYANIMANAGER->addArrayFrameAnimation("redBatRightDie", "redBatMoveAttackDie", rightDie, 1, 6, false);
-	//¿ŞÂÊ Á×À½
 	int leftDie[] = { 33 };
 	KEYANIMANAGER->addArrayFrameAnimation("redBatLeftDie", "redBatMoveAttackDie", leftDie, 1, 6, false);
 
@@ -53,55 +50,34 @@ void RedBat::release()
 
 void RedBat::update()
 {
+	_count++;
+
 	move();
+	Attack();
 	KEYANIMANAGER->update();
 	
 	/////////////////////////Å×½ºÆ®/////////////////////////////
-	//°ø°İ¸ğ¼Ç
+	//Á×´Â¸ğ¼Ç
 	if (KEYMANAGER->isOnceKeyDown(VK_F4))
 	{
-		if (_redBatDirection == RIGHT_MOVE)
+		if (_redBatDirection == REDBAT_RIGHT_MOVE)
 		{
-			changeAnimation(RIGHT_ATTACK);
+			changeAnimation(REDBAT_RIGHT_DIE);
 		}
-		if (_redBatDirection == LEFT_MOVE)
+		if (_redBatDirection == REDBAT_LEFT_MOVE)
 		{
-			changeAnimation(LEFT_ATTACK);
+			changeAnimation(REDBAT_LEFT_DIE);
 		}
 	}
 	if (KEYMANAGER->isOnceKeyUp(VK_F4))
 	{
-		if (_redBatDirection == RIGHT_ATTACK)
+		if (_redBatDirection == REDBAT_RIGHT_DIE)
 		{
-			changeAnimation(RIGHT_MOVE);
+			changeAnimation(REDBAT_RIGHT_MOVE);
 		}
-		if (_redBatDirection == LEFT_ATTACK)
+		if (_redBatDirection == REDBAT_LEFT_DIE)
 		{
-			changeAnimation(LEFT_MOVE);
-		}
-	}
-
-	//Á×´Â¸ğ¼Ç
-	if (KEYMANAGER->isOnceKeyDown(VK_F5))
-	{
-		if (_redBatDirection == RIGHT_MOVE)
-		{
-			changeAnimation(RIGHT_DIE);
-		}
-		if (_redBatDirection == LEFT_MOVE)
-		{
-			changeAnimation(LEFT_DIE);
-		}
-	}
-	if (KEYMANAGER->isOnceKeyUp(VK_F5))
-	{
-		if (_redBatDirection == RIGHT_DIE)
-		{
-			changeAnimation(RIGHT_MOVE);
-		}
-		if (_redBatDirection == LEFT_DIE)
-		{
-			changeAnimation(LEFT_MOVE);
+			changeAnimation(REDBAT_LEFT_MOVE);
 		}
 	}
 
@@ -118,10 +94,10 @@ void RedBat::move()
 {
 	switch (_redBatDirection)
 	{
-		case RIGHT_MOVE:
+		case REDBAT_RIGHT_MOVE:
 			rightMove();
 		break;
-		case LEFT_MOVE:
+		case REDBAT_LEFT_MOVE:
 			leftMove();
 		break;
 		default:
@@ -133,36 +109,43 @@ void RedBat::move()
 
 void RedBat::rightMove()
 {
-	_count++;
 	if (_count % 10 == 0)
 	{
 		_angle -= PI2 / 36;
-
-		_count = 0;
+	
 	}
 
 	_x = cosf(_angle)*_speed + _startX;
 	_y = -sin(_angle)*_speed + _startY;
 
 	_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
-	
 }
 
 void RedBat::leftMove()
 {
-	_count++;
 	if (_count % 10 == 0)
 	{
 		_angle += PI2 / 36;
 
-		_count = 0;
 	}
 
 	_x = cosf(_angle)*_speed + _startX;
 	_y = -sinf(_angle)*_speed + _startY;
 
 	_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
+}
 
+void RedBat::Attack()
+{
+	if (!(_count % 141))
+	{
+		if (_redBatDirection == REDBAT_RIGHT_MOVE)
+			changeAnimation(REDBAT_RIGHT_ATTACK);
+		if (_redBatDirection == REDBAT_LEFT_MOVE)
+			changeAnimation(REDBAT_LEFT_ATTACK);
+		
+		_count = 0;
+	}
 }
 
 
@@ -170,64 +153,60 @@ void RedBat::changeAnimation(REDBATDIRECTION direction)
 {
 	switch (direction)
 	{
-	case RIGHT_MOVE:
+	case REDBAT_RIGHT_MOVE:
 		_img = IMAGEMANAGER->findImage("redBatMoveAttackDie");
-		_redBatDirection = RIGHT_MOVE;
+		_redBatDirection = REDBAT_RIGHT_MOVE;
 		_redBatMotion = KEYANIMANAGER->findAnimation("redBatRightMove");
 		_redBatMotion->start();
 		break;
-	case LEFT_MOVE:
+	case REDBAT_LEFT_MOVE:
 		_img = IMAGEMANAGER->findImage("redBatMoveAttackDie");
-		_redBatDirection = LEFT_MOVE;
+		_redBatDirection = REDBAT_LEFT_MOVE;
 		_redBatMotion = KEYANIMANAGER->findAnimation("redBatLeftMove");
 		_redBatMotion->start();
 		break;
-	case RIGHT_ATTACK:
+	case REDBAT_RIGHT_ATTACK:
 		_img = IMAGEMANAGER->findImage("redBatMoveAttackDie");
-		_redBatDirection = RIGHT_ATTACK;
+		_redBatDirection = REDBAT_RIGHT_ATTACK;
 		_redBatMotion = KEYANIMANAGER->findAnimation("redBatRightAttack");
 		_redBatMotion->start();
 		break;
-	case LEFT_ATTACK:
+	case REDBAT_LEFT_ATTACK:
 		_img = IMAGEMANAGER->findImage("redBatMoveAttackDie");
-		_redBatDirection = LEFT_ATTACK;
+		_redBatDirection = REDBAT_LEFT_ATTACK;
 		_redBatMotion = KEYANIMANAGER->findAnimation("redBatLeftAttack");
 		_redBatMotion->start();
 		break;
-	case RIGHT_DIE:
+	case REDBAT_RIGHT_DIE:
 		_img = IMAGEMANAGER->findImage("redBatMoveAttackDie");
-		_redBatDirection = RIGHT_DIE;
+		_redBatDirection = REDBAT_RIGHT_DIE;
 		_redBatMotion = KEYANIMANAGER->findAnimation("redBatRightDie");
 		_redBatMotion->start();
 		break;
-	case LEFT_DIE:
+	case REDBAT_LEFT_DIE:
 		_img = IMAGEMANAGER->findImage("redBatMoveAttackDie");
-		_redBatDirection = LEFT_DIE;
+		_redBatDirection = REDBAT_LEFT_DIE;
 		_redBatMotion = KEYANIMANAGER->findAnimation("redBatLeftDie");
 		_redBatMotion->start();
 		break;
 	}
 }
 
-
-/*
-
-switch (direction)
+void RedBat::rightAttack(void * obj)
 {
-case RIGHT_MOVE:
-break;
-case LEFT_MOVE:
-break;
-case RIGHT_ATTACK:
-break;
-case LEFT_ATTACK:
-break;
-case RIGHT_DIE:
-break;
-case LEFT_DIE:
-break;
-default:
-break;
-}
+	RedBat* rb = (RedBat*)obj;
 
-*/
+	rb->_img = IMAGEMANAGER->findImage("redBatMoveAttackDie");
+	rb->setRedBatDirection(REDBAT_RIGHT_MOVE);
+	rb->setRedBatMotion(KEYANIMANAGER->findAnimation("redBatRightMove"));
+	rb->getRedBatMotion()->start();
+}
+void RedBat::leftAttack(void * obj)
+{
+	RedBat* rb = (RedBat*)obj;
+
+	rb->_img = IMAGEMANAGER->findImage("redBatMoveAttackDie");
+	rb->setRedBatDirection(REDBAT_LEFT_MOVE);
+	rb->setRedBatMotion(KEYANIMANAGER->findAnimation("redBatLeftMove"));
+	rb->getRedBatMotion()->start();
+}

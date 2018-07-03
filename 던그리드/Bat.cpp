@@ -141,7 +141,7 @@ void Bat::rightMove()
 	if (_count % 10 == 0)
 	{
 		_angle -= PI2 / 36;
-
+		
 		_count = 0;
 	}
 
