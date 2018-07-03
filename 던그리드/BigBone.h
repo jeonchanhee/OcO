@@ -39,6 +39,7 @@ public:
 	void changeDirection(); //방향전환 함수
 	void changeAnimation(BIGBONEDIRECTION bigBoneDirection); //애니메이션 바꾸는 함수
 
+	//콜백함수
 	BIGBONEDIRECTION getBigBoneDirection() { return _bigBoneDirection; }
 	void setBigBoneDirection(BIGBONEDIRECTION direction) { _bigBoneDirection = direction; }
 
