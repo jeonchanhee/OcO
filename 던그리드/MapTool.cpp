@@ -146,8 +146,8 @@ void MapTool::setup()
 
 	for (int i = 0; i < TILEX * TILEY; ++i)
 	{
-		_tiles[i].terrainFrameX = 9;
-		_tiles[i].terrainFrameY = 16;
+		_tiles[i].terrainFrameX = 0;
+		_tiles[i].terrainFrameY = 0;
 		_tiles[i].objFrameX = 0;
 		_tiles[i].objFrameY = 0;
 		_tiles[i].terrain = terrainSelect(_tiles[i].terrainFrameX, _tiles[i].terrainFrameY);
