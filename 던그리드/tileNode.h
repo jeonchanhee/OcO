@@ -25,7 +25,7 @@
 #define SAMPLETILEY 26
 
 // 맵이름
-#define MAPNAME "Dungeon9.map"
+#define MAPNAME "bossMap.map"
 
 // 지형	
 enum TERRAIN
