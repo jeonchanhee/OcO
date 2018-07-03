@@ -8,24 +8,22 @@ playGround::~playGround(){}
 
 HRESULT playGround::init(void)	
 {
-	mode = 맵툴;				//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
+	mode = 아이템;				//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
 
 
 	gameNode::init(true);
-	//Image_init();
-	//Sound_init();
+	Image_init();
+	Sound_init();
 	//_mapTool = new MapTool;
 	//_mapTool->init();
 	//_player  = new Player;
 	//_player->init();
-	_im = new itemManager;
-	_im->init();
-
 
 	SCENEMANAGER->addScene("타이틀", new titleScene);
 	SCENEMANAGER->addScene("던전", new dungeonScene);
 	SCENEMANAGER->addScene("도그본", new EnemyManager);
 	SCENEMANAGER->addScene("대사씬", new Dialog);
+	SCENEMANAGER->addScene("아이템씬", new itemManager);
 	
 	switch (mode)
 	{
@@ -44,6 +42,7 @@ HRESULT playGround::init(void)
 	case 플레이어:
 		break;
 	case 아이템:
+		SCENEMANAGER->changeScene("아이템씬");
 		break;
 
 	case 기타추가하셈:
@@ -66,8 +65,8 @@ void playGround::update(void)
 {
 	gameNode::update();
 
-	_mapTool->update();
-	_player->update();
+	//_mapTool->update();
+	//_player->update();
 	SCENEMANAGER->update();
 
 	if (KEYMANAGER->isOnceKeyDown(VK_F1))
@@ -111,7 +110,7 @@ void playGround::render(void)
 		_player->render();
 		break;
 	case 아이템:
-		_im->render();
+		SCENEMANAGER->render();
 		break;
 
 	case 기타추가하셈:

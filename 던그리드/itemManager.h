@@ -9,11 +9,9 @@ private:
 	typedef vector <Item*>::iterator VIitem;
 
 private:
-
 	Vitem _vItem;
 	VIitem _viItem;
 
-	Item* _item;
 public:
 	itemManager();
 	~itemManager();
