@@ -14,7 +14,7 @@
 
 // 타일 갯수
 #define TILEX 50
-#define TILEY 50
+#define TILEY 29
 
 // 타일 총 사이즈
 #define TILESIZEX TILESIZE * TILEX
@@ -25,7 +25,7 @@
 #define SAMPLETILEY 26
 
 // 맵이름
-#define MAPNAME "bossMap.map"
+#define MAPNAME "Dungeon5.map"
 
 // 지형	
 enum TERRAIN

@@ -4,6 +4,7 @@
 
 HRESULT titleScene::init(void)
 {
+	SOUNDMANAGER->play("title");
 	_birdImg0 = IMAGEMANAGER->addFrameImage("T_bird", "image/UI/Bird(800x58,8x1).bmp", 0, 0, 800, 58, 8, 1, true, RGB(255, 0, 255), true);
 	_birdImg1 = IMAGEMANAGER->addFrameImage("T_bird1", "image/UI/Bird(800x58,8x1).bmp", 0, 0, 800, 58, 8, 1, true, RGB(255, 0, 255), true);
 	_bird0 = { RND->getFromIntTo(-200,-50),RND->getFromIntTo(500,900) };

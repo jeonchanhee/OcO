@@ -293,7 +293,7 @@ OBJECT MapTool::objSelect(int FrameX, int FrameY)
 		if (FrameX == i && FrameY == 3) return OBJ_GROUND;
 	}
 	
-	for (int i = 3; i < 10; i++)
+	for (int i = 3; i < 11; i++)
 	{
 		if (FrameX == i && FrameY == 4) return OBJ_GROUND;
 	}
