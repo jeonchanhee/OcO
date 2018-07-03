@@ -18,14 +18,13 @@ HRESULT playGround::init(void)
 	_mapTool->init();
 	_player  = new Player;
 	_player->init();
-	_im = new itemManager;
-	_im->init();
 
 
 	SCENEMANAGER->addScene("타이틀", new titleScene);
 	SCENEMANAGER->addScene("던전", new dungeonScene);
 	SCENEMANAGER->addScene("적", new EnemyManager);
 	SCENEMANAGER->addScene("대사씬", new Dialog);
+	SCENEMANAGER->addScene("아이템씬", new itemManager);
 	
 	switch (mode)
 	{
@@ -44,6 +43,7 @@ HRESULT playGround::init(void)
 	case 플레이어:
 		break;
 	case 아이템:
+		SCENEMANAGER->changeScene("아이템씬");
 		break;
 
 	case 기타추가하셈:
@@ -86,7 +86,6 @@ void playGround::render(void)
 {
 	
 	//흰색도화지 한 장 깔아둔다
-	//PatBlt(DC, 0, 0, WINSIZEX, WINSIZEY, WHITENESS); // 카메라 매니저 DC -> getMemDC 로 바꾸었습니다.
 	PatBlt(DC, 0, 0, WINSIZEX, WINSIZEY, WHITENESS); // 카메라 매니저 DC -> getMemDC 로 바꾸었습니다.
 	
 	//============== 이 위로는 건드리지 말자 ==============
@@ -111,7 +110,7 @@ void playGround::render(void)
 		_player->render();
 		break;
 	case 아이템:
-		_im->render();
+		SCENEMANAGER->render();
 		break;
 
 	case 기타추가하셈:
