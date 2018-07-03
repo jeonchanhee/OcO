@@ -176,6 +176,18 @@ void titleScene::drawData()
 			SelectObject(DC, oldFont);
 			DeleteObject(font);
 		}
+		else
+		{
+			HFONT font, oldFont;
+			font = CreateFont(40, 0, 0, 0, 40, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("소야바른9"));
+			oldFont = (HFONT)SelectObject(DC, font);
+			SetBkMode(DC, TRANSPARENT);
+			char str[128];
+			sprintf_s(str, "데이터 없음");
+			TextOut(DC, 250, 350, str, strlen(str));
+			SelectObject(DC, oldFont);
+			DeleteObject(font);
+		}
 	}
 }
 

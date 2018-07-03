@@ -24,6 +24,28 @@ void MapTool::update()
 {
 	if (KEYMANAGER->isStayKeyDown(VK_LBUTTON))setmap();
 
+	if (KEYMANAGER->isStayKeyDown(VK_RBUTTON))
+	{
+		POINT mouse = { _ptMouse.x + CAMERAMANAGER->getCameraRc2().left,_ptMouse.y + CAMERAMANAGER->getCameraRc2().top };
+
+		if (_ptMouse.x < CAMERA2X&&_ptMouse.y < CAMERA2Y)
+		{
+			for (int i = 0; i < TILEX * TILEY; i++)
+			{
+				if (PtInRect(&_tiles[i].rc, mouse))
+				{
+					_tiles[i].objFrameX = NULL;
+					_tiles[i].objFrameY = NULL;
+
+					_tiles[i].object = OBJ_NONE;
+
+					InvalidateRect(_hWnd, NULL, false);
+					break;
+				}
+			}
+		}
+	}
+
 	if (KEYMANAGER->isOnceKeyDown('Y'))
 	{
 		for (int i = 0; i < TILEX * TILEY; i++)
@@ -308,6 +330,23 @@ OBJECT MapTool::objSelect(int FrameX, int FrameY)
 	{
 		if (FrameX == i && FrameY == 13) return OBJ_THORN;
 	}
+
+	//오브젝트인지 잘 모르겠음
+	for (int i = 5; i < 8; i++)
+	{
+		for (int j = 5; j < 8; j++)
+		{
+			if (i == 6 && j == 6) continue;
+			if (FrameX == i && FrameY == j) return OBJ_GROUND;
+		}
+	}
+	for (int i = 8; i < 11; i++)
+	{
+		if (FrameX = i && FrameY == 5) return OBJ_GROUND;
+	}
+
+	if (FrameX == 8 && FrameY == 6) return OBJ_GROUND;
+	//여기까지
 
 	if (FrameX == 11 && FrameY == 0) return OBJ_GROUND;
 	if (FrameX == 12 && FrameY == 0) return OBJ_GROUND;
