@@ -26,16 +26,31 @@ void cameraManager::release()
 {
 }
 
-void cameraManager::render()
+void cameraManager::cameraShaking()
 {
+	int rand = RND->getInt(4);
+	switch (rand)
+	{
+	case 0:
+		_cameraX += moveValue;
+		_cameraY += moveValue;
+		break;
+	case 1:
+		_cameraX += moveValue;
+		_cameraY -= moveValue;
+		break;
+	case 2:
+		_cameraX -= moveValue;
+		_cameraY += moveValue;
+		break;
+	case 3:
+		_cameraX -= moveValue;
+		_cameraY -= moveValue;
+		break;
 
+	}
 }
 
-void cameraManager::render(image* img)
-{
-	GdiTransparentBlt(img->getMemDC(), _center.x - WINSIZEX / 2, _center.y - WINSIZEY / 2, WINSIZEX, WINSIZEY,//_center.x + WINSIZEX / 2, _center.y + WINSIZEY / 2,
-		_camera->getMemDC(), 0, 0, WINSIZEX, WINSIZEY, RGB(255, 255, 255));
-}
 
 cameraManager::cameraManager(){}
 cameraManager::~cameraManager(){}
