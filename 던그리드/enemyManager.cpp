@@ -28,10 +28,20 @@ HRESULT EnemyManager::init()
 	//bat->init();
 	//_vMonster.push_back(bat);
 
-	Enemy* redBat;
-	redBat = new RedBat;
-	redBat->init();
-	_vMonster.push_back(redBat);
+	//Enemy* redBat;
+	//redBat = new RedBat;
+	//redBat->init();
+	//_vMonster.push_back(redBat);
+
+	//Enemy* bigBat;
+	//bigBat = new BigBat;
+	//bigBat->init();
+	//_vMonster.push_back(bigBat);
+
+	Enemy* bigRedBat;
+	bigRedBat = new BigRedBat;
+	bigRedBat->init();
+	_vMonster.push_back(bigRedBat);
 
 
 	return S_OK;

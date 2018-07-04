@@ -29,7 +29,7 @@ HRESULT playGround::Image_init(void)
 	//==========플레이어==========
 	IMAGEMANAGER->addFrameImage("기본플레이어", "image/player/normalPlayer(640x360,8x4).bmp", 640, 360, 8, 4, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addRotateFrameImage("공주플레이어", "image/player/princessPlayer(480x320,6x4).bmp", 480, 320, 6, 4, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addRotateImage("플레이어손", "image/player/hand(8x8,1x1).bmp", 15, 15, true, RGB(1, 2, 5));
+	IMAGEMANAGER->addRotateImage("플레이어손", "image/player/hand(6x6,1x1).bmp", 10, 10, true, RGB(1, 2, 5));
 	IMAGEMANAGER->addImage("체력바", "image/player/hpBar(50x50,1x1).bmp", 50, 50, false, RGB(0, 0, 0));
 	IMAGEMANAGER->addFrameImage("체력바출렁출렁", "image/player/hpBarWave(120x50,6x1).bmp", 120, 50, 6, 1, true, RGB(255, 0, 255));
 	EFFECTMANAGER->addEffect("대시왼쪽", "image/player/dashManLeft(320x95,4x1).bmp", 320, 95, 80, 95, 1.0f,0.3f, 5);
@@ -84,10 +84,10 @@ HRESULT playGround::Image_init(void)
 	
 
 	
-	// ===========아이템 이미지 =============
+	// ============== 아이템  ================
 
 	// 근거리 무기 이미지
-	IMAGEMANAGER->addImage("검10", "image/item/weapon/sword/ShortSword(30x81)1x1.bmp", 30, 96, true, RGB(255, 0, 255)); //착용
+	IMAGEMANAGER->addRotateImage("검10", "image/item/weapon/sword/ShortSword(30x81)1x1.bmp",81,30, true, RGB(255, 0, 255)); //착용
 	IMAGEMANAGER->addImage("검11", "image/item/weapon/sword/ShortSwordDrop(81x30)1x1.bmp", 96, 30, true, RGB(255, 0, 255)); //드랍
 	IMAGEMANAGER->addImage("검12", "image/item/weapon/sword/ShortSwordInven(7x19)1x1.bmp", 10, 32, true, RGB(255, 0, 255)); //인벤
 
@@ -100,13 +100,13 @@ HRESULT playGround::Image_init(void)
 	IMAGEMANAGER->addImage("검32", "image/item/weapon/sword/FireDragonKillerInven(13x30)1x1.bmp", 10, 32, true, RGB(255, 0, 255)); //인벤
 
 
-	IMAGEMANAGER->addImage("검30", "image/item/weapon/sword/FireDragonKiller(40x92)1x1.bmp", 40, 92, true, RGB(255, 0, 255)); //착용
-	IMAGEMANAGER->addImage("검31", "image/item/weapon/sword/FireDragonKillerDrop(92x40)1x1.bmp", 92, 40, true, RGB(255, 0, 255)); //드랍
-	IMAGEMANAGER->addImage("검32", "image/item/weapon/sword/FireDragonKillerInven(13x30)1x1.bmp", 13, 30, true, RGB(255, 0, 255)); //인벤
+	IMAGEMANAGER->addImage("검40", "image/item/weapon/sword/FireDragonKiller(40x92)1x1.bmp", 40, 92, true, RGB(255, 0, 255)); //착용
+	IMAGEMANAGER->addImage("검41", "image/item/weapon/sword/FireDragonKillerDrop(92x40)1x1.bmp", 92, 40, true, RGB(255, 0, 255)); //드랍
+	IMAGEMANAGER->addImage("검42", "image/item/weapon/sword/FireDragonKillerInven(13x30)1x1.bmp", 13, 30, true, RGB(255, 0, 255)); //인벤
 
-	IMAGEMANAGER->addFrameImage("검40", "image/item/weapon/sword/CosmosSword(360x90)12x1.bmp", 360, 90, 12, 1, true, RGB(255, 0, 255)); // 착용
-	IMAGEMANAGER->addImage("검41", "image/item/weapon/sword/CosmosSwordDrop(90x30)1x1.bmp", 90, 30, true, RGB(255, 0, 255)); // 드랍
-	IMAGEMANAGER->addImage("검42", "image/item/weapon/sword/CosmosSwordInven(11x30)1x1.bmp", 11, 30, 1, 1, true, RGB(255, 0, 255)); // 인벤
+	IMAGEMANAGER->addFrameImage("검50", "image/item/weapon/sword/CosmosSword(360x90)12x1.bmp", 360, 90, 12, 1, true, RGB(255, 0, 255)); // 착용
+	IMAGEMANAGER->addImage("검51", "image/item/weapon/sword/CosmosSwordDrop(90x30)1x1.bmp", 90, 30, true, RGB(255, 0, 255)); // 드랍
+	IMAGEMANAGER->addImage("검52", "image/item/weapon/sword/CosmosSwordInven(11x30)1x1.bmp", 11, 30, 1, 1, true, RGB(255, 0, 255)); // 인벤
 
 
 
@@ -141,19 +141,95 @@ HRESULT playGround::Image_init(void)
 	IMAGEMANAGER->addImage("활32", "image/item/weapon/bow/CrossbowDrop(50x31)1x1.bmp", 50, 31, true, RGB(255, 0, 255));				// 인벤
 
 
-	//방패 이미지
 
-	IMAGEMANAGER->addImage("방패10", "image/item/weapon/shield/DashShield(50x45)1x1.bmp", 50, 45, true, RGB(255, 0, 255));			// 착용
-	IMAGEMANAGER->addImage("방패11", "image/item/weapon/shield/DashShieldDrop(50x45)1x1.bmp", 50, 45, true, RGB(255, 0, 255));		// 드랍
-	IMAGEMANAGER->addImage("방패12", "image/item/weapon/shield/DashShieldInven(28x25)1x1.bmp", 28, 25, true, RGB(255, 0, 255));		// 인벤
+	// 방어구 이미지
 
-	IMAGEMANAGER->addImage("방패20", "image/item/weapon/shield/HeaterShield(40x65)1x1.bmp", 40, 65, true, RGB(255, 0, 255));			// 착용
-	IMAGEMANAGER->addImage("방패21", "image/item/weapon/shield/HeaterShieldDrop(65x40)1x1.bmp", 65, 40, true, RGB(255, 0, 255));		// 드랍
-	IMAGEMANAGER->addImage("방패22", "image/item/weapon/shield/HeaterShieldInven(11x18)1x1.bmp", 11, 18, true, RGB(255, 0, 255));	// 인벤
+	IMAGEMANAGER->addImage("아머10", "image/item/armor/ChainArmor(30x30)1x1.bmp", 30, 30, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("아머11", "image/item/armor/ChainArmorDrop(30x30)1x1.bmp", 30, 30, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("아머12", "image/item/armor/ChainArmorInven(30x30)1x1.bmp", 30, 30, true, RGB(255, 0, 255));
+
+	IMAGEMANAGER->addImage("아머20", "image/item/armor/ClothArmor(30x27)1x1.bmp", 30, 27, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("아머21", "image/item/armor/ClothArmorDrop(30x27)1x1.bmp", 30, 27, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("아머22", "image/item/armor/ClothArmorInven(30x27)1x1.bmp", 30, 27, true, RGB(255, 0, 255));
+
+	IMAGEMANAGER->addImage("아머30", "image/item/armor/CowLeather(30x24)1x1.bmp", 30, 24, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("아머31", "image/item/armor/CowLeatherDrop(30x24)1x1.bmp", 30, 24, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("아머32", "image/item/armor/CowLeatherInven(30x24)1x1.bmp", 30, 24, true, RGB(255, 0, 255));
+
+	IMAGEMANAGER->addImage("아머40", "image/item/armor/LeatherArmor(30x24)1x1.bmp", 30, 24, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("아머41", "image/item/armor/LeatherArmorDrop(30x24)1x1.bmp", 30, 24, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("아머42", "image/item/armor/LeatherArmorInven(30x24)1x1.bmp", 30, 24, true, RGB(255, 0, 255));
+
+	IMAGEMANAGER->addImage("방패10", "image/item/weapon/shield/HeaterShield(40x65)1x1.bmp", 40, 65, true, RGB(255, 0, 255));			// 착용
+	IMAGEMANAGER->addImage("방패11", "image/item/weapon/shield/HeaterShieldDrop(65x40)1x1.bmp", 65, 40, true, RGB(255, 0, 255));		// 드랍
+	IMAGEMANAGER->addImage("방패12", "image/item/weapon/shield/HeaterShieldInven(11x18)1x1.bmp", 11, 18, true, RGB(255, 0, 255));	// 인벤
+
+	IMAGEMANAGER->addImage("방패20", "image/item/shield/DashShield(50x45)1x1.bmp", 50, 45, true, RGB(255, 0, 255));			// 착용
+	IMAGEMANAGER->addImage("방패21", "image/item/shield/DashShieldDrop(50x45)1x1.bmp", 50, 45, true, RGB(255, 0, 255));		// 드랍
+	IMAGEMANAGER->addImage("방패22", "image/item/shield/DashShieldInven(28x25)1x1.bmp", 28, 25, true, RGB(255, 0, 255));		// 인벤
 
 
 
+
+	//악세사리 이미지(보조 장비/ 반지/ 펫)
+	IMAGEMANAGER->addImage("보조10", "image/item/second/BlessOfSageDrop(20x20)1x1.bmp", 20, 20, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("보조11", "image/item/second/BlessOfSageInven(20x20)1x1.bmp", 20, 20, true, RGB(255, 0, 255));
+
+	IMAGEMANAGER->addImage("보조20", "image/item/second/BloodOfSrobeoDrop(25x31)1x1", 25, 31, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("보조21", "image/item/second/BloodOfSrobeoInven(25x31)1x1", 25, 31, true, RGB(255, 0, 255));
+
+	IMAGEMANAGER->addImage("보조30", "image/item/second/MartialArtOfTigerDrop(30x25)1x1", 30, 25, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("보조31", "image/item/second/MartialArtOfTigerInven(30x25)1x1", 30, 25, true, RGB(255, 0, 255));
+
+	IMAGEMANAGER->addImage("보조40", "image/item/accessory/second/WingDrop(30x21)1x1.bmp", 30, 21, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("보조41", "image/item/accessory/second/WingInven(30x21)1x1.bmp", 30, 21, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("보조42", "image/item/accessory/second/Wing(350x43)7x1.bmp", 350, 43, 7, 1, true, RGB(255, 0, 255));
+
+
+	IMAGEMANAGER->addImage("악세10", "image/item/accessory/BloodStoneRingDrop(30x35)1x1.bmp", 30, 35, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("악세11", "image/item/accessory/BloodStoneRingInven(30x35)1x1.bmp", 30, 35, true, RGB(255, 0, 255));
+
+	IMAGEMANAGER->addImage("악세20", "image/item/accessory/EnvirokEpauletDrop(30x29)1x1.bmp", 30, 29, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("악세21", "image/item/accessory/EnvirokEpauletInven(30x29)1x1.bmp", 30, 29, true, RGB(255, 0, 255));
+
+	IMAGEMANAGER->addImage("악세30", "image/item/accessory/FrostChockerDrop(30x28)1x1.bmp", 30, 28, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("악세31", "image/item/accessory/FrostChockerInven(30x28)1x1.bmp", 30, 28, true, RGB(255, 0, 255));
+
+	IMAGEMANAGER->addImage("악세40", "image/item/accessory/GerberaRingDrop(30x34)1x1.bmp", 30, 34, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("악세41", "image/item/accessory/GerberaRingInven(30x34)1x1.bmp", 30, 34, true, RGB(255, 0, 255));
+
+	IMAGEMANAGER->addFrameImage("펫10", "image/item/pet/petDrop(95x22)5x1.bmp", 95, 22, 5, 1, true, RGB(255, 0, 255)); // 드랍
+	IMAGEMANAGER->addImage("펫11", "image/item/pet/petInven(19x22)1x1.bmp", 19, 22, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("펫12", "image/item/pet/pet(240x22)12x1.bmp", 240, 22, 12, 1, true, RGB(255, 0, 255)); //착용
+
+
+	//음식 이미지
+	IMAGEMANAGER->addImage("음식1", "image/item/food/1_bread(73x30)1x1.bmp", 73, 30, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("음식2", "image/item/food/2_FriedEgg(73x30)1x1.bmp", 73, 30, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("음식3", "image/item/food/03_grilledMushroom(73x30)1x1.bmp", 73, 30, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("음식4", "image/item/food/04_TamatoSoup(73x30)1x1.bmp", 73, 30, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("음식5", "image/item/food/05_OnionSoup(73x30)1x1.bmp", 73, 30, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("음식6", "image/item/food/06_VegetableSalsaSoup(73x30)1x1.bmp", 73, 30, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("음식7", "image/item/food/07_ChocolateCookie(73x30)1x1.bmp", 73, 30, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("음식8", "image/item/food/08_RaspberryCookie(73x30)1x1.bmp", 73, 30, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("음식9", "image/item/food/09_GriffonEggOmelette(73x30)1x1.bmp", 73, 30, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("음식10", "image/item/food/10_DeluxeBurger(73x48)1x1.bmp", 73, 48, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("음식11", "image/item/food/11_HotChickenStew(73x35)1x1.bmp", 73, 35, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("음식12", "image/item/food/12_MinotaursSteak(73x32)1x1.bmp", 73, 32, true, RGB(255, 0, 255));
+
+	//힐링요정 이미지
+	IMAGEMANAGER->addFrameImage("힐링1", "image/item/healing/heal1(216x24)9x1.bmp", 216, 24, 9, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("힐링2", "image/item/healing/heal2(480x30)16x1.bmp", 480, 30, 16, 1, true, RGB(255, 0, 255));
+
+
+	//박스 / 코인 이미지
+
+	IMAGEMANAGER->addFrameImage("보스상자1", "image/item/treasurebox/bossbox(80x28)2x1.bmp", 80, 28, 2, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("일반상자1", "image/item/treasurebox/bossbox(80x28)2x1.bmp", 80, 28, 2, 1, true, RGB(255, 0, 255));
 	
+	IMAGEMANAGER->addFrameImage("코인1", "image/item/treasurebox/coin(56x7)8x1.bmp", 56, 7, 8, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("골드1", "image/item/treasurebox/gold(140x9)7x1.bmp", 140, 9, 7, 1, true, RGB(255, 0, 255));
+
 
 
 	return S_OK;
