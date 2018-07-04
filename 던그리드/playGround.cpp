@@ -25,7 +25,7 @@ HRESULT playGround::init(void)
 	SCENEMANAGER->addScene("던전", new dungeonScene);
 	SCENEMANAGER->addScene("적", new EnemyManager);
 	SCENEMANAGER->addScene("대사씬", new Dialog);
-	SCENEMANAGER->addScene("아이템씬", new itemManager);
+	//SCENEMANAGER->addScene("아이템씬", new itemManager);
 	SCENEMANAGER->addScene("인트로", new introScene);
 	SCENEMANAGER->addScene("맵선택", new mapSelectScene);
 
@@ -46,11 +46,15 @@ HRESULT playGround::init(void)
 	case 플레이어:
 		break;
 	case 아이템:
-		SCENEMANAGER->changeScene("아이템씬");
+	//	SCENEMANAGER->changeScene("아이템씬");
 		break;
 
 	case 인트로:
 		SCENEMANAGER->changeScene("인트로");
+		break;
+
+	case 던전:
+		SCENEMANAGER->changeScene("던전");
 		break;
 
 	case 맵선택:
@@ -140,6 +144,9 @@ void playGround::render(void)
 		_player->render();
 		break;
 	case 아이템:
+		SCENEMANAGER->render();
+		break;
+	case 던전:
 		SCENEMANAGER->render();
 		break;
 	case 맵선택:

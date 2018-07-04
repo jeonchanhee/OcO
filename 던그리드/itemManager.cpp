@@ -17,6 +17,8 @@ HRESULT itemManager::init()
 	/*Item* item;
 	item = new Item;
 	item->createItem("°Ë", SHORT_DISTANCE_WEAPON, 5, true);
+	//_vItem.push_back(item);
+	item->createItem("¹«±â", SECOND_EQUIPMENT, 4, true);
 	_vItem.push_back(item);
 	*/
 

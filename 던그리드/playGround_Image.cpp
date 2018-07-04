@@ -43,7 +43,6 @@ HRESULT playGround::Image_init(void)
 	EFFECTMANAGER->addEffect("점프야압", "image/player/jumpEffect(350x70,5x1).bmp", 350, 70, 70, 70, 1.0f, 0.3f, 1);
 	EFFECTMANAGER->addEffect("이건이단점프야압", "image/player/doubleJumpEffect(420x70,6x1).bmp", 420, 70, 70, 70, 1.0f, 0.3f, 1);
 
-
 	//==========적=============
 	IMAGEMANAGER->addFrameImage("archerIdleMoveAttack", "image/enemy/archerIdleMoveAttack(810x440,9x4).bmp", 0, 0 , 810, 440, 9, 4, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("arrow", "image/enemy/arrow(120x50,1x1).bmp", 0, 0, 120, 50, true, RGB(255, 0, 255));
@@ -85,8 +84,6 @@ HRESULT playGround::Image_init(void)
 	IMAGEMANAGER->addImage("ansBack", "image/UI/UIdias(400x250).bmp", 400, 250, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("ansFront", "image/UI/UIdiac(313x63).bmp", 313, 63, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("uiNext", "image/UI/UIdiaTri(50x70).bmp", 50, 70, true, RGB(255, 0, 255));
-	
-
 	
 	// ============== 아이템  ================
 

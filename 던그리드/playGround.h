@@ -15,7 +15,7 @@
 #include "introScene.h"
 #include "mapSelectScene.h"
 
-enum changeMode { 맵툴, 타이틀, 다이얼로그, 도그본, 플레이어, 아이템, 인트로, 맵선택, 기타추가하셈 };
+enum changeMode { 맵툴, 타이틀, 다이얼로그, 도그본, 플레이어, 아이템, 인트로, 던전, 맵선택, 기타추가하셈 };
 
 class playGround : public gameNode
 {
