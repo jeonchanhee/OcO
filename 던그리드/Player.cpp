@@ -28,11 +28,12 @@ HRESULT Player::init()
 	_jumpMax = 1; _jumpCount = 0;
 	_locusX = 0 , _locusY = 0;
 	_weaponAngle = 0;
+	_weaponAttackAngle = 0;
 	_fixedDamage = 0;
 	_youUsingCount = 0;
 	_isDashing = false;
 	_isAttacking = false;
-
+	
 
 	int rightStop[] = { 0,1,2,3,4 };
 	KEYANIMANAGER->addArrayFrameAnimation("오른쪽보고서있기", "기본플레이어", rightStop, 5, 10, true);
@@ -96,10 +97,11 @@ void Player::render()
 		 _playerHand[0]->render(DC, _leftHandX , _leftHandY	);
 		 _playerHand[1]->rotateRender(DC, _rightHandX , _rightHandY , _mouseAngle);
 	}
-	if(_x + _player->getFrameWidth() / 2 > PTMOUSE_X && _mainWeapon[_youUsingCount !=0])
-		_playerWeapon->rotateRender(DC, _leftHandX - 15, _leftHandY - 10, _mouseAngle);
+
+	if(_x + _player->getFrameWidth() / 2 > PTMOUSE_X && _mainWeapon[_youUsingCount] !=0)
+		_playerWeapon->rotateRender(DC, _leftHandX - 15, _leftHandY - 10, _weaponAngle);
 	else if(_x + _player->getFrameWidth() / 2 < PTMOUSE_X && _mainWeapon[_youUsingCount] != 0)	
-		_playerWeapon->rotateRender(DC, _rightHandX + 15, _rightHandY - 10, _mouseAngle);
+		_playerWeapon->rotateRender(DC, _rightHandX + 15, _rightHandY - 10, _weaponAngle);
 
 	_player->aniRender(CAMERAMANAGER->getCameraDC()->getMemDC(), _x, _y, _playerAnimation);
 
@@ -118,7 +120,7 @@ void Player::render()
 	TextOut(DC, _x + 30, _y - 150, str, strlen(str));
 	sprintf_s(str, "main Weapon[count] : %d", _mainWeapon[_youUsingCount]);
 	TextOut(DC, _x -10, _y - 30, str, strlen(str));
-	sprintf(str, "앙각도 : %f", _mouseAngle);
+	sprintf(str, "각도 : %f", _mouseAngle);
 	TextOut(DC, _x - 10, _y + 100, str, strlen(str));
 }
 
@@ -204,6 +206,7 @@ void Player::keyInput()
 void Player::mouseControl()
 {
 	_mouseAngle = getAngle(_x, _y, PTMOUSE_X, PTMOUSE_Y);
+	_weaponAngle = _mouseAngle + _weaponAttackAngle;
 	//ptmouse 좌표에따라 왼쪽을볼건지 오른쪽을 볼건지 설정 
 	if (_x + _player->getFrameWidth()/2 > PTMOUSE_X)
 	{
@@ -317,15 +320,17 @@ void Player::attack()
 		{
 			if (_isLeftAttack)
 			{
-				_weaponAngle = -_weaponAngle;
+				_weaponAttackAngle += PI / 2;
 				_leftHandX = _x + 15, _leftHandY = _y + 60;
 				_rightHandX = _x + 60, _rightHandY = _y + 60;
+				_isAttacking = false;
 			}
 			else if (!_isLeftAttack)
 			{
-				_weaponAngle = -_weaponAngle;
+				_weaponAttackAngle += PI / 2;
 				_leftHandX = _x + 10, _leftHandY = _y + 60;
 				_rightHandX = _x + 65 , _rightHandY = _y + 60 ;
+				_isAttacking = false;
 			}
 		}
 	}

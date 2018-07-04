@@ -24,7 +24,7 @@ HRESULT playGround::init(void)
 	SCENEMANAGER->addScene("던전", new dungeonScene);
 	SCENEMANAGER->addScene("적", new EnemyManager);
 	SCENEMANAGER->addScene("대사씬", new Dialog);
-	SCENEMANAGER->addScene("아이템씬", new itemManager);
+	//SCENEMANAGER->addScene("아이템씬", new itemManager);
 	SCENEMANAGER->addScene("인트로", new introScene);
 	
 	switch (mode)
@@ -44,7 +44,7 @@ HRESULT playGround::init(void)
 	case 플레이어:
 		break;
 	case 아이템:
-		SCENEMANAGER->changeScene("아이템씬");
+	//	SCENEMANAGER->changeScene("아이템씬");
 		break;
 
 	case 인트로:
@@ -77,7 +77,12 @@ void playGround::update(void)
 
 	_mapTool->update();
 	_player->update();
-	SCENEMANAGER->update();
+//	SCENEMANAGER->update();
+
+	//if (KEYMANAGER->isStayKeyDown('D') && CAMERAMANAGER->getCameraRc2().right<BACKGROUNDSIZEX) CAMERAMANAGER->setCameraX2(CAMERAMANAGER->getCameraX2() + 50);
+	//if (KEYMANAGER->isStayKeyDown('S') && CAMERAMANAGER->getCameraRc2().bottom<BACKGROUNDSIZEY) CAMERAMANAGER->setCameraY2(CAMERAMANAGER->getCameraY2() + 50);
+	//if (KEYMANAGER->isStayKeyDown('A') && CAMERAMANAGER->getCameraRc2().left>0) CAMERAMANAGER->setCameraX2(CAMERAMANAGER->getCameraX2() - 50);
+	//if (KEYMANAGER->isStayKeyDown('W') && CAMERAMANAGER->getCameraRc2().top>0) CAMERAMANAGER->setCameraY2(CAMERAMANAGER->getCameraY2() - 50);
 
 	if (KEYMANAGER->isStayKeyDown('D') && CAMERAMANAGER->getCameraRc2().right<BACKGROUNDSIZEX) CAMERAMANAGER->setCameraX2(CAMERAMANAGER->getCameraX2() + 50);
 	if (KEYMANAGER->isStayKeyDown('S') && CAMERAMANAGER->getCameraRc2().bottom<BACKGROUNDSIZEY) CAMERAMANAGER->setCameraY2(CAMERAMANAGER->getCameraY2() + 50);
@@ -125,7 +130,6 @@ void playGround::render(void)
 	default:
 		break;
 	}
-	SCENEMANAGER->render();
 
 	//================이 밑으로도 건드리지 말자 =============
 	
