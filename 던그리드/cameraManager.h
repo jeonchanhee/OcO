@@ -9,13 +9,15 @@
 class cameraManager  : public  singletonBase<cameraManager>
 {
 private:
+	image*	_camera;
+	POINT	_center;
 	
-	image * _cameraDC;
-	image * _cameraDC2;
-	RECT _cameraRc;
-	RECT _cameraRc2;
-	float _cameraX, _cameraY;
-	float _cameraX2, _cameraY2;
+	//image * _cameraDC;
+	//image * _cameraDC2;
+	//RECT _cameraRc;
+	//RECT _cameraRc2;
+	//float _cameraX, _cameraY;
+	//float _cameraX2, _cameraY2;
 
 public:
 	HRESULT init();
@@ -41,5 +43,10 @@ public:
 	RECT getCameraRc2() { return _cameraRc2; }
 	cameraManager();
 	~cameraManager();
+
+	HDC getCameraDC(void) { return _camera->getMemDC(); }
+	void setCameraCenter(POINT point);
+	POINT getCameraCenter(void) { return _center; }
+	image* getCamera(void) { return _camera; }
 };
 

@@ -1,5 +1,9 @@
 #pragma once
 
+#ifndef _TILE_H_
+#define _TILE_H_
+
+
 // 전체 맵 사이즈 입니다   수정 부우탁 드립니다
 #define BACKGROUNDSIZEX TILEX*96
 #define BACKGROUNDSIZEY TILEY*96
@@ -16,6 +20,9 @@
 #define TILEX 50
 #define TILEY 50
 
+//#define TILEX 28
+//#define TILEY 12
+
 // 타일 총 사이즈
 #define TILESIZEX TILESIZE * TILEX
 #define TILESIZEY TILESIZE * TILEY
@@ -25,7 +32,7 @@
 #define SAMPLETILEY 26
 
 // 맵이름
-#define MAPNAME "Dungeon6(50x29).map"
+#define MAPNAME "map/test.map"
 
 // 지형	
 enum TERRAIN
@@ -75,3 +82,11 @@ struct tagCurrentTile
 	int x;
 	int y;
 };
+
+extern tagTile	_tiles[TILEX * TILEY];
+
+extern int TILEVALUE[12][2]; //0: 마을, 1~9: 던전, 10: 보스, 11:상점
+
+extern int _tileX, _tileY;
+
+#endif // !

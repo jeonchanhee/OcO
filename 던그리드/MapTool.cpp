@@ -26,7 +26,7 @@ void MapTool::update()
 
 	if (KEYMANAGER->isStayKeyDown(VK_RBUTTON))
 	{
-		POINT mouse = { _ptMouse.x + CAMERAMANAGER->getCameraRc2().left,_ptMouse.y + CAMERAMANAGER->getCameraRc2().top };
+		POINT mouse = getMemDCPoint();
 
 		if (_ptMouse.x < CAMERA2X&&_ptMouse.y < CAMERA2Y)
 		{
@@ -90,7 +90,9 @@ void MapTool::render()
 	// 지형
 	for (int i = 0; i < TILEX * TILEY; i++)
 	{
-		IMAGEMANAGER->frameRender("map", DC2, _tiles[i].rc.left, _tiles[i].rc.top, _tiles[i].terrainFrameX, _tiles[i].terrainFrameY);
+		IMAGEMANAGER->frameRender("map", UIDC, _tiles[i].rc.left, _tiles[i].rc.top, _tiles[i].terrainFrameX, _tiles[i].terrainFrameY);
+		//if(i == 444)
+
 	}
 
 	// 오브젝트
@@ -99,19 +101,27 @@ void MapTool::render()
 		// 오브젝트 속성이 아니면 그리지마
 		if (_tiles[i].object == OBJ_NONE) continue;
 		
-		IMAGEMANAGER->frameRender("map", DC2, _tiles[i].rc.left, _tiles[i].rc.top, _tiles[i].objFrameX, _tiles[i].objFrameY);
+		IMAGEMANAGER->frameRender("map", UIDC, _tiles[i].rc.left, _tiles[i].rc.top, _tiles[i].objFrameX, _tiles[i].objFrameY);
 	}
 
 	if (KEYMANAGER->isToggleKey(VK_TAB))
 	{
 		for (int i = 0; i < TILEX * TILEY; i++)
 		{
-			Rectangle(DC2,_tiles[i].rc.left, _tiles[i].rc.top, _tiles[i].rc.right, _tiles[i].rc.bottom);
+			Rectangle(UIDC,_tiles[i].rc.left, _tiles[i].rc.top, _tiles[i].rc.right, _tiles[i].rc.bottom);
+			char str[128];
+			sprintf_s(str, "%d", i);
+			TextOut(UIDC, _tiles[i].rc.left, _tiles[i].rc.top, str, strlen(str));
+			if (i == 353 || i == 303)
+									int a = 0;
 		}
 
 		for (int i = 0; i < SAMPLETILEX * SAMPLETILEY; i++)
 		{
 			Rectangle(DC, _sampleTile[i].rctile.left, _sampleTile[i].rctile.top, _sampleTile[i].rctile.right, _sampleTile[i].rctile.bottom);
+			char str[128];
+			sprintf_s(str, "%d", i);
+			TextOut(DC, _sampleTile[i].rctile.left, _sampleTile[i].rctile.top, str, strlen(str));
 		}
 	}
 }
@@ -133,11 +143,22 @@ void MapTool::load()
 	HANDLE	file;
 	DWORD	load;
 
-	file = CreateFile(MAPNAME, GENERIC_READ, NULL, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+	file = CreateFile("map/Dungeon6(49x28).map", GENERIC_READ, NULL, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 
 	ReadFile(file, _tiles, sizeof(tagTile) * TILEX * TILEY, &load, NULL);
 
 	CloseHandle(file);
+
+	
+	/*for (int i = 353; i < TILEX*TILEY; i++)
+	{
+		_tiles[i].terrainFrameX = 596%22;
+		_tiles[i].terrainFrameY = 596/22;
+		_tiles[i].objFrameX = 0;
+		_tiles[i].objFrameY = 0;
+		_tiles[i].terrain = terrainSelect(_tiles[i].terrainFrameX, _tiles[i].terrainFrameY);
+		_tiles[i].object = OBJ_NONE;
+	}*/
 }
 
 void MapTool::setup()
@@ -179,7 +200,7 @@ void MapTool::setup()
 
 void MapTool::setmap()
 {
-	POINT mouse = { _ptMouse.x + CAMERAMANAGER->getCameraRc2().left,_ptMouse.y + CAMERAMANAGER->getCameraRc2().top };
+	POINT mouse = getMemDCPoint();
 	for (int i = 0; i < 5; i++)
 	{
 		if (PtInRect(&_rc[i], _ptMouse))

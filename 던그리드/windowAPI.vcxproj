@@ -183,6 +183,7 @@
     <ClInclude Include="keyAniManager.h" />
     <ClInclude Include="keyManager.h" />
     <ClInclude Include="loadingScene.h" />
+    <ClInclude Include="mapSelectScene.h" />
     <ClInclude Include="MapTool.h" />
     <ClInclude Include="MusicAngel.h" />
     <ClInclude Include="Player.h" />
@@ -239,6 +240,7 @@
     <ClCompile Include="keyAniManager.cpp" />
     <ClCompile Include="keyManager.cpp" />
     <ClCompile Include="loadingScene.cpp" />
+    <ClCompile Include="mapSelectScene.cpp" />
     <ClCompile Include="MapTool.cpp" />
     <ClCompile Include="MusicAngel.cpp" />
     <ClCompile Include="Player.cpp" />
