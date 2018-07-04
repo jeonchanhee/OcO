@@ -22,5 +22,31 @@ void cameraManager::release()
 {
 }
 
+void cameraManager::cameraShaking()
+{
+	int rand = RND->getInt(4);
+	switch (rand)
+	{
+	case 0:
+		_cameraX += moveValue;
+		_cameraY += moveValue;
+		break;
+	case 1:
+		_cameraX += moveValue;
+		_cameraY -= moveValue;
+		break;
+	case 2:
+		_cameraX -= moveValue;
+		_cameraY += moveValue;
+		break;
+	case 3:
+		_cameraX -= moveValue;
+		_cameraY -= moveValue;
+		break;
+
+	}
+}
+
+
 cameraManager::cameraManager(){}
 cameraManager::~cameraManager(){}

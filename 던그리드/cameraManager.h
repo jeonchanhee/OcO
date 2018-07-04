@@ -2,6 +2,7 @@
 #include "singletonBase.h"
 #include "image.h"
 #include "tileNode.h"
+#define moveValue 1
 
 
 
@@ -20,7 +21,8 @@ public:
 	HRESULT init();
 	void update();
 	void release();
-	  
+
+	void cameraShaking();
 
 	void setCameraX(float x) { _cameraX = x; }
 	void setCameraX2(float x) { _cameraX2 = x; }
@@ -30,6 +32,7 @@ public:
 	float getCameraX2() { return _cameraX2; }
 	float getCameraY() { return _cameraY; }
 	float getCameraY2() { return _cameraY2; }
+
 
 
 	image * getCameraDC() { return _cameraDC; }
