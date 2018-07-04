@@ -79,7 +79,6 @@ void titleScene::render(void)
 			{
 				//SCENEMANAGER->changeScene("´øÀü");
 				loadData();
-				//training();
 			}
 		}
 		else
@@ -102,7 +101,8 @@ void titleScene::render(void)
 	}
 	else
 	{
-		drawData();
+		training();
+		//drawData();
 	}
 
 	if(KEYMANAGER->isToggleKey(VK_TAB))
@@ -114,7 +114,7 @@ void titleScene::render(void)
 
 void titleScene::training()
 {
-
+	IMAGEMANAGER->findImage("training")->render(DC,0,0);
 }
 
 void titleScene::loadData()

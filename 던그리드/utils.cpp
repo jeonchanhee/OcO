@@ -33,6 +33,12 @@ namespace CLASS_TEN
 		return angle;
 	}
 
+	RECT rotate(image* img,float x, float y)
+	{
+		RECT rc = RectMakeCenter(x, y, img->getFrameWidth(), img->getFrameHeight() * 2);
+		return rc;
+	}
+
 	bool isCollisionReaction(RECT& mrcHold, RECT& mrcMove)
 	{
 		RECT rcInter;
