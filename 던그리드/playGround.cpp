@@ -15,10 +15,10 @@ HRESULT playGround::init(void)
 	Image_init();
 	Sound_init();
 	
-	/*_mapTool = new MapTool;
+	_mapTool = new MapTool;
 	_mapTool->init();
 	_player = new Player;
-	_player->init();*/
+	_player->init();
 
 
 	SCENEMANAGER->addScene("Å¸ÀÌÆ²", new titleScene);
@@ -81,8 +81,8 @@ void playGround::update(void)
 {
 	gameNode::update();
 
-	/*_mapTool->update();
-	_player->update();*/
+	_mapTool->update();
+	_player->update();
 	SCENEMANAGER->update();
 	
 	
