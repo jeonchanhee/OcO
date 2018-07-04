@@ -28,10 +28,14 @@ public:
 
 	image * addRotateImage(string strKey, const char * fileName, int width, int height, bool trans, COLORREF transColor, BOOL blend = FALSE);
 
+	image * addRotateImage(string strKey, int width, int height, bool trans, COLORREF transColor, BOOL blend);
+
+	image * addRotateImage(string strKey, int width, int height, BOOL blend);
+
 	image * addRotateFrameImage(string strKey, const char * fileName, int width, int height, int frameX, int frameY, bool trans, COLORREF transColor, BOOL blend = FALSE);
 
 
-	
+
 	//rotate
 	void rotateRender(string strKey, HDC hdc, float x, float y, float angle);
 	void rotateFrameRender(string strKey, HDC hdc, float x, float y, float angle);

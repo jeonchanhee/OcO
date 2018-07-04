@@ -112,6 +112,9 @@
     <Filter Include="playGround\bullet">
       <UniqueIdentifier>{da504023-5401-4c49-b9e5-d2f47fd3d9ad}</UniqueIdentifier>
     </Filter>
+    <Filter Include="playGround\NPC">
+      <UniqueIdentifier>{47ebe29a-c910-44da-97cc-a121ff2f0754}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -207,9 +210,6 @@
     <ClInclude Include="Dialog.h">
       <Filter>playGround\Diaiog</Filter>
     </ClInclude>
-    <ClInclude Include="commonMacroFunction.h">
-      <Filter>2DFramework\Manager</Filter>
-    </ClInclude>
     <ClInclude Include="EnemyManager.h">
       <Filter>playGround\Enemy</Filter>
     </ClInclude>
@@ -286,7 +286,16 @@
       <Filter>playGround\Item</Filter>
     </ClInclude>
     <ClInclude Include="introScene.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="mapSelectScene.h">
       <Filter>playGround\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="GodNpc.h">
+      <Filter>playGround\NPC</Filter>
+    </ClInclude>
+    <ClInclude Include="WeaponNpc.h">
+      <Filter>playGround\NPC</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -434,6 +443,9 @@
     <ClCompile Include="DialogWeapon.cpp">
       <Filter>playGround\Diaiog</Filter>
     </ClCompile>
+    <ClCompile Include="playGround_Sound.cpp">
+      <Filter>playGround</Filter>
+    </ClCompile>
     <ClCompile Include="Bullet.cpp">
       <Filter>playGround\bullet</Filter>
     </ClCompile>
@@ -443,11 +455,17 @@
     <ClCompile Include="itemManager.cpp">
       <Filter>playGround\Item</Filter>
     </ClCompile>
-    <ClCompile Include="playGround_Sound.cpp">
-      <Filter>playGround</Filter>
-    </ClCompile>
     <ClCompile Include="introScene.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="mapSelectScene.cpp">
       <Filter>playGround\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="GodNpc.cpp">
+      <Filter>playGround\NPC</Filter>
+    </ClCompile>
+    <ClCompile Include="WeaponNpc.cpp">
+      <Filter>playGround\NPC</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

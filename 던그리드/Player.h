@@ -19,17 +19,21 @@ private:
 	image * _player;
 	image * _playerHand[2];
 	image * _playerWeapon;
+	image* imageDC;
+	image* _attackEffect;
 
 	DIRECTION _direction;
 	animation * _playerAnimation;
 
-	//bool
-	bool _isGun;													 //현재 원거리 무기인지 체크 
-	bool _isAlive;													 //자네 생존중인가 ????
-	bool _isJumping;												 //점프중인가 ?
+	//bool 바다 
+	bool _isGun;													//현재 원거리 무기인지 체크 
+	bool _isAlive;													//자네 생존중인가 ????
+	bool _isJumping;												//점프중인가 ?
 	bool _isDashing;												//대시중?
 	bool _isAttacking;												//때리는중 ?
 	bool _isLeftAttack;											    //왼쪽때렷니 
+	bool _isChap;													//가버리나???
+	bool _showAttackEffect;											//공격이펙트!
 	
 	// int 
 	int _currentHp, _maxHp;											 //현재 , 전체 체력 
@@ -48,6 +52,7 @@ private:
 	int  _currentExp, _maxExp;										 //현재 , 최대 경험치  
 	int  _currentFullNess , _maxFullNess;							 //현재 , 최대 만복도 
 	int  _youUsingCount;											 // 1번무기 장착중인지 2번무기 장착중ㅇ인지 배열이라 0과 1값을 받게됨 ;
+	int	 _attackEffectCount;
 
 	//float 
 	float _x, _y , _leftHandX, _leftHandY, _rightHandX, _rightHandY; //player x,y 
@@ -61,7 +66,7 @@ private:
 	float _mouseAngle,_ptMouseX,_ptMouseY;							 //플레이어와 마우스 의 getAngle  , 카메라에서 마우스 x좌표 y좌표
 	float _punchSpeed;												 //펀치 스피드임
 	float _locusX, _locusY;											 //플레이어의 xy좌표 저장
-	float _weaponAngle;												 // 무기 angle
+	float _weaponAngle, _weaponAttackAngle;							 // 무기 angle
  
 public:
 

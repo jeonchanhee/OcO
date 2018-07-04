@@ -14,6 +14,8 @@ protected:
 	animation*	_effectAnimation;
 	BOOL		_isRunning;
 	float		_elapsedTime;
+	float		_angle;
+	bool		_isRotate;
 
 public:
 	effect();
@@ -24,12 +26,18 @@ public:
 	virtual void update();
 	virtual void render();
 
+	void rotateRender(float angle);
 	void startEffect(int x, int y);
+	
 
 	virtual void killEffect();
 
 	BOOL getIsRunning() { return _isRunning; }
+	BOOL getIsRotate() { return _isRotate; }
+	float getAngle() { return _angle; }
 
+	void setAngle(float angle) { _angle = angle; }
+	void setRotate(bool isRotate) { _isRotate = isRotate; }
 
 };
 

@@ -61,3 +61,9 @@ inline void EllipseMakeCenter(HDC hdc, int x, int y, int width, int height)
 {
 	Ellipse(hdc, x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2));
 }
+
+inline RECT rectRotate(image* img, float x, float y)
+{
+	return RectMakeCenter(x, y, img->getFrameWidth(), img->getFrameHeight() * 2);
+	//return rc;
+}
