@@ -1,7 +1,7 @@
 #pragma once
 #include "gameNode.h"
 #define DASHSPEED 33
-#define PUNCHSPEED 5
+#define PUNCHSPEED 6.0f
 #define GRAVITY 0.25
 
 enum DIRECTION
@@ -23,12 +23,13 @@ private:
 	DIRECTION _direction;
 	animation * _playerAnimation;
 
-	//bool 
+	//bool
 	bool _isGun;													 //현재 원거리 무기인지 체크 
 	bool _isAlive;													 //자네 생존중인가 ????
 	bool _isJumping;												 //점프중인가 ?
 	bool _isDashing;												//대시중?
 	bool _isAttacking;												//때리는중 ?
+	bool _isLeftAttack;											    //왼쪽때렷니 
 	
 	// int 
 	int _currentHp, _maxHp;											 //현재 , 전체 체력 
@@ -37,7 +38,8 @@ private:
 	int _attackMinDamage, _attackMaxDamage, _attackPower;			 //최소 ~ 최대 데미지 , 위력 ()
 	int _fixedDamage;												 //고정데미지 
 	int _jumpCount, _jumpMax;										 // 점프 카운트 , 맥스 점프 
-																	 // inven
+						
+	// inven
 	int  _mainWeapon[2], _assistWeapon[2];							 //현재 장착중인 메인 , 보조 무기들
 	int  _accessory[4];												 //악쎄사리
 	int  _inventory[15];											 //전체인벤토리 15칸 
@@ -46,7 +48,6 @@ private:
 	int  _currentExp, _maxExp;										 //현재 , 최대 경험치  
 	int  _currentFullNess , _maxFullNess;							 //현재 , 최대 만복도 
 	int  _youUsingCount;											 // 1번무기 장착중인지 2번무기 장착중ㅇ인지 배열이라 0과 1값을 받게됨 ;
-
 
 	//float 
 	float _x, _y , _leftHandX, _leftHandY, _rightHandX, _rightHandY; //player x,y 
@@ -58,7 +59,9 @@ private:
 	float _gravity, _jumpPower , _jump;								 //중력 , 플레이어의 점프력 , 지금받고있는 점프파워
 	float _angle;													 //대시할때의 각도 
 	float _mouseAngle,_ptMouseX,_ptMouseY;							 //플레이어와 마우스 의 getAngle  , 카메라에서 마우스 x좌표 y좌표
-
+	float _punchSpeed;												 //펀치 스피드임
+	float _locusX, _locusY;											 //플레이어의 xy좌표 저장
+	float _weaponAngle;												 // 무기 angle
  
 public:
 
