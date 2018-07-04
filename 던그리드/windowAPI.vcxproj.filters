@@ -210,9 +210,6 @@
     <ClInclude Include="Dialog.h">
       <Filter>playGround\Diaiog</Filter>
     </ClInclude>
-    <ClInclude Include="commonMacroFunction.h">
-      <Filter>2DFramework\Manager</Filter>
-    </ClInclude>
     <ClInclude Include="EnemyManager.h">
       <Filter>playGround\Enemy</Filter>
     </ClInclude>
@@ -289,6 +286,9 @@
       <Filter>playGround\Item</Filter>
     </ClInclude>
     <ClInclude Include="introScene.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="mapSelectScene.h">
       <Filter>playGround\Scene</Filter>
     </ClInclude>
     <ClInclude Include="GodNpc.h">
@@ -443,6 +443,9 @@
     <ClCompile Include="DialogWeapon.cpp">
       <Filter>playGround\Diaiog</Filter>
     </ClCompile>
+    <ClCompile Include="playGround_Sound.cpp">
+      <Filter>playGround</Filter>
+    </ClCompile>
     <ClCompile Include="Bullet.cpp">
       <Filter>playGround\bullet</Filter>
     </ClCompile>
@@ -452,10 +455,10 @@
     <ClCompile Include="itemManager.cpp">
       <Filter>playGround\Item</Filter>
     </ClCompile>
-    <ClCompile Include="playGround_Sound.cpp">
-      <Filter>playGround</Filter>
-    </ClCompile>
     <ClCompile Include="introScene.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="mapSelectScene.cpp">
       <Filter>playGround\Scene</Filter>
     </ClCompile>
     <ClCompile Include="GodNpc.cpp">
