@@ -73,7 +73,7 @@ void mapSelectScene::load()
 
 void mapSelectScene::printMap()
 {
-	int temp = 100;
+	int temp = 50;
 
 	//for (int i = 0; i < 10; ++i)
 	//{
