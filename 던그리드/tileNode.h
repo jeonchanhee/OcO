@@ -1,12 +1,27 @@
 #pragma once
 
+#ifndef _TILE_H_
+#define _TILE_H_
+
+
+// 전체 맵 사이즈 입니다   수정 부우탁 드립니다
+#define BACKGROUNDSIZEX TILEX*96
+#define BACKGROUNDSIZEY TILEY*96
+
+//작은 카메라 사이즈
+#define CAMERA2X 1100
+#define CAMERA2Y 1080
+
 // 타일 규격
 #define TILESIZE 96
 #define TILESIZE2 32
 
 // 타일 갯수
-#define TILEX 10
-#define TILEY 10
+#define TILEX 50
+#define TILEY 50
+
+//#define TILEX 28
+//#define TILEY 12
 
 // 타일 총 사이즈
 #define TILESIZEX TILESIZE * TILEX
@@ -16,11 +31,14 @@
 #define SAMPLETILEX 23
 #define SAMPLETILEY 26
 
+// 맵이름
+#define MAPNAME "map/test.map"
+
 // 지형	
 enum TERRAIN
 {
 	//무조건 지나갈 수 있는 배경 벽지
-	TR_WALL
+	TR_WALL, TR_NULL
 };
 
 // 오브젝트
@@ -64,3 +82,11 @@ struct tagCurrentTile
 	int x;
 	int y;
 };
+
+extern tagTile	_tiles[TILEX * TILEY];
+
+extern int TILEVALUE[12][2]; //0: 마을, 1~9: 던전, 10: 보스, 11:상점
+
+extern int _tileX, _tileY;
+
+#endif // !

@@ -22,7 +22,40 @@ void MapTool::release(){}
 
 void MapTool::update()
 {
-	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))setmap();
+	if (KEYMANAGER->isStayKeyDown(VK_LBUTTON))setmap();
+
+	if (KEYMANAGER->isStayKeyDown(VK_RBUTTON))
+	{
+		POINT mouse = getMemDCPoint();
+
+		if (_ptMouse.x < CAMERA2X&&_ptMouse.y < CAMERA2Y)
+		{
+			for (int i = 0; i < TILEX * TILEY; i++)
+			{
+				if (PtInRect(&_tiles[i].rc, mouse))
+				{
+					_tiles[i].objFrameX = NULL;
+					_tiles[i].objFrameY = NULL;
+
+					_tiles[i].object = OBJ_NONE;
+
+					InvalidateRect(_hWnd, NULL, false);
+					break;
+				}
+			}
+		}
+	}
+
+	if (KEYMANAGER->isOnceKeyDown('Y'))
+	{
+		for (int i = 0; i < TILEX * TILEY; i++)
+		{
+			_tiles[i].terrainFrameX = _currentTile.x;
+			_tiles[i].terrainFrameY = _currentTile.y;
+
+			_tiles[i].terrain = terrainSelect(_currentTile.x, _currentTile.y);
+		}
+	}
 }
 
 void MapTool::render()
@@ -57,7 +90,9 @@ void MapTool::render()
 	// 지형
 	for (int i = 0; i < TILEX * TILEY; i++)
 	{
-		IMAGEMANAGER->frameRender("map", DC, _tiles[i].rc.left, _tiles[i].rc.top, _tiles[i].terrainFrameX, _tiles[i].terrainFrameY);
+		IMAGEMANAGER->frameRender("map", UIDC, _tiles[i].rc.left, _tiles[i].rc.top, _tiles[i].terrainFrameX, _tiles[i].terrainFrameY);
+		//if(i == 444)
+
 	}
 
 	// 오브젝트
@@ -66,19 +101,27 @@ void MapTool::render()
 		// 오브젝트 속성이 아니면 그리지마
 		if (_tiles[i].object == OBJ_NONE) continue;
 		
-		IMAGEMANAGER->frameRender("map", DC, _tiles[i].rc.left, _tiles[i].rc.top, _tiles[i].objFrameX, _tiles[i].objFrameY);
+		IMAGEMANAGER->frameRender("map", UIDC, _tiles[i].rc.left, _tiles[i].rc.top, _tiles[i].objFrameX, _tiles[i].objFrameY);
 	}
 
 	if (KEYMANAGER->isToggleKey(VK_TAB))
 	{
 		for (int i = 0; i < TILEX * TILEY; i++)
 		{
-			Rectangle(DC,_tiles[i].rc.left, _tiles[i].rc.top, _tiles[i].rc.right, _tiles[i].rc.bottom);
+			Rectangle(UIDC,_tiles[i].rc.left, _tiles[i].rc.top, _tiles[i].rc.right, _tiles[i].rc.bottom);
+			char str[128];
+			sprintf_s(str, "%d", i);
+			TextOut(UIDC, _tiles[i].rc.left, _tiles[i].rc.top, str, strlen(str));
+			if (i == 353 || i == 303)
+									int a = 0;
 		}
 
 		for (int i = 0; i < SAMPLETILEX * SAMPLETILEY; i++)
 		{
 			Rectangle(DC, _sampleTile[i].rctile.left, _sampleTile[i].rctile.top, _sampleTile[i].rctile.right, _sampleTile[i].rctile.bottom);
+			char str[128];
+			sprintf_s(str, "%d", i);
+			TextOut(DC, _sampleTile[i].rctile.left, _sampleTile[i].rctile.top, str, strlen(str));
 		}
 	}
 }
@@ -88,9 +131,9 @@ void MapTool::save()
 	HANDLE	file;
 	DWORD	save;
 
-	file = CreateFile("mapTool.map", GENERIC_READ, NULL, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+	file = CreateFile(MAPNAME, GENERIC_WRITE, NULL, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 
-	ReadFile(file, _tiles, sizeof(tagTile) * TILEX * TILEY, &save, NULL);
+	WriteFile(file, _tiles, sizeof(tagTile) * TILEX * TILEY, &save, NULL);
 
 	CloseHandle(file);
 }
@@ -100,11 +143,22 @@ void MapTool::load()
 	HANDLE	file;
 	DWORD	load;
 
-	file = CreateFile("mapTool.map", GENERIC_READ, NULL, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+	file = CreateFile("map/Dungeon6(49x28).map", GENERIC_READ, NULL, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 
 	ReadFile(file, _tiles, sizeof(tagTile) * TILEX * TILEY, &load, NULL);
 
 	CloseHandle(file);
+
+	
+	/*for (int i = 353; i < TILEX*TILEY; i++)
+	{
+		_tiles[i].terrainFrameX = 596%22;
+		_tiles[i].terrainFrameY = 596/22;
+		_tiles[i].objFrameX = 0;
+		_tiles[i].objFrameY = 0;
+		_tiles[i].terrain = terrainSelect(_tiles[i].terrainFrameX, _tiles[i].terrainFrameY);
+		_tiles[i].object = OBJ_NONE;
+	}*/
 }
 
 void MapTool::setup()
@@ -127,16 +181,26 @@ void MapTool::setup()
 
 	for (int i = 0; i < TILEY; i++)
 	{
-		for (int j = 0; j < TILEY; j++)
+		for (int j = 0; j < TILEX; j++)
 		{
 			SetRect(&_tiles[i * TILEX + j].rc, j * TILESIZE, i * TILESIZE, j* TILESIZE + TILESIZE, i * TILESIZE + TILESIZE);
 		}
 	}
 
+	for (int i = 0; i < TILEX * TILEY; ++i)
+	{
+		_tiles[i].terrainFrameX = 0;
+		_tiles[i].terrainFrameY = 0;
+		_tiles[i].objFrameX = 0;
+		_tiles[i].objFrameY = 0;
+		_tiles[i].terrain = terrainSelect(_tiles[i].terrainFrameX, _tiles[i].terrainFrameY);
+		_tiles[i].object = OBJ_NONE;
+	}
 }
 
 void MapTool::setmap()
 {
+	POINT mouse = getMemDCPoint();
 	for (int i = 0; i < 5; i++)
 	{
 		if (PtInRect(&_rc[i], _ptMouse))
@@ -171,34 +235,37 @@ void MapTool::setmap()
 		}
 	}
 
-	for (int i = 0; i < TILEX * TILEY; i++)
+	if (_ptMouse.x < CAMERA2X&&_ptMouse.y < CAMERA2Y)
 	{
-		if (PtInRect(&_tiles[i].rc, _ptMouse))
+		for (int i = 0; i < TILEX * TILEY; i++)
 		{
-			if (_select == TRRAINDRAW)
+			if (PtInRect(&_tiles[i].rc, mouse))
 			{
-				_tiles[i].terrainFrameX = _currentTile.x;
-				_tiles[i].terrainFrameY = _currentTile.y;
+				if (_select == TRRAINDRAW)
+				{
+					_tiles[i].terrainFrameX = _currentTile.x;
+					_tiles[i].terrainFrameY = _currentTile.y;
 
-				_tiles[i].terrain = terrainSelect(_currentTile.x, _currentTile.y);
-			}
-			else if (_select == OBJDRAW)
-			{
-				_tiles[i].objFrameX = _currentTile.x;
-				_tiles[i].objFrameY = _currentTile.y;
+					_tiles[i].terrain = terrainSelect(_currentTile.x, _currentTile.y);
+				}
+				else if (_select == OBJDRAW)
+				{
+					_tiles[i].objFrameX = _currentTile.x;
+					_tiles[i].objFrameY = _currentTile.y;
 
-				_tiles[i].object = objSelect(_currentTile.x, _currentTile.y);
-			}
-			else if (_select == ERASER)
-			{
-				_tiles[i].objFrameX = NULL;
-				_tiles[i].objFrameY = NULL;
+					_tiles[i].object = objSelect(_currentTile.x, _currentTile.y);
+				}
+				else if (_select == ERASER)
+				{
+					_tiles[i].objFrameX = NULL;
+					_tiles[i].objFrameY = NULL;
 
-				_tiles[i].object = OBJ_NONE;
+					_tiles[i].object = OBJ_NONE;
+				}
+
+				InvalidateRect(_hWnd, NULL, false);
+				break;
 			}
-		
-			InvalidateRect(_hWnd, NULL, false);
-			break;
 		}
 	}
 }
@@ -226,11 +293,97 @@ TERRAIN MapTool::terrainSelect(int FrameX, int FrameY)
 
 OBJECT MapTool::objSelect(int FrameX, int FrameY)
 {
+	for (int i = 0; i < 3; i++)
+	{
+		for (int j = 0; j < 7; j++)
+		{
+			if (FrameX == i && FrameY == j) return OBJ_CULUMN;
+		}
+	}
+
+	for (int i = 3; i < 13; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			if (FrameX == i && FrameY == j) return OBJ_GROUND; 
+		}
+	}
+
+	for (int i = 3; i < 5; i++)
+	{
+		if (FrameX == i && FrameY == 3) return OBJ_GROUND;
+	}
+	
+	for (int i = 3; i < 11; i++)
+	{
+		if (FrameX == i && FrameY == 4) return OBJ_GROUND;
+	}
+	
+	for (int i = 10; i < 19; i++)
+	{
+		if (FrameX == i && FrameY == 1) return OBJ_GROUND;
+	}
+
+	for (int i = 5; i < 10; i++)
+	{
+		for (int j = 17; j < 18; j++)
+		{
+			if(FrameX == i && FrameY == j) return OBJ_GROUND;
+		}
+	}
+	
+	for (int i = 15; i < 21; i++)
+	{
+		if (FrameX == i && FrameY == 18) return OBJ_GROUND;
+	}
+
+	for (int i = 0; i < 4; i++)
+	{
+		if (FrameX == i && FrameY == 24) return OBJ_GROUND;
+	}
+
+	for (int i = 0; i < 19; i++)
+	{
+		if (FrameX == i && FrameY == 25) return OBJ_GROUND;
+	}
+
+	for (int i = 17; i < 20; i++)
+	{
+		if (FrameX == i && FrameY == 13) return OBJ_THORN;
+	}
+
+	//오브젝트인지 잘 모르겠음
+	for (int i = 5; i < 8; i++)
+	{
+		for (int j = 5; j < 8; j++)
+		{
+			if (i == 6 && j == 6) continue;
+			if (FrameX == i && FrameY == j) return OBJ_GROUND;
+		}
+	}
+	for (int i = 8; i < 11; i++)
+	{
+		if (FrameX = i && FrameY == 5) return OBJ_GROUND;
+	}
+
+	if (FrameX == 8 && FrameY == 6) return OBJ_GROUND;
+	//여기까지
+
+	if (FrameX == 11 && FrameY == 0) return OBJ_GROUND;
+	if (FrameX == 12 && FrameY == 0) return OBJ_GROUND;
+	if (FrameX == 13 && FrameY == 0) return OBJ_GROUND;
+	if (FrameX == 7 && FrameY == 3) return OBJ_GROUND;
+	if (FrameX == 8 && FrameY == 3) return OBJ_GROUND;
+	if (FrameX == 10 && FrameY == 3) return OBJ_GROUND;
+	if (FrameX == 11 && FrameY == 18) return OBJ_GROUND;
+	if (FrameX == 12 && FrameY == 18) return OBJ_GROUND;
+	if (FrameX == 3 && FrameY == 12) return	OBJ_GOGROUND;
+	if (FrameX == 6 && FrameY == 24) return OBJ_GROUND;
+	if (FrameX == 7 && FrameY == 24) return OBJ_GROUND;
+	if (FrameX == 8 && FrameY == 24) return OBJ_GROUND;
 
 
-
-
-	return OBJECT();
+	return OBJ_NONE;
 }
 
 MapTool::MapTool(){}

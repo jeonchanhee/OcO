@@ -1,5 +1,11 @@
 #include "stdafx.h"
 #include "dungeonScene.h"
+#include "tileNode.h"
+
+
+dungeonScene::dungeonScene() {}
+
+dungeonScene::~dungeonScene() {}
 
 
 HRESULT dungeonScene::init(void)
@@ -15,8 +21,6 @@ void dungeonScene::release(void)
 
 void dungeonScene::update(void)
 {
-
-
 	KEYANIMANAGER->update();
 }
 
@@ -25,11 +29,13 @@ void dungeonScene::render(void)
 
 }
 
-dungeonScene::dungeonScene()
+void dungeonScene::mapload()
 {
+	HANDLE	file;
+	DWORD	load;
+
+	
 }
 
 
-dungeonScene::~dungeonScene()
-{
-}
+

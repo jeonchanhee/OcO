@@ -3,7 +3,7 @@
 #include "Bullet.h"
 #include "progressBar.h"
 #include "MusicAngel.h"
-#include "BigBat.h"
+#include "BigBone.h"
 #include "DogBone.h"
 #include "Cow.h"
 #include "Arrow.h"
@@ -11,7 +11,7 @@
 #include "RedBat.h"
 #include "BigBat.h"
 #include "Bat.h"
-#include "Boss.h"
+#include "Boss2.h"
 
 class EnemyManager : public gameNode
 {
@@ -39,10 +39,10 @@ public:
 
 	
 	void setMonster(); //몬스터 생성 함수
-	void hitDamage(); //HP깎는 함수
-	void monsterBulletFire();
-	void removeMonster();
-	bool isFinish();
+	//void hitDamage(); //HP깎는 함수
+	//void monsterBulletFire();
+	//void removeMonster();
+	//bool isFinish();
 	
 	
 

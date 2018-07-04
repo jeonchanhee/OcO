@@ -112,6 +112,9 @@
     <Filter Include="playGround\bullet">
       <UniqueIdentifier>{da504023-5401-4c49-b9e5-d2f47fd3d9ad}</UniqueIdentifier>
     </Filter>
+    <Filter Include="playGround\NPC">
+      <UniqueIdentifier>{47ebe29a-c910-44da-97cc-a121ff2f0754}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -207,9 +210,6 @@
     <ClInclude Include="Dialog.h">
       <Filter>playGround\Diaiog</Filter>
     </ClInclude>
-    <ClInclude Include="commonMacroFunction.h">
-      <Filter>2DFramework\Manager</Filter>
-    </ClInclude>
     <ClInclude Include="EnemyManager.h">
       <Filter>playGround\Enemy</Filter>
     </ClInclude>
@@ -243,14 +243,8 @@
     <ClInclude Include="RedBat.h">
       <Filter>playGround\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="tileNode.h">
-      <Filter>playGround\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="dungeonScene.h">
       <Filter>playGround\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="tileNode.h">
-      <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="DialogTraining.h">
       <Filter>playGround\Diaiog</Filter>
@@ -270,47 +264,41 @@
     <ClInclude Include="titleScene.h">
       <Filter>playGround\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Sword.h">
-      <Filter>playGround\Item\Weapon\sword</Filter>
-    </ClInclude>
-    <ClInclude Include="Bow.h">
-      <Filter>playGround\Item\Weapon\Bow</Filter>
-    </ClInclude>
-    <ClInclude Include="Gun.h">
-      <Filter>playGround\Item\Weapon\Gun</Filter>
-    </ClInclude>
-    <ClInclude Include="Hammer.h">
-      <Filter>playGround\Item\Weapon\Hammer</Filter>
-    </ClInclude>
-    <ClInclude Include="ring.h">
-      <Filter>playGround\Item\Defence\Ring</Filter>
-    </ClInclude>
-    <ClInclude Include="Necklace.h">
-      <Filter>playGround\Item\Defence\Necklace</Filter>
-    </ClInclude>
-    <ClInclude Include="Assist.h">
-      <Filter>playGround\Item\Defence\Assist</Filter>
-    </ClInclude>
-    <ClInclude Include="Shield.h">
-      <Filter>playGround\Item\Defence\Shield</Filter>
-    </ClInclude>
-    <ClInclude Include="Goldbar.h">
-      <Filter>playGround\Item\Treasure</Filter>
-    </ClInclude>
-    <ClInclude Include="Coin.h">
-      <Filter>playGround\Item\Treasure</Filter>
-    </ClInclude>
-    <ClInclude Include="Healingfairy.h">
-      <Filter>playGround\Item\Food</Filter>
-    </ClInclude>
     <ClInclude Include="Bullet.h">
       <Filter>playGround\bullet</Filter>
     </ClInclude>
     <ClInclude Include="cameraManager.h">
       <Filter>2DFramework\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet.h">
       <Filter>헤더 파일</Filter>
-
-      <Filter>2DFramework\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="tileNode.h">
+      <Filter>playGround\MapTool</Filter>
+    </ClInclude>
+    <ClInclude Include="tileNode.h">
+      <Filter>playGround\MapTool</Filter>
+    </ClInclude>
+    <ClInclude Include="tileNode.h">
+      <Filter>playGround\MapTool</Filter>
+    </ClInclude>
+    <ClInclude Include="itemManager.h">
+      <Filter>playGround\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="introScene.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="mapSelectScene.h">
+      <Filter>playGround\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="GodNpc.h">
+      <Filter>playGround\NPC</Filter>
+    </ClInclude>
+    <ClInclude Include="WeaponNpc.h">
+      <Filter>playGround\NPC</Filter>
+    </ClInclude>
+    <ClInclude Include="Boss2.h">
+      <Filter>playGround\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -458,38 +446,32 @@
     <ClCompile Include="DialogWeapon.cpp">
       <Filter>playGround\Diaiog</Filter>
     </ClCompile>
-    <ClCompile Include="Sword.cpp">
-      <Filter>playGround\Item\Weapon\sword</Filter>
+    <ClCompile Include="playGround_Sound.cpp">
+      <Filter>playGround</Filter>
     </ClCompile>
-    <ClCompile Include="Bow.cpp">
-      <Filter>playGround\Item\Weapon\Bow</Filter>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>playGround\bullet</Filter>
     </ClCompile>
-    <ClCompile Include="Gun.cpp">
-      <Filter>playGround\Item\Weapon\Gun</Filter>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Hammer.cpp">
-      <Filter>playGround\Item\Weapon\Hammer</Filter>
+    <ClCompile Include="itemManager.cpp">
+      <Filter>playGround\Item</Filter>
     </ClCompile>
-    <ClCompile Include="ring.cpp">
-      <Filter>playGround\Item\Defence\Ring</Filter>
+    <ClCompile Include="introScene.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Necklace.cpp">
-      <Filter>playGround\Item\Defence\Necklace</Filter>
+    <ClCompile Include="mapSelectScene.cpp">
+      <Filter>playGround\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Assist.cpp">
-      <Filter>playGround\Item\Defence\Assist</Filter>
+    <ClCompile Include="GodNpc.cpp">
+      <Filter>playGround\NPC</Filter>
     </ClCompile>
-    <ClCompile Include="Shield.cpp">
-      <Filter>playGround\Item\Defence\Shield</Filter>
+    <ClCompile Include="WeaponNpc.cpp">
+      <Filter>playGround\NPC</Filter>
     </ClCompile>
-    <ClCompile Include="Coin.cpp">
-      <Filter>playGround\Item\Treasure</Filter>
-    </ClCompile>
-    <ClCompile Include="Goldbar.cpp">
-      <Filter>playGround\Item\Treasure</Filter>
-    </ClCompile>
-    <ClCompile Include="Healingfairy.cpp">
-      <Filter>playGround\Item\Food</Filter>
+    <ClCompile Include="Boss2.cpp">
+      <Filter>playGround\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -10,14 +10,21 @@
 #include "DialogStore.h"
 #include "DialogTraining.h"
 #include "Dialog.h"
+#include "EnemyManager.h"
+#include "itemManager.h"
+#include "introScene.h"
+#include "mapSelectScene.h"
 
+enum changeMode { 맵툴, 타이틀, 다이얼로그, 몬스터, 플레이어, 아이템, 인트로, 던전, 맵선택, 기타추가하셈 };
 
 class playGround : public gameNode
 {
 private:
 	MapTool * _mapTool;
 	Player *  _player;
-
+	changeMode mode;
+	itemManager* _im;
+	titleScene* _title;
 
 public:
 	virtual HRESULT init(void);
@@ -26,6 +33,9 @@ public:
 	virtual void release(void);
 	virtual void update(void);
 	virtual void render(void);
+
+	void load();
+	void printMap();
 
 
 	playGround();
