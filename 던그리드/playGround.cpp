@@ -8,7 +8,7 @@ playGround::~playGround(){}
 
 HRESULT playGround::init(void)	
 {
-	mode = 맵툴;				//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
+	mode = 던전;				//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
 
 
 	gameNode::init(true);
@@ -50,6 +50,10 @@ HRESULT playGround::init(void)
 	case 인트로:
 		SCENEMANAGER->changeScene("인트로");
 	break;
+
+	case 던전:
+		SCENEMANAGER->changeScene("던전");
+		break;
 
 	case 기타추가하셈:
 		break;
@@ -113,7 +117,9 @@ void playGround::render(void)
 	case 아이템:
 		SCENEMANAGER->render();
 		break;
-
+	case 던전:
+		SCENEMANAGER->render();
+		break;
 	case 기타추가하셈:
 		break;
 	default:
