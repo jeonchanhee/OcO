@@ -297,6 +297,9 @@
     <ClInclude Include="WeaponNpc.h">
       <Filter>playGround\NPC</Filter>
     </ClInclude>
+    <ClInclude Include="Boss2.h">
+      <Filter>playGround\Enemy</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -466,6 +469,9 @@
     </ClCompile>
     <ClCompile Include="WeaponNpc.cpp">
       <Filter>playGround\NPC</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss2.cpp">
+      <Filter>playGround\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

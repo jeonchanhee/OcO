@@ -74,7 +74,7 @@ public:
 	void Gold(const char* imageName, int value, int num);					// 코인 / 골드바
 
 
-
+	tagItem getItem() { return _item; }
 	IMAGETYPE getimageType() { return _item.imagetype; }
 
 

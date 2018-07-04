@@ -101,6 +101,7 @@ void Item::createItem(ITEMTYPE type, IMAGETYPE type2, const char* itemName, int 
 	{
 		_item.frameX = _item.frameY = 0;
 	}
+	_item.image[0] = IMAGEMANAGER->findImage("°Ë10");
 }
 
 

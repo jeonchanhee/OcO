@@ -44,6 +44,9 @@ public:
 	cameraManager();
 	~cameraManager();
 
+	void render(void);
+	void render(image* img);
+
 	HDC getCameraDC(void) { return _camera->getMemDC(); }
 	void setCameraCenter(POINT point);
 	POINT getCameraCenter(void) { return _center; }

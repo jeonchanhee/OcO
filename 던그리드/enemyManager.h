@@ -11,7 +11,7 @@
 #include "RedBat.h"
 #include "BigBat.h"
 #include "Bat.h"
-#include "Boss.h"
+#include "Boss2.h"
 
 class EnemyManager : public gameNode
 {

@@ -88,7 +88,7 @@ void Player::update()
 void Player::render()
 {
 
-	PatBlt(DC, 0, 0, WINSIZEX, WINSIZEY, BLACKNESS); // 카메라 매니저 DC -> getMemDC 로 바꾸었습니다.
+	//PatBlt(DC, 0, 0, WINSIZEX, WINSIZEY, BLACKNESS); // 카메라 매니저 DC -> getMemDC 로 바꾸었습니다.
 	//여윽시 희진누나 작품 !!
 	RECT rc = RectMake(0,0,IMAGEMANAGER->findImage("검10")->getWidth()*2, IMAGEMANAGER->findImage("검10")->getHeight() );
 	imageDC = IMAGEMANAGER->addRotateImage("rotateimage", rc.right - rc.left, rc.bottom - rc.top ,true,RGB(0,0,0), false);
