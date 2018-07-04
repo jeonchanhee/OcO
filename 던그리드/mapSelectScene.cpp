@@ -21,9 +21,6 @@ void mapSelectScene::update()
 {
 	if (KEYMANAGER->isStayKeyDown(VK_LSHIFT))
 	{
-		PatBlt(DC, 0, 0, WINSIZEX, WINSIZEY, WHITENESS);
-		CAMERAMANAGER->setCameraX(0);
-		CAMERAMANAGER->setCameraX(0);
 		if (KEYMANAGER->isOnceKeyDown(VK_F1))
 			chooseMap(1);
 		if (KEYMANAGER->isOnceKeyDown(VK_F2))
@@ -64,6 +61,7 @@ void mapSelectScene::load()
 {
 	HANDLE	file;
 	DWORD	load;
+	ZeroMemory(&_tiles, sizeof(tagTile) * TILEX * TILEY);
 
 	file = CreateFile(_mapName.c_str(), GENERIC_READ, NULL, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 
@@ -75,11 +73,27 @@ void mapSelectScene::load()
 
 void mapSelectScene::printMap()
 {
+
 	// 지형
 	for (int i = 0; i < TILEX * TILEY; i++)
 	{
 		//if (i % 50 > _tileX || i > TILEX*2 * _tileY + _tileX) continue;
 		IMAGEMANAGER->frameRender("map", DC, _tiles[i].rc.left, _tiles[i].rc.top, _tiles[i].terrainFrameX, _tiles[i].terrainFrameY);
+	}
+
+	//if (KEYMANAGER->isToggleKey(VK_SPACE)) return;
+	//
+	//for (int i = 0; i < 28; ++i)
+	//{
+	//	for (int j = 0; j < 49; ++j)
+	//	{
+	//		RectangleMake(DC, 96 * j, 96 * i, 96, 96);
+	//	}
+	//}
+
+	for (int i = 0; i < TILEX * TILEY; ++i)
+	{
+
 	}
 
 	// 오브젝트
@@ -88,10 +102,10 @@ void mapSelectScene::printMap()
 		//if (i % 50 > _tileX || i > TILEX*2 * _tileY + _tileX) continue;
 		// 오브젝트 속성이 아니면 그리지마
 		if (_tiles[i].object == OBJ_NONE) continue;
-
+	
 		IMAGEMANAGER->frameRender("map", DC, _tiles[i].rc.left, _tiles[i].rc.top, _tiles[i].objFrameX, _tiles[i].objFrameY);
 	}
-
+	
 	if (KEYMANAGER->isToggleKey(VK_TAB))
 	{
 		for (int i = 0; i < TILEX * TILEY; i++)
@@ -137,4 +151,10 @@ void mapSelectScene::chooseMap(int idx)
 	_tileX = TILEVALUE[idx][0], _tileY = TILEVALUE[idx][1];
 
 	load();
+	setCamera();
+}
+
+void mapSelectScene::setCamera(void)
+{
+	CAMERAMANAGER->setCameraCenter(PointMake(0, 0));
 }

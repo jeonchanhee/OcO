@@ -26,7 +26,7 @@ class dungeonScene : public gameNode
 	Portal	_portal;	// Æ÷Å»
 
 	int dungeonNum;
-	int tileSize[11] = {}
+	int tileSize[11] = {};
 
 public:
 	virtual HRESULT init(void);

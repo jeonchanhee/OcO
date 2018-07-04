@@ -17,5 +17,7 @@ public:
 	void load();
 	void printMap();
 	void chooseMap(int idx);
+
+	void setCamera(void);
 };
 

@@ -103,7 +103,7 @@ void Player::render()
 	else if(_x + _player->getFrameWidth() / 2 < PTMOUSE_X && _mainWeapon[_youUsingCount] != 0)	
 		_playerWeapon->rotateRender(DC, _rightHandX + 15, _rightHandY - 10, _weaponAngle);
 
-	_player->aniRender(CAMERAMANAGER->getCameraDC()->getMemDC(), _x, _y, _playerAnimation);
+	_player->aniRender(DC, _x, _y, _playerAnimation);
 
 	//text !
 	char str[128]; sprintf_s(str, "Weapon Index : %d", _youUsingCount);
