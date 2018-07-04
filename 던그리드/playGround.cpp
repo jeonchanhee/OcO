@@ -8,7 +8,7 @@ playGround::~playGround(){}
 
 HRESULT playGround::init(void)	
 {
-	mode = 플레이어;				//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
+	mode = 몬스터;				//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
 
 
 	gameNode::init(true);
@@ -45,7 +45,7 @@ HRESULT playGround::init(void)
 	case 다이얼로그:
 		SCENEMANAGER->changeScene("대사씬");
 		break;
-	case 도그본:
+	case 몬스터:
 		SCENEMANAGER->changeScene("적");
 		break;
 	case 플레이어:
@@ -141,7 +141,7 @@ void playGround::render(void)
 	case 다이얼로그:
 		SCENEMANAGER->render();
 		break;
-	case 도그본:
+	case 몬스터:
 		SCENEMANAGER->render();
 		break;
 	case 플레이어:
