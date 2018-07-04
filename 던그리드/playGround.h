@@ -23,6 +23,7 @@ private:
 	Player *  _player;
 	changeMode mode;
 	itemManager* _im;
+	titleScene* _title;
 
 public:
 	virtual HRESULT init(void);

@@ -18,13 +18,18 @@ HRESULT playGround::init(void)
 	_mapTool->init();
 	_player  = new Player;
 	_player->init();
+	_im = new itemManager;
+	_im->init();
 
+	_title = new titleScene;
+	_title->init();
+	_title->setImLink(_im);
 
-	SCENEMANAGER->addScene("타이틀", new titleScene);
+	SCENEMANAGER->addScene("타이틀", _title);
 	SCENEMANAGER->addScene("던전", new dungeonScene);
 	SCENEMANAGER->addScene("적", new EnemyManager);
 	SCENEMANAGER->addScene("대사씬", new Dialog);
-	SCENEMANAGER->addScene("아이템씬", new itemManager);
+	//SCENEMANAGER->addScene("아이템씬", new itemManager);
 	SCENEMANAGER->addScene("인트로", new introScene);
 	
 	switch (mode)
@@ -119,7 +124,7 @@ void playGround::render(void)
 	default:
 		break;
 	}
-	SCENEMANAGER->render();
+	//SCENEMANAGER->render();
 
 	//================이 밑으로도 건드리지 말자 =============
 	

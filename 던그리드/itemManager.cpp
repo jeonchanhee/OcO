@@ -14,11 +14,11 @@ itemManager::~itemManager()
 
 HRESULT itemManager::init()
 {
-	/*Item* item;
+	Item* item;
 	item = new Item;
 	item->createItem("¹«±â", SECOND_EQUIPMENT, 4, true);
 	_vItem.push_back(item);
-	*/
+	
 
 	return S_OK;
 }

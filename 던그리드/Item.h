@@ -54,6 +54,9 @@ public:
 	void update();
 	void render();
 
+
+	tagItem getItem() { return _item; }
+
 					         //아이템 이름 //아이템 타입  //아이템 번호 // 프레임 이미지인가?
 	void createItem(const char* imageName, ITEMTYPE type, int value, bool frame);
 	

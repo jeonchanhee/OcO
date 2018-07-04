@@ -5,7 +5,7 @@
 
 HRESULT Item::init()
 {
-
+	
 	return S_OK;
 }
 
@@ -99,6 +99,7 @@ void Item::createItem(const char* imageName, ITEMTYPE type, int value,  bool fra
 	{
 		_item.frameX = _item.frameY = 0;
 	}
+	_item.image[0] = IMAGEMANAGER->findImage("°Ë10");
 }
 
 
