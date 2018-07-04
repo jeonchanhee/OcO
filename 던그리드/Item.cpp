@@ -24,7 +24,7 @@ void Item::update()
 	_count++;
 	if (_item.isFrame)
 	{
-		if (_count%10 == 0)
+		if (_count %10 == 0)
 		{
 			for (int i = 0; i < 3; i++)
 			{
@@ -32,8 +32,13 @@ void Item::update()
 				_item.image[i]->setFrameX(_item.frameX);
 				_item.frameX++;
 				_count = 0;
+				break;
 			}
 		}
+	}
+	else
+	{
+		return;
 	}
 }
 
