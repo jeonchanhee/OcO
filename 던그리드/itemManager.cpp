@@ -50,15 +50,15 @@ void itemManager::render()
 
 void itemManager::CreateWeapon(bool frame)
 {
-	for (int i = 1; i < 6; i++)
-	{
-
-		if (item->getimageType() == 窜老)
-		{
-			item->createItem(SHORT_DISTANCE_WEAPON, 窜老,  )
-			_vItem.push_back(item);
-		}
-	}
+	//for (int i = 1; i < 6; i++)
+	//{
+	//
+	//	if (item->getimageType() == 窜老)
+	//	{
+	//		item->createItem(SHORT_DISTANCE_WEAPON, 窜老,  )
+	//		_vItem.push_back(item);
+	//	}
+	//}
 }
 
 //void itemManager::CreateDefenceMechanism(ITEMTYPE type, const char* itemName, int value, int num, bool frame)

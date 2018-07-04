@@ -112,7 +112,7 @@ void Player::render()
 		imageDC->rotateRender(DC, _leftHandX , _leftHandY , _weaponAngle + 1.8f);
 	else if(_x + _player->getFrameWidth() / 2 < PTMOUSE_X && _mainWeapon[_youUsingCount] != 0)	
 	imageDC->rotateRender(DC, _rightHandX , _rightHandY , _weaponAngle + 1.8f);
-	_player->aniRender(CAMERAMANAGER->getCameraDC()->getMemDC(), _x, _y, _playerAnimation);
+	_player->aniRender(DC, _x, _y, _playerAnimation);
 
 	if (_showAttackEffect)
 	{
@@ -377,7 +377,7 @@ void Player::attack()
 void Player::effect()
 {
 		
-	if(_showAttackEffect)CAMERAMANAGER->cameraShaking();
+	//if(_showAttackEffect)CAMERAMANAGER->cameraShaking();
 	if (!_isJumping)
 	{
 		if (KEYMANAGER->isStayKeyDown('A')) EFFECTMANAGER->play("왼쪽걸을때", _x + 70, _y + 70);

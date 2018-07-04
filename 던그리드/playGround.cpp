@@ -8,7 +8,7 @@ playGround::~playGround(){}
 
 HRESULT playGround::init(void)	
 {
-	mode = 플레이어;				//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
+	mode = 맵선택;				//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
 //	rectRotate(IMAGEMANAGER->findImage("검01"), 100, 100);
 
 	gameNode::init(true);
@@ -112,14 +112,12 @@ void playGround::update(void)
 	//if (CAMERAMANAGER->getCameraY() < 0)						CAMERAMANAGER->setCameraY(0);
 	//if (CAMERAMANAGER->getCameraX() + WINSIZEX > 96 * _tileX)	CAMERAMANAGER->setCameraX(96 * _tileX - WINSIZEX);
 	//if (CAMERAMANAGER->getCameraY() + WINSIZEY > 96 * _tileY)	CAMERAMANAGER->setCameraY(96 * _tileY - WINSIZEY);
-
-
 }
 
 void playGround::render(void)
 {
-	PatBlt(getMemDC(), CAMERAMANAGER->getCameraCenter().x - WINSIZEX / 2, CAMERAMANAGER->getCameraCenter().y - WINSIZEY / 2, WINSIZEX, WINSIZEY, WHITENESS);
-	PatBlt(CAMERAMANAGER->getCameraDC(), 0, 0, WINSIZEX, WINSIZEY, WHITENESS);
+	PatBlt(getMemDC(), CAMERAMANAGER->getCameraCenter().x - WINSIZEX / 2, CAMERAMANAGER->getCameraCenter().y - WINSIZEY / 2, WINSIZEX, WINSIZEY, BLACKNESS);
+	PatBlt(CAMERAMANAGER->getCameraDC(), 0, 0, WINSIZEX, WINSIZEY, BLACKNESS);
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// 이 위로는 건들지 마시오
@@ -168,7 +166,7 @@ void playGround::render(void)
 
 	TIMEMANAGER->render(UIDC);
 	RectangleMake(UIDC, WINSIZEX - 100, 0, 100, 100);
-	RectangleMake(DC, CAMERAMANAGER->getCameraCenter().x - 20, CAMERAMANAGER->getCameraCenter().y - 20, 40, 40);
+	IMAGEMANAGER->render("cursor", UIDC, _ptMouse.x, _ptMouse.y);
 	// 이 아래로도 건들지 마시오
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	CAMERAMANAGER->render(this->getBackBuffer());
