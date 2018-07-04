@@ -61,7 +61,7 @@ private:
 	float _mouseAngle,_ptMouseX,_ptMouseY;							 //플레이어와 마우스 의 getAngle  , 카메라에서 마우스 x좌표 y좌표
 	float _punchSpeed;												 //펀치 스피드임
 	float _locusX, _locusY;											 //플레이어의 xy좌표 저장
-	float _weaponAngle;												 // 무기 angle
+	float _weaponAngle, _weaponAttackAngle;							 // 무기 angle
  
 public:
 
