@@ -16,7 +16,7 @@ HRESULT itemManager::init()
 {
 	Item* item;
 	item = new Item;
-	item->createItem("公扁", SECOND_EQUIPMENT, 4, true);
+	//item->createItem("公扁", SECOND_EQUIPMENT, 4, true);
 	_vItem.push_back(item);
 	
 
@@ -59,7 +59,7 @@ void itemManager::CreateWeapon(bool frame)
 
 		if (item->getimageType() == 窜老)
 		{
-			item->createItem(SHORT_DISTANCE_WEAPON, 窜老,  )
+			//item->createItem(SHORT_DISTANCE_WEAPON, 窜老, );
 			_vItem.push_back(item);
 		}
 	}
