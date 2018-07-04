@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "titleScene.h"
+#include "itemManager.h"
 
 
 HRESULT titleScene::init(void)
@@ -7,8 +8,8 @@ HRESULT titleScene::init(void)
 	SOUNDMANAGER->play("title");
 	_birdImg0 = IMAGEMANAGER->addFrameImage("T_bird", "image/UI/Bird(800x58,8x1).bmp", 0, 0, 800, 58, 8, 1, true, RGB(255, 0, 255), true);
 	_birdImg1 = IMAGEMANAGER->addFrameImage("T_bird1", "image/UI/Bird(800x58,8x1).bmp", 0, 0, 800, 58, 8, 1, true, RGB(255, 0, 255), true);
-	_bird0 = { RND->getFromIntTo(-200,-50),RND->getFromIntTo(500,900) };
-	_bird1 = { RND->getFromIntTo(-700,-500),RND->getFromIntTo(200,500) };
+	_bird0 = { RND->getFromIntTo(-500,-300),RND->getFromIntTo(500,900) };
+	_bird1 = { RND->getFromIntTo(-1000,-700),RND->getFromIntTo(200,500) };
 	_loop0= _loop1 = 0;
 	int bird[] = { 0,1,2,3,4,5,6,7 };
 	KEYANIMANAGER->addArrayFrameAnimation("bird0", "T_bird", bird, 8, 7, true);
@@ -27,6 +28,15 @@ HRESULT titleScene::init(void)
 	{
 		_deleteRect[i] = RectMake(220 + i * 610, 150, IMAGEMANAGER->findImage("T_delete")->getWidth(), IMAGEMANAGER->findImage("T_delete")->getHeight());
 	}
+
+	/*int suck[51];
+	for (int i = 0; i<51; i++)
+		suck[i] = i;
+	KEYANIMANAGER->addArrayFrameAnimation("suck", "suck", suck, 51, 3, true);*/
+	//KEYANIMANAGER->addDefaultFrameAnimation("suck", "suck", 3, false, false);
+
+	//KEYANIMANAGER->addCoordinateFrameAnimation("suck", "suck", 49, 50, 3, false, false);
+
 	return S_OK;
 }
 
@@ -37,22 +47,22 @@ void titleScene::release(void)
 
 void titleScene::update(void)
 {
-	_loop0 -= 0.5;
-	_loop1 -= 1;
-	_bird0.x += 3;
-	_bird1.x += 2;
+	_loop0 -= 0.2;
+	_loop1 -= 0.5;
+	_bird0.x += 2;
+	_bird1.x += 1;
 	if (_loop0 > 3840)
 		_loop0 = 0;
 	if (_loop1 > 4300)
 		_loop1 = 0;
 	if (_bird0.x > WINSIZEX + 900)
 	{
-		_bird0 = { RND->getFromIntTo(-700,-400),RND->getFromIntTo(100,900) };
+		_bird0 = { RND->getFromIntTo(-800,-500),RND->getFromIntTo(100,900) };
 		_abird0->start();
 	}
 	if (_bird1.x > WINSIZEX + 900)
 	{
-		_bird1 = { RND->getFromIntTo(-900,-600),RND->getFromIntTo(100,900) };
+		_bird1 = { RND->getFromIntTo(-1000,-700),RND->getFromIntTo(100,900) };
 		_abird1->start();
 	}
 	
@@ -79,7 +89,14 @@ void titleScene::render(void)
 			{
 				//SCENEMANAGER->changeScene("´øÀü");
 				loadData();
-				//training();
+				
+				int suck[52];
+				for (int i = 0; i<52; i++)
+					suck[i] = i;
+				KEYANIMANAGER->addArrayFrameAnimation("suck", "suck", suck, 52, 3, false);
+				_img = IMAGEMANAGER->findImage("suck");
+				_suck = KEYANIMANAGER->findAnimation("suck");
+				_suck->start();
 			}
 		}
 		else
@@ -102,7 +119,10 @@ void titleScene::render(void)
 	}
 	else
 	{
-		drawData();
+		inven();
+		//reward();
+		//restaurant();
+		//drawData();
 	}
 
 	if(KEYMANAGER->isToggleKey(VK_TAB))
@@ -114,6 +134,68 @@ void titleScene::render(void)
 
 void titleScene::training()
 {
+	IMAGEMANAGER->findImage("black")->alphaRender(DC, 0, 0,450);
+	IMAGEMANAGER->findImage("training")->render(DC,0,0);
+	for (int j = 0; j < 15; j+=3)
+	{
+		for (int i = 0; i < 3; i++)
+			IMAGEMANAGER->findImage("trainI")->frameRender(DC, 110+(i*72)+(j*124), 720, j, i);
+	}
+	for (int i = 0; i < 5; i++)
+	IMAGEMANAGER->findImage("trainB")->frameRender(DC,165+(i * 371),810,i,0);
+	RECT rc = RectMake(1764, 50, 120, 115);
+
+	if (KEYMANAGER->isToggleKey(VK_TAB))
+	{
+		Rectangle(DC, rc.left, rc.top, rc.right, rc.bottom);
+	}
+}
+void titleScene::shop()
+{
+	IMAGEMANAGER->findImage("shop")->render(DC, 0, 0);
+	IMAGEMANAGER->findImage("slot")->render(DC, 165, 180);
+	IMAGEMANAGER->findImage("inven")->render(DC, WINSIZEX- IMAGEMANAGER->findImage("inven")->getWidth(), 0);
+}
+
+void titleScene::inven()
+{
+	IMAGEMANAGER->findImage("inven")->render(DC, WINSIZEX - IMAGEMANAGER->findImage("inven")->getWidth(), 0);
+	IMAGEMANAGER->findImage("inven0")->render(DC, 1288, 155);
+	//IMAGEMANAGER->findImage("inven0")->render(DC, 1598, 155);
+	RECT rc[4];
+	rc[0] = RectMake(1310, 205, 100, 100);
+	rc[1] = RectMake(1435 , 205, 100, 100);
+	rc[2] = RectMake(1620 , 205, 100, 100);
+	rc[3] = RectMake(1745 , 205, 100, 100);
+	if (KEYMANAGER->isToggleKey(VK_TAB))
+	{
+		for (int i = 0; i<4; i++)
+		Rectangle(DC, rc[i].left, rc[i].top, rc[i].right, rc[i].bottom);
+	}
+	_im->getItem()[0]->getItem().image[0]->render(DC, rc[0].left, rc[0].top);
+}
+
+void titleScene::restaurant()
+{
+	RECT rc= RectMake(686, 210, 42, 432);
+	IMAGEMANAGER->findImage("restaurant")->render(DC, 0, 0);
+	IMAGEMANAGER->findImage("rest")->frameRender(DC,744, 216);
+	IMAGEMANAGER->findImage("reslot")->render(DC,54, 240);
+	IMAGEMANAGER->findImage("scroll")->render(DC,686, 210);
+	if (KEYMANAGER->isToggleKey(VK_TAB))
+	{
+		Rectangle(DC, rc.left, rc.top, rc.right, rc.bottom);
+	}
+}
+
+void titleScene::reward()
+{
+	IMAGEMANAGER->findImage("reward")->render(DC, 0, 0);
+	IMAGEMANAGER->findImage("expBar")->render(DC, 0, WINSIZEY- IMAGEMANAGER->findImage("expBar")->getHeight());
+	//IMAGEMANAGER->findImage("suck")->frameRender(DC, 780, 546);
+
+	_img->aniRender(DC, 780, 546, _suck);
+	KEYANIMANAGER->update();
 
 }
 

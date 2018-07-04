@@ -33,6 +33,8 @@ namespace CLASS_TEN
 		return angle;
 	}
 
+	
+
 	bool isCollisionReaction(RECT& mrcHold, RECT& mrcMove)
 	{
 		RECT rcInter;

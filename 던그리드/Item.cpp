@@ -5,6 +5,8 @@
 
 HRESULT Item::init()
 {
+	_item.x = WINSIZEX / 2;
+	_item.y - WINSIZEY / 2;
 
 	return S_OK;
 }
@@ -18,8 +20,7 @@ void Item::release()
 
 void Item::update()
 {
-	_item.x = WINSIZEX / 2;
-	_item.y = WINSIZEY / 2;
+
 
 	_count++;
 	if (_item.isFrame)
@@ -60,58 +61,58 @@ void Item::render() // 아이템을 렌더
 	}
 }
 
-void Item::createItem(const char* imageName, ITEMTYPE type, int value,  bool frame) // 아이템 만듬
+void Item::createItem(ITEMTYPE type, IMAGETYPE type2, const char* itemName, int value, int num, bool frame) // 아이템 만듬
 {
 	switch (type)
 	{
 		case SHORT_DISTANCE_WEAPON:
-			ShortDistanceWeapon(imageName, value);
+			ShortDistanceWeapon(itemName, value, num);
 		break;
 		case LONG_DISTANCE_WEAPON:
-			LongDistanceWeapon(imageName, value);
+			LongDistanceWeapon(itemName, value, num);
 		break;
 		case DEFENCE_MECHANISM:
-			DefenceMechanism(imageName, value);
+			DefenceMechanism(itemName, value, num);
 		break;
 		case SECOND_EQUIPMENT:
-			SecondEquipment(imageName, value);
+			SecondEquipment(itemName, value, num);
 		break;
 		case ACCESSORY:
-			Accessory(imageName, value);
+			Accessory(itemName, value, num);
 		break;
 		case CONSUME:
-			Consume(imageName, value);
+			Consume(itemName, value, num);
 		break;
 		case HEALING:
-			Healing(imageName, value);
+			Healing(itemName, value, num);
 		break;
 		case TREASUREBOX:
-			TreasureBox(imageName, value);
+			TreasureBox(itemName, value, num);
 		break;
 		case GOLD:
-			Gold(imageName, value);
+			Gold(itemName, value, num);
 		break;
 	}
 	_item.type = type;
+	_num = num;
 	_item.isFrame = frame;
-	_item.imageName = imageName;
+	_item.imageName = itemName;
 	if (frame)
 	{
 		_item.frameX = _item.frameY = 0;
 	}
+	_item.image[0] = IMAGEMANAGER->findImage("검10");
 }
-
-
 
 
 ///////////////////////// 원거리 무기 ////////////////////////////////////
 
-void Item::LongDistanceWeapon(const char* imageName, int value)
+void Item::LongDistanceWeapon(const char* imageName, int value, int num)
 {
 	for (int i = 0; i < 3; ++i)	
 	{
 		char str[128];
-		sprintf_s(str, "%s%d%d", imageName, value, i);
+		sprintf_s(str, "%s%d%d", imageName, value, num);
 		_item.image[i] = IMAGEMANAGER->findImage(str);
 	}
 
@@ -121,7 +122,17 @@ void Item::LongDistanceWeapon(const char* imageName, int value)
 		_item.attackSpeed = 10.0f;
 		_item.criticalPersent = 10.0f;
 		_item.fixedDamage = 5;
+		_item.imagetype = 단일;
 
+	}
+
+	if (value == 1 && imageName == "활") // 첫번째 원거리 무기
+	{
+		_item.ad = 10;
+		_item.attackSpeed = 10.0f;
+		_item.criticalPersent = 10.0f;
+		_item.fixedDamage = 5;
+		_item.imagetype = 프레임;
 	}
 
 	if (value == 2) // 두번째 원거리 무기
@@ -130,6 +141,16 @@ void Item::LongDistanceWeapon(const char* imageName, int value)
 		_item.attackSpeed = 15.0f;
 		_item.criticalPersent = 15.0f;
 		_item.fixedDamage = 10;
+		_item.imagetype = 단일;
+	}
+
+	if (value == 2 && imageName == "활") // 두번째 원거리 무기
+	{
+		_item.ad = 15;
+		_item.attackSpeed = 15.0f;
+		_item.criticalPersent = 15.0f;
+		_item.fixedDamage = 10;
+		_item.imagetype = 프레임;
 	}
 
 	if (value == 3) // 세번째 원거리 무기
@@ -138,6 +159,7 @@ void Item::LongDistanceWeapon(const char* imageName, int value)
 		_item.attackSpeed = 20.0f;
 		_item.criticalPersent = 20.0f;
 		_item.fixedDamage = 15;
+		_item.imagetype = 단일;
 	}
 
 	if (value == 3 && imageName == "활")
@@ -146,6 +168,7 @@ void Item::LongDistanceWeapon(const char* imageName, int value)
 		_item.attackSpeed = 30.0f;
 		_item.criticalPersent = 30.0f;
 		_item.fixedDamage = 25;
+		_item.imagetype = 프레임;
 	}
 
 	if (value == 4) // 네번째 원거리 무기
@@ -154,6 +177,8 @@ void Item::LongDistanceWeapon(const char* imageName, int value)
 		_item.attackSpeed = 30.0f;
 		_item.criticalPersent = 30.0f;
 		_item.fixedDamage = 25;
+		_item.imagetype = 프레임;
+		
 	}
 
 
@@ -165,14 +190,13 @@ void Item::LongDistanceWeapon(const char* imageName, int value)
 
 //////////////////////////// 근접 무기 //////////////////////////////////
 
-void Item::ShortDistanceWeapon(const char* imageName, int value)
+void Item::ShortDistanceWeapon(const char* imageName, int value, int num)
 {
 	for (int i = 0; i < 3; i++)
-	{
+	{	
 		char str[128];
-		sprintf_s(str, "%s%d%d", imageName, value, i);
+		sprintf_s(str, "%s%d%d", imageName, value, num);
 		_item.image[i] = IMAGEMANAGER->findImage(str);
-
 	}
 
 	if (value == 1) //기본무기(처음에 사용할 숏소드)
@@ -181,6 +205,7 @@ void Item::ShortDistanceWeapon(const char* imageName, int value)
 		_item.attackSpeed = 5.0f;
 		_item.criticalPersent = 5.0f;
 		_item.fixedDamage = 5;
+		_item.imagetype = 단일;
 
 	}
 
@@ -190,6 +215,7 @@ void Item::ShortDistanceWeapon(const char* imageName, int value)
 		_item.attackSpeed = 10.0f;
 		_item.criticalPersent = 10.0f;
 		_item.fixedDamage = 7;
+		_item.imagetype = 단일;
 	}
 
 	if (value == 3) // 두번째 무기
@@ -198,6 +224,7 @@ void Item::ShortDistanceWeapon(const char* imageName, int value)
 		_item.attackSpeed = 15.0f;
 		_item.criticalPersent = 15.0f;
 		_item.fixedDamage = 10;
+		_item.imagetype = 단일;
 	}
 
 	if (value == 4) // 세번째 무기
@@ -206,6 +233,7 @@ void Item::ShortDistanceWeapon(const char* imageName, int value)
 		_item.attackSpeed = 20.0f;
 		_item.criticalPersent = 20.0f;
 		_item.fixedDamage = 15;
+		_item.imagetype = 프레임;
 	}
 
 	if (value == 5) // 네번째 무기
@@ -214,6 +242,7 @@ void Item::ShortDistanceWeapon(const char* imageName, int value)
 		_item.attackSpeed = 30.0f;
 		_item.criticalPersent = 30.0f;
 		_item.fixedDamage = 25;
+		_item.imagetype = 프레임;
 	}
 
 }
@@ -223,12 +252,12 @@ void Item::ShortDistanceWeapon(const char* imageName, int value)
 
 
 //////////////////////////// 방어구 ////////////////////////////////////
-void Item::DefenceMechanism(const char * imageName, int value)
+void Item::DefenceMechanism(const char * imageName, int value, int num)
 {
 	for (int i = 0; i < 3; i++)
 	{
 		char str[128];
-		sprintf_s(str, "%s%d%d", imageName, value, i);
+		sprintf_s(str, "%s%d%d", imageName, value, num);
 		_item.image[i] = IMAGEMANAGER->findImage(str);
 
 	}
@@ -237,8 +266,7 @@ void Item::DefenceMechanism(const char * imageName, int value)
 	{
 		_item.armor = 10;				// 방어력
 		_item.evasionPersent = 10.0f;	// 회피율.
-
-
+		_item.imagetype = 단일;
 	}
 
 	
@@ -247,6 +275,7 @@ void Item::DefenceMechanism(const char * imageName, int value)
 	{
 		_item.armor = 15;				// 방어력
 		_item.evasionPersent = 15.0f;	// 회피율.
+		_item.imagetype = 단일;
 
 	}
 
@@ -254,6 +283,7 @@ void Item::DefenceMechanism(const char * imageName, int value)
 	{
 		_item.armor = 30;				// 방어력
 		_item.evasionPersent = 30.0f;	// 회피율.
+		_item.imagetype = 단일;
 	}
 
 
@@ -262,6 +292,7 @@ void Item::DefenceMechanism(const char * imageName, int value)
 		_item.addMaxHp = 10;			// 최대체력 증가
 		_item.armor = 20;				// 방어력
 		_item.evasionPersent = 20.0f;	// 회피율.
+		_item.imagetype = 단일;
 	}
 
 	if (value == 4) // 네번째 방어구 
@@ -271,6 +302,7 @@ void Item::DefenceMechanism(const char * imageName, int value)
 		_item.attackSpeed = 30.0f;			// 공속
 		_item.evasionPersent = 30.0f;		// 회피율.
 		_item.criticalPersent = 30.0f;		// 크리티컬
+		_item.imagetype = 단일;
 	}
 
 }
@@ -281,12 +313,12 @@ void Item::DefenceMechanism(const char * imageName, int value)
 
 //////////////////////////// 보조 장비 ///////////////////////////////
 
-void Item::SecondEquipment(const char* imageName, int value)
+void Item::SecondEquipment(const char* imageName, int value, int num)
 {
 	for (int i = 0; i < 3; i++)
 	{
 		char str[128];
-		sprintf_s(str, "%s%d%d", imageName, value, i);
+		sprintf_s(str, "%s%d%d", imageName, value, num);
 		_item.image[i] = IMAGEMANAGER->findImage(str);
 	}
 
@@ -295,6 +327,7 @@ void Item::SecondEquipment(const char* imageName, int value)
 		_item.addMaxHp = 10;		// 최대체력 증가
 		_item.dashPower = 10.0f;	// 대쉬공격력 증가 
 		_item.evasionPersent = 10;	// 회피율
+		_item.imagetype = 단일;
 	}
 
 	if (value == 2)
@@ -302,6 +335,7 @@ void Item::SecondEquipment(const char* imageName, int value)
 		_item.armor = 30;				// 방어력
 		_item.addMaxHp = 30;			// 최대 체력
 		_item.moveMentSpeed = -20.f;	// 이동속도 
+		_item.imagetype = 단일;
 	}
 
 	if (value == 3)
@@ -309,6 +343,7 @@ void Item::SecondEquipment(const char* imageName, int value)
 		_item.ad = 10;				// 공격력
 		_item.attackSpeed = 10.0f;	// 공격속도
 		_item.criticalPersent = 10;	// 크리티컬
+		_item.imagetype = 단일;
 
 	}
 
@@ -317,6 +352,16 @@ void Item::SecondEquipment(const char* imageName, int value)
 		_item.isfly = true;
 		// 어떤 키를 눌렀을때 이즈 플라이가 트루가 되게 하고
 		// 캐릭터가 공중에 떠오르게 한다. 
+		_item.imagetype = 프레임;
+	}
+
+	if (value == 5)
+	{
+		_item.ad = 30;				// 공격력
+		_item.attackSpeed = 30.0f;	// 공격속도
+		_item.criticalPersent = 30;	// 크리티컬
+		_item.imagetype = 프레임;
+
 	}
 
 }
@@ -327,12 +372,12 @@ void Item::SecondEquipment(const char* imageName, int value)
 
 //////////////////////////// 악세사리 //////////////////////////////////
 
-void Item::Accessory(const char* imageName, int value)
+void Item::Accessory(const char* imageName, int value, int num)
 {
 	for (int i = 0; i < 3; i++)
 	{
 		char str[128];
-		sprintf_s(str, "%s%d%d", imageName, value, i);
+		sprintf_s(str, "%s%d%d", imageName, value, num);
 		_item.image[i] = IMAGEMANAGER->findImage(str);
 
 	}
@@ -342,6 +387,7 @@ void Item::Accessory(const char* imageName, int value)
 		_item.price = 3000;			// 가격
 		_item.addMaxHp = 10;		// 체력증가
 		_item.armor = 5;			// 방어력
+		_item.imagetype = 단일;
 
 
 	}
@@ -350,6 +396,7 @@ void Item::Accessory(const char* imageName, int value)
 		_item.price = 3000;			// 가격
 		_item.ad = 5;				// 공격력
 		_item.addMaxHp = 5;			// 최대 체력증가
+		_item.imagetype = 단일;
 
 	}
 	if (value == 3)
@@ -358,6 +405,7 @@ void Item::Accessory(const char* imageName, int value)
 		_item.attackSpeed = 10.0f;		// 공격속도
 		_item.criticalPersent = 10.0f;	// 크리 확률
 		_item.evasionPersent = 10.0f;	// 회피율
+		_item.imagetype = 단일;
 	}
 	if (value == 4)
 	{
@@ -369,6 +417,7 @@ void Item::Accessory(const char* imageName, int value)
 		_item.dashPower = 10.0f;		// 대쉬공격력
 		_item.criticalPersent = 10.0f;	// 크리 확률
 		_item.evasionPersent = 10.0f;	// 회피율
+		_item.imagetype = 프레임;
 	}
 
 }
@@ -380,11 +429,14 @@ void Item::Accessory(const char* imageName, int value)
 
 //////////////////////////// 음식 /////////////////////////////////////
 
-void Item::Consume(const char* imageName, int value) // 음식 12가지
+void Item::Consume(const char* imageName, int value, int num) // 음식 12가지
 {
-	char str[128];
-	sprintf_s(str, "%s%d%d", imageName, value);
-
+	for (int i = 0; i < 3; i++)
+	{
+		char str[128];
+		sprintf_s(str, "%s%d%d", imageName, value, num);
+		_item.image[i] = IMAGEMANAGER->findImage(str);
+	}
 
 	if (value == 1)
 	{
@@ -393,6 +445,7 @@ void Item::Consume(const char* imageName, int value) // 음식 12가지
 		_item.armor = 5;			// 방어력
 		_item.heal = 10;			// 체력회복
 		_item.fullNess = 60;		// 공복도
+		_item.imagetype = 단일;
 	}
 
 	if (value == 2)
@@ -402,6 +455,7 @@ void Item::Consume(const char* imageName, int value) // 음식 12가지
 		_item.attackSpeed = 5.0f;		// 공격속도
 		_item.heal = 12;				// 체력회복
 		_item.fullNess = 60;			// 공복도
+		_item.imagetype = 단일;
 	}	
 
 	if (value == 3)
@@ -411,6 +465,7 @@ void Item::Consume(const char* imageName, int value) // 음식 12가지
 		_item.dashPower = 5.0f;		// 대쉬공격력
 		_item.heal = 13;			// 체력회복
 		_item.fullNess = 60;		// 공복도
+		_item.imagetype = 단일;
 	}	
 
 	if (value == 4)
@@ -420,6 +475,7 @@ void Item::Consume(const char* imageName, int value) // 음식 12가지
 		_item.evasionPersent = 5.0f;		// 회피율
 		_item.heal = 13;					// 체력회복
 		_item.fullNess = 60;				// 공복도
+		_item.imagetype = 단일;
 	}	
 
 	if (value == 5)
@@ -429,6 +485,7 @@ void Item::Consume(const char* imageName, int value) // 음식 12가지
 		_item.armor = 10;			// 방어력
 		_item.heal = 15;			// 체력회복
 		_item.fullNess = 70;		// 공복도
+		_item.imagetype = 단일;
 	}	
 
 	if (value == 6)
@@ -438,6 +495,7 @@ void Item::Consume(const char* imageName, int value) // 음식 12가지
 		_item.attackSpeed = 10.0f;		// 공격속도
 		_item.heal = 15;				// 체력회복
 		_item.fullNess = 70;			// 공복도
+		_item.imagetype = 단일;
 	}	
 
 	if (value == 7)
@@ -447,6 +505,7 @@ void Item::Consume(const char* imageName, int value) // 음식 12가지
 		_item.dashPower = 10.0f;	// 대쉬공격력
 		_item.heal = 17;			// 체력회복
 		_item.fullNess = 70;		// 공복도
+		_item.imagetype = 단일;
 	}	
 
 	if (value == 8)
@@ -456,6 +515,7 @@ void Item::Consume(const char* imageName, int value) // 음식 12가지
 		_item.evasionPersent = 10.0f;		// 회피율
 		_item.heal = 20;					// 체력회복
 		_item.fullNess = 70;				// 공복도
+		_item.imagetype = 단일;
 	}	
 
 	if (value == 9)
@@ -470,6 +530,7 @@ void Item::Consume(const char* imageName, int value) // 음식 12가지
 		_item.evasionPersent = 10.0f;	// 회피율
 		_item.heal = 25;				// 체력회복
 		_item.fullNess = 80;			// 공복도
+		_item.imagetype = 단일;
 	}	
 
 	if (value == 10)
@@ -484,6 +545,7 @@ void Item::Consume(const char* imageName, int value) // 음식 12가지
 		_item.evasionPersent =			15.0f;	// 회피율
 		_item.heal =					30;		// 체력회복
 		_item.fullNess =				85;		// 공복도
+		_item.imagetype = 단일;
 	}	
 
 	if (value == 11)
@@ -498,6 +560,7 @@ void Item::Consume(const char* imageName, int value) // 음식 12가지
 		_item.evasionPersent =	 20.0f;		// 회피율
 		_item.heal =			 25;		// 체력회복
 		_item.fullNess =		 80;		// 공복도
+		_item.imagetype = 단일;
 	}	
 
 	if (value == 12)
@@ -511,15 +574,16 @@ void Item::Consume(const char* imageName, int value) // 음식 12가지
 		_item.criticalPersent = 10;	// 크리 확률
 		_item.evasionPersent = 10;	// 회피율
 		_item.fullNess = 50;		// 공복도
+		_item.imagetype = 단일;
 	}
 }
 
-void Item::Healing(const char* imageName, int value)
+void Item::Healing(const char* imageName, int value, int num)
 {
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < 2; i++)
 	{
 		char str[128];
-		sprintf_s(str, "%s%d%d", imageName, value, i);
+		sprintf_s(str, "%s%d%d", imageName, value, num);
 		_item.image[i] = IMAGEMANAGER->findImage(str);
 
 	}
@@ -527,21 +591,24 @@ void Item::Healing(const char* imageName, int value)
 	if (value == 1)
 	{
 		_item.heal = 10;
+		_item.imagetype = 프레임;
 	}
 
 	if (value == 2)
 	{
 		_item.heal = 20;
+		_item.imagetype = 프레임;
 	}
 }
 
-void Item::TreasureBox(const char* imageName, int value)
+void Item::TreasureBox(const char* imageName, int value, int num)
 {
 	for (int i = 0; i < 3; i++)
 	{
 		char str[128];
-		sprintf_s(str, "%s%d%d", imageName, value, i);
+		sprintf_s(str, "%s%d%d", imageName, value, num);
 		_item.image[i] = IMAGEMANAGER->findImage(str);
+
 
 	}
 
@@ -549,22 +616,24 @@ void Item::TreasureBox(const char* imageName, int value)
 	{
 		// 돈은 얼마나 나올거니 설정.(범위 랜덤 3~8);
 		// 아이템도 확률로 나오게 설정( 모든 아이템이 나온다 랜덤으로) 안나올 수도 있음.
+		_item.imagetype = 프레임;
 	}
 
 	if (value == 2) // 일반 상자
 	{
 		// 돈은 얼마나 나올건지 설정( 범위 랜덤 3~8);
 		// 아이템은 1번 부터 3번 까지만 나오게 한다.
+		_item.imagetype = 프레임;
 
 	}
 }
 
-void Item::Gold(const char* imageName, int value)
+void Item::Gold(const char* imageName, int value, int num)
 {
 	for (int i = 0; i < 3; i++)
 	{
 		char str[128];
-		sprintf_s(str, "%s%d%d", imageName, value, i);
+		sprintf_s(str, "%s%d%d", imageName, value, num);
 		_item.image[i] = IMAGEMANAGER->findImage(str);
 
 	}
@@ -573,11 +642,13 @@ void Item::Gold(const char* imageName, int value)
 	{
 		// 1 ~ 10골드 까지 랜덤
 		_item.gold = RND->getFromIntTo(1, 10);
+		_item.imagetype = 프레임;
 	}
 
 	if (value == 2) // 골드
 	{
 		// 10 ~ 20 골드 까지 랜덤
 		_item.gold = RND->getFromIntTo(10, 20);
+		_item.imagetype = 프레임;
 	}
 }

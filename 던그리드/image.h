@@ -59,7 +59,7 @@ public:
 			frameWidth		= NULL;
 			frameHeight		= NULL;
 			loadType		= LOAD_RESOURCE;
-			boundingBox		= RectMake(0, 0, 0, 0);
+			boundingBox		= { 0,0,0,0 };
 		}
 	}IMAGE_INFO, *LPIMAGE_INFO;
 
@@ -88,6 +88,8 @@ public:
 
 	HRESULT rotateInit(const char * fileName, int width, int height, BOOL trans, COLORREF transColor, BOOL blend = FALSE);
 
+	HRESULT rotateInit(int width, int height, BOOL trans, COLORREF transColor, BOOL blend);
+
 	HRESULT rotateInit(const char * fileName, int width, int height, int frameX, int frameY, BOOL trans, COLORREF transColor, BOOL blend = FALSE);
 
 	//프레임 이미지 초기화
@@ -98,11 +100,6 @@ public:
 		BOOL trans = FALSE, COLORREF transColor = FALSE, BOOL blend = FALSE);
 
 	//회전 
-	HRESULT rotateInit(const char * fileName, int width, int height,
-		BOOL trans = FALSE, COLORREF transColor = RGB(0, 0, 0));
-
-	HRESULT rotateInit(const char * fileName, int width, int height,
-		int frameX, int frameY, BOOL trans = FALSE, COLORREF transColor = RGB(0, 0, 0));
 
 	void rotateRender(HDC hdc, float x, float y, float angle);
 	void rotateFrameRender(HDC hdc, float x, float y, float angle);
@@ -121,7 +118,8 @@ public:
 
 	//렌더함수 뿌려줄DC, 뿌려줄X,(left) 뿌려줄Y(top)   복사해올X(left),복사해올Y(top) 가로크기, 세로크기
 	void render(HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight);
-	
+	void rotateRender(HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight, float angle);
+
 	void frameRender(HDC hdc, int destX, int destY);
 	void frameRender(HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY);
 
@@ -137,6 +135,9 @@ public:
 	void alphaLoopRender(HDC hdc, const LPRECT drawArea, int offSetX, int offSetY, BYTE alpha);
 
 	void aniRender(HDC hdc, int destX, int destY, animation* ani);
+
+	void aniRotateRender(HDC hdc, int destX, int destY, animation * ani, float angle);
+
 
 	void alphaAniRender(HDC hdc, int destX, int destY, animation * ani, BYTE alpha);
 
