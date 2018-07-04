@@ -15,13 +15,18 @@ HRESULT playGround::init(void)
 	Image_init();
 	Sound_init();
 	
-	/*_mapTool = new MapTool;
-	_mapTool->init();*/
+	_mapTool = new MapTool;
+	_mapTool->init();
 	_player = new Player;
 	_player->init();
+	_im = new itemManager;
+	_im->init();
 
+	_title = new titleScene;
+	_title->init();
+	_title->setImLink(_im);
 
-	SCENEMANAGER->addScene("타이틀", new titleScene);
+	SCENEMANAGER->addScene("타이틀", _title);
 	SCENEMANAGER->addScene("던전", new dungeonScene);
 	SCENEMANAGER->addScene("적", new EnemyManager);
 	SCENEMANAGER->addScene("대사씬", new Dialog);
@@ -81,7 +86,7 @@ void playGround::update(void)
 {
 	gameNode::update();
 
-	/*_mapTool->update();*/
+	_mapTool->update();
 	_player->update();
 	SCENEMANAGER->update();
 	
@@ -157,6 +162,7 @@ void playGround::render(void)
 	default:
 		break;
 	}
+	//SCENEMANAGER->render();
 
 	//char str[128];
 	//sprintf_s(str, "%d, %d", CAMERAMANAGER->getCameraCenter().x + WINSIZEX / 2, CAMERAMANAGER->getCameraCenter().y + WINSIZEY / 2);

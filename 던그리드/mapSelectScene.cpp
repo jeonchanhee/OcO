@@ -73,10 +73,11 @@ void mapSelectScene::load()
 
 void mapSelectScene::printMap()
 {
-
-	// 지형
-	for (int i = 0; i < TILEX * TILEY; i++)
+	 //지형
+	//for (int i = 0; i < TILEX * TILEY; i++)
+	for (int i = 0; i < 20 * 12; i++)
 	{
+
 		//if (i % 50 > _tileX || i > TILEX*2 * _tileY + _tileX) continue;
 		IMAGEMANAGER->frameRender("map", DC, _tiles[i].rc.left, _tiles[i].rc.top, _tiles[i].terrainFrameX, _tiles[i].terrainFrameY);
 	}
@@ -90,11 +91,6 @@ void mapSelectScene::printMap()
 	//		RectangleMake(DC, 96 * j, 96 * i, 96, 96);
 	//	}
 	//}
-
-	for (int i = 0; i < TILEX * TILEY; ++i)
-	{
-
-	}
 
 	// 오브젝트
 	for (int i = 0; i < TILEX * TILEY; i++)

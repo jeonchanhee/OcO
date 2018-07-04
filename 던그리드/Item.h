@@ -12,14 +12,19 @@ enum ITEMTYPE // 아이템의 타입
 	CONSUME,				// 소비되는 모든 아이템(음식)
 	HEALING,				// 힐링
 	TREASUREBOX,			// 보물박스
-	GOLD					// 코인 / 골드바
+	GOLD,					// 코인 / 골드바
 };
 
+enum IMAGETYPE
+{
+	단일, 프레임
+};
 
 struct tagItem // 아이템 구조체~~
 {
 	image* image[3];		//이미지 0배열 : 떨궛을때 1 : 배열 인벤토리에서볼때 2배열 :장착했을땐데  (이것만프레임있는지 bool준다)
 	ITEMTYPE type;			//d아이템무슨타입??
+	IMAGETYPE imagetype;	// 이미지타입.
 	RECT rc;				// 렉트
 	const char* imageName;  //이미지의 이름(아이템이름)
 	float x, y;				//x, y 좌표
@@ -47,6 +52,7 @@ class Item : public gameNode
 private:
 	tagItem _item;
 	int _count;
+	int _num;
 public:
 
 	HRESULT init();
@@ -54,16 +60,22 @@ public:
 	void update();
 	void render();
 
-					         //아이템 이름 //아이템 타입  //아이템 번호 // 프레임 이미지인가?
-	void createItem(const char* imageName, ITEMTYPE type, int value, bool frame);
+					//아이템 타입      //이미지 타입         //아이템 번호  // 프레임 이미지인가? // x,y 좌표
+	void createItem(ITEMTYPE type, IMAGETYPE type2, const char* itemName, int value, int num, bool frame);
 	
-	void LongDistanceWeapon(const char* imageName, int value);				// 원거리 무기
-	void ShortDistanceWeapon(const char* imageName, int value);				// 근거리 무기
-	void DefenceMechanism(const char* imageName, int value);				// 방어구
-	void SecondEquipment(const char* imageName, int value);					// 보조장비
-	void Accessory(const char* imageName, int value);						// 악세사리
-	void Consume(const char* imageName, int value);							// 소비아이템
-	void Healing(const char* imageName, int value);							// 힐링요정~
-	void TreasureBox(const char* imageName, int value);						// 보물박스(여기서 골드 / 아이템이 나옴)
-	void Gold(const char* imageName, int value);							// 코인 / 골드바
+	void LongDistanceWeapon(const char* imageName, int value, int num);		// 원거리 무기
+	void ShortDistanceWeapon(const char* imageName, int value, int num);	// 근거리 무기
+	void DefenceMechanism(const char* imageName, int value, int num);		// 방어구
+	void SecondEquipment(const char* imageName, int value, int num);		// 보조장비
+	void Accessory(const char* imageName, int value, int num);				// 악세사리
+	void Consume(const char* imageName, int value, int num);				// 소비아이템
+	void Healing(const char* imageName, int value, int num);				// 힐링요정~
+	void TreasureBox(const char* imageName, int value, int num);			// 보물박스(여기서 골드 / 아이템이 나옴)
+	void Gold(const char* imageName, int value, int num);					// 코인 / 골드바
+
+
+	tagItem getItem() { return _item; }
+	IMAGETYPE getimageType() { return _item.imagetype; }
+
+
 };
