@@ -13,7 +13,7 @@ enum SELECT
 class MapTool :	public gameNode
 {
 private:
-	tagTile		_tiles[TILEX * TILEY];
+	//tagTile		_tiles[TILEX * TILEY];
 	tagCurrentTile	_currentTile;
 	tagSampleTile	_sampleTile[SAMPLETILEX * SAMPLETILEY];
 	DWORD		_attribute[TILEX * TILEY];				// 타일 속성	

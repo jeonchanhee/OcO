@@ -8,15 +8,16 @@ playGround::~playGround(){}
 
 HRESULT playGround::init(void)	
 {
-	mode = 맵툴;				//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
+	mode = 맵선택;				//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
 
 
 	gameNode::init(true);
 	Image_init();
 	Sound_init();
+	
 	_mapTool = new MapTool;
 	_mapTool->init();
-	_player  = new Player;
+	_player = new Player;
 	_player->init();
 
 
@@ -26,7 +27,8 @@ HRESULT playGround::init(void)
 	SCENEMANAGER->addScene("대사씬", new Dialog);
 	SCENEMANAGER->addScene("아이템씬", new itemManager);
 	SCENEMANAGER->addScene("인트로", new introScene);
-	
+	SCENEMANAGER->addScene("맵선택", new mapSelectScene);
+
 	switch (mode)
 	{
 	case 맵툴:
@@ -49,14 +51,18 @@ HRESULT playGround::init(void)
 
 	case 인트로:
 		SCENEMANAGER->changeScene("인트로");
-	break;
+		break;
+
+	case 맵선택:
+		SCENEMANAGER->changeScene("맵선택");
+		break;
 
 	case 기타추가하셈:
 		break;
 	default:
 		break;
 	}
-
+	
 	return S_OK;
 }
 
@@ -74,13 +80,36 @@ void playGround::update(void)
 	_mapTool->update();
 	_player->update();
 	SCENEMANAGER->update();
-
+	
+	/*
 	if (KEYMANAGER->isStayKeyDown('D') && CAMERAMANAGER->getCameraRc2().right<BACKGROUNDSIZEX) CAMERAMANAGER->setCameraX2(CAMERAMANAGER->getCameraX2() + 50);
 	if (KEYMANAGER->isStayKeyDown('S') && CAMERAMANAGER->getCameraRc2().bottom<BACKGROUNDSIZEY) CAMERAMANAGER->setCameraY2(CAMERAMANAGER->getCameraY2() + 50);
 	if (KEYMANAGER->isStayKeyDown('A') && CAMERAMANAGER->getCameraRc2().left>0) CAMERAMANAGER->setCameraX2(CAMERAMANAGER->getCameraX2() - 50);
-	if (KEYMANAGER->isStayKeyDown('W') && CAMERAMANAGER->getCameraRc2().top>0) CAMERAMANAGER->setCameraY2(CAMERAMANAGER->getCameraY2() - 50);
+	if (KEYMANAGER->isStayKeyDown('W') && CAMERAMANAGER->getCameraRc2().top>0) CAMERAMANAGER->setCameraY2(CAMERAMANAGER->getCameraY2() - 50);*/
 
-	SCENEMANAGER->update();
+	//if (KEYMANAGER->isStayKeyDown('D') && CAMERAMANAGER->getCameraRc().right<96 * _tileX) CAMERAMANAGER->setCameraX(CAMERAMANAGER->getCameraX() + 50);
+	//if (KEYMANAGER->isStayKeyDown('S') && CAMERAMANAGER->getCameraRc().bottom<96 * _tileY) CAMERAMANAGER->setCameraY(CAMERAMANAGER->getCameraY() + 50);
+	//if (KEYMANAGER->isStayKeyDown('A') && CAMERAMANAGER->getCameraRc().left>0) CAMERAMANAGER->setCameraX(CAMERAMANAGER->getCameraX() - 50);
+	//if (KEYMANAGER->isStayKeyDown('W') && CAMERAMANAGER->getCameraRc().top>0) CAMERAMANAGER->setCameraY(CAMERAMANAGER->getCameraY() - 50);
+
+	/*if (KEYMANAGER->isStayKeyDown('D') && CAMERAMANAGER->getCameraRc().right<96 * BACKGROUNDSIZEX) CAMERAMANAGER->setCameraX(CAMERAMANAGER->getCameraX() + 50);
+	if (KEYMANAGER->isStayKeyDown('S') && CAMERAMANAGER->getCameraRc().bottom<96 * BACKGROUNDSIZEY) CAMERAMANAGER->setCameraY(CAMERAMANAGER->getCameraY() + 50);
+	if (KEYMANAGER->isStayKeyDown('A') && CAMERAMANAGER->getCameraRc().left>0) CAMERAMANAGER->setCameraX(CAMERAMANAGER->getCameraX() - 50);
+	if (KEYMANAGER->isStayKeyDown('W') && CAMERAMANAGER->getCameraRc().top>0) CAMERAMANAGER->setCameraY(CAMERAMANAGER->getCameraY() - 50);
+*/
+
+
+	if (KEYMANAGER->isStayKeyDown('D'))							CAMERAMANAGER->setCameraX(CAMERAMANAGER->getCameraX() + 50);
+	if (KEYMANAGER->isStayKeyDown('S'))							CAMERAMANAGER->setCameraY(CAMERAMANAGER->getCameraY() + 50);
+	if (KEYMANAGER->isStayKeyDown('A'))							CAMERAMANAGER->setCameraX(CAMERAMANAGER->getCameraX() - 50);
+	if (KEYMANAGER->isStayKeyDown('W'))							CAMERAMANAGER->setCameraY(CAMERAMANAGER->getCameraY() - 50);
+
+	if (CAMERAMANAGER->getCameraX() < 0)						CAMERAMANAGER->setCameraX(0);
+	if (CAMERAMANAGER->getCameraY() < 0)						CAMERAMANAGER->setCameraY(0);
+	if (CAMERAMANAGER->getCameraX() + WINSIZEX > 96 * _tileX)	CAMERAMANAGER->setCameraX(96 * _tileX - WINSIZEX);
+	if (CAMERAMANAGER->getCameraY() + WINSIZEY > 96 * _tileY)	CAMERAMANAGER->setCameraY(96 * _tileY - WINSIZEY);
+
+
 }
 
 void playGround::render(void)
@@ -113,12 +142,16 @@ void playGround::render(void)
 	case 아이템:
 		SCENEMANAGER->render();
 		break;
+	case 맵선택:
+		SCENEMANAGER->render();
+		break;
 
 	case 기타추가하셈:
 		break;
 	default:
 		break;
 	}
+
 
 	//================이 밑으로도 건드리지 말자 =============
 	

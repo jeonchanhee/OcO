@@ -91,6 +91,8 @@ void MapTool::render()
 	for (int i = 0; i < TILEX * TILEY; i++)
 	{
 		IMAGEMANAGER->frameRender("map", DC2, _tiles[i].rc.left, _tiles[i].rc.top, _tiles[i].terrainFrameX, _tiles[i].terrainFrameY);
+		//if(i == 444)
+
 	}
 
 	// 오브젝트
@@ -107,11 +109,19 @@ void MapTool::render()
 		for (int i = 0; i < TILEX * TILEY; i++)
 		{
 			Rectangle(DC2,_tiles[i].rc.left, _tiles[i].rc.top, _tiles[i].rc.right, _tiles[i].rc.bottom);
+			char str[128];
+			sprintf_s(str, "%d", i);
+			TextOut(DC2, _tiles[i].rc.left, _tiles[i].rc.top, str, strlen(str));
+			if (i == 353 || i == 303)
+									int a = 0;
 		}
 
 		for (int i = 0; i < SAMPLETILEX * SAMPLETILEY; i++)
 		{
 			Rectangle(DC, _sampleTile[i].rctile.left, _sampleTile[i].rctile.top, _sampleTile[i].rctile.right, _sampleTile[i].rctile.bottom);
+			char str[128];
+			sprintf_s(str, "%d", i);
+			TextOut(DC, _sampleTile[i].rctile.left, _sampleTile[i].rctile.top, str, strlen(str));
 		}
 	}
 }
@@ -138,6 +148,17 @@ void MapTool::load()
 	ReadFile(file, _tiles, sizeof(tagTile) * TILEX * TILEY, &load, NULL);
 
 	CloseHandle(file);
+
+	
+	/*for (int i = 353; i < TILEX*TILEY; i++)
+	{
+		_tiles[i].terrainFrameX = 596%22;
+		_tiles[i].terrainFrameY = 596/22;
+		_tiles[i].objFrameX = 0;
+		_tiles[i].objFrameY = 0;
+		_tiles[i].terrain = terrainSelect(_tiles[i].terrainFrameX, _tiles[i].terrainFrameY);
+		_tiles[i].object = OBJ_NONE;
+	}*/
 }
 
 void MapTool::setup()

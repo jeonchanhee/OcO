@@ -286,7 +286,10 @@
       <Filter>playGround\Item</Filter>
     </ClInclude>
     <ClInclude Include="introScene.h">
-      <Filter>playGround\Scene</Filter>
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="mapSelectScene.h">
+      <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -434,6 +437,9 @@
     <ClCompile Include="DialogWeapon.cpp">
       <Filter>playGround\Diaiog</Filter>
     </ClCompile>
+    <ClCompile Include="playGround_Sound.cpp">
+      <Filter>playGround</Filter>
+    </ClCompile>
     <ClCompile Include="Bullet.cpp">
       <Filter>playGround\bullet</Filter>
     </ClCompile>
@@ -443,11 +449,11 @@
     <ClCompile Include="itemManager.cpp">
       <Filter>playGround\Item</Filter>
     </ClCompile>
-    <ClCompile Include="playGround_Sound.cpp">
-      <Filter>playGround</Filter>
-    </ClCompile>
     <ClCompile Include="introScene.cpp">
-      <Filter>playGround\Scene</Filter>
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="mapSelectScene.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

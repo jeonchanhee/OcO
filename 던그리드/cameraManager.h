@@ -8,6 +8,8 @@
 class cameraManager  : public  singletonBase<cameraManager>
 {
 private:
+	image*	_camera;
+	POINT	_center;
 	
 	image * _cameraDC;
 	image * _cameraDC2;
@@ -20,7 +22,8 @@ public:
 	HRESULT init();
 	void update();
 	void release();
-	  
+	void render();
+	void render(image* img);
 
 	void setCameraX(float x) { _cameraX = x; }
 	void setCameraX2(float x) { _cameraX2 = x; }

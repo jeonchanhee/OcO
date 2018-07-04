@@ -2,7 +2,7 @@
 #include "image.h"
 
 //백버퍼 선언
-static image* _backBuffer = IMAGEMANAGER->addImage("backBuffer", WINSIZEX, WINSIZEY);
+static image* _backBuffer = IMAGEMANAGER->addImage("backBuffer", TOTALSIZEX, TOTALSIZEY);
 
 
 
