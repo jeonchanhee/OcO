@@ -14,7 +14,7 @@
 #include "itemManager.h"
 #include "introScene.h"
 
-enum changeMode { 맵툴, 타이틀, 다이얼로그, 도그본, 플레이어, 아이템, 인트로, 기타추가하셈 };
+enum changeMode { 맵툴, 타이틀, 다이얼로그, 몬스터, 플레이어, 아이템, 인트로, 기타추가하셈 };
 
 class playGround : public gameNode
 {

@@ -288,6 +288,9 @@
     <ClInclude Include="introScene.h">
       <Filter>playGround\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="Boss2.h">
+      <Filter>playGround\Enemy</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -448,6 +451,9 @@
     </ClCompile>
     <ClCompile Include="introScene.cpp">
       <Filter>playGround\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss2.cpp">
+      <Filter>playGround\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
