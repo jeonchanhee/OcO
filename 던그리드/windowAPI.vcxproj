@@ -154,7 +154,8 @@
     <ClInclude Include="BigBat.h" />
     <ClInclude Include="BigBone.h" />
     <ClInclude Include="BigRedBat.h" />
-    <ClInclude Include="Boss.h" />
+    <ClInclude Include="Boss2.h" />
+    <ClInclude Include="Bullet.h" />
     <ClInclude Include="button.h" />
     <ClInclude Include="cameraManager.h" />
     <ClInclude Include="commonMacroFunction.h" />
@@ -214,7 +215,8 @@
     <ClCompile Include="BigBat.cpp" />
     <ClCompile Include="BigBone.cpp" />
     <ClCompile Include="BigRedBat.cpp" />
-    <ClCompile Include="Boss.cpp" />
+    <ClCompile Include="Boss2.cpp" />
+    <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="button.cpp" />
     <ClCompile Include="cameraManager.cpp" />
     <ClCompile Include="Cow.cpp" />

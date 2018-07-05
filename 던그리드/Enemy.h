@@ -15,9 +15,9 @@ protected:
 	int _fireCount;			//발사 카운트
 	int _rndFireCount;		//랜덤하게 발사할 카운트
 
-	float _jumpPower;
-	float _gravity;
-	bool _isJumping;
+	float _jumpPower;		//점프파워
+	float _gravity;			//중력
+	bool _isJumping;		//점프중이냐 아니냐
 
 public:
 

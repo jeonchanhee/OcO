@@ -84,10 +84,6 @@ void Enemy::setAngle(float angle)
 	_angle = angle;
 }
 
-float Enemy::getAngle()
-{
-	return _angle;
-}
 
 void Enemy::setPoint(float x, float y)
 {

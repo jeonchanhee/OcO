@@ -237,9 +237,6 @@
     <ClInclude Include="BigRedBat.h">
       <Filter>playGround\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="Boss.h">
-      <Filter>playGround\Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="RedBat.h">
       <Filter>playGround\Enemy</Filter>
     </ClInclude>
@@ -282,6 +279,9 @@
     <ClInclude Include="itemManager.h">
       <Filter>playGround\Item</Filter>
     </ClInclude>
+    <ClInclude Include="mapSelectScene.h">
+      <Filter>playGround\Scene</Filter>
+    </ClInclude>
     <ClInclude Include="introScene.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -294,11 +294,11 @@
     <ClInclude Include="WeaponNpc.h">
       <Filter>playGround\NPC</Filter>
     </ClInclude>
+    <ClInclude Include="Boss2.h">
+      <Filter>playGround\Enemy</Filter>
+    </ClInclude>
     <ClInclude Include="commonMacroFunction.h">
       <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="playerBullet.h">
-      <Filter>playGround\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -419,9 +419,6 @@
     <ClCompile Include="BigRedBat.cpp">
       <Filter>playGround\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="Boss.cpp">
-      <Filter>playGround\Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="RedBat.cpp">
       <Filter>playGround\Enemy</Filter>
     </ClCompile>
@@ -456,7 +453,7 @@
       <Filter>playGround\Item</Filter>
     </ClCompile>
     <ClCompile Include="introScene.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>playGround\Scene</Filter>
     </ClCompile>
     <ClCompile Include="mapSelectScene.cpp">
       <Filter>playGround\Scene</Filter>
@@ -469,6 +466,9 @@
     </ClCompile>
     <ClCompile Include="playerBullet.cpp">
       <Filter>playGround\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss2.cpp">
+      <Filter>playGround\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

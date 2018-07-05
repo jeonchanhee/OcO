@@ -5,8 +5,6 @@
 
 HRESULT Item::init()
 {
-	_item.x = WINSIZEX / 2;
-	_item.y - WINSIZEY / 2;
 
 	return S_OK;
 }
@@ -268,9 +266,7 @@ void Item::DefenceMechanism(const char * imageName, int value, int num)
 		_item.evasionPersent = 10.0f;	// 회피율.
 		_item.imagetype = 단일;
 	}
-
 	
-
 	if (value == 2) // 두번째 방어구
 	{
 		_item.armor = 15;				// 방어력

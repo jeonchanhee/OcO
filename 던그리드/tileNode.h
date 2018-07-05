@@ -9,16 +9,16 @@
 #define BACKGROUNDSIZEY TILEY*96
 
 //작은 카메라 사이즈
-#define CAMERA2X 1100
-#define CAMERA2Y 1080
+#define CAMERAX 1100
+#define CAMERAY 1080
 
 // 타일 규격
 #define TILESIZE 96
 #define TILESIZE2 32
 
 // 타일 갯수
-#define TILEX 50
-#define TILEY 50
+#define TILEX 80
+#define TILEY 25
 
 //#define TILEX 28
 //#define TILEY 12
@@ -32,7 +32,7 @@
 #define SAMPLETILEY 26
 
 // 맵이름
-#define MAPNAME "map/test.map"
+#define MAPNAME "map/townmap(80x25).map"
 
 // 지형	
 enum TERRAIN
@@ -88,5 +88,7 @@ extern tagTile	_tiles[TILEX * TILEY];
 extern int TILEVALUE[12][2]; //0: 마을, 1~9: 던전, 10: 보스, 11:상점
 
 extern int _tileX, _tileY;
+
+extern bool _isMapSet;
 
 #endif // !
