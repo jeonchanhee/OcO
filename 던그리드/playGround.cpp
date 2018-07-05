@@ -8,7 +8,8 @@ playGround::~playGround(){}
 
 HRESULT playGround::init(void)	
 {
-	mode = 몬스터;				//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
+	mode = 맵선택;				//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
+//	rectRotate(IMAGEMANAGER->findImage("검01"), 100, 100);
 
 
 	gameNode::init(true);
@@ -108,17 +109,15 @@ void playGround::update(void)
 */
 
 
-	//if (KEYMANAGER->isStayKeyDown('D'))		CAMERAMANAGER->setCameraCenter(PointMake(CAMERAMANAGER->getCameraCenter().x + 50, CAMERAMANAGER->getCameraCenter().y));
-	//if (KEYMANAGER->isStayKeyDown('S'))		CAMERAMANAGER->setCameraCenter(PointMake(CAMERAMANAGER->getCameraCenter().x , CAMERAMANAGER->getCameraCenter().y + 50));
-	//if (KEYMANAGER->isStayKeyDown('A'))		CAMERAMANAGER->setCameraCenter(PointMake(CAMERAMANAGER->getCameraCenter().x  - 50, CAMERAMANAGER->getCameraCenter().y));
-	//if (KEYMANAGER->isStayKeyDown('W'))		CAMERAMANAGER->setCameraCenter(PointMake(CAMERAMANAGER->getCameraCenter().x , CAMERAMANAGER->getCameraCenter().y - 50));
-	//
+	if (KEYMANAGER->isStayKeyDown('D'))		CAMERAMANAGER->setCameraCenter(PointMake(CAMERAMANAGER->getCameraCenter().x + 50, CAMERAMANAGER->getCameraCenter().y));
+	if (KEYMANAGER->isStayKeyDown('S'))		CAMERAMANAGER->setCameraCenter(PointMake(CAMERAMANAGER->getCameraCenter().x , CAMERAMANAGER->getCameraCenter().y + 50));
+	if (KEYMANAGER->isStayKeyDown('A'))		CAMERAMANAGER->setCameraCenter(PointMake(CAMERAMANAGER->getCameraCenter().x  - 50, CAMERAMANAGER->getCameraCenter().y));
+	if (KEYMANAGER->isStayKeyDown('W'))		CAMERAMANAGER->setCameraCenter(PointMake(CAMERAMANAGER->getCameraCenter().x , CAMERAMANAGER->getCameraCenter().y - 50));
+	
 	//if (CAMERAMANAGER->getCameraX() < 0)						CAMERAMANAGER->setCameraX(0);
 	//if (CAMERAMANAGER->getCameraY() < 0)						CAMERAMANAGER->setCameraY(0);
 	//if (CAMERAMANAGER->getCameraX() + WINSIZEX > 96 * _tileX)	CAMERAMANAGER->setCameraX(96 * _tileX - WINSIZEX);
 	//if (CAMERAMANAGER->getCameraY() + WINSIZEY > 96 * _tileY)	CAMERAMANAGER->setCameraY(96 * _tileY - WINSIZEY);
-
-
 }
 
 void playGround::render(void)
@@ -175,8 +174,8 @@ void playGround::render(void)
 
 	IMAGEMANAGER->render("cursor", UIDC, _ptMouse.x, _ptMouse.y);
 	TIMEMANAGER->render(UIDC);
-	//RectangleMake(UIDC, WINSIZEX - 100, 0, 100, 100);
-	//RectangleMake(DC, CAMERAMANAGER->getCameraCenter().x - 20, CAMERAMANAGER->getCameraCenter().y - 20, 40, 40);
+	RectangleMake(UIDC, WINSIZEX - 100, 0, 100, 100);
+	IMAGEMANAGER->render("cursor", UIDC, _ptMouse.x, _ptMouse.y);
 	// 이 아래로도 건들지 마시오
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	CAMERAMANAGER->render(this->getBackBuffer());

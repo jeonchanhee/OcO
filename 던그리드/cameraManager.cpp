@@ -25,7 +25,7 @@ void cameraManager::update()
 void cameraManager::release()
 {
 }
-
+/*
 void cameraManager::cameraShaking()
 {
 	int rand = RND->getInt(4);
@@ -50,7 +50,7 @@ void cameraManager::cameraShaking()
 
 	}
 }
-
+*/
 
 cameraManager::cameraManager(){}
 cameraManager::~cameraManager(){}
