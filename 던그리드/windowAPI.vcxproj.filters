@@ -237,9 +237,6 @@
     <ClInclude Include="BigRedBat.h">
       <Filter>playGround\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="Boss.h">
-      <Filter>playGround\Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="RedBat.h">
       <Filter>playGround\Enemy</Filter>
     </ClInclude>
@@ -299,6 +296,9 @@
     </ClInclude>
     <ClInclude Include="Boss2.h">
       <Filter>playGround\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="commonMacroFunction.h">
+      <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -417,9 +417,6 @@
       <Filter>playGround\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="BigRedBat.cpp">
-      <Filter>playGround\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="Boss.cpp">
       <Filter>playGround\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="RedBat.cpp">
