@@ -9,7 +9,9 @@ HRESULT playGround::Image_init(void)
 
 	IMAGEMANAGER->addFrameImage("map", "image/map/Map(2208x2496,23x26).bmp", 0, 0, 2208, 2496, SAMPLETILEX, SAMPLETILEY, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("map2", "image/map/Map2(736x832,23x26).bmp", 0, 0, 736, 832, SAMPLETILEX, SAMPLETILEY, true, RGB(255, 0, 255));
-
+	IMAGEMANAGER->addImage("floor0", "image/map/Floor0.bmp", 0, 0, 384, 96,true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("floor1", "image/map/Floor1.bmp", 0, 0, 4164, 864,true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("floor2", "image/map/Floor2.bmp", 0, 0, 4164, 864,true, RGB(255, 0, 255));
 
 	//==========타이틀이미지==========
 	IMAGEMANAGER->addImage("title", "image/UI/Title(1920x1080).bmp", 0, 0, 1920,1080, true, RGB(255, 0, 255));
