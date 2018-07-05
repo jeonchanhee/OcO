@@ -5,8 +5,6 @@
 
 HRESULT Item::init()
 {
-	_item.x = WINSIZEX / 2;
-	_item.y - WINSIZEY / 2;
 
 	return S_OK;
 }

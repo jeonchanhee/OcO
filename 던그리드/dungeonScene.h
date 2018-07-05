@@ -24,7 +24,7 @@ class dungeonScene : public gameNode
 	torch	_torch;		// È¶ºÒ
 	Door	_door;		// ¹®
 	Portal	_portal;	// Æ÷Å»
-
+	string _mapName;
 	int dungeonNum;
 	
 

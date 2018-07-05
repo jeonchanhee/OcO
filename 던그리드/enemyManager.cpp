@@ -53,10 +53,15 @@ HRESULT EnemyManager::init()
 	cow->init();
 	_vMonster.push_back(cow);
 
-	/*Enemy* boss;
-	boss = new Boss2;
-	boss->init();
-	_vMonster.push_back(boss);*/
+	//Enemy* boss;
+	//boss = new Boss2;
+	//boss->init();
+	//_vMonster.push_back(boss);
+
+	Enemy* arrow;
+	arrow = new Arrow;
+	arrow->init();
+	_vMonster.push_back(arrow);
 
 	return S_OK;
 }

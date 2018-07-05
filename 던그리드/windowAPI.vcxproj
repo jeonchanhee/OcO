@@ -154,9 +154,6 @@
     <ClInclude Include="BigBat.h" />
     <ClInclude Include="BigBone.h" />
     <ClInclude Include="BigRedBat.h" />
-    <ClInclude Include="Boss.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClInclude>
     <ClInclude Include="Boss2.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="button.h" />
@@ -217,9 +214,6 @@
     <ClCompile Include="BigBat.cpp" />
     <ClCompile Include="BigBone.cpp" />
     <ClCompile Include="BigRedBat.cpp" />
-    <ClCompile Include="Boss.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="Boss2.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="button.cpp" />
