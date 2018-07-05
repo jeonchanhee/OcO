@@ -16,7 +16,7 @@ HRESULT itemManager::init()
 {
 	Item* item;
 	item = new Item;
-	item->createItem("公扁", SECOND_EQUIPMENT, 4, true);
+	//item->createItem("公扁", SECOND_EQUIPMENT, 4, true);
 	_vItem.push_back(item);
 	
 
@@ -54,7 +54,7 @@ void itemManager::render()
 
 void itemManager::CreateWeapon(bool frame)
 {
-	for (int i = 1; i < 6; i++)
+	/*for (int i = 1; i < 6; i++)
 	{
 
 		if (item->getimageType() == 窜老)
@@ -62,7 +62,7 @@ void itemManager::CreateWeapon(bool frame)
 			item->createItem(SHORT_DISTANCE_WEAPON, 窜老,  )
 			_vItem.push_back(item);
 		}
-	}
+	}*/
 }
 
 //void itemManager::CreateDefenceMechanism(ITEMTYPE type, const char* itemName, int value, int num, bool frame)
