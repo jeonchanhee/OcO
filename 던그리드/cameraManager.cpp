@@ -5,7 +5,7 @@
 HRESULT cameraManager::init()
 {
 	_camera = IMAGEMANAGER->addImage("CAMERA", WINSIZEX, WINSIZEY);
-	_center = PointMake(WINSIZEX / 2, WINSIZEY / 2);
+	_center = PointMake(CAMERAX / 2, CAMERAY / 2);
 
 	//_cameraDC = IMAGEMANAGER->addImage("카메라DC", BACKGROUNDSIZEX, BACKGROUNDSIZEY);
 	//_cameraDC2 = IMAGEMANAGER->addImage("카메라DC2", BACKGROUNDSIZEX, BACKGROUNDSIZEY);
@@ -71,8 +71,11 @@ void cameraManager::setCameraCenter(POINT point)
 	_center.x = point.x;
 	_center.y = point.y;
 
-	if (_center.x <= WINSIZEX / 2) _center.x = WINSIZEX / 2;
-	if (_center.x >= _tileX * 96 - WINSIZEX / 2) _center.x = _tileX * 96 - WINSIZEX / 2;
-	if (_center.y <= WINSIZEY / 2) _center.y = WINSIZEY / 2;
-	if (_center.y >= _tileY * 96 - WINSIZEY / 2) _center.y = _tileY * 96 - WINSIZEY / 2;
+	if (_isMapSet)
+	{
+		if (_center.x <= WINSIZEX / 2) _center.x = WINSIZEX / 2;
+		if (_center.x >= _tileX * 96 - WINSIZEX / 2) _center.x = _tileX * 96 - WINSIZEX / 2;
+		if (_center.y <= WINSIZEY / 2) _center.y = WINSIZEY / 2;
+		if (_center.y >= _tileY * 96 - WINSIZEY / 2) _center.y = _tileY * 96 - WINSIZEY / 2;
+	}
 }

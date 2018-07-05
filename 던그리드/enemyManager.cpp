@@ -48,10 +48,10 @@ HRESULT EnemyManager::init()
 	musicAngel->init();
 	_vMonster.push_back(musicAngel);
 
-	Enemy* cow;
+	/*Enemy* cow;
 	cow = new Cow;
 	cow->init();
-	_vMonster.push_back(cow);
+	_vMonster.push_back(cow);*/
 
 	/*Enemy* boss;
 	boss = new Boss2;
