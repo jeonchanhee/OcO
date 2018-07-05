@@ -34,6 +34,7 @@ public:
 
 	BOOL getIsRunning() { return _isRunning; }
 	BOOL getIsRotate() { return _isRotate; }
+
 	float getAngle() { return _angle; }
 
 	void setAngle(float angle) { _angle = angle; }

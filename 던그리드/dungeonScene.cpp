@@ -10,13 +10,11 @@ dungeonScene::~dungeonScene() {}
 
 HRESULT dungeonScene::init(void)
 {
-	
 	return S_OK;
 }
 
 void dungeonScene::release(void)
 {
-
 }
 
 void dungeonScene::update(void)

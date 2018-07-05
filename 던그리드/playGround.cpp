@@ -11,33 +11,30 @@ HRESULT playGround::init(void)
 	mode = 던전2;				//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
 //	rectRotate(IMAGEMANAGER->findImage("검01"), 100, 100);
 
-
 	gameNode::init(true);
 	Image_init();
 	Sound_init();
 	
-	//_mapTool = new MapTool;
-	//_mapTool->init();
+	_mapTool = new MapTool;
+	_mapTool->init();
 	_player = new Player;
 	_player->init();
 	_im = new itemManager;
 	_im->init();
 
 	_title = new titleScene;
-	_title->init();
 	_title->setImLink(_im);
 
 	SCENEMANAGER->addScene("타이틀", _title);
 	SCENEMANAGER->addScene("던전2", new dungeon2Scene);
 	SCENEMANAGER->addScene("대사씬", new Dialog);
-	//SCENEMANAGER->addScene("아이템씬", new itemManager);
+	SCENEMANAGER->addScene("아이템씬", new itemManager);
 	SCENEMANAGER->addScene("인트로", new introScene);
 	SCENEMANAGER->addScene("맵선택", new mapSelectScene);
 	
 	switch (mode)
 	{
 	case 맵툴:
-	
 		break;
 	case 타이틀:
 		SCENEMANAGER->changeScene("타이틀");
@@ -51,7 +48,7 @@ HRESULT playGround::init(void)
 	case 플레이어:
 		break;
 	case 아이템:
-	//	SCENEMANAGER->changeScene("아이템씬");
+		SCENEMANAGER->changeScene("아이템씬");
 		break;
 	
 	case 인트로:
@@ -86,7 +83,7 @@ void playGround::update(void)
 {
 	gameNode::update();
 
-	//_mapTool->update();
+	_mapTool->update();
 	_player->update();
 	SCENEMANAGER->update();
 	
@@ -108,10 +105,14 @@ void playGround::update(void)
 */
 
 
-	if (KEYMANAGER->isStayKeyDown('D'))		CAMERAMANAGER->setCameraCenter(PointMake(CAMERAMANAGER->getCameraCenter().x + 50, CAMERAMANAGER->getCameraCenter().y));
-	if (KEYMANAGER->isStayKeyDown('S'))		CAMERAMANAGER->setCameraCenter(PointMake(CAMERAMANAGER->getCameraCenter().x , CAMERAMANAGER->getCameraCenter().y + 50));
-	if (KEYMANAGER->isStayKeyDown('A'))		CAMERAMANAGER->setCameraCenter(PointMake(CAMERAMANAGER->getCameraCenter().x  - 50, CAMERAMANAGER->getCameraCenter().y));
-	if (KEYMANAGER->isStayKeyDown('W'))		CAMERAMANAGER->setCameraCenter(PointMake(CAMERAMANAGER->getCameraCenter().x , CAMERAMANAGER->getCameraCenter().y - 50));
+	if (KEYMANAGER->isStayKeyDown('D')&& CAMERAMANAGER->getCameraCenter().x+WINSIZEX/2<BACKGROUNDSIZEX)
+		CAMERAMANAGER->setCameraCenter(PointMake(CAMERAMANAGER->getCameraCenter().x + 50, CAMERAMANAGER->getCameraCenter().y));
+	if (KEYMANAGER->isStayKeyDown('S') && CAMERAMANAGER->getCameraCenter().y + WINSIZEY / 2<BACKGROUNDSIZEY)
+		CAMERAMANAGER->setCameraCenter(PointMake(CAMERAMANAGER->getCameraCenter().x , CAMERAMANAGER->getCameraCenter().y + 50));
+	if (KEYMANAGER->isStayKeyDown('A') && CAMERAMANAGER->getCameraCenter().x - WINSIZEX / 2>0)
+		CAMERAMANAGER->setCameraCenter(PointMake(CAMERAMANAGER->getCameraCenter().x  - 50, CAMERAMANAGER->getCameraCenter().y));
+	if (KEYMANAGER->isStayKeyDown('W') && CAMERAMANAGER->getCameraCenter().y - WINSIZEY / 2>0)
+		CAMERAMANAGER->setCameraCenter(PointMake(CAMERAMANAGER->getCameraCenter().x , CAMERAMANAGER->getCameraCenter().y - 50));
 	
 	//if (CAMERAMANAGER->getCameraX() < 0)						CAMERAMANAGER->setCameraX(0);
 	//if (CAMERAMANAGER->getCameraY() < 0)						CAMERAMANAGER->setCameraY(0);
@@ -126,12 +127,19 @@ void playGround::render(void)
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// 이 위로는 건들지 마시오
-	//_player->render();
 	switch (mode)
 	{
 	case 맵툴:
-		//PatBlt(UIDC, 0, 0, BACKGROUNDSIZEX, BACKGROUNDSIZEY, WHITENESS);
-		//_mapTool->render();
+		PatBlt(UIDC, 0, 0, BACKGROUNDSIZEX, BACKGROUNDSIZEY, BLACKNESS);
+		_mapTool->render();
+		if(KEYMANAGER->isToggleKey(VK_TAB))
+		{
+			IMAGEMANAGER->findImage("floor1")->render(DC, -23 * 96, 12 * 96);
+			IMAGEMANAGER->findImage("floor2")->render(DC, 22 * 96, 12 * 96);
+			IMAGEMANAGER->findImage("floor1")->render(DC, 57 * 96, 12 * 96);
+			IMAGEMANAGER->findImage("floor0")->render(DC, 30 * 96, 17 * 96);
+			IMAGEMANAGER->findImage("floor0")->render(DC, 36 * 96, 15 * 96);
+		}
 		break;
 	case 타이틀:
 		SCENEMANAGER->render();
@@ -170,17 +178,14 @@ void playGround::render(void)
 	//sprintf_s(str2, "%d %d /// %d, %d", _tileX, _tileY, _tileX * 96, _tileY * 96);
 	//TextOut(UIDC, 100, 150, str2, strlen(str2));
 
-
-	IMAGEMANAGER->render("cursor", UIDC, _ptMouse.x, _ptMouse.y);
-	TIMEMANAGER->render(UIDC);
-	RectangleMake(UIDC, WINSIZEX - 100, 0, 100, 100);
-	IMAGEMANAGER->render("cursor", UIDC, _ptMouse.x, _ptMouse.y);
 	// 이 아래로도 건들지 마시오
 	/////////////////////////////////////////////////////////////////////////////////////////////
+	IMAGEMANAGER->render("cursor", UIDC, _ptMouse.x, _ptMouse.y);
+	TIMEMANAGER->render(UIDC);
+
 	CAMERAMANAGER->render(this->getBackBuffer());
 	this->getBackBuffer()->render(getHDC(), 0, 0, CAMERAMANAGER->getCameraCenter().x - WINSIZEX / 2, CAMERAMANAGER->getCameraCenter().y - WINSIZEY / 2, WINSIZEX, WINSIZEY);
 
-	
 
 	//흰색도화지 한 장 깔아둔다
 	//PatBlt(DC, 0, 0, WINSIZEX, WINSIZEY, WHITENESS); // 카메라 매니저 DC -> getMemDC 로 바꾸었습니다.

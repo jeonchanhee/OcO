@@ -76,35 +76,8 @@
     <Filter Include="playGround\Item\Weapon">
       <UniqueIdentifier>{db612874-b389-4298-96c8-3a8526dd3fcd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="playGround\Item\Weapon\Bow">
-      <UniqueIdentifier>{c2cf4dcd-5a00-4156-832a-116cdb3ea19f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="playGround\Item\Weapon\Gun">
-      <UniqueIdentifier>{5d448028-9053-431a-b169-429ce5656002}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="playGround\Item\Weapon\Hammer">
-      <UniqueIdentifier>{28564559-ef96-48e5-b14b-c42d994e5e8d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="playGround\Item\Weapon\sword">
-      <UniqueIdentifier>{0e0785fd-1d2e-4110-bace-8b719053435a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="playGround\Item\Defence">
       <UniqueIdentifier>{75cdc708-d95c-46f3-9d55-d0365f784240}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="playGround\Item\Defence\Shield">
-      <UniqueIdentifier>{d35d2954-d5b2-45f0-acb8-d583d1fe9397}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="playGround\Item\Defence\Necklace">
-      <UniqueIdentifier>{150a5624-3bb2-4e35-8a0d-1a8865d127df}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="playGround\Item\Defence\Assist">
-      <UniqueIdentifier>{3a2f8a6a-2a3b-4b7a-bdbe-81fceeacd35d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="playGround\Item\Defence\Ring">
-      <UniqueIdentifier>{3d0bf438-3e04-4d33-9609-f6922378ccc6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="playGround\Item\Treasure">
-      <UniqueIdentifier>{58c7012e-99b8-4be6-a8a1-e924f07f9c17}</UniqueIdentifier>
     </Filter>
     <Filter Include="playGround\Item\Food">
       <UniqueIdentifier>{bc80371c-6763-4b69-9eed-957346f6b2fd}</UniqueIdentifier>
@@ -258,9 +231,6 @@
     <ClInclude Include="titleScene.h">
       <Filter>playGround\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Bullet.h">
-      <Filter>playGround\bullet</Filter>
-    </ClInclude>
     <ClInclude Include="cameraManager.h">
       <Filter>2DFramework\Manager</Filter>
     </ClInclude>
@@ -290,6 +260,27 @@
     </ClInclude>
     <ClInclude Include="WeaponNpc.h">
       <Filter>playGround\NPC</Filter>
+    </ClInclude>
+    <ClInclude Include="commonMacroFunction.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Weapon.h">
+      <Filter>playGround\Item\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="Food.h">
+      <Filter>playGround\Item\Food</Filter>
+    </ClInclude>
+    <ClInclude Include="Accessory.h">
+      <Filter>playGround\Item\Defence</Filter>
+    </ClInclude>
+    <ClInclude Include="Armor.h">
+      <Filter>playGround\Item\Defence</Filter>
+    </ClInclude>
+    <ClInclude Include="SecondEquipment.h">
+      <Filter>playGround\Item\Defence</Filter>
+    </ClInclude>
+    <ClInclude Include="Shield.h">
+      <Filter>playGround\Item\Defence</Filter>
     </ClInclude>
     <ClInclude Include="Boss2.h">
       <Filter>playGround\Enemy</Filter>
@@ -444,9 +435,6 @@
       <Filter>playGround</Filter>
     </ClCompile>
     <ClCompile Include="Bullet.cpp">
-      <Filter>playGround\bullet</Filter>
-    </ClCompile>
-    <ClCompile Include="Bullet.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="itemManager.cpp">
@@ -463,6 +451,27 @@
     </ClCompile>
     <ClCompile Include="WeaponNpc.cpp">
       <Filter>playGround\NPC</Filter>
+    </ClCompile>
+    <ClCompile Include="Weapon.cpp">
+      <Filter>playGround\Item\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="Food.cpp">
+      <Filter>playGround\Item\Food</Filter>
+    </ClCompile>
+    <ClCompile Include="Accessory.cpp">
+      <Filter>playGround\Item\Defence</Filter>
+    </ClCompile>
+    <ClCompile Include="Armor.cpp">
+      <Filter>playGround\Item\Defence</Filter>
+    </ClCompile>
+    <ClCompile Include="SecondEquipment.cpp">
+      <Filter>playGround\Item\Defence</Filter>
+    </ClCompile>
+    <ClCompile Include="Shield.cpp">
+      <Filter>playGround\Item\Defence</Filter>
+    </ClCompile>
+    <ClCompile Include="playerBullet.cpp">
+      <Filter>playGround\Player</Filter>
     </ClCompile>
     <ClCompile Include="Boss2.cpp">
       <Filter>playGround\Enemy</Filter>

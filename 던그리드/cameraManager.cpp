@@ -25,7 +25,7 @@ void cameraManager::update()
 void cameraManager::release()
 {
 }
-/*
+// don't erase  plz
 void cameraManager::cameraShaking()
 {
 	int rand = RND->getInt(4);
@@ -71,8 +71,11 @@ void cameraManager::setCameraCenter(POINT point)
 	_center.x = point.x;
 	_center.y = point.y;
 
-	if (_center.x <= WINSIZEX / 2) _center.x = WINSIZEX / 2;
-	if (_center.x >= _tileX * 96 - WINSIZEX / 2) _center.x = _tileX * 96 - WINSIZEX / 2;
-	if (_center.y <= WINSIZEY / 2) _center.y = WINSIZEY / 2;
-	if (_center.y >= _tileY * 96 - WINSIZEY / 2) _center.y = _tileY * 96 - WINSIZEY / 2;
+	if (_isMapSet)
+	{
+		if (_center.x <= WINSIZEX / 2) _center.x = WINSIZEX / 2;
+		if (_center.x >= _tileX * 96 - WINSIZEX / 2) _center.x = _tileX * 96 - WINSIZEX / 2;
+		if (_center.y <= WINSIZEY / 2) _center.y = WINSIZEY / 2;
+		if (_center.y >= _tileY * 96 - WINSIZEY / 2) _center.y = _tileY * 96 - WINSIZEY / 2;
+	}
 }

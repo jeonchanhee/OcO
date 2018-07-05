@@ -2,25 +2,12 @@
 #include "itemManager.h"
 
 
-itemManager::itemManager()
-{
-}
-
-
-itemManager::~itemManager()
-{
-}
+itemManager::itemManager(){} itemManager::~itemManager(){}
 
 
 HRESULT itemManager::init()
 {
-	Item* item;
-	item = new Item;
-	//item->createItem("무기", SECOND_EQUIPMENT, 4, true);
-	_vItem.push_back(item);
-	
-
-
+	CreateItem();
 
 	return S_OK;
 }
@@ -40,6 +27,7 @@ void itemManager::update()
 		(*_viItem)->update();
 	}
 
+
 }
 
 
@@ -52,61 +40,37 @@ void itemManager::render()
 
 }
 
-void itemManager::CreateWeapon(bool frame)
+void itemManager::CreateItem()
 {
-	//for (int i = 1; i < 6; i++)
+	
+	for (int i = 1; i < 6; i++)
+	{
+		Weapon* weapon;
+		weapon = new Weapon;
+		weapon->init(SWORD, "검", i, PointMake(200 + i * 100, 200));
+		_vWeapon.push_back(weapon);
+		_vItem.push_back(weapon);
+	}
+
+	for (int i = 1; i < 5; i++)
+	{
+		Armor* armor;
+		armor = new Armor;
+		armor->init(ARMOR, "아머", i, PointMake(600 + i * 100, 200));
+		_vArmor.push_back(armor);
+		_vItem.push_back(armor);
+
+	}
+
+	//for (int i = 1; i < 3; i++)
 	//{
-	//
-	//	if (item->getimageType() == 단일)
-	//	{
-	//		item->createItem(SHORT_DISTANCE_WEAPON, 단일,  )
-	//		_vItem.push_back(item);
-	//	}
+	//	Shield* shield;
+	//	shield = new Shield;
+	//	shield->init(SHIELD, "방패", i, PointMake(500, 200));
+	//	_vShield.push_back(shield);
+	//	_vItem.push_back(shield);
 	//}
+
 }
 
-//void itemManager::CreateDefenceMechanism(ITEMTYPE type, const char* itemName, int value, int num, bool frame)
-//{
-//
-//	item->createItem(type, itemName, value, num, frame);
-//	_vItem.push_back(item);
-//}
-//
-//
-//void itemManager::CreateSecondEquipment(ITEMTYPE type, const char* itemName, int value, int num, bool frame)
-//{
-//
-//	item->createItem(type, itemName, value, num, frame);
-//	_vItem.push_back(item);
-//}
-//
-//
-//void itemManager::CreateAccessory(ITEMTYPE type, const char* itemName, int value, int num, bool frame)
-//{
-//
-//	item->createItem(type, itemName, value, num, frame);
-//	_vItem.push_back(item);
-//}
-//
-//
-//void itemManager::CreateFood(ITEMTYPE type, const char* itemName, int value, int num, bool frame)
-//{
-//
-//	item->createItem(type, itemName, value, num, frame);
-//	_vItem.push_back(item);
-//}
-//
-//
-//void itemManager::CreateTreasureBox(ITEMTYPE type, const char* itemName, int value, int num, bool frame)
-//{
-//
-//	item->createItem(type, itemName, value, num, frame);
-//	_vItem.push_back(item);
-//}
-//
-//
-//void itemManager::CreateGold(ITEMTYPE type, const char* itemName, int value, int num, bool frame)
-//{
-//	item->createItem(type, itemName, value, num, frame);
-//	_vItem.push_back(item);
-//}
+
