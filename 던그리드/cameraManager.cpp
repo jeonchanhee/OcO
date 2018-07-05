@@ -5,7 +5,7 @@
 HRESULT cameraManager::init()
 {
 	_camera = IMAGEMANAGER->addImage("CAMERA", WINSIZEX, WINSIZEY);
-	_center = PointMake(CAMERAX / 2, CAMERAY / 2);
+	_center = PointMake(WINSIZEX / 2, WINSIZEY / 2);
 
 	//_cameraDC = IMAGEMANAGER->addImage("카메라DC", BACKGROUNDSIZEX, BACKGROUNDSIZEY);
 	//_cameraDC2 = IMAGEMANAGER->addImage("카메라DC2", BACKGROUNDSIZEX, BACKGROUNDSIZEY);

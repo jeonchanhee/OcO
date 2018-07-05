@@ -106,13 +106,13 @@ void playGround::update(void)
 */
 
 
-	if (KEYMANAGER->isStayKeyDown('D'))
+	if (KEYMANAGER->isStayKeyDown('D')&& CAMERAMANAGER->getCameraCenter().x+WINSIZEX/2<BACKGROUNDSIZEX)
 		CAMERAMANAGER->setCameraCenter(PointMake(CAMERAMANAGER->getCameraCenter().x + 50, CAMERAMANAGER->getCameraCenter().y));
-	if (KEYMANAGER->isStayKeyDown('S'))
+	if (KEYMANAGER->isStayKeyDown('S') && CAMERAMANAGER->getCameraCenter().y + WINSIZEY / 2<BACKGROUNDSIZEY)
 		CAMERAMANAGER->setCameraCenter(PointMake(CAMERAMANAGER->getCameraCenter().x , CAMERAMANAGER->getCameraCenter().y + 50));
-	if (KEYMANAGER->isStayKeyDown('A'))
+	if (KEYMANAGER->isStayKeyDown('A') && CAMERAMANAGER->getCameraCenter().x - WINSIZEX / 2>0)
 		CAMERAMANAGER->setCameraCenter(PointMake(CAMERAMANAGER->getCameraCenter().x  - 50, CAMERAMANAGER->getCameraCenter().y));
-	if (KEYMANAGER->isStayKeyDown('W'))
+	if (KEYMANAGER->isStayKeyDown('W') && CAMERAMANAGER->getCameraCenter().y - WINSIZEY / 2>0)
 		CAMERAMANAGER->setCameraCenter(PointMake(CAMERAMANAGER->getCameraCenter().x , CAMERAMANAGER->getCameraCenter().y - 50));
 	
 	//if (CAMERAMANAGER->getCameraX() < 0)						CAMERAMANAGER->setCameraX(0);
