@@ -51,8 +51,5 @@ public:
 	void setCameraCenter(POINT point);
 	POINT getCameraCenter(void) { return _center; }
 	image* getCamera(void) { return _camera; }
-
-	void render(void);
-	void render(image* img);
 };
 
