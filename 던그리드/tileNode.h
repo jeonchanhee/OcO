@@ -89,4 +89,6 @@ extern int TILEVALUE[12][2]; //0: 마을, 1~9: 던전, 10: 보스, 11:상점
 
 extern int _tileX, _tileY;
 
+extern bool _isMapSet;
+
 #endif // !

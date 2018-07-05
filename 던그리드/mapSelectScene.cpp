@@ -14,6 +14,7 @@ mapSelectScene::~mapSelectScene()
 HRESULT mapSelectScene::init()
 {
 	_mapIdx = 0;
+	_isMapSet = true;
 	chooseMap(_mapIdx);
 	return S_OK;
 }
@@ -133,7 +134,7 @@ void mapSelectScene::printMap(int idx)
 	//}
 
 	// 오브젝트
-	if (KEYMANAGER->isToggleKey('N'))
+	//if (KEYMANAGER->isToggleKey('N'))
 	{
 		for (int i = (CAMERAMANAGER->getCameraCenter().y - WINSIZEY / 2) / 96; i < (CAMERAMANAGER->getCameraCenter().y + WINSIZEY / 2) / 96 + 1; ++i)
 		{
