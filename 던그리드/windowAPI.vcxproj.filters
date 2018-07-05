@@ -285,11 +285,11 @@
     <ClInclude Include="itemManager.h">
       <Filter>playGround\Item</Filter>
     </ClInclude>
-    <ClInclude Include="introScene.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="mapSelectScene.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>playGround\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="introScene.h">
+      <Filter>playGround\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -450,10 +450,10 @@
       <Filter>playGround\Item</Filter>
     </ClCompile>
     <ClCompile Include="introScene.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>playGround\Scene</Filter>
     </ClCompile>
     <ClCompile Include="mapSelectScene.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>playGround\Scene</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

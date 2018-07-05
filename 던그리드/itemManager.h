@@ -18,5 +18,7 @@ public:
 	void release();
 	void update();
 	void render();
+
+	void putItem();
 };
 

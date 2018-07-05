@@ -5,6 +5,11 @@
 
 HRESULT Item::init()
 {
+	// 임시 아이템 중점좌표
+	_item.x = WINSIZEX / 2;
+	_item.y = WINSIZEY / 2;
+	
+	//
 
 	return S_OK;
 }
@@ -18,8 +23,6 @@ void Item::release()
 
 void Item::update()
 {
-	_item.x = WINSIZEX / 2;
-	_item.y = WINSIZEY / 2;
 
 	_count++;
 	if (_item.isFrame)
@@ -240,9 +243,7 @@ void Item::DefenceMechanism(const char * imageName, int value)
 
 
 	}
-
 	
-
 	if (value == 2) // 두번째 방어구
 	{
 		_item.armor = 15;				// 방어력
