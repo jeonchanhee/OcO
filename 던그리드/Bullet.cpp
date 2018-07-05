@@ -67,5 +67,6 @@ void Bullet::bulletMove()
 
 void Bullet::removeBullet(int arrNum)
 {
-	_vBullet.erase(arrNum);
+	_viBullet = _vBullet.begin() + arrNum;
+	_vBullet.erase(_viBullet);
 }
