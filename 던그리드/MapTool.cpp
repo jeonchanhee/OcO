@@ -28,7 +28,7 @@ void MapTool::update()
 	{
 		POINT mouse = getMemDCPoint();
 
-		if (_ptMouse.x < CAMERAX&&_ptMouse.y < CAMERAY)
+		if (_ptMouse.x < CAMERA2X && _ptMouse.y < CAMERA2Y)
 		{
 			for (int i = 0; i < TILEX * TILEY; i++)
 			{
@@ -60,17 +60,17 @@ void MapTool::update()
 
 void MapTool::render()
 {
-	IMAGEMANAGER->render("map2", DC, WINSIZEX - IMAGEMANAGER->findImage("map2")->getWidth(), 0);
+	IMAGEMANAGER->render("map2", UIDC, WINSIZEX - IMAGEMANAGER->findImage("map2")->getWidth(), 0);
 	
 	// 버튼 렉트
 	for (int i = 0; i < 5; i++)
 	{
-		Rectangle(DC, _rc[i].left, _rc[i].top, _rc[i].right, _rc[i].bottom);
+		Rectangle(UIDC, _rc[i].left, _rc[i].top, _rc[i].right, _rc[i].bottom);
 	}
 
 	// 폰트
 
-	SetTextColor(DC, RGB(0, 0, 0));
+	SetTextColor(UIDC, RGB(0, 0, 0));
 
 	HFONT font, oldFont;
 	
@@ -78,11 +78,11 @@ void MapTool::render()
 		OUT_STRING_PRECIS, CLIP_CHARACTER_PRECIS, PROOF_QUALITY,
 		DEFAULT_PITCH | FF_SWISS, TEXT("Bernard MT Condensed"));
 	oldFont = (HFONT)SelectObject(DC, font);
-	DrawText(DC, TEXT("저장"), strlen("저장"), &_rc[0], DT_CENTER | DT_VCENTER | DT_SINGLELINE);
-	DrawText(DC, TEXT("불러오기"), strlen("불러오기"), &_rc[1], DT_CENTER | DT_VCENTER | DT_SINGLELINE);
-	DrawText(DC, TEXT("지형"), strlen("지형"), &_rc[2], DT_CENTER | DT_VCENTER | DT_SINGLELINE);
-	DrawText(DC, TEXT("오브젝트"), strlen("오브젝트"), &_rc[3], DT_CENTER | DT_VCENTER | DT_SINGLELINE);
-	DrawText(DC, TEXT("지우개"), strlen("지우개"), &_rc[4], DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+	DrawText(UIDC, TEXT("저장"), strlen("저장"), &_rc[0], DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+	DrawText(UIDC, TEXT("불러오기"), strlen("불러오기"), &_rc[1], DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+	DrawText(UIDC, TEXT("지형"), strlen("지형"), &_rc[2], DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+	DrawText(UIDC, TEXT("오브젝트"), strlen("오브젝트"), &_rc[3], DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+	DrawText(UIDC, TEXT("지우개"), strlen("지우개"), &_rc[4], DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 	SelectObject(DC, oldFont);
 	DeleteObject(font);
 
@@ -90,7 +90,7 @@ void MapTool::render()
 	// 지형
 	for (int i = 0; i < TILEX * TILEY; i++)
 	{
-		IMAGEMANAGER->frameRender("map", UIDC, _tiles[i].rc.left, _tiles[i].rc.top, _tiles[i].terrainFrameX, _tiles[i].terrainFrameY);
+		IMAGEMANAGER->frameRender("map", DC, _tiles[i].rc.left, _tiles[i].rc.top, _tiles[i].terrainFrameX, _tiles[i].terrainFrameY);
 		//if(i == 444)
 
 	}
@@ -101,27 +101,25 @@ void MapTool::render()
 		// 오브젝트 속성이 아니면 그리지마
 		if (_tiles[i].object == OBJ_NONE) continue;
 		
-		IMAGEMANAGER->frameRender("map", UIDC, _tiles[i].rc.left, _tiles[i].rc.top, _tiles[i].objFrameX, _tiles[i].objFrameY);
+		IMAGEMANAGER->frameRender("map", DC, _tiles[i].rc.left, _tiles[i].rc.top, _tiles[i].objFrameX, _tiles[i].objFrameY);
 	}
 
 	if (KEYMANAGER->isToggleKey(VK_TAB))
 	{
 		for (int i = 0; i < TILEX * TILEY; i++)
 		{
-			Rectangle(UIDC,_tiles[i].rc.left, _tiles[i].rc.top, _tiles[i].rc.right, _tiles[i].rc.bottom);
+			Rectangle(DC,_tiles[i].rc.left, _tiles[i].rc.top, _tiles[i].rc.right, _tiles[i].rc.bottom);
 			char str[128];
 			sprintf_s(str, "%d", i);
-			TextOut(UIDC, _tiles[i].rc.left, _tiles[i].rc.top, str, strlen(str));
-			if (i == 353 || i == 303)
-									int a = 0;
+			TextOut(DC, _tiles[i].rc.left, _tiles[i].rc.top, str, strlen(str));
 		}
 
 		for (int i = 0; i < SAMPLETILEX * SAMPLETILEY; i++)
 		{
-			Rectangle(DC, _sampleTile[i].rctile.left, _sampleTile[i].rctile.top, _sampleTile[i].rctile.right, _sampleTile[i].rctile.bottom);
+			Rectangle(UIDC, _sampleTile[i].rctile.left, _sampleTile[i].rctile.top, _sampleTile[i].rctile.right, _sampleTile[i].rctile.bottom);
 			char str[128];
 			sprintf_s(str, "%d", i);
-			TextOut(DC, _sampleTile[i].rctile.left, _sampleTile[i].rctile.top, str, strlen(str));
+			TextOut(UIDC, _sampleTile[i].rctile.left, _sampleTile[i].rctile.top, str, strlen(str));
 		}
 	}
 }
@@ -143,7 +141,7 @@ void MapTool::load()
 	HANDLE	file;
 	DWORD	load;
 
-	file = CreateFile("map/Dungeon6(49x28).map", GENERIC_READ, NULL, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+	file = CreateFile(MAPNAME, GENERIC_READ, NULL, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 
 	ReadFile(file, _tiles, sizeof(tagTile) * TILEX * TILEY, &load, NULL);
 

@@ -33,6 +33,23 @@ namespace CLASS_TEN
 		return angle;
 	}
 
+	float GetAngle(float x1, float y1, float x2, float y2)
+	{
+		float x = x2 - x1;
+		float y = y2 - y1;
+
+		float distance = sqrtf(x * x + y * y);
+
+		float angle = acosf(x / distance);
+
+		if (y2 > y1)
+		{
+			angle = 2 * PI - angle;
+			if (angle >= PI * 2) angle -= PI * 2;
+		}
+
+		return angle;
+	}
 	
 
 	bool isCollisionReaction(RECT& mrcHold, RECT& mrcMove)

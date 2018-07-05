@@ -91,5 +91,4 @@ extern int _tileX, _tileY;
 
 extern bool _isMapSet;
 
-
 #endif // !

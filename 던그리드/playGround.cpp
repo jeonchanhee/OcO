@@ -11,7 +11,6 @@ HRESULT playGround::init(void)
 	mode = 맵툴;				//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
 //	rectRotate(IMAGEMANAGER->findImage("검01"), 100, 100);
 
-
 	gameNode::init(true);
 	Image_init();
 	Sound_init();
@@ -24,7 +23,6 @@ HRESULT playGround::init(void)
 	_im->init();
 
 	_title = new titleScene;
-	_title->init();
 	_title->setImLink(_im);
 
 	SCENEMANAGER->addScene("타이틀", _title);
@@ -38,7 +36,6 @@ HRESULT playGround::init(void)
 	switch (mode)
 	{
 	case 맵툴:
-	
 		break;
 	case 타이틀:
 		SCENEMANAGER->changeScene("타이틀");
@@ -109,11 +106,14 @@ void playGround::update(void)
 */
 
 
-	if (KEYMANAGER->isStayKeyDown('D'))		CAMERAMANAGER->setCameraCenter(PointMake(CAMERAMANAGER->getCameraCenter().x + 50, CAMERAMANAGER->getCameraCenter().y));
-	if (KEYMANAGER->isStayKeyDown('S'))		CAMERAMANAGER->setCameraCenter(PointMake(CAMERAMANAGER->getCameraCenter().x , CAMERAMANAGER->getCameraCenter().y + 50));
-	if (KEYMANAGER->isStayKeyDown('A'))		
+	if (KEYMANAGER->isStayKeyDown('D'))
+		CAMERAMANAGER->setCameraCenter(PointMake(CAMERAMANAGER->getCameraCenter().x + 50, CAMERAMANAGER->getCameraCenter().y));
+	if (KEYMANAGER->isStayKeyDown('S'))
+		CAMERAMANAGER->setCameraCenter(PointMake(CAMERAMANAGER->getCameraCenter().x , CAMERAMANAGER->getCameraCenter().y + 50));
+	if (KEYMANAGER->isStayKeyDown('A'))
 		CAMERAMANAGER->setCameraCenter(PointMake(CAMERAMANAGER->getCameraCenter().x  - 50, CAMERAMANAGER->getCameraCenter().y));
-	if (KEYMANAGER->isStayKeyDown('W'))		CAMERAMANAGER->setCameraCenter(PointMake(CAMERAMANAGER->getCameraCenter().x , CAMERAMANAGER->getCameraCenter().y - 50));
+	if (KEYMANAGER->isStayKeyDown('W'))
+		CAMERAMANAGER->setCameraCenter(PointMake(CAMERAMANAGER->getCameraCenter().x , CAMERAMANAGER->getCameraCenter().y - 50));
 	
 	//if (CAMERAMANAGER->getCameraX() < 0)						CAMERAMANAGER->setCameraX(0);
 	//if (CAMERAMANAGER->getCameraY() < 0)						CAMERAMANAGER->setCameraY(0);
@@ -131,7 +131,7 @@ void playGround::render(void)
 	switch (mode)
 	{
 	case 맵툴:
-		PatBlt(UIDC, 0, 0, BACKGROUNDSIZEX, BACKGROUNDSIZEY, WHITENESS);
+		PatBlt(UIDC, 0, 0, BACKGROUNDSIZEX, BACKGROUNDSIZEY, BLACKNESS);
 		_mapTool->render();
 		break;
 	case 타이틀:
