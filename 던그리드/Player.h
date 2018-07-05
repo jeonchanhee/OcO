@@ -1,8 +1,10 @@
 #pragma once
 #include "gameNode.h"
+#include "playerBullet.h"
 #define DASHSPEED 33
 #define PUNCHSPEED 6.0f
 #define GRAVITY 0.25
+#define ONE_HUNDRED 100
 
 enum DIRECTION
 {
@@ -15,7 +17,7 @@ enum DIRECTION
 class Player : public gameNode
 {
 private:
-
+	playerBullet * _pb;
 	image * _player;
 	image * _playerHand[2];
 	image * _playerWeapon;

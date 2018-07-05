@@ -28,7 +28,7 @@ void MapTool::update()
 	{
 		POINT mouse = getMemDCPoint();
 
-		if (_ptMouse.x < CAMERA2X && _ptMouse.y < CAMERA2Y)
+		if (_ptMouse.x < CAMERAX && _ptMouse.y < CAMERAY)
 		{
 			for (int i = 0; i < TILEX * TILEY; i++)
 			{
@@ -233,7 +233,7 @@ void MapTool::setmap()
 		}
 	}
 
-	if (_ptMouse.x < CAMERA2X&&_ptMouse.y < CAMERA2Y)
+	if (_ptMouse.x < CAMERAX&&_ptMouse.y < CAMERAY)
 	{
 		for (int i = 0; i < TILEX * TILEY; i++)
 		{

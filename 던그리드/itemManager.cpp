@@ -16,7 +16,7 @@ HRESULT itemManager::init()
 {
 	Item* item;
 	item = new Item;
-	//item->createItem("무기", SECOND_EQUIPMENT, 4, true);
+//	item->createItem("무기", SECOND_EQUIPMENT, 4, true);
 	_vItem.push_back(item);
 	
 

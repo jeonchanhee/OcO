@@ -9,7 +9,9 @@ HRESULT playGround::Image_init(void)
 
 	IMAGEMANAGER->addFrameImage("map", "image/map/Map(2208x2496,23x26).bmp", 0, 0, 2208, 2496, SAMPLETILEX, SAMPLETILEY, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("map2", "image/map/Map2(736x832,23x26).bmp", 0, 0, 736, 832, SAMPLETILEX, SAMPLETILEY, true, RGB(255, 0, 255));
-
+	IMAGEMANAGER->addImage("floor0", "image/map/Floor0.bmp", 0, 0, 384, 96,true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("floor1", "image/map/Floor1.bmp", 0, 0, 4164, 864,true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("floor2", "image/map/Floor2.bmp", 0, 0, 4164, 864,true, RGB(255, 0, 255));
 
 	//==========Å¸ÀÌÆ²ÀÌ¹ÌÁö==========
 	IMAGEMANAGER->addImage("title", "image/UI/Title(1920x1080).bmp", 0, 0, 1920,1080, true, RGB(255, 0, 255));
@@ -125,7 +127,8 @@ HRESULT playGround::Image_init(void)
 
 
 	//¿ø°Å¸®¹«±â ÀÌ¹ÌÁö 
-	IMAGEMANAGER->addImage("ÃÑ10", "image/item/weapon/gun/deadlyKiss(80x20)1x1.bmp", 80, 20, true, RGB(255, 0, 255)); // Âø¿ë
+	IMAGEMANAGER->addRotateImage("ÃÑ10ÁÂ", "image/item/weapon/gun/deadlyKissLeft(100x25)1x1.bmp",  100, 25, true, RGB(255, 0, 255)); // Âø¿ë
+	IMAGEMANAGER->addRotateImage("ÃÑ10¿ì", "image/item/weapon/gun/deadlyKissRight(100x25)1x1.bmp", 100, 25, true, RGB(255, 0, 255)); // Âø¿ë
 	IMAGEMANAGER->addImage("ÃÑ11", "image/item/weapon/gun/deadlyKissDrop(80x20)1x1.bmp", 80, 20, true, RGB(255, 0, 255));			// µå¶ø
 	IMAGEMANAGER->addImage("ÃÑ12", "image/item/weapon/gun/deadlyKissInven(40x10)1x1.bmp", 40, 10, true, RGB(255, 0, 255));			// ÀÎº¥
 
@@ -153,8 +156,14 @@ HRESULT playGround::Image_init(void)
 	IMAGEMANAGER->addFrameImage("È°30", "image/item/weapon/bow/lightbringer(300x50)6x1.bmp", 300, 50, 6, 1, true, RGB(255, 0, 255));	// Âø¿ë
 	IMAGEMANAGER->addImage("È°31", "image/item/weapon/bow/lightbringerDrop(50x22)1x1.bmp", 50, 22, true, RGB(255, 0, 255));			// µå¶ø
 	IMAGEMANAGER->addImage("È°32", "image/item/weapon/bow/lightbringerInven(11x25)1x1.bmp", 11, 25, true, RGB(255, 0, 255));			// ÀÎº¥
-
-
+	//================= ÃÑÀ» Ãß°¡ÇßÀ¸¸é ÃÑ¾Ëµµ Ãß°¡ÇÏ¼Å¾ßÁÒ °­ 1 ±Ç ¾¾ ~!! 	//================= ÃÑÀ» Ãß°¡ÇßÀ¸¸é ÃÑ¾Ëµµ Ãß°¡ÇÏ¼Å¾ßÁÒ °­ 1 ±Ç ¾¾ ~!!
+	//================= ÃÑÀ» Ãß°¡ÇßÀ¸¸é ÃÑ¾Ëµµ Ãß°¡ÇÏ¼Å¾ßÁÒ °­ 1 ±Ç ¾¾ ~!! 	//================= ÃÑÀ» Ãß°¡ÇßÀ¸¸é ÃÑ¾Ëµµ Ãß°¡ÇÏ¼Å¾ßÁÒ °­ 1 ±Ç ¾¾ ~!!
+	//================= ÃÑÀ» Ãß°¡ÇßÀ¸¸é ÃÑ¾Ëµµ Ãß°¡ÇÏ¼Å¾ßÁÒ °­ 1 ±Ç ¾¾ ~!!	//================= ÃÑÀ» Ãß°¡ÇßÀ¸¸é ÃÑ¾Ëµµ Ãß°¡ÇÏ¼Å¾ßÁÒ °­ 1 ±Ç ¾¾ ~!!
+	//================= ÃÑÀ» Ãß°¡ÇßÀ¸¸é ÃÑ¾Ëµµ Ãß°¡ÇÏ¼Å¾ßÁÒ °­ 1 ±Ç ¾¾ ~!! 	//================= ÃÑÀ» Ãß°¡ÇßÀ¸¸é ÃÑ¾Ëµµ Ãß°¡ÇÏ¼Å¾ßÁÒ °­ 1 ±Ç ¾¾ ~!!
+	IMAGEMANAGER->addFrameImage("ÃÑ¾Ë0", "image/item/weapon/gun/deadlyKissBullet(1200x110,12x1).bmp", 1000, 92, 12, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("ÃÑ¾Ë1", "image/item/weapon/gun/flameThrower(400x125,8x1).bmp", 400, 125 , 8, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("ÃÑ¾Ë2", "image/item/weapon/gun/railGunBullet(300x100,6x1).bmp", 1200, 110, 12, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("ÃÑ¾Ë3", "image/item/weapon/gun/matchlockGunBullet(70x70,5x1).bmp", 70, 70, 5, 1, true, RGB(255, 0, 255));
 
 	// ¹æ¾î±¸ ÀÌ¹ÌÁö
 	IMAGEMANAGER->addImage("¾Æ¸Ó10", "image/item/armor/ChainArmor(30x30)1x1.bmp", 30, 30, true, RGB(255, 0, 255));

@@ -13,6 +13,7 @@ mapSelectScene::~mapSelectScene()
 
 HRESULT mapSelectScene::init()
 {
+	_isMapSet = true;
 	_mapIdx = 0;
 	_isMapSet = true;
 	chooseMap(_mapIdx);
