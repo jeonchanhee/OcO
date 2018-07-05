@@ -172,7 +172,7 @@ void titleScene::inven()
 		for (int i = 0; i<4; i++)
 		Rectangle(DC, rc[i].left, rc[i].top, rc[i].right, rc[i].bottom);
 	}
-	_im->getItem()[0]->getItem().image[0]->render(DC, rc[0].left, rc[0].top);
+	//_im->getItem()[0]->getItem().image[0]->render(DC, rc[0].left, rc[0].top);
 }
 
 void titleScene::restaurant()

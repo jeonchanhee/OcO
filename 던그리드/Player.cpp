@@ -227,7 +227,7 @@ void Player::keyInput()
 			_isAttacking = true;
 
 		}
-		_pb->bulletFire(_x, _y, _angle, 500, 10.0f, 0);
+		_pb->bulletFire(_x, _y, _angle, 500, 10.0f,3);
 	}
 	if (KEYMANAGER->isOnceKeyDown(VK_RBUTTON))
 	{	

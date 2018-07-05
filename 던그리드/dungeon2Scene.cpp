@@ -14,6 +14,7 @@ dungeon2Scene::~dungeon2Scene()
 HRESULT dungeon2Scene::init()
 {
 	//setCamera();
+	_isMapSet = true;
 	_mapName = "map/Dungeon2(28x13).map";
  	
 	_tileX = TILEVALUE[2][0], _tileY = TILEVALUE[2][1];

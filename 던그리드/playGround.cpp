@@ -8,7 +8,7 @@ playGround::~playGround(){}
 
 HRESULT playGround::init(void)	
 {
-	mode = 던전2;				//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
+	mode = 맵툴;				//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
 //	rectRotate(IMAGEMANAGER->findImage("검01"), 100, 100);
 
 	gameNode::init(true);
@@ -19,14 +19,14 @@ HRESULT playGround::init(void)
 	_mapTool->init();
 	_player = new Player;
 	_player->init();
-	_im = new itemManager;
-	_im->init();
+	/*_im = new itemManager;
+	_im->init();*/
 
 	_title = new titleScene;
 	_title->setImLink(_im);
 
 	SCENEMANAGER->addScene("타이틀", _title);
-	SCENEMANAGER->addScene("던전2", new dungeon2Scene);
+	//SCENEMANAGER->addScene("던전2", new dungeon2Scene);
 	SCENEMANAGER->addScene("대사씬", new Dialog);
 	SCENEMANAGER->addScene("아이템씬", new itemManager);
 	SCENEMANAGER->addScene("인트로", new introScene);
@@ -56,7 +56,7 @@ HRESULT playGround::init(void)
 		break;
 	
 	case 던전2:
-		SCENEMANAGER->changeScene("던전2");
+		//SCENEMANAGER->changeScene("던전2");
 		break;
 	
 	case 맵선택:
@@ -157,7 +157,7 @@ void playGround::render(void)
 		SCENEMANAGER->render();
 		break;
 	case 던전2:
-		SCENEMANAGER->render();
+		//SCENEMANAGER->render();
 		break;
 	case 맵선택:
 		SCENEMANAGER->render();
@@ -180,6 +180,7 @@ void playGround::render(void)
 
 	// 이 아래로도 건들지 마시오
 	/////////////////////////////////////////////////////////////////////////////////////////////
+	//IMAGEMANAGER->render("cursor", UIDC, _ptMouse.x, _ptMouse.y);
 	IMAGEMANAGER->render("cursor", UIDC, _ptMouse.x, _ptMouse.y);
 	TIMEMANAGER->render(UIDC);
 

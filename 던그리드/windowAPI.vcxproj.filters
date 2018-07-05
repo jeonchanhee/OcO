@@ -288,8 +288,11 @@
     <ClInclude Include="commonMacroFunction.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="dungeon2Scene.h">
+    <ClInclude Include="playerBullet.h">
       <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="dungeon2Scene.h">
+      <Filter>playGround\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -477,7 +480,7 @@
       <Filter>playGround\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="dungeon2Scene.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>playGround\Scene</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -2,7 +2,7 @@
 #include "singletonBase.h"
 //#include "image.h"
 //#include "tileNode.h"
-//#define moveValue 1
+#define moveValue 1
 
 
 
@@ -23,6 +23,8 @@ public:
 	HRESULT init();
 	void update();
 	void release();
+
+	void cameraShaking();
 
 	//void cameraShaking();
 	//
@@ -52,7 +54,5 @@ public:
 	POINT getCameraCenter(void) { return _center; }
 	image* getCamera(void) { return _camera; }
 
-	void render(void);
-	void render(image* img);
 };
 
