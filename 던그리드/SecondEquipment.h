@@ -2,19 +2,19 @@
 #include "Item.h"
 
 
-struct tagShield // 방패 구조체~~
+struct tagSecondEquipment // 보조장비 구조체~~
 {
 	image* image[3];		//이미지 0. 드랍 1. 인벤 2. 착용
 	RECT rc[3];				//렉트
 	ITEMTYPE type;			//아이템 타입
 	ITEMGRADE grade;		//아이템 등급
-	const char* imageName;  //이미지의 이름(아이템이름)
+	int frameX, frameY;		// 프레임 X, Y
+	bool isFrame;			// 프레임이미지 확인용
 	float x, y;				//x, y 좌표
-	int ad;					//공격력
+	int ad;					// 공격력
 	int def;				//방어력	
 	float attackSpeed;		//공격속도
-	float moveMentSpeed;	//이동속도
-	float dashPower;		//대시공격력 증감률
+	float moveMentSpeed;	//이동속도	
 	float criticalPersent;	//크리티컬확률
 	float evasionPersent;	//회피율
 	int addMaxHp;			//최대 HP 증가
@@ -22,23 +22,25 @@ struct tagShield // 방패 구조체~~
 };
 
 
-class Shield : public Item
+class SecondEquipment : public Item
 {
 private:
-	tagShield _shield;
 
-	const char* _ShieldName;
-	int _value;
+	tagSecondEquipment _second;
+
+	int _count;
 public:
-	Shield();
-	~Shield();
 
-	HRESULT init(ITEMTYPE type, const char* ShieldName, int value, POINT position);
+	SecondEquipment();
+	~SecondEquipment();
+
+	HRESULT init();
 	void release();
 	void update();
-	void CreateShield(ITEMTYPE type, const char* ShieldName, int value, POINT position);
-	void setShield(const char* ShieldName, int value);
 	void render();
 
+
+	void CreateEquipment(ITEMTYPE type, const char* secondEquipmentName, int value, POINT position);
+	void setEquip(const char* secondEquipment, int value);
 };
 

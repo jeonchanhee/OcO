@@ -32,20 +32,20 @@ void cameraManager::cameraShaking()
 	switch (rand)
 	{
 	case 0:
-		_cameraX += moveValue;
-		_cameraY += moveValue;
+		_center.x += moveValue;
+		_center.y += moveValue;
 		break;
 	case 1:
-		_cameraX += moveValue;
-		_cameraY -= moveValue;
+		_center.x += moveValue;
+		_center.y -= moveValue;
 		break;
 	case 2:
-		_cameraX -= moveValue;
-		_cameraY += moveValue;
+		_center.x -= moveValue;
+		_center.y += moveValue;
 		break;
 	case 3:
-		_cameraX -= moveValue;
-		_cameraY -= moveValue;
+		_center.x -= moveValue;
+		_center.y -= moveValue;
 		break;
 
 	}
@@ -65,4 +65,15 @@ void cameraManager::setCameraCenter(POINT point)
 	if (_center.x >= _tileX * 96 - WINSIZEX / 2) _center.x = _tileX * 96 - WINSIZEX / 2;
 	if (_center.y <= WINSIZEY / 2) _center.y = WINSIZEY / 2;
 	if (_center.y >= _tileY * 96 - WINSIZEY / 2) _center.y = _tileY * 96 - WINSIZEY / 2;
+}
+
+void cameraManager::render(void)
+{
+
+}
+
+void cameraManager::render(image* img)
+{
+	GdiTransparentBlt(img->getMemDC(), _center.x - WINSIZEX / 2, _center.y - WINSIZEY / 2, WINSIZEX, WINSIZEY,
+		_camera->getMemDC(), 0, 0, WINSIZEX, WINSIZEY, RGB(0, 0, 0));
 }

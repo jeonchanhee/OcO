@@ -112,7 +112,7 @@ void Player::render()
 		imageDC->rotateRender(DC, _leftHandX , _leftHandY , _weaponAngle + 1.8f);
 	else if(_x + _player->getFrameWidth() / 2 < PTMOUSE_X && _mainWeapon[_youUsingCount] != 0)	
 	imageDC->rotateRender(DC, _rightHandX , _rightHandY , _weaponAngle + 1.8f);
-	_player->aniRender(CAMERAMANAGER->getCameraDC()->getMemDC(), _x, _y, _playerAnimation);
+	_player->aniRender(DC, _x, _y, _playerAnimation);
 
 	if (_showAttackEffect)
 	{

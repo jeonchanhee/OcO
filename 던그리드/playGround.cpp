@@ -8,7 +8,7 @@ playGround::~playGround(){}
 
 HRESULT playGround::init(void)	
 {
-	mode = 플레이어;				//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
+	mode = 아이템;				//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
 //	rectRotate(IMAGEMANAGER->findImage("검01"), 100, 100);
 
 	gameNode::init(true);
@@ -25,7 +25,7 @@ HRESULT playGround::init(void)
 	SCENEMANAGER->addScene("던전", new dungeonScene);
 	SCENEMANAGER->addScene("적", new EnemyManager);
 	SCENEMANAGER->addScene("대사씬", new Dialog);
-	//SCENEMANAGER->addScene("아이템씬", new itemManager);
+	SCENEMANAGER->addScene("아이템씬", new itemManager);
 	SCENEMANAGER->addScene("인트로", new introScene);
 	SCENEMANAGER->addScene("맵선택", new mapSelectScene);
 
@@ -46,7 +46,7 @@ HRESULT playGround::init(void)
 	case 플레이어:
 		break;
 	case 아이템:
-	//	SCENEMANAGER->changeScene("아이템씬");
+		SCENEMANAGER->changeScene("아이템씬");
 		break;
 
 	case 인트로:
@@ -118,8 +118,8 @@ void playGround::update(void)
 
 void playGround::render(void)
 {
-	PatBlt(getMemDC(), CAMERAMANAGER->getCameraCenter().x - WINSIZEX / 2, CAMERAMANAGER->getCameraCenter().y - WINSIZEY / 2, WINSIZEX, WINSIZEY, WHITENESS);
-	PatBlt(CAMERAMANAGER->getCameraDC(), 0, 0, WINSIZEX, WINSIZEY, WHITENESS);
+	PatBlt(getMemDC(), CAMERAMANAGER->getCameraCenter().x - WINSIZEX / 2, CAMERAMANAGER->getCameraCenter().y - WINSIZEY / 2, WINSIZEX, WINSIZEY, BLACKNESS);
+	PatBlt(CAMERAMANAGER->getCameraDC(), 0, 0, WINSIZEX, WINSIZEY, BLACKNESS);
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// 이 위로는 건들지 마시오
