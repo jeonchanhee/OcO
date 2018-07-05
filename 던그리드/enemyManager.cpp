@@ -43,20 +43,20 @@ HRESULT EnemyManager::init()
 	//bigRedBat->init();
 	//_vMonster.push_back(bigRedBat);
 
-	//Enemy* musicAngel;
-	//musicAngel = new MusicAngel;
-	//musicAngel->init();
-	//_vMonster.push_back(musicAngel);
+	Enemy* musicAngel;
+	musicAngel = new MusicAngel;
+	musicAngel->init();
+	_vMonster.push_back(musicAngel);
 
-	//Enemy* cow;
-	//cow = new Cow;
-	//cow->init();
-	//_vMonster.push_back(cow);
+	Enemy* cow;
+	cow = new Cow;
+	cow->init();
+	_vMonster.push_back(cow);
 
-	Enemy* boss;
+	/*Enemy* boss;
 	boss = new Boss2;
 	boss->init();
-	_vMonster.push_back(boss);
+	_vMonster.push_back(boss);*/
 
 	return S_OK;
 }

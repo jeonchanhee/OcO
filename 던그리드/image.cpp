@@ -1086,53 +1086,6 @@ void image::alphaLoopRender(HDC hdc, const LPRECT drawArea, int offSetX, int off
 	}
 }
 
-														//세로부터 해봅시다
-	for (int y = 0; y < drawAreaH; y += sourHeight)
-	{
-		rcSour.top = (y + offSetY) % _imageInfo->height;
-		rcSour.bottom = _imageInfo->height;
-
-		//밀려올라간 간격
-		sourHeight = rcSour.bottom - rcSour.top;
-
-		//화면밖으로 나갔다면~
-		if (y + sourHeight > drawAreaH)
-		{
-			// - 연산때문에 실제 오프셋 값의 반대방향으로 작동한다
-			rcSour.bottom -= (y + sourHeight) - drawAreaH;
-			sourHeight = rcSour.bottom - rcSour.top;
-		}
-
-		//화면밖으로 나간영역을 다시 밀어올려줄 위치 선정
-		rcDest.top = y + drawAreaY;
-		rcDest.bottom = rcDest.top + sourHeight;
-
-		//가로 루프 연산
-		for (int x = 0; x < drawAreaW; x += sourWidth)
-		{
-			rcSour.left = (x + offSetX) % _imageInfo->width;
-			rcSour.right = _imageInfo->width;
-
-			sourWidth = rcSour.right - rcSour.left;
-
-			//가로로 화면밖으로 나간 영역 계산
-			if (x + sourWidth > drawAreaW)
-			{
-				rcSour.right -= (x + sourWidth) - drawAreaW;
-				sourWidth = rcSour.right - rcSour.left;
-			}
-
-			rcDest.left = x + drawAreaX;
-			rcDest.right = rcDest.left + sourWidth;
-
-			alphaRender(hdc, rcDest.left, rcDest.top,
-				rcSour.left, rcSour.top,
-				rcSour.right - rcSour.left,
-				rcSour.bottom - rcSour.top, alpha);
-		}
-	}
-}
-
 void image::aniRender(HDC hdc, int destX, int destY, animation * ani)
 {
 	render(hdc, destX, destY, ani->getFramePos().x, ani->getFramePos().y, ani->getFrameWidth(), ani->getFrameHeight());
