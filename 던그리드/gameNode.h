@@ -4,8 +4,6 @@
 //백버퍼 선언
 static image* _backBuffer = IMAGEMANAGER->addImage("backBuffer", TOTALSIZEX, TOTALSIZEY);
 
-
-
 class gameNode
 {
 private:
@@ -33,5 +31,9 @@ public:
 
 	gameNode();
 	virtual ~gameNode();
+
+
+	POINT getMemDCPoint(void) { return PointMake(CAMERAMANAGER->getCameraCenter().x - WINSIZEX / 2 + _ptMouse.x, CAMERAMANAGER->getCameraCenter().y - WINSIZEY / 2 + _ptMouse.y); }
+	POINT getCameraPoint(void) { return _ptMouse; }
 };
 

@@ -175,6 +175,31 @@ image* imageManager::addRotateImage(string strKey, const char * fileName,  int w
 	return img;
 }
 
+image* imageManager::addRotateImage(string strKey, int width, int height, bool trans, COLORREF transColor, BOOL blend)
+{
+	//해당 키 값을 찾아보고
+	image* img = findImage(strKey);
+
+	//그 키값을 가진 이미지가 있으면 그 이미지를 쓴다
+	if (img) return img;
+
+	//여기까지 왔다면 그 키 값은 없는 것!
+
+	img = new image;
+
+	if (FAILED(img->rotateInit(width, height, trans, transColor, blend)))
+	{
+		SAFE_DELETE(img);
+
+		return NULL;
+	}
+
+	//초기화 한 이미지를 키 값 붙여서 맵컨테이너에 추가한다
+	_mImageList.insert(make_pair(strKey, img));
+
+	return img;
+}
+
 image * imageManager::addRotateFrameImage(string strKey, const char * fileName, int width, int height, int frameX, int frameY, bool trans, COLORREF transColor, BOOL blend)
 {
 	image * img = findImage(strKey);

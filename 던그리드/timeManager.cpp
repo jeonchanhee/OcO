@@ -44,8 +44,9 @@ void timeManager::render(HDC hdc)
 	//폰트 뒷배경처리
 	//투명 : TRANSPARENT
 	//불투명 : OPAQUE
-	SetTextColor(hdc, RGB(255, 255, 255));
-	SetBkMode(hdc, TRANSPARENT);
+	//SetTextColor(hdc, RGB(255, 255, 255));
+	SetTextColor(hdc, RGB(255, 0, 0));
+	//SetBkMode(hdc, TRANSPARENT);
 
 #ifdef _DEBUG
 	{

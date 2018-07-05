@@ -17,7 +17,7 @@
 #define TILESIZE2 32
 
 // Å¸ÀÏ °¹¼ö
-#define TILEX 50	
+#define TILEX 50
 #define TILEY 50
 
 //#define TILEX 28

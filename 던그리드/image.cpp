@@ -243,6 +243,50 @@ HRESULT image::rotateInit(const char * fileName, int width, int height, BOOL tra
 	return S_OK;
 }
 
+HRESULT image::rotateInit(int width, int height, BOOL trans, COLORREF transColor, BOOL blend)
+{
+
+
+	if (_imageInfo != NULL) release();
+
+	HDC hdc = GetDC(_hWnd);
+
+	_imageInfo = new IMAGE_INFO;
+	_imageInfo->hMemDC = CreateCompatibleDC(hdc); //새로운 빈 DC영역을 만든다
+	_imageInfo->hBit = (HBITMAP)CreateCompatibleBitmap(hdc, width, height);	//빈 비트맵을 하나 만든다
+	_imageInfo->hOBit = (HBITMAP)SelectObject(_imageInfo->hMemDC, _imageInfo->hBit);
+	_imageInfo->width = width;
+	_imageInfo->height = height;
+
+
+
+
+	//rotate
+
+	int size;
+	(width > height ? size = width : size = height);
+	_rotateImage = new IMAGE_INFO;
+	_rotateImage->loadType = LOAD_EMPTY;
+	_rotateImage->resID = 0;
+	_rotateImage->hMemDC = CreateCompatibleDC(hdc);
+	_rotateImage->hBit = (HBITMAP)CreateCompatibleBitmap(hdc, size, size);
+	_rotateImage->hOBit = (HBITMAP)SelectObject(_rotateImage->hMemDC, _rotateImage->hBit);
+	_rotateImage->width = size;
+	_rotateImage->height = size;
+
+	_trans = trans;
+	_transColor = transColor;
+
+	if (_imageInfo->hBit == NULL)
+	{
+		release();
+		return E_FAIL;
+	}
+	ReleaseDC(_hWnd, hdc);
+
+	return S_OK;
+}
+
 HRESULT image::rotateInit(const char * fileName, int width, int height, int frameX, int frameY, BOOL trans, COLORREF transColor, BOOL blend)
 {
 	if (fileName == NULL) return E_FAIL;
@@ -640,6 +684,56 @@ void image::render(HDC hdc, int destX, int destY, int sourX, int sourY, int sour
 	}
 }
 
+void image::rotateRender(HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight, float angle)
+{
+	POINT rPoint[3];
+	int dist = sqrt((_imageInfo->width / 2) * (_imageInfo->width / 2) + (_imageInfo->height / 2) * (_imageInfo->height / 2));
+	float baseAngle[3];
+	baseAngle[0] = PI - atanf(((float)_imageInfo->height / 2) / ((float)_imageInfo->width / 2));
+	baseAngle[1] = atanf(((float)_imageInfo->height / 2) / ((float)_imageInfo->width / 2));
+	baseAngle[2] = PI + atanf(((float)_imageInfo->height / 2) / ((float)_imageInfo->width / 2));
+
+	for (int i = 0; i < 3; ++i)
+	{
+		rPoint[i].x = (_rotateImage->width / 2 + cosf(baseAngle[i] + angle) * dist);
+		rPoint[i].y = (_rotateImage->height / 2 + -sinf(baseAngle[i] + angle)* dist);
+	}
+
+	if (_trans)
+	{
+		BitBlt(_rotateImage->hMemDC, 0, 0,
+			_rotateImage->width, _rotateImage->height,
+			hdc,
+			0, 0, BLACKNESS);
+		HBRUSH hBrush = CreateSolidBrush(_transColor);
+		HBRUSH oBrush = (HBRUSH)SelectObject(_rotateImage->hMemDC, hBrush);
+		ExtFloodFill(_rotateImage->hMemDC, 1, 1, RGB(0, 0, 0), FLOODFILLSURFACE);
+		DeleteObject(hBrush);
+
+		PlgBlt(_rotateImage->hMemDC, rPoint, _imageInfo->hMemDC,
+			0,
+			0,
+			sourWidth,
+			sourHeight,
+			NULL, 0, 0);
+		GdiTransparentBlt(
+			hdc,					//복사될 DC
+			destX,					//복사될 좌표 X(left)
+			destY,					//복사될 좌표 Y(top)
+			sourWidth,				//복사될 가로크기
+			sourHeight,				//복사될 세로크기
+			_imageInfo->hMemDC,		//복사할 DC
+			sourX, sourY,			//복사할 x,y
+			sourWidth,				//복사할 가로, 세로크기
+			sourHeight,
+			_transColor);			//복사할때 제외할 칼라
+	}
+	else
+	{
+		PlgBlt(hdc, rPoint, _imageInfo->hMemDC, 0, 0, _imageInfo->width, _imageInfo->height, NULL, 0, 0);
+	}
+}
+
 void image::frameRender(HDC hdc, int destX, int destY)
 {
 	if (_trans)
@@ -992,9 +1086,15 @@ void image::alphaLoopRender(HDC hdc, const LPRECT drawArea, int offSetX, int off
 	}
 }
 
+
 void image::aniRender(HDC hdc, int destX, int destY, animation * ani)
 {
 	render(hdc, destX, destY, ani->getFramePos().x, ani->getFramePos().y, ani->getFrameWidth(), ani->getFrameHeight());
+}
+
+void image::aniRotateRender(HDC hdc, int destX, int destY, animation * ani, float angle)
+{
+	rotateRender(hdc, destX, destY, ani->getFramePos().x, ani->getFramePos().y, ani->getFrameWidth(), ani->getFrameHeight() , angle);
 }
 
 void image::alphaAniRender(HDC hdc, int destX, int destY, animation * ani, BYTE alpha)

@@ -63,9 +63,7 @@ void BigRedBat::update()
 			changeAnimation(BIGREDBAT_RIGHT_MOVE);
 		if (_bigRedBatDirection == BIGREDBAT_LEFT_DIE)
 			changeAnimation(BIGREDBAT_LEFT_MOVE);
-
 	}
-
 	/////////////////бубубубубубубубубу////////////////////
 
 

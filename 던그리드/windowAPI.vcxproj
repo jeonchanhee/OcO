@@ -154,7 +154,10 @@
     <ClInclude Include="BigBat.h" />
     <ClInclude Include="BigBone.h" />
     <ClInclude Include="BigRedBat.h" />
-    <ClInclude Include="Boss.h" />
+    <ClInclude Include="Boss.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="Boss2.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="button.h" />
     <ClInclude Include="cameraManager.h" />
@@ -173,6 +176,7 @@
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyManager.h" />
     <ClInclude Include="gameNode.h" />
+    <ClInclude Include="GodNpc.h" />
     <ClInclude Include="image.h" />
     <ClInclude Include="imageManager.h" />
     <ClInclude Include="inGameScene.h" />
@@ -204,6 +208,7 @@
     <ClInclude Include="txtData.h" />
     <ClInclude Include="UI.h" />
     <ClInclude Include="utils.h" />
+    <ClInclude Include="WeaponNpc.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="animation.cpp" />
@@ -212,7 +217,10 @@
     <ClCompile Include="BigBat.cpp" />
     <ClCompile Include="BigBone.cpp" />
     <ClCompile Include="BigRedBat.cpp" />
-    <ClCompile Include="Boss.cpp" />
+    <ClCompile Include="Boss.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Boss2.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="button.cpp" />
     <ClCompile Include="cameraManager.cpp" />
@@ -230,6 +238,7 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyManager.cpp" />
     <ClCompile Include="gameNode.cpp" />
+    <ClCompile Include="GodNpc.cpp" />
     <ClCompile Include="image.cpp" />
     <ClCompile Include="imageManager.cpp" />
     <ClCompile Include="inGameScene.cpp" />
@@ -263,6 +272,7 @@
     <ClCompile Include="txtData.cpp" />
     <ClCompile Include="UI.cpp" />
     <ClCompile Include="utils.cpp" />
+    <ClCompile Include="WeaponNpc.cpp" />
     <ClCompile Include="windowAPI.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

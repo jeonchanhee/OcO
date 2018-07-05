@@ -60,6 +60,14 @@ void effect::render()
 	_effectImage->aniRender(DC , _x, _y, _effectAnimation);
 }
 
+void effect::rotateRender(float angle)
+{
+	//애니메이션 작동중이 아니면 불편해~
+	if (!_isRunning) return;
+
+	_effectImage->aniRotateRender(DC, _x, _y, _effectAnimation , angle);
+}
+
 void effect::startEffect(int x, int y)
 {
 	//이미지나 애니메이션 둘중하나라도 셋팅이 안되어있으면 실행하지마라
