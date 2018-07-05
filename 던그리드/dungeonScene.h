@@ -26,7 +26,6 @@ class dungeonScene : public gameNode
 	Portal	_portal;	// Æ÷Å»
 	string _mapName;
 	int dungeonNum;
-	
 
 public:
 	virtual HRESULT init(void);
@@ -35,8 +34,6 @@ public:
 	virtual void render(void);
 
 	void mapload();
-	
-
 
 	dungeonScene();
 	~dungeonScene();
