@@ -9,6 +9,8 @@ Player::~Player() {}
 
 HRESULT Player::init()
 {
+	_pb = new playerBullet;
+	_pb->init("총알0", "총알1", "총알2", "총알3");
 	_player			= IMAGEMANAGER->findImage("기본플레이어");
 	_playerHand[0]  = IMAGEMANAGER->findImage("플레이어손");
 	_playerHand[1]  = IMAGEMANAGER->findImage("플레이어손");
@@ -35,6 +37,7 @@ HRESULT Player::init()
 	_youUsingCount = 0;
 	_isDashing = false;
 	_isAttacking = false;
+	_isGun = true;
 	
 
 	int rightStop[] = { 0,1,2,3,4 };
@@ -58,7 +61,7 @@ HRESULT Player::init()
 	_playerAnimation = KEYANIMANAGER->findAnimation("오른쪽보고서있기");
 	
 	//equipment
-	_mainWeapon[0] = 1;
+	_mainWeapon[0] = 2;
 	_mainWeapon[1] = 0;
 	for (int i = 0; i < 15; ++i)
 	{
@@ -83,16 +86,18 @@ void Player::update()
 	attack();
 	KEYANIMANAGER->update();
 	EFFECTMANAGER->update();
+	_pb->update();
 }
 
 void Player::render()
 {
-
-	//PatBlt(DC, 0, 0, WINSIZEX, WINSIZEY, BLACKNESS); // 카메라 매니저 DC -> getMemDC 로 바꾸었습니다.
+	char strGun[128]; 
+	if (_isLeftAttack) sprintf_s(strGun, "총10좌"); else if (!_isLeftAttack) sprintf_s(strGun, "총10우");
 	//여윽시 희진누나 작품 !!
-	RECT rc = RectMake(0,0,IMAGEMANAGER->findImage("검10")->getWidth()*2, IMAGEMANAGER->findImage("검10")->getHeight() );
+	RECT rc = RectMake(0,0,IMAGEMANAGER->findImage(strGun)->getWidth() * 2, IMAGEMANAGER->findImage(strGun)->getHeight());
 	imageDC = IMAGEMANAGER->addRotateImage("rotateimage", rc.right - rc.left, rc.bottom - rc.top ,true,RGB(0,0,0), false);
-	IMAGEMANAGER->findImage("검10")->render(imageDC->getMemDC(), IMAGEMANAGER->findImage("검10")->getWidth(),0,0,0, IMAGEMANAGER->findImage("검10")->getWidth(), IMAGEMANAGER->findImage("검10")->getHeight());
+	IMAGEMANAGER->findImage(strGun)->render(imageDC->getMemDC(), IMAGEMANAGER->findImage(strGun)->getWidth(),
+		0,0,0, IMAGEMANAGER->findImage(strGun)->getWidth(), IMAGEMANAGER->findImage(strGun)->getHeight());
 		
 	// ===================
 	EFFECTMANAGER->render();
@@ -108,16 +113,26 @@ void Player::render()
 		 _playerHand[1]->rotateRender(DC, _rightHandX , _rightHandY , _mouseAngle);
 	}
 
-	if(_x + _player->getFrameWidth() / 2 > PTMOUSE_X && _mainWeapon[_youUsingCount] !=0)
-		imageDC->rotateRender(DC, _leftHandX , _leftHandY , _weaponAngle + 1.8f);
-	else if(_x + _player->getFrameWidth() / 2 < PTMOUSE_X && _mainWeapon[_youUsingCount] != 0)	
-	imageDC->rotateRender(DC, _rightHandX , _rightHandY , _weaponAngle + 1.8f);
-	_player->aniRender(DC, _x, _y, _playerAnimation);
-
+	//무기의 분기점
+	if (_isGun)
+	{
+		if (_isLeftAttack && _mainWeapon[_youUsingCount] != 0)
+			imageDC->rotateRender(DC, _leftHandX + 5, _leftHandY, _weaponAngle);
+		else if (!_isLeftAttack && _mainWeapon[_youUsingCount] != 0)
+			imageDC->rotateRender(DC, _rightHandX  - 5, _rightHandY, _weaponAngle);
+		_player->aniRender(DC, _x, _y, _playerAnimation);
+	}
+	if (!_isGun)
+	{
+		if (_isLeftAttack && _mainWeapon[_youUsingCount] != 0)
+			imageDC->rotateRender(DC, _leftHandX, _leftHandY, _weaponAngle + 1.8f);
+		else if (!_isLeftAttack && _mainWeapon[_youUsingCount] != 0)
+			imageDC->rotateRender(DC, _rightHandX, _rightHandY, _weaponAngle + 1.8f);
+		_player->aniRender(DC, _x, _y, _playerAnimation);
+	}
 	if (_showAttackEffect)
 	{
-		if (_isLeftAttack)_attackEffect->rotateFrameRender(DC, _leftHandX + (cosf(_angle) * 70), _leftHandY + (-sinf(_angle) * 70), _mouseAngle - 1.8);
-		if (!_isLeftAttack)_attackEffect->rotateFrameRender(DC, _rightHandX + (cosf(_angle) * 70), _rightHandY + (-sinf(_angle) * 70), _mouseAngle - 1.8);
+		_attackEffect->rotateFrameRender(DC, _x + (cosf(_angle) * ONE_HUNDRED) + _player->getFrameWidth() / 2 , _y + (-sinf(_angle) * ONE_HUNDRED) + _player->getFrameHeight() / 2, _angle - 1.8);
 	}
 	//text !
 	char str[128]; sprintf_s(str, "Weapon Index : %d", _youUsingCount);
@@ -131,13 +146,21 @@ void Player::render()
 	TextOut(DC, _x + 100, _y - 50, str, strlen(str));
 	if (_isJumping)  sprintf_s(str, "점프 : true");
 	else if (!_isJumping) sprintf_s(str, "점프 : false");
-	TextOut(DC, _x + 30, _y - 150, str, strlen(str));
+	TextOut(DC, _x - 50 , _y - 150, str, strlen(str));
+	if (_isDashing)sprintf_s(str, "dashing???  : true");
+	else if (!_isDashing)sprintf_s(str, "dashing???  : false");
+	TextOut(DC, _x + 60, _y - 150, str, strlen(str));
 	sprintf_s(str, "main Weapon[count] : %d", _mainWeapon[_youUsingCount]);
 	TextOut(DC, _x -10, _y - 30, str, strlen(str));
-	sprintf(str, "마우스각도 : %f", _weaponAngle);
-	TextOut(DC, _x - 10, _y + 150, str, strlen(str));
-	sprintf(str, "무기각도 : %f", _weaponAttackAngle);
+	sprintf_s(str, "마우스와 플레이어의 각 : %f", _mouseAngle);
 	TextOut(DC, _x - 10, _y + 100, str, strlen(str));
+	sprintf(str, "무기의 각 : %f", _weaponAngle);
+	TextOut(DC, _x - 10, _y + 150, str, strlen(str));
+	sprintf(str, "무기의 공격 각 : %f", _weaponAttackAngle);
+	TextOut(DC, _x - 10, _y + 200, str, strlen(str));
+
+	//pb
+	_pb->render();
 }
 
 void Player::keyInput()
@@ -204,7 +227,7 @@ void Player::keyInput()
 			_isAttacking = true;
 
 		}
-		
+		_pb->bulletFire(_x, _y, _angle, 500, 10.0f, 0);
 	}
 	if (KEYMANAGER->isOnceKeyDown(VK_RBUTTON))
 	{	
@@ -223,17 +246,23 @@ void Player::mouseControl()
 	//마우스가 왼쪽에있는지 오른쪽에있는지 설정
 	if (_x + _player->getFrameWidth() / 2 > PTMOUSE_X) _isLeftAttack = true;
 	else _isLeftAttack = false;
-
-	_mouseAngle = getAngle(_x, _y, PTMOUSE_X, PTMOUSE_Y);
-	//각도보정
-	if(_isLeftAttack)_weaponAngle = _mouseAngle + _weaponAttackAngle - (PI - 0.1f);
-	if (!_isLeftAttack)_weaponAngle = _mouseAngle + _weaponAttackAngle;
-	if (_weaponAttackAngle > PI2) _weaponAngle -= PI2;
+	//마우스 앵글 
+	_mouseAngle = getAngle(_x + _player->getFrameWidth() / 2, _y + _player->getFrameHeight() / 2 , PTMOUSE_X, PTMOUSE_Y);
+	// 무기앵글 = 마우스앵글 + 무기공격각도 
+	if (_isGun)
+	{
+		_weaponAngle = _mouseAngle + _weaponAttackAngle;
+	}
+	else
+	{
+		if (_isLeftAttack)_weaponAngle = _mouseAngle + _weaponAttackAngle - (PI + 0.4);
+		else if (!_isLeftAttack)_weaponAngle = _mouseAngle + _weaponAttackAngle;
+	}
+		if (_weaponAngle > PI2) _weaponAngle -= PI2;
 	
 	//ptmouse 좌표에따라 왼쪽을볼건지 오른쪽을 볼건지 설정 
-	if (_x + _player->getFrameWidth()/2 > PTMOUSE_X)
+	if (_isLeftAttack)
 	{
-		//_weaponAttackAngle -= PI;
 		if (_direction == RIGHT_STOP)
 		{
 			_playerAnimation = KEYANIMANAGER->findAnimation("왼쪽보고서있기");
@@ -244,10 +273,8 @@ void Player::mouseControl()
 			_playerAnimation = KEYANIMANAGER->findAnimation("왼쪽뛰기");
 		}
 	}
-	else if (_x + _player->getFrameWidth() / 2  < PTMOUSE_X)
+	else if (!_isLeftAttack)
 	{
-	
-
 		if (_direction == LEFT_STOP)
 		{
 			_playerAnimation = KEYANIMANAGER->findAnimation("오른쪽보고서있기");
@@ -262,8 +289,6 @@ void Player::mouseControl()
 
 void Player::move()
 {
-
-
 	static int count;
 	count++;
 	if (count > 100)
@@ -346,11 +371,12 @@ void Player::attack()
 		}
 		else if (_mainWeapon[_youUsingCount] == 1)
 		{
+			if (_isChap)_weaponAttackAngle += (PI / 180) * 200;
+			else if (!_isChap)_weaponAttackAngle -= (PI / 180) * 200;
+
 			if (_isLeftAttack)
 			{
 				(_isChap == false ? _isChap = true : _isChap = false);
-				if(_isChap)_weaponAttackAngle += (PI/180) * 160;
-				else if (!_isChap)_weaponAttackAngle -= (PI / 180) * 160;
 				_leftHandX = _x + 15, _leftHandY = _y + 60;
 				_rightHandX = _x + 60, _rightHandY = _y + 60;
 				_isAttacking = false;
@@ -358,12 +384,14 @@ void Player::attack()
 			else if (!_isLeftAttack)
 			{
 				(_isChap == false ? _isChap = true : _isChap = false);
-				if (_isChap)_weaponAttackAngle += (PI / 180) * 160;
-				else if (!_isChap)_weaponAttackAngle -= (PI / 180) * 160;
 				_leftHandX = _x + 10, _leftHandY = _y + 60;
 				_rightHandX = _x + 65 , _rightHandY = _y + 60 ;
 				_isAttacking = false;
 			}
+		}
+		else if (_mainWeapon[_youUsingCount] == 2)
+		{
+
 		}
 	}
 	if (_punchSpeed < -PUNCHSPEED)
@@ -406,7 +434,7 @@ void Player::effect()
 		}
 	}
 	++_attackEffectCount;
-	if (_attackEffectCount > 5)
+	if (_attackEffectCount > 3)
 	{
 		_attackEffectCount = 0; 
 		_attackEffect->setFrameX(_attackEffect->getFrameX() + 1);

@@ -15,6 +15,8 @@ private:
 	float _FPSTimeElapsed;
 	float _worldTime;
 
+	
+
 public:
 	timer();
 	~timer();

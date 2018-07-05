@@ -264,9 +264,6 @@
     <ClInclude Include="titleScene.h">
       <Filter>playGround\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Bullet.h">
-      <Filter>playGround\bullet</Filter>
-    </ClInclude>
     <ClInclude Include="cameraManager.h">
       <Filter>2DFramework\Manager</Filter>
     </ClInclude>
@@ -296,6 +293,12 @@
     </ClInclude>
     <ClInclude Include="WeaponNpc.h">
       <Filter>playGround\NPC</Filter>
+    </ClInclude>
+    <ClInclude Include="commonMacroFunction.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="playerBullet.h">
+      <Filter>playGround\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -447,9 +450,6 @@
       <Filter>playGround</Filter>
     </ClCompile>
     <ClCompile Include="Bullet.cpp">
-      <Filter>playGround\bullet</Filter>
-    </ClCompile>
-    <ClCompile Include="Bullet.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="itemManager.cpp">
@@ -466,6 +466,9 @@
     </ClCompile>
     <ClCompile Include="WeaponNpc.cpp">
       <Filter>playGround\NPC</Filter>
+    </ClCompile>
+    <ClCompile Include="playerBullet.cpp">
+      <Filter>playGround\Player</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
