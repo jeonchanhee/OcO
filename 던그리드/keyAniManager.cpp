@@ -23,13 +23,26 @@ void keyAniManager::release()
 
 void keyAniManager::update()
 {
-	iterAnimation iter = _mTotalAnimation.begin();
+	/*iterAnimation iter = _mTotalAnimation.begin();
 
 	for (iter; iter != _mTotalAnimation.end(); ++iter)
 	{
 		if (!iter->second->isPlay()) continue;
 
 		iter->second->frameUpdate(TIMEMANAGER->getElapsedTime() * 1.0f);
+	}*/
+	iterTotalAnimation  vIter;
+
+	for (vIter = _vTotalAnimation.begin(); vIter != _vTotalAnimation.end(); ++vIter)
+	{
+		iterAnimation iter = vIter->begin();
+
+		for (iter; iter != vIter->end(); ++iter)
+		{
+			if (!iter->second->isPlay()) continue;
+
+			iter->second->frameUpdate(TIMEMANAGER->getElapsedTime() * 1.0f);
+		}
 	}
 }
 
@@ -39,6 +52,8 @@ void keyAniManager::render()
 
 void keyAniManager::addDefaultFrameAnimation(string animationKeyName, const char * imageKeyName, int fps, bool reverse, bool loop)
 {
+	arrAnimation mArrAnimation;
+
 	image* img = IMAGEMANAGER->findImage(imageKeyName);
 	animation* ani = new animation;
 
@@ -46,11 +61,15 @@ void keyAniManager::addDefaultFrameAnimation(string animationKeyName, const char
 	ani->setDefPlayFrame(reverse, loop);
 	ani->setFPS(fps);
 
-	_mTotalAnimation.insert(pair<string, animation*>(animationKeyName, ani));
+	mArrAnimation.insert(pair<string, animation*>(animationKeyName, ani));
+
+	_vTotalAnimation.push_back(mArrAnimation);
 }
 
 void keyAniManager::addDefaultFrameAnimation(string animationKeyName, const char * imageKeyName, int fps, bool reverse, bool loop, void * cbFunction)
 {
+	arrAnimation mArrAnimation;
+
 	image* img = IMAGEMANAGER->findImage(imageKeyName);
 	animation* ani = new animation;
 
@@ -58,11 +77,15 @@ void keyAniManager::addDefaultFrameAnimation(string animationKeyName, const char
 	ani->setDefPlayFrame(reverse, loop, (CALLBACK_FUNCTION)cbFunction);
 	ani->setFPS(fps);
 
-	_mTotalAnimation.insert(pair<string, animation*>(animationKeyName, ani));
+	mArrAnimation.insert(pair<string, animation*>(animationKeyName, ani));
+
+	_vTotalAnimation.push_back(mArrAnimation);
 }
 
 void keyAniManager::addDefaultFrameAnimation(string animationKeyName, const char * imageKeyName, int fps, bool reverse, bool loop, void * cbFunction, void * obj)
 {
+	arrAnimation mArrAnimation;
+
 	image* img = IMAGEMANAGER->findImage(imageKeyName);
 	animation* ani = new animation;
 
@@ -70,12 +93,15 @@ void keyAniManager::addDefaultFrameAnimation(string animationKeyName, const char
 	ani->setDefPlayFrame(reverse, loop, (CALLBACK_FUNCTION_PARAMETER)cbFunction, obj);
 	ani->setFPS(fps);
 
-	_mTotalAnimation.insert(pair<string, animation*>(animationKeyName, ani));
+	mArrAnimation.insert(pair<string, animation*>(animationKeyName, ani));
 
+	_vTotalAnimation.push_back(mArrAnimation);
 }
 
 void keyAniManager::addArrayFrameAnimation(string animationKeyName, const char * imageKeyName, int * arr, int arrLen, int fps, bool loop)
 {
+	arrAnimation mArrAnimation;
+
 	image* img = IMAGEMANAGER->findImage(imageKeyName);
 	animation* ani = new animation;
 
@@ -83,11 +109,15 @@ void keyAniManager::addArrayFrameAnimation(string animationKeyName, const char *
 	ani->setPlayFrame(arr, arrLen, loop);
 	ani->setFPS(fps);
 
-	_mTotalAnimation.insert(pair<string, animation*>(animationKeyName, ani));
+	mArrAnimation.insert(pair<string, animation*>(animationKeyName, ani));
+
+	_vTotalAnimation.push_back(mArrAnimation);
 }
 
 void keyAniManager::addArrayFrameAnimation(string animationKeyName, const char * imageKeyName, int * arr, int arrLen, int fps, bool loop, void * cbFunction)
 {
+	arrAnimation mArrAnimation;
+
 	image* img = IMAGEMANAGER->findImage(imageKeyName);
 	animation* ani = new animation;
 
@@ -95,11 +125,15 @@ void keyAniManager::addArrayFrameAnimation(string animationKeyName, const char *
 	ani->setPlayFrame(arr, arrLen, loop, (CALLBACK_FUNCTION)cbFunction);
 	ani->setFPS(fps);
 
-	_mTotalAnimation.insert(pair<string, animation*>(animationKeyName, ani));
+	mArrAnimation.insert(pair<string, animation*>(animationKeyName, ani));
+
+	_vTotalAnimation.push_back(mArrAnimation);
 }
 
 void keyAniManager::addArrayFrameAnimation(string animationKeyName, const char * imageKeyName, int * arr, int arrLen, int fps, bool loop, void * cbFunction, void * obj)
 {
+	arrAnimation mArrAnimation;
+
 	image* img = IMAGEMANAGER->findImage(imageKeyName);
 	animation* ani = new animation;
 
@@ -107,11 +141,15 @@ void keyAniManager::addArrayFrameAnimation(string animationKeyName, const char *
 	ani->setPlayFrame(arr, arrLen, loop, (CALLBACK_FUNCTION_PARAMETER)cbFunction, obj);
 	ani->setFPS(fps);
 
-	_mTotalAnimation.insert(pair<string, animation*>(animationKeyName, ani));
+	mArrAnimation.insert(pair<string, animation*>(animationKeyName, ani));
+
+	_vTotalAnimation.push_back(mArrAnimation);
 }
 
 void keyAniManager::addCoordinateFrameAnimation(string animationKeyName, const char * imageKeyName, int start, int end, int fps, bool reverse, bool loop)
 {
+	arrAnimation mArrAnimation;
+
 	image* img = IMAGEMANAGER->findImage(imageKeyName);
 	animation* ani = new animation;
 
@@ -119,11 +157,15 @@ void keyAniManager::addCoordinateFrameAnimation(string animationKeyName, const c
 	ani->setPlayFrame(start, end, reverse, loop);
 	ani->setFPS(fps);
 
-	_mTotalAnimation.insert(pair<string, animation*>(animationKeyName, ani));
+	mArrAnimation.insert(pair<string, animation*>(animationKeyName, ani));
+
+	_vTotalAnimation.push_back(mArrAnimation);
 }
 
 void keyAniManager::addCoordinateFrameAnimation(string animationKeyName, const char * imageKeyName, int start, int end, int fps, bool reverse, bool loop, void * cbFunction)
 {
+	arrAnimation mArrAnimation;
+
 	image* img = IMAGEMANAGER->findImage(imageKeyName);
 	animation* ani = new animation;
 
@@ -131,11 +173,15 @@ void keyAniManager::addCoordinateFrameAnimation(string animationKeyName, const c
 	ani->setPlayFrame(start, end, reverse, loop, (CALLBACK_FUNCTION)cbFunction);
 	ani->setFPS(fps);
 
-	_mTotalAnimation.insert(pair<string, animation*>(animationKeyName, ani));
+	mArrAnimation.insert(pair<string, animation*>(animationKeyName, ani));
+
+	_vTotalAnimation.push_back(mArrAnimation);
 }
 
 void keyAniManager::addCoordinateFrameAnimation(string animationKeyName, const char * imageKeyName, int start, int end, int fps, bool reverse, bool loop, void * cbFunction, void * obj)
 {
+	arrAnimation mArrAnimation;
+
 	image* img = IMAGEMANAGER->findImage(imageKeyName);
 	animation* ani = new animation;
 
@@ -143,61 +189,87 @@ void keyAniManager::addCoordinateFrameAnimation(string animationKeyName, const c
 	ani->setPlayFrame(start, end, reverse, loop, (CALLBACK_FUNCTION_PARAMETER)cbFunction, obj);
 	ani->setFPS(fps);
 
-	_mTotalAnimation.insert(pair<string, animation*>(animationKeyName, ani));
+	mArrAnimation.insert(pair<string, animation*>(animationKeyName, ani));
+
+	_vTotalAnimation.push_back(mArrAnimation);
 }
 
 void keyAniManager::start(string animationKeyName)
 {
-	iterAnimation iter = _mTotalAnimation.find(animationKeyName);
+	iterTotalAnimation vIter;
+	for (vIter = _vTotalAnimation.begin(); vIter != _vTotalAnimation.end(); ++vIter)
+	{
+		iterAnimation iter = vIter->find(animationKeyName);
 
-	iter->second->start();
+		iter->second->start();
+	}
 }
 
 void keyAniManager::stop(string animationKeyName)
 {
-	iterAnimation iter = _mTotalAnimation.find(animationKeyName);
+	iterTotalAnimation vIter;
+	for (vIter = _vTotalAnimation.begin(); vIter != _vTotalAnimation.end(); ++vIter)
+	{
+	iterAnimation iter = vIter->find(animationKeyName);
 
 	iter->second->stop();
+	}
 }
 
 void keyAniManager::pause(string animationKeyName)
 {
-	iterAnimation iter = _mTotalAnimation.find(animationKeyName);
+	iterTotalAnimation vIter;
+	for (vIter = _vTotalAnimation.begin(); vIter != _vTotalAnimation.end(); ++vIter)
+	{
+		iterAnimation iter = vIter->find(animationKeyName);
 
-	iter->second->pause();
+		iter->second->pause();
+	}
 }
 
 void keyAniManager::resume(string animationKeyName)
 {
-	iterAnimation iter = _mTotalAnimation.find(animationKeyName);
+	iterTotalAnimation vIter;
+	for (vIter = _vTotalAnimation.begin(); vIter != _vTotalAnimation.end(); ++vIter)
+	{
+	iterAnimation iter = vIter->find(animationKeyName);
 
 	iter->second->resume();
+	}
 }
 
 animation * keyAniManager::findAnimation(string animationKeyName)
 {
-	iterAnimation iter = _mTotalAnimation.find(animationKeyName);
+	iterTotalAnimation vIter;
+	for (vIter = _vTotalAnimation.begin(); vIter != _vTotalAnimation.end(); ++vIter)
+	{
+	iterAnimation iter = vIter->find(animationKeyName);
 
-	if (iter != _mTotalAnimation.end())
+	if (iter != vIter->end())
 	{
 		return iter->second;
 	}
-
+	}
 	return NULL;
 }
 
 void keyAniManager::deleteAll()
 {
-	for (iterAnimation iter = _mTotalAnimation.begin(); iter != _mTotalAnimation.end();)
+	iterTotalAnimation vIter;
+	for (vIter = _vTotalAnimation.begin(); vIter != _vTotalAnimation.end(); ++vIter)
 	{
-		if (iter->second != NULL)
+		iterAnimation iter = vIter->begin();
+		for (; iter != vIter->end();)
 		{
-			iter->second->release();
-			SAFE_DELETE(iter->second);
-			iter = _mTotalAnimation.erase(iter);
+			if (iter->second != NULL)
+			{
+				iter->second->release();
+				SAFE_DELETE(iter->second);
+				iter = vIter->erase(iter);
+			}
+			else ++iter;
 		}
-		else ++iter;
+		vIter->clear();
 	}
-
-	_mTotalAnimation.clear();
+	_vTotalAnimation.clear();
 }
