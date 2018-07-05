@@ -210,9 +210,6 @@
     <ClInclude Include="Dialog.h">
       <Filter>playGround\Diaiog</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyManager.h">
-      <Filter>playGround\Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="BigBone.h">
       <Filter>playGround\Enemy</Filter>
     </ClInclude>
@@ -282,9 +279,6 @@
     <ClInclude Include="itemManager.h">
       <Filter>playGround\Item</Filter>
     </ClInclude>
-    <ClInclude Include="mapSelectScene.h">
-      <Filter>playGround\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="introScene.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -301,6 +295,9 @@
       <Filter>playGround\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="commonMacroFunction.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="dungeon2Scene.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -395,9 +392,6 @@
     <ClCompile Include="cameraManager.cpp">
       <Filter>2DFramework\Manager</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyManager.cpp">
-      <Filter>playGround\Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="BigBone.cpp">
       <Filter>playGround\Enemy</Filter>
     </ClCompile>
@@ -459,7 +453,7 @@
       <Filter>playGround\Item</Filter>
     </ClCompile>
     <ClCompile Include="introScene.cpp">
-      <Filter>playGround\Scene</Filter>
+      <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="mapSelectScene.cpp">
       <Filter>playGround\Scene</Filter>
@@ -472,6 +466,9 @@
     </ClCompile>
     <ClCompile Include="Boss2.cpp">
       <Filter>playGround\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="dungeon2Scene.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
