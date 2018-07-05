@@ -38,11 +38,30 @@ HRESULT EnemyManager::init()
 	//bigBat->init();
 	//_vMonster.push_back(bigBat);
 
-	Enemy* bigRedBat;
-	bigRedBat = new BigRedBat;
-	bigRedBat->init();
-	_vMonster.push_back(bigRedBat);
+	//Enemy* bigRedBat;
+	//bigRedBat = new BigRedBat;
+	//bigRedBat->init();
+	//_vMonster.push_back(bigRedBat);
 
+	Enemy* musicAngel;
+	musicAngel = new MusicAngel;
+	musicAngel->init();
+	_vMonster.push_back(musicAngel);
+
+	/*Enemy* cow;
+	cow = new Cow;
+	cow->init();
+	_vMonster.push_back(cow);*/
+
+	//Enemy* boss;
+	//boss = new Boss2;
+	//boss->init();
+	//_vMonster.push_back(boss);
+
+	Enemy* arrow;
+	arrow = new Arrow;
+	arrow->init();
+	_vMonster.push_back(arrow);
 
 	return S_OK;
 }

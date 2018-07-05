@@ -56,6 +56,8 @@ public:
 	itemManager();
 	~itemManager();
 
+	vector <Item*> getItem() { return _vItem; }
+
 	HRESULT init();
 	void release();
 	void update();

@@ -1,6 +1,6 @@
 #pragma once
 #include "gameNode.h"
-#include "Bullet.h"
+//#include "Bullet.h"
 #include "progressBar.h"
 #include "MusicAngel.h"
 #include "BigBone.h"
@@ -11,7 +11,7 @@
 #include "RedBat.h"
 #include "BigBat.h"
 #include "Bat.h"
-#include "Boss.h"
+#include "Boss2.h"
 
 class EnemyManager : public gameNode
 {
@@ -22,7 +22,7 @@ private:
 	vEnemy _vMonster;
 	viEnemy _viMonster;
 
-	Bullet* _bullet;
+	//Bullet* _bullet;
 	progressBar* _hpBar;
 
 	float _currentHP, _maxHP;

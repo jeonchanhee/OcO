@@ -15,24 +15,27 @@ HRESULT playGround::init(void)
 	Image_init();
 	Sound_init();
 	
-	/*_mapTool = new MapTool;
+	_mapTool = new MapTool;
 	_mapTool->init();
 	_player = new Player;
-	_player->init();*/
+	_player->init();
+	_im = new itemManager;
+	_im->init();
 
+	_title = new titleScene;
+	_title->setImLink(_im);
 
-	SCENEMANAGER->addScene("타이틀", new titleScene);
+	SCENEMANAGER->addScene("타이틀", _title);
 	SCENEMANAGER->addScene("던전", new dungeonScene);
 	SCENEMANAGER->addScene("적", new EnemyManager);
 	SCENEMANAGER->addScene("대사씬", new Dialog);
 	SCENEMANAGER->addScene("아이템씬", new itemManager);
 	SCENEMANAGER->addScene("인트로", new introScene);
 	SCENEMANAGER->addScene("맵선택", new mapSelectScene);
-
+	
 	switch (mode)
 	{
 	case 맵툴:
-
 		break;
 	case 타이틀:
 		SCENEMANAGER->changeScene("타이틀");
@@ -40,7 +43,7 @@ HRESULT playGround::init(void)
 	case 다이얼로그:
 		SCENEMANAGER->changeScene("대사씬");
 		break;
-	case 도그본:
+	case 몬스터:
 		SCENEMANAGER->changeScene("적");
 		break;
 	case 플레이어:
@@ -48,19 +51,19 @@ HRESULT playGround::init(void)
 	case 아이템:
 		SCENEMANAGER->changeScene("아이템씬");
 		break;
-
+	
 	case 인트로:
 		SCENEMANAGER->changeScene("인트로");
 		break;
-
+	
 	case 던전:
 		SCENEMANAGER->changeScene("던전");
 		break;
-
+	
 	case 맵선택:
 		SCENEMANAGER->changeScene("맵선택");
 		break;
-
+	
 	case 기타추가하셈:
 		break;
 	default:
@@ -81,8 +84,8 @@ void playGround::update(void)
 {
 	gameNode::update();
 
-	/*_mapTool->update();
-	_player->update();*/
+	_mapTool->update();
+	_player->update();
 	SCENEMANAGER->update();
 	
 	
@@ -91,10 +94,10 @@ void playGround::update(void)
 	if (KEYMANAGER->isStayKeyDown('A') && CAMERAMANAGER->getCameraRc2().left>0) CAMERAMANAGER->setCameraX2(CAMERAMANAGER->getCameraX2() - 50);
 	if (KEYMANAGER->isStayKeyDown('W') && CAMERAMANAGER->getCameraRc2().top>0) CAMERAMANAGER->setCameraY2(CAMERAMANAGER->getCameraY2() - 50);*/
 
-	//if (KEYMANAGER->isStayKeyDown('D') && CAMERAMANAGER->getCameraRc().right<96 * _tileX) CAMERAMANAGER->setCameraX(CAMERAMANAGER->getCameraX() + 50);
-	//if (KEYMANAGER->isStayKeyDown('S') && CAMERAMANAGER->getCameraRc().bottom<96 * _tileY) CAMERAMANAGER->setCameraY(CAMERAMANAGER->getCameraY() + 50);
-	//if (KEYMANAGER->isStayKeyDown('A') && CAMERAMANAGER->getCameraRc().left>0) CAMERAMANAGER->setCameraX(CAMERAMANAGER->getCameraX() - 50);
-	//if (KEYMANAGER->isStayKeyDown('W') && CAMERAMANAGER->getCameraRc().top>0) CAMERAMANAGER->setCameraY(CAMERAMANAGER->getCameraY() - 50);
+	/*if (KEYMANAGER->isStayKeyDown('D') && CAMERAMANAGER->getCameraRc().right<96 * _tileX) CAMERAMANAGER->setCameraX(CAMERAMANAGER->getCameraX() + 50);
+	if (KEYMANAGER->isStayKeyDown('S') && CAMERAMANAGER->getCameraRc().bottom<96 * _tileY) CAMERAMANAGER->setCameraY(CAMERAMANAGER->getCameraY() + 50);
+	if (KEYMANAGER->isStayKeyDown('A') && CAMERAMANAGER->getCameraRc().left>0) CAMERAMANAGER->setCameraX(CAMERAMANAGER->getCameraX() - 50);
+	if (KEYMANAGER->isStayKeyDown('W') && CAMERAMANAGER->getCameraRc().top>0) CAMERAMANAGER->setCameraY(CAMERAMANAGER->getCameraY() - 50);*/
 
 	/*if (KEYMANAGER->isStayKeyDown('D') && CAMERAMANAGER->getCameraRc().right<96 * BACKGROUNDSIZEX) CAMERAMANAGER->setCameraX(CAMERAMANAGER->getCameraX() + 50);
 	if (KEYMANAGER->isStayKeyDown('S') && CAMERAMANAGER->getCameraRc().bottom<96 * BACKGROUNDSIZEY) CAMERAMANAGER->setCameraY(CAMERAMANAGER->getCameraY() + 50);
@@ -103,17 +106,19 @@ void playGround::update(void)
 */
 
 
-	if (KEYMANAGER->isStayKeyDown('D'))		CAMERAMANAGER->setCameraCenter(PointMake(CAMERAMANAGER->getCameraCenter().x + 50, CAMERAMANAGER->getCameraCenter().y));
-	if (KEYMANAGER->isStayKeyDown('S'))		CAMERAMANAGER->setCameraCenter(PointMake(CAMERAMANAGER->getCameraCenter().x , CAMERAMANAGER->getCameraCenter().y + 50));
-	if (KEYMANAGER->isStayKeyDown('A'))		CAMERAMANAGER->setCameraCenter(PointMake(CAMERAMANAGER->getCameraCenter().x  - 50, CAMERAMANAGER->getCameraCenter().y));
-	if (KEYMANAGER->isStayKeyDown('W'))		CAMERAMANAGER->setCameraCenter(PointMake(CAMERAMANAGER->getCameraCenter().x , CAMERAMANAGER->getCameraCenter().y - 50));
-	//
+	if (KEYMANAGER->isStayKeyDown('D')&& CAMERAMANAGER->getCameraCenter().x+WINSIZEX/2<BACKGROUNDSIZEX)
+		CAMERAMANAGER->setCameraCenter(PointMake(CAMERAMANAGER->getCameraCenter().x + 50, CAMERAMANAGER->getCameraCenter().y));
+	if (KEYMANAGER->isStayKeyDown('S') && CAMERAMANAGER->getCameraCenter().y + WINSIZEY / 2<BACKGROUNDSIZEY)
+		CAMERAMANAGER->setCameraCenter(PointMake(CAMERAMANAGER->getCameraCenter().x , CAMERAMANAGER->getCameraCenter().y + 50));
+	if (KEYMANAGER->isStayKeyDown('A') && CAMERAMANAGER->getCameraCenter().x - WINSIZEX / 2>0)
+		CAMERAMANAGER->setCameraCenter(PointMake(CAMERAMANAGER->getCameraCenter().x  - 50, CAMERAMANAGER->getCameraCenter().y));
+	if (KEYMANAGER->isStayKeyDown('W') && CAMERAMANAGER->getCameraCenter().y - WINSIZEY / 2>0)
+		CAMERAMANAGER->setCameraCenter(PointMake(CAMERAMANAGER->getCameraCenter().x , CAMERAMANAGER->getCameraCenter().y - 50));
+	
 	//if (CAMERAMANAGER->getCameraX() < 0)						CAMERAMANAGER->setCameraX(0);
 	//if (CAMERAMANAGER->getCameraY() < 0)						CAMERAMANAGER->setCameraY(0);
 	//if (CAMERAMANAGER->getCameraX() + WINSIZEX > 96 * _tileX)	CAMERAMANAGER->setCameraX(96 * _tileX - WINSIZEX);
 	//if (CAMERAMANAGER->getCameraY() + WINSIZEY > 96 * _tileY)	CAMERAMANAGER->setCameraY(96 * _tileY - WINSIZEY);
-
-
 }
 
 void playGround::render(void)
@@ -123,12 +128,19 @@ void playGround::render(void)
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// 이 위로는 건들지 마시오
-
 	switch (mode)
 	{
 	case 맵툴:
-		//PatBlt(UIDC, 0, 0, BACKGROUNDSIZEX, BACKGROUNDSIZEY, WHITENESS);
-		//_mapTool->render();
+		PatBlt(UIDC, 0, 0, BACKGROUNDSIZEX, BACKGROUNDSIZEY, BLACKNESS);
+		_mapTool->render();
+		if(KEYMANAGER->isToggleKey(VK_TAB))
+		{
+			IMAGEMANAGER->findImage("floor1")->render(DC, -23 * 96, 12 * 96);
+			IMAGEMANAGER->findImage("floor2")->render(DC, 22 * 96, 12 * 96);
+			IMAGEMANAGER->findImage("floor1")->render(DC, 57 * 96, 12 * 96);
+			IMAGEMANAGER->findImage("floor0")->render(DC, 30 * 96, 17 * 96);
+			IMAGEMANAGER->findImage("floor0")->render(DC, 36 * 96, 15 * 96);
+		}
 		break;
 	case 타이틀:
 		SCENEMANAGER->render();
@@ -136,7 +148,7 @@ void playGround::render(void)
 	case 다이얼로그:
 		SCENEMANAGER->render();
 		break;
-	case 도그본:
+	case 몬스터:
 		SCENEMANAGER->render();
 		break;
 	case 플레이어:
@@ -151,26 +163,27 @@ void playGround::render(void)
 	case 맵선택:
 		SCENEMANAGER->render();
 		break;
-
+	
 	case 기타추가하셈:
 		break;
 	default:
 		break;
 	}
+	//SCENEMANAGER->render();
 
-	char str[128];
-	sprintf_s(str, "%d, %d", CAMERAMANAGER->getCameraCenter().x + WINSIZEX / 2, CAMERAMANAGER->getCameraCenter().y + WINSIZEY / 2);
-	TextOut(UIDC, 100, 100, str, strlen(str));
+	//char str[128];
+	//sprintf_s(str, "%d, %d", CAMERAMANAGER->getCameraCenter().x + WINSIZEX / 2, CAMERAMANAGER->getCameraCenter().y + WINSIZEY / 2);
+	//TextOut(UIDC, 100, 100, str, strlen(str));
+	//
+	//char str2[128];
+	//sprintf_s(str2, "%d %d /// %d, %d", _tileX, _tileY, _tileX * 96, _tileY * 96);
+	//TextOut(UIDC, 100, 150, str2, strlen(str2));
 
-	char str2[128];
-	sprintf_s(str2, "%d %d /// %d, %d", _tileX, _tileY, _tileX * 96, _tileY * 96);
-	TextOut(UIDC, 100, 150, str2, strlen(str2));
-
-	TIMEMANAGER->render(UIDC);
-	RectangleMake(UIDC, WINSIZEX - 100, 0, 100, 100);
-	RectangleMake(DC, CAMERAMANAGER->getCameraCenter().x - 20, CAMERAMANAGER->getCameraCenter().y - 20, 40, 40);
 	// 이 아래로도 건들지 마시오
 	/////////////////////////////////////////////////////////////////////////////////////////////
+	IMAGEMANAGER->render("cursor", UIDC, _ptMouse.x, _ptMouse.y);
+	TIMEMANAGER->render(UIDC);
+
 	CAMERAMANAGER->render(this->getBackBuffer());
 	this->getBackBuffer()->render(getHDC(), 0, 0, CAMERAMANAGER->getCameraCenter().x - WINSIZEX / 2, CAMERAMANAGER->getCameraCenter().y - WINSIZEY / 2, WINSIZEX, WINSIZEY);
 
@@ -218,7 +231,7 @@ void playGround::render(void)
 	//
 	////================이 밑으로도 건드리지 말자 =============
 	//
-	//IMAGEMANAGER->render("cursor", DC, _ptMouse.x, _ptMouse.y);
+	
 	//CAMERAMANAGER->getCameraDC()->render(getHDC() , 0 , 0 , CAMERAMANAGER->getCameraRc().left, CAMERAMANAGER->getCameraRc().top, CAMERAMANAGER->getCameraRc().right, CAMERAMANAGER->getCameraRc().bottom); 
 	
 	// 맨마지막으로 카메라 매니저 의 DC를 그려줍니다.
