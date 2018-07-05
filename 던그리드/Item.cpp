@@ -268,9 +268,7 @@ void Item::DefenceMechanism(const char * imageName, int value, int num)
 		_item.evasionPersent = 10.0f;	// 회피율.
 		_item.imagetype = 단일;
 	}
-
 	
-
 	if (value == 2) // 두번째 방어구
 	{
 		_item.armor = 15;				// 방어력

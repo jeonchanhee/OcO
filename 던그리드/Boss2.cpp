@@ -117,7 +117,7 @@ void Boss2::leftMove()
 		if (_boss[0].y <= WINSIZEY - 300)
 			_boss[0].y += BOSSSPEED;*/
 		if (_boss[0].y > WINSIZEX / 2)
-			_boss[0].y -= BOSSSPEED;
+			_boss[0].y -= BOSSSPEED; 
 		if (_boss[0].y < WINSIZEX / 2)
 			_boss[0].y += BOSSSPEED;
 		
