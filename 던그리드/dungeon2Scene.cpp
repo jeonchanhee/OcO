@@ -13,30 +13,91 @@ dungeon2Scene::~dungeon2Scene()
 
 HRESULT dungeon2Scene::init()
 {
-	//setCamera();
 	_isMapSet = true;
-	_mapName = "map/Dungeon2(28x13).map";
- 	
-	_tileX = TILEVALUE[2][0], _tileY = TILEVALUE[2][1];
-	_temp = 29;
+	chooseMap(3);
+	selectSize(3);
 	mapload();
 	setCamera();
+
+	load();
+
+	_dungeonNum = 1;
+
+	if (_randNum == 1)
+	{
+		_route.push_back(1);
+		_route.push_back(4);
+		_route.push_back(3);
+	}
+	if (_randNum == 3)
+	{
+		_route.push_back(1);
+		_route.push_back(4);
+		_route.push_back(7);
+	}
+	if (_randNum == 4)
+	{
+		_route.push_back(11);
+		_route.push_back(4);
+		_route.push_back(7);
+	}
+
+	_door.resize(3);
+
+	_door[0].x = (500 % 100) * TILESIZE, _door[0].y = (500 / 100) * TILESIZE;
+	_door[1].x = (8 % 100) * TILESIZE, _door[1].y = (8 / 100) * TILESIZE;
+	_door[2].x = (1208 % 100) * TILESIZE, _door[2].y = (1208 / 100) * TILESIZE;
+
+	_door[0].rc = RectMake(_door[0].x, _door[0].y, TILESIZE, TILESIZE * 4);
+
+	for (int i = 1; i < 3; i++)
+	{
+		_door[i].rc = RectMake(_door[i].x, _door[i].y, TILESIZE * 4, TILESIZE);
+	}
+	setMonster();
 	return S_OK;
 }
 
 void dungeon2Scene::update()
 {
+	nextTest();
+	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); ++_viEnemy)
+	{
+		(*_viEnemy)->update();
+	}
 }
 
-//void dungeon2Scene::render()
-//{
-//}
-//
-//void dungeon2Scene::release()
-//{
-//}
-
-void dungeon2Scene::setCamera(void)
+//몬스터 위치 잡아주는 함수
+void dungeon2Scene::setMonster()
 {
-	CAMERAMANAGER->setCameraCenter(PointMake(0, 0));
+	//개뼈
+	int id[2][2];
+	id[0][0] = 1107 % _temp, id[0][1] = 1107 / _temp;
+	id[1][0] = 1112 % _temp, id[1][1] = 1112 / _temp;
+	for (int i = 0; i < 2; i++)
+	{
+		setDogBone(id[i][0], id[i][1]);
+	}
+	//활쟁이
+	id[0][0] = 505 % _temp, id[0][1] = 505 / _temp;
+	id[1][0] = 514 % _temp, id[1][1] = 514 / _temp;
+	for (int i = 0; i < 2; i++)
+	{
+		setArrow(id[i][0], id[i][1]);
+	}
+	//큰칼뼈
+	id[0][0] = 810 % _temp, id[0][1] = 810 / _temp;
+	id[1][0] = 510 % _temp, id[1][1] = 510 / _temp;
+	for (int i = 0; i < 2; i++)
+	{
+		setBigBone(id[i][0], id[i][1], i);
+	}
+	//작보박
+	setBat(303 % _temp, 303 / _temp);
+	//작갈박
+//	setRedBat(318 % _temp, 318 / _temp);
+
 }
+
+
+

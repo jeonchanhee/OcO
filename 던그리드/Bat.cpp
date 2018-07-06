@@ -11,15 +11,16 @@ Bat::~Bat()
 {
 }
 
-HRESULT Bat::init()
+HRESULT Bat::init(float x, float y)
 {
-	_batDirection = BAT_LEFT_MOVE;
+	_batDirection = BAT_RIGHT_MOVE;
 
-	_x = WINSIZEX / 2;
-	_y = 200;
+	_x = x;
+	_y = y;
+	//_y = 200;
 
-	_startX = WINSIZEX / 2;
-	_startY = WINSIZEY / 2;
+	_startX = x;
+	_startY = y;
 
 	_angle = 0;
 	_speed = 300.0f;
@@ -37,7 +38,7 @@ HRESULT Bat::init()
 	int leftDie[] = { 13 };
 	KEYANIMANAGER->addArrayFrameAnimation("batLeftDie", "batMoveDie", leftDie, 1, 6, false);
 
-	_batMotion = KEYANIMANAGER->findAnimation("batLeftMove");
+	_batMotion = KEYANIMANAGER->findAnimation("batRightMove");
 	_batMotion->start();
 
 	_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
@@ -78,7 +79,8 @@ void Bat::update()
 		}
 	}
 	///////////////////бубубубубубубубу////////////////////
-	KEYANIMANAGER->update();
+	//KEYANIMANAGER->update();
+	_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 }
 
 void Bat::render()

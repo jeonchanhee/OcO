@@ -17,8 +17,8 @@
 #define TILESIZE2 32
 
 // 타일 갯수
-#define TILEX 80
-#define TILEY 25
+#define TILEX 25
+#define TILEY 30
 
 //#define TILEX 28
 //#define TILEY 12
@@ -32,7 +32,7 @@
 #define SAMPLETILEY 26
 
 // 맵이름
-#define MAPNAME "map/townmap(80x25).map"
+#define MAPNAME "map/Dungeon7(25x30).map"
 
 // 지형	
 enum TERRAIN
@@ -85,7 +85,7 @@ struct tagCurrentTile
 
 extern tagTile	_tiles[TILEX * TILEY];
 
-extern int TILEVALUE[12][2]; //0: 마을, 1~9: 던전, 10: 보스, 11:상점
+extern int TILEVALUE[12][2]; //0: 마을, 1,3~9: 던전, 10: 보스, 2,11:상점
 
 extern int _tileX, _tileY;
 

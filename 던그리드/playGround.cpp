@@ -8,8 +8,9 @@ playGround::~playGround(){}
 
 HRESULT playGround::init(void)	
 {
-	mode = 타이틀;				//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
+	mode = 맵선택;				//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
 //	rectRotate(IMAGEMANAGER->findImage("검01"), 100, 100);
+
 
 	gameNode::init(true);
 	Image_init();
@@ -19,8 +20,8 @@ HRESULT playGround::init(void)
 	_mapTool->init();
 	_player = new Player;
 	_player->init();
-	/*_im = new itemManager;
-	_im->init();*/
+	_im = new itemManager;
+	_im->init();
 
 	_title = new titleScene;
 	_title->setImLink(_im);
@@ -31,7 +32,17 @@ HRESULT playGround::init(void)
 	SCENEMANAGER->addScene("아이템씬", new itemManager);
 	SCENEMANAGER->addScene("인트로", new introScene);
 	SCENEMANAGER->addScene("맵선택", new mapSelectScene);
+	SCENEMANAGER->addScene("던전3", new dungeon3Scene);
+	SCENEMANAGER->addScene("던전4", new dungeon4Scene);
+	SCENEMANAGER->addScene("던전5", new dungeon5Scene);
+	SCENEMANAGER->addScene("던전6", new dungeon6Scene);
+	SCENEMANAGER->addScene("던전7", new dungeon7Scene);
+	SCENEMANAGER->addScene("던전8", new dungeon8Scene);
+
+	SCENEMANAGER->addScene("랜덤맵1", new RandomDungeon1);
 	
+	_randomScene1 = new RandomDungeon1;
+
 	switch (mode)
 	{
 	case 맵툴:
@@ -54,15 +65,37 @@ HRESULT playGround::init(void)
 	case 인트로:
 		SCENEMANAGER->changeScene("인트로");
 		break;
-	
 	case 던전2:
 		SCENEMANAGER->changeScene("던전2");
 		break;
-	
+	case 던전3:
+		SCENEMANAGER->changeScene("던전3");
+		break;
+	case 던전4:
+		SCENEMANAGER->changeScene("던전4");
+		break;
+	case 던전5:
+		SCENEMANAGER->changeScene("던전5");
+		break;
+	case 던전6:
+		SCENEMANAGER->changeScene("던전6");
+		break;
+	case 던전7:
+		SCENEMANAGER->changeScene("던전7");
+		break;
+	case 던전8:
+		SCENEMANAGER->changeScene("던전8");
+		break;
+
+	case 랜덤맵1:
+		//SCENEMANAGER->changeScene("랜덤맵1");
+		_randomScene1->init();
+		break;
+
 	case 맵선택:
 		SCENEMANAGER->changeScene("맵선택");
+		
 		break;
-	
 	case 기타추가하셈:
 		break;
 	default:
@@ -83,7 +116,7 @@ void playGround::update(void)
 {
 	gameNode::update();
 
-	_mapTool->update();
+	//_mapTool->update();
 	_player->update();
 	SCENEMANAGER->update();
 	
@@ -105,15 +138,15 @@ void playGround::update(void)
 */
 
 
-	if (KEYMANAGER->isStayKeyDown('D')&& CAMERAMANAGER->getCameraCenter().x+WINSIZEX/2<BACKGROUNDSIZEX)
+	if (KEYMANAGER->isStayKeyDown('D'))//&& CAMERAMANAGER->getCameraCenter().x+WINSIZEX/2<BACKGROUNDSIZEX)
 		CAMERAMANAGER->setCameraCenter(PointMake(CAMERAMANAGER->getCameraCenter().x + 50, CAMERAMANAGER->getCameraCenter().y));
-	if (KEYMANAGER->isStayKeyDown('S') && CAMERAMANAGER->getCameraCenter().y + WINSIZEY / 2<BACKGROUNDSIZEY)
+	if (KEYMANAGER->isStayKeyDown('S'))// && CAMERAMANAGER->getCameraCenter().y + WINSIZEY / 2<BACKGROUNDSIZEY)
 		CAMERAMANAGER->setCameraCenter(PointMake(CAMERAMANAGER->getCameraCenter().x , CAMERAMANAGER->getCameraCenter().y + 50));
-	if (KEYMANAGER->isStayKeyDown('A') && CAMERAMANAGER->getCameraCenter().x - WINSIZEX / 2>0)
+	if (KEYMANAGER->isStayKeyDown('A'))// && CAMERAMANAGER->getCameraCenter().x - WINSIZEX / 2>0)
 		CAMERAMANAGER->setCameraCenter(PointMake(CAMERAMANAGER->getCameraCenter().x  - 50, CAMERAMANAGER->getCameraCenter().y));
-	if (KEYMANAGER->isStayKeyDown('W') && CAMERAMANAGER->getCameraCenter().y - WINSIZEY / 2>0)
+	if (KEYMANAGER->isStayKeyDown('W'))// && CAMERAMANAGER->getCameraCenter().y - WINSIZEY / 2>0)
 		CAMERAMANAGER->setCameraCenter(PointMake(CAMERAMANAGER->getCameraCenter().x , CAMERAMANAGER->getCameraCenter().y - 50));
-	
+	//
 	//if (CAMERAMANAGER->getCameraX() < 0)						CAMERAMANAGER->setCameraX(0);
 	//if (CAMERAMANAGER->getCameraY() < 0)						CAMERAMANAGER->setCameraY(0);
 	//if (CAMERAMANAGER->getCameraX() + WINSIZEX > 96 * _tileX)	CAMERAMANAGER->setCameraX(96 * _tileX - WINSIZEX);
@@ -131,6 +164,8 @@ void playGround::render(void)
 	{
 	case 맵툴:
 		//PatBlt(UIDC, 0, 0, BACKGROUNDSIZEX, BACKGROUNDSIZEY, BLACKNESS);
+
+		/*
 		_mapTool->render();
 		if(KEYMANAGER->isToggleKey(VK_TAB))
 		{
@@ -140,6 +175,7 @@ void playGround::render(void)
 			IMAGEMANAGER->findImage("floor0")->render(DC, 30 * 96, 17 * 96);
 			IMAGEMANAGER->findImage("floor0")->render(DC, 36 * 96, 15 * 96);
 		}
+		*/
 		break;
 	case 타이틀:
 		SCENEMANAGER->render();
@@ -156,7 +192,8 @@ void playGround::render(void)
 	case 아이템:
 		SCENEMANAGER->render();
 		break;
-	case 던전2:
+	case 던전2: case 던전3: case 던전4: case 던전5: case 던전6: case 던전7: case 던전8:
+	case 랜덤맵1:
 		SCENEMANAGER->render();
 		break;
 	case 맵선택:

@@ -11,12 +11,12 @@ BigBat::~BigBat()
 {
 }
 
-HRESULT BigBat::init()
+HRESULT BigBat::init(float x, float y)
 {
-	_x = WINSIZEX / 2;
-	_y = WINSIZEY / 2;
+	_x = x;
+	_y = y;
 	
-	_bigBatDirection = BIGBAT_LEFT_MOVE;
+	_bigBatDirection = BIGBAT_RIGHT_MOVE;
 
 	_img = IMAGEMANAGER->findImage("giantBat");
 
@@ -38,9 +38,10 @@ HRESULT BigBat::init()
 	int leftDie[] = { 38 };
 	KEYANIMANAGER->addArrayFrameAnimation("bigBatLeftDie", "giantBat", leftDie, 1, 5, false);
 
-	_bigBatMotion = KEYANIMANAGER->findAnimation("bigBatLeftMove");
+	_bigBatMotion = KEYANIMANAGER->findAnimation("bigBatRightMove");
 	_bigBatMotion->start();
 
+	_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 
 	return S_OK;
 }
@@ -71,7 +72,7 @@ void BigBat::update()
 	////////////////////бубубубубубубубубу//////////////////////////
 
 
-	KEYANIMANAGER->update();
+	//KEYANIMANAGER->update();
 	_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 }
 

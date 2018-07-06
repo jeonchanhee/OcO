@@ -20,13 +20,13 @@ class DogBone : public Enemy
 private:
 	DOGBONEDIRECTION _dogBoneDirection;
 	animation* _dogBoneMotion;
-	
 
+	float _startY;
 public:
 	DogBone();
 	~DogBone();
 
-	HRESULT init();
+	HRESULT init(float x, float y);
 	void release();
 	void update();
 	void render();

@@ -33,7 +33,7 @@ void Shield::CreateShield(ITEMTYPE type, const char * ShieldName, int value)
 	switch (type)
 	{
 	case SHIELD:
-		setShield(_ShieldName, _value);
+		setShield(ShieldName, value);
 		break;
 	}
 }
@@ -43,10 +43,9 @@ void Shield::setShield(const char * ShieldName, int value)
 	char str[128];
 	for (int i = 0; i < 3; i++)
 	{
-		sprintf_s(str, "%s%d%d", _ShieldName, _value, i);
+		sprintf_s(str, "%s%d%d", ShieldName, value, i);
 		_shield.image[i] = IMAGEMANAGER->findImage(str);
-
-		_shield.rc[i] = RectMakeCenter(_shield.x, _shield.y, _shield.image[i]->getWidth(),
+		_shield.rc[i] = RectMake(_shield.x + i * 100, _shield.y + i * 100, _shield.image[i]->getWidth(),
 			_shield.image[i]->getHeight());
 		
 	}

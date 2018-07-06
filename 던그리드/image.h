@@ -105,6 +105,7 @@ public:
 
 	void rotateRender(HDC hdc, float x, float y, float angle);
 	void rotateFrameRender(HDC hdc, float x, float y, float angle);
+	void rotateFrameRender(HDC hdc, float x, float y, int currentFrameX, int currentFrameY, float angle);
 
 	void release(void);
 
