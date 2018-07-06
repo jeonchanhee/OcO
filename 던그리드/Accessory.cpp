@@ -4,16 +4,15 @@
 
 Accessory::Accessory(){} Accessory::~Accessory(){}
 
-HRESULT Accessory::init(POINT position)
+HRESULT Accessory::init(ITEMTYPE type, const char* AccessoryName, int value, POINT position)
 {
+	_accessory.type = type;
+	_AccessoryName = AccessoryName;
+	_value = value;
 	_accessory.x = position.x;
 	_accessory.y = position.y;
-	for (int i = 0; i < 3; i++)
-	{
-		_accessory.rc[i] = RectMakeCenter(_accessory.x, _accessory.y, _accessory.image[i]->getWidth(),
-			_accessory.image[i]->getHeight());
-	}
 
+	CreateAccessory(type, AccessoryName, value);
 	return S_OK;
 }
 
@@ -25,32 +24,26 @@ void Accessory::update()
 {
 }
 
-void Accessory::render()
-{
-	for (int i = 0; i < 3; i++)
-	{
-		_accessory.image[i]->render(DC, _accessory.rc[i].left, _accessory.rc[i].top);
-	}
-}
-
-void Accessory::CreateAccessory(ITEMTYPE type, const char* ArmorName, int value, POINT position)
+void Accessory::CreateAccessory(ITEMTYPE type, const char* AccessoryName, int value)
 {
 	switch (type)
 	{
-	case ARMOR:
-		setAccessory(ArmorName, value);
+	case ACCESSORY:
+		setAccessory(AccessoryName, value);
 		break;
 	}
 
 }
 
-void Accessory::setAccessory(const char* ArmorName, int value)
+void Accessory::setAccessory(const char* AccessoryName, int value)
 {
 	char str[128];
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < 2; i++)
 	{
-		sprintf_s(str, "%s%d%d", ArmorName, value, i);
+		sprintf_s(str, "%s%d%d", AccessoryName, value, i);
 		_accessory.image[i] = IMAGEMANAGER->findImage(str);
+		_accessory.rc[i] = RectMakeCenter(_accessory.x + i * 100, _accessory.y, _accessory.image[i]->getWidth(),
+			_accessory.image[i]->getHeight());
 	}
 
 	if (value == 1) // 블러드스톤링
@@ -86,4 +79,12 @@ void Accessory::setAccessory(const char* ArmorName, int value)
 		_accessory.price = 3000;				// 가격
 	}
 
+}
+
+void Accessory::render()
+{
+	for (int i = 0; i < 2; i++)
+	{
+		_accessory.image[i]->render(DC, _accessory.rc[i].left, _accessory.rc[i].top);
+	}
 }

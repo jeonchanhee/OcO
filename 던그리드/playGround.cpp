@@ -8,8 +8,9 @@ playGround::~playGround(){}
 
 HRESULT playGround::init(void)	
 {
-	mode = 맵툴;				//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
+	mode = 아이템;				//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
 //	rectRotate(IMAGEMANAGER->findImage("검01"), 100, 100);
+
 
 	gameNode::init(true);
 	Image_init();
@@ -19,8 +20,8 @@ HRESULT playGround::init(void)
 	_mapTool->init();
 	_player = new Player;
 	_player->init();
-	/*_im = new itemManager;
-	_im->init();*/
+	_im = new itemManager;
+	_im->init();
 
 	_title = new titleScene;
 	_title->setImLink(_im);
@@ -31,6 +32,7 @@ HRESULT playGround::init(void)
 	SCENEMANAGER->addScene("아이템씬", new itemManager);
 	SCENEMANAGER->addScene("인트로", new introScene);
 	SCENEMANAGER->addScene("맵선택", new mapSelectScene);
+	SCENEMANAGER->addScene("던전3", new dungeon3Scene);
 	
 	switch (mode)
 	{
@@ -58,7 +60,10 @@ HRESULT playGround::init(void)
 	case 던전2:
 		SCENEMANAGER->changeScene("던전2");
 		break;
-	
+	case 던전3:
+		SCENEMANAGER->changeScene("던전3");
+		break;
+
 	case 맵선택:
 		SCENEMANAGER->changeScene("맵선택");
 		break;
@@ -83,7 +88,7 @@ void playGround::update(void)
 {
 	gameNode::update();
 
-	_mapTool->update();
+	//_mapTool->update();
 	_player->update();
 	SCENEMANAGER->update();
 	
@@ -105,15 +110,15 @@ void playGround::update(void)
 */
 
 
-	if (KEYMANAGER->isStayKeyDown('D')&& CAMERAMANAGER->getCameraCenter().x+WINSIZEX/2<BACKGROUNDSIZEX)
-		CAMERAMANAGER->setCameraCenter(PointMake(CAMERAMANAGER->getCameraCenter().x + 50, CAMERAMANAGER->getCameraCenter().y));
-	if (KEYMANAGER->isStayKeyDown('S') && CAMERAMANAGER->getCameraCenter().y + WINSIZEY / 2<BACKGROUNDSIZEY)
-		CAMERAMANAGER->setCameraCenter(PointMake(CAMERAMANAGER->getCameraCenter().x , CAMERAMANAGER->getCameraCenter().y + 50));
-	if (KEYMANAGER->isStayKeyDown('A') && CAMERAMANAGER->getCameraCenter().x - WINSIZEX / 2>0)
-		CAMERAMANAGER->setCameraCenter(PointMake(CAMERAMANAGER->getCameraCenter().x  - 50, CAMERAMANAGER->getCameraCenter().y));
-	if (KEYMANAGER->isStayKeyDown('W') && CAMERAMANAGER->getCameraCenter().y - WINSIZEY / 2>0)
-		CAMERAMANAGER->setCameraCenter(PointMake(CAMERAMANAGER->getCameraCenter().x , CAMERAMANAGER->getCameraCenter().y - 50));
-	
+	//if (KEYMANAGER->isStayKeyDown('D')&& CAMERAMANAGER->getCameraCenter().x+WINSIZEX/2<BACKGROUNDSIZEX)
+	//	CAMERAMANAGER->setCameraCenter(PointMake(CAMERAMANAGER->getCameraCenter().x + 50, CAMERAMANAGER->getCameraCenter().y));
+	//if (KEYMANAGER->isStayKeyDown('S') && CAMERAMANAGER->getCameraCenter().y + WINSIZEY / 2<BACKGROUNDSIZEY)
+	//	CAMERAMANAGER->setCameraCenter(PointMake(CAMERAMANAGER->getCameraCenter().x , CAMERAMANAGER->getCameraCenter().y + 50));
+	//if (KEYMANAGER->isStayKeyDown('A') && CAMERAMANAGER->getCameraCenter().x - WINSIZEX / 2>0)
+	//	CAMERAMANAGER->setCameraCenter(PointMake(CAMERAMANAGER->getCameraCenter().x  - 50, CAMERAMANAGER->getCameraCenter().y));
+	//if (KEYMANAGER->isStayKeyDown('W') && CAMERAMANAGER->getCameraCenter().y - WINSIZEY / 2>0)
+	//	CAMERAMANAGER->setCameraCenter(PointMake(CAMERAMANAGER->getCameraCenter().x , CAMERAMANAGER->getCameraCenter().y - 50));
+	//
 	//if (CAMERAMANAGER->getCameraX() < 0)						CAMERAMANAGER->setCameraX(0);
 	//if (CAMERAMANAGER->getCameraY() < 0)						CAMERAMANAGER->setCameraY(0);
 	//if (CAMERAMANAGER->getCameraX() + WINSIZEX > 96 * _tileX)	CAMERAMANAGER->setCameraX(96 * _tileX - WINSIZEX);
@@ -130,16 +135,16 @@ void playGround::render(void)
 	switch (mode)
 	{
 	case 맵툴:
-		PatBlt(UIDC, 0, 0, BACKGROUNDSIZEX, BACKGROUNDSIZEY, BLACKNESS);
-		_mapTool->render();
-		if(KEYMANAGER->isToggleKey(VK_TAB))
-		{
-			IMAGEMANAGER->findImage("floor1")->render(DC, -23 * 96, 12 * 96);
-			IMAGEMANAGER->findImage("floor2")->render(DC, 22 * 96, 12 * 96);
-			IMAGEMANAGER->findImage("floor1")->render(DC, 57 * 96, 12 * 96);
-			IMAGEMANAGER->findImage("floor0")->render(DC, 30 * 96, 17 * 96);
-			IMAGEMANAGER->findImage("floor0")->render(DC, 36 * 96, 15 * 96);
-		}
+		//PatBlt(UIDC, 0, 0, BACKGROUNDSIZEX, BACKGROUNDSIZEY, BLACKNESS);
+		//_mapTool->render();
+		//if(KEYMANAGER->isToggleKey(VK_TAB))
+		//{
+		//	IMAGEMANAGER->findImage("floor1")->render(DC, -23 * 96, 12 * 96);
+		//	IMAGEMANAGER->findImage("floor2")->render(DC, 22 * 96, 12 * 96);
+		//	IMAGEMANAGER->findImage("floor1")->render(DC, 57 * 96, 12 * 96);
+		//	IMAGEMANAGER->findImage("floor0")->render(DC, 30 * 96, 17 * 96);
+		//	IMAGEMANAGER->findImage("floor0")->render(DC, 36 * 96, 15 * 96);
+		//}
 		break;
 	case 타이틀:
 		SCENEMANAGER->render();
@@ -156,7 +161,7 @@ void playGround::render(void)
 	case 아이템:
 		SCENEMANAGER->render();
 		break;
-	case 던전2:
+	case 던전2: case 던전3:
 		SCENEMANAGER->render();
 		break;
 	case 맵선택:

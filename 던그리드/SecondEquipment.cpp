@@ -11,7 +11,6 @@ HRESULT SecondEquipment::init(ITEMTYPE type, const char* secondEquipmentName, in
 	_value = value;
 	_second.x = position.x;
 	_second.y = position.y;
-
 	CreateEquipment(type, secondEquipmentName, value);
 	_count = 0;
 	return S_OK;
@@ -41,6 +40,7 @@ void SecondEquipment::update()
 
 void SecondEquipment::render()
 {
+	
 	if (_second.isFrame)
 	{
 		for (int i = 0; i < 3; i++)
@@ -55,23 +55,24 @@ void SecondEquipment::render()
 			}
 		}
 	}
-	else
+
+	if(!_second.isFrame)
 	{
-		for (int i = 0; i < 3; i++)
+		for (int i = 0; i < 2; i++)
 		{
 			_second.image[i]->render(DC, _second.rc[i].left, _second.rc[i].top);
 		}
 	}
 }
 
-void SecondEquipment::CreateEquipment(ITEMTYPE type, const char * secondEquipmentName, int value)
+void SecondEquipment::CreateEquipment(ITEMTYPE type, const char* secondEquipmentName, int value)
 {
 
 
-	switch (_second.type)
+	switch (type)
 	{
 	case SECOND_EQUIPMENT:
-		setEquip(_secondName, _value );
+		setEquip(secondEquipmentName, value);
 		break;
 
 	}
@@ -80,36 +81,50 @@ void SecondEquipment::CreateEquipment(ITEMTYPE type, const char * secondEquipmen
 void SecondEquipment::setEquip(const char * secondEquipmentName, int value)
 {
 	char str[128];
-	for (int i = 0; i < 3; i++)
-	{
-		sprintf_s(str, "%s%d%d", _secondName, _value, i);
-		_second.image[i] = IMAGEMANAGER->findImage(str);
 
-		if (i == 2) // 착용 이미지 일때
+	if (value == 1 || value == 2)
+	{
+		for (int i = 0; i < 2; i++)
 		{
-			_second.isFrame = true;
-			if (_second.isFrame) // 프레임 이미지 이면
 			{
+				sprintf_s(str, "%s%d%d", secondEquipmentName, value, i);
+				_second.image[i] = IMAGEMANAGER->findImage(str);
+				_second.rc[i] = RectMake(_second.x + i * 100, _second.y, _second.image[i]->getWidth(),
+					_second.image[i]->getHeight());
+			}
+		}
+	}
+
+	if (value == 3 || value == 4)
+	{
+		for (int i = 0; i < 3; i++)
+		{
+			sprintf_s(str, "%s%d%d", secondEquipmentName, value, i);
+			_second.image[i] = IMAGEMANAGER->findImage(str);
+			if (i == 2) // 착용 이미지 일때
+			{
+				_second.isFrame = true;
 				if (_second.isFrame)
 				{
 					if (i == 2)
 					{
-						_second.rc[i] = RectMakeCenter(_second.x + i * 50, _second.y, _second.image[i]->getFrameWidth(),
+						_second.rc[i] = RectMakeCenter(_second.x + i * 100, _second.y, _second.image[i]->getFrameWidth(),
 							_second.image[i]->getFrameHeight());
 					}
+					else
+					{
+						_second.rc[i] = RectMakeCenter(_second.x + i * 100, _second.y , _second.image[i]->getWidth(),
+							_second.image[i]->getHeight());
+					}
 				}
-			
-				
 			}
-		}	
-		else // 프레임 이미지가 아니면 
-		{
-			_second.rc[i] = RectMakeCenter(_second.x + i * 50, _second.y, _second.image[i]->getWidth(),
-				_second.image[i]->getHeight());
+			else
+			{
+				_second.rc[i] = RectMakeCenter(_second.x + i * 100, _second.y, _second.image[i]->getWidth(),
+					_second.image[i]->getHeight());
+			}
 		}
-		
 	}
-
 
 	if (value == 1) // 블레스 
 	{

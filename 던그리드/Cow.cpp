@@ -11,10 +11,10 @@ Cow::~Cow()
 {
 }
 
-HRESULT Cow::init()
+HRESULT Cow::init(float x, float y)
 {
-	_x = WINSIZEX / 2;
-	_y = WINSIZEY / 2;
+	_x = x;
+	_y = y;
 
 	_img = IMAGEMANAGER->findImage("cowIdleChargeAttack");
 	//_cowDirection = COW_LEFT_MOVE;
