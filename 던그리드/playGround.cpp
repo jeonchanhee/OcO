@@ -8,7 +8,7 @@ playGround::~playGround(){}
 
 HRESULT playGround::init(void)	
 {
-	mode = 맵툴;				//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
+	mode = 아이템;				//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
 //	rectRotate(IMAGEMANAGER->findImage("검01"), 100, 100);
 
 	gameNode::init(true);
@@ -19,8 +19,8 @@ HRESULT playGround::init(void)
 	_mapTool->init();
 	_player = new Player;
 	_player->init();
-	/*_im = new itemManager;
-	_im->init();*/
+	_im = new itemManager;
+	_im->init();
 
 	_title = new titleScene;
 	_title->setImLink(_im);

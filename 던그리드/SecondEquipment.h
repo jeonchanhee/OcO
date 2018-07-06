@@ -5,7 +5,7 @@
 struct tagSecondEquipment // 보조장비 구조체~~
 {
 	image* image[3];		//이미지 0. 드랍 1. 인벤 2. 착용
-	RECT rc[3];				//렉트
+	RECT rc[3];				// 렉트
 	ITEMTYPE type;			//아이템 타입
 	ITEMGRADE grade;		//아이템 등급
 	int frameX, frameY;		// 프레임 X, Y
