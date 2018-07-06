@@ -57,12 +57,13 @@ void dungeonScene::render(void)
 			}
 		}
 	}
-}
 
 	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); ++_viEnemy)
 	{
 		(*_viEnemy)->render();
 	}
+
+
 }
 
 void dungeonScene::mapload()

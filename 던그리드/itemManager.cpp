@@ -134,13 +134,20 @@ void itemManager::CreateItem()
 
 		Shield* shield;
 		shield = new Shield;
-		shield->init(SHIELD, "방패", i, PointMake(500 + i * 200, 700));
+		shield->init(SHIELD, "방패", i, PointMake(100 + i * 200, 700));
 		_vShield.push_back(shield);
 		_vItem.push_back(shield);
 
 	}
 
-
+	//for (int i = 1; i < 13; i++)
+	//{
+	//	Food* food;
+	//	food = new Food;
+	//	food->init(FOOD, "음식", i, PointMake(100 + i * 200, 600));
+	//	_vFood.push_back(food);
+	//	_vItem.push_back(food);
+	//}
 
 }
 

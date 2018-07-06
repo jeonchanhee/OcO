@@ -59,7 +59,7 @@ void dungeon2Scene::setMonster()
 	//작보박
 	setBat(303 % _temp, 303 / _temp);
 	//작갈박
-	setRedBat(318 % _temp, 318 / _temp);
+//	setRedBat(318 % _temp, 318 / _temp);
 
 }
 
