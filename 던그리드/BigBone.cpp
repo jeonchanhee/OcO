@@ -11,11 +11,11 @@ BigBone::~BigBone()
 {
 }
 
-HRESULT BigBone::init()
+HRESULT BigBone::init(float x, float y)
 {
 	_bigBoneDirection = BIGBONE_LEFT_MOVE;
-	_x = WINSIZEX / 2;
-	_y = WINSIZEY / 2;
+	_x = x;
+	_y = y;
 	_count = 0;
 	
 	_img = IMAGEMANAGER->findImage("bigWhiteSkelIdleMove");

@@ -1,6 +1,11 @@
 #pragma once
 #include "gameNode.h"
 #include "Enemy.h"
+#include "Arrow.h"
+#include "BigBone.h"
+#include "Bat.h"
+#include "RedBat.h"
+#include "DogBone.h"
 
 struct torch
 {
@@ -44,5 +49,11 @@ public:
 
 	dungeonScene();
 	~dungeonScene();
+
+	void setDogBone(int idX, int idY);
+	void setBigBone(int idX, int idY);
+	void setArrow(int idX, int idY);
+	void setBat(int idX, int idY);
+	void setRedBat(int idX, int idY);
 };
 
