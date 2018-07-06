@@ -43,6 +43,7 @@ HRESULT dungeon6Scene::init()
 
 void dungeon6Scene::update()
 {
+	nextTest();
 	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); ++_viEnemy)
 	{
 		(*_viEnemy)->update();
@@ -88,11 +89,4 @@ void dungeon6Scene::setMonster()
 	{
 		setBigBone(id[i][0], id[i][1], i);
 	}
-
-}
-}
-
-void dungeon6Scene::update()
-{
-	nextTest();
 }

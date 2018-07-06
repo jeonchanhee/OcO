@@ -43,6 +43,7 @@ HRESULT dungeon8Scene::init()
 
 void dungeon8Scene::update()
 {
+	nextTest();
 	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); ++_viEnemy)
 	{
 		(*_viEnemy)->update();
@@ -78,10 +79,4 @@ void dungeon8Scene::setMonster()
 
 	//ÀÛº¸¹Ú
 	setBat(208 % _temp, 208 / _temp);
-}
-}
-
-void dungeon8Scene::update()
-{
-	nextTest();
 }

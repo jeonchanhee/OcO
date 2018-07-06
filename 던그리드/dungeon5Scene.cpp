@@ -52,6 +52,7 @@ HRESULT dungeon5Scene::init()
 
 void dungeon5Scene::update()
 {
+	nextTest();
 	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); ++_viEnemy)
 	{
 		(*_viEnemy)->update();
@@ -98,10 +99,4 @@ void dungeon5Scene::setMonster()
 	//Å«º¸¹Ú
 	setBigBat(293 % _temp, 293 / _temp);
 
-}
-}
-
-void dungeon5Scene::update()
-{
-	nextTest();
 }

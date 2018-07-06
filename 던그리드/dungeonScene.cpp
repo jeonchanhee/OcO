@@ -23,6 +23,8 @@ void dungeonScene::update(void)
 
 void dungeonScene::render(void)
 {
+	RectangleMake(getMemDC(), 1820, 980, 100, 100);
+
 	for (int i = (CAMERAMANAGER->getCameraCenter().y - WINSIZEY / 2) / 96; i < (CAMERAMANAGER->getCameraCenter().y + WINSIZEY / 2) / 96 + 1; ++i)
 	{
 		for (int j = (CAMERAMANAGER->getCameraCenter().x - WINSIZEX / 2) / 96; j < (CAMERAMANAGER->getCameraCenter().x + WINSIZEX / 2) / 96 + 1; ++j)
@@ -70,7 +72,6 @@ void dungeonScene::render(void)
 	{
 		(*_viEnemy)->render();
 	}
-}
 
 	RECT rc;
 	rc = RectMakeCenter(WINSIZEX / 2, WINSIZEY / 2, 100, 100);
@@ -79,6 +80,8 @@ void dungeonScene::render(void)
 	{
 		_mapValue[_dungeonNum] = "T";
 	}
+
+	
 }
 
 void dungeonScene::mapload()
@@ -258,7 +261,6 @@ void dungeonScene::setBoss()
 	boss = new Boss2;
 	boss->init();
 	_vEnemy.push_back(boss);
-}
 }
 
 void dungeonScene::nextTest()
