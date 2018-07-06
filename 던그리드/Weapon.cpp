@@ -66,20 +66,22 @@ void Weapon::setSword(const char * weaponName, int value)
 	{
 		sprintf_s(str, "%s%d%d", _weaponName, _value, i);
 		_weapon.image[i] = IMAGEMANAGER->findImage(str);
-		_weapon.rc[i] = RectMake(_weapon.x, _weapon.y, _weapon.image[i]->getFrameWidth(), _weapon.image[i]->getFrameHeight());
-
+		
 		if (i == 2) // 착용 이미지 일때
 		{
 			_weapon.isFrame = true;
 			if (_weapon.isFrame) // 프레임 이미지 이면
 			{
-				//render(); // 프레임 렌더
+				
+				_weapon.rc[i] = RectMake(_weapon.x, _weapon.y, _weapon.image[i]->getFrameWidth()
+					, _weapon.image[i]->getFrameHeight());
 			}
 		}
 		else
 		{
-			//render();
+			_weapon.rc[i] = RectMake(_weapon.x, _weapon.y, _weapon.image[i]->getWidth(), _weapon.image[i]->getHeight());
 		}
+		
 	}
 
 	if (value == 1) // 기본무기

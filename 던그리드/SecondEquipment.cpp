@@ -4,27 +4,15 @@
 
 SecondEquipment::SecondEquipment(){} SecondEquipment::~SecondEquipment(){}
 
-HRESULT SecondEquipment::init()
+HRESULT SecondEquipment::init(ITEMTYPE type, const char* secondEquipmentName, int value, POINT position)
 {
+	_second.type = type;
+	_secondName = secondEquipmentName;
+	_value = value;
+	_second.x = position.x;
+	_second.y = position.y;
 
-	for (int i = 0; i < 3; i++)
-	{
-		if (_second.isFrame)
-		{
-			if (i == 2)
-			{
-				_second.rc[i] = RectMakeCenter(_second.x + i * 50, _second.y, _second.image[i]->getFrameWidth(),
-					_second.image[i]->getFrameHeight());
-			}
-		}
-		else // 프레임 이미지가 아니면 
-		{
-			_second.rc[i] = RectMakeCenter(_second.x + i * 50, _second.y, _second.image[i]->getWidth(),
-				_second.image[i]->getHeight());
-		}
-
-	}
-
+	CreateEquipment(type, secondEquipmentName, value);
 	_count = 0;
 	return S_OK;
 }
@@ -76,15 +64,14 @@ void SecondEquipment::render()
 	}
 }
 
-void SecondEquipment::CreateEquipment(ITEMTYPE type, const char * secondEquipmentName, int value, POINT position)
+void SecondEquipment::CreateEquipment(ITEMTYPE type, const char * secondEquipmentName, int value)
 {
-	_second.x = position.x;
-	_second.y = position.y;
 
-	switch (type)
+
+	switch (_second.type)
 	{
 	case SECOND_EQUIPMENT:
-		setEquip(secondEquipmentName, value);
+		setEquip(_secondName, _value );
 		break;
 
 	}
@@ -95,7 +82,7 @@ void SecondEquipment::setEquip(const char * secondEquipmentName, int value)
 	char str[128];
 	for (int i = 0; i < 3; i++)
 	{
-		sprintf_s(str, "%s%d%d", secondEquipmentName, value, i);
+		sprintf_s(str, "%s%d%d", _secondName, _value, i);
 		_second.image[i] = IMAGEMANAGER->findImage(str);
 
 		if (i == 2) // 착용 이미지 일때
@@ -103,15 +90,24 @@ void SecondEquipment::setEquip(const char * secondEquipmentName, int value)
 			_second.isFrame = true;
 			if (_second.isFrame) // 프레임 이미지 이면
 			{
-				init(); // init 가서 프레임 이미지이면
-				render(); // 프레임 렌더
+				if (_second.isFrame)
+				{
+					if (i == 2)
+					{
+						_second.rc[i] = RectMakeCenter(_second.x + i * 50, _second.y, _second.image[i]->getFrameWidth(),
+							_second.image[i]->getFrameHeight());
+					}
+				}
+			
+				
 			}
-		}
-		else
+		}	
+		else // 프레임 이미지가 아니면 
 		{
-			init();
-			render();
+			_second.rc[i] = RectMakeCenter(_second.x + i * 50, _second.y, _second.image[i]->getWidth(),
+				_second.image[i]->getHeight());
 		}
+		
 	}
 
 

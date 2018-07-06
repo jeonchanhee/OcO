@@ -12,7 +12,7 @@ HRESULT Shield::init(ITEMTYPE type, const char* ShieldName, int value, POINT pos
 	_shield.x = position.x;
 	_shield.y = position.y;
 
-	CreateShield(type, ShieldName, value, position);
+	CreateShield(type, ShieldName, value);
 	return S_OK;
 }
 
@@ -25,9 +25,12 @@ void Shield::update()
 
 }
 
-void Shield::CreateShield(ITEMTYPE type, const char * ShieldName, int value, POINT position)
+void Shield::CreateShield(ITEMTYPE type, const char * ShieldName, int value)
 {
-	switch (_shield.type)
+
+
+
+	switch (type)
 	{
 	case SHIELD:
 		setShield(_ShieldName, _value);
