@@ -7,5 +7,6 @@ public:
 	dungeon8Scene();
 	~dungeon8Scene();
 	HRESULT init();
+	void update();
 };
 

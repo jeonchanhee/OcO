@@ -19,7 +19,7 @@ void dungeonScene::release(void)
 
 void dungeonScene::update(void)
 {
-	KEYANIMANAGER->update();
+	//KEYANIMANAGER->update();
 }
 
 void dungeonScene::render(void)
@@ -57,6 +57,22 @@ void dungeonScene::render(void)
 				TextOut(DC, _tiles[i * _temp + j].rc.left, _tiles[i * _temp + j].rc.top, str, strlen(str));
 			}
 		}
+	}
+
+	for (int i = 0; i < _door.size(); i++)
+	{
+		char str[128];
+		sprintf_s(str, "num : %d", _dungeonNum);
+		TextOut(DC, 100, 100, str, strlen(str));
+		Rectangle(DC, _door[i].rc.left, _door[i].rc.top, _door[i].rc.right, _door[i].rc.bottom);
+	}
+
+	RECT rc;
+	rc = RectMakeCenter(WINSIZEX / 2, WINSIZEY / 2, 100, 100);
+	Rectangle(DC, rc.left, rc.top, rc.right, rc.bottom);
+	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON) && PtInRect(&rc, getMemDCPoint()))
+	{
+		_mapValue[_dungeonNum] = "T";
 	}
 }
 
@@ -135,4 +151,49 @@ void dungeonScene::chooseMap(int idx)
 		_mapName = "map/weaponsStore(25x15).map";
 
 	_tileX = TILEVALUE[idx][0], _tileY = TILEVALUE[idx][1];
+}
+
+void dungeonScene::nextTest()
+{
+	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON) && _mapValue[_dungeonNum] == "T")
+	//if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
+	{
+		for (int i = 0; i < _door.size(); i++)
+		{
+			if (PtInRect(&_door[i].rc, getMemDCPoint()))
+			{
+				string str = "´øÀü¸Ê";
+				char temp[128];
+				str += itoa(_route[i],temp,10);
+				save();
+				SCENEMANAGER->changeScene(str);
+			}
+		}
+	}
+}
+
+void dungeonScene::load()
+{
+	vector<string> vStr = TXTDATA->txtLoad("infoDungeon.txt");
+	if (vStr.size() != 0)
+	{
+		_randNum = atoi(vStr[0].c_str());
+		for (int i = 0; i < 11; i++)
+		{
+			_mapValue[i] = vStr[i + 1];
+		}
+	}
+}
+
+void dungeonScene::save()
+{
+	vector<string> vStr;
+	char str[128];
+	vStr.push_back(itoa(_randNum,str,10));
+	for (int i = 0; i < 11; i++)
+	{
+		vStr.push_back(_mapValue[i]);
+	}
+
+	TXTDATA->txtSave("infoDungeon.txt", vStr);
 }

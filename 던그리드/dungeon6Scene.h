@@ -7,5 +7,6 @@ public:
 	dungeon6Scene();
 	~dungeon6Scene();
 	HRESULT init();
+	void update();
 };
 
