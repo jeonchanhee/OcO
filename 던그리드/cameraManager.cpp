@@ -51,7 +51,7 @@ void cameraManager::cameraShaking()
 
 	}
 }
-*/
+
 
 cameraManager::cameraManager(){}
 cameraManager::~cameraManager(){}

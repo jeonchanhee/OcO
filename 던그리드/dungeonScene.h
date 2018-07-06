@@ -1,5 +1,6 @@
 #pragma once
 #include "gameNode.h"
+#include "Enemy.h"
 
 struct torch
 {
@@ -21,11 +22,17 @@ struct Portal
 
 class dungeonScene : public gameNode
 {
+protected:
+	vector<Enemy*>					_vEnemy;
+	vector<Enemy*>::iterator		_viEnemy;
+
 	torch	_torch;		// È¶ºÒ
 	Door	_door;		// ¹®
 	Portal	_portal;	// Æ÷Å»
 	string _mapName;
-	int dungeonNum;
+	int _dungeonNum;
+	int _temp;
+	
 
 public:
 	virtual HRESULT init(void);

@@ -69,8 +69,5 @@ public:
 
 	vector<Item*>			getvItem()	{ return _vItem; }
 	vector<Item*>::iterator getviItem()	{ return _viItem; }
-
-
-
 };
 

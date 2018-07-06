@@ -109,16 +109,16 @@ HRESULT playGround::Image_init(void)
 
 	IMAGEMANAGER->addImage("검20", "image/item/weapon/sword/MuramasaDrop(96x30)1x1.bmp", 96, 30, true, RGB(255, 0, 255));	//드랍
 	IMAGEMANAGER->addImage("검21", "image/item/weapon/sword/MuramasaInven(10x32)1x1.bmp", 10, 32, true, RGB(255, 0, 255));	//인벤
-	IMAGEMANAGER->addRotateImage("검22", "image/item/weapon/sword/Muramasa(30x96)1x1.bmp", 30, 96, true, RGB(255, 0, 255));	//착용
+	IMAGEMANAGER->addRotateImage("검22", "image/item/weapon/sword/Muramasa(30X96)1x1.bmp", 30, 96, true, RGB(255, 0, 255));	//착용
 
 	IMAGEMANAGER->addImage("검30", "image/item/weapon/sword/FireDragonKillerDrop(92x40)1x1.bmp", 96, 30, true, RGB(255, 0, 255));	//드랍
-	IMAGEMANAGER->addImage("검31", "image/item/weapon/sword/FireDragonKillerInven(13x30)1x1.bmp", 10, 32, true, RGB(255, 0, 255));	//인벤
+	IMAGEMANAGER->addImage("검31", "image/item/weapon/sword/FireDragonKillerinven(13x30)1x1.bmp", 10, 32, true, RGB(255, 0, 255));	//인벤
 	IMAGEMANAGER->addRotateImage("검32", "image/item/weapon/sword/FireDragonKiller(40x92)1x1.bmp", 30, 96, true, RGB(255, 0, 255));	//착용
 
 
-	IMAGEMANAGER->addImage("검40", "image/item/weapon/sword/DemonSwordDrop(60x20)1x1.bmp", 60, 20, true, RGB(255, 0, 255));					//드랍
-	IMAGEMANAGER->addImage("검41", "image/item/weapon/sword/DemonSwordInven(20x60)1x1.bmp", 20, 60, true, RGB(255, 0, 255));					//인벤
-	IMAGEMANAGER->addRotateFrameImage("검42", "image/item/weapon/sword/DemonSword(216x80)9x1.bmp", 216, 80, 9, 1, true, RGB(255, 0, 255));	//착용
+	IMAGEMANAGER->addImage("검40", "image/item/weapon/sword/DemonSwordDrop(60x20)1x1Drop.bmp", 60, 20, true, RGB(255, 0, 255));					//드랍
+	IMAGEMANAGER->addImage("검41", "image/item/weapon/sword/DemonSwordDrop(60x20)1x1Inven.bmp", 20, 60, true, RGB(255, 0, 255));					//인벤
+	IMAGEMANAGER->addRotateFrameImage("검42", "image/item/weapon/sword/DemonSwordInven(20x60)1x1.bmp", 216, 80, 9, 1, true, RGB(255, 0, 255));	//착용
 
 	IMAGEMANAGER->addImage("검50", "image/item/weapon/sword/CosmosSwordDrop(90x30)1x1.bmp", 90, 30, true, RGB(255, 0, 255));						// 드랍
 	IMAGEMANAGER->addImage("검51", "image/item/weapon/sword/CosmosSwordInven(11x30)1x1.bmp", 11, 30, 1, 1, true, RGB(255, 0, 255));				// 인벤
@@ -127,10 +127,15 @@ HRESULT playGround::Image_init(void)
 
 
 	//원거리무기 이미지 
+	//민호우
+	IMAGEMANAGER->addRotateImage("총10좌", "image/item/weapon/gun/deadlyKissLeft(100x25)1x1.bmp", 100, 25, true, RGB(255, 0, 255));		// 착용
+	IMAGEMANAGER->addRotateImage("총10우", "image/item/weapon/gun/deadlyKissRight(100x25)1x1.bmp", 100, 25, true, RGB(255, 0, 255));		// 착용
+	//건들지마3
 
 	IMAGEMANAGER->addImage("총10", "image/item/weapon/gun/matchlockGunDrop(70x18)1x1.bmp", 70, 18, true, RGB(255, 0, 255));			// 드랍
 	IMAGEMANAGER->addImage("총11", "image/item/weapon/gun/matchlockGunInven(27x8)1x1.bmp", 27, 8, true, RGB(255, 0, 255));			// 인벤
 	IMAGEMANAGER->addRotateImage("총12", "image/item/weapon/gun/matchlockGun(70x18)1x1.bmp", 70, 18, true, RGB(255, 0, 255));		// 착용
+	
 
 	IMAGEMANAGER->addImage("총20", "image/item/weapon/gun/deadlyKissDrop(80x20)1x1.bmp", 80, 20, true, RGB(255, 0, 255));			// 드랍
 	IMAGEMANAGER->addImage("총21", "image/item/weapon/gun/deadlyKissInven(40x10)1x1.bmp", 40, 10, true, RGB(255, 0, 255));			// 인벤
@@ -156,9 +161,13 @@ HRESULT playGround::Image_init(void)
 	IMAGEMANAGER->addImage("활30", "image/item/weapon/bow/lightbringerDrop(50x22)1x1.bmp", 50, 22, true, RGB(255, 0, 255));					// 드랍
 	IMAGEMANAGER->addImage("활31", "image/item/weapon/bow/lightbringerInven(11x25)1x1.bmp", 11, 25, true, RGB(255, 0, 255));					// 인벤
 	IMAGEMANAGER->addRotateFrameImage("활32", "image/item/weapon/bow/lightbringer(300x50)6x1.bmp", 300, 50, 6, 1, true, RGB(255, 0, 255));	// 착용
+	//지우지마 지우지마 지우지마 지우지마 지우지마 지우지마 지우지마 지우지마 지우지마
+	IMAGEMANAGER->addFrameImage("총알0", "image/item/weapon/gun/deadlyKissBullet(1200x110,12x1).bmp",1000,92,12,1,true, RGB(255,0,255 ));
+	IMAGEMANAGER->addFrameImage("총알1", "image/item/weapon/gun/flameThrower(400x125,8x1).bmp",400,125,8,1,true, RGB(255 , 0 , 255));
+	IMAGEMANAGER->addFrameImage("총알2", "image/item/weapon/gun/matchlockGunBullet(70x70,5x1).bmp",70,70,5,1,true , RGB(255,0,255));
+	IMAGEMANAGER->addFrameImage("총알3", "image/item/weapon/gun/railGunBullet(300x100,6x1).bmp",300,100,6,1,true, RGB(255,0,255 ));
 
-
-
+		
 	// 방어구 이미지
 
 	IMAGEMANAGER->addImage("아머10", "image/item/armor/ClothArmorDrop(30x27)1x1.bmp", 30, 27, true, RGB(255, 0, 255));	// 드랍
