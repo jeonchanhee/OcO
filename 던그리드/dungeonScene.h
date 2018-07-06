@@ -47,6 +47,12 @@ public:
 
 	void mapload();
 
+	void setCamera(void);
+
+	void selectSize(int idx);
+
+	void chooseMap(int idx);
+
 	dungeonScene();
 	~dungeonScene();
 

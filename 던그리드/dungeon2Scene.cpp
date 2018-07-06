@@ -13,12 +13,9 @@ dungeon2Scene::~dungeon2Scene()
 
 HRESULT dungeon2Scene::init()
 {
-	//setCamera();
 	_isMapSet = true;
-	_mapName = "map/Dungeon3(20x13).map";
- 	
-	_tileX = TILEVALUE[3][0], _tileY = TILEVALUE[3][1];
-	_temp = 100;
+	chooseMap(3);
+	selectSize(3);
 	mapload();
 	setCamera();
 	setMonster();
@@ -29,13 +26,6 @@ void dungeon2Scene::update()
 {
 }
 
-//void dungeon2Scene::render()
-//{
-//}
-//
-//void dungeon2Scene::release()
-//{
-//}
 
 void dungeon2Scene::setCamera(void)
 {

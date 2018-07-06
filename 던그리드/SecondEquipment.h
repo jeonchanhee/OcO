@@ -29,18 +29,20 @@ private:
 	tagSecondEquipment _second;
 
 	int _count;
+	const char* _secondName;
+	int _value;
 public:
 
 	SecondEquipment();
 	~SecondEquipment();
 
-	HRESULT init();
+	HRESULT init(ITEMTYPE type, const char* secondEquipmentName, int value, POINT position);
 	void release();
 	void update();
 	void render();
 
 
-	void CreateEquipment(ITEMTYPE type, const char* secondEquipmentName, int value, POINT position);
+	void CreateEquipment(ITEMTYPE type, const char* secondEquipmentName, int value);
 	void setEquip(const char* secondEquipment, int value);
 };
 
