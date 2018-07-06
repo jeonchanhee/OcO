@@ -26,7 +26,7 @@ void cameraManager::release()
 {
 }
 // don't erase  plz
-/*
+
 void cameraManager::cameraShaking()
 {
 	int rand = RND->getInt(4);
