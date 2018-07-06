@@ -14,5 +14,6 @@ public:
 	/*void render();
 	void release();*/
 	void setCamera();
+	void setMonster();
 };
 

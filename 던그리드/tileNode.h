@@ -32,7 +32,7 @@
 #define SAMPLETILEY 26
 
 // 맵이름
-#define MAPNAME "map/test.map"
+#define MAPNAME "map/Dungeon8(20x39).map"
 
 // 지형	
 enum TERRAIN
@@ -85,7 +85,7 @@ struct tagCurrentTile
 
 extern tagTile	_tiles[TILEX * TILEY];
 
-extern int TILEVALUE[12][2]; //0: 마을, 1~9: 던전, 10: 보스, 11:상점
+extern int TILEVALUE[12][2]; //0: 마을, 1,3~9: 던전, 10: 보스, 2,11:상점
 
 extern int _tileX, _tileY;
 

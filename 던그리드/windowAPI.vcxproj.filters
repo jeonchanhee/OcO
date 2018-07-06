@@ -88,6 +88,9 @@
     <Filter Include="playGround\NPC">
       <UniqueIdentifier>{47ebe29a-c910-44da-97cc-a121ff2f0754}</UniqueIdentifier>
     </Filter>
+    <Filter Include="playGround\Scene\dungeon">
+      <UniqueIdentifier>{ca7ef291-05ba-4faf-9de4-9706c2e54464}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -210,9 +213,6 @@
     <ClInclude Include="RedBat.h">
       <Filter>playGround\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="dungeonScene.h">
-      <Filter>playGround\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="DialogTraining.h">
       <Filter>playGround\Diaiog</Filter>
     </ClInclude>
@@ -233,9 +233,6 @@
     </ClInclude>
     <ClInclude Include="cameraManager.h">
       <Filter>2DFramework\Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="Bullet.h">
-      <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="tileNode.h">
       <Filter>playGround\MapTool</Filter>
@@ -289,7 +286,46 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="dungeon2Scene.h">
-      <Filter>playGround\Scene</Filter>
+      <Filter>playGround\Scene\dungeon</Filter>
+    </ClInclude>
+    <ClInclude Include="dungeonScene.h">
+      <Filter>playGround\Scene\dungeon</Filter>
+    </ClInclude>
+    <ClInclude Include="dungeon1Scene.h">
+      <Filter>playGround\Scene\dungeon</Filter>
+    </ClInclude>
+    <ClInclude Include="dungeon3Scene.h">
+      <Filter>playGround\Scene\dungeon</Filter>
+    </ClInclude>
+    <ClInclude Include="dungeon4Scene.h">
+      <Filter>playGround\Scene\dungeon</Filter>
+    </ClInclude>
+    <ClInclude Include="dungeon5Scene.h">
+      <Filter>playGround\Scene\dungeon</Filter>
+    </ClInclude>
+    <ClInclude Include="dungeon6Scene.h">
+      <Filter>playGround\Scene\dungeon</Filter>
+    </ClInclude>
+    <ClInclude Include="dungeon7Scene.h">
+      <Filter>playGround\Scene\dungeon</Filter>
+    </ClInclude>
+    <ClInclude Include="dungeon8Scene.h">
+      <Filter>playGround\Scene\dungeon</Filter>
+    </ClInclude>
+    <ClInclude Include="foodScene.h">
+      <Filter>playGround\Scene\dungeon</Filter>
+    </ClInclude>
+    <ClInclude Include="bossScene.h">
+      <Filter>playGround\Scene\dungeon</Filter>
+    </ClInclude>
+    <ClInclude Include="weaponScene.h">
+      <Filter>playGround\Scene\dungeon</Filter>
+    </ClInclude>
+    <ClInclude Include="RandomDungeon1.h">
+      <Filter>playGround\Scene\dungeon</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet.h">
+      <Filter>playGround\bullet</Filter>
     </ClInclude>
     <ClInclude Include="playerBullet.h">
       <Filter>playGround\Player</Filter>
@@ -416,9 +452,6 @@
     <ClCompile Include="titleScene.cpp">
       <Filter>playGround\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="dungeonScene.cpp">
-      <Filter>playGround\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="DialogTraining.cpp">
       <Filter>playGround\Diaiog</Filter>
     </ClCompile>
@@ -436,9 +469,6 @@
     </ClCompile>
     <ClCompile Include="playGround_Sound.cpp">
       <Filter>playGround</Filter>
-    </ClCompile>
-    <ClCompile Include="Bullet.cpp">
-      <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="itemManager.cpp">
       <Filter>playGround\Item</Filter>
@@ -480,7 +510,46 @@
       <Filter>playGround\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="dungeon2Scene.cpp">
-      <Filter>playGround\Scene</Filter>
+      <Filter>playGround\Scene\dungeon</Filter>
+    </ClCompile>
+    <ClCompile Include="dungeonScene.cpp">
+      <Filter>playGround\Scene\dungeon</Filter>
+    </ClCompile>
+    <ClCompile Include="dungeon1Scene.cpp">
+      <Filter>playGround\Scene\dungeon</Filter>
+    </ClCompile>
+    <ClCompile Include="dungeon3Scene.cpp">
+      <Filter>playGround\Scene\dungeon</Filter>
+    </ClCompile>
+    <ClCompile Include="dungeon4Scene.cpp">
+      <Filter>playGround\Scene\dungeon</Filter>
+    </ClCompile>
+    <ClCompile Include="dungeon5Scene.cpp">
+      <Filter>playGround\Scene\dungeon</Filter>
+    </ClCompile>
+    <ClCompile Include="dungeon6Scene.cpp">
+      <Filter>playGround\Scene\dungeon</Filter>
+    </ClCompile>
+    <ClCompile Include="dungeon7Scene.cpp">
+      <Filter>playGround\Scene\dungeon</Filter>
+    </ClCompile>
+    <ClCompile Include="dungeon8Scene.cpp">
+      <Filter>playGround\Scene\dungeon</Filter>
+    </ClCompile>
+    <ClCompile Include="foodScene.cpp">
+      <Filter>playGround\Scene\dungeon</Filter>
+    </ClCompile>
+    <ClCompile Include="bossScene.cpp">
+      <Filter>playGround\Scene\dungeon</Filter>
+    </ClCompile>
+    <ClCompile Include="weaponScene.cpp">
+      <Filter>playGround\Scene\dungeon</Filter>
+    </ClCompile>
+    <ClCompile Include="RandomDungeon1.cpp">
+      <Filter>playGround\Scene\dungeon</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>playGround\bullet</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
