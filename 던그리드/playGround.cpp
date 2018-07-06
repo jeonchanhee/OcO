@@ -8,7 +8,7 @@ playGround::~playGround(){}
 
 HRESULT playGround::init(void)	
 {
-	mode = 맵툴;				//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
+	mode = 던전2;				//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
 //	rectRotate(IMAGEMANAGER->findImage("검01"), 100, 100);
 
 	gameNode::init(true);
@@ -26,7 +26,7 @@ HRESULT playGround::init(void)
 	_title->setImLink(_im);
 
 	SCENEMANAGER->addScene("타이틀", _title);
-	//SCENEMANAGER->addScene("던전2", new dungeon2Scene);
+	SCENEMANAGER->addScene("던전2", new dungeon2Scene);
 	SCENEMANAGER->addScene("대사씬", new Dialog);
 	SCENEMANAGER->addScene("아이템씬", new itemManager);
 	SCENEMANAGER->addScene("인트로", new introScene);
@@ -56,7 +56,7 @@ HRESULT playGround::init(void)
 		break;
 	
 	case 던전2:
-		//SCENEMANAGER->changeScene("던전2");
+		SCENEMANAGER->changeScene("던전2");
 		break;
 	
 	case 맵선택:
@@ -157,7 +157,7 @@ void playGround::render(void)
 		SCENEMANAGER->render();
 		break;
 	case 던전2:
-		//SCENEMANAGER->render();
+		SCENEMANAGER->render();
 		break;
 	case 맵선택:
 		SCENEMANAGER->render();

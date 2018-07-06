@@ -51,15 +51,15 @@ void dungeonScene::render(void)
 
 void dungeonScene::mapload()
 {
-	//HANDLE   file;
-	//DWORD   load;
-	//ZeroMemory(&_tiles, sizeof(tagTile) * TILEX * TILEY);
+	HANDLE   file;
+	DWORD   load;
+	ZeroMemory(&_tiles, sizeof(tagTile) * TILEX * TILEY);
 
-	//file = CreateFile(_mapName.c_str(), GENERIC_READ, NULL, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+	file = CreateFile(_mapName.c_str(), GENERIC_READ, NULL, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 
-	//ReadFile(file, _tiles, sizeof(tagTile) * TILEX * TILEY, &load, NULL);
+	ReadFile(file, _tiles, sizeof(tagTile) * TILEX * TILEY, &load, NULL);
 
-	//CloseHandle(file);
+	CloseHandle(file);
 	///*여기서 몬스터를 추가할 생각은 없으신가요 ? ? ;
 	//근데왜
 	//	에너미 매니저가 있나요

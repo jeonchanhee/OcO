@@ -178,7 +178,7 @@ void mapSelectScene::chooseMap(int idx)
 	_mapIdx = idx;
 
 	if (idx == 0)
-		_mapName = "map/Dtownmap(80x25).map";
+		_mapName = "map/townmap(80x25).map";
 	if (idx == 1)
 		_mapName = "map/Dungeon1(28x11).map";
 	if (idx == 2)
