@@ -24,6 +24,9 @@ HRESULT titleScene::init(void)
 	_button[2]=RectMake(907,900,102,62);
 
 	_clickData = false;
+	_scroll = false;
+	_currentScroll = 0;
+
 	for (int i = 0; i < 3; i++)
 	{
 		_deleteRect[i] = RectMake(220 + i * 610, 150, IMAGEMANAGER->findImage("T_delete")->getWidth(), IMAGEMANAGER->findImage("T_delete")->getHeight());
@@ -119,9 +122,9 @@ void titleScene::render(void)
 	}
 	else
 	{
-		inven();
+		//inven();
 		//reward();
-		//restaurant();
+		restaurant();
 		//drawData();
 	}
 
@@ -177,14 +180,39 @@ void titleScene::inven()
 
 void titleScene::restaurant()
 {
-	RECT rc= RectMake(686, 210, 42, 432);
 	IMAGEMANAGER->findImage("restaurant")->render(DC, 0, 0);
 	IMAGEMANAGER->findImage("rest")->frameRender(DC,744, 216);
-	IMAGEMANAGER->findImage("reslot")->render(DC,54, 240);
-	IMAGEMANAGER->findImage("scroll")->render(DC,686, 210);
+	IMAGEMANAGER->findImage("reslot")->render(UIDC2,0, 0);
+	IMAGEMANAGER->findImage("reslot")->render(UIDC2,0, 270);
+	IMAGEMANAGER->findImage("reslot")->render(UIDC2,0, 540);
+	IMAGEMANAGER->findImage("reslot")->render(UIDC2,0, 810);
+	if (PtInRect(&_rc, _ptMouse) && KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
+	{
+		_scroll = true;
+		_mouseY = _ptMouse.y;
+	}
+	else if (KEYMANAGER->isOnceKeyUp(VK_LBUTTON))
+	{
+		_scroll = false;
+		_currentScroll = _rc.top - 210;
+	}
+	if (_scroll == true)
+	{
+		_rc = RectMake(686, 210 + _ptMouse.y - _mouseY+_currentScroll, 42, 432);
+		
+	}
+	if (_rc.top <= 210)
+		_rc = RectMake(686, 210 , 42, 432);
+	if (_rc.bottom >= 932)
+		_rc = RectMake(686, 500, 42, 432);
+	if (_rc.top >= 210 && _rc.bottom <= 932)
+		CAMERAMANAGER->setCameraPoint(PointMake(0, (_rc.top + 1 - 210)*1.4));
+
+	IMAGEMANAGER->findImage("scroll")->render(DC, 686, _rc.top);
+
 	if (KEYMANAGER->isToggleKey(VK_TAB))
 	{
-		Rectangle(DC, rc.left, rc.top, rc.right, rc.bottom);
+		Rectangle(DC, _rc.left, _rc.top, _rc.right, _rc.bottom);
 	}
 }
 

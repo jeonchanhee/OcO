@@ -17,8 +17,8 @@
 #define TILESIZE2 32
 
 // 타일 갯수
-#define TILEX 50
-#define TILEY 50
+#define TILEX 80
+#define TILEY 25
 
 //#define TILEX 28
 //#define TILEY 12
@@ -32,7 +32,7 @@
 #define SAMPLETILEY 26
 
 // 맵이름
-#define MAPNAME "map/test.map"
+#define MAPNAME "map/townmap(80x25).map"
 
 // 지형	
 enum TERRAIN
