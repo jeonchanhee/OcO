@@ -10,10 +10,10 @@ BigRedBat::~BigRedBat()
 {
 }
 
-HRESULT BigRedBat::init()
+HRESULT BigRedBat::init(float x, float y)
 {
-	_x = WINSIZEX / 2;
-	_y = WINSIZEY / 2;
+	_x = x;
+	_y = y;
 
 	_bigRedBatDirection = BIGREDBAT_RIGHT_MOVE;
 	_img = IMAGEMANAGER->findImage("giantRedBatIdleDie");
@@ -67,7 +67,7 @@ void BigRedBat::update()
 	/////////////////бубубубубубубубубу////////////////////
 
 
-	KEYANIMANAGER->update();
+	//KEYANIMANAGER->update();
 	_rc = RectMakeCenter(_x, _y, _img->getFrameHeight(), _img->getFrameHeight());
 }
 

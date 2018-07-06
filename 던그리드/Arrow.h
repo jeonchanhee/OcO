@@ -16,11 +16,13 @@ private:
 	bool _isShoot;
 	POINT _bowCenter;//È° Áß¾Ó
 
+	int	_index;
+
 public:
 	Arrow();
 	~Arrow();
 
-	HRESULT init();
+	HRESULT init(float x, float y);
 	void release();
 	void update();
 	void render();

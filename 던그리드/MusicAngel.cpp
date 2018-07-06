@@ -11,12 +11,10 @@ MusicAngel::~MusicAngel()
 {
 }
 
-HRESULT MusicAngel::init()
+HRESULT MusicAngel::init(float x, float y)
 {
-	/*_x = WINSIZEX / 2;
-	_y = WINSIZEY / 2;*/
-
-	_x = _y = 100;
+	_x = x;
+	_y = y;
 
 	_img = IMAGEMANAGER->findImage("bansheeIdleAttack");
 
@@ -70,7 +68,7 @@ void MusicAngel::update()
 	}*/
 	////////////////////бубубубубубубубубубубубу//////////////////////
 
-	KEYANIMANAGER->update();
+	//KEYANIMANAGER->update();
 	_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 }
 

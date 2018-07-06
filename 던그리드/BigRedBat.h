@@ -20,7 +20,7 @@ public:
 	BigRedBat();
 	~BigRedBat();
 
-	HRESULT init();
+	HRESULT init(float x, float y);
 	void release();
 	void update();
 	void render();

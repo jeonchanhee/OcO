@@ -234,9 +234,6 @@
     <ClInclude Include="cameraManager.h">
       <Filter>2DFramework\Manager</Filter>
     </ClInclude>
-    <ClInclude Include="Bullet.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="tileNode.h">
       <Filter>playGround\MapTool</Filter>
     </ClInclude>
@@ -288,9 +285,6 @@
     <ClInclude Include="commonMacroFunction.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="playerBullet.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="dungeon2Scene.h">
       <Filter>playGround\Scene\dungeon</Filter>
     </ClInclude>
@@ -329,6 +323,12 @@
     </ClInclude>
     <ClInclude Include="RandomDungeon1.h">
       <Filter>playGround\Scene\dungeon</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet.h">
+      <Filter>playGround\bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="playerBullet.h">
+      <Filter>playGround\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -470,9 +470,6 @@
     <ClCompile Include="playGround_Sound.cpp">
       <Filter>playGround</Filter>
     </ClCompile>
-    <ClCompile Include="Bullet.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="itemManager.cpp">
       <Filter>playGround\Item</Filter>
     </ClCompile>
@@ -550,6 +547,9 @@
     </ClCompile>
     <ClCompile Include="RandomDungeon1.cpp">
       <Filter>playGround\Scene\dungeon</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>playGround\bullet</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

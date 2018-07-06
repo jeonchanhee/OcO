@@ -24,8 +24,7 @@ public:
 	Enemy();
 	~Enemy();
 
-	HRESULT init();
-	HRESULT init(const char* imageName, POINT position, float angle, float speed);
+	HRESULT init(const char* imageName, float x, float y, float angle, float speed);
 	void release();
 	void update();
 	void render();
@@ -36,7 +35,9 @@ public:
 	inline RECT getRect() { return _rc; } //렉트 반환 함수
 
 	void setAngle(float angle); //각도 바꾸는 함수
-	float getAngle();			//각도 받는 함수
+	//float getAngle();			//각도 받는 함수
 	void setPoint(float x, float y);	//좌표 바꾸는 함수
+
+	
 };
 

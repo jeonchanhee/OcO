@@ -7,7 +7,6 @@ dungeonScene::dungeonScene() {}
 
 dungeonScene::~dungeonScene() {}
 
-
 HRESULT dungeonScene::init(void)
 {
 	return S_OK;
@@ -67,6 +66,12 @@ void dungeonScene::render(void)
 		Rectangle(DC, _door[i].rc.left, _door[i].rc.top, _door[i].rc.right, _door[i].rc.bottom);
 	}
 
+	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); ++_viEnemy)
+	{
+		(*_viEnemy)->render();
+	}
+}
+
 	RECT rc;
 	rc = RectMakeCenter(WINSIZEX / 2, WINSIZEY / 2, 100, 100);
 	Rectangle(DC, rc.left, rc.top, rc.right, rc.bottom);
@@ -88,7 +93,6 @@ void dungeonScene::mapload()
 
 	CloseHandle(file);
 }
-
 
 void dungeonScene::setCamera(void)
 {
@@ -123,6 +127,7 @@ void dungeonScene::selectSize(int idx)
 		_temp = 25;
 }
 
+
 void dungeonScene::chooseMap(int idx)
 {
 	if (idx == 0)
@@ -151,6 +156,109 @@ void dungeonScene::chooseMap(int idx)
 		_mapName = "map/weaponsStore(25x15).map";
 
 	_tileX = TILEVALUE[idx][0], _tileY = TILEVALUE[idx][1];
+}
+
+//°³»À
+void dungeonScene::setDogBone(int idX, int idY)
+{
+	DogBone* dogBone;
+	dogBone = new DogBone;
+	float x = TILESIZE * idX;
+	float y = TILESIZE * idY;
+	y += TILESIZE / 2 + 15;
+	dogBone->init(x, y);
+	_vEnemy.push_back(dogBone);
+}
+//Å«Ä®»À
+void dungeonScene::setBigBone(int idX, int idY, int index)
+{
+	BigBone* bigBone;
+	bigBone = new BigBone;
+	float x = TILESIZE * idX;
+	float y = TILESIZE * idY;
+	y -= 20;
+	bigBone->init(x, y, index);
+	_vEnemy.push_back(bigBone);
+}
+//È°ÀïÀÌ
+void dungeonScene::setArrow(int idX, int idY)
+{
+	Arrow* arrow;
+	arrow = new Arrow;
+	float x = TILESIZE * idX;
+	float y = TILESIZE * idY;
+	y += 15;
+	arrow->init(x, y);
+	_vEnemy.push_back(arrow);
+}
+//ÀÛº¸¹Ú
+void dungeonScene::setBat(int idX, int idY)
+{
+	Bat* bat;
+	bat = new Bat;
+	float x = TILESIZE * idX;
+	float y = TILESIZE * idY;
+	bat->init(x, y);
+	_vEnemy.push_back(bat);
+}
+//ÀÛ»¡¹Ú
+void dungeonScene::setRedBat(int idX, int idY)
+{
+	RedBat* redBat;
+	redBat = new RedBat;
+	float x = TILESIZE * idX;
+	float y = TILESIZE * idY;
+	redBat->init(x, y);
+	_vEnemy.push_back(redBat);
+}
+
+void dungeonScene::setBigBat(int idX, int idY)
+{
+	BigBat* bigBat;
+	bigBat = new BigBat;
+	float x = TILESIZE * idX;
+	float y = TILESIZE * idY;
+	bigBat->init(x, y);
+	_vEnemy.push_back(bigBat);
+}
+
+void dungeonScene::setBigRedBat(int idX, int idY)
+{
+	BigRedBat* bigRedBat;
+	bigRedBat = new BigRedBat;
+	float x = TILESIZE * idX;
+	float y = TILESIZE * idY;
+	bigRedBat->init(x, y);
+	_vEnemy.push_back(bigRedBat);
+}
+
+void dungeonScene::setMusicAngel(int idX, int idY)
+{
+	MusicAngel* musicAngel;
+	musicAngel = new MusicAngel;
+	float x = TILESIZE * idX;
+	float y = TILESIZE * idY;
+	musicAngel->init(x, y);
+	_vEnemy.push_back(musicAngel);
+}
+
+void dungeonScene::setCow(int idX, int idY)
+{
+	Cow* cow;
+	cow = new Cow;
+	float x = TILESIZE * idX;
+	float y = TILESIZE * idY;
+	cow->init(x, y);
+	_vEnemy.push_back(cow);
+}
+
+void dungeonScene::setBoss()
+{
+	Boss2* boss;
+	boss = new Boss2;
+	boss->init();
+	_vEnemy.push_back(boss);
+}
 }
 
 void dungeonScene::nextTest()

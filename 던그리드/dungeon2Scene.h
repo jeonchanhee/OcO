@@ -12,6 +12,6 @@ public:
 	HRESULT init();
 
 	void update();
-
+	void setMonster();
 };
 

@@ -8,5 +8,6 @@ public:
 	~dungeon5Scene();
 	HRESULT init();
 	void update();
+	void setMonster();
 };
 
