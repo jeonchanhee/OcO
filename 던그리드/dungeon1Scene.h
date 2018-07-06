@@ -2,6 +2,7 @@
 #include "dungeonScene.h"
 class dungeon1Scene : public dungeonScene
 {
+
 public:
 	dungeon1Scene();
 	~dungeon1Scene();

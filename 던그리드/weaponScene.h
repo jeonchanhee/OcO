@@ -7,5 +7,6 @@ public:
 	weaponScene();
 	~weaponScene();
 	HRESULT init();
+	void update();
 };
 

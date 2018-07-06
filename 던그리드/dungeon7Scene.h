@@ -7,5 +7,7 @@ public:
 	dungeon7Scene();
 	~dungeon7Scene();
 	HRESULT init();
+	void update();
+	void setMonster();
 };
 

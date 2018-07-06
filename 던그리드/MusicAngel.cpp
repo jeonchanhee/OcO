@@ -68,7 +68,7 @@ void MusicAngel::update()
 	}*/
 	////////////////////бубубубубубубубубубубубу//////////////////////
 
-	KEYANIMANAGER->update();
+	//KEYANIMANAGER->update();
 	_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 }
 

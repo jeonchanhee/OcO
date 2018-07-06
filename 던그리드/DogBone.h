@@ -21,6 +21,7 @@ private:
 	DOGBONEDIRECTION _dogBoneDirection;
 	animation* _dogBoneMotion;
 
+	float _startY;
 public:
 	DogBone();
 	~DogBone();

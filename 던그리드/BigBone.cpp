@@ -11,8 +11,10 @@ BigBone::~BigBone()
 {
 }
 
-HRESULT BigBone::init(float x, float y)
+HRESULT BigBone::init(float x, float y, int index)
 {
+	_index = index;
+
 	_bigBoneDirection = BIGBONE_LEFT_MOVE;
 	_x = x;
 	_y = y;
@@ -28,8 +30,12 @@ HRESULT BigBone::init(float x, float y)
 	KEYANIMANAGER->addCoordinateFrameAnimation("bigBoneLeftMove", "bigWhiteSkelIdleMove", 18, 23, 10, false, true);
 
 	//ATTACK상태
-	KEYANIMANAGER->addCoordinateFrameAnimation("bigBoneRightAttack", "bigWhiteSkelAttack", 0, 11, 10, false, false, rightAttack, this);
-	KEYANIMANAGER->addCoordinateFrameAnimation("bigBoneLeftAttack", "bigWhiteSkelAttack", 12, 23, 10, false, false, leftAttack, this);
+	char str[50];
+	sprintf_s(str, "bigBoneRightAttack%d", _index);
+	KEYANIMANAGER->addCoordinateFrameAnimation(str, "bigWhiteSkelAttack", 0, 11, 10, false, false, rightAttack, this);
+
+	sprintf_s(str, "bigBoneLeftAttack%d", _index);
+	KEYANIMANAGER->addCoordinateFrameAnimation(str, "bigWhiteSkelAttack", 12, 23, 10, false, false, leftAttack, this);
 	
 	//DIE상태
 	//IMAGEMANAGER->findImage("skelBone");
@@ -66,7 +72,7 @@ void BigBone::update()
 	}
 	///////////▲▲▲▲▲▲▲▲▲▲▲///////////////
 
-	KEYANIMANAGER->update();
+	//KEYANIMANAGER->update();
 
 }
 
@@ -88,10 +94,10 @@ void BigBone::render()
 	case BIGBONE_DIE:
 		break;
 	case BIGBONE_RIGHT_ATTACK:
-		_img->aniRender(DC, _x  - 45, _y - 125 + 5, _bigBoneMotion);
+		_img->aniRender(DC, _x  - 45, _y - 125 + 5 -60, _bigBoneMotion);
 		break;
 	case BIGBONE_LEFT_ATTACK:
-		_img->aniRender(DC, _x - 90 - 45, _y - 85 - 50 + 15, _bigBoneMotion);
+		_img->aniRender(DC, _x - 90 - 45, _y - 85 - 50 + 15-60, _bigBoneMotion);
 		break;
 	}
 
@@ -220,14 +226,17 @@ void BigBone::changeAnimation(BIGBONEDIRECTION bigBoneDirection)
 		case BIGBONE_RIGHT_ATTACK:
 			_img = IMAGEMANAGER->findImage("bigWhiteSkelAttack");
 			_bigBoneDirection = BIGBONE_RIGHT_ATTACK;
-			_bigBoneMotion = KEYANIMANAGER->findAnimation("bigBoneRightAttack");
+			char str[50];
+			sprintf_s(str, "bigBoneRightAttack%d", _index);
+			_bigBoneMotion = KEYANIMANAGER->findAnimation(str);
 			_bigBoneMotion->start();
 			_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 		break;
 		case BIGBONE_LEFT_ATTACK:
 			_img = IMAGEMANAGER->findImage("bigWhiteSkelAttack");
 			_bigBoneDirection = BIGBONE_LEFT_ATTACK;
-			_bigBoneMotion = KEYANIMANAGER->findAnimation("bigBoneLeftAttack");
+			sprintf_s(str, "bigBoneLeftAttack%d", _index);
+			_bigBoneMotion = KEYANIMANAGER->findAnimation(str);
 			_bigBoneMotion->start();
 			_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 		break;

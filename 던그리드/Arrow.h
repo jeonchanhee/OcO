@@ -16,6 +16,8 @@ private:
 	bool _isShoot;
 	POINT _bowCenter;//È° Áß¾Ó
 
+	int	_index;
+
 public:
 	Arrow();
 	~Arrow();
