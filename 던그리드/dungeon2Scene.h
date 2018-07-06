@@ -11,9 +11,6 @@ public:
 
 	HRESULT init();
 	void update();
-	/*void render();
-	void release();*/
-	void setCamera();
 	void setMonster();
 };
 

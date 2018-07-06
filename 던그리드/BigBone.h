@@ -21,12 +21,13 @@ private:
 	animation* _bigBoneMotion;
 	POINT		_renPoint[2]; //∑ª¥ı«“ x,y¡¬«• 2∞≥
 
+	int		_index;
 
 public:
 	BigBone();
 	~BigBone();
 
-	HRESULT init(float x, float y);
+	HRESULT init(float x, float y, int index);
 	void release();
 	void update();
 	void render();

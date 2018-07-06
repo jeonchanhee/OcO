@@ -8,7 +8,7 @@ playGround::~playGround(){}
 
 HRESULT playGround::init(void)	
 {
-	mode = 던전3;				//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
+	mode = 던전8;				//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
 //	rectRotate(IMAGEMANAGER->findImage("검01"), 100, 100);
 
 	gameNode::init(true);
@@ -32,7 +32,12 @@ HRESULT playGround::init(void)
 	SCENEMANAGER->addScene("인트로", new introScene);
 	SCENEMANAGER->addScene("맵선택", new mapSelectScene);
 	SCENEMANAGER->addScene("던전3", new dungeon3Scene);
-	
+	SCENEMANAGER->addScene("던전4", new dungeon4Scene);
+	SCENEMANAGER->addScene("던전5", new dungeon5Scene);
+	SCENEMANAGER->addScene("던전6", new dungeon6Scene);
+	SCENEMANAGER->addScene("던전7", new dungeon7Scene);
+	SCENEMANAGER->addScene("던전8", new dungeon8Scene);
+
 	switch (mode)
 	{
 	case 맵툴:
@@ -55,18 +60,30 @@ HRESULT playGround::init(void)
 	case 인트로:
 		SCENEMANAGER->changeScene("인트로");
 		break;
-	
 	case 던전2:
 		SCENEMANAGER->changeScene("던전2");
 		break;
 	case 던전3:
 		SCENEMANAGER->changeScene("던전3");
 		break;
-
+	case 던전4:
+		SCENEMANAGER->changeScene("던전4");
+		break;
+	case 던전5:
+		SCENEMANAGER->changeScene("던전5");
+		break;
+	case 던전6:
+		SCENEMANAGER->changeScene("던전6");
+		break;
+	case 던전7:
+		SCENEMANAGER->changeScene("던전7");
+		break;
+	case 던전8:
+		SCENEMANAGER->changeScene("던전8");
+		break;
 	case 맵선택:
 		SCENEMANAGER->changeScene("맵선택");
 		break;
-	
 	case 기타추가하셈:
 		break;
 	default:
@@ -160,7 +177,7 @@ void playGround::render(void)
 	case 아이템:
 		SCENEMANAGER->render();
 		break;
-	case 던전2: case 던전3:
+	case 던전2: case 던전3: case 던전4: case 던전5: case 던전6: case 던전7: case 던전8:
 		SCENEMANAGER->render();
 		break;
 	case 맵선택:

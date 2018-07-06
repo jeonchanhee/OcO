@@ -67,7 +67,7 @@ void Cow::update()
 	///////////////////////бубубубубубубубубу///////////////////////////
 
 
-	KEYANIMANAGER->update();
+	//KEYANIMANAGER->update();
 	_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 }
 
@@ -104,9 +104,15 @@ void Cow::changeDirection()
 		_x += COWSPEED;
 	if (_cowDirection == COW_LEFT_CHARGE)
 		_x -= COWSPEED;
-	if (_x <= _img->getFrameWidth())
+	//if (_x <= _img->getFrameWidth())
+	//{
+	//	_x = _img->getFrameWidth() + 5;
+	//	changeAnimation(COW_RIGHT_MOVE);
+	//	//_x += COWSPEED;
+	//}
+	if (_x <= 255)
 	{
-		_x = _img->getFrameWidth() + 5;
+		_x = 260;
 		changeAnimation(COW_RIGHT_MOVE);
 		//_x += COWSPEED;
 	}

@@ -24,14 +24,13 @@ HRESULT dungeon2Scene::init()
 
 void dungeon2Scene::update()
 {
+	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); ++_viEnemy)
+	{
+		(*_viEnemy)->update();
+	}
 }
 
-
-void dungeon2Scene::setCamera(void)
-{
-	CAMERAMANAGER->setCameraCenter(PointMake(0, 0));
-}
-
+//몬스터 위치 잡아주는 함수
 void dungeon2Scene::setMonster()
 {
 	//개뼈
@@ -54,7 +53,7 @@ void dungeon2Scene::setMonster()
 	id[1][0] = 510 % _temp, id[1][1] = 510 / _temp;
 	for (int i = 0; i < 2; i++)
 	{
-		setBigBone(id[i][0], id[i][1]);
+		setBigBone(id[i][0], id[i][1], i);
 	}
 	//작보박
 	setBat(303 % _temp, 303 / _temp);

@@ -17,8 +17,8 @@ HRESULT RedBat::init(float x, float y)
 	//_y = 200;
 	_x = x;
 	_y = y;
-	_startX = WINSIZEX / 2;
-	_startY = WINSIZEY / 2;
+	_startX = x;
+	_startY = y;
 	_angle = 0;
 	_speed = 300.0f;
 
@@ -56,7 +56,7 @@ void RedBat::update()
 
 	move();
 	Attack();
-	KEYANIMANAGER->update();
+	//KEYANIMANAGER->update();
 	
 	/////////////////////////테스트/////////////////////////////
 	//죽는모션
