@@ -157,13 +157,21 @@
     <ClInclude Include="BigBone.h" />
     <ClInclude Include="BigRedBat.h" />
     <ClInclude Include="Boss2.h" />
+    <ClInclude Include="bossScene.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="button.h" />
     <ClInclude Include="cameraManager.h" />
     <ClInclude Include="commonMacroFunction.h" />
     <ClInclude Include="Cow.h" />
     <ClInclude Include="Dialog.h" />
+    <ClInclude Include="dungeon1Scene.h" />
     <ClInclude Include="dungeon2Scene.h" />
+    <ClInclude Include="dungeon3Scene.h" />
+    <ClInclude Include="dungeon4Scene.h" />
+    <ClInclude Include="dungeon5Scene.h" />
+    <ClInclude Include="dungeon6Scene.h" />
+    <ClInclude Include="dungeon7Scene.h" />
+    <ClInclude Include="dungeon8Scene.h" />
     <ClInclude Include="dungeonScene.h" />
     <ClInclude Include="DogBone.h" />
     <ClInclude Include="DialogElder.h" />
@@ -175,6 +183,7 @@
     <ClInclude Include="effectManager.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Food.h" />
+    <ClInclude Include="foodScene.h" />
     <ClInclude Include="gameNode.h" />
     <ClInclude Include="GodNpc.h" />
     <ClInclude Include="image.h" />
@@ -194,6 +203,7 @@
     <ClInclude Include="playerBullet.h" />
     <ClInclude Include="playGround.h" />
     <ClInclude Include="progressBar.h" />
+    <ClInclude Include="RandomDungeon1.h" />
     <ClInclude Include="randomFunction.h" />
     <ClInclude Include="RedBat.h" />
     <ClInclude Include="Resource.h" />
@@ -213,6 +223,7 @@
     <ClInclude Include="utils.h" />
     <ClInclude Include="Weapon.h" />
     <ClInclude Include="WeaponNpc.h" />
+    <ClInclude Include="weaponScene.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Accessory.cpp" />
@@ -224,12 +235,20 @@
     <ClCompile Include="BigBone.cpp" />
     <ClCompile Include="BigRedBat.cpp" />
     <ClCompile Include="Boss2.cpp" />
+    <ClCompile Include="bossScene.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="button.cpp" />
     <ClCompile Include="cameraManager.cpp" />
     <ClCompile Include="Cow.cpp" />
     <ClCompile Include="Dialog.cpp" />
+    <ClCompile Include="dungeon1Scene.cpp" />
     <ClCompile Include="dungeon2Scene.cpp" />
+    <ClCompile Include="dungeon3Scene.cpp" />
+    <ClCompile Include="dungeon4Scene.cpp" />
+    <ClCompile Include="dungeon5Scene.cpp" />
+    <ClCompile Include="dungeon6Scene.cpp" />
+    <ClCompile Include="dungeon7Scene.cpp" />
+    <ClCompile Include="dungeon8Scene.cpp" />
     <ClCompile Include="dungeonScene.cpp" />
     <ClCompile Include="DogBone.cpp" />
     <ClCompile Include="DialogElder.cpp" />
@@ -241,6 +260,7 @@
     <ClCompile Include="effectManager.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Food.cpp" />
+    <ClCompile Include="foodScene.cpp" />
     <ClCompile Include="gameNode.cpp" />
     <ClCompile Include="GodNpc.cpp" />
     <ClCompile Include="image.cpp" />
@@ -262,6 +282,7 @@
     <ClCompile Include="playGround_Image.cpp" />
     <ClCompile Include="playGround_Sound.cpp" />
     <ClCompile Include="progressBar.cpp" />
+    <ClCompile Include="RandomDungeon1.cpp" />
     <ClCompile Include="RedBat.cpp" />
     <ClCompile Include="sceneManager.cpp" />
     <ClCompile Include="SecondEquipment.cpp" />
@@ -281,6 +302,7 @@
     <ClCompile Include="utils.cpp" />
     <ClCompile Include="Weapon.cpp" />
     <ClCompile Include="WeaponNpc.cpp" />
+    <ClCompile Include="weaponScene.cpp" />
     <ClCompile Include="windowAPI.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -11,10 +11,10 @@ BigBat::~BigBat()
 {
 }
 
-HRESULT BigBat::init()
+HRESULT BigBat::init(float x, float y)
 {
-	_x = WINSIZEX / 2;
-	_y = WINSIZEY / 2;
+	_x = x;
+	_y = y;
 	
 	_bigBatDirection = BIGBAT_LEFT_MOVE;
 

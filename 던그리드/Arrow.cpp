@@ -11,19 +11,20 @@ Arrow::~Arrow()
 {
 }
 
-HRESULT Arrow::init()
+HRESULT Arrow::init(float x, float y)
 {
 	_arrow[0].img = IMAGEMANAGER->findImage("skeletonArcher");
 	_arrow[1].img = IMAGEMANAGER->findImage("skeletonBow");
 	_arrow[2].img = IMAGEMANAGER->findImage("arrow");
 
-	_arrow[0].x = WINSIZEX / 2; 
-	_arrow[1].x = _arrow[0].x + 70;
-	_arrow[2].x = _arrow[1].x - _arrow[2].img->getFrameWidth() / 2;
+	_arrow[0].x = x;
+	//_arrow[1].x = _arrow[0].x + 70;
+	_arrow[1].x = _arrow[0].x + 45;
+	_arrow[2].x = _arrow[1].x - _arrow[2].img->getFrameWidth() / 2 - 10;
 
-	_arrow[0].y = WINSIZEY / 2;
+	_arrow[0].y = y;
 	_arrow[1].y = _arrow[0].y + 60;
-	_arrow[2].y = _arrow[1].y - 5;
+	_arrow[2].y = _arrow[1].y - 2;
 
 	_bowCenter.x = _arrow[1].x;
 	_bowCenter.y = _arrow[1].y;
@@ -66,8 +67,9 @@ void Arrow::update()
 void Arrow::render()
 {	
 	_arrow[0].img->frameRender(DC, _arrow[0].x, _arrow[0].y);
-	_arrow[1].img->rotateFrameRender(DC, _arrow[1].x, _arrow[1].y, _angle);
+	
 	_arrow[2].img->rotateRender(DC, _arrow[2].x, _arrow[2].y, _angle);
+	_arrow[1].img->rotateFrameRender(DC, _arrow[1].x, _arrow[1].y, _angle);
 }
 
 void Arrow::move()

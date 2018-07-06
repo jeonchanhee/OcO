@@ -59,9 +59,10 @@ HRESULT playGround::Image_init(void)
 
 
 	//==========적=============
-	IMAGEMANAGER->addFrameImage("skeletonArcher", "image/enemy/skeletonArcher(180X110,2X1).bmp", 0, 0, 180, 110, 2, 1, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addRotateFrameImage("skeletonBow", "image/enemy/skeletonBow(365X100,6X2).bmp", 365, 100, 6, 2, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addRotateImage("arrow", "image/enemy/arrow(60x12,1x1).bmp", 60, 12, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("skeletonArcher", "image/enemy/skeletonArcher(120X100,2X1).bmp", 0, 0, 120, 100, 2, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addRotateFrameImage("skeletonBow", "image/enemy/skeletonBow2(210X35,6X1).bmp", 210, 35, 6, 1, true, RGB(255, 0, 255));
+	//IMAGEMANAGER->addRotateFrameImage("skeletonBow", "image/enemy/skeletonBow3(365x50,6x1).bmp", 365, 50, 6, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addRotateImage("arrow", "image/enemy/arrow(50x12,1x1).bmp", 50, 12, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("arrowEffect", "image/enemy/arrowEffect(720x370,3x1).bmp", 0, 0, 720, 370, 3, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("bansheeBigBullet", "image/enemy/bansheeBigBullet(480x110,6x1).bmp", 0, 0, 480, 110, 6, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("bansheeIdleAttack", "image/enemy/bansheeIdleAttack(600x440,6x4).bmp", 0, 0,  600, 440, 6, 4, true, RGB(255, 0, 255));
@@ -177,10 +178,10 @@ HRESULT playGround::Image_init(void)
 
 
 	//지우지마 지우지마 지우지마 지우지마 지우지마 지우지마 지우지마 지우지마 지우지마
-	IMAGEMANAGER->addFrameImage("총알0", "image/item/weapon/gun/deadlyKissBullet(1200x110,12x1).bmp", 1000, 92, 12, 1,true, RGB(255,0,255 ));
-	IMAGEMANAGER->addFrameImage("총알1", "image/item/weapon/gun/flameThrower(400x125,8x1).bmp",400,125,8,1,true, RGB(255 , 0 , 255));
-	IMAGEMANAGER->addFrameImage("총알2", "image/item/weapon/gun/matchlockGunBullet(70x70,5x1).bmp",70,70,5,1,true , RGB(255,0,255));
-	IMAGEMANAGER->addFrameImage("총알3", "image/item/weapon/gun/railGunBullet(300x100,6x1).bmp",300,100,6,1,true, RGB(255,0,255 ));
+	IMAGEMANAGER->addRotateFrameImage("총알0", "image/item/weapon/gun/deadlyKissBullet(1200x110,12x1).bmp",1000,92,12,1,true, RGB(255,0,255 ));
+	IMAGEMANAGER->addRotateFrameImage("총알1", "image/item/weapon/gun/flameThrower(400x125,8x1).bmp",400,125,8,1,true, RGB(255 , 0 , 255));
+	IMAGEMANAGER->addRotateFrameImage("총알2", "image/item/weapon/gun/matchlockGunBullet(750x30,5x1).bmp",750,30,5,1,true , RGB(255,0,255));
+	IMAGEMANAGER->addRotateFrameImage("총알3", "image/item/weapon/gun/railGunBullet(300x100,6x1).bmp",300,100,6,1,true, RGB(255,0,255 ));
 
 		
 	// 방어구 이미지

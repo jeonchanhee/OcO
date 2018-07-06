@@ -11,11 +11,11 @@ DogBone::~DogBone()
 {
 }
 
-HRESULT DogBone::init()
+HRESULT DogBone::init(float x, float y)
 {
 	_dogBoneDirection = DOGBONE_LEFT_MOVE;
-	_x = WINSIZEX / 2;
-	_y = WINSIZEY / 2;
+	_x = x;
+	_y = y;
 	_jumpPower = 5.0f;
 	_gravity = 0.15f;
 

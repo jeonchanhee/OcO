@@ -17,8 +17,8 @@
 #define TILESIZE2 32
 
 // 타일 갯수
-#define TILEX 80
-#define TILEY 25
+#define TILEX 50
+#define TILEY 50
 
 //#define TILEX 28
 //#define TILEY 12
@@ -32,7 +32,7 @@
 #define SAMPLETILEY 26
 
 // 맵이름
-#define MAPNAME "map/townmap(80x25).map"
+#define MAPNAME "map/Dungeon8(20x39).map"
 
 // 지형	
 enum TERRAIN
@@ -45,14 +45,14 @@ enum TERRAIN
 enum OBJECT
 {
 	//비어있음	못지나가는땅		아래점프로 내려가는땅		못지나가는 벽 기둥	미닫이문			가시
-	OBJ_NONE,	 OBJ_GROUND,	OBJ_GOGROUND,			 OBJ_CULUMN,		 OBJ_DOOR,		 OBJ_THORN
+	OBJ_NONE, OBJ_GROUND, OBJ_GOGROUND, OBJ_CULUMN, OBJ_DOOR, OBJ_THORN
 };
 
 // 포지션 정의
 enum POS
 {
 	//워프할 때 플레이어 나오는 곳(워프지점)	플레이어 입장시 리젠		마법진 리젠		보물상자
-	POS_PLAYER,								POS_ENEMY1,				 POS_ENEMY2,	POS_TREASURE
+	POS_PLAYER, POS_ENEMY1, POS_ENEMY2, POS_TREASURE
 };
 
 // 타일 구조체
@@ -85,9 +85,10 @@ struct tagCurrentTile
 
 extern tagTile	_tiles[TILEX * TILEY];
 
-extern int TILEVALUE[12][2]; //0: 마을, 1~9: 던전, 10: 보스, 11:상점
+extern int TILEVALUE[12][2]; //0: 마을, 1,3~9: 던전, 10: 보스, 2,11:상점
 
 extern int _tileX, _tileY;
+
 
 extern bool _isMapSet;
 

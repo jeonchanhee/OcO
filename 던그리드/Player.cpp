@@ -1,11 +1,7 @@
 #include "stdafx.h" 
 #include "Player.h"
-
-
-
 Player::Player(){}
 Player::~Player() {}
-
 
 HRESULT Player::init()
 {
@@ -23,7 +19,7 @@ HRESULT Player::init()
 	_currentHp = 80; _maxHp = 80;
 	_currentDash = 2; _maxDash = 2;
 	_armor = 0;
-	_currentDash = 2 , _maxDash = 2;
+	_currentDash = 2 , _maxDash = 128;
 	_currentFullNess = 0; _maxFullNess = 100;
 	_jumpPower = 12.0f;
 	_moveMentSpeed = 3.0f;
@@ -38,6 +34,7 @@ HRESULT Player::init()
 	_isDashing = false;
 	_isAttacking = false;
 	_isGun = true;
+	_attackSpeedCheckCount = false;
 	
 
 	int rightStop[] = { 0,1,2,3,4 };
@@ -117,9 +114,9 @@ void Player::render()
 	if (_isGun)
 	{
 		if (_isLeftAttack && _mainWeapon[_youUsingCount] != 0)
-			imageDC->rotateRender(DC, _leftHandX + 5, _leftHandY, _weaponAngle);
+			imageDC->rotateRender(DC, _leftHandX + TEN, _leftHandY, _weaponAngle);
 		else if (!_isLeftAttack && _mainWeapon[_youUsingCount] != 0)
-			imageDC->rotateRender(DC, _rightHandX  - 5, _rightHandY, _weaponAngle);
+			imageDC->rotateRender(DC, _rightHandX  - TEN, _rightHandY, _weaponAngle);
 		_player->aniRender(DC, _x, _y, _playerAnimation);
 	}
 	if (!_isGun)
@@ -220,14 +217,13 @@ void Player::keyInput()
 	}
 	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
 	{
-		if (!_isAttacking)
+		if (!_isAttacking && !_attackSpeedCheckCount)
 		{
-			_punchSpeed = PUNCHSPEED;
+			if (_mainWeapon[_youUsingCount] == 0) _punchSpeed = PUNCHSPEED;
 			_angle = getAngle(_x + _player->getFrameWidth() / 2, _y + _player->getFrameHeight() / 2, PTMOUSE_X, PTMOUSE_Y);
 			_isAttacking = true;
-
 		}
-		_pb->bulletFire(_x, _y, _angle, 500, 10.0f,3);
+		
 	}
 	if (KEYMANAGER->isOnceKeyDown(VK_RBUTTON))
 	{	
@@ -348,9 +344,15 @@ void Player::move()
 
 void Player::attack()
 {
+	float _cosValue = cosf(_angle) * ONE_HUNDRED - 40, _sinValue = -sinf(_angle) * ONE_HUNDRED - 40;
+	static unsigned int attackSpeedCheckCount = 0;
+	if(_attackSpeedCheckCount)++attackSpeedCheckCount;
 	if(_isAttacking)
 	{
-		_punchSpeed -= 0.7;
+	
+		if (_isGun && _isLeftAttack) _weaponAngle -= PI / 100;
+		else if (_isGun && !_isLeftAttack) _weaponAngle += PI / 100;
+		if(_mainWeapon[_youUsingCount] == 0)_punchSpeed -= 0.7;
 		//punch
 		if (_mainWeapon[_youUsingCount] == 0)
 		{
@@ -389,9 +391,26 @@ void Player::attack()
 				_isAttacking = false;
 			}
 		}
-		else if (_mainWeapon[_youUsingCount] == 2)
+		else if (_isGun)
 		{
-
+			if (_isLeftAttack)
+			{
+				_attackSpeedCheckCount = true;
+				_pb->bulletFire(_leftHandX + _cosValue, _leftHandY + _sinValue, _angle, 500, 10.0f,0);
+				_weaponAttackAngle -= PI / 10;
+				_leftHandX = _x + 15, _leftHandY = _y + 60;
+				_rightHandX = _x + 60, _rightHandY = _y + 60;
+				_isAttacking = false;
+			}
+			else if (!_isLeftAttack)
+			{
+				_attackSpeedCheckCount = true;
+				_pb->bulletFire(_rightHandX + _cosValue, _rightHandY + _sinValue, _angle, 500, 10.0f, 2);
+				_weaponAttackAngle += PI / 10;
+				_leftHandX = _x + 10, _leftHandY = _y + 60;
+				_rightHandX = _x + 65, _rightHandY = _y + 60;
+				_isAttacking = false;
+			}
 		}
 	}
 	if (_punchSpeed < -PUNCHSPEED)
@@ -399,12 +418,16 @@ void Player::attack()
 		_isAttacking = false;
 		_locusX = 0, _locusY = 0;
 	}
-
+	if (attackSpeedCheckCount > 30)
+	{
+		attackSpeedCheckCount = 0;
+		_attackSpeedCheckCount = false;
+		if (_isGun) _weaponAttackAngle = 0;
+	}
 }
 
 void Player::effect()
 {
-		
 	//if(_showAttackEffect)CAMERAMANAGER->cameraShaking();
 	if (!_isJumping)
 	{
@@ -430,7 +453,7 @@ void Player::effect()
 		if (_mainWeapon[_youUsingCount] == 1)
 		{
 			_showAttackEffect = true;
-			_attackEffect->setFrameX(0);  _attackEffect->setFrameY(0);
+			_attackEffect->setFrameX(0) , _attackEffect->setFrameY(0);
 		}
 	}
 	++_attackEffectCount;
