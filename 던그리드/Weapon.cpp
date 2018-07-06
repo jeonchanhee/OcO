@@ -82,6 +82,7 @@ void Weapon::setSword(const char * weaponName, int value)
 			_weapon.rc[i] = RectMake(_weapon.x, _weapon.y, _weapon.image[i]->getWidth(), _weapon.image[i]->getHeight());
 			//render();
 		}
+		
 	}
 
 	if (value == 1) // 기본무기

@@ -13,7 +13,7 @@ HRESULT playGround::init(void)
 
 	gameNode::init(true);
 	Image_init();
-	Sound_init();
+//	Sound_init();
 	
 	_mapTool = new MapTool;
 	_mapTool->init();
