@@ -11,6 +11,7 @@ HRESULT Armor::init(ITEMTYPE type, const char* armorName, int value, POINT posit
 	_value = value;
 	_armor.x = position.x;
 	_armor.y = position.y;
+
 	CreateArmor(type, armorName, value);
 	
 
@@ -30,10 +31,10 @@ void Armor::update()
 void Armor::CreateArmor(ITEMTYPE type, const char* ArmorName, int value)
 {
 
-	switch (_armor.type)
+	switch (type)
 	{
 	case ARMOR:
-		setArmor(_armorName, _value);
+		setArmor(ArmorName, value);
 		break;
 	}
 
@@ -43,11 +44,11 @@ void Armor::CreateArmor(ITEMTYPE type, const char* ArmorName, int value)
 void Armor::setArmor(const char* ArmorName, int value)
 {
 	char str[128];
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < 2; i++)
 	{
-		sprintf_s(str, "%s%d%d", _armorName, _value, i);
+		sprintf_s(str, "%s%d%d", ArmorName, value, i);
 		_armor.image[i] = IMAGEMANAGER->findImage(str);
-		_armor.rc[i] = RectMakeCenter(_armor.x, _armor.y, _armor.image[i]->getWidth(),
+		_armor.rc[i] = RectMakeCenter(_armor.x + i * 100, _armor.y, _armor.image[i]->getWidth(),
 		_armor.image[i]->getHeight());
 	}
 
@@ -84,7 +85,7 @@ void Armor::setArmor(const char* ArmorName, int value)
 
 void Armor::render()
 {
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < 2; i++)
 	{
 		_armor.image[i]->render(DC, _armor.rc[i].left, _armor.rc[i].top);
 	}

@@ -16,6 +16,7 @@ struct tagWeapon // 무기 구조체~~
 	int minimumAtt, MaxAtt;		//최소 ~ 최대 공격력 20 ~ 30 이면 고정딜은 22정도?
 	int fixedDamage;			//고정딜 22;
 	float attackSpeed;			//공격속도	
+	float moveMentSpeed;		//이동속도
 	float criticalPersent;		//크리티컬확률
 	float evasionPersent;		//회피율
 	float dashPower;			//대시공격력 증감률 
@@ -45,9 +46,9 @@ public:
 
 	void CreateWeapon(ITEMTYPE type, const char* weaponName, int value);
 	void setSword(const char* weaponName, int value);
-	//void setHammer(const char * weaponName, int value);
-	//void setGun(const char * weaponName, int value);
-	//void setBow(const char * weaponName, int value);
+	void setHammer(const char * weaponName, int value);
+	void setGun(const char * weaponName, int value);
+	void setBow(const char * weaponName, int value);
 
 
 

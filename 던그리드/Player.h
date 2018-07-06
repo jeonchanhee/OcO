@@ -5,6 +5,8 @@
 #define PUNCHSPEED 6.0f
 #define GRAVITY 0.25
 #define ONE_HUNDRED 100
+#define ONE_HUNDRED_HALF 50
+#define TEN 10
 
 enum DIRECTION
 {
@@ -21,21 +23,22 @@ private:
 	image * _player;
 	image * _playerHand[2];
 	image * _playerWeapon;
-	image* imageDC;
-	image* _attackEffect;
+	image * imageDC;
+	image * _attackEffect;
 
 	DIRECTION _direction;
 	animation * _playerAnimation;
 
-	//bool ¹Ù´Ù 
-	bool _isGun;													//ÇöÀç ¿ø°Å¸® ¹«±âÀÎÁö Ã¼Å© 
-	bool _isAlive;													//ÀÚ³× »ıÁ¸ÁßÀÎ°¡ ????
-	bool _isJumping;												//Á¡ÇÁÁßÀÎ°¡ ?
-	bool _isDashing;												//´ë½ÃÁß?
-	bool _isAttacking;												//¶§¸®´ÂÁß ?
-	bool _isLeftAttack;											    //¿ŞÂÊ¶§·Ç´Ï 
-	bool _isChap;													//°¡¹ö¸®³ª???
-	bool _showAttackEffect;											//°ø°İÀÌÆåÆ®!
+	//bool 
+	bool _isGun;						//boolÀÌÁö±İ 1							//ÇöÀç ¿ø°Å¸® ¹«±âÀÎÁö Ã¼Å© 
+	bool _isAlive;						//boolÀÌÁö±İ 2							//ÀÚ³× »ıÁ¸ÁßÀÎ°¡ ????
+	bool _isJumping;					//boolÀÌÁö±İ 3							//Á¡ÇÁÁßÀÎ°¡ ?
+	bool _isDashing;					//boolÀÌÁö±İ 4							//´ë½ÃÁß?
+	bool _isAttacking;					//boolÀÌÁö±İ 5							//¶§¸®´ÂÁß ?
+	bool _isLeftAttack;					//boolÀÌÁö±İ 6						    //¿ŞÂÊ¶§·Ç´Ï 
+	bool _isChap;						//boolÀÌÁö±İ 7							//°¡¹ö¸®³ª???
+	bool _showAttackEffect;				//boolÀÌÁö±İ 8							//°ø°İÀÌÆåÆ®!
+	bool _attackSpeedCheckCount;		//boolÀÌÁö±İ 9							//°ø°İ½ºÇÇµåÃéÄí ÄÉÄùÄùÄù®c®cÃßÄÉÃßÄÉÃßÄÉÃßÄÉÃßÄÉÃßÄÉÃß±P¤»
 	
 	// int 
 	int _currentHp, _maxHp;											 //ÇöÀç , ÀüÃ¼ Ã¼·Â 
@@ -86,36 +89,36 @@ public:
 
 	//Á¢±ÙÀÚ (get)      
 	bool getIsGun()						    { return _isGun; }						     //¿ø°Å¸® ¹«±âÀåÂø ?
-	bool getIsAlive()					    { return _isAlive; }							 //»ıÁ¸ ?
+	bool getIsAlive()					    { return _isAlive; }						 //»ıÁ¸ ?
 										   
 	int getCurrentHp()					    { return _currentHp; }						 //ÇöÀç hp
-	int getMaxHp()						    { return _maxHp; }							//ÀüÃ¼hp
+	int getMaxHp()						    { return _maxHp; }							 //ÀüÃ¼hp
 	int getArmor()						    { return _armor; }							 // ¹æ¾î·Â
-	int getCurrentDash()				    { return _currentDash; }						// ÇöÀç´ë½Ã¼ö
-	int getMaxDash()					    { return _maxDash; }								// ÀüÃ¼ ´ë½Ã¼ö 
-	int getAttackMinD()					    { return _attackMinDamage; }			         //ÃÖ¼Ò µ¥¹ÌÁö
-	int getAttackMaxD()					    { return _attackMaxDamage; }					//ÃÖ´ë ´ë¹ÌÁö
-	int getAttackPower()				    { return _attackPower; }				    	//À§·Â
-	int getMainWeapon(int i)			    { return _mainWeapon[i]; }					// ÁÖ¹«±â ¹è¿­ 2°³
-	int getAssistWeapon(int i)			    { return _assistWeapon[i]; }					 // º¸Á¶¹«±â¹è¿­ 2°³
+	int getCurrentDash()				    { return _currentDash; }					 // ÇöÀç´ë½Ã¼ö
+	int getMaxDash()					    { return _maxDash; }						 // ÀüÃ¼ ´ë½Ã¼ö 
+	int getAttackMinD()					    { return _attackMinDamage; }			     //ÃÖ¼Ò µ¥¹ÌÁö
+	int getAttackMaxD()					    { return _attackMaxDamage; }				 //ÃÖ´ë ´ë¹ÌÁö
+	int getAttackPower()				    { return _attackPower; }				     //À§·Â
+	int getMainWeapon(int i)			    { return _mainWeapon[i]; }					 // ÁÖ¹«±â ¹è¿­ 2°³
+	int getAssistWeapon(int i)			    { return _assistWeapon[i]; }				 // º¸Á¶¹«±â¹è¿­ 2°³
 	int getInventory(int i)				    { return _inventory[i]; }					 // ÀÎº¥Åä¸® ¹è¿­ 15°³
-	int getGold()						    { return _gold; }							  // °¡Áø		µ· µ· µ· 
-	int getCurrentExp()						{ return _currentExp; }							//ÇöÀç°æÇèÄ¡
+	int getGold()						    { return _gold; }							 // °¡Áø		µ· µ· µ· 
+	int getCurrentExp()						{ return _currentExp; }						 //ÇöÀç°æÇèÄ¡
 	int getMaxExp()							{ return _maxExp; }
-	int getCurrentFullNess()				{ return _currentFullNess; }					//ÇöÀç ¸¸º¹µµ 
-	int getMaxFullNess()				    { return _maxFullNess; }						//ÃÖ´ë ¸¸º¹µµ
-	int getYouUsingCount()				    { return _youUsingCount; }						// »ç¿ëÁßÀÎ ¹«±â 1¹øÀÎ°¡ 2¹øÀÎ°¡ ?
+	int getCurrentFullNess()				{ return _currentFullNess; }				 //ÇöÀç ¸¸º¹µµ 
+	int getMaxFullNess()				    { return _maxFullNess; }					 //ÃÖ´ë ¸¸º¹µµ
+	int getYouUsingCount()				    { return _youUsingCount; }					 // »ç¿ëÁßÀÎ ¹«±â 1¹øÀÎ°¡ 2¹øÀÎ°¡ ?
 
 										   
 	float getPlayerX()					    { return _x; }								 // ÇÃ·¹ÀÌ¾î x ÁÂÇ¥
 	float getPlayerY()					    { return _y; }								 // ÇÃ·¹ÀÌ¾î yÁÂÇ¥
-	float getAttackSpeed()				    { return _attackSpeed; }						  // °ø°İ¼Óµµ
-	float getreloadSpeed()				    { return _reloadSpeed; }						  // ÀçÀåÀü¼Óµµ
-	float getDashDamage()				    { return _dashDamage; }						  // ´ë½Ã µ¥¹ÌÁö 
+	float getAttackSpeed()				    { return _attackSpeed; }					 // °ø°İ¼Óµµ
+	float getreloadSpeed()				    { return _reloadSpeed; }					 // ÀçÀåÀü¼Óµµ
+	float getDashDamage()				    { return _dashDamage; }						 // ´ë½Ã µ¥¹ÌÁö 
 	float getMoveMentSpeed()			    { return _moveMentSpeed; }				 	 // ÀÌµ¿¼Óµµ
-	float getEvasionPer()				    { return _evasionPersent; }				 	// È¸ÇÇÇÒ È®·ü 
+	float getEvasionPer()				    { return _evasionPersent; }				 	 // È¸ÇÇÇÒ È®·ü 
 	float getGuardPer()					    { return _guardPersent; }					 // ¹æ¾îÇÒ È®·ü 
-	float getCriticalPer()				    { return _criticalPercent; }				    //Å©¸®Æ¼ÄÃ È®·ü 
+	float getCriticalPer()				    { return _criticalPercent; }				 //Å©¸®Æ¼ÄÃ È®·ü 
 	float getCritiacalDPer()			    { return _criticalAttackDamage; }			 // Å©¸®Æ¼ÄÃ µ¥¹ÌÁö Áõ°¡À² 
 
 
