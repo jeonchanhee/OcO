@@ -39,7 +39,8 @@ void playerBullet::render()
 {
 	for (_viPBullet = _vPBullet.begin(); _viPBullet != _vPBullet.end(); ++_viPBullet)
 	{
-		_viPBullet->bulletImage->frameRender(DC, _viPBullet->x, _viPBullet->y, _viPBullet->frameX, _viPBullet->frameY);
+		if(_viPBullet->type ==0)_viPBullet->bulletImage->frameRender(DC, _viPBullet->x, _viPBullet->y, _viPBullet->frameX, _viPBullet->frameY);
+		else _viPBullet->bulletImage->rotateFrameRender(DC, _viPBullet->x, _viPBullet->y, _viPBullet->frameX, _viPBullet->frameY , _viPBullet->angle);
 	}
 }
 
@@ -55,6 +56,7 @@ void playerBullet::bulletFire(float x, float y, float angle, float range, float 
 	bullet.frameX = bullet.frameY = 0;
 	bullet.frameCount = 0;
 	bullet.bulletImage->setFrameX(0);
+	bullet.type = type;
 
 	_vPBullet.push_back(bullet);
 }
