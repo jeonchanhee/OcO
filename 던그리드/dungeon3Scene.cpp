@@ -36,7 +36,10 @@ HRESULT dungeon3Scene::init()
 	for (int i = 0; i < 2; i++)
 	{
 		_door[i].rc = RectMake(_door[i].x, _door[i].y, TILESIZE * 4, TILESIZE);
+		_door[i].img = IMAGEMANAGER->findImage("updownDoor");
+		_door[i].dir = DOOR_UPDOWN;
 	}
+	setDoor();
 	setMonster();
 	return S_OK;
 }

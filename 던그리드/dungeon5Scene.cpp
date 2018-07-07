@@ -46,6 +46,16 @@ HRESULT dungeon5Scene::init()
 	_door[2].rc = RectMake(_door[2].x, _door[2].y, TILESIZE, TILESIZE * 4);
 	_door[1].rc = RectMake(_door[1].x, _door[1].y, TILESIZE * 4, TILESIZE);
 
+	_door[0].img = IMAGEMANAGER->findImage("leftDoor");
+	_door[0].dir = DOOR_LEFT;
+
+	_door[1].img = IMAGEMANAGER->findImage("updownDoor");
+	_door[1].dir = DOOR_UPDOWN;
+
+	_door[2].img = IMAGEMANAGER->findImage("rightDoor");
+	_door[2].dir = DOOR_RIGHT;
+
+	setDoor();
 	setMonster();
 	return S_OK;
 }

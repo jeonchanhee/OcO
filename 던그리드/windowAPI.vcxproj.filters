@@ -85,8 +85,14 @@
     <Filter Include="playGround\NPC">
       <UniqueIdentifier>{47ebe29a-c910-44da-97cc-a121ff2f0754}</UniqueIdentifier>
     </Filter>
+    <Filter Include="playGround\bullet">
+      <UniqueIdentifier>{da504023-5401-4c49-b9e5-d2f47fd3d9ad}</UniqueIdentifier>
+    </Filter>
     <Filter Include="playGround\Scene\dungeon">
       <UniqueIdentifier>{ca7ef291-05ba-4faf-9de4-9706c2e54464}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\Item\Property">
+      <UniqueIdentifier>{d38af98c-58c0-4f14-9c19-d1f45ae7da5f}</UniqueIdentifier>
     </Filter>
     <Filter Include="playGround\Bullet">
       <UniqueIdentifier>{da504023-5401-4c49-b9e5-d2f47fd3d9ad}</UniqueIdentifier>
@@ -246,17 +252,8 @@
     <ClInclude Include="itemManager.h">
       <Filter>playGround\Item</Filter>
     </ClInclude>
-    <ClInclude Include="introScene.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="mapSelectScene.h">
       <Filter>playGround\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="GodNpc.h">
-      <Filter>playGround\NPC</Filter>
-    </ClInclude>
-    <ClInclude Include="WeaponNpc.h">
-      <Filter>playGround\NPC</Filter>
     </ClInclude>
     <ClInclude Include="commonMacroFunction.h">
       <Filter>헤더 파일</Filter>
@@ -329,6 +326,12 @@
     </ClInclude>
     <ClInclude Include="playerBullet.h">
       <Filter>playGround\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Property.h">
+      <Filter>playGround\Item\Property</Filter>
+    </ClInclude>
+    <ClInclude Include="introScene.h">
+      <Filter>playGround\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -473,17 +476,8 @@
     <ClCompile Include="itemManager.cpp">
       <Filter>playGround\Item</Filter>
     </ClCompile>
-    <ClCompile Include="introScene.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="mapSelectScene.cpp">
       <Filter>playGround\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="GodNpc.cpp">
-      <Filter>playGround\NPC</Filter>
-    </ClCompile>
-    <ClCompile Include="WeaponNpc.cpp">
-      <Filter>playGround\NPC</Filter>
     </ClCompile>
     <ClCompile Include="Weapon.cpp">
       <Filter>playGround\Item\Weapon</Filter>
@@ -550,6 +544,12 @@
     </ClCompile>
     <ClCompile Include="Bullet.cpp">
       <Filter>playGround\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="introScene.cpp">
+      <Filter>playGround\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Property.cpp">
+      <Filter>playGround\Item\Property</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

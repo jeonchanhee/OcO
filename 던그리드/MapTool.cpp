@@ -141,6 +141,8 @@ void MapTool::load()
 	HANDLE	file;
 	DWORD	load;
 
+	ZeroMemory(&_tiles, sizeof(tagTile) * TILEX * TILEY);
+
 	file = CreateFile(MAPNAME, GENERIC_READ, NULL, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 
 	ReadFile(file, _tiles, sizeof(tagTile) * TILEX * TILEY, &load, NULL);
@@ -296,6 +298,18 @@ OBJECT MapTool::objSelect(int FrameX, int FrameY)
 		for (int j = 0; j < 7; j++)
 		{
 			if (FrameX == i && FrameY == j) return OBJ_CULUMN;
+			if (j == 2)
+			{
+				if (FrameX == i && FrameY == j) return OBJ_CEILING;
+			}
+			if (j == 4)
+			{
+				if (FrameX == i && FrameY == j) return OBJ_CEILING;
+			}
+			if (j == 6)
+			{
+				if (FrameX == i && FrameY == j) return OBJ_CEILING;
+			}
 		}
 	}
 

@@ -28,7 +28,8 @@ private:
 	int _value;					// 무슨 엔피시 인지
 	int _frameX, _frameY;		// 프레임 X, Y 
 	int _count;					// 프레임 카운트 받을거임
-
+	bool _leftStop;				// 왼쪽으로 멈춰있냐 
+	bool _rightStop;			// 오른쪽으로 멈춰있냐ㅕ
 
 public:
 	GodNpc();
@@ -40,7 +41,7 @@ public:
 	void render();
 
 	void npcCreate(NPC_TYPE type, NPC_CONDITION condition, const char* npcName, int value);
-	void WeaponNpc(NPC_CONDITION condition, const char* npcName, int value);
-	void FoodNpc();
+	void setWeaponNpc(NPC_CONDITION condition, const char* npcName, int value);
+	void setFoodNpc(NPC_CONDITION condition, const char* npcName, int value);
 };
 

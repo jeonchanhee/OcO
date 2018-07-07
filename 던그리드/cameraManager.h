@@ -54,7 +54,12 @@ public:
 	HDC getCameraDC(void) { return _camera->getMemDC(); }
 	HDC getCameraDC2(void) { return _cameraDC->getMemDC(); }
 	void setCameraCenter(POINT point);
-	void setCameraPoint(POINT point);
+
+	// 지우지 말아주세요 setCameraCenter 쓰니까 대각선처리가 부드럽지 못하드라구요 
+	void setCameraX(long x);
+	void setCameraY(long y);
+	//주석도 자제좀 
+
 	POINT getCameraCenter(void) { return _center; }
 	POINT getCameraPoint(void) { return _point; }
 	image* getCamera(void) { return _camera; }

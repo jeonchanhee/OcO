@@ -15,6 +15,9 @@
 
 class RandomDungeon1;
 
+enum DOOR_STATE { DOOR_OPEN, DOOR_IDLE, DOOR_CLOSE };
+enum DOOR_DIR { DOOR_LEFT, DOOR_RIGHT, DOOR_UPDOWN };
+
 struct torch
 {
 	image* img;
@@ -26,6 +29,10 @@ struct Door
 	image* img;
 	RECT rc;
 	int x, y;
+	int frameX, frameY;
+	int count;
+	DOOR_STATE state;
+	DOOR_DIR dir;
 };
 
 struct Portal
@@ -43,11 +50,13 @@ protected:
 	vector<int> _route;
 	RandomDungeon1* _random;
 
+	BigBat*		_bigbat;
+	BigRedBat*	_bigRedBat;
 	MusicAngel* _musicAngel; //음표요정
 	Boss2* _boss;			 //보스
 
 	Bullet* _enemyBullet;
-
+	Bullet2* _enemtBullet2;
 	torch	_torch;		// 횃불
 	//Door	_door;		// 문
 	vector<Door> _door;
@@ -59,7 +68,7 @@ protected:
 	string _mapValue[11];
 
 	int _count;
-	
+	int _count2;
 
 public:
 	virtual HRESULT init(void);
@@ -81,6 +90,10 @@ public:
 
 	void save();
 
+	void setDoor();
+
+	void doorRender();
+
 	dungeonScene();
 	~dungeonScene();
 
@@ -101,5 +114,7 @@ public:
 	//몬스터 총알 생성 함수
 	void MusicAngelBulletFire(); //음표요정 총알 발사 함수
 	void BossBulletFire();		 //보스 총알 발사 함수
+	void bigbatbulletFire();
+	void bigRadbatbulletFire();
 };
 
