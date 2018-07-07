@@ -17,11 +17,13 @@
 #include "dungeon6Scene.h"
 #include "dungeon7Scene.h"
 #include "dungeon8Scene.h"
+#include "bossScene.h"
 #include "itemManager.h"
 #include "introScene.h"
 #include "mapSelectScene.h"
 
-enum changeMode { 맵툴, 타이틀, 다이얼로그, 몬스터, 플레이어, 아이템, 인트로, 던전2, 던전3, 던전4, 던전5, 던전6, 던전7, 던전8, 맵선택, 기타추가하셈 };
+//던전2~보스까진 몬스터 나오는 맵
+enum changeMode { 맵툴, 타이틀, 다이얼로그, 몬스터, 플레이어, 아이템, 인트로, 던전2, 던전3, 던전4, 던전5, 던전6, 던전7, 던전8, 보스, 맵선택, 기타추가하셈 };
 
 class playGround : public gameNode
 {

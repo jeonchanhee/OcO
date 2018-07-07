@@ -11,6 +11,7 @@
 #include "MusicAngel.h"
 #include "Cow.h"
 #include "Boss2.h"
+#include "Bullet.h"
 
 struct torch
 {
@@ -36,12 +37,18 @@ protected:
 	vector<Enemy*>					_vEnemy;
 	vector<Enemy*>::iterator		_viEnemy;
 
+	MusicAngel* _musicAngel;
+
+	Bullet* _enemyBullet;
+
 	torch	_torch;		// 횃불
 	Door	_door;		// 문
 	Portal	_portal;	// 포탈
 	string _mapName;
 	int _dungeonNum;
 	int _temp;
+
+	int _count;
 	
 
 public:
@@ -61,6 +68,7 @@ public:
 	dungeonScene();
 	~dungeonScene();
 
+	//몬스터 생성 함수
 	void setDogBone(int idX, int idY); //개뼈
 	void setBigBone(int idX, int idY, int index); //큰칼뼈
 	void setArrow(int idX, int idY); //활쟁이
@@ -71,5 +79,10 @@ public:
 	void setMusicAngel(int idX, int idY); //음표요정
 	void setCow(int idX, int idY); //소
 	void setBoss(); //보스
+
+	//몬스터 총알 생성 함수
+	void MusicAngelBulletFire(); //음표요정 총알 발사 함수
+	//void ArrowBulletFire();		 //활쟁이 총알 발사 함수
+	void BossBulletFire();		 //보스 총알 발사 함수
 };
 

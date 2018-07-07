@@ -82,14 +82,14 @@
     <Filter Include="playGround\Item\Food">
       <UniqueIdentifier>{bc80371c-6763-4b69-9eed-957346f6b2fd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="playGround\bullet">
-      <UniqueIdentifier>{da504023-5401-4c49-b9e5-d2f47fd3d9ad}</UniqueIdentifier>
-    </Filter>
     <Filter Include="playGround\NPC">
       <UniqueIdentifier>{47ebe29a-c910-44da-97cc-a121ff2f0754}</UniqueIdentifier>
     </Filter>
     <Filter Include="playGround\Scene\dungeon">
       <UniqueIdentifier>{ca7ef291-05ba-4faf-9de4-9706c2e54464}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\Bullet">
+      <UniqueIdentifier>{da504023-5401-4c49-b9e5-d2f47fd3d9ad}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -325,7 +325,7 @@
       <Filter>playGround\Scene\dungeon</Filter>
     </ClInclude>
     <ClInclude Include="Bullet.h">
-      <Filter>playGround\bullet</Filter>
+      <Filter>playGround\Bullet</Filter>
     </ClInclude>
     <ClInclude Include="playerBullet.h">
       <Filter>playGround\Player</Filter>
@@ -549,7 +549,7 @@
       <Filter>playGround\Scene\dungeon</Filter>
     </ClCompile>
     <ClCompile Include="Bullet.cpp">
-      <Filter>playGround\bullet</Filter>
+      <Filter>playGround\Bullet</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
