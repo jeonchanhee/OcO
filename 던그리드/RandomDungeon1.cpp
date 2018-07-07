@@ -51,22 +51,22 @@ void RandomDungeon1::save()
 {
 	vector<string> vStr;
 	char str[128] = "";
-	vStr.push_back(itoa(1, str, 10));
-	for (int i = 0; i < 11; i++)
-	{
-		if (i == 0 || i == 1 || i == 2 || i == 3 || i == 6 || i == 7)
-			vStr.push_back("F");
-		else
-			vStr.push_back("N");
-	}
-	/*vStr.push_back(itoa(2, str, 10));
+	//vStr.push_back(itoa(1, str, 10));
+	//for (int i = 0; i < 11; i++)
+	//{
+	//	if (i == 0 || i == 1 || i == 2 || i == 3 || i == 6 || i == 7)
+	//		vStr.push_back("F");
+	//	else
+	//		vStr.push_back("N");
+	//}
+	vStr.push_back(itoa(2, str, 10));
 	for (int i = 0; i < 11; i++)
 	{
 	if (i == 0 || i == 5 || i == 6 || i == 7 || i == 10)
 	vStr.push_back("F");
 	else
 	vStr.push_back("N");
-	}*/
+	}
 	//vStr.push_back(itoa(3, str, 10));
 	//for (int i = 0; i < 11; i++)
 	//{

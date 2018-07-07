@@ -12,6 +12,8 @@ struct tagBullet
 	float	radius;			// 총알 반지름
 	float	fireX, fireY;	// 발사위치
 	bool	isFire;			// 발사여부
+	float   range;
+	int		bulletNum;		// 원형이동인지 체크
 };
 
 class Bullet : public gameNode
@@ -20,25 +22,59 @@ private:
 	vector<tagBullet>			_vBullet;
 	vector<tagBullet>::iterator	_viBullet;
 
-	const char* _imgName;		// 찾을 이미지
-	float		_range;			// 총알 사거리
+	tagBullet bullet;
+
 	int			_bulletMax;		// 최대 총알 갯수
+	int			_index;			// 프레임 인덱스값
+	int			_count;
 public:
 	Bullet();
 	~Bullet();
 
-	HRESULT init(const char* imageName, float range, int bullletMax);
+	HRESULT init(int bullletMax);
 	void	release();
 	void	update();
 	void	render();
 
-	void	bulletFire(float x, float y, float angle, float speed);		// 발사
+	void	bulletFire(const char* imgName, float x, float y, float angle, float speed, float range );
 	void	bulletMove();												// 이동
 	void	removeBullet(int arrNum);									// 총알 지워줄때
+	void	bulletframe(const char* imgName);
 
 	// 총알 벡터 접근자
 	vector<tagBullet>			getVBullet() { return _vBullet; }
 	vector<tagBullet>::iterator	getVIBullet() { return _viBullet; }
+
+};
+
+class Bullet2 : public gameNode
+{
+private:
+	vector<tagBullet>			_vBullet2;
+	vector<tagBullet>::iterator	_viBullet2;
+
+	tagBullet bullet2;
+
+	int			_bulletMax;		// 최대 총알 갯수
+	int			_index;			// 프레임 인덱스값
+	int			_count2;
+public:
+	Bullet2();
+	~Bullet2();
+
+	HRESULT init(int bullletMax);
+	void	release();
+	void	update();
+	void	render();
+
+	void	bulletFire(const char* imgName, float x, float y, float angle, float speed, float range);
+	void	bulletMove();												// 이동
+	void	removeBullet(int arrNum);									// 총알 지워줄때
+	void	bulletframe(const char* imgName);
+
+	// 총알 벡터 접근자
+	vector<tagBullet>			getVBullet() { return _vBullet2; }
+	vector<tagBullet>::iterator	getVIBullet() { return _viBullet2; }
 
 };
 

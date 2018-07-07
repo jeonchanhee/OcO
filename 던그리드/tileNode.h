@@ -3,6 +3,12 @@
 #ifndef _TILE_H_
 #define _TILE_H_
 
+// 타일 갯수(50,50)은 맵의 기본입니당~~, 수정하면 커밋은 바꿔서 올려주세용~~
+#define TILEX 50
+#define TILEY 50
+//(80,25)는 타운맵입니당
+//#define TILEX 80
+//#define TILEY 25
 
 // 전체 맵 사이즈 입니다   수정 부우탁 드립니다
 #define BACKGROUNDSIZEX TILEX*96
@@ -16,9 +22,6 @@
 #define TILESIZE 96
 #define TILESIZE2 32
 
-// 타일 갯수
-#define TILEX 25
-#define TILEY 30
 
 //#define TILEX 28
 //#define TILEY 12
@@ -32,7 +35,7 @@
 #define SAMPLETILEY 26
 
 // 맵이름
-#define MAPNAME "map/Dungeon7(25x30).map"
+#define MAPNAME "map/Dungeon1(28x11).map"
 
 // 지형	
 enum TERRAIN
@@ -44,8 +47,8 @@ enum TERRAIN
 // 오브젝트
 enum OBJECT
 {
-	//비어있음	못지나가는땅		아래점프로 내려가는땅		못지나가는 벽 기둥	미닫이문			가시
-	OBJ_NONE, OBJ_GROUND, OBJ_GOGROUND, OBJ_CULUMN, OBJ_DOOR, OBJ_THORN
+	//비어있음	못지나가는땅		아래점프로 내려가는땅		못지나가는 벽 기둥	미닫이문			가시		천장
+	OBJ_NONE,	OBJ_GROUND,			OBJ_GOGROUND,		 OBJ_CULUMN,		OBJ_DOOR,    OBJ_THORN, OBJ_CEILING
 };
 
 // 포지션 정의

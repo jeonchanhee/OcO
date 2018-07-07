@@ -82,6 +82,9 @@
     <Filter Include="playGround\Item\Food">
       <UniqueIdentifier>{bc80371c-6763-4b69-9eed-957346f6b2fd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="playGround\NPC">
+      <UniqueIdentifier>{47ebe29a-c910-44da-97cc-a121ff2f0754}</UniqueIdentifier>
+    </Filter>
     <Filter Include="playGround\bullet">
       <UniqueIdentifier>{da504023-5401-4c49-b9e5-d2f47fd3d9ad}</UniqueIdentifier>
     </Filter>
@@ -90,6 +93,9 @@
     </Filter>
     <Filter Include="playGround\Item\Property">
       <UniqueIdentifier>{d38af98c-58c0-4f14-9c19-d1f45ae7da5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\Bullet">
+      <UniqueIdentifier>{da504023-5401-4c49-b9e5-d2f47fd3d9ad}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -246,9 +252,6 @@
     <ClInclude Include="itemManager.h">
       <Filter>playGround\Item</Filter>
     </ClInclude>
-    <ClInclude Include="introScene.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="mapSelectScene.h">
       <Filter>playGround\Scene</Filter>
     </ClInclude>
@@ -319,13 +322,16 @@
       <Filter>playGround\Scene\dungeon</Filter>
     </ClInclude>
     <ClInclude Include="Bullet.h">
-      <Filter>playGround\bullet</Filter>
+      <Filter>playGround\Bullet</Filter>
     </ClInclude>
     <ClInclude Include="playerBullet.h">
       <Filter>playGround\Player</Filter>
     </ClInclude>
     <ClInclude Include="Property.h">
       <Filter>playGround\Item\Property</Filter>
+    </ClInclude>
+    <ClInclude Include="introScene.h">
+      <Filter>playGround\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -470,9 +476,6 @@
     <ClCompile Include="itemManager.cpp">
       <Filter>playGround\Item</Filter>
     </ClCompile>
-    <ClCompile Include="introScene.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="mapSelectScene.cpp">
       <Filter>playGround\Scene</Filter>
     </ClCompile>
@@ -540,7 +543,10 @@
       <Filter>playGround\Scene\dungeon</Filter>
     </ClCompile>
     <ClCompile Include="Bullet.cpp">
-      <Filter>playGround\bullet</Filter>
+      <Filter>playGround\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="introScene.cpp">
+      <Filter>playGround\Scene</Filter>
     </ClCompile>
     <ClCompile Include="Property.cpp">
       <Filter>playGround\Item\Property</Filter>

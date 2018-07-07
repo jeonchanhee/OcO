@@ -7,5 +7,7 @@ public:
 	bossScene();
 	~bossScene();
 	HRESULT init();
+	void update();
+	void setBossMon();
 };
 

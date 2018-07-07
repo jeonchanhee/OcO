@@ -8,8 +8,9 @@ playGround::~playGround(){}
 
 HRESULT playGround::init(void)	
 {
-	mode = 아이템;				//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
+	mode = 랜덤맵1;				//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
 //	rectRotate(IMAGEMANAGER->findImage("검01"), 100, 100);
+
 
 
 	gameNode::init(true);
@@ -38,6 +39,7 @@ HRESULT playGround::init(void)
 	SCENEMANAGER->addScene("던전6", new dungeon6Scene);
 	SCENEMANAGER->addScene("던전7", new dungeon7Scene);
 	SCENEMANAGER->addScene("던전8", new dungeon8Scene);
+	SCENEMANAGER->addScene("보스", new bossScene);
 
 	SCENEMANAGER->addScene("랜덤맵1", new RandomDungeon1);
 	
@@ -92,6 +94,10 @@ HRESULT playGround::init(void)
 		_randomScene1->init();
 		break;
 
+		break;	
+	case 보스:
+		SCENEMANAGER->changeScene("보스");
+		break;
 	case 맵선택:
 		SCENEMANAGER->changeScene("맵선택");
 		
@@ -116,7 +122,7 @@ void playGround::update(void)
 {
 	gameNode::update();
 
-	//_mapTool->update();
+	_mapTool->update();
 	_player->update();
 	SCENEMANAGER->update();
 	
@@ -164,15 +170,18 @@ void playGround::render(void)
 	{
 	case 맵툴:
 		//PatBlt(UIDC, 0, 0, BACKGROUNDSIZEX, BACKGROUNDSIZEY, BLACKNESS);
-		//_mapTool->render();
-		//if(KEYMANAGER->isToggleKey(VK_TAB))
-		//{
-		//	IMAGEMANAGER->findImage("floor1")->render(DC, -23 * 96, 12 * 96);
-		//	IMAGEMANAGER->findImage("floor2")->render(DC, 22 * 96, 12 * 96);
-		//	IMAGEMANAGER->findImage("floor1")->render(DC, 57 * 96, 12 * 96);
-		//	IMAGEMANAGER->findImage("floor0")->render(DC, 30 * 96, 17 * 96);
-		//	IMAGEMANAGER->findImage("floor0")->render(DC, 36 * 96, 15 * 96);
-		//}
+
+		/*
+		_mapTool->render();
+		if(KEYMANAGER->isToggleKey(VK_TAB))
+		{
+			IMAGEMANAGER->findImage("floor1")->render(DC, -23 * 96, 12 * 96);
+			IMAGEMANAGER->findImage("floor2")->render(DC, 22 * 96, 12 * 96);
+			IMAGEMANAGER->findImage("floor1")->render(DC, 57 * 96, 12 * 96);
+			IMAGEMANAGER->findImage("floor0")->render(DC, 30 * 96, 17 * 96);
+			IMAGEMANAGER->findImage("floor0")->render(DC, 36 * 96, 15 * 96);
+		}
+		*/
 		break;
 	case 타이틀:
 		SCENEMANAGER->render();
@@ -190,8 +199,9 @@ void playGround::render(void)
 		SCENEMANAGER->render();
 		break;
 	case 던전2: case 던전3: case 던전4: case 던전5: case 던전6: case 던전7: case 던전8:
-	case 랜덤맵1:
+	case 랜덤맵1: case 보스:
 		SCENEMANAGER->render();
+		_player->render();
 		break;
 	case 맵선택:
 		SCENEMANAGER->render();
@@ -214,13 +224,14 @@ void playGround::render(void)
 
 	// 이 아래로도 건들지 마시오
 	/////////////////////////////////////////////////////////////////////////////////////////////
-	//IMAGEMANAGER->render("cursor", UIDC, _ptMouse.x, _ptMouse.y);
 	IMAGEMANAGER->render("cursor", UIDC, _ptMouse.x, _ptMouse.y);
 	TIMEMANAGER->render(UIDC);
 
+	IMAGEMANAGER->findImage("카메라DC")->render(DC, 54,240,CAMERAMANAGER->getCameraPoint().x, CAMERAMANAGER->getCameraPoint().y, 600, 670);
+
 	CAMERAMANAGER->render(this->getBackBuffer());
 	this->getBackBuffer()->render(getHDC(), 0, 0, CAMERAMANAGER->getCameraCenter().x - WINSIZEX / 2, CAMERAMANAGER->getCameraCenter().y - WINSIZEY / 2, WINSIZEX, WINSIZEY);
-
+	//IMAGEMANAGER->render("cursor", getHDC(), _ptMouse.x, _ptMouse.y);
 
 	//흰색도화지 한 장 깔아둔다
 	//PatBlt(DC, 0, 0, WINSIZEX, WINSIZEY, WHITENESS); // 카메라 매니저 DC -> getMemDC 로 바꾸었습니다.
@@ -266,7 +277,7 @@ void playGround::render(void)
 	////================이 밑으로도 건드리지 말자 =============
 	//
 	
-	//CAMERAMANAGER->getCameraDC()->render(getHDC() , 0 , 0 , CAMERAMANAGER->getCameraRc().left, CAMERAMANAGER->getCameraRc().top, CAMERAMANAGER->getCameraRc().right, CAMERAMANAGER->getCameraRc().bottom); 
+	
 	
 	// 맨마지막으로 카메라 매니저 의 DC를 그려줍니다.
 	// CAMERAMANAGER->setCameraX()  CAMERAMANAGER->setCameraY() 를 이용하면   X ,Y 에  WINSIZEX , WINSIZEY 만큼 화면에 그려주고있는 렉트를 이동시킬 수 있음 .

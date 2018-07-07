@@ -37,6 +37,9 @@ HRESULT dungeon4Scene::init()
 	_door[0].x = (361 % 25) * TILESIZE;
 	_door[0].y = (361 / 25) * TILESIZE;
 	_door[0].rc = RectMake(_door[0].x, _door[0].y, TILESIZE*4, TILESIZE);
+	_door[0].img = IMAGEMANAGER->findImage("updownDoor");
+	_door[0].dir = DOOR_UPDOWN;
+	setDoor();
 	setMonster();
 	return S_OK;
 }
@@ -49,6 +52,8 @@ void dungeon4Scene::update()
 	{
 		(*_viEnemy)->update();
 	}
+	MusicAngelBulletFire();
+	_enemyBullet->update();
 }
 
 void dungeon4Scene::setMonster()
@@ -58,7 +63,7 @@ void dungeon4Scene::setMonster()
 
 	//음표요정
 	setMusicAngel(262 % _temp, 262 / _temp);
-
+	
 	//활쟁이
 	setArrow(258 % _temp, 258 / _temp);
 

@@ -26,6 +26,10 @@ HRESULT playGround::Image_init(void)
 	IMAGEMANAGER->addFrameImage("T_textBack", "image/UI/slotBase(1152x858).bmp", 0, 0, 1152, 858, 2, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("T_delete", "image/UI/slotDeleteButton(372x102).bmp", 0, 0, 372, 102, true, RGB(255, 0, 255));
 
+	//==========¸ÊUI=============
+	IMAGEMANAGER->addFrameImage("leftDoor", "image/etc/stele_left(384x2304,4x6).bmp", 0, 0, 384, 2304, 4, 6, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("rightDoor", "image/etc/stele_right(384x2304,4x6).bmp", 0, 0, 384, 2304, 4, 6, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("updownDoor", "image/etc/stele(2304x384,6x4).bmp", 0, 0, 2304, 384, 6, 4, true, RGB(255, 0, 255));
 	//==========ÀÎº¥Åä¸®==========
 	IMAGEMANAGER->addImage("inven", "image/UI/Inventory(707x1080).bmp", 0, 0, 707, 1080, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("inven0", "image/UI/Inven0(270x172).bmp", 0, 0, 270, 172, true, RGB(255, 0, 255));

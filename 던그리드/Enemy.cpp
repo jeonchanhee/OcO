@@ -64,10 +64,10 @@ void Enemy::move()
 bool Enemy::bulletCountFire()
 {
 	_fireCount++;
-	if (_fireCount % _rndFireCount == 0)
+	if (_fireCount % 5 == 0)
 	{
 		_fireCount = 0;
-		_rndFireCount = RND->getFromIntTo(1, 1000);
+		_rndFireCount = RND->getFromIntTo(1, 50);
 
 		return true;
 	}

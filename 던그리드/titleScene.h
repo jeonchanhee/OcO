@@ -24,6 +24,12 @@ class titleScene : public gameNode
 	animation* _suck;
 	RECT _button[3];
 
+	RECT _rc = RectMake(686, 210, 42, 432);
+	bool _scroll;
+	long _currentScroll;
+	long _mouseY;
+	
+
 	vector<tagData> _vData;
 	bool _clickData;
 	RECT _deleteRect[3];
