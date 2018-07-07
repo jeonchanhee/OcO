@@ -20,6 +20,7 @@ public:
 	void release(void);
 
 	image* addImage(string strKey, int width, int height, BOOL blend = FALSE);
+	image * addImage(string strKey, int width, int height, bool trans, COLORREF transColor, BOOL blend = FALSE);
 	image* addImage(string strKey, const char* fileName, int width, int height, bool trans, COLORREF transColor, BOOL blend = FALSE);
 	image* addImage(string strKey, const char* fileName, float x, float y, int width, int height, bool trans, COLORREF transColor, BOOL blend = FALSE);
 
@@ -30,7 +31,7 @@ public:
 
 	image * addRotateImage(string strKey, int width, int height, bool trans, COLORREF transColor, BOOL blend);
 
-	image * addRotateImage(string strKey, int width, int height, BOOL blend);
+	//image * addRotateImage(string strKey, int width, int height, BOOL blend);
 
 	image * addRotateFrameImage(string strKey, const char * fileName, int width, int height, int frameX, int frameY, bool trans, COLORREF transColor, BOOL blend = FALSE);
 

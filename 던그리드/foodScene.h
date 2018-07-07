@@ -7,5 +7,6 @@ public:
 	foodScene();
 	~foodScene();
 	HRESULT init();
+	void update();
 };
 

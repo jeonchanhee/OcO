@@ -29,5 +29,6 @@ public:
 
 	//¾À º¯°æ
 	HRESULT changeScene(string sceneName);
+	gameNode * findScene();
 };
 

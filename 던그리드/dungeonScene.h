@@ -13,6 +13,8 @@
 #include "Boss2.h"
 #include "Bullet.h"
 
+class RandomDungeon1;
+
 struct torch
 {
 	image* img;
@@ -22,6 +24,7 @@ struct torch
 struct Door
 {
 	image* img;
+	RECT rc;
 	int x, y;
 };
 
@@ -37,16 +40,22 @@ protected:
 	vector<Enemy*>					_vEnemy;
 	vector<Enemy*>::iterator		_viEnemy;
 
+	vector<int> _route;
+	RandomDungeon1* _random;
+
 	MusicAngel* _musicAngel;
 
 	Bullet* _enemyBullet;
 
 	torch	_torch;		// 횃불
-	Door	_door;		// 문
+	//Door	_door;		// 문
+	vector<Door> _door;
 	Portal	_portal;	// 포탈
 	string _mapName;
+	int _randNum;
 	int _dungeonNum;
 	int _temp;
+	string _mapValue[11];
 
 	int _count;
 	
@@ -65,6 +74,12 @@ public:
 
 	void chooseMap(int idx);
 
+	void nextTest();
+
+	void load();
+
+	void save();
+
 	dungeonScene();
 	~dungeonScene();
 
@@ -79,6 +94,8 @@ public:
 	void setMusicAngel(int idX, int idY); //음표요정
 	void setCow(int idX, int idY); //소
 	void setBoss(); //보스
+
+	void setRandomDungeonLink(RandomDungeon1* random) { _random = random; }
 
 	//몬스터 총알 생성 함수
 	void MusicAngelBulletFire(); //음표요정 총알 발사 함수

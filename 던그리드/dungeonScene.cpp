@@ -23,6 +23,8 @@ void dungeonScene::update(void)
 
 void dungeonScene::render(void)
 {
+	RectangleMake(getMemDC(), 1820, 980, 100, 100);
+
 	for (int i = (CAMERAMANAGER->getCameraCenter().y - WINSIZEY / 2) / 96; i < (CAMERAMANAGER->getCameraCenter().y + WINSIZEY / 2) / 96 + 1; ++i)
 	{
 		for (int j = (CAMERAMANAGER->getCameraCenter().x - WINSIZEX / 2) / 96; j < (CAMERAMANAGER->getCameraCenter().x + WINSIZEX / 2) / 96 + 1; ++j)
@@ -58,12 +60,31 @@ void dungeonScene::render(void)
 		}
 	}
 
+	for (int i = 0; i < _door.size(); i++)
+	{
+		char str[128];
+		sprintf_s(str, "num : %d", _dungeonNum);
+		TextOut(DC, 100, 100, str, strlen(str));
+		Rectangle(DC, _door[i].rc.left, _door[i].rc.top, _door[i].rc.right, _door[i].rc.bottom);
+	}
+
 	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); ++_viEnemy)
 	{
 		(*_viEnemy)->render();
 	}
 
+	RECT rc;
+	rc = RectMakeCenter(WINSIZEX / 2, WINSIZEY / 2, 100, 100);
+	Rectangle(DC, rc.left, rc.top, rc.right, rc.bottom);
+	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON) && PtInRect(&rc, getMemDCPoint()))
+	{
+		_mapValue[_dungeonNum] = "T";
+	}
+
 	_enemyBullet->render();
+}
+
+	
 }
 
 void dungeonScene::mapload()
@@ -247,6 +268,51 @@ void dungeonScene::setBoss()
 	boss = new Boss2;
 	boss->init();
 	_vEnemy.push_back(boss);
+}
+
+void dungeonScene::nextTest()
+{
+	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON) && _mapValue[_dungeonNum] == "T")
+	//if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
+	{
+		for (int i = 0; i < _door.size(); i++)
+		{
+			if (PtInRect(&_door[i].rc, getMemDCPoint()))
+			{
+				string str = "´øÀü¸Ê";
+				char temp[128];
+				str += itoa(_route[i],temp,10);
+				save();
+				SCENEMANAGER->changeScene(str);
+			}
+		}
+	}
+}
+
+void dungeonScene::load()
+{
+	vector<string> vStr = TXTDATA->txtLoad("infoDungeon.txt");
+	if (vStr.size() != 0)
+	{
+		_randNum = atoi(vStr[0].c_str());
+		for (int i = 0; i < 11; i++)
+		{
+			_mapValue[i] = vStr[i + 1];
+		}
+	}
+}
+
+void dungeonScene::save()
+{
+	vector<string> vStr;
+	char str[128];
+	vStr.push_back(itoa(_randNum,str,10));
+	for (int i = 0; i < 11; i++)
+	{
+		vStr.push_back(_mapValue[i]);
+	}
+
+	TXTDATA->txtSave("infoDungeon.txt", vStr);
 }
 
 //ÃÑ¾Ë »ý¼º ÇÔ¼ö

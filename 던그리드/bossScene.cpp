@@ -18,6 +18,9 @@ HRESULT bossScene::init()
 	selectSize(10);
 	mapload();
 	setCamera();
+
+	_dungeonNum = 8;
+
 	setBossMon();
 	return S_OK;
 }
