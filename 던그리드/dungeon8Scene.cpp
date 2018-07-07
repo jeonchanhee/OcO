@@ -37,6 +37,10 @@ HRESULT dungeon8Scene::init()
 	_door[0].x = (250 % 50) * TILESIZE, _door[0].y = (250 / 50) * TILESIZE;
 	_door[0].rc = RectMake(_door[0].x, _door[0].y, TILESIZE, TILESIZE * 4);
 
+	_door[0].img = IMAGEMANAGER->findImage("leftDoor");
+	_door[0].dir = DOOR_LEFT;
+
+	setDoor();
 	setMonster();
 	return S_OK;
 }

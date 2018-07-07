@@ -14,6 +14,9 @@
 
 class RandomDungeon1;
 
+enum DOOR_STATE { DOOR_OPEN, DOOR_IDLE, DOOR_CLOSE };
+enum DOOR_DIR { DOOR_LEFT, DOOR_RIGHT, DOOR_UPDOWN };
+
 struct torch
 {
 	image* img;
@@ -25,6 +28,10 @@ struct Door
 	image* img;
 	RECT rc;
 	int x, y;
+	int frameX, frameY;
+	int count;
+	DOOR_STATE state;
+	DOOR_DIR dir;
 };
 
 struct Portal
@@ -71,6 +78,10 @@ public:
 	void load();
 
 	void save();
+
+	void setDoor();
+
+	void doorRender();
 
 	dungeonScene();
 	~dungeonScene();

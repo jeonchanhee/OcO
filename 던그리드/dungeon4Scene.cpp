@@ -37,6 +37,9 @@ HRESULT dungeon4Scene::init()
 	_door[0].x = (361 % 25) * TILESIZE;
 	_door[0].y = (361 / 25) * TILESIZE;
 	_door[0].rc = RectMake(_door[0].x, _door[0].y, TILESIZE*4, TILESIZE);
+	_door[0].img = IMAGEMANAGER->findImage("updownDoor");
+	_door[0].dir = DOOR_UPDOWN;
+	setDoor();
 	setMonster();
 	return S_OK;
 }

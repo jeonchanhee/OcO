@@ -39,10 +39,17 @@ HRESULT foodScene::init()
 	_door[1].x = (201 % 29) * TILESIZE, _door[1].y = (201 / 29) * TILESIZE;
 	_door[0].x = (174 % 29) * TILESIZE, _door[0].y = (174 / 29) * TILESIZE;
 
+	_door[0].img = IMAGEMANAGER->findImage("leftDoor");
+	_door[0].dir = DOOR_LEFT;
+	_door[1].img = IMAGEMANAGER->findImage("rightDoor");
+	_door[1].dir = DOOR_RIGHT;
+
 	for (int i = 0; i < 2; i++)
 	{
 		_door[i].rc = RectMake(_door[i].x, _door[i].y, TILESIZE, TILESIZE * 4);
 	}
+	
+	setDoor();
 
 	return S_OK;
 }

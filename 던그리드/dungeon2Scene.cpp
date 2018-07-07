@@ -49,11 +49,16 @@ HRESULT dungeon2Scene::init()
 	_door[2].x = (1208 % 100) * TILESIZE, _door[2].y = (1208 / 100) * TILESIZE;
 
 	_door[0].rc = RectMake(_door[0].x, _door[0].y, TILESIZE, TILESIZE * 4);
-
+	_door[0].dir = DOOR_LEFT;
+	_door[0].img = IMAGEMANAGER->findImage("leftDoor");
+	
 	for (int i = 1; i < 3; i++)
 	{
 		_door[i].rc = RectMake(_door[i].x, _door[i].y, TILESIZE * 4, TILESIZE);
+		_door[i].dir = DOOR_UPDOWN;
+		_door[i].img = IMAGEMANAGER->findImage("updownDoor");
 	}
+	setDoor();
 	setMonster();
 	return S_OK;
 }

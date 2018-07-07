@@ -36,11 +36,15 @@ HRESULT dungeon1Scene::init()
 		_route.push_back(5);
 	}
 
+
 	_door.resize(1);
 
 	_door[0].x = (200 % 29) * TILESIZE;
 	_door[0].y = (200 / 29) * TILESIZE;
 	_door[0].rc = RectMake(_door[0].x, _door[0].y, TILESIZE, TILESIZE * 4);
+	_door[0].img = IMAGEMANAGER->findImage("rightDoor");
+	_door[0].dir = DOOR_RIGHT;
+	setDoor();
 	return S_OK;
 }
 

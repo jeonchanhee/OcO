@@ -23,17 +23,11 @@ void dungeonScene::update(void)
 
 void dungeonScene::render(void)
 {
-	RectangleMake(getMemDC(), 1820, 980, 100, 100);
-
 	for (int i = (CAMERAMANAGER->getCameraCenter().y - WINSIZEY / 2) / 96; i < (CAMERAMANAGER->getCameraCenter().y + WINSIZEY / 2) / 96 + 1; ++i)
 	{
 		for (int j = (CAMERAMANAGER->getCameraCenter().x - WINSIZEX / 2) / 96; j < (CAMERAMANAGER->getCameraCenter().x + WINSIZEX / 2) / 96 + 1; ++j)
 		{
 			IMAGEMANAGER->frameRender("map", DC, _tiles[i * _temp + j].rc.left, _tiles[i * _temp + j].rc.top, _tiles[i * _temp + j].terrainFrameX, _tiles[i * _temp + j].terrainFrameY);
-
-			//char str[128];
-			//sprintf_s(str, "%d", i * _temp + j);
-			//TextOut(DC, _tiles[i * _temp + j].rc.left, _tiles[i * _temp + j].rc.top, str, strlen(str));
 		}
 	}
 
@@ -62,10 +56,8 @@ void dungeonScene::render(void)
 
 	for (int i = 0; i < _door.size(); i++)
 	{
-		char str[128];
-		sprintf_s(str, "num : %d", _dungeonNum);
-		TextOut(DC, 100, 100, str, strlen(str));
-		Rectangle(DC, _door[i].rc.left, _door[i].rc.top, _door[i].rc.right, _door[i].rc.bottom);
+		//Rectangle(DC, _door[i].rc.left, _door[i].rc.top, _door[i].rc.right, _door[i].rc.bottom);
+		//_door[i].img->frameRender(DC, _door[i].rc.left, _door[i].rc.top);
 	}
 
 	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); ++_viEnemy)
@@ -81,7 +73,7 @@ void dungeonScene::render(void)
 		_mapValue[_dungeonNum] = "T";
 	}
 
-	
+	doorRender();
 }
 
 void dungeonScene::mapload()
@@ -307,3 +299,138 @@ void dungeonScene::save()
 
 	TXTDATA->txtSave("infoDungeon.txt", vStr);
 }
+
+void dungeonScene::setDoor()
+{
+	for (int i = 0; i < _door.size(); i++)
+	{
+		_door[i].state = DOOR_OPEN;
+
+		if (_door[i].dir == DOOR_RIGHT)
+		{
+			_door[i].frameX = 3, _door[i].frameY = 0;
+		}
+		else
+		{
+			_door[i].frameX = _door[i].frameY = 0;
+		}
+	}
+}
+
+void dungeonScene::doorRender()
+{
+	for (int i = 0; i < _door.size(); i++)
+	{
+		_door[i].count++;
+		if (!(_door[i].count % 10))
+		{
+			if (_door[i].state == DOOR_OPEN)
+			{
+				if (_door[i].dir == DOOR_RIGHT)
+				{
+					if (_door[i].frameY == 5)
+						_door[i].state = DOOR_IDLE;
+					else
+						_door[i].frameY++;
+				}
+				if (_door[i].dir == DOOR_LEFT)
+				{
+					if (_door[i].frameY == 5)
+						_door[i].state = DOOR_IDLE;
+					else
+						_door[i].frameY++;
+				}
+				if (_door[i].dir == DOOR_UPDOWN)
+				{
+					if (_door[i].frameX == 5)
+						_door[i].state = DOOR_IDLE;
+					else
+						_door[i].frameX++;
+				}
+			}
+			else if (_door[i].state == DOOR_IDLE)
+			{
+				if (_door[i].dir == DOOR_RIGHT)
+				{
+					if (_door[i].frameX == 3 && _door[i].frameY == 5)
+						_door[i].frameX = 2, _door[i].frameY = 0;
+					else if (_door[i].frameX == 2 && _door[i].frameY == 5)
+						_door[i].frameX = 1, _door[i].frameY = 0;
+					else if (_door[i].frameX == 1 && _door[i].frameY == 5)
+						_door[i].frameX = 3, _door[i].frameY = 5;
+					else
+						_door[i].frameY++;
+				}
+				else if (_door[i].dir == DOOR_LEFT)
+				{
+					if (_door[i].frameX == 0 && _door[i].frameY == 5)
+						_door[i].frameX = 1, _door[i].frameY = 0;
+					else if (_door[i].frameX == 1 && _door[i].frameY == 5)
+						_door[i].frameX = 2, _door[i].frameY = 0;
+					else if (_door[i].frameX == 2 && _door[i].frameY == 5)
+						_door[i].frameX = 1, _door[i].frameY = 5;
+					else
+						_door[i].frameY++;
+				}
+				else if (_door[i].dir == DOOR_UPDOWN)
+				{
+					if (_door[i].frameY == 0 && _door[i].frameX == 5)
+						_door[i].frameY = 1, _door[i].frameX = 0;
+					else if (_door[i].frameY == 1 && _door[i].frameX == 5)
+						_door[i].frameY = 2, _door[i].frameX = 0;
+					else if (_door[i].frameY == 2 && _door[i].frameX == 5)
+						_door[i].frameY = 1, _door[i].frameX = 5;
+					else
+						_door[i].frameX++;
+				}
+			}
+			else if (_door[i].state == DOOR_CLOSE)
+			{
+				if (_door[i].dir == DOOR_RIGHT)
+				{
+					if (_door[i].frameY < _door[i].img->getMaxFrameY())
+						_door[i].frameY++;
+				}
+				if (_door[i].dir == DOOR_LEFT)
+				{
+					if (_door[i].frameY < _door[i].img->getMaxFrameY())
+						_door[i].frameY++;
+				}
+				if (_door[i].dir == DOOR_UPDOWN)
+				{
+					if (_door[i].frameX < _door[i].img->getMaxFrameX())
+						_door[i].frameX++;
+				}
+			}
+		}
+		_door[i].img->frameRender(DC, _door[i].rc.left, _door[i].rc.top, _door[i].frameX, _door[i].frameY);
+		if (_mapValue[_dungeonNum] == "T" && _door[i].state != DOOR_CLOSE)
+		{
+			if (_door[i].dir == DOOR_RIGHT)
+			{
+				if (_door[i].frameX == 1 && _door[i].frameY == 5)
+				{
+					_door[i].state = DOOR_CLOSE;
+					_door[i].frameX = 0, _door[i].frameY = 0;
+				}
+			}
+			if (_door[i].dir == DOOR_LEFT)
+			{
+				if (_door[i].frameX == 2 && _door[i].frameY == 5)
+				{
+					_door[i].state = DOOR_CLOSE;
+					_door[i].frameX = 3, _door[i].frameY = 0;
+				}
+			}
+			if (_door[i].dir == DOOR_UPDOWN)
+			{
+				if (_door[i].frameY == 2 && _door[i].frameX == 5)
+				{
+					_door[i].state = DOOR_CLOSE;
+					_door[i].frameY = 3, _door[i].frameX = 0;
+				}
+			}
+		}
+	}
+}
+	
