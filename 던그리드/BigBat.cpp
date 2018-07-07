@@ -43,6 +43,11 @@ HRESULT BigBat::init(float x, float y)
 
 	_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 
+	// bullet
+	_bullet = new Bullet;
+	_bullet->init(50);
+
+
 	return S_OK;
 }
 
@@ -71,7 +76,7 @@ void BigBat::update()
 	}
 	////////////////////бубубубубубубубубу//////////////////////////
 
-
+	bulletfire();
 	//KEYANIMANAGER->update();
 	_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 }
@@ -145,6 +150,21 @@ void BigBat::changeAnimation(BIGBATDIRECTION direction)
 		_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 		break;
 	}
+}
+
+void BigBat::bulletfire()
+{
+	/*RECT rc = _rc;
+	float angle = PI2 / 4;
+	int count = 0;
+	count++;
+	if (count % 50 == 0)
+	{
+		_bullet->bulletFire("fatherBatBullet",rc.left + (rc.right - rc.left) / 2, rc.bottom + 10, angle, 5.0f, 100);
+	}
+
+*/
+
 }
 
 void BigBat::rightAttack(void* obj)

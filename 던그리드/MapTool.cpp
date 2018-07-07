@@ -235,7 +235,7 @@ void MapTool::setmap()
 		}
 	}
 
-	if (_ptMouse.x < CAMERAX&&_ptMouse.y < CAMERAY)
+	//if (_ptMouse.x < CAMERAX&&_ptMouse.y < CAMERAY)
 	{
 		for (int i = 0; i < TILEX * TILEY; i++)
 		{
@@ -298,6 +298,18 @@ OBJECT MapTool::objSelect(int FrameX, int FrameY)
 		for (int j = 0; j < 7; j++)
 		{
 			if (FrameX == i && FrameY == j) return OBJ_CULUMN;
+			if (j == 2)
+			{
+				if (FrameX == i && FrameY == j) return OBJ_CEILING;
+			}
+			if (j == 4)
+			{
+				if (FrameX == i && FrameY == j) return OBJ_CEILING;
+			}
+			if (j == 6)
+			{
+				if (FrameX == i && FrameY == j) return OBJ_CEILING;
+			}
 		}
 	}
 

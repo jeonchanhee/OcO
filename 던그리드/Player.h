@@ -3,7 +3,7 @@
 #include "playerBullet.h"
 #define DASHSPEED 33
 #define PUNCHSPEED 6.0f
-#define GRAVITY 0.25
+#define GRAVITY 0.3
 #define ONE_HUNDRED 100
 #define ONE_HUNDRED_HALF 50
 #define TEN 10
@@ -20,6 +20,7 @@ class Player : public gameNode
 {
 private:
 	playerBullet * _pb;
+	RECT _collisionRc; //Ãæµ¹·ºÆ® 
 	image * _player;
 	image * _playerHand[2];
 	image * _playerWeapon;
@@ -39,7 +40,8 @@ private:
 	bool _isChap;						//boolÀÌÁö±İ 7							//°¡¹ö¸®³ª???
 	bool _showAttackEffect;				//boolÀÌÁö±İ 8							//°ø°İÀÌÆåÆ®!
 	bool _attackSpeedCheckCount;		//boolÀÌÁö±İ 9							//°ø°İ½ºÇÇµåÃéÄí ÄÉÄùÄùÄù®c®cÃßÄÉÃßÄÉÃßÄÉÃßÄÉÃßÄÉÃßÄÉÃß±P¤»
-	
+	bool _goDownJump;					//boolÀÌÁö±İ 10			¶Ç¶§ÂÅ ûıÀÌ ¸î°³´Ï
+
 	// int 
 	int _currentHp, _maxHp;											 //ÇöÀç , ÀüÃ¼ Ã¼·Â 
 	int _armor;														 //¹æ¾î·Â
@@ -57,7 +59,8 @@ private:
 	int  _currentExp, _maxExp;										 //ÇöÀç , ÃÖ´ë °æÇèÄ¡  
 	int  _currentFullNess , _maxFullNess;							 //ÇöÀç , ÃÖ´ë ¸¸º¹µµ 
 	int  _youUsingCount;											 // 1¹ø¹«±â ÀåÂøÁßÀÎÁö 2¹ø¹«±â ÀåÂøÁß¤·ÀÎÁö ¹è¿­ÀÌ¶ó 0°ú 1°ªÀ» ¹Ş°ÔµÊ ;
-	int	 _attackEffectCount;
+	int	 _attackEffectCount;										 //
+	int  _canMove;
 
 	//float 
 	float _x, _y , _leftHandX, _leftHandY, _rightHandX, _rightHandY; //player x,y 
@@ -72,7 +75,11 @@ private:
 	float _punchSpeed;												 //ÆİÄ¡ ½ºÇÇµåÀÓ
 	float _locusX, _locusY;											 //ÇÃ·¹ÀÌ¾îÀÇ xyÁÂÇ¥ ÀúÀå
 	float _weaponAngle, _weaponAttackAngle;							 // ¹«±â angle
+
  
+	//test
+	int xIndex, yIndex;
+	int leftRightCheck[2], downStateCheck[2] , upStateCheck[2];
 public:
 
 	HRESULT init();
@@ -85,6 +92,8 @@ public:
 	void move();
 	void attack();
 	void effect();
+	void cameraSetting();
+	void tileCollision();
 
 
 	//Á¢±ÙÀÚ (get)      
@@ -102,7 +111,7 @@ public:
 	int getMainWeapon(int i)			    { return _mainWeapon[i]; }					 // ÁÖ¹«±â ¹è¿­ 2°³
 	int getAssistWeapon(int i)			    { return _assistWeapon[i]; }				 // º¸Á¶¹«±â¹è¿­ 2°³
 	int getInventory(int i)				    { return _inventory[i]; }					 // ÀÎº¥Åä¸® ¹è¿­ 15°³
-	int getGold()						    { return _gold; }							 // °¡Áø		µ· µ· µ· 
+	int getGold()						    { return _gold; }							 // °¡Áø		µ· µ· µ·  
 	int getCurrentExp()						{ return _currentExp; }						 //ÇöÀç°æÇèÄ¡
 	int getMaxExp()							{ return _maxExp; }
 	int getCurrentFullNess()				{ return _currentFullNess; }				 //ÇöÀç ¸¸º¹µµ 

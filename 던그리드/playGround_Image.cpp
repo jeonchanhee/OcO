@@ -281,9 +281,9 @@ HRESULT playGround::Image_init(void)
 	EFFECTMANAGER->addEffect("이건이단점프야압", "image/player/doubleJumpEffect(420x70,6x1).bmp", 420, 70, 70, 70, 1.0f, 0.3f, 1);
 	IMAGEMANAGER->addRotateFrameImage("검쓰르륵", "image/item/weapon/sword/effect/swing.bmp", 600 , 109 , 4 , 1, true , RGB(255,0,255));
 
-	//상점 및 엔피시
-	IMAGEMANAGER->addFrameImage("상점엔피시10", "image/npc/inn(600x200,6x1).bmp", 600, 200, 6, 1, true, RGB(255, 0, 255)); // 음식파는 아줌마
-	IMAGEMANAGER->addFrameImage("상점엔피시20", "image/npc/weaponNPC(400x196)4x1.bmp", 400, 196, 4, 1, true, RGB(255, 0, 255)); // 장비 판매하는 아저씨
+	//상점 NPC
+	IMAGEMANAGER->addFrameImage("상점엔피시1", "image/npc/inn(600x200,6x1).bmp", 600, 200, 6, 1, true, RGB(255, 0, 255)); // 음식파는 아줌마
+	IMAGEMANAGER->addFrameImage("상점엔피시2", "image/npc/weaponNPC(400x196)4x1.bmp", 400, 196, 4, 1, true, RGB(255, 0, 255)); // 장비 판매하는 아저씨
 
 	return S_OK;
 }

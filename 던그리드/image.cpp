@@ -67,6 +67,59 @@ HRESULT image::init(int width, int height, BOOL blend)
 	return S_OK;
 }
 
+HRESULT image::init(int width, int height, BOOL trans, COLORREF transColor, BOOL blend)
+{
+	//백버퍼가 널이 아니면 == 뭔가 데이터가 있으면 == 초기화가 잘안되어있으면
+	//해제해라
+	if (_imageInfo != NULL) release();
+
+	HDC hdc = GetDC(_hWnd);
+
+	_imageInfo = new IMAGE_INFO;
+	_imageInfo->hMemDC = CreateCompatibleDC(hdc); //새로운 빈 DC영역을 만든다
+	_imageInfo->hBit = (HBITMAP)CreateCompatibleBitmap(hdc, width, height);	//빈 비트맵을 하나 만든다
+	_imageInfo->hOBit = (HBITMAP)SelectObject(_imageInfo->hMemDC, _imageInfo->hBit);
+	_imageInfo->width = width;
+	_imageInfo->height = height;
+
+
+	if (blend)
+	{
+		//알파블렌드 설정
+		_blendFunc.BlendFlags = 0;
+		_blendFunc.AlphaFormat = 0;
+		_blendFunc.BlendOp = AC_SRC_OVER;
+
+		_blendImage = new IMAGE_INFO;
+		_blendImage->loadType = LOAD_EMPTY;
+		_blendImage->resID = 0;
+		_blendImage->hMemDC = CreateCompatibleDC(hdc);
+		_blendImage->hBit = (HBITMAP)CreateCompatibleBitmap(hdc, WINSIZEX, WINSIZEY);
+		_blendImage->hOBit = (HBITMAP)SelectObject(_blendImage->hMemDC, _blendImage->hBit);
+		_blendImage->width = WINSIZEX;
+		_blendImage->height = WINSIZEY;
+	}
+
+	_trans = trans;
+	_transColor = transColor;
+
+	_blend = blend;
+	//예외처리 하나 더
+	//비트맵이 생성안되었다면
+	if (_imageInfo->hBit == NULL)
+	{
+		//해제해주고
+		release();
+
+		//실패했다고 호출창에 띄워라
+		return E_FAIL;
+	}
+
+	ReleaseDC(_hWnd, hdc);
+
+	return S_OK;
+}
+
 HRESULT image::init(const char * fileName, int width, int height, BOOL trans, COLORREF transColor, BOOL blend)
 {
 	//파일이름이 없으면 에러를 띄워줘라

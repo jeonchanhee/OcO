@@ -124,6 +124,8 @@ void mapSelectScene::printMap(int idx)
 	//   IMAGEMANAGER->frameRender("map", DC, _tiles[i].rc.left, _tiles[i].rc.top, _tiles[i].terrainFrameX, _tiles[i].terrainFrameY);
 	//}
 
+	
+
 	//if (KEYMANAGER->isToggleKey(VK_SPACE)) return;
 	//
 	//for (int i = 0; i < 28; ++i)
