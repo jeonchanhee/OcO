@@ -44,9 +44,11 @@ protected:
 	RandomDungeon1* _random;
 
 	MusicAngel* _musicAngel;
+	BigBat*		_bigbat;
+	BigRedBat*	_bigRedBat;
 
 	Bullet* _enemyBullet;
-
+	Bullet2* _enemtBullet2;
 	torch	_torch;		// 횃불
 	//Door	_door;		// 문
 	vector<Door> _door;
@@ -58,7 +60,7 @@ protected:
 	string _mapValue[11];
 
 	int _count;
-	
+	int _count2;
 
 public:
 	virtual HRESULT init(void);
@@ -101,5 +103,7 @@ public:
 	void MusicAngelBulletFire(); //음표요정 총알 발사 함수
 	//void ArrowBulletFire();		 //활쟁이 총알 발사 함수
 	void BossBulletFire();		 //보스 총알 발사 함수
+	void bigbatbulletFire();
+	void bigRadbatbulletFire();
 };
 

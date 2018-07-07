@@ -45,7 +45,7 @@ HRESULT BigBat::init(float x, float y)
 
 	// bullet
 	_bullet = new Bullet;
-	_bullet->init("fatherBatBullet", 100, 50);
+	_bullet->init(50);
 
 
 	return S_OK;
@@ -154,14 +154,16 @@ void BigBat::changeAnimation(BIGBATDIRECTION direction)
 
 void BigBat::bulletfire()
 {
-	RECT rc = _rc;
-
-	if (Enemy::bulletCountFire())
+	/*RECT rc = _rc;
+	float angle = PI2 / 4;
+	int count = 0;
+	count++;
+	if (count % 50 == 0)
 	{
-		_bullet->bulletFire(rc.left + (rc.right - rc.left) / 2, rc.bottom + 10, getAngle(rc.left + (rc.right - rc.left) / 2, rc.bottom + (rc.bottom - rc.top) / 2, 100, 100), 5.0f);
+		_bullet->bulletFire("fatherBatBullet",rc.left + (rc.right - rc.left) / 2, rc.bottom + 10, angle, 5.0f, 100);
 	}
 
-
+*/
 
 }
 

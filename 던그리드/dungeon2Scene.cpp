@@ -65,6 +65,12 @@ void dungeon2Scene::update()
 	{
 		(*_viEnemy)->update();
 	}
+	bigbatbulletFire();
+	bigRadbatbulletFire();
+	_enemyBullet->bulletframe("fatherBatBullet");
+	_enemtBullet2->bulletframe("fatherBatBullet");
+	_enemyBullet->update();
+	_enemtBullet2->update();
 }
 
 //몬스터 위치 잡아주는 함수
@@ -98,7 +104,7 @@ void dungeon2Scene::setMonster()
 //	setRedBat(318 % _temp, 318 / _temp);
 
 	setBigBat(410 % _temp, 410 / _temp);
-
+	setBigRedBat(414 % _temp, 414 / _temp);
 }
 
 

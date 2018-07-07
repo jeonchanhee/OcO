@@ -85,7 +85,6 @@ void dungeonScene::render(void)
 }
 
 	
-}
 
 void dungeonScene::mapload()
 {
@@ -100,6 +99,9 @@ void dungeonScene::mapload()
 	CloseHandle(file);
 
 	_enemyBullet = new Bullet;
+	_enemyBullet->init(3000);
+
+	_enemtBullet2 = new Bullet2;
 	_enemyBullet->init(3000);
 }
 
@@ -224,22 +226,21 @@ void dungeonScene::setRedBat(int idX, int idY)
 
 void dungeonScene::setBigBat(int idX, int idY)
 {
-	BigBat* bigBat;
-	bigBat = new BigBat;
+	_bigbat = new BigBat;
 	float x = TILESIZE * idX;
 	float y = TILESIZE * idY;
-	bigBat->init(x, y);
-	_vEnemy.push_back(bigBat);
+	_bigbat->init(x, y);
+	_vEnemy.push_back(_bigbat);
 }
 
 void dungeonScene::setBigRedBat(int idX, int idY)
 {
-	BigRedBat* bigRedBat;
-	bigRedBat = new BigRedBat;
+	
+	_bigRedBat = new BigRedBat;
 	float x = TILESIZE * idX;
 	float y = TILESIZE * idY;
-	bigRedBat->init(x, y);
-	_vEnemy.push_back(bigRedBat);
+	_bigRedBat->init(x, y);
+	_vEnemy.push_back(_bigRedBat);
 }
 
 void dungeonScene::setMusicAngel(int idX, int idY)
@@ -339,4 +340,34 @@ void dungeonScene::ArrowBulletFire()
 //º¸½º ÃÑ¾Ë
 void dungeonScene::BossBulletFire()
 {
+}
+
+void dungeonScene::bigbatbulletFire()
+{
+	_count2++;
+	if (_count2 % 15 == 0 && _count2 > 150)
+	{
+		for (int i = 0; i < 3; i++)
+		{
+			float angle = -(PI2 / 9);
+			_enemyBullet->bulletFire("fatherBatBullet", _bigbat->getX() + 200, _bigbat->getY(), angle * i, 5.0f, 500);
+		}
+	}
+
+	if (_count2 > 200) _count2 = 0;
+	
+}
+
+
+void dungeonScene::bigRadbatbulletFire()
+{
+	//_count2++;
+	//if (_count2 % 15 == 0)
+	//{
+	//	for (int i = 0; i < 20; i++)
+	//	{
+	//		float angle = PI2 / 20;
+	//		_enemtBullet2->bulletFire("fatherBatBullet", _bigRedBat->getX() + 50, _bigRedBat->getY(), angle * i, 5.0f, 500);
+	//	}
+	//}
 }
