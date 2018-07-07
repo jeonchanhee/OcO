@@ -18,11 +18,13 @@ void dungeonScene::release(void)
 
 void dungeonScene::update(void)
 {
-	KEYANIMANAGER->update();
+	//KEYANIMANAGER->update();
 }
 
 void dungeonScene::render(void)
 {
+	RectangleMake(getMemDC(), 1820, 980, 100, 100);
+
 	for (int i = (CAMERAMANAGER->getCameraCenter().y - WINSIZEY / 2) / 96; i < (CAMERAMANAGER->getCameraCenter().y + WINSIZEY / 2) / 96 + 1; ++i)
 	{
 		for (int j = (CAMERAMANAGER->getCameraCenter().x - WINSIZEX / 2) / 96; j < (CAMERAMANAGER->getCameraCenter().x + WINSIZEX / 2) / 96 + 1; ++j)
@@ -58,12 +60,32 @@ void dungeonScene::render(void)
 		}
 	}
 
+	for (int i = 0; i < _door.size(); i++)
+	{
+		char str[128];
+		sprintf_s(str, "num : %d", _dungeonNum);
+		TextOut(DC, 100, 100, str, strlen(str));
+		Rectangle(DC, _door[i].rc.left, _door[i].rc.top, _door[i].rc.right, _door[i].rc.bottom);
+	}
+
 
 	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); ++_viEnemy)
 	{
 		(*_viEnemy)->render();
 	}
+
+	RECT rc;
+	rc = RectMakeCenter(WINSIZEX / 2, WINSIZEY / 2, 100, 100);
+	Rectangle(DC, rc.left, rc.top, rc.right, rc.bottom);
+	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON) && PtInRect(&rc, getMemDCPoint()))
+	{
+		_mapValue[_dungeonNum] = "T";
+	}
+
+	_enemyBullet->render();
 }
+
+	
 
 void dungeonScene::mapload()
 {
@@ -76,41 +98,13 @@ void dungeonScene::mapload()
 	ReadFile(file, _tiles, sizeof(tagTile) * TILEX * TILEY, &load, NULL);
 
 	CloseHandle(file);
-}
 
-void dungeonScene::setDogBone(int idX, int idY)
-{
-	DogBone* dogBone;
-	dogBone = new DogBone;
-	float x = TILESIZE * idX;
-	float y = TILESIZE * idY;
-	y += TILESIZE / 2 + 15;
-	dogBone->init(x,y);
-	_vEnemy.push_back(dogBone);
-}
+	_enemyBullet = new Bullet;
+	_enemyBullet->init(3000);
 
-void dungeonScene::setBigBone(int idX, int idY)
-{
-	BigBone* bigBone;
-	bigBone = new BigBone;
-	float x = TILESIZE * idX;
-	float y = TILESIZE * idY;
-	y += TILESIZE /2;
-	bigBone->init(x, y);
-	_vEnemy.push_back(bigBone);
+	_enemtBullet2 = new Bullet2;
+	_enemyBullet->init(3000);
 }
-
-void dungeonScene::setArrow(int idX, int idY)
-{
-	Arrow* arrow;
-	arrow = new Arrow;
-	float x = TILESIZE * idX;
-	float y = TILESIZE * idY;
-	y -= 15;
-	arrow->init(x, y);
-	_vEnemy.push_back(arrow);
-}
-
 
 void dungeonScene::setCamera(void)
 {
@@ -176,6 +170,41 @@ void dungeonScene::chooseMap(int idx)
 	_tileX = TILEVALUE[idx][0], _tileY = TILEVALUE[idx][1];
 }
 
+//¸ó½ºÅÍ »ý¼º ÇÔ¼ö
+//°³»À
+void dungeonScene::setDogBone(int idX, int idY)
+{
+	DogBone* dogBone;
+	dogBone = new DogBone;
+	float x = TILESIZE * idX;
+	float y = TILESIZE * idY;
+	y += TILESIZE / 2 + 15;
+	dogBone->init(x, y);
+	_vEnemy.push_back(dogBone);
+}
+//Å«Ä®»À
+void dungeonScene::setBigBone(int idX, int idY, int index)
+{
+	BigBone* bigBone;
+	bigBone = new BigBone;
+	float x = TILESIZE * idX;
+	float y = TILESIZE * idY;
+	y -= 20;
+	bigBone->init(x, y, index);
+	_vEnemy.push_back(bigBone);
+}
+//È°ÀïÀÌ
+void dungeonScene::setArrow(int idX, int idY)
+{
+	Arrow* arrow;
+	arrow = new Arrow;
+	float x = TILESIZE * idX;
+	float y = TILESIZE * idY;
+	y += 15;
+	arrow->init(x, y);
+	_vEnemy.push_back(arrow);
+}
+//ÀÛº¸¹Ú
 void dungeonScene::setBat(int idX, int idY)
 {
 	Bat* bat;
@@ -184,4 +213,162 @@ void dungeonScene::setBat(int idX, int idY)
 	float y = TILESIZE * idY;
 	bat->init(x, y);
 	_vEnemy.push_back(bat);
+}
+//ÀÛ»¡¹Ú
+void dungeonScene::setRedBat(int idX, int idY)
+{
+	RedBat* redBat;
+	redBat = new RedBat;
+	float x = TILESIZE * idX;
+	float y = TILESIZE * idY;
+	redBat->init(x, y);
+	_vEnemy.push_back(redBat);
+}
+
+void dungeonScene::setBigBat(int idX, int idY)
+{
+	_bigbat = new BigBat;
+	float x = TILESIZE * idX;
+	float y = TILESIZE * idY;
+	_bigbat->init(x, y);
+	_vEnemy.push_back(_bigbat);
+}
+
+void dungeonScene::setBigRedBat(int idX, int idY)
+{
+	
+	_bigRedBat = new BigRedBat;
+	float x = TILESIZE * idX;
+	float y = TILESIZE * idY;
+	_bigRedBat->init(x, y);
+	_vEnemy.push_back(_bigRedBat);
+}
+
+void dungeonScene::setMusicAngel(int idX, int idY)
+{
+	
+	_musicAngel = new MusicAngel;
+	float x = TILESIZE * idX;
+	float y = TILESIZE * idY;
+	_musicAngel->init(x, y);
+	_vEnemy.push_back(_musicAngel);
+}
+
+void dungeonScene::setCow(int idX, int idY)
+{
+	Cow* cow;
+	cow = new Cow;
+	float x = TILESIZE * idX;
+	float y = TILESIZE * idY;
+	cow->init(x, y);
+	_vEnemy.push_back(cow);
+}
+
+void dungeonScene::setBoss()
+{
+	Boss2* boss;
+	boss = new Boss2;
+	boss->init();
+	_vEnemy.push_back(boss);
+}
+
+void dungeonScene::nextTest()
+{
+	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON) && _mapValue[_dungeonNum] == "T")
+	//if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
+	{
+		for (int i = 0; i < _door.size(); i++)
+		{
+			if (PtInRect(&_door[i].rc, getMemDCPoint()))
+			{
+				string str = "´øÀü¸Ê";
+				char temp[128];
+				str += itoa(_route[i],temp,10);
+				save();
+				SCENEMANAGER->changeScene(str);
+			}
+		}
+	}
+}
+
+void dungeonScene::load()
+{
+	vector<string> vStr = TXTDATA->txtLoad("infoDungeon.txt");
+	if (vStr.size() != 0)
+	{
+		_randNum = atoi(vStr[0].c_str());
+		for (int i = 0; i < 11; i++)
+		{
+			_mapValue[i] = vStr[i + 1];
+		}
+	}
+}
+
+void dungeonScene::save()
+{
+	vector<string> vStr;
+	char str[128];
+	vStr.push_back(itoa(_randNum,str,10));
+	for (int i = 0; i < 11; i++)
+	{
+		vStr.push_back(_mapValue[i]);
+	}
+
+	TXTDATA->txtSave("infoDungeon.txt", vStr);
+}
+
+//ÃÑ¾Ë »ý¼º ÇÔ¼ö
+//À½Ç¥¿äÁ¤ ÃÑ¾Ë
+void dungeonScene::MusicAngelBulletFire()
+{
+	_count++;
+	if (!(_count % 200))
+	{
+		for (int i = 0; i < 12; i++)
+		{
+			float angle = (PI2 / 12)*i;
+			_enemyBullet->bulletFire("bansheeNormalBullet", _musicAngel->getX() + 100, _musicAngel->getY(), angle, 5.0f, 500);
+		}
+		_count = 0;
+	}
+}
+
+/*//È°ÀïÀÌ ÃÑ¾Ë
+void dungeonScene::ArrowBulletFire()
+{
+}*/
+
+//º¸½º ÃÑ¾Ë
+void dungeonScene::BossBulletFire()
+{
+}
+
+void dungeonScene::bigbatbulletFire()
+{
+	_count2++;
+	if (_count2 % 15 == 0 && _count2 > 150)
+	{
+		for (int i = 0; i < 3; i++)
+		{
+			float angle = -(PI2 / 9);
+			_enemyBullet->bulletFire("fatherBatBullet", _bigbat->getX() + 200, _bigbat->getY(), angle * i, 5.0f, 500);
+		}
+	}
+
+	if (_count2 > 200) _count2 = 0;
+	
+}
+
+
+void dungeonScene::bigRadbatbulletFire()
+{
+	//_count2++;
+	//if (_count2 % 15 == 0)
+	//{
+	//	for (int i = 0; i < 20; i++)
+	//	{
+	//		float angle = PI2 / 20;
+	//		_enemtBullet2->bulletFire("fatherBatBullet", _bigRedBat->getX() + 50, _bigRedBat->getY(), angle * i, 5.0f, 500);
+	//	}
+	//}
 }

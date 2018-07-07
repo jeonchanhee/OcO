@@ -16,7 +16,7 @@ HRESULT BigBat::init(float x, float y)
 	_x = x;
 	_y = y;
 	
-	_bigBatDirection = BIGBAT_LEFT_MOVE;
+	_bigBatDirection = BIGBAT_RIGHT_MOVE;
 
 	_img = IMAGEMANAGER->findImage("giantBat");
 
@@ -38,8 +38,14 @@ HRESULT BigBat::init(float x, float y)
 	int leftDie[] = { 38 };
 	KEYANIMANAGER->addArrayFrameAnimation("bigBatLeftDie", "giantBat", leftDie, 1, 5, false);
 
-	_bigBatMotion = KEYANIMANAGER->findAnimation("bigBatLeftMove");
+	_bigBatMotion = KEYANIMANAGER->findAnimation("bigBatRightMove");
 	_bigBatMotion->start();
+
+	_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
+
+	// bullet
+	_bullet = new Bullet;
+	_bullet->init(50);
 
 
 	return S_OK;
@@ -70,8 +76,8 @@ void BigBat::update()
 	}
 	////////////////////бубубубубубубубубу//////////////////////////
 
-
-	KEYANIMANAGER->update();
+	bulletfire();
+	//KEYANIMANAGER->update();
 	_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 }
 
@@ -144,6 +150,21 @@ void BigBat::changeAnimation(BIGBATDIRECTION direction)
 		_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 		break;
 	}
+}
+
+void BigBat::bulletfire()
+{
+	/*RECT rc = _rc;
+	float angle = PI2 / 4;
+	int count = 0;
+	count++;
+	if (count % 50 == 0)
+	{
+		_bullet->bulletFire("fatherBatBullet",rc.left + (rc.right - rc.left) / 2, rc.bottom + 10, angle, 5.0f, 100);
+	}
+
+*/
+
 }
 
 void BigBat::rightAttack(void* obj)

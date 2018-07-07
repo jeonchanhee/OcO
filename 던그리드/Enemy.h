@@ -38,6 +38,7 @@ public:
 	//float getAngle();			//각도 받는 함수
 	void setPoint(float x, float y);	//좌표 바꾸는 함수
 
-	
+	float getX() { return _x; }
+	float getY() { return _y; }
 };
 

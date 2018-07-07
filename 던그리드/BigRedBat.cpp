@@ -67,7 +67,7 @@ void BigRedBat::update()
 	/////////////////бубубубубубубубубу////////////////////
 
 
-	KEYANIMANAGER->update();
+	//KEYANIMANAGER->update();
 	_rc = RectMakeCenter(_x, _y, _img->getFrameHeight(), _img->getFrameHeight());
 }
 

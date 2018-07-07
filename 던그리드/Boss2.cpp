@@ -93,7 +93,7 @@ void Boss2::update()
 	headMove();
 	rightMove();
 
-	KEYANIMANAGER->update();
+	//KEYANIMANAGER->update();
 	for (int i = 0; i < 3; i++)
 		_boss[i].rc = RectMakeCenter(_boss[i].x, _boss[i].y, _boss[i].img->getFrameWidth(), _boss[i].img->getFrameHeight());
 }

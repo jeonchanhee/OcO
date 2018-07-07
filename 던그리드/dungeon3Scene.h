@@ -6,7 +6,9 @@ class dungeon3Scene :
 public:
 	dungeon3Scene();
 	~dungeon3Scene();
+
 	HRESULT init();
 	void update();
+	void setMonster();
 };
 

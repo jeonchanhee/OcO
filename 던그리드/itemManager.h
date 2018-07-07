@@ -5,6 +5,7 @@
 #include "Shield.h"
 #include "SecondEquipment.h"
 #include "Accessory.h"
+#include "Food.h"
 
 #include "gameNode.h"
 
@@ -31,6 +32,9 @@ private:
 	typedef vector <Accessory*>						vAccessory; //  악세서리 전체를 담은 벡터
 	typedef vector <Accessory*>::iterator			viAccessory;
 
+	typedef vector <Food*>							vFood; // 음식 전체를 담은 백터
+	typedef vector <Food*>::iterator				viFood;
+
 private:
 
 	vItem  _vItem;
@@ -50,6 +54,9 @@ private:
 
 	vAccessory _vAccessory;
 	viAccessory _viAccessory;
+
+	vFood	_vFood;
+	viFood	_viFood;
 
 
 public:

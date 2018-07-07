@@ -36,6 +36,7 @@ public:
 	HRESULT init(ITEMTYPE type, const char* ShieldName, int value, POINT position);
 	void release();
 	void update();
+
 	void CreateShield(ITEMTYPE type, const char* ShieldName, int value);
 	void setShield(const char* ShieldName, int value);
 	void render();

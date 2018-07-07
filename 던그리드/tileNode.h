@@ -32,7 +32,7 @@
 #define SAMPLETILEY 26
 
 // 맵이름
-#define MAPNAME "map/Dungeon8(20x39).map"
+#define MAPNAME "map/Dungeon7(25x30).map"
 
 // 지형	
 enum TERRAIN

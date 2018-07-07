@@ -3,8 +3,8 @@
 
 struct tagArmor // 아머 구조체~~
 {
-	image* image[3];		//이미지 0. 드랍 1. 인벤 2. 착용
-	RECT rc[3];				//렉트
+	image* image[2];		// 0드랍 // 1인벤
+	RECT rc[2];				// 0드랍 // 1인벤
 	ITEMTYPE type;			//아이템 타입
 	ITEMGRADE grade;		//아이템등급
 	const char* imageName;  //이미지의 이름(아이템이름)

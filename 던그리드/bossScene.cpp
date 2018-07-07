@@ -18,5 +18,23 @@ HRESULT bossScene::init()
 	selectSize(10);
 	mapload();
 	setCamera();
+
+	_dungeonNum = 8;
+
+	setBossMon();
 	return S_OK;
+}
+
+void bossScene::update()
+{
+	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); ++_viEnemy)
+	{
+		(*_viEnemy)->update();
+	}
+}
+
+void bossScene::setBossMon()
+{
+	setBoss();
+
 }

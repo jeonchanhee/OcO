@@ -6,8 +6,10 @@ HRESULT cameraManager::init()
 {
 	_camera = IMAGEMANAGER->addImage("CAMERA", WINSIZEX, WINSIZEY);
 	_center = PointMake(WINSIZEX / 2, WINSIZEY / 2);
+	
 
-	//_cameraDC = IMAGEMANAGER->addImage("카메라DC", BACKGROUNDSIZEX, BACKGROUNDSIZEY);
+	_cameraDC = IMAGEMANAGER->addImage("카메라DC", 600, 1080,true,RGB(0,0,0));
+	_point = PointMake(0, 0);
 	//_cameraDC2 = IMAGEMANAGER->addImage("카메라DC2", BACKGROUNDSIZEX, BACKGROUNDSIZEY);
 	//_cameraX = 0; _cameraY = 0;
 	//_cameraX2 = 0; _cameraY2 = 0;

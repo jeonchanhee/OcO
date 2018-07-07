@@ -3,7 +3,7 @@
 
 struct tagAccessory // 악세서리 구조체
 {
-	image* image[3];		//이미지 0. 드랍 1. 인벤 2. 착용
+	image* image[3];		// 0드랍 1 인벤
 	ITEMTYPE type;			//아이템무슨타입??
 	ITEMGRADE grade;		//아이템 등급
 	RECT rc[3];				//렉트
@@ -24,16 +24,20 @@ class Accessory : public Item
 private:
 	tagAccessory _accessory;
 
+	const char* _AccessoryName;
+	int _value;
+
 public:
 	Accessory();
 	~Accessory();
 
-	HRESULT init(POINT position);
+	HRESULT init(ITEMTYPE type, const char* AccessoryName, int value, POINT position);
 	void release();
 	void update();
-	void render();
-
-	void CreateAccessory(ITEMTYPE type, const char* AccessoryName, int value, POINT position);
+	void CreateAccessory(ITEMTYPE type, const char* AccessoryName, int value);
 	void setAccessory(const char* AccessoryName, int value);
+
+	void render();
 };
+
 

@@ -12,11 +12,18 @@
 #include "Dialog.h"
 #include "dungeon2Scene.h"
 #include "dungeon3Scene.h"
+#include "dungeon4Scene.h"
+#include "dungeon5Scene.h"
+#include "dungeon6Scene.h"
+#include "dungeon7Scene.h"
+#include "dungeon8Scene.h"
+#include "bossScene.h"
 #include "itemManager.h"
 #include "introScene.h"
 #include "mapSelectScene.h"
+#include "RandomDungeon1.h"
 
-enum changeMode { 맵툴, 타이틀, 다이얼로그, 몬스터, 플레이어, 아이템, 인트로, 던전2, 던전3, 맵선택, 기타추가하셈 };
+enum changeMode { 맵툴, 타이틀, 다이얼로그, 몬스터, 플레이어, 아이템, 인트로, 던전2, 던전3, 던전4, 던전5, 던전6, 던전7, 던전8, 맵선택, 랜덤맵1, 보스, 기타추가하셈 };
 
 class playGround : public gameNode
 {
@@ -26,7 +33,7 @@ private:
 	changeMode mode;
 	itemManager* _im;
 	titleScene* _title;
-
+	RandomDungeon1* _randomScene1;
 public:
 	virtual HRESULT init(void);
 	virtual HRESULT Image_init(void);
