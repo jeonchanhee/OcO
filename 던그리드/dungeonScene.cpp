@@ -29,9 +29,9 @@ void dungeonScene::render(void)
 		{
 			IMAGEMANAGER->frameRender("map", DC, _tiles[i * _temp + j].rc.left, _tiles[i * _temp + j].rc.top, _tiles[i * _temp + j].terrainFrameX, _tiles[i * _temp + j].terrainFrameY);
 
-			//char str[128];
-			//sprintf_s(str, "%d", i * _temp + j);
-			//TextOut(DC, _tiles[i * _temp + j].rc.left, _tiles[i * _temp + j].rc.top, str, strlen(str));
+			char str[128];
+			sprintf_s(str, "%d", i * _temp + j);
+			TextOut(DC, _tiles[i * _temp + j].rc.left, _tiles[i * _temp + j].rc.top, str, strlen(str));
 		}
 	}
 
@@ -57,7 +57,7 @@ void dungeonScene::render(void)
 			}
 		}
 	}
-}
+
 
 	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); ++_viEnemy)
 	{

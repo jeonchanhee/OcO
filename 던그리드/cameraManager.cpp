@@ -80,3 +80,28 @@ void cameraManager::setCameraCenter(POINT point)
 		if (_center.y >= _tileY * 96 - WINSIZEY / 2) _center.y = _tileY * 96 - WINSIZEY / 2;
 	}
 }
+
+//주석자제  쓰고있는 거에요 ~
+void cameraManager::setCameraX(long x)
+{
+	_center.x = x;
+	if (_isMapSet)
+	{
+		if (_center.x <= WINSIZEX / 2) _center.x = WINSIZEX / 2;
+		if (_center.x >= _tileX * 96 - WINSIZEX / 2) _center.x = _tileX * 96 - WINSIZEX / 2;
+		if (_center.y <= WINSIZEY / 2) _center.y = WINSIZEY / 2;
+		if (_center.y >= _tileY * 96 - WINSIZEY / 2) _center.y = _tileY * 96 - WINSIZEY / 2;
+	}
+}
+
+void cameraManager::setCameraY(long y)
+{
+	_center.y = y;
+	if (_isMapSet)
+	{
+		if (_center.x <= WINSIZEX / 2) _center.x = WINSIZEX / 2;
+		if (_center.x >= _tileX * 96 - WINSIZEX / 2) _center.x = _tileX * 96 - WINSIZEX / 2;
+		if (_center.y <= WINSIZEY / 2) _center.y = WINSIZEY / 2;
+		if (_center.y >= _tileY * 96 - WINSIZEY / 2) _center.y = _tileY * 96 - WINSIZEY / 2;
+	}
+}

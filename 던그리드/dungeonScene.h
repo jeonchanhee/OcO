@@ -60,6 +60,6 @@ public:
 	void setBigBone(int idX, int idY);
 	void setArrow(int idX, int idY);
 	void setBat(int idX, int idY);
-	void setRedBat(int idX, int idY);
+	//void setRedBat(int idX, int idY);
 };
 
