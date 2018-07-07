@@ -38,6 +38,7 @@ HRESULT playGround::init(void)
 	SCENEMANAGER->addScene("던전6", new dungeon6Scene);
 	SCENEMANAGER->addScene("던전7", new dungeon7Scene);
 	SCENEMANAGER->addScene("던전8", new dungeon8Scene);
+	SCENEMANAGER->addScene("보스", new bossScene);
 
 	SCENEMANAGER->addScene("랜덤맵1", new RandomDungeon1);
 	
@@ -92,6 +93,10 @@ HRESULT playGround::init(void)
 		_randomScene1->init();
 		break;
 
+		break;	
+	case 보스:
+		SCENEMANAGER->changeScene("보스");
+		break;
 	case 맵선택:
 		SCENEMANAGER->changeScene("맵선택");
 		
@@ -193,7 +198,7 @@ void playGround::render(void)
 		SCENEMANAGER->render();
 		break;
 	case 던전2: case 던전3: case 던전4: case 던전5: case 던전6: case 던전7: case 던전8:
-	case 랜덤맵1:
+	case 랜덤맵1: case 보스:
 		SCENEMANAGER->render();
 		break;
 	case 맵선택:

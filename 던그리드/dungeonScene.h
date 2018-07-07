@@ -11,6 +11,7 @@
 #include "MusicAngel.h"
 #include "Cow.h"
 #include "Boss2.h"
+#include "Bullet.h"
 
 class RandomDungeon1;
 
@@ -42,6 +43,10 @@ protected:
 	vector<int> _route;
 	RandomDungeon1* _random;
 
+	MusicAngel* _musicAngel;
+
+	Bullet* _enemyBullet;
+
 	torch	_torch;		// 횃불
 	//Door	_door;		// 문
 	vector<Door> _door;
@@ -51,6 +56,9 @@ protected:
 	int _dungeonNum;
 	int _temp;
 	string _mapValue[11];
+
+	int _count;
+	
 
 public:
 	virtual HRESULT init(void);
@@ -75,6 +83,7 @@ public:
 	dungeonScene();
 	~dungeonScene();
 
+	//몬스터 생성 함수
 	void setDogBone(int idX, int idY); //개뼈
 	void setBigBone(int idX, int idY, int index); //큰칼뼈
 	void setArrow(int idX, int idY); //활쟁이
@@ -87,5 +96,10 @@ public:
 	void setBoss(); //보스
 
 	void setRandomDungeonLink(RandomDungeon1* random) { _random = random; }
+
+	//몬스터 총알 생성 함수
+	void MusicAngelBulletFire(); //음표요정 총알 발사 함수
+	//void ArrowBulletFire();		 //활쟁이 총알 발사 함수
+	void BossBulletFire();		 //보스 총알 발사 함수
 };
 

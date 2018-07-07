@@ -81,6 +81,9 @@ void dungeonScene::render(void)
 		_mapValue[_dungeonNum] = "T";
 	}
 
+	_enemyBullet->render();
+}
+
 	
 }
 
@@ -95,6 +98,9 @@ void dungeonScene::mapload()
 	ReadFile(file, _tiles, sizeof(tagTile) * TILEX * TILEY, &load, NULL);
 
 	CloseHandle(file);
+
+	_enemyBullet = new Bullet;
+	_enemyBullet->init(3000);
 }
 
 void dungeonScene::setCamera(void)
@@ -161,6 +167,7 @@ void dungeonScene::chooseMap(int idx)
 	_tileX = TILEVALUE[idx][0], _tileY = TILEVALUE[idx][1];
 }
 
+//몬스터 생성 함수
 //개뼈
 void dungeonScene::setDogBone(int idX, int idY)
 {
@@ -237,12 +244,12 @@ void dungeonScene::setBigRedBat(int idX, int idY)
 
 void dungeonScene::setMusicAngel(int idX, int idY)
 {
-	MusicAngel* musicAngel;
-	musicAngel = new MusicAngel;
+	
+	_musicAngel = new MusicAngel;
 	float x = TILESIZE * idX;
 	float y = TILESIZE * idY;
-	musicAngel->init(x, y);
-	_vEnemy.push_back(musicAngel);
+	_musicAngel->init(x, y);
+	_vEnemy.push_back(_musicAngel);
 }
 
 void dungeonScene::setCow(int idX, int idY)
@@ -306,4 +313,30 @@ void dungeonScene::save()
 	}
 
 	TXTDATA->txtSave("infoDungeon.txt", vStr);
+}
+
+//총알 생성 함수
+//음표요정 총알
+void dungeonScene::MusicAngelBulletFire()
+{
+	_count++;
+	if (!(_count % 200))
+	{
+		for (int i = 0; i < 12; i++)
+		{
+			float angle = (PI2 / 12)*i;
+			_enemyBullet->bulletFire("bansheeNormalBullet", _musicAngel->getX() + 100, _musicAngel->getY(), angle, 5.0f, 500);
+		}
+		_count = 0;
+	}
+}
+
+/*//활쟁이 총알
+void dungeonScene::ArrowBulletFire()
+{
+}*/
+
+//보스 총알
+void dungeonScene::BossBulletFire()
+{
 }

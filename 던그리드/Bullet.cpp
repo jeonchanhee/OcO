@@ -6,10 +6,8 @@ Bullet::Bullet(){}
 
 Bullet::~Bullet(){}
 
-HRESULT Bullet::init(const char * imageName, float range, int bulletMax )
+HRESULT Bullet::init(int bulletMax)
 {
-	_imgName	= imageName;
-	_range		= range;
 	_bulletMax	= bulletMax;
 	return S_OK;
 }
@@ -29,18 +27,19 @@ void Bullet::render()
 	}
 }
 
-void Bullet::bulletFire(float x, float y, float angle, float speed)
+void Bullet::bulletFire(const char* imgName, float x, float y, float angle, float speed, float range)
 {
 	if (_bulletMax < _vBullet.size()) return;
 
 	tagBullet bullet;
 	ZeroMemory(&bullet, sizeof(tagBullet));
-	bullet.img = IMAGEMANAGER->findImage(_imgName);
+	bullet.img = IMAGEMANAGER->findImage(imgName);
 	bullet.speed = speed;
 	bullet.radius = bullet.img->getWidth() / 2;
 	bullet.x = bullet.fireX = x;
 	bullet.y = bullet.fireY = y;
 	bullet.angle = angle;
+	bullet.range = range;
 
 	bullet.rc = RectMakeCenter(bullet.x, bullet.y, bullet.img->getWidth(), bullet.img->getHeight());
 
@@ -56,7 +55,7 @@ void Bullet::bulletMove()
 
 		_viBullet->rc = RectMakeCenter(_viBullet->x, _viBullet->y, _viBullet->img->getWidth(), _viBullet->img->getHeight());
 
-		if (_range < getDistance(_viBullet->x, _viBullet->y, _viBullet->fireX, _viBullet->fireY))
+		if (_viBullet->range < getDistance(_viBullet->x, _viBullet->y, _viBullet->fireX, _viBullet->fireY))
 		{
 			_viBullet = _vBullet.erase(_viBullet);
 		}
