@@ -43,7 +43,8 @@ protected:
 	vector<int> _route;
 	RandomDungeon1* _random;
 
-	MusicAngel* _musicAngel;
+	MusicAngel* _musicAngel; //음표요정
+	Boss2* _boss;			 //보스
 
 	Bullet* _enemyBullet;
 
@@ -99,7 +100,6 @@ public:
 
 	//몬스터 총알 생성 함수
 	void MusicAngelBulletFire(); //음표요정 총알 발사 함수
-	//void ArrowBulletFire();		 //활쟁이 총알 발사 함수
 	void BossBulletFire();		 //보스 총알 발사 함수
 };
 

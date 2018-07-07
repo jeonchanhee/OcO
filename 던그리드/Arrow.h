@@ -27,7 +27,7 @@ public:
 	void update();
 	void render();
 
-	void move();
+	void frameMove();
 	void shootArrow();
-	void fireArrow();
+	void fireArrow(); //활쟁이가 마우스방향으로 활쏘게 하는 내용
 };

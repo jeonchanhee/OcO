@@ -48,6 +48,7 @@ void dungeon8Scene::update()
 	{
 		(*_viEnemy)->update();
 	}
+	_enemyBullet->update();
 }
 
 void dungeon8Scene::setMonster()

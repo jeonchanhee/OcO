@@ -31,10 +31,12 @@ void bossScene::update()
 	{
 		(*_viEnemy)->update();
 	}
+
+	BossBulletFire();
+	_enemyBullet->update();
 }
 
 void bossScene::setBossMon()
 {
 	setBoss();
-
 }

@@ -73,19 +73,18 @@ void dungeonScene::render(void)
 		(*_viEnemy)->render();
 	}
 
-	RECT rc;
-	rc = RectMakeCenter(WINSIZEX / 2, WINSIZEY / 2, 100, 100);
-	Rectangle(DC, rc.left, rc.top, rc.right, rc.bottom);
-	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON) && PtInRect(&rc, getMemDCPoint()))
-	{
-		_mapValue[_dungeonNum] = "T";
-	}
-
+//	RECT rc;
+//	rc = RectMakeCenter(WINSIZEX / 2, WINSIZEY / 2, 100, 100);
+//	Rectangle(DC, rc.left, rc.top, rc.right, rc.bottom);
+	//if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON) && PtInRect(&rc, getMemDCPoint()))
+	//{
+	//	_mapValue[_dungeonNum] = "T";
+	//}
+	_count++;
 	_enemyBullet->render();
 }
 
-	
-}
+
 
 void dungeonScene::mapload()
 {
@@ -135,7 +134,6 @@ void dungeonScene::selectSize(int idx)
 	if (idx == 11)
 		_temp = 25;
 }
-
 
 void dungeonScene::chooseMap(int idx)
 {
@@ -264,10 +262,9 @@ void dungeonScene::setCow(int idX, int idY)
 
 void dungeonScene::setBoss()
 {
-	Boss2* boss;
-	boss = new Boss2;
-	boss->init();
-	_vEnemy.push_back(boss);
+	_boss = new Boss2;
+	_boss->init();
+	_vEnemy.push_back(_boss);
 }
 
 void dungeonScene::nextTest()
@@ -319,24 +316,61 @@ void dungeonScene::save()
 //음표요정 총알
 void dungeonScene::MusicAngelBulletFire()
 {
-	_count++;
 	if (!(_count % 200))
 	{
 		for (int i = 0; i < 12; i++)
 		{
 			float angle = (PI2 / 12)*i;
-			_enemyBullet->bulletFire("bansheeNormalBullet", _musicAngel->getX() + 100, _musicAngel->getY(), angle, 5.0f, 500);
+			_enemyBullet->bulletFire("bansheeNormalBullet", _musicAngel->getX(), _musicAngel->getY(), angle, 5.0f, 500, true);
 		}
 		_count = 0;
 	}
 }
 
-/*//활쟁이 총알
-void dungeonScene::ArrowBulletFire()
-{
-}*/
-
 //보스 총알
 void dungeonScene::BossBulletFire()
 {
+	//==========================================================
+	//						보스 총알
+	//==========================================================
+	//입 총알 먼저 하겠음.
+	//입 총알은 머리통 열리는 순간에만 함
+	static float angle = 0;
+	static bool	isCheck = false;		// 이거 가지고 앵글값 + OR - 시킴
+
+	if (_boss->getHeadX() < getMemDCPoint().x) isCheck = true;   // 요기 마우스 좌표를 플레이어 X 좌표로 바꾸면 됩니다.
+	else isCheck = false;
+
+	if (!_boss->isAttack()) return;
+
+	//요기
+	if (!isCheck) angle += 0.02; //총알 돌아가는 속도 조절
+	else angle -= 0.02;
+	
+	if (!(_count % 7)) //총알 나가는 속도 조절
+	{
+		for (int i = 0; i < 4; i++)
+		{
+			 angle += (i * PI / 2);
+			//float angle = i * PI / 2;
+			_enemyBullet->bulletFire("bossBullet", _boss->getHeadX() + 50, _boss->getHeadY() + 120, angle, 9.0f, 800, true); //9.0f랑 위에 angle, count 로 조절해서 총알 조절 가능
+		}
+		_count = 0;
+	}
+
+	//==========================================================
+	//					보스 왼쪽 레이져
+	//==========================================================
+	
+	if (_boss->getLeftDirection() == LEFT_LASER_ON)
+	{
+		_enemyBullet->bulletFire("bossLaser", _boss->getLeftX() + 800, _boss->getLeftY(), 0, 0.0f, 1000, true, HEIGHT);
+		_boss->setLeftDirection(LEFT_IDLE);
+	}
+
+	if (_boss->getRightDirection() == RIGHT_LASER_ON)
+	{
+		_enemyBullet->bulletFire("bossRLaser", _boss->getRightX() - 850, _boss->getRightY(), 0, 0.0f, 1000, true, HEIGHT); //오른손 레이져
+		_boss->setRightDirection(RIGHT_IDLE);
+	}
 }

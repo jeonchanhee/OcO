@@ -49,6 +49,7 @@ void dungeon3Scene::update()
 	{
 		(*_viEnemy)->update();
 	}
+	_enemyBullet->update();
 }
 
 void dungeon3Scene::setMonster()
