@@ -25,7 +25,7 @@ void Bullet::render()
 {
 	for (_viBullet = _vBullet.begin(); _viBullet != _vBullet.end(); _viBullet++)
 	{
-		_viBullet->img->render(DC, _viBullet->rc.left, _viBullet->rc.top);
+		_viBullet->img->frameRender(DC, _viBullet->rc.left, _viBullet->rc.top);
 	}
 }
 
