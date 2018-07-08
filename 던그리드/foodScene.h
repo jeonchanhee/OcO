@@ -8,5 +8,8 @@ public:
 	~foodScene();
 	HRESULT init();
 	void update();
+	void setRandMapNum();
+	void doorInit();
+	void render();
 };
 

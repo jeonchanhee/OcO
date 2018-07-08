@@ -8,7 +8,7 @@ playGround::~playGround(){}
 
 HRESULT playGround::init(void)	
 {
-	mode = 보스;				//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
+	mode = 랜덤맵1;				//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
 //	rectRotate(IMAGEMANAGER->findImage("검01"), 100, 100);
 
 
@@ -19,8 +19,8 @@ HRESULT playGround::init(void)
 	
 	_mapTool = new MapTool;
 	_mapTool->init();
-	_player = new Player;
-	_player->init();
+	/*_player = new Player;
+	_player->init();*/
 	_im = new itemManager;
 	_im->init();
 
@@ -122,8 +122,8 @@ void playGround::update(void)
 {
 	gameNode::update();
 
-	_mapTool->update();
-	_player->update();
+	//_mapTool->update();
+	//_player->update();
 	SCENEMANAGER->update();
 	
 	
@@ -193,7 +193,7 @@ void playGround::render(void)
 		SCENEMANAGER->render();
 		break;
 	case 플레이어:
-		_player->render();
+		//_player->render();
 		break;
 	case 아이템:
 		SCENEMANAGER->render();
@@ -201,7 +201,7 @@ void playGround::render(void)
 	case 던전2: case 던전3: case 던전4: case 던전5: case 던전6: case 던전7: case 던전8:
 	case 랜덤맵1: case 보스:
 		SCENEMANAGER->render();
-		_player->render();
+		//_player->render();
 		break;
 	case 맵선택:
 		SCENEMANAGER->render();

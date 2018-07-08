@@ -25,11 +25,16 @@ HRESULT playGround::Image_init(void)
 	IMAGEMANAGER->addFrameImage("T_text", "image/UI/slotText(684x72,3x1).bmp", 0, 0, 684, 72, 3, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("T_textBack", "image/UI/slotBase(1152x858).bmp", 0, 0, 1152, 858, 2, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("T_delete", "image/UI/slotDeleteButton(372x102).bmp", 0, 0, 372, 102, true, RGB(255, 0, 255));
-
+	
 	//==========¸ÊUI=============
 	IMAGEMANAGER->addFrameImage("leftDoor", "image/etc/stele_left(384x2304,4x6).bmp", 0, 0, 384, 2304, 4, 6, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("rightDoor", "image/etc/stele_right(384x2304,4x6).bmp", 0, 0, 384, 2304, 4, 6, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("updownDoor", "image/etc/stele(2304x384,6x4).bmp", 0, 0, 2304, 384, 6, 4, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("torch", "image/etc/torch(1200x150,8x1).bmp", 0, 0, 1200, 150, 8, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("dungeonDoor", "image/etc/door(1750x800,5x2).bmp", 0, 0, 1750, 800, 5, 2, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("portal", "image/UI/portal(1296x384,9x2).bmp", 0, 0, 1296, 384, 9, 2, true, RGB(255, 0, 255));
+	
+
 	//==========ÀÎº¥Åä¸®==========
 	IMAGEMANAGER->addImage("inven", "image/UI/Inventory(707x1080).bmp", 0, 0, 707, 1080, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("inven0", "image/UI/Inven0(270x172).bmp", 0, 0, 270, 172, true, RGB(255, 0, 255));
@@ -48,6 +53,9 @@ HRESULT playGround::Image_init(void)
 	IMAGEMANAGER->addImage("reslot", "image/UI/UIrestaurantTab(600,270).bmp", 0, 0, 600, 270, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("scroll", "image/UI/UIscroll(42,432).bmp", 0, 0, 42, 432, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("rest", "image/UI/UIrestaurantTable(1146x2142,1,3).bmp", 0, 0, 1146, 2142,1,3, true, RGB(255, 0, 255));
+	//=========´øÀü·¹½ºÅä¶û=========
+	IMAGEMANAGER->addImage("d_restaurant", "image/UI/A_DungeonInn(1188x552).bmp", 0, 0, 1188, 552, true, RGB(255, 0, 255));
+
 
 	//==========Å½ÇèÁ¾·á==========
 	IMAGEMANAGER->addImage("reward", "image/UI/UIreward(1920x1080).bmp", 0, 0, 1920, 1080, true, RGB(255, 0, 255));
@@ -143,8 +151,8 @@ HRESULT playGround::Image_init(void)
 
 	//¿ø°Å¸®¹«±â ÀÌ¹ÌÁö 
 	//¹ÎÈ£¿ì
-	//IMAGEMANAGER->addRotateImage("ÃÑ10ÁÂ", "image/item/weapon/gun/deadlyKissLeft(100x25)1x1.bmp", 100, 25, true, RGB(255, 0, 255));		// Âø¿ë
-	//IMAGEMANAGER->addRotateImage("ÃÑ10¿ì", "image/item/weapon/gun/deadlyKissRight(100x25)1x1.bmp", 100, 25, true, RGB(255, 0, 255));		// Âø¿ë
+	IMAGEMANAGER->addRotateImage("ÃÑ10ÁÂ", "image/item/weapon/gun/deadlyKissLeft(100x25)1x1.bmp", 100, 25, true, RGB(255, 0, 255));		// Âø¿ë
+	IMAGEMANAGER->addRotateImage("ÃÑ10¿ì", "image/item/weapon/gun/deadlyKissRight(100x25)1x1.bmp", 100, 25, true, RGB(255, 0, 255));		// Âø¿ë
 	//°ÇµéÁö¸¶3
 
 	IMAGEMANAGER->addImage("ÃÑ10", "image/item/weapon/gun/matchlockGunDrop(70x18)1x1.bmp", 70, 18, true, RGB(255, 0, 255));			// µå¶ø
@@ -286,5 +294,11 @@ HRESULT playGround::Image_init(void)
 	IMAGEMANAGER->addFrameImage("¿£ÇÇ½Ã1", "image/npc/inn(600x200,6x1).bmp", 600, 200, 6, 1, true, RGB(255, 0, 255)); // À½½ÄÆÄ´Â ¾ÆÁÜ¸¶
 	IMAGEMANAGER->addFrameImage("¿£ÇÇ½Ã2", "image/npc/weaponNPC(400x196)4x1.bmp", 400, 196, 4, 1, true, RGB(255, 0, 255)); // Àåºñ ÆÇ¸ÅÇÏ´Â ¾ÆÀú¾¾
 
+
+
+
+	//========ÀÓ½Ã·Î ¾Ö´Ï¸ÞÀÌ¼Ç Ãß°¡ÇÔ!==============
+	KEYANIMANAGER->addDefaultFrameAnimation("torchAni", "torch", 10, false, true);
+	KEYANIMANAGER->addCoordinateFrameAnimation("portalAni", "portal", 9, 17, 10, false, true);
 	return S_OK;
 }

@@ -206,7 +206,8 @@ void titleScene::restaurant()
 	if (_rc.bottom >= 932)
 		_rc = RectMake(686, 500, 42, 432);
 	if (_rc.top >= 210 && _rc.bottom <= 932)
-		CAMERAMANAGER->setCameraPoint(PointMake(0, (_rc.top + 1 - 210)*1.4));
+		//CAMERAMANAGER->setCameraPoint(PointMake(0, (_rc.top + 1 - 210)*1.4)); //어디간 함수일까...
+		CAMERAMANAGER->setCameraCenter(PointMake(0, (_rc.top + 1 - 210)*1.4));
 
 	IMAGEMANAGER->findImage("scroll")->render(DC, 686, _rc.top);
 
