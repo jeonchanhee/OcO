@@ -11,10 +11,10 @@ MusicAngel::~MusicAngel()
 {
 }
 
-HRESULT MusicAngel::init()
+HRESULT MusicAngel::init(float x, float y)
 {
-	_x = WINSIZEX / 2;
-	_y = WINSIZEY / 2;
+	_x = x;
+	_y = y;
 
 	_img = IMAGEMANAGER->findImage("bansheeIdleAttack");
 
@@ -24,7 +24,7 @@ HRESULT MusicAngel::init()
 	//MOVE
 	KEYANIMANAGER->addCoordinateFrameAnimation("musicAngelRightMove", "bansheeIdleAttack", 0, 5, 4, false, true);
 	KEYANIMANAGER->addCoordinateFrameAnimation("musicAngelLeftMove", "bansheeIdleAttack", 6, 11, 4, false, true);
-
+	
 	//ATTACK
 	KEYANIMANAGER->addCoordinateFrameAnimation("musicAngelRightAttack", "bansheeIdleAttack", 12, 17, 2, false, false, rightAttack, this);
 	KEYANIMANAGER->addCoordinateFrameAnimation("musicAngelLeftAttack", "bansheeIdleAttack", 18, 23, 2, false, false, leftAttack, this);
@@ -68,7 +68,7 @@ void MusicAngel::update()
 	}*/
 	////////////////////бубубубубубубубубубубубу//////////////////////
 
-	KEYANIMANAGER->update();
+	//KEYANIMANAGER->update();
 	_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 }
 

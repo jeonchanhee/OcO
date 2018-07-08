@@ -1,34 +1,47 @@
 #pragma once
 #include "gameNode.h"
 
-enum NPCTYPE
+enum NPC_CONDITION
 {
-	WEAPON_NPC_LEFT, WEAPON_NPC_RIGHT,
-	FOOD_NPC_LEFT, FOOD_NPC_RIGHT
+	WEAPON_NPC_LEFT_STOP, 
+	WEAPON_NPC_RIGHT_STOP,
+	FOOD_NPC_LEFT_STOP, 
+	FOOD_NPC_RIGHT_STOP
+};
+
+enum NPC_TYPE
+{
+	WEAPON_NPC,
+	FOOD_NPC
 };
 
 class GodNpc : public gameNode
 {
 private:
 
-	NPCTYPE _type;		// 엔피시 타입
-	image* _image;		// 엔피시 이미지
-	RECT _npcInven[10]; // 엔피시 인벤토리
-	RECT _rc;			// 엔피시 렉트
-	float _npcX, _npcY;	// 엔피시 x, y 좌표
-	int _count;			// 프레임 카운트 받을거임
+	NPC_CONDITION _condition;	// 엔피시 상태
+	NPC_TYPE _type;				// 엔피시 타입
+	image* _img;				// 엔피시 이미지
+	RECT _rc;					// 엔피시 렉트
+	const char* _npcName;		// 엔피시 이름
+	float _npcX, _npcY;			// 엔피시 x, y 좌표
+	int _value;					// 무슨 엔피시 인지
+	int _frameX, _frameY;		// 프레임 X, Y 
+	int _count;					// 프레임 카운트 받을거임
+	bool _leftStop;				// 왼쪽으로 멈춰있냐 
+	bool _rightStop;			// 오른쪽으로 멈춰있냐ㅕ
 
 public:
 	GodNpc();
 	~GodNpc();
 
-	HRESULT init();
+	HRESULT init(NPC_TYPE type, NPC_CONDITION condition, const char* npcName, int value, POINT position);
 	void update();
 	void release();
 	void render();
 
-	void npcCreate(NPCTYPE type, const char* npcName, POINT position);
-	void WeaponNpc();
-	void FoodNpc();
+	void npcCreate(NPC_TYPE type, NPC_CONDITION condition, const char* npcName, int value);
+	void setWeaponNpc(NPC_CONDITION condition, const char* npcName, int value);
+	void setFoodNpc(NPC_CONDITION condition, const char* npcName, int value);
 };
 

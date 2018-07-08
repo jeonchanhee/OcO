@@ -6,18 +6,14 @@ Enemy::Enemy() {}
 
 Enemy::~Enemy() {}
 
-HRESULT Enemy::init()
-{
-	return S_OK;
-}
 
-HRESULT Enemy::init(const char* imageName, POINT position, float angle, float speed)
+HRESULT Enemy::init(const char* imageName, float x, float y, float angle, float speed)
 {
 	_frameX = _frameY = 0;
 	_count = _fireCount = _rndFireCount = 0;
 
-	_x = position.x;
-	_y = position.y;
+	_x = x;
+	_y = y;
 	_angle = angle;
 	_speed = speed;
 
@@ -68,10 +64,10 @@ void Enemy::move()
 bool Enemy::bulletCountFire()
 {
 	_fireCount++;
-	if (_fireCount % _rndFireCount == 0)
+	if (_fireCount % 5 == 0)
 	{
 		_fireCount = 0;
-		_rndFireCount = RND->getFromIntTo(1, 1000);
+		_rndFireCount = RND->getFromIntTo(1, 50);
 
 		return true;
 	}
@@ -84,10 +80,6 @@ void Enemy::setAngle(float angle)
 	_angle = angle;
 }
 
-float Enemy::getAngle()
-{
-	return _angle;
-}
 
 void Enemy::setPoint(float x, float y)
 {

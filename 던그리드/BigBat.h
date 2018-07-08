@@ -1,5 +1,6 @@
 #pragma once
 #include "Enemy.h"
+#include "Bullet.h"
 
 enum BIGBATDIRECTION
 {
@@ -15,18 +16,20 @@ class BigBat : public Enemy
 {
 	BIGBATDIRECTION _bigBatDirection;
 	animation* _bigBatMotion;
+	Bullet* _bullet;
 
 public:
 	BigBat();
 	~BigBat();
 
-	HRESULT init();
+	HRESULT init(float x, float y);
 	void release();
 	void update();
 	void render();
 
 	void attackMove();
 	void changeAnimation(BIGBATDIRECTION direction);
+	void bulletfire();
 
 	static void rightAttack(void* obj);
 	static void leftAttack(void* obj);

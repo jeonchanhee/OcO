@@ -13,7 +13,9 @@ mapSelectScene::~mapSelectScene()
 
 HRESULT mapSelectScene::init()
 {
+	_isMapSet = true;
 	_mapIdx = 0;
+	_isMapSet = true;
 	chooseMap(_mapIdx);
 	return S_OK;
 }
@@ -60,8 +62,8 @@ void mapSelectScene::render()
 
 void mapSelectScene::load()
 {
-	HANDLE	file;
-	DWORD	load;
+	HANDLE   file;
+	DWORD   load;
 	ZeroMemory(&_tiles, sizeof(tagTile) * TILEX * TILEY);
 
 	file = CreateFile(_mapName.c_str(), GENERIC_READ, NULL, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
@@ -101,15 +103,15 @@ void mapSelectScene::printMap(int idx)
 	if (idx == 11)
 		temp = 25;
 
-	 //지형
+	//지형
 	for (int i = (CAMERAMANAGER->getCameraCenter().y - WINSIZEY / 2) / 96; i < (CAMERAMANAGER->getCameraCenter().y + WINSIZEY / 2) / 96 + 1; ++i)
 	{
 		for (int j = (CAMERAMANAGER->getCameraCenter().x - WINSIZEX / 2) / 96; j < (CAMERAMANAGER->getCameraCenter().x + WINSIZEX / 2) / 96 + 1; ++j)
 		{
 			//if (i >= _tileX || j >= _tileY) continue;
-	
+
 			IMAGEMANAGER->frameRender("map", DC, _tiles[i * temp + j].rc.left, _tiles[i * temp + j].rc.top, _tiles[i * temp + j].terrainFrameX, _tiles[i * temp + j].terrainFrameY);
-	
+
 			char str[128];
 			sprintf_s(str, "%d", i * temp + j);
 			TextOut(DC, _tiles[i * temp + j].rc.left, _tiles[i * temp + j].rc.top, str, strlen(str));
@@ -118,22 +120,24 @@ void mapSelectScene::printMap(int idx)
 
 	//for (int i = 0; i < TILEX * TILEY; i++)
 	//{
-	//	//if (i % 50 > _tileX || i > TILEX*2 * _tileY + _tileX) continue;
-	//	IMAGEMANAGER->frameRender("map", DC, _tiles[i].rc.left, _tiles[i].rc.top, _tiles[i].terrainFrameX, _tiles[i].terrainFrameY);
+	//   //if (i % 50 > _tileX || i > TILEX*2 * _tileY + _tileX) continue;
+	//   IMAGEMANAGER->frameRender("map", DC, _tiles[i].rc.left, _tiles[i].rc.top, _tiles[i].terrainFrameX, _tiles[i].terrainFrameY);
 	//}
+
+	
 
 	//if (KEYMANAGER->isToggleKey(VK_SPACE)) return;
 	//
 	//for (int i = 0; i < 28; ++i)
 	//{
-	//	for (int j = 0; j < 49; ++j)
-	//	{
-	//		RectangleMake(DC, 96 * j, 96 * i, 96, 96);
-	//	}
+	//   for (int j = 0; j < 49; ++j)
+	//   {
+	//      RectangleMake(DC, 96 * j, 96 * i, 96, 96);
+	//   }
 	//}
 
 	// 오브젝트
-	if (KEYMANAGER->isToggleKey('N'))
+	//if (KEYMANAGER->isToggleKey('N'))
 	{
 		for (int i = (CAMERAMANAGER->getCameraCenter().y - WINSIZEY / 2) / 96; i < (CAMERAMANAGER->getCameraCenter().y + WINSIZEY / 2) / 96 + 1; ++i)
 		{
@@ -147,27 +151,27 @@ void mapSelectScene::printMap(int idx)
 
 		//for (int i = 0; i < TILEX * TILEY; i++)
 		//{
-		//	//if (i % 50 > _tileX || i > TILEX*2 * _tileY + _tileX) continue;
-		//	// 오브젝트 속성이 아니면 그리지마
-		//	if (_tiles[i].object == OBJ_NONE) continue;
+		//   //if (i % 50 > _tileX || i > TILEX*2 * _tileY + _tileX) continue;
+		//   // 오브젝트 속성이 아니면 그리지마
+		//   if (_tiles[i].object == OBJ_NONE) continue;
 		//
-		//	IMAGEMANAGER->frameRender("map", DC, _tiles[i].rc.left, _tiles[i].rc.top, _tiles[i].objFrameX, _tiles[i].objFrameY);
+		//   IMAGEMANAGER->frameRender("map", DC, _tiles[i].rc.left, _tiles[i].rc.top, _tiles[i].objFrameX, _tiles[i].objFrameY);
 		//}
 	}
-	
-	
+
+
 	//if (KEYMANAGER->isToggleKey(VK_TAB))
 	//{
-	//	for (int i = 0; i < TILEX * TILEY; i++)
-	//	{
-	//		//if (i % 50 > TILEVALUE[0][0] || i > TILEX * 2 * TILEVALUE[0][1] + TILEVALUE[0][0]) continue;
-	//		//IMAGEMANAGER->frameRender("map", DC, _tiles[i].rc.left, _tiles[i].rc.top, _tiles[i].terrainFrameX, _tiles[i].terrainFrameY);
-	//		Rectangle(DC, _tiles[i].rc.left, _tiles[i].rc.top, _tiles[i].rc.right, _tiles[i].rc.bottom);
-	//		char str[128];
-	//		sprintf_s(str, "%d", i);
-	//		TextOut(DC, _tiles[i].rc.left, _tiles[i].rc.top, str, strlen(str));
-	//		//count++;
-	//	}
+	//   for (int i = 0; i < TILEX * TILEY; i++)
+	//   {
+	//      //if (i % 50 > TILEVALUE[0][0] || i > TILEX * 2 * TILEVALUE[0][1] + TILEVALUE[0][0]) continue;
+	//      //IMAGEMANAGER->frameRender("map", DC, _tiles[i].rc.left, _tiles[i].rc.top, _tiles[i].terrainFrameX, _tiles[i].terrainFrameY);
+	//      Rectangle(DC, _tiles[i].rc.left, _tiles[i].rc.top, _tiles[i].rc.right, _tiles[i].rc.bottom);
+	//      char str[128];
+	//      sprintf_s(str, "%d", i);
+	//      TextOut(DC, _tiles[i].rc.left, _tiles[i].rc.top, str, strlen(str));
+	//      //count++;
+	//   }
 	//}
 }
 
@@ -176,7 +180,7 @@ void mapSelectScene::chooseMap(int idx)
 	_mapIdx = idx;
 
 	if (idx == 0)
-		_mapName = "map/Dtownmap(80x25).map";
+		_mapName = "map/townmap(80x25).map";
 	if (idx == 1)
 		_mapName = "map/Dungeon1(28x11).map";
 	if (idx == 2)

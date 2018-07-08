@@ -12,7 +12,7 @@ Boss2::~Boss2()
 }
 
 HRESULT Boss2::init()
-{
+{	
 	_boss[0].img = IMAGEMANAGER->findImage("bossHand");
 	_boss[1].img = IMAGEMANAGER->findImage("bossIdleAttackDie");
 	_boss[2].img = IMAGEMANAGER->findImage("bossHand");
@@ -21,17 +21,19 @@ HRESULT Boss2::init()
 	{
 		_boss[i].x = WINSIZEX / 4 + (i * WINSIZEX / 4);
 		_boss[i].y = WINSIZEY / 2;
+
 		_boss[i].rc = RectMakeCenter(_boss[i].x, _boss[i].y, _boss[i].img->getFrameWidth(), _boss[i].img->getFrameHeight());
 	}
 	
-
 	_bossLeftDirection = LEFT_IDLE;
 	_bossHeadDirection = HEAD_IDLE;
+	_bossRightDirection = RIGHT_IDLE;
 
 	//=======LEFT (IDLE,MOVE,LASER)========
-	KEYANIMANAGER->addCoordinateFrameAnimation("leftIdle", "bossHand", 18, 27, 5, false, true);
-	KEYANIMANAGER->addCoordinateFrameAnimation("leftMove", "bossHand", 18, 27, 5, false, false);
-	KEYANIMANAGER->addCoordinateFrameAnimation("leftLaser", "bossHand", 54, 71, 5, false, false);
+	KEYANIMANAGER->addCoordinateFrameAnimation("leftIdle", "bossHand", 10, 19, 5, false, true);
+	KEYANIMANAGER->addCoordinateFrameAnimation("leftUpMove", "bossHand", 10, 19, 5, false, true);
+	KEYANIMANAGER->addCoordinateFrameAnimation("leftDownMove", "bossHand", 10, 19, 5, false, true);
+	KEYANIMANAGER->addCoordinateFrameAnimation("leftLaser", "bossHand", 30, 39, 5, false, false, CBleftAttack, this);
 
 	_bossMotion[0] = KEYANIMANAGER->findAnimation("leftIdle");
 	_bossMotion[0]->start();
@@ -49,7 +51,16 @@ HRESULT Boss2::init()
 
 
 	//=======RIGHT (IDLE,MOVE,LASER)========
+	KEYANIMANAGER->addCoordinateFrameAnimation("rightIdle", "bossHand", 0, 9, 5, false, true);
+	KEYANIMANAGER->addCoordinateFrameAnimation("rightUpMove", "bossHand", 0, 9, 5, false, true);
+	KEYANIMANAGER->addCoordinateFrameAnimation("rightDownMove", "bossHand", 0, 9, 5, false, true);
+	KEYANIMANAGER->addCoordinateFrameAnimation("rightLaser", "bossHand", 20, 29, 5, false, false, CBrightAttack, this);
 
+	_bossMotion[2] = KEYANIMANAGER->findAnimation("rightIdle");
+	_bossMotion[2]->start();
+	x = (_boss[1].rc.right + _boss[1].rc.left) / 2;
+	y = (_boss[1].rc.bottom + _boss[1].rc.top) / 2;
+	
 	return S_OK;
 }
 
@@ -60,7 +71,7 @@ void Boss2::release()
 void Boss2::update()
 {
 	///////////////HEAD DIE TEST/////////////////
-	/*if (KEYMANAGER->isOnceKeyDown(VK_F9))
+	if (KEYMANAGER->isOnceKeyDown(VK_F9))
 	{
 		if (_bossHeadDirection == HEAD_IDLE || _bossHeadDirection == HEAD_ATTACK)
 		{
@@ -69,9 +80,9 @@ void Boss2::update()
 	}
 	if (_bossHeadDirection == HEAD_DIE)
 	{
-		if (_y < 1000) _y += BOSSSPEED;
+		if (_boss[1].y < 1000) _boss[1].y += BOSSSPEED;
 	}
-	if (KEYMANAGER->isOnceKeyUp(VK_F9))
+	/*if (KEYMANAGER->isOnceKeyUp(VK_F9))
 	{
 		if (_bossHeadDirection == HEAD_DIE)
 		{
@@ -82,63 +93,78 @@ void Boss2::update()
 	_count++;
 	leftMove();
 	headMove();
+	rightMove();
 
-	KEYANIMANAGER->update();
+	//KEYANIMANAGER->update();
 	for (int i = 0; i < 3; i++)
 		_boss[i].rc = RectMakeCenter(_boss[i].x, _boss[i].y, _boss[i].img->getFrameWidth(), _boss[i].img->getFrameHeight());
 }
 
 void Boss2::render()
 {
-	for (int i = 0; i < 2; i++)
+	for (int i = 0; i < 3; i++)
 	{
 		//_boss[i].img->aniRender(DC, _boss[i].rc.left, _boss[i].rc.top, _bossMotion[i]);
 		_boss[i].img->aniRender(DC, _boss[i].rc.left, _boss[i].rc.top, _bossMotion[i]);
 	}
+
+	//Rectangle(DC, _boss[1].rc.left, _boss[1].rc.top, _boss[1].rc.right, _boss[1].rc.bottom);
+		//RectangleMake(DC, _boss[1].x, _boss[1].y, _boss[1].img->getFrameWidth(), _boss[1].img->getFrameHeight());
+	//RectangleMakeCenter(DC, (_boss[1].rc.right + _boss[1].rc.left) / 2, (_boss[1].rc.bottom + _boss[1].rc.top) / 2, 10, 10);
+	char str[128];
+	sprintf_s(str, "%f %f", _boss[1].x, _boss[1].y);
+	TextOut(DC, 100, 100, str, strlen(str));
 }
 
-
+//===============================================================================
+//									왼손꾸락
+//===============================================================================
 //왼손꾸락
 void Boss2::leftMove()
 {
-	if (!(_count % 150))
+	//위아래로 움직이다 멈춤
+	if (!(_count % 100))
 	{
-		changeLeftDirection(LEFT_MOVE);
+		//if (_bossLeftDirection == LEFT_UP_MOVE)
+		//	changeLeftDirection(LEFT_IDLE);
+		//else if (_bossLeftDirection == LEFT_DOWN_MOVE)
+		//	changeLeftDirection(LEFT_IDLE);
+
+		if (_bossLeftDirection == LEFT_UP_MOVE)
+			changeLeftDirection(LEFT_LASER);
+		else if (_bossLeftDirection == LEFT_DOWN_MOVE)
+			changeLeftDirection(LEFT_LASER);
 	}
-	if (!(_count % 200))
+
+	//범위지정해서 위아래로 움직임
+	if (!(_count % 350))
+	{
+		if (_bossLeftDirection == LEFT_IDLE)
+		{
+			if (_boss[0].y < WINSIZEY / 2)
+				changeLeftDirection(LEFT_DOWN_MOVE);
+			else
+				changeLeftDirection(LEFT_UP_MOVE);
+		}
+	}
+
+	//위 범위 지정
+	if (_boss[0].y < 100)
 	{
 		changeLeftDirection(LEFT_IDLE);
+		_boss[0].y = _boss[0].y;
 	}
-
-	if (_bossLeftDirection == LEFT_MOVE)
+	//아래 범위 지정
+	if (_boss[0].y > WINSIZEY - 100)
 	{
-		/*if (_boss[0].y > 30)
-			_boss[0].y -= BOSSSPEED;
-		if (_boss[0].y <= WINSIZEY - 300)
-			_boss[0].y += BOSSSPEED;*/
-		if (_boss[0].y > WINSIZEX / 2)
-			_boss[0].y -= BOSSSPEED;
-		if (_boss[0].y < WINSIZEX / 2)
-			_boss[0].y += BOSSSPEED;
-		
+		changeLeftDirection(LEFT_IDLE);
+		_boss[0].y = WINSIZEY - 100;
 	}
-		/*if (_bossLeftDirection == LEFT_IDLE && _boss[0].y < WINSIZEY - 100)
-		{
-			changeLeftDirection(LEFT_MOVE);
-			_boss[0].y += BOSSSPEED;
-		}
-		if (_bossLeftDirection == LEFT_IDLE && _boss[0].y > 100)
-		{
-			changeLeftDirection(LEFT_MOVE);
-			_boss[0].y -= BOSSSPEED;
-		}
-	}
-
-	if (!(_count % 200))
-	{
-		if (_bossLeftDirection == LEFT_MOVE)
-			changeLeftDirection(LEFT_IDLE);
-	}*/
+	//움직임 속도 지정
+	if (_bossLeftDirection == LEFT_DOWN_MOVE)
+		_boss[0].y += BOSSSPEED;
+	if (_bossLeftDirection == LEFT_UP_MOVE)
+		_boss[0].y -= BOSSSPEED;
 }
 
 void Boss2::changeLeftDirection(BOSSLEFTDIRECTION leftDirection)
@@ -152,10 +178,17 @@ void Boss2::changeLeftDirection(BOSSLEFTDIRECTION leftDirection)
 		_bossMotion[0]->start();
 		_boss[0].rc = RectMakeCenter(_boss[0].x, _boss[0].y, _boss[0].img->getFrameWidth(), _boss[0].img->getFrameHeight());
 		break;
-	case LEFT_MOVE:
+	case LEFT_UP_MOVE:
 		_boss[0].img = IMAGEMANAGER->findImage("bossHand");
-		_bossLeftDirection = LEFT_MOVE;
-		_bossMotion[0] = KEYANIMANAGER->findAnimation("leftMove");
+		_bossLeftDirection = LEFT_UP_MOVE;
+		_bossMotion[0] = KEYANIMANAGER->findAnimation("leftUpMove");
+		_bossMotion[0]->start();
+		_boss[0].rc = RectMakeCenter(_boss[0].x, _boss[0].y, _boss[0].img->getFrameWidth(), _boss[0].img->getFrameHeight());
+		break;
+	case LEFT_DOWN_MOVE:
+		_boss[0].img = IMAGEMANAGER->findImage("bossHand");
+		_bossLeftDirection = LEFT_DOWN_MOVE;
+		_bossMotion[0] = KEYANIMANAGER->findAnimation("leftDownMove");
 		_bossMotion[0]->start();
 		_boss[0].rc = RectMakeCenter(_boss[0].x, _boss[0].y, _boss[0].img->getFrameWidth(), _boss[0].img->getFrameHeight());
 		break;
@@ -165,6 +198,10 @@ void Boss2::changeLeftDirection(BOSSLEFTDIRECTION leftDirection)
 		_bossMotion[0] = KEYANIMANAGER->findAnimation("leftLaser");
 		_bossMotion[0]->start();
 		_boss[0].rc = RectMakeCenter(_boss[0].x, _boss[0].y, _boss[0].img->getFrameWidth(), _boss[0].img->getFrameHeight());
+		break;
+	case LEFT_LASER_ON:
+		changeLeftDirection(LEFT_IDLE);
+
 		break;
 	default:
 		_boss[0].rc = RectMakeCenter(_boss[0].x, _boss[0].y, _boss[0].img->getFrameWidth(), _boss[0].img->getFrameHeight());
@@ -177,21 +214,26 @@ void Boss2::CBleftAttack(void * obj)
 	Boss2* bb = (Boss2*)obj;
 
 	bb->_boss[0].img = IMAGEMANAGER->findImage("bossHand");
-	bb->setLeftDirection(LEFT_IDLE);
+	bb->setLeftDirection(LEFT_LASER_ON);
 	bb->setLeftMotion0(KEYANIMANAGER->findAnimation("leftIdle"));
 	bb->getLeftMotion0()->start();
 }
 
 
+//===============================================================================
+//								머리통
+//===============================================================================
 //머리텅
 void Boss2::headMove()
 {
+	//입 총알 발사하게 함
 	if (!(_count % 100))
 	{
 		if(_bossHeadDirection == HEAD_IDLE)
 			changeHeadDirection(HEAD_ATTACK);
 		
 	}
+	//입 다물게 함
 	if (!(_count % 500))
 	{
 		if(_bossHeadDirection == HEAD_ATTACK)
@@ -239,4 +281,100 @@ void Boss2::CBheadAttack(void * obj)
 	bb->setHeadDirection(HEAD_IDLE);
 	bb->setHeadMotion1(KEYANIMANAGER->findAnimation("headIdle"));
 	bb->getHeadMotion1()->start();
+}
+
+//===============================================================================
+//									오른손꾸락
+//===============================================================================
+//오른손꾸락
+void Boss2::rightMove()
+{
+	if (!(_count % 100))
+	{
+		//if (_bossRightDirection == RIGHT_UP_MOVE)
+		//	changeRightDirection(RIGHT_IDLE);
+		//else if (_bossRightDirection == RIGHT_DOWN_MOVE)
+		//	changeRightDirection(RIGHT_IDLE);
+
+		if (_bossRightDirection == RIGHT_UP_MOVE)
+			changeRightDirection(RIGHT_LASER);
+		else if (_bossRightDirection == RIGHT_DOWN_MOVE)
+			changeRightDirection(RIGHT_LASER);
+	}
+
+	if (!(_count % 350))
+	{
+		if (_bossRightDirection == RIGHT_IDLE)
+		{
+			if (_boss[2].y < WINSIZEY / 2)
+				changeRightDirection(RIGHT_DOWN_MOVE);
+			else
+				changeRightDirection(RIGHT_UP_MOVE);
+		}
+
+	}
+
+	if (_boss[2].y < 100)
+	{
+		changeRightDirection(RIGHT_IDLE);
+		_boss[2].y = _boss[2].y;
+	}
+	if (_boss[2].y > WINSIZEY - 100)
+	{
+		changeRightDirection(RIGHT_IDLE);
+		_boss[2].y = WINSIZEY - 100;
+	}
+
+	if (_bossRightDirection == RIGHT_DOWN_MOVE)
+		_boss[2].y += BOSSSPEED;
+	if (_bossRightDirection == RIGHT_UP_MOVE)
+		_boss[2].y -= BOSSSPEED;
+}
+
+void Boss2::changeRightDirection(BOSSRIGHTDIRECTION rightDirection)
+{
+	switch (rightDirection)
+	{
+	case RIGHT_IDLE:
+		_boss[2].img = IMAGEMANAGER->findImage("bossHand");
+		_bossRightDirection = RIGHT_IDLE;
+		_bossMotion[2] = KEYANIMANAGER->findAnimation("rightIdle");
+		_bossMotion[2]->start();
+		_boss[2].rc = RectMakeCenter(_boss[2].x, _boss[2].y, _boss[2].img->getFrameWidth(), _boss[2].img->getFrameHeight());
+		break;
+	case RIGHT_UP_MOVE:
+		_boss[2].img = IMAGEMANAGER->findImage("bossHand");
+		_bossRightDirection = RIGHT_UP_MOVE;
+		_bossMotion[2] = KEYANIMANAGER->findAnimation("rightUpMove");
+		_bossMotion[2]->start();
+		_boss[2].rc = RectMakeCenter(_boss[2].x, _boss[2].y, _boss[2].img->getFrameWidth(), _boss[2].img->getFrameHeight());
+		break;
+	case RIGHT_DOWN_MOVE:
+		_boss[2].img = IMAGEMANAGER->findImage("bossHand");
+		_bossRightDirection = RIGHT_DOWN_MOVE;
+		_bossMotion[2] = KEYANIMANAGER->findAnimation("rightDownMove");
+		_bossMotion[2]->start();
+		_boss[2].rc = RectMakeCenter(_boss[2].x, _boss[2].y, _boss[2].img->getFrameWidth(), _boss[2].img->getFrameHeight());
+		break;
+	case RIGHT_LASER:
+		_boss[2].img = IMAGEMANAGER->findImage("bossHand");
+		_bossRightDirection = RIGHT_LASER;
+		_bossMotion[2] = KEYANIMANAGER->findAnimation("rightLaser");
+		_bossMotion[2]->start();
+		_boss[2].rc = RectMakeCenter(_boss[2].x, _boss[2].y, _boss[2].img->getFrameWidth(), _boss[2].img->getFrameHeight());
+		break;
+	default:
+		_boss[2].rc = RectMakeCenter(_boss[2].x, _boss[2].y, _boss[2].img->getFrameWidth(), _boss[2].img->getFrameHeight());
+		break;
+	}
+}
+
+void Boss2::CBrightAttack(void * obj)
+{
+	Boss2* bb = (Boss2*)obj;
+
+	bb->_boss[2].img = IMAGEMANAGER->findImage("bossHand");
+	bb->setRightDirection(RIGHT_LASER_ON);
+	bb->setRightMotion2(KEYANIMANAGER->findAnimation("rightIdle"));
+	bb->getRightMotion2()->start();
 }

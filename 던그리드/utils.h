@@ -18,6 +18,7 @@ namespace CLASS_TEN
 
 	//°¢µµ
 	float getAngle(float x1, float y1, float x2, float y2);
+	float GetAngle(float x1, float y1, float x2, float y2);
 
 	bool isCollisionReaction(RECT& mrcHold, RECT& mrcMove);
 

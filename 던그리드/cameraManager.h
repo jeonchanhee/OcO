@@ -2,7 +2,7 @@
 #include "singletonBase.h"
 //#include "image.h"
 //#include "tileNode.h"
-//#define moveValue 1
+#define moveValue 1
 
 
 
@@ -12,7 +12,9 @@ private:
 	image*	_camera;
 	POINT	_center;
 	
-	/*image * _cameraDC;
+	image * _cameraDC;
+	POINT	_point;
+	/*
 	image * _cameraDC2;
 	RECT _cameraRc;
 	RECT _cameraRc2;
@@ -23,6 +25,8 @@ public:
 	HRESULT init();
 	void update();
 	void release();
+
+	void cameraShaking();
 
 	//void cameraShaking();
 	//
@@ -48,8 +52,17 @@ public:
 	void render(image* img);
 
 	HDC getCameraDC(void) { return _camera->getMemDC(); }
+	HDC getCameraDC2(void) { return _cameraDC->getMemDC(); }
 	void setCameraCenter(POINT point);
+
+	// 지우지 말아주세요 setCameraCenter 쓰니까 대각선처리가 부드럽지 못하드라구요 
+	void setCameraX(long x);
+	void setCameraY(long y);
+	//주석도 자제좀 
+
 	POINT getCameraCenter(void) { return _center; }
+	POINT getCameraPoint(void) { return _point; }
 	image* getCamera(void) { return _camera; }
+
 };
 

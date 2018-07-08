@@ -11,11 +11,11 @@ DogBone::~DogBone()
 {
 }
 
-HRESULT DogBone::init()
+HRESULT DogBone::init(float x, float y)
 {
 	_dogBoneDirection = DOGBONE_LEFT_MOVE;
-	_x = WINSIZEX / 2;
-	_y = WINSIZEY / 2;
+	_x = x;
+	_y = _startY = y;
 	_jumpPower = 5.0f;
 	_gravity = 0.15f;
 
@@ -59,17 +59,18 @@ void DogBone::update()
 	changeDirection();
 	move();
 
-	if (_isJumping && _y > WINSIZEY / 2)//초기 위치보다 크면 초기위치에서 멈춤 (WINSIZEY / 2)
+	if (_isJumping && _y > _startY)//초기 위치보다 크면 초기위치에서 멈춤 (_startY)
 	{
 		_isJumping = false;
-		_y = WINSIZEY / 2;
+		_y = _startY;
+		_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 		if (_dogBoneDirection == DOGBONE_LEFT_JUMP)
 			_dogBoneDirection = DOGBONE_LEFT_MOVE;
 		else if (_dogBoneDirection == DOGBONE_RIGHT_JUMP)
 			_dogBoneDirection = DOGBONE_RIGHT_MOVE;
 	}
 
-	KEYANIMANAGER->update();
+	//KEYANIMANAGER->update();
 
 
 	////////////////////DIE테스트임///////////////////////////
@@ -159,16 +160,18 @@ void DogBone::changeDirection()
 	//이동 가능 범위(방향전환)
 	if (_x - _img->getFrameWidth() / 2 < 0)
 	{
-		changeAnimation(DOGBONE_RIGHT_MOVE);
+		if (_dogBoneDirection == DOGBONE_LEFT_JUMP) changeAnimation(DOGBONE_RIGHT_JUMP);
+		else changeAnimation(DOGBONE_RIGHT_MOVE);
 	}
 	if (_x + _img->getFrameWidth() / 2 > WINSIZEX)
 	{
-		changeAnimation(DOGBONE_LEFT_MOVE);
+		if (_dogBoneDirection == DOGBONE_RIGHT_JUMP) changeAnimation(DOGBONE_LEFT_JUMP);
+		else changeAnimation(DOGBONE_LEFT_MOVE);
 	}
 
 	//점프
 	_count++;
-
+	
 	if (!(_count % 100) && !_isJumping)
 	{
 		_count = 0;

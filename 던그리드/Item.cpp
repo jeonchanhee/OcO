@@ -3,13 +3,23 @@
 
 
 
-HRESULT Item::init()
-{
-	_item.x = WINSIZEX / 2;
-	_item.y - WINSIZEY / 2;
+Item::Item(){} Item::~Item(){}
 
+
+
+HRESULT Item::init(ITEMTYPE type, const char* itemName, int value, POINT position)
+{
+	_item.type = type;
+	_item.name = itemName;
+	_item.value = value;
+	_item.x = position.x;
+	_item.y = position.y;
+	
+	CreateItem(type, itemName, value);
 	return S_OK;
 }
+
+
 
 
 void Item::release()
@@ -18,637 +28,874 @@ void Item::release()
 }
 
 
+
 void Item::update()
 {
 
-
 	_count++;
+
 	if (_item.isFrame)
 	{
-		if (_count %10 == 0)
+		if (_count % 10 == 0)
 		{
-			for (int i = 0; i < 3; i++)
-			{
-				if (_item.frameX >= _item.image[i]->getMaxFrameX()) _item.frameX = 0;
-				_item.image[i]->setFrameX(_item.frameX);
-				_item.frameX++;
-				_count = 0;
-				break;
-			}
+			if (_item.frameX >= _item.image[2]->getMaxFrameX()) _item.frameX = 0;
+			_item.image[2]->setFrameX(_item.frameX);
+			_item.frameX++;
+			_count = 0;
 		}
-	}
-	else
-	{
-		return;
 	}
 }
 
 
 void Item::render() // 아이템을 렌더
 {
+	if (_item.type == SWORD || _item.type == BOW || _item.type == HAMMER  ||
+		_item.type == GUN || _item.type == SHIELD || _item.type == FOOD)
+	{
+		if (_item.isFrame)
+		{
+			for (int i = 0; i < 3; i++)
+			{
+				if (i == 2)
+				{
+					_item.image[i]->frameRender(DC, _item.rc[i].left, _item.rc[i].top, _item.frameX, _item.frameY);
+				}
+				else
+				{
+					_item.image[i]->render(DC, _item.rc[i].left, _item.rc[i].top);
+				}
+			}
+		}
+		else
+		{
+			for (int i = 0; i < 3; i++)
+			{
+				_item.image[i]->render(DC, _item.rc[i].left, _item.rc[i].top);
+			}
+		}
 
-	if (_item.isFrame) // 프레임이미지 일때
-	{
-		_item.image[0]->frameRender(DC, _item.x, _item.y, _item.frameX, _item.frameY);
-		_item.image[1]->frameRender(DC, _item.x, _item.y, _item.frameX, _item.frameY);
-		_item.image[2]->frameRender(DC, _item.x, _item.y, _item.frameX, _item.frameY);
 	}
-	else // 프레임 이미지가 아닐때
+
+	if (_item.type == ACCESSORY || _item.type == ARMOR)
 	{
-		_item.image[0]->render(DC, _item.x, _item.y);
-		_item.image[1]->render(DC, _item.x, _item.y);
-		_item.image[2]->render(DC, _item.x, _item.y);
+		for (int i = 0; i < 2; i++)
+		{
+	
+			_item.image[i]->render(DC, _item.rc[i].left, _item.rc[i].top);
+			
+		}
 	}
+
+	if (_item.type == SECOND_EQUIPMENT)
+	{
+		if (_item.isFrame)
+		{
+			for (int i = 0; i < 3; i++)
+			{
+				if (i == 2)
+				{
+					_item.image[i]->frameRender(DC, _item.rc[i].left, _item.rc[i].top, _item.frameX, _item.frameY);
+				}
+				else
+				{
+					_item.image[i]->render(DC, _item.rc[i].left, _item.rc[i].top);
+				}
+			}
+		}
+
+		if (!_item.isFrame)
+		{
+			for (int i = 0; i < 2; i++)
+			{
+				_item.image[i]->render(DC, _item.rc[i].left, _item.rc[i].top);
+			}
+		}
+	}
+
 }
 
-void Item::createItem(ITEMTYPE type, IMAGETYPE type2, const char* itemName, int value, int num, bool frame) // 아이템 만듬
+
+
+
+void Item::CreateItem(ITEMTYPE type, const char * itemName, int value) // 아이템 만듬
 {
 	switch (type)
 	{
-		case SHORT_DISTANCE_WEAPON:
-			ShortDistanceWeapon(itemName, value, num);
+		case SWORD:
+			setSword(itemName, value);
 		break;
-		case LONG_DISTANCE_WEAPON:
-			LongDistanceWeapon(itemName, value, num);
+		case HAMMER:
+			setHammer(itemName, value);
 		break;
-		case DEFENCE_MECHANISM:
-			DefenceMechanism(itemName, value, num);
+		case GUN:
+			setGun(itemName, value);
 		break;
-		case SECOND_EQUIPMENT:
-			SecondEquipment(itemName, value, num);
+		case BOW:
+			setBow(itemName, value);
+		break;
+		case ARMOR:
+			setArmor(itemName, value);
+		break;
+		case SHIELD:
+			setShield(itemName, value);
 		break;
 		case ACCESSORY:
-			Accessory(itemName, value, num);
+			setAccessory(itemName, value);
 		break;
-		case CONSUME:
-			Consume(itemName, value, num);
-		break;
-		case HEALING:
-			Healing(itemName, value, num);
-		break;
-		case TREASUREBOX:
-			TreasureBox(itemName, value, num);
-		break;
-		case GOLD:
-			Gold(itemName, value, num);
+		case FOOD:
+			setFood(itemName, value);
+
+		case SECOND_EQUIPMENT:
+			setEquip(itemName, value);
 		break;
 	}
-	_item.type = type;
-	_num = num;
-	_item.isFrame = frame;
-	_item.imageName = itemName;
-	if (frame)
-	{
-		_item.frameX = _item.frameY = 0;
-	}
-	_item.image[0] = IMAGEMANAGER->findImage("검10");
 }
 
 
-///////////////////////// 원거리 무기 ////////////////////////////////////
 
-void Item::LongDistanceWeapon(const char* imageName, int value, int num)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+void Item::setSword(const char * weaponName, int value)
 {
-	for (int i = 0; i < 3; ++i)	
-	{
-		char str[128];
-		sprintf_s(str, "%s%d%d", imageName, value, num);
-		_item.image[i] = IMAGEMANAGER->findImage(str);
-	}
-
-	if (value == 1) // 첫번째 원거리 무기
-	{
-		_item.ad = 10;
-		_item.attackSpeed = 10.0f;
-		_item.criticalPersent = 10.0f;
-		_item.fixedDamage = 5;
-		_item.imagetype = 단일;
-
-	}
-
-	if (value == 1 && imageName == "활") // 첫번째 원거리 무기
-	{
-		_item.ad = 10;
-		_item.attackSpeed = 10.0f;
-		_item.criticalPersent = 10.0f;
-		_item.fixedDamage = 5;
-		_item.imagetype = 프레임;
-	}
-
-	if (value == 2) // 두번째 원거리 무기
-	{
-		_item.ad = 15;
-		_item.attackSpeed = 15.0f;
-		_item.criticalPersent = 15.0f;
-		_item.fixedDamage = 10;
-		_item.imagetype = 단일;
-	}
-
-	if (value == 2 && imageName == "활") // 두번째 원거리 무기
-	{
-		_item.ad = 15;
-		_item.attackSpeed = 15.0f;
-		_item.criticalPersent = 15.0f;
-		_item.fixedDamage = 10;
-		_item.imagetype = 프레임;
-	}
-
-	if (value == 3) // 세번째 원거리 무기
-	{
-		_item.ad = 20;
-		_item.attackSpeed = 20.0f;
-		_item.criticalPersent = 20.0f;
-		_item.fixedDamage = 15;
-		_item.imagetype = 단일;
-	}
-
-	if (value == 3 && imageName == "활")
-	{
-		_item.ad = 30;
-		_item.attackSpeed = 30.0f;
-		_item.criticalPersent = 30.0f;
-		_item.fixedDamage = 25;
-		_item.imagetype = 프레임;
-	}
-
-	if (value == 4) // 네번째 원거리 무기
-	{
-		_item.ad = 30;
-		_item.attackSpeed = 30.0f;
-		_item.criticalPersent = 30.0f;
-		_item.fixedDamage = 25;
-		_item.imagetype = 프레임;
-		
-	}
-
-
-}
-////////////////////////////// 원거리 무기 //////////////////////////////
-
-
-
-
-//////////////////////////// 근접 무기 //////////////////////////////////
-
-void Item::ShortDistanceWeapon(const char* imageName, int value, int num)
-{
-	for (int i = 0; i < 3; i++)
-	{	
-		char str[128];
-		sprintf_s(str, "%s%d%d", imageName, value, num);
-		_item.image[i] = IMAGEMANAGER->findImage(str);
-	}
-
-	if (value == 1) //기본무기(처음에 사용할 숏소드)
-	{
-		_item.ad = 5;
-		_item.attackSpeed = 5.0f;
-		_item.criticalPersent = 5.0f;
-		_item.fixedDamage = 5;
-		_item.imagetype = 단일;
-
-	}
-
-	if (value == 2) // 첫번째 무기
-	{
-		_item.ad = 10;
-		_item.attackSpeed = 10.0f;
-		_item.criticalPersent = 10.0f;
-		_item.fixedDamage = 7;
-		_item.imagetype = 단일;
-	}
-
-	if (value == 3) // 두번째 무기
-	{
-		_item.ad = 15;
-		_item.attackSpeed = 15.0f;
-		_item.criticalPersent = 15.0f;
-		_item.fixedDamage = 10;
-		_item.imagetype = 단일;
-	}
-
-	if (value == 4) // 세번째 무기
-	{
-		_item.ad = 20;
-		_item.attackSpeed = 20.0f;
-		_item.criticalPersent = 20.0f;
-		_item.fixedDamage = 15;
-		_item.imagetype = 프레임;
-	}
-
-	if (value == 5) // 네번째 무기
-	{
-		_item.ad = 30;
-		_item.attackSpeed = 30.0f;
-		_item.criticalPersent = 30.0f;
-		_item.fixedDamage = 25;
-		_item.imagetype = 프레임;
-	}
-
-}
-
-//////////////////////////// 근접 무기 //////////////////////////////////
-
-
-
-//////////////////////////// 방어구 ////////////////////////////////////
-void Item::DefenceMechanism(const char * imageName, int value, int num)
-{
+	char str[128];
 	for (int i = 0; i < 3; i++)
 	{
-		char str[128];
-		sprintf_s(str, "%s%d%d", imageName, value, num);
+		sprintf_s(str, "%s%d%d", weaponName, value, i);
 		_item.image[i] = IMAGEMANAGER->findImage(str);
+
+		if (value == 4 && i == 2 || value == 5 && i == 2) // 착용 이미지 일때
+		{
+			_item.isFrame = true;
+			if (_item.isFrame)
+			{
+				_item.rc[i] = RectMake(_item.x + i * 100, _item.y, _item.image[i]->getFrameWidth(),
+					_item.image[i]->getFrameHeight());
+			}
+			else
+			{
+				_item.isFrame = false;
+			}
+		}
+		else
+		{
+			_item.rc[i] = RectMake(_item.x + i * 100, _item.y, _item.image[i]->getWidth(),
+				_item.image[i]->getHeight());
+		}
 
 	}
 
-	if (value == 1) // 첫번째 방어구
+	if (value == 1) // 기본무기
 	{
-		_item.armor = 10;				// 방어력
-		_item.evasionPersent = 10.0f;	// 회피율.
-		_item.imagetype = 단일;
+		_item.grade = NORMAL;		// 노말등급
+		_item.minimumAtt = 8;		// 최소 데미지 8
+		_item.MaxAtt = 10;		// 최대 데미지 10
+		_item.fixedDamage = 8;	// 고정데미지 8
+		_item.attackSpeed = 3.3f;	// 공격속도  
+		_item.sellBan = true;		// 판매금지
+
+	}
+
+	if (value == 2) // 무라마사
+	{
+		_item.grade = RARE;				// 레어등급
+		_item.minimumAtt = 20;			// 최소 데미지 10
+		_item.MaxAtt = 30;				// 최대 데미지 15
+		_item.fixedDamage = 10;			// 고정데미지 10
+		_item.attackSpeed = 5.2f;			// 공격속도  
+		_item.criticalPersent = 30.0f;	// 크리율
+		_item.price = 7000;				// 가격
+
+	}
+
+	if (value == 3) // 화룡 학살자
+	{
+		_item.grade = RARE;				// 무기는 노말
+		_item.minimumAtt = 30;			// 최소 데미지 30
+		_item.MaxAtt = 40;				// 최대 데미지 40
+		_item.fixedDamage = 8;			// 고정데미지 30
+		_item.attackSpeed = 3.3f;			// 공격속도  
+		_item.criticalPersent = 30.0f;	// 크리율
+		_item.evasionPersent = 3.0f;		// 회피율
+		_item.price = 7000;				// 가격
+
+
+	}
+
+	if (value == 4) // 데몬
+	{
+		_item.grade = LEGENDARY;			// 전설 등급
+		_item.minimumAtt = 40;			// 최소 데미지 40
+		_item.MaxAtt = 70;				// 최대 데미지 50
+		_item.fixedDamage = 8;			// 고정데미지 40
+		_item.attackSpeed = 2.3f;			// 공격속도  
+		_item.criticalPersent = 30.0f;	// 크리율
+		_item.evasionPersent = 8.0f;		// 회피율
+		_item.addMaxHp = 20;				// 최대HP;
+		_item.price = 12000;				// 가격
+	}
+
+	if (value == 5) // 코스모스
+	{
+		_item.grade = LEGENDARY;			// 전설등급
+		_item.minimumAtt = 30;			// 최소 데미지 30
+		_item.MaxAtt = 55;				// 최대 데미지 45
+		_item.fixedDamage = 30;			// 고정데미지 30
+		_item.attackSpeed = 3.3f;			// 공격속도  
+		_item.criticalPersent = 30.0f;	// 크리율
+		_item.evasionPersent = 5.0f;		// 회피율
+		_item.addMaxHp = 10;				// 최대HP
+		_item.price = 15000;				// 가격
+
 	}
 
 	
+	
+}
 
-	if (value == 2) // 두번째 방어구
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+void Item::setHammer(const char * weaponName, int value)
+{
+	char str[128];
+	for (int i = 0; i < 3; i++)
 	{
-		_item.armor = 15;				// 방어력
-		_item.evasionPersent = 15.0f;	// 회피율.
-		_item.imagetype = 단일;
+		sprintf_s(str, "%s%d%d", weaponName, value, i);
+		_item.image[i] = IMAGEMANAGER->findImage(str);
+		_item.rc[i] = RectMake(_item.x + i * 100, _item.y, _item.image[i]->getWidth(),
+			_item.image[i]->getHeight());
 
 	}
 
-	if (value == 2 && imageName == "방패")
+	if (value == 1) // 조선족 망치
 	{
-		_item.armor = 30;				// 방어력
-		_item.evasionPersent = 30.0f;	// 회피율.
-		_item.imagetype = 단일;
+		_item.grade = NORMAL;				// 노말
+		_item.minimumAtt = 15;			// 최소 데미지 15
+		_item.MaxAtt = 20;				// 최대 데미지 20
+		_item.fixedDamage = 15;			// 고정데미지 15
+		_item.attackSpeed = 1.3f;			// 공격속도  
+		_item.moveMentSpeed = -20.0f;		// 이동속도
+		_item.addMaxHp = 5;				// 최대HP;
+		_item.price = 1000;				// 가격
 	}
 
-
-	if (value == 3) // 세번째 방어구
+	if (value == 2) //드래곤 해머
 	{
-		_item.addMaxHp = 10;			// 최대체력 증가
-		_item.armor = 20;				// 방어력
-		_item.evasionPersent = 20.0f;	// 회피율.
-		_item.imagetype = 단일;
-	}
-
-	if (value == 4) // 네번째 방어구 
-	{
-		_item.armor = 30;					// 방어력
-		_item.addMaxHp = 30;				// 체력증가
-		_item.attackSpeed = 30.0f;			// 공속
-		_item.evasionPersent = 30.0f;		// 회피율.
-		_item.criticalPersent = 30.0f;		// 크리티컬
-		_item.imagetype = 단일;
+		_item.grade = RARE;				// 레어
+		_item.minimumAtt = 40;			// 최소 데미지 40
+		_item.MaxAtt = 50;				// 최대 데미지 50
+		_item.fixedDamage = 40;			// 고정데미지 40
+		_item.attackSpeed = 1.3f;			// 공격속도  
+		_item.criticalPersent = 30.0f;	// 크리율
+		_item.moveMentSpeed = -20.0f;		// 이동속도
+		_item.addMaxHp = 20;				// 최대HP;
+		_item.price = 12000;				// 가격
 	}
 
 }
-//////////////////////////// 방어구 //////////////////////////////////
 
 
 
 
-//////////////////////////// 보조 장비 ///////////////////////////////
 
-void Item::SecondEquipment(const char* imageName, int value, int num)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+void Item::setGun(const char * weaponName, int value)
 {
+	char str[128];
 	for (int i = 0; i < 3; i++)
 	{
-		char str[128];
-		sprintf_s(str, "%s%d%d", imageName, value, num);
+		sprintf_s(str, "%s%d%d", weaponName, value, i);
 		_item.image[i] = IMAGEMANAGER->findImage(str);
+
+		if (value == 4 && i == 2) // 착용 이미지 일때
+		{
+			_item.isFrame = true;
+			if (_item.isFrame)
+			{
+				_item.rc[i] = RectMake(_item.x + i * 100, _item.y, _item.image[i]->getFrameWidth(),
+					_item.image[i]->getFrameHeight());
+			}
+			else
+			{
+				_item.isFrame = false;
+			}
+		}
+		else
+		{
+			_item.rc[i] = RectMake(_item.x + i * 100, _item.y, _item.image[i]->getWidth(),
+				_item.image[i]->getHeight());
+		}
+
 	}
 
-	if (value == 1)
+	if (value == 1) // 기본총
 	{
-		_item.addMaxHp = 10;		// 최대체력 증가
-		_item.dashPower = 10.0f;	// 대쉬공격력 증가 
-		_item.evasionPersent = 10;	// 회피율
-		_item.imagetype = 단일;
+		_item.grade = NORMAL;		// 노말등급
+		_item.minimumAtt = 8;		// 최소 데미지 8
+		_item.MaxAtt = 10;		// 최대 데미지 10
+		_item.fixedDamage = 8;	// 고정데미지 8
+		_item.attackSpeed = 1.3f;	// 공격속도  
+		_item.price = 500;		// 가격
+
 	}
 
-	if (value == 2)
+	if (value == 2) // 데들리건
 	{
-		_item.armor = 30;				// 방어력
-		_item.addMaxHp = 30;			// 최대 체력
-		_item.moveMentSpeed = -20.f;	// 이동속도 
-		_item.imagetype = 단일;
+		_item.grade = RARE;				// 레어등급
+		_item.minimumAtt = 20;			// 최소 데미지 20
+		_item.MaxAtt = 30;				// 최대 데미지 30
+		_item.fixedDamage = 20;			// 고정데미지 20
+		_item.attackSpeed = 3.2f;			// 공격속도  
+		_item.criticalPersent = 30.0f;	// 크리율
+		_item.price = 7000;				// 가격
+
 	}
 
-	if (value == 3)
+	if (value == 3) // 플레임건
 	{
-		_item.ad = 10;				// 공격력
-		_item.attackSpeed = 10.0f;	// 공격속도
-		_item.criticalPersent = 10;	// 크리티컬
-		_item.imagetype = 단일;
+		_item.grade = RARE;				// 레어 등급
+		_item.minimumAtt = 40;			// 최소 데미지 40
+		_item.MaxAtt = 50;				// 최대 데미지 50
+		_item.fixedDamage = 8;			// 고정데미지 40
+		_item.attackSpeed = 1.3f;			// 공격속도  
+		_item.criticalPersent = 10.0f;	// 크리율
+		_item.price = 7000;				// 가격
+
 
 	}
 
-	if (value == 4)
+	if (value == 4) // 레일건
 	{
-		_item.isfly = true;
-		// 어떤 키를 눌렀을때 이즈 플라이가 트루가 되게 하고
-		// 캐릭터가 공중에 떠오르게 한다. 
-		_item.imagetype = 프레임;
+		_item.grade = LEGENDARY;			// 전설 등급
+		_item.minimumAtt = 40;			// 최소 데미지 40
+		_item.MaxAtt = 70;				// 최대 데미지 70
+		_item.fixedDamage = 8;			// 고정데미지 40
+		_item.attackSpeed = 4.3f;			// 공격속도  
+		_item.criticalPersent = 30.0f;	// 크리율
+		_item.evasionPersent = 8.0f;		// 회피율
+		_item.addMaxHp = 20;				// 최대HP;
+		_item.price = 12000;				// 가격
 	}
 
-	if (value == 5)
-	{
-		_item.ad = 30;				// 공격력
-		_item.attackSpeed = 30.0f;	// 공격속도
-		_item.criticalPersent = 30;	// 크리티컬
-		_item.imagetype = 프레임;
-
-	}
 
 }
-//////////////////////////// 보조 장비 //////////////////////////////////
 
 
 
 
-//////////////////////////// 악세사리 //////////////////////////////////
 
-void Item::Accessory(const char* imageName, int value, int num)
+
+
+
+
+
+
+
+
+
+
+
+
+
+void Item::setBow(const char * weaponName, int value)
 {
+	char str[128];
 	for (int i = 0; i < 3; i++)
 	{
-		char str[128];
-		sprintf_s(str, "%s%d%d", imageName, value, num);
+		sprintf_s(str, "%s%d%d", weaponName, value, i);
 		_item.image[i] = IMAGEMANAGER->findImage(str);
 
+		if (value == 1 && i == 2 || value == 2 && i == 2 || value == 3 && i == 2) // 착용 이미지 일때
+		{
+			_item.isFrame = true;
+			if (_item.isFrame)
+			{
+				_item.rc[i] = RectMake(_item.x + i * 100, _item.y, _item.image[i]->getFrameWidth(),
+					_item.image[i]->getFrameHeight());
+			}
+			else
+			{
+				_item.isFrame = false;
+			}
+		}
+		else
+		{
+			_item.rc[i] = RectMake(_item.x + i * 100, _item.y, _item.image[i]->getWidth(),
+				_item.image[i]->getHeight());
+		}
 	}
 
-	if (value == 1)
+	if (value == 1) // 크로스보우
 	{
-		_item.price = 3000;			// 가격
-		_item.addMaxHp = 10;		// 체력증가
-		_item.armor = 5;			// 방어력
-		_item.imagetype = 단일;
-
-
-	}
-	if (value == 2)
-	{
-		_item.price = 3000;			// 가격
-		_item.ad = 5;				// 공격력
-		_item.addMaxHp = 5;			// 최대 체력증가
-		_item.imagetype = 단일;
+		_item.grade = NORMAL;		// 노말등급
+		_item.minimumAtt = 10;	// 최소 데미지 10
+		_item.MaxAtt = 15;		// 최대 데미지 15
+		_item.fixedDamage = 8;	// 고정데미지 10
+		_item.attackSpeed = 3.3f;	// 공격속도  
+		_item.price = 1500;		// 가격
 
 	}
-	if (value == 3)
+
+	if (value == 2) // 다크보우
 	{
-		_item.price = 4000;				// 가격
-		_item.attackSpeed = 10.0f;		// 공격속도
-		_item.criticalPersent = 10.0f;	// 크리 확률
-		_item.evasionPersent = 10.0f;	// 회피율
-		_item.imagetype = 단일;
-	}
-	if (value == 4)
-	{
+		_item.grade = RARE;				// 레어등급
+		_item.minimumAtt = 20;			// 최소 데미지 20
+		_item.MaxAtt = 30;				// 최대 데미지 30
+		_item.fixedDamage = 10;			// 고정데미지 20
+		_item.attackSpeed = 4.2f;			// 공격속도  
+		_item.criticalPersent = 30.0f;	// 크리율
 		_item.price = 5000;				// 가격
-		_item.ad = 10;					// 공격력
-		_item.armor = 10;				// 방어력
-		_item.moveMentSpeed = 10.0f;	// 이동속도
-		_item.attackSpeed = 10.0f;		// 공격속도
-		_item.dashPower = 10.0f;		// 대쉬공격력
-		_item.criticalPersent = 10.0f;	// 크리 확률
-		_item.evasionPersent = 10.0f;	// 회피율
-		_item.imagetype = 프레임;
+
 	}
+
+	if (value == 3) // 라이트브링거보우
+	{
+		_item.grade = LEGENDARY;			// 전설 등급
+		_item.minimumAtt = 45;			// 최소 데미지 45
+		_item.MaxAtt = 60;				// 최대 데미지 60
+		_item.fixedDamage = 8;			// 고정데미지 45
+		_item.attackSpeed = 2.3f;			// 공격속도  
+		_item.criticalPersent = 30.0f;	// 크리율
+		_item.evasionPersent = 1.0f;		// 회피율
+		_item.addMaxHp = 20;				// 최대체력 증가
+		_item.price = 12000;				// 가격
+
+
+	}
+
 
 }
-//////////////////////////// 악세사리 //////////////////////////////////
 
 
 
 
 
-//////////////////////////// 음식 /////////////////////////////////////
 
-void Item::Consume(const char* imageName, int value, int num) // 음식 12가지
+
+
+
+
+
+
+void Item::setArmor(const char * ArmorName, int value)
 {
-	for (int i = 0; i < 3; i++)
-	{
-		char str[128];
-		sprintf_s(str, "%s%d%d", imageName, value, num);
-		_item.image[i] = IMAGEMANAGER->findImage(str);
-	}
-
-	if (value == 1)
-	{
-		_item.price = 500;			// 가격
-		_item.ad = 5;				// 공격력
-		_item.armor = 5;			// 방어력
-		_item.heal = 10;			// 체력회복
-		_item.fullNess = 60;		// 공복도
-		_item.imagetype = 단일;
-	}
-
-	if (value == 2)
-	{
-		_item.price = 600;				// 가격
-		_item.moveMentSpeed = 5.0f;		// 이동속도
-		_item.attackSpeed = 5.0f;		// 공격속도
-		_item.heal = 12;				// 체력회복
-		_item.fullNess = 60;			// 공복도
-		_item.imagetype = 단일;
-	}	
-
-	if (value == 3)
-	{
-		_item.price = 650;			// 가격
-		_item.ad = 5;				// 공격력
-		_item.dashPower = 5.0f;		// 대쉬공격력
-		_item.heal = 13;			// 체력회복
-		_item.fullNess = 60;		// 공복도
-		_item.imagetype = 단일;
-	}	
-
-	if (value == 4)
-	{
-		_item.price = 650;					// 가격
-		_item.criticalPersent = 5.0f;		// 크리 확률
-		_item.evasionPersent = 5.0f;		// 회피율
-		_item.heal = 13;					// 체력회복
-		_item.fullNess = 60;				// 공복도
-		_item.imagetype = 단일;
-	}	
-
-	if (value == 5)
-	{
-		_item.price = 800;			// 가격
-		_item.ad = 10;				// 공격력
-		_item.armor = 10;			// 방어력
-		_item.heal = 15;			// 체력회복
-		_item.fullNess = 70;		// 공복도
-		_item.imagetype = 단일;
-	}	
-
-	if (value == 6)
-	{
-		_item.price = 850;				// 가격
-		_item.moveMentSpeed = 10.0f;	// 이동속도
-		_item.attackSpeed = 10.0f;		// 공격속도
-		_item.heal = 15;				// 체력회복
-		_item.fullNess = 70;			// 공복도
-		_item.imagetype = 단일;
-	}	
-
-	if (value == 7)
-	{
-		_item.price = 900;			// 가격
-		_item.ad = 10;				// 공격력
-		_item.dashPower = 10.0f;	// 대쉬공격력
-		_item.heal = 17;			// 체력회복
-		_item.fullNess = 70;		// 공복도
-		_item.imagetype = 단일;
-	}	
-
-	if (value == 8)
-	{
-		_item.price = 1000;					// 가격
-		_item.criticalPersent = 10.0f;		// 크리 확률
-		_item.evasionPersent = 10.0f;		// 회피율
-		_item.heal = 20;					// 체력회복
-		_item.fullNess = 70;				// 공복도
-		_item.imagetype = 단일;
-	}	
-
-	if (value == 9)
-	{
-		_item.price = 2000;				// 가격
-		_item.ad = 10;					// 공격력
-		_item.armor = 10;				// 방어력
-		_item.moveMentSpeed = 10.0f;	// 이동속도
-		_item.attackSpeed = 10.0f;		// 공격속도
-		_item.dashPower = 10.0f;		// 대쉬공격력
-		_item.criticalPersent = 10.0f;	// 크리 확률
-		_item.evasionPersent = 10.0f;	// 회피율
-		_item.heal = 25;				// 체력회복
-		_item.fullNess = 80;			// 공복도
-		_item.imagetype = 단일;
-	}	
-
-	if (value == 10)
-	{
-		_item.price =					3000;	// 가격
-		_item.ad =						15;		// 공격력
-		_item.armor =					15;		// 방어력
-		_item.moveMentSpeed =			15.0f;	// 이동속도
-		_item.attackSpeed =				15.0f;	// 공격속도
-		_item.dashPower =				15.0f;	// 대쉬공격력
-		_item.criticalPersent =			15.0f;	// 크리 확률
-		_item.evasionPersent =			15.0f;	// 회피율
-		_item.heal =					30;		// 체력회복
-		_item.fullNess =				85;		// 공복도
-		_item.imagetype = 단일;
-	}	
-
-	if (value == 11)
-	{
-		_item.price =			 4000;		// 가격
-		_item.ad =				 20;		// 공격력
-		_item.armor =			 20;		// 방어력
-		_item.moveMentSpeed =	 20.0f;		// 이동속도
-		_item.attackSpeed =		 20.0f;		// 공격속도
-		_item.dashPower =		 20.0f;		// 대쉬공격력
-		_item.criticalPersent =  20.0f;		// 크리 확률
-		_item.evasionPersent =	 20.0f;		// 회피율
-		_item.heal =			 25;		// 체력회복
-		_item.fullNess =		 80;		// 공복도
-		_item.imagetype = 단일;
-	}	
-
-	if (value == 12)
-	{
-		_item.price = 1000;			// 가격
-		_item.ad = 10;				// 공격력
-		_item.armor = 10;			// 방어력
-		_item.moveMentSpeed = 10;	// 이동속도
-		_item.attackSpeed = 10;		// 공격속도
-		_item.dashPower = 10;		// 대쉬공격력
-		_item.criticalPersent = 10;	// 크리 확률
-		_item.evasionPersent = 10;	// 회피율
-		_item.fullNess = 50;		// 공복도
-		_item.imagetype = 단일;
-	}
-}
-
-void Item::Healing(const char* imageName, int value, int num)
-{
+	char str[128];
 	for (int i = 0; i < 2; i++)
 	{
-		char str[128];
-		sprintf_s(str, "%s%d%d", imageName, value, num);
+		sprintf_s(str, "%s%d%d", ArmorName, value, i);
 		_item.image[i] = IMAGEMANAGER->findImage(str);
+		_item.rc[i] = RectMakeCenter(_item.x + i * 100, _item.y, _item.image[i]->getWidth(),
+			_item.image[i]->getHeight());
+	}
+
+	if (value == 1) //헝겊 갑옷
+	{
+		_item.grade = NORMAL;				// 아이템 등급
+		_item.def = 3;						// 방어력
+		_item.price = 700;					// 가격
+
+	}
+
+	if (value == 2) // 가죽갑옷
+	{
+		_item.grade = NORMAL;				// 아이템 등급
+		_item.def = 5;						// 방어력
+		_item.price = 900;					// 가격
+	}
+
+	if (value == 3) // 소가죽 갑옷
+	{
+		_item.grade = NORMAL;				// 아이템 등급
+		_item.def = 8;						// 방어력
+		_item.price = 1200;				// 가격
+	}
+
+	if (value == 4) // 체인아머
+	{
+		_item.grade = NORMAL;				// 아이템 등급
+		_item.def = 12;					// 방어력
+		_item.price = 1500;				// 가격
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+void Item::setShield(const char * ShieldName, int value)
+{
+	char str[128];
+	for (int i = 0; i < 3; i++)
+	{
+		sprintf_s(str, "%s%d%d", ShieldName, value, i);
+		_item.image[i] = IMAGEMANAGER->findImage(str);
+		_item.rc[i] = RectMake(_item.x + i * 100, _item.y, _item.image[i]->getWidth(),
+			_item.image[i]->getHeight());
 
 	}
 
 	if (value == 1)
 	{
-		_item.heal = 10;
-		_item.imagetype = 프레임;
+		_item.grade = NORMAL;	// 방패 등급
+		_item.def = 10;		// 방어력
+		_item.price = 1500;	// 가격
 	}
 
 	if (value == 2)
 	{
-		_item.heal = 20;
-		_item.imagetype = 프레임;
+		_item.grade = RARE;			// 방패 등급
+		_item.def = 30;				// 방어력
+		_item.addMaxHp = 100;			// 체력증가
+		_item.evasionPersent = 10.0f; // 회피율
+		_item.dashPower = 50.0f;		// 대쉬공격 증가
 	}
 }
 
-void Item::TreasureBox(const char* imageName, int value, int num)
+
+
+
+
+
+
+
+
+
+
+
+void Item::setEquip(const char * secondEquipmentName, int value)
 {
+	char str[128];
+
+	if (value == 1 || value == 2)
+	{
+		for (int i = 0; i < 2; i++)
+		{
+			{
+				sprintf_s(str, "%s%d%d", secondEquipmentName, value, i);
+				_item.image[i] = IMAGEMANAGER->findImage(str);
+				_item.rc[i] = RectMake(_item.x + i * 100, _item.y, _item.image[i]->getWidth(),
+					_item.image[i]->getHeight());
+			}
+		}
+	}
+
+	if (value == 3 || value == 4)
+	{
+		for (int i = 0; i < 3; i++)
+		{
+			sprintf_s(str, "%s%d%d", secondEquipmentName, value, i);
+			_item.image[i] = IMAGEMANAGER->findImage(str);
+			if (i == 2) // 착용 이미지 일때
+			{
+				_item.isFrame = true;
+				if (_item.isFrame)
+				{
+					if (i == 2)
+					{
+						_item.rc[i] = RectMakeCenter(_item.x + i * 100, _item.y, _item.image[i]->getFrameWidth(),
+							_item.image[i]->getFrameHeight());
+					}
+					else
+					{
+						_item.rc[i] = RectMakeCenter(_item.x + i * 100, _item.y, _item.image[i]->getWidth(),
+							_item.image[i]->getHeight());
+					}
+				}
+			}
+			else
+			{
+				_item.rc[i] = RectMakeCenter(_item.x + i * 100, _item.y, _item.image[i]->getWidth(),
+					_item.image[i]->getHeight());
+			}
+		}
+	}
+
+	if (value == 1) // 블레스 
+	{
+		_item.grade = RARE;				// 레어등급
+		_item.attackSpeed = 3.3f;			// 공격속도  
+		_item.evasionPersent = 3.0f;		// 회피율
+		_item.ad = 5;						// 공격력
+		_item.price = 7000;				// 가격
+
+	}
+
+	if (value == 2) // 블러드음료
+	{
+		_item.grade = RARE;				// 무기는 노말
+		_item.attackSpeed = 3.3f;			// 공격속도  
+		_item.criticalPersent = 3.0f;		// 크리율
+		_item.evasionPersent = 3.0f;		// 회피율
+		_item.price = 7000;				// 가격
+
+
+	}
+
+	if (value == 3) // 날개
+	{
+		_item.grade = LEGENDARY;			// 전설 등급
+		_item.attackSpeed = 3.3f;			// 공격속도  
+		_item.criticalPersent = 30.0f;	// 크리율
+		_item.evasionPersent = 10.0f;		// 회피율
+		_item.addMaxHp = 30;				// 최대HP;
+		_item.moveMentSpeed = 30.0f;		// 이동속도
+		_item.price = 15000;				// 가격
+	}
+
+	if (value == 4) // 호랑이기운
+	{
+
+		_item.grade = LEGENDARY;			// 전설등급
+		_item.attackSpeed = 5.3f;			// 공격속도  
+		_item.criticalPersent = 50.0f;	// 크리율
+		_item.evasionPersent = 30.0f;		// 회피율
+		_item.ad = 20;					// 공격력
+		_item.def = 20;					// 방어력
+		_item.moveMentSpeed = 30.0f;		// 이동속도
+		_item.addMaxHp = 50;				// 최대HP
+		_item.price = 20000;				// 가격
+	}
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+void Item::setAccessory(const char * AccessoryName, int value)
+{
+	char str[128];
+	for (int i = 0; i < 2; i++)
+	{
+		sprintf_s(str, "%s%d%d", AccessoryName, value, i);
+		_item.image[i] = IMAGEMANAGER->findImage(str);
+		_item.rc[i] = RectMakeCenter(_item.x + i * 100, _item.y, _item.image[i]->getWidth(),
+			_item.image[i]->getHeight());
+	}
+
+	if (value == 1) // 블러드스톤링
+	{
+		_item.grade = NORMAL;				// 아이템 등급
+		_item.def = 3;						// 방어력
+		_item.addMaxHp = 5;				// 체력	
+		_item.price = 1500;				// 가격
+
+	}
+
+	if (value == 2) // 아뮬렛
+	{
+		_item.grade = RARE;				// 아이템 등급
+		_item.attackSpeed = 5.0f;			// 공속
+		_item.evasionPersent = 8.0f;		// 회피율 
+		_item.price = 3000;				// 가격
+	}
+
+	if (value == 3) // 프로스트 목걸이
+	{
+		_item.grade = RARE;				// 아이템 등급
+		_item.attackSpeed = 5.0f;			// 공속
+		_item.criticalPersent = 8.0f;		// 크리율
+		_item.price = 3000;				// 가격
+	}
+
+	if (value == 4) // 게르베라 링
+	{
+		_item.grade = RARE;				// 아이템 등급
+		_item.def = 6;						// 방어력
+		_item.addMaxHp = 10;				// hp증가
+		_item.price = 3000;				// 가격
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+void Item::setFood(const char * FoodName, int value)
+{
+	char str[128];
 	for (int i = 0; i < 3; i++)
 	{
-		char str[128];
-		sprintf_s(str, "%s%d%d", imageName, value, num);
+		sprintf_s(str, "%s%d%d", FoodName, value, i);
 		_item.image[i] = IMAGEMANAGER->findImage(str);
+		_item.rc[i] = RectMake(_item.x + i * 400, _item.y, _item.image[i]->getWidth(),
+			_item.image[i]->getHeight());
 
+		if (value == 1 && i == 0)
+		{
+			_item.addMaxHp = 4;				// 최대체력 증가
+			_item.hpRecovery = 4.0f;		// 체력회복
+			_item.ad = 4.0f;				// 공격력 증가.
+			_item.attackSpeed = 4.0f;		// 공속증가
+			_item.price = 250;				// 음식 가격
+		}
 
-	}
+		if (value == 1 && i == 1)
+		{
+			_item.addMaxHp = 5;				// 최대체력 증가
+			_item.hpRecovery = 5.0f;		// 체력회복
+			_item.criticalPersent = 5.0f;	// 크리율 증가
+			_item.evasionPersent = 5.0f;	// 회피율 증가
+			_item.price = 300;				// 음식 가격
+		}
 
-	if (value == 1) // 보스상자
-	{
-		// 돈은 얼마나 나올거니 설정.(범위 랜덤 3~8);
-		// 아이템도 확률로 나오게 설정( 모든 아이템이 나온다 랜덤으로) 안나올 수도 있음.
-		_item.imagetype = 프레임;
-	}
+		if (value == 1 && i == 2)
+		{
+			_item.addMaxHp = 6;				// 최대체력 증가
+			_item.hpRecovery = 6.0f;		// 체력회복
+			_item.attackSpeed = 6.0f;		// 공속증가
+			_item.moveMentSpeed = 6.0f;		// 이동속도 증가
+			_item.price = 350;				// 음식 가격
+		}
 
-	if (value == 2) // 일반 상자
-	{
-		// 돈은 얼마나 나올건지 설정( 범위 랜덤 3~8);
-		// 아이템은 1번 부터 3번 까지만 나오게 한다.
-		_item.imagetype = 프레임;
-
+		if (value == 2 && i == 0)
+		{
+			_item.addMaxHp = 7;				// 최대체력 증가
+			_item.hpRecovery = 7.0f;		// 체력회복
+			_item.evasionPersent = 7.0f;	// 회피율 증가
+			_item.moveMentSpeed = 7.0f;		// 이동속도 증가
+			_item.price = 400;				// 음식 가격
+		}
+		if (value == 2 && i == 1)
+		{
+			_item.addMaxHp = 8;				// 최대체력 증가
+			_item.hpRecovery = 8.0f;		// 체력회복
+			_item.ad = 8.0f;				// 공격력 증가.
+			_item.attackSpeed = 8.0f;		// 공속증가
+			_item.criticalPersent = 8.0f;	// 크리율 증가
+			_item.price = 450;				// 음식 가격
+		}
+		if (value == 2 && i == 2)
+		{
+			_item.addMaxHp = 9;				// 최대체력 증가
+			_item.hpRecovery = 9.0f;		// 체력회복
+			_item.ad = 9.0f;				// 공격력 증가.
+			_item.attackSpeed = 9.0f;		// 공속증가
+			_item.evasionPersent = 9.0f;	// 회피율 증가
+			_item.price = 500;				// 음식 가격
+		}
+		if (value == 3 && i == 0)
+		{
+			_item.addMaxHp = 10;			// 최대체력 증가
+			_item.hpRecovery = 10.0f;		// 체력회복
+			_item.ad = 10.0f;				// 공격력 증가.
+			_item.attackSpeed = 10.0f;		// 공속증가
+			_item.moveMentSpeed = 10.0f;	// 이동속도 증가
+			_item.price = 550;				// 음식 가격
+		}
+		if (value == 3 && i == 1)
+		{
+			_item.addMaxHp = 10;			// 최대체력 증가
+			_item.hpRecovery = 14.0f;		// 체력회복
+			_item.ad = 10.0f;				// 공격력 증가.
+			_item.attackSpeed = 10.0f;		// 공속증가
+			_item.price = 600;				// 음식 가격
+		}
+		if (value == 3 && i == 2)
+		{
+			_item.addMaxHp = 10;			// 최대체력 증가
+			_item.hpRecovery = 10.0f;		// 체력회복
+			_item.criticalPersent = 20.0f;	// 크리율 증가
+			_item.evasionPersent = 20.0f;	// 회피율 증가
+			_item.moveMentSpeed = 20.0f;	// 이동속도 증가
+			_item.price = 650;				// 음식 가격
+		}
+		if (value == 4 && i == 0)
+		{
+			_item.addMaxHp = 10;			// 최대체력 증가
+			_item.hpRecovery = 10.0f;		// 체력회복
+			_item.ad = 5.0f;				// 공격력 증가.
+			_item.attackSpeed = 5.0f;		// 공속증가
+			_item.criticalPersent = 5.0f;	// 크리율 증가
+			_item.evasionPersent = 5.0f;	// 회피율 증가
+			_item.moveMentSpeed = 5.0f;		// 이동속도 증가
+			_item.price = 700;				// 음식 가격
+		}
+		if (value == 4 && i == 1)
+		{
+			_item.addMaxHp = 10;			// 최대체력 증가
+			_item.hpRecovery = 10.0f;		// 체력회복
+			_item.ad = 5.0f;				// 공격력 증가.
+			_item.attackSpeed = 5.0f;		// 공속증가
+			_item.criticalPersent = 5.0f;	// 크리율 증가
+			_item.evasionPersent = 5.0f;	// 회피율 증가
+			_item.moveMentSpeed = 5.0f;		// 이동속도 증가
+			_item.price = 750;				// 음식 가격
+		}
+		if (value == 4 && i == 2)
+		{
+			_item.addMaxHp = 10;			// 최대체력 증가
+			_item.hpRecovery = 10.0f;		// 체력회복
+			_item.ad = 5.0f;				// 공격력 증가.
+			_item.attackSpeed = 5.0f;		// 공속증가
+			_item.criticalPersent = 5.0f;	// 크리율 증가
+			_item.evasionPersent = 5.0f;	// 회피율 증가
+			_item.moveMentSpeed = 5.0f;		// 이동속도 증가
+			_item.price = 800;				// 음식 가격
+		}
 	}
 }
 
-void Item::Gold(const char* imageName, int value, int num)
-{
-	for (int i = 0; i < 3; i++)
-	{
-		char str[128];
-		sprintf_s(str, "%s%d%d", imageName, value, num);
-		_item.image[i] = IMAGEMANAGER->findImage(str);
 
-	}
-
-	if (value == 1) // 코인
-	{
-		// 1 ~ 10골드 까지 랜덤
-		_item.gold = RND->getFromIntTo(1, 10);
-		_item.imagetype = 프레임;
-	}
-
-	if (value == 2) // 골드
-	{
-		// 10 ~ 20 골드 까지 랜덤
-		_item.gold = RND->getFromIntTo(10, 20);
-		_item.imagetype = 프레임;
-	}
-}

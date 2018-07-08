@@ -8,11 +8,15 @@ class animation;
 class keyAniManager : public singletonBase<keyAniManager>
 {
 private:
-	typedef map<string, animation*>				arrAnimation;
-	typedef map<string, animation*>::iterator	iterAnimation;
+	typedef map<string, animation*>							arrAnimation;
+	typedef map<string, animation*>::iterator				iterAnimation;
+
+	typedef vector<map<string, animation*>>					arrTotalAnimation;
+	typedef vector<map<string, animation*>>::iterator		iterTotalAnimation;
 
 private:
-	arrAnimation _mTotalAnimation;
+	//arrAnimation _mTotalAnimation;
+	arrTotalAnimation _vTotalAnimation;
 	
 public:
 	keyAniManager();

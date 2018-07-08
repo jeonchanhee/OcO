@@ -11,16 +11,18 @@ RedBat::~RedBat()
 {
 }
 
-HRESULT RedBat::init()
+HRESULT RedBat::init(float x, float y)
 {
-	_x = WINSIZEX / 2;
-	_y = 200;
-	_startX = WINSIZEX / 2;
-	_startY = WINSIZEY / 2;
+	//_x = WINSIZEX / 2;
+	//_y = 200;
+	_x = x;
+	_y = y;
+	_startX = x;
+	_startY = y;
 	_angle = 0;
 	_speed = 300.0f;
 
-	_redBatDirection = REDBAT_RIGHT_MOVE;
+	_redBatDirection = REDBAT_LEFT_MOVE;
 
 	_img = IMAGEMANAGER->findImage("redBatMoveAttackDie");
 	
@@ -36,7 +38,7 @@ HRESULT RedBat::init()
 	int leftDie[] = { 33 };
 	KEYANIMANAGER->addArrayFrameAnimation("redBatLeftDie", "redBatMoveAttackDie", leftDie, 1, 6, false);
 
-	_redBatMotion = KEYANIMANAGER->findAnimation("redBatRightMove");
+	_redBatMotion = KEYANIMANAGER->findAnimation("redBatLeftMove");
 	_redBatMotion->start();
 
 	_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
@@ -54,7 +56,7 @@ void RedBat::update()
 
 	move();
 	Attack();
-	KEYANIMANAGER->update();
+	//KEYANIMANAGER->update();
 	
 	/////////////////////////테스트/////////////////////////////
 	//죽는모션

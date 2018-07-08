@@ -148,22 +148,30 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Accessory.h" />
     <ClInclude Include="animation.h" />
+    <ClInclude Include="Armor.h" />
     <ClInclude Include="Arrow.h" />
     <ClInclude Include="Bat.h" />
     <ClInclude Include="BigBat.h" />
     <ClInclude Include="BigBone.h" />
     <ClInclude Include="BigRedBat.h" />
-    <ClInclude Include="Boss.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClInclude>
     <ClInclude Include="Boss2.h" />
+    <ClInclude Include="bossScene.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="button.h" />
     <ClInclude Include="cameraManager.h" />
     <ClInclude Include="commonMacroFunction.h" />
     <ClInclude Include="Cow.h" />
     <ClInclude Include="Dialog.h" />
+    <ClInclude Include="dungeon1Scene.h" />
+    <ClInclude Include="dungeon2Scene.h" />
+    <ClInclude Include="dungeon3Scene.h" />
+    <ClInclude Include="dungeon4Scene.h" />
+    <ClInclude Include="dungeon5Scene.h" />
+    <ClInclude Include="dungeon6Scene.h" />
+    <ClInclude Include="dungeon7Scene.h" />
+    <ClInclude Include="dungeon8Scene.h" />
     <ClInclude Include="dungeonScene.h" />
     <ClInclude Include="DogBone.h" />
     <ClInclude Include="DialogElder.h" />
@@ -174,9 +182,9 @@
     <ClInclude Include="effect.h" />
     <ClInclude Include="effectManager.h" />
     <ClInclude Include="Enemy.h" />
-    <ClInclude Include="EnemyManager.h" />
+    <ClInclude Include="Food.h" />
+    <ClInclude Include="foodScene.h" />
     <ClInclude Include="gameNode.h" />
-    <ClInclude Include="GodNpc.h" />
     <ClInclude Include="image.h" />
     <ClInclude Include="imageManager.h" />
     <ClInclude Include="inGameScene.h" />
@@ -191,12 +199,17 @@
     <ClInclude Include="MapTool.h" />
     <ClInclude Include="MusicAngel.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="playerBullet.h" />
     <ClInclude Include="playGround.h" />
     <ClInclude Include="progressBar.h" />
+    <ClInclude Include="Property.h" />
+    <ClInclude Include="RandomDungeon1.h" />
     <ClInclude Include="randomFunction.h" />
     <ClInclude Include="RedBat.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="sceneManager.h" />
+    <ClInclude Include="SecondEquipment.h" />
+    <ClInclude Include="Shield.h" />
     <ClInclude Include="singletonBase.h" />
     <ClInclude Include="soundManager.h" />
     <ClInclude Include="stdafx.h" />
@@ -208,24 +221,33 @@
     <ClInclude Include="txtData.h" />
     <ClInclude Include="UI.h" />
     <ClInclude Include="utils.h" />
-    <ClInclude Include="WeaponNpc.h" />
+    <ClInclude Include="Weapon.h" />
+    <ClInclude Include="weaponScene.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Accessory.cpp" />
     <ClCompile Include="animation.cpp" />
+    <ClCompile Include="Armor.cpp" />
     <ClCompile Include="Arrow.cpp" />
     <ClCompile Include="Bat.cpp" />
     <ClCompile Include="BigBat.cpp" />
     <ClCompile Include="BigBone.cpp" />
     <ClCompile Include="BigRedBat.cpp" />
-    <ClCompile Include="Boss.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="Boss2.cpp" />
+    <ClCompile Include="bossScene.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="button.cpp" />
     <ClCompile Include="cameraManager.cpp" />
     <ClCompile Include="Cow.cpp" />
     <ClCompile Include="Dialog.cpp" />
+    <ClCompile Include="dungeon1Scene.cpp" />
+    <ClCompile Include="dungeon2Scene.cpp" />
+    <ClCompile Include="dungeon3Scene.cpp" />
+    <ClCompile Include="dungeon4Scene.cpp" />
+    <ClCompile Include="dungeon5Scene.cpp" />
+    <ClCompile Include="dungeon6Scene.cpp" />
+    <ClCompile Include="dungeon7Scene.cpp" />
+    <ClCompile Include="dungeon8Scene.cpp" />
     <ClCompile Include="dungeonScene.cpp" />
     <ClCompile Include="DogBone.cpp" />
     <ClCompile Include="DialogElder.cpp" />
@@ -236,9 +258,9 @@
     <ClCompile Include="effect.cpp" />
     <ClCompile Include="effectManager.cpp" />
     <ClCompile Include="Enemy.cpp" />
-    <ClCompile Include="EnemyManager.cpp" />
+    <ClCompile Include="Food.cpp" />
+    <ClCompile Include="foodScene.cpp" />
     <ClCompile Include="gameNode.cpp" />
-    <ClCompile Include="GodNpc.cpp" />
     <ClCompile Include="image.cpp" />
     <ClCompile Include="imageManager.cpp" />
     <ClCompile Include="inGameScene.cpp" />
@@ -253,12 +275,17 @@
     <ClCompile Include="MapTool.cpp" />
     <ClCompile Include="MusicAngel.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="playerBullet.cpp" />
     <ClCompile Include="playGround.cpp" />
     <ClCompile Include="playGround_Image.cpp" />
     <ClCompile Include="playGround_Sound.cpp" />
     <ClCompile Include="progressBar.cpp" />
+    <ClCompile Include="Property.cpp" />
+    <ClCompile Include="RandomDungeon1.cpp" />
     <ClCompile Include="RedBat.cpp" />
     <ClCompile Include="sceneManager.cpp" />
+    <ClCompile Include="SecondEquipment.cpp" />
+    <ClCompile Include="Shield.cpp" />
     <ClCompile Include="soundManager.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -272,7 +299,8 @@
     <ClCompile Include="txtData.cpp" />
     <ClCompile Include="UI.cpp" />
     <ClCompile Include="utils.cpp" />
-    <ClCompile Include="WeaponNpc.cpp" />
+    <ClCompile Include="Weapon.cpp" />
+    <ClCompile Include="weaponScene.cpp" />
     <ClCompile Include="windowAPI.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
