@@ -4,6 +4,7 @@ class mapSelectScene : public gameNode
 {
 private:
 	string _mapName;
+	int _mapIdx;
 
 public:
 	mapSelectScene();
@@ -15,7 +16,7 @@ public:
 	void render();
 
 	void load();
-	void printMap();
+	void printMap(int idx);
 	void chooseMap(int idx);
 
 	void setCamera(void);

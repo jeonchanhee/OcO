@@ -84,17 +84,11 @@ public:
 	HRESULT init(const char* fileName, int width, int height,
 		BOOL trans = FALSE, COLORREF transColor = RGB(0, 0, 0), BOOL blend = FALSE);
 	HRESULT init(const char* fileName, float x, float y, int width, int height,
-		BOOL trans = FALSE, COLORREF transColor = RGB(0, 0, 0));
+		BOOL trans = FALSE, COLORREF transColor = RGB(0, 0, 0), BOOL blend = FALSE);
 	//rotateInit
-	HRESULT rotateInit(const char * fileName, int width, int height,
-		BOOL trans = FALSE, COLORREF transColor = RGB(0, 0, 0));
-
-	HRESULT rotateInit(const char * fileName, int width, int height,
-		int frameX, int frameY, BOOL trans = FALSE, COLORREF transColor = RGB(0, 0, 0));
-
 	HRESULT rotateInit(const char * fileName, int width, int height, BOOL trans, COLORREF transColor, BOOL blend = FALSE);
 
-	HRESULT rotateInit(int width, int height, BOOL trans, COLORREF transColor, BOOL blend);
+	HRESULT rotateInit(int width, int height, BOOL trans, COLORREF transColor, BOOL blend = FALSE);
 
 	HRESULT rotateInit(const char * fileName, int width, int height, int frameX, int frameY, BOOL trans, COLORREF transColor, BOOL blend = FALSE);
 
