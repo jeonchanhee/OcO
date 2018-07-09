@@ -122,7 +122,7 @@ void titleScene::render(void)
 	}
 	else
 	{
-		shop();
+		//shop();
 		//inven();
 		//reward();
 		//restaurant();

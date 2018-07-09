@@ -128,6 +128,7 @@ void dungeonScene::mapload()
 {
 	HANDLE   file;
 	DWORD   load;
+
 	ZeroMemory(&_tiles, sizeof(tagTile) * TILEX * TILEY);
 
 	file = CreateFile(_mapName.c_str(), GENERIC_READ, NULL, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
@@ -638,11 +639,11 @@ void dungeonScene::BossBulletFire()
 	}
 
 
-	if (_boss->getRightDirection() == RIGHT_LASER_ON)
-	{
-		_enemyBullet->bulletFire("bossRLaser", _boss->getRightX() - 850, _boss->getRightY(), 0, 0.0f, 1000, true, HEIGHT); //오른손 레이져
-		_boss->setRightDirection(RIGHT_LASER_OFF);
-	}
+	//if (_boss->getRightDirection() == RIGHT_LASER_ON)
+	//{
+	//	_enemyBullet->bulletFire("bossRLaser", _boss->getRightX() - 850, _boss->getRightY(), 0, 0.0f, 1000, true, HEIGHT); //오른손 레이져
+	//	_boss->setRightDirection(RIGHT_LASER_OFF);
+	//}
 }
 
 void dungeonScene::bigbatbulletFire()
