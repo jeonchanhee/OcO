@@ -138,8 +138,8 @@ HRESULT playGround::Image_init(void)
 
 	//¿ø°Å¸®¹«±â ÀÌ¹ÌÁö 
 	//¹ÎÈ£¿ì
-	//IMAGEMANAGER->addRotateImage("ÃÑ10ÁÂ", "image/item/weapon/gun/deadlyKissLeft(100x25)1x1.bmp", 100, 25, true, RGB(255, 0, 255));		// Âø¿ë
-	//IMAGEMANAGER->addRotateImage("ÃÑ10¿ì", "image/item/weapon/gun/deadlyKissRight(100x25)1x1.bmp", 100, 25, true, RGB(255, 0, 255));		// Âø¿ë
+	IMAGEMANAGER->addRotateImage("ÃÑ10ÁÂ", "image/item/weapon/gun/deadlyKissLeft(100x25)1x1.bmp", 100, 25, true, RGB(255, 0, 255));		// Âø¿ë
+	IMAGEMANAGER->addRotateImage("ÃÑ10¿ì", "image/item/weapon/gun/deadlyKissRight(100x25)1x1.bmp", 100, 25, true, RGB(255, 0, 255));		// Âø¿ë
 	//°ÇµéÁö¸¶3
 
 	IMAGEMANAGER->addImage("ÃÑ10", "image/item/weapon/gun/matchlockGunDrop(70x18)1x1.bmp", 70, 18, true, RGB(255, 0, 255));			// µå¶ø
