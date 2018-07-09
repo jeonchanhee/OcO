@@ -185,7 +185,6 @@
     <ClInclude Include="Food.h" />
     <ClInclude Include="foodScene.h" />
     <ClInclude Include="gameNode.h" />
-    <ClInclude Include="GodNpc.h" />
     <ClInclude Include="image.h" />
     <ClInclude Include="imageManager.h" />
     <ClInclude Include="inGameScene.h" />
@@ -203,6 +202,7 @@
     <ClInclude Include="playerBullet.h" />
     <ClInclude Include="playGround.h" />
     <ClInclude Include="progressBar.h" />
+    <ClInclude Include="Property.h" />
     <ClInclude Include="RandomDungeon1.h" />
     <ClInclude Include="randomFunction.h" />
     <ClInclude Include="RedBat.h" />
@@ -222,7 +222,6 @@
     <ClInclude Include="UI.h" />
     <ClInclude Include="utils.h" />
     <ClInclude Include="Weapon.h" />
-    <ClInclude Include="WeaponNpc.h" />
     <ClInclude Include="weaponScene.h" />
   </ItemGroup>
   <ItemGroup>
@@ -262,7 +261,6 @@
     <ClCompile Include="Food.cpp" />
     <ClCompile Include="foodScene.cpp" />
     <ClCompile Include="gameNode.cpp" />
-    <ClCompile Include="GodNpc.cpp" />
     <ClCompile Include="image.cpp" />
     <ClCompile Include="imageManager.cpp" />
     <ClCompile Include="inGameScene.cpp" />
@@ -282,6 +280,7 @@
     <ClCompile Include="playGround_Image.cpp" />
     <ClCompile Include="playGround_Sound.cpp" />
     <ClCompile Include="progressBar.cpp" />
+    <ClCompile Include="Property.cpp" />
     <ClCompile Include="RandomDungeon1.cpp" />
     <ClCompile Include="RedBat.cpp" />
     <ClCompile Include="sceneManager.cpp" />
@@ -301,7 +300,6 @@
     <ClCompile Include="UI.cpp" />
     <ClCompile Include="utils.cpp" />
     <ClCompile Include="Weapon.cpp" />
-    <ClCompile Include="WeaponNpc.cpp" />
     <ClCompile Include="weaponScene.cpp" />
     <ClCompile Include="windowAPI.cpp" />
   </ItemGroup>

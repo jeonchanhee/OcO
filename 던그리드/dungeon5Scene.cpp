@@ -36,24 +36,24 @@ HRESULT dungeon5Scene::init()
 		_route.push_back(10);
 	}
 
-	_door.resize(3);
+	_vDoor.resize(3);
 
-	_door[0].x = (850 % 50) * TILESIZE, _door[0].y = (850 / 50) * TILESIZE;
-	_door[1].x = (1375 % 50) * TILESIZE, _door[1].y = (1375 / 50) * TILESIZE;
-	_door[2].x = (448 % 50) * TILESIZE, _door[2].y = (448 / 50) * TILESIZE;
+	_vDoor[0].x = (850 % 50) * TILESIZE, _vDoor[0].y = (850 / 50) * TILESIZE;
+	_vDoor[1].x = (1375 % 50) * TILESIZE, _vDoor[1].y = (1375 / 50) * TILESIZE;
+	_vDoor[2].x = (448 % 50) * TILESIZE, _vDoor[2].y = (448 / 50) * TILESIZE;
 
-	_door[0].rc = RectMake(_door[0].x, _door[0].y, TILESIZE, TILESIZE * 4);
-	_door[2].rc = RectMake(_door[2].x, _door[2].y, TILESIZE, TILESIZE * 4);
-	_door[1].rc = RectMake(_door[1].x, _door[1].y, TILESIZE * 4, TILESIZE);
+	_vDoor[0].rc = RectMake(_vDoor[0].x, _vDoor[0].y, TILESIZE, TILESIZE * 4);
+	_vDoor[2].rc = RectMake(_vDoor[2].x, _vDoor[2].y, TILESIZE, TILESIZE * 4);
+	_vDoor[1].rc = RectMake(_vDoor[1].x, _vDoor[1].y, TILESIZE * 4, TILESIZE);
 
-	_door[0].img = IMAGEMANAGER->findImage("leftDoor");
-	_door[0].dir = DOOR_LEFT;
+	_vDoor[0].img = IMAGEMANAGER->findImage("leftDoor");
+	_vDoor[0].dir = DOOR_LEFT;
 
-	_door[1].img = IMAGEMANAGER->findImage("updownDoor");
-	_door[1].dir = DOOR_UPDOWN;
+	_vDoor[1].img = IMAGEMANAGER->findImage("updownDoor");
+	_vDoor[1].dir = DOOR_UPDOWN;
 
-	_door[2].img = IMAGEMANAGER->findImage("rightDoor");
-	_door[2].dir = DOOR_RIGHT;
+	_vDoor[2].img = IMAGEMANAGER->findImage("rightDoor");
+	_vDoor[2].dir = DOOR_RIGHT;
 
 	setDoor();
 	setMonster();
@@ -67,6 +67,7 @@ void dungeon5Scene::update()
 	{
 		(*_viEnemy)->update();
 	}
+	_enemyBullet->update();
 }
 
 void dungeon5Scene::setMonster()

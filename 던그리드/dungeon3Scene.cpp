@@ -28,16 +28,16 @@ HRESULT dungeon3Scene::init()
 		_route.push_back(7);
 	}
 	
-	_door.resize(2);
+	_vDoor.resize(2);
 
-	_door[0].x = (2 % 30) * TILESIZE, _door[0].y = (2 / 30) * TILESIZE;
-	_door[1].x = (474 % 30) * TILESIZE, _door[1].y = (474 / 30) * TILESIZE;
+	_vDoor[0].x = (2 % 30) * TILESIZE, _vDoor[0].y = (2 / 30) * TILESIZE;
+	_vDoor[1].x = (474 % 30) * TILESIZE, _vDoor[1].y = (474 / 30) * TILESIZE;
 
 	for (int i = 0; i < 2; i++)
 	{
-		_door[i].rc = RectMake(_door[i].x, _door[i].y, TILESIZE * 4, TILESIZE);
-		_door[i].img = IMAGEMANAGER->findImage("updownDoor");
-		_door[i].dir = DOOR_UPDOWN;
+		_vDoor[i].rc = RectMake(_vDoor[i].x, _vDoor[i].y, TILESIZE * 4, TILESIZE);
+		_vDoor[i].img = IMAGEMANAGER->findImage("updownDoor");
+		_vDoor[i].dir = DOOR_UPDOWN;
 	}
 	setDoor();
 	setMonster();
@@ -52,6 +52,7 @@ void dungeon3Scene::update()
 	{
 		(*_viEnemy)->update();
 	}
+	_enemyBullet->update();
 }
 
 void dungeon3Scene::setMonster()

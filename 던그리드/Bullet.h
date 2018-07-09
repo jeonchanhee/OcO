@@ -2,6 +2,12 @@
 #include "gameNode.h"
 #include <vector>
 
+enum FRAMEXY
+{
+	WIDTH,
+	HEIGHT
+};
+
 struct tagBullet
 {
 	image*	img;			// 총알이미지
@@ -13,6 +19,10 @@ struct tagBullet
 	float	fireX, fireY;	// 발사위치
 	bool	isFire;			// 발사여부
 	float   range;
+	bool	isFrame;
+	FRAMEXY frameXY;
+	int		frameIndex;
+	int		frameX, frameY;
 	int		bulletNum;		// 원형이동인지 체크
 };
 
@@ -36,8 +46,10 @@ public:
 	void	update();
 	void	render();
 
-	void	bulletFire(const char* imgName, float x, float y, float angle, float speed, float range );
+	void	bulletFire(const char* imgName, float x, float y, float angle, float speed, float range, bool isFrame = false, FRAMEXY frameXY = WIDTH);		// 발사
 	void	bulletMove();												// 이동
+	void	bulletFrameX(void);												// 총알 프레임
+	void	bulletFrameY(void);
 	void	removeBullet(int arrNum);									// 총알 지워줄때
 	void	bulletframe(const char* imgName);
 

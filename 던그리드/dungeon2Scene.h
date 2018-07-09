@@ -10,8 +10,11 @@ public:
 	~dungeon2Scene();
 
 	HRESULT init();
+	void setRandMapNum();
+	void doorInit();
 
 	void update();
+
 	void setMonster();
 };
 
