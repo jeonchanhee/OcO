@@ -185,8 +185,8 @@ void Bullet2::bulletMove()
 
 	for (_viBullet2 = _vBullet2.begin(); _viBullet2 != _vBullet2.end();)
 	{
-		_viBullet2->x += cosf(_viBullet2->angle) * _viBullet2->speed;
-		_viBullet2->y += -sinf(_viBullet2->angle)* _viBullet2->speed;
+		_viBullet2->x += 1 * _viBullet2->speed; //cosf(_viBullet2->angle) * _viBullet2->speed;
+		_viBullet2->y += 1 * _viBullet2->speed; //-sinf(_viBullet2->angle)* _viBullet2->speed;
 
 		_viBullet2->rc = RectMakeCenter(_viBullet2->x, _viBullet2->y, _viBullet2->img->getWidth(), _viBullet2->img->getHeight());
 
