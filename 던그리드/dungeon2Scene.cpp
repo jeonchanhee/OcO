@@ -26,7 +26,6 @@ HRESULT dungeon2Scene::init()
 	doorInit();
 	setDoor();
 	
-
 	setMonster();
 	return S_OK;
 }
@@ -83,31 +82,26 @@ void dungeon2Scene::doorInit()
 
 	for (int i = 1; i < 3; i++)
 	{
-		_door[i].rc = RectMake(_door[i].x, _door[i].y, TILESIZE * 4, TILESIZE);
-		_door[i].dir = DOOR_UPDOWN;
-		_door[i].img = IMAGEMANAGER->findImage("updownDoor");
-	}
-	setDoor();
-	setMonster();
-	return S_OK;
-}
-
-void dungeon2Scene::update()
-{
-	dungeonScene::update();
-	nextTest();
-	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); ++_viEnemy)
-	{
-		(*_viEnemy)->update();
 		_vDoor[i].rc = RectMake(_vDoor[i].x, _vDoor[i].y, TILESIZE * 4, TILESIZE);
 		_vDoor[i].dir = DOOR_UPDOWN;
 		_vDoor[i].img = IMAGEMANAGER->findImage("updownDoor");
 	}
 }
 
+//void dungeon2Scene::update()
+//{
+//	dungeonScene::update();
+//	nextTest();
+//	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); ++_viEnemy)
+//	{
+//		(*_viEnemy)->update();
+//	}
+//}
+
 //몬스터 위치 잡아주는 함수
 void dungeon2Scene::setMonster()
 {
+	
 	//개뼈
 	int id[2][2];
 	id[0][0] = 810 % _temp, id[0][1] = 810 / _temp;

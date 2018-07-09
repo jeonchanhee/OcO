@@ -540,6 +540,26 @@ void dungeonScene::BossBulletFire()
 	if (_boss->getHeadX() < getMemDCPoint().x) isCheck = true;   // 요기 마우스 좌표를 플레이어 X 좌표로 바꾸면 됩니다.
 	else isCheck = false;
 
+	//==========================================================
+	//					보스 왼쪽 레이져
+	//==========================================================
+
+	if (_boss->getLeftDirection() == LEFT_LASER_ON)
+	{
+		_enemyBullet->bulletFire("bossLaser", _boss->getLeftX() + 800, _boss->getLeftY(), 0, 0.0f, 1000, true, HEIGHT);
+		_boss->setLeftDirection(LEFT_LASER_OFF);
+	}
+
+	//==========================================================
+	//					보스 오른쪽 레이져
+	//==========================================================
+
+	if (_boss->getRightDirection() == RIGHT_LASER_ON)
+	{
+		_enemyBullet->bulletFire("bossRLaser", _boss->getRightX() - 850, _boss->getRightY(), 0, 0.0f, 1000, true, HEIGHT); //오른손 레이져
+		_boss->setRightDirection(RIGHT_LASER_OFF);
+	}
+
 	if (!_boss->isAttack()) return;
 
 	//요기
@@ -557,22 +577,23 @@ void dungeonScene::BossBulletFire()
 		_count = 0;
 	}
 
+	
+
 	//==========================================================
-	//					보스 왼쪽 레이져
+	//						보스 칼
 	//==========================================================
-
-	if (_boss->getLeftDirection() == LEFT_LASER_ON)
+	/*
+	if (!(_count % 200))
 	{
-		_enemyBullet->bulletFire("bossLaser", _boss->getLeftX() + 800, _boss->getLeftY(), 0, 0.0f, 1000, true, HEIGHT);
-		_boss->setLeftDirection(LEFT_LASER_OFF);
+		for (int i = 0; i < 12; i++)
+		{
+			float angle = (PI2 / 12)*i;
+			_enemyBullet->bulletFire("bansheeNormalBullet", _musicAngel->getX(), _musicAngel->getY(), angle, 5.0f, 500, true);
+		}
+		_count = 0;
 	}
+	*/
 
-
-	if (_boss->getRightDirection() == RIGHT_LASER_ON)
-	{
-		_enemyBullet->bulletFire("bossRLaser", _boss->getRightX() - 850, _boss->getRightY(), 0, 0.0f, 1000, true, HEIGHT); //오른손 레이져
-		_boss->setRightDirection(RIGHT_LASER_OFF);
-	}
 }
 
 void dungeonScene::bigbatbulletFire()
@@ -603,10 +624,4 @@ void dungeonScene::bigRadbatbulletFire()
 	//		_enemtBullet2->bulletFire("fatherBatBullet", _bigRedBat->getX() + 50, _bigRedBat->getY(), angle * i, 5.0f, 500);
 	//	}
 	//}
-
-	if (_boss->getRightDirection() == RIGHT_LASER_ON)
-	{
-		_enemyBullet->bulletFire("bossRLaser", _boss->getRightX() - 850, _boss->getRightY(), 0, 0.0f, 1000, true, HEIGHT); //오른손 레이져
-		_boss->setRightDirection(RIGHT_IDLE);
-	}
 }

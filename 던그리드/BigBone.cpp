@@ -60,7 +60,7 @@ void BigBone::update()
 {
 	changeDirection();
 	move();
-	
+	tileCollision();
 	///////////die테스트!///////////////////
 	if (KEYMANAGER->isOnceKeyDown(VK_F2))
 	{
@@ -109,21 +109,83 @@ void BigBone::render()
 
 void BigBone::move()
 {
+	RECT rcCollision;
+
+	int tileIndex[2];
+	int tileX, tileY;
+	rcCollision = _rc;
+
 	switch (_bigBoneDirection)
 	{
 		case BIGBONE_RIGHT_MOVE: 
-			rightMove();
+			//rightMove();
+			_x += BIGBONESPEED;
+			rcCollision = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 		break;
 		case BIGBONE_LEFT_MOVE: 
-			leftMove();
+			//leftMove();
+			_x -= BIGBONESPEED;
+			rcCollision = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 		break;
 		default:
-			_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
+			rcCollision = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 		break;
+	}
+
+	rcCollision.left += 2;
+	rcCollision.top += 2;
+	rcCollision.right -= 2;
+	rcCollision.bottom -= 2;
+
+	tileX = rcCollision.left / TILESIZE;
+	tileY = rcCollision.top / TILESIZE;
+
+	switch (_bigBoneDirection)
+	{
+		case BIGBONE_RIGHT_MOVE: 
+			tileIndex[0] = (tileX + tileY * TILEY) + 1;
+			tileIndex[1] = (tileX + (1 + tileY) * TILEX) + 1;
+		break;
+		case BIGBONE_LEFT_MOVE: 
+			tileIndex[0] = tileX + tileY * TILEX;
+			tileIndex[1] = tileX + (tileY + 1) *TILEX;
+		break;
+	}
+
+	/*
+	//왼쪽오른쪽 체크 : leftRightCheck
+		if (_tiles[leftRightCheck[i]].object == OBJ_CULUMN)
+		{
+			RECT temp;
+
+			if (IntersectRect(&temp, &_tiles[leftRightCheck[i]].rc, &_collisionRc))
+			{
+				if (i == 0)
+				{
+					long rcSize = _collisionRc.right - _collisionRc.left;
+					_collisionRc.left = _tiles[leftRightCheck[i]].rc.right;
+					_collisionRc.right = _collisionRc.left + rcSize;
+					_x = _collisionRc.right - rcSize / 2;
+				}
+				else if (i == 1)
+				{
+					long rcSize = _collisionRc.right - _collisionRc.left;
+					_collisionRc.right = _tiles[leftRightCheck[i]].rc.left;
+					_collisionRc.left = _collisionRc.right - rcSize;
+					_x = _collisionRc.left + rcSize / 2;
+				}
+			}
+		}
+	*/
+
+	for (int i = 0; i < 2; i++)
+	{
+		RECT rc;
+		//if(_tiles[tileIndex[i]].object ==OBJ_)
 	}
 }
 
-void BigBone::rightMove()
+/*void BigBone::rightMove()
 {
 	_x += BIGBONESPEED;
 	_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
@@ -133,7 +195,7 @@ void BigBone::leftMove()
 {
 	_x -= BIGBONESPEED;
 	_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
-}
+}*/
 
 void BigBone::rightAttack(void * obj)
 {
@@ -244,6 +306,17 @@ void BigBone::changeAnimation(BIGBONEDIRECTION bigBoneDirection)
 			_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 		break;
 	}
+}
+
+void BigBone::tileCollision()
+{
+	RECT rcCollision;
+
+	int tileIndex[3];
+	int tileX, tileY;
+	rcCollision = _rc;
+
+
 }
 
 

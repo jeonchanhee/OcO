@@ -18,6 +18,7 @@ class RandomDungeon1;
 enum DOOR_STATE { DOOR_OPEN, DOOR_IDLE, DOOR_CLOSE };
 enum DOOR_DIR { DOOR_LEFT, DOOR_RIGHT, DOOR_UPDOWN };
 
+
 struct torch
 {
 	image* img;
@@ -71,7 +72,7 @@ protected:
 
 	int _count;
 	int _count2;
-
+	int _swordCount;
 public:
 	virtual HRESULT init(void);
 	virtual void release(void);
