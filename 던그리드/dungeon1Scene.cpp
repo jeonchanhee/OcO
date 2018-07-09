@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "dungeon1Scene.h"
-
+#include "Player.h"
 
 dungeon1Scene::dungeon1Scene()
 {
@@ -13,6 +13,8 @@ dungeon1Scene::~dungeon1Scene()
 
 HRESULT dungeon1Scene::init()
 {
+	dungeonScene::init();
+
 	_isMapSet = true;
 	chooseMap(1);
 	selectSize(1);
@@ -30,6 +32,7 @@ HRESULT dungeon1Scene::init()
 	portalInit(250 % 29, 250 / 29);
 	setDungeonDoor();
 
+	//_player->setGold(10);
 	return S_OK;
 }
 

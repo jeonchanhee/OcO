@@ -23,13 +23,15 @@ HRESULT titleScene::init(void)
 	_button[1]=RectMake(912,800,92,62);
 	_button[2]=RectMake(907,900,102,62);
 
+	_select = 0;
 	_clickData = false;
 	_scroll = false;
 	_currentScroll = 0;
 
 	for (int i = 0; i < 3; i++)
 	{
-		_deleteRect[i] = RectMake(220 + i * 610, 150, IMAGEMANAGER->findImage("T_delete")->getWidth(), IMAGEMANAGER->findImage("T_delete")->getHeight());
+		_chooseRect[i] = RectMake(50 + i * 610, 90, 576, 858);
+		_deleteRect[i] = RectMake(150 + i * 610, 730, IMAGEMANAGER->findImage("T_delete")->getWidth(), IMAGEMANAGER->findImage("T_delete")->getHeight());
 	}
 
 	/*int suck[51];
@@ -69,7 +71,7 @@ void titleScene::update(void)
 		_abird1->start();
 	}
 	
-	deleteData();
+	selectData();
 
 	KEYANIMANAGER->update();
 }
@@ -122,16 +124,27 @@ void titleScene::render(void)
 	}
 	else
 	{
+		//shop();
 		//inven();
 		//reward();
-		restaurant();
+		//restaurant();
 		//drawData();
+	}
+	drawData();
+
+	if (_select != 0)
+	{
+		IMAGEMANAGER->findImage("edge")->render(DC, _chooseRect[_select-1].left+6, _chooseRect[_select-1].top-91);
 	}
 
 	if(KEYMANAGER->isToggleKey(VK_TAB))
 	{
-		for(int i=0;i<3;i++)
-		Rectangle(DC,_button[i].left, _button[i].top, _button[i].right, _button[i].bottom);
+		for (int i = 0; i < 3; i++)
+		{
+			Rectangle(DC, _button[i].left, _button[i].top, _button[i].right, _button[i].bottom);
+			Rectangle(DC, _chooseRect[i].left, _chooseRect[i].top, _chooseRect[i].right, _chooseRect[i].bottom);
+			Rectangle(DC, _deleteRect[i].left, _deleteRect[i].top, _deleteRect[i].right, _deleteRect[i].bottom);
+		}
 	}
 }
 
@@ -155,9 +168,25 @@ void titleScene::training()
 }
 void titleScene::shop()
 {
+	char str[128];
+	RECT rc, rc2, rc3;
+	rc = RectMake(50, 220, 100, 100);
+	rc2 = RectMake(200, 200, 100, 100);
+	rc3 = RectMake(520, 255, 100, 100);
 	IMAGEMANAGER->findImage("shop")->render(DC, 0, 0);
 	IMAGEMANAGER->findImage("slot")->render(DC, 165, 180);
 	IMAGEMANAGER->findImage("inven")->render(DC, WINSIZEX- IMAGEMANAGER->findImage("inven")->getWidth(), 0);
+	_im->getItem()[0]->getItem().image[0]->render(DC, rc.left, rc.top);
+	
+	HFONT font, oldFont;
+	font = CreateFont(40, 0, 0, 0, 100, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("소야바른9"));
+	oldFont = (HFONT)SelectObject(DC, font);
+	SetTextColor(DC, RGB(255, 255, 255));
+	SetBkMode(DC, TRANSPARENT);
+	DrawText(DC, _im->getItem()[0]->getItem().name, strlen(_im->getItem()[0]->getItem().name), &rc2, DT_VCENTER);
+	DrawText(DC, itoa(_im->getItem()[0]->getItem().price,str,10), strlen(itoa(_im->getItem()[0]->getItem().price, str, 10)), &rc3, DT_VCENTER);
+	SelectObject(DC, oldFont);
+	DeleteObject(font);
 }
 
 void titleScene::inven()
@@ -199,15 +228,14 @@ void titleScene::restaurant()
 	if (_scroll == true)
 	{
 		_rc = RectMake(686, 210 + _ptMouse.y - _mouseY+_currentScroll, 42, 432);
-		
 	}
 	if (_rc.top <= 210)
 		_rc = RectMake(686, 210 , 42, 432);
 	if (_rc.bottom >= 932)
 		_rc = RectMake(686, 500, 42, 432);
 	if (_rc.top >= 210 && _rc.bottom <= 932)
-		//CAMERAMANAGER->setCameraPoint(PointMake(0, (_rc.top + 1 - 210)*1.4)); //어디간 함수일까...
-		CAMERAMANAGER->setCameraCenter(PointMake(0, (_rc.top + 1 - 210)*1.4));
+		CAMERAMANAGER->setCameraPoint(PointMake(0, (_rc.top + 1 - 210)*1.4)); //어디간 함수일까...
+		//CAMERAMANAGER->setCameraCenter(PointMake(0, (_rc.top + 1 - 210)*1.4));
 
 	IMAGEMANAGER->findImage("scroll")->render(DC, 686, _rc.top);
 
@@ -258,6 +286,8 @@ void titleScene::loadData()
 
 void titleScene::drawData()
 {
+	if (!_clickData) return;
+
 	IMAGEMANAGER->alphaRender("black", DC, 0, 0, 100);
 
 	for (int i = 0; i < 3; i++)
@@ -273,6 +303,7 @@ void titleScene::drawData()
 			oldFont = (HFONT)SelectObject(DC, font);
 			SetBkMode(DC, TRANSPARENT);
 			char str[128];
+			SetTextColor(DC, RGB(255, 255, 255));
 			sprintf_s(str, "<플레이 시간>");
 			TextOut(DC, 230 + i * 610, 300, str, strlen(str));
 			sprintf_s(str, "%02dH %02dM", _vData[i].hour, _vData[i].min);
@@ -296,14 +327,14 @@ void titleScene::drawData()
 			SetBkMode(DC, TRANSPARENT);
 			char str[128];
 			sprintf_s(str, "데이터 없음");
-			TextOut(DC, 250, 350, str, strlen(str));
+			TextOut(DC, 250 + i * 610, 350, str, strlen(str));
 			SelectObject(DC, oldFont);
 			DeleteObject(font);
 		}
 	}
 }
 
-void titleScene::deleteData()
+void titleScene::selectData()
 {
 	if(!_clickData) return;
 
@@ -317,9 +348,36 @@ void titleScene::deleteData()
 				ZeroMemory(&temp, sizeof(tagData));
 				_vData[i] = temp;
 				_vData[i].idx = -1;
+				saveData();
+			}
+			else if (PtInRect(&_chooseRect[i], _ptMouse))
+			{
+				if (_select == i + 1)
+				{
+					SCENEMANAGER->changeScene("인트로");
+					break;
+				}
+				_select = i + 1;
 			}
 		}
 	}
+}
+
+void titleScene::saveData()
+{
+	vector<string> vStr;
+	for (int i = 0; i < 3; i++)
+	{
+		if (_vData[i].idx == -1)continue;
+		char str[128];
+		vStr.push_back(itoa(_vData[i].idx, str, 10));
+		vStr.push_back(itoa(_vData[i].hour, str, 10));
+		vStr.push_back(itoa(_vData[i].min, str, 10));
+		vStr.push_back(itoa(_vData[i].floor, str, 10));
+		vStr.push_back(itoa(_vData[i].gold, str, 10));
+		vStr.push_back(itoa(_vData[i].dash, str, 10));
+	}
+	TXTDATA->txtSave("data.txt", vStr);
 }
 
 titleScene::titleScene()

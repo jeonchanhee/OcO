@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "dungeon4Scene.h"
-
+#include "Player.h"
 
 dungeon4Scene::dungeon4Scene()
 {
@@ -13,6 +13,8 @@ dungeon4Scene::~dungeon4Scene()
 
 HRESULT dungeon4Scene::init()
 {
+	dungeonScene::init();
+
 	_isMapSet = true;
 	chooseMap(5);
 	selectSize(5);
@@ -46,6 +48,7 @@ HRESULT dungeon4Scene::init()
 
 void dungeon4Scene::update()
 {
+	dungeonScene::update();
 	nextTest();
 
 	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); ++_viEnemy)

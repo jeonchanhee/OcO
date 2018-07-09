@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "dungeon6Scene.h"
-
+#include "Player.h"
 
 dungeon6Scene::dungeon6Scene()
 {
@@ -13,6 +13,8 @@ dungeon6Scene::~dungeon6Scene()
 
 HRESULT dungeon6Scene::init()
 {
+	dungeonScene::init();
+
 	_isMapSet = true;
 	chooseMap(7);
 	selectSize(7);
@@ -44,13 +46,14 @@ void dungeon6Scene::update()
 
 void dungeon6Scene::setRandMapNum()
 {
-	if (_randNum == 2 || _randNum == 4)
-	{
-		_route.push_back(5);
-	}
 	if (_randNum == 3)
 	{
 		_route.push_back(2);
+	}
+	//if (_randNum == 2 || _randNum == 4)
+	else
+	{
+		_route.push_back(5);
 	}
 }
 

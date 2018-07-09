@@ -119,7 +119,7 @@ public:
 	void setAccessory(const char* AccessoryName, int value);	// 악세 정의해줌
 	void setFood(const char* FoodName, int value);				// 음식 정의해줌
 
-
+	tagItem getItem() { return _item; }
 	
 	//void dropItem(DROPITEM type, const char* dropItem, int value);			// 드랍 아이템 만들어줌
 	//void setDropItem(const char* dropItem, int value);						// 드랍아이템 정의해줌

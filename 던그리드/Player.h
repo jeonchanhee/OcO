@@ -19,16 +19,44 @@ enum DIRECTION
 class Player : public gameNode
 {
 private:
+	struct infoPlayer
+	{
+		int currentHp, maxHp;											 //ÇöÀç , ÀüÃ¼ Ã¼·Â 
+		int armor;														 //¹æ¾î·Â
+		int currentDash, maxDash;										 //´ë½Ã È½¼ö 
+		int attackMinDamage, attackMaxDamage, attackPower;			 //ÃÖ¼Ò ~ ÃÖ´ë µ¥¹ÌÁö , À§·Â ()
+		int fixedDamage;												 //°íÁ¤µ¥¹ÌÁö 
+																		 // inven
+		int  mainWeapon[2], assistWeapon[2];							 //ÇöÀç ÀåÂøÁßÀÎ ¸ŞÀÎ , º¸Á¶ ¹«±âµé
+		int  accessory[4];												 //¾Ç½ê»ç¸®
+		int  inventory[15];											 //ÀüÃ¼ÀÎº¥Åä¸® 15Ä­ 
+		int  gold;														 //µ·
+		int  currentExp, maxExp;										 //ÇöÀç , ÃÖ´ë °æÇèÄ¡  
+		int  currentFullNess, maxFullNess;							 //ÇöÀç , ÃÖ´ë ¸¸º¹µµ 
+		int  youUsingCount;											 // 1¹ø¹«±â ÀåÂøÁßÀÎÁö 2¹ø¹«±â ÀåÂøÁß¤·ÀÎÁö ¹è¿­ÀÌ¶ó 0°ú 1°ªÀ» ¹Ş°ÔµÊ ;
+
+		//float 
+		float attackSpeed, reloadSpeed;								 //°ø¼Ó ÀçÀåÀü¼Óµµ 
+		float evasionPersent, guardPersent;							 //È¸ÇÇÈ®·ü , ¸·À»È®·ü  	
+		float moveMentSpeed;											 //ÀÌµ¿¼Óµµ 
+		float criticalPercent, criticalAttackDamage;					 //Å©¸®Æ¼ÄÃ È®·ü , Å©¸®Æ¼ÄÃ µ¥¹ÌÁö Áõ°¡À² 
+		float dashDamage, dashSpeed;									 //´ë½ÃÇÒ¶§ µ¥¹ÌÁö , ½ºÇÇµå
+		float punchSpeed;												 //ÆİÄ¡ ½ºÇÇµåÀÓ
+	};
+
+private:
 	playerBullet * _pb;
 	RECT _collisionRc; //Ãæµ¹·ºÆ® 
-	image * _player;
-	image * _playerHand[2];
-	image * _playerWeapon;
-	image * imageDC;
-	image * _attackEffect;
+	image* _player;
+	image* _playerHand[2];
+	image* _playerWeapon;
+	image* imageDC;
+	image* _attackEffect;
 
 	DIRECTION _direction;
-	animation * _playerAnimation;
+	animation* _playerAnimation;
+
+	infoPlayer	_infoPlayer;
 
 	//bool 
 	bool _isGun;						//boolÀÌÁö±İ 1							//ÇöÀç ¿ø°Å¸® ¹«±âÀÎÁö Ã¼Å© 
@@ -42,7 +70,7 @@ private:
 	bool _attackSpeedCheckCount;		//boolÀÌÁö±İ 9							//°ø°İ½ºÇÇµåÃéÄí ÄÉÄùÄùÄù®c®cÃßÄÉÃßÄÉÃßÄÉÃßÄÉÃßÄÉÃßÄÉÃß±P¤»
 	bool _goDownJump;					//boolÀÌÁö±İ 10			¶Ç¶§ÂÅ ûıÀÌ ¸î°³´Ï
 
-	// int 
+	// int  
 	int _currentHp, _maxHp;											 //ÇöÀç , ÀüÃ¼ Ã¼·Â 
 	int _armor;														 //¹æ¾î·Â
 	int _currentDash, _maxDash;										 //´ë½Ã È½¼ö 
@@ -60,8 +88,7 @@ private:
 	int  _currentFullNess , _maxFullNess;							 //ÇöÀç , ÃÖ´ë ¸¸º¹µµ 
 	int  _youUsingCount;											 // 1¹ø¹«±â ÀåÂøÁßÀÎÁö 2¹ø¹«±â ÀåÂøÁß¤·ÀÎÁö ¹è¿­ÀÌ¶ó 0°ú 1°ªÀ» ¹Ş°ÔµÊ ;
 	int	 _attackEffectCount;										 //
-	int  _canMove;
-
+	
 	//float 
 	float _x, _y , _leftHandX, _leftHandY, _rightHandX, _rightHandY; //player x,y 
 	float _attackSpeed, _reloadSpeed;								 //°ø¼Ó ÀçÀåÀü¼Óµµ 
