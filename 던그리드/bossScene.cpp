@@ -27,6 +27,7 @@ HRESULT bossScene::init()
 
 void bossScene::update()
 {
+	dungeonScene::update();
 	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); ++_viEnemy)
 	{
 		(*_viEnemy)->update();

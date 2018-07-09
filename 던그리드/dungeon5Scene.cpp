@@ -62,6 +62,7 @@ HRESULT dungeon5Scene::init()
 
 void dungeon5Scene::update()
 {
+	dungeonScene::update();
 	nextTest();
 	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); ++_viEnemy)
 	{

@@ -47,6 +47,7 @@ HRESULT dungeon3Scene::init()
 
 void dungeon3Scene::update()
 {
+	dungeonScene::update();
 	nextTest();
 	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); ++_viEnemy)
 	{

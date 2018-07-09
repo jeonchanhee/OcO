@@ -122,7 +122,7 @@ void playGround::update(void)
 {
 	gameNode::update();
 
-	//_mapTool->update();
+	_mapTool->update();
 	//_player->update();
 	SCENEMANAGER->update();
 	
@@ -150,7 +150,7 @@ void playGround::update(void)
 		CAMERAMANAGER->setCameraCenter(PointMake(CAMERAMANAGER->getCameraCenter().x , CAMERAMANAGER->getCameraCenter().y + 50));
 	if (KEYMANAGER->isStayKeyDown('A'))// && CAMERAMANAGER->getCameraCenter().x - WINSIZEX / 2>0)
 		CAMERAMANAGER->setCameraCenter(PointMake(CAMERAMANAGER->getCameraCenter().x  - 50, CAMERAMANAGER->getCameraCenter().y));
-	if (KEYMANAGER->isStayKeyDown('W'))// && CAMERAMANAGER->getCameraCenter().y - WINSIZEY / 2>0)
+	if (KEYMANAGER->isStayKeyDown('W'))//&& CAMERAMANAGER->getCameraCenter().y - WINSIZEY / 2>0)
 		CAMERAMANAGER->setCameraCenter(PointMake(CAMERAMANAGER->getCameraCenter().x , CAMERAMANAGER->getCameraCenter().y - 50));
 	//
 	//if (CAMERAMANAGER->getCameraX() < 0)						CAMERAMANAGER->setCameraX(0);
@@ -169,9 +169,9 @@ void playGround::render(void)
 	switch (mode)
 	{
 	case ¸ÊÅø:
-		//PatBlt(UIDC, 0, 0, BACKGROUNDSIZEX, BACKGROUNDSIZEY, BLACKNESS);
+		PatBlt(UIDC, 0, 0, BACKGROUNDSIZEX, BACKGROUNDSIZEY, BLACKNESS);
 
-		/*
+		
 		_mapTool->render();
 		if(KEYMANAGER->isToggleKey(VK_TAB))
 		{
@@ -181,7 +181,7 @@ void playGround::render(void)
 			IMAGEMANAGER->findImage("floor0")->render(DC, 30 * 96, 17 * 96);
 			IMAGEMANAGER->findImage("floor0")->render(DC, 36 * 96, 15 * 96);
 		}
-		*/
+		
 		break;
 	case Å¸ÀÌÆ²:
 		SCENEMANAGER->render();
