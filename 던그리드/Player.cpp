@@ -31,7 +31,6 @@ HRESULT Player::init()
 	_weaponAttackAngle = 0;
 	_fixedDamage = 0;
 	_youUsingCount = 0;
-	_canMove = 0;
 	_isDashing = false;
 	_isAttacking = false;
 	_isGun = true;
@@ -127,9 +126,9 @@ void Player::render()
 	if (!_isGun)
 	{
 		if (_isLeftAttack && _mainWeapon[_youUsingCount] != 0)
-			imageDC->rotateRender(DC, _leftHandX, _leftHandY, _weaponAngle + 1.8f);
+		imageDC->rotateRender(DC, _leftHandX, _leftHandY, _weaponAngle + 1.8f);
 		else if (!_isLeftAttack && _mainWeapon[_youUsingCount] != 0)
-			imageDC->rotateRender(DC, _rightHandX, _rightHandY, _weaponAngle + 1.8f);
+		imageDC->rotateRender(DC, _rightHandX, _rightHandY, _weaponAngle + 1.8f);
 		_player->aniRender(DC, _x, _collisionRc.top, _playerAnimation);
 	}
 	if (_showAttackEffect)
@@ -138,19 +137,15 @@ void Player::render()
 	}
 	//text !
 	char str[128]; sprintf_s(str, "Weapon Index : %d", _youUsingCount);
-
 	if (_goDownJump)  sprintf_s(str, "다운점프 : true");
 	else if (!_goDownJump) sprintf_s(str, "다운점프 : false");
 	TextOut(DC, _collisionRc.left - 50 , _collisionRc.top - 150, str, strlen(str));
-	//if (_isDashing)sprintf_s(str, "dashing???  : true");
-	//else if (!_isDashing)sprintf_s(str, "dashing???  : false");
-	//TextOut(DC, _x + 60, _collisionRc.top - 150, str, strlen(str));
 	//// tile check 
-	sprintf(str, "체크타일 %d,%d", leftRightCheck[0], leftRightCheck[1]);
+	sprintf(str, "체크타일 %x,%x", leftRightCheck[0], leftRightCheck[1]);
 	TextOut(DC, _x - 10, _collisionRc.top , str, strlen(str));
-	sprintf(str, "위에 타일 %d,%d", upStateCheck[0] , upStateCheck[1]);
+	sprintf(str, "위에 타일 %x,%x", upStateCheck[0] , upStateCheck[1]);
 	TextOut(DC, _x - 10, _collisionRc.top - 50, str, strlen(str));
-	sprintf(str, "아래 타일 %d,%d", downStateCheck[0], downStateCheck[1]);
+	sprintf(str, "아래 타일 %x,%x", downStateCheck[0], downStateCheck[1]);
 	TextOut(DC, _x - 10, _collisionRc.top - 100, str, strlen(str));
 
 	//pb
@@ -203,24 +198,23 @@ void Player::keyInput()
 	&& _goDownJump) _y += 100;
 	else if (KEYMANAGER->isOnceKeyDown(VK_SPACE))
 	{
-	
-			_jumpCount++;
-			_isJumping = true;
-			_gravity = GRAVITY;
-			_jump = _jumpPower;
-			
-			if (_direction == LEFT_RUN || _direction == LEFT_STOP)
-			{
-				_playerAnimation = KEYANIMANAGER->findAnimation("왼쪽점프");
-				_playerAnimation->start();
-			}
-			else if (_direction == RIGHT_RUN || _direction == RIGHT_STOP)
-			{
-				_playerAnimation = KEYANIMANAGER->findAnimation("오른쪽점프");
-				_playerAnimation->start();
-			}
-			if (_jumpCount == 1) EFFECTMANAGER->play("점프야압", _x + 50 , _y + 50);
-			if (_jumpCount == 2) EFFECTMANAGER->play("이건이단점프야압", _x + 50, _y + 50);	
+		_jumpCount++;
+		_isJumping = true;
+		_gravity = GRAVITY;
+		_jump = _jumpPower;
+		
+		if (_direction == LEFT_RUN || _direction == LEFT_STOP)
+		{
+			_playerAnimation = KEYANIMANAGER->findAnimation("왼쪽점프");
+			_playerAnimation->start();
+		}
+		else if (_direction == RIGHT_RUN || _direction == RIGHT_STOP)
+		{
+			_playerAnimation = KEYANIMANAGER->findAnimation("오른쪽점프");
+			_playerAnimation->start();
+		}
+		if (_jumpCount == 1) EFFECTMANAGER->play("점프야압", _x + 50 , _y + 50);
+		if (_jumpCount == 2) EFFECTMANAGER->play("이건이단점프야압", _x + 50, _y + 50);	
 	}
 	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
 	{
@@ -489,36 +483,38 @@ void Player::cameraSetting()
 // 1. 왼쪽으로갈때 벽있으면 벽에붙음
 // 2. 
 
+
 void Player::tileCollision()
 {
 	_collisionRc.left += 3, _collisionRc.top += 3, _collisionRc.right -= 3, _collisionRc.bottom -= 3;
 
 	xIndex = (_collisionRc.left / TILESIZE) , yIndex = (_collisionRc.top / TILESIZE);
-	downStateCheck[0] = xIndex + (100 * (yIndex + 1)), downStateCheck[1] = xIndex + (100 * (yIndex + 1)) + 1;
-	upStateCheck[0] = xIndex + (100 * (yIndex )), upStateCheck[1] = xIndex + (100 * (yIndex )) + 1;
+	downStateCheck[0] = xIndex + (VARIABLE_SIZEX[_dungeonNum] * (yIndex + 1)), downStateCheck[1] = xIndex + (VARIABLE_SIZEX[_dungeonNum] * (yIndex + 1)) + 1;
+	upStateCheck[0] = xIndex + (VARIABLE_SIZEX[_dungeonNum] * (yIndex )), upStateCheck[1] = xIndex + (VARIABLE_SIZEX[_dungeonNum] * (yIndex )) + 1;
 
 
-	leftRightCheck[0] = (yIndex * 100) + xIndex;
-	leftRightCheck[1] = (yIndex  * 100) + xIndex +1;
+	leftRightCheck[0] = (yIndex * VARIABLE_SIZEX[_dungeonNum]) + xIndex;
+	leftRightCheck[1] = (yIndex  * VARIABLE_SIZEX[_dungeonNum]) + xIndex +1;
+
 
 
 	for (int i = 0; i < 2; ++i)
 	{
 		//									 !@!!!!#!#$@!#$!@ 천장 오브젝트 !@!!!!#!#$@!#$!@
-		if (_tiles[upStateCheck[0]].object == OBJ_CEILING)
+		if (_tiles[upStateCheck[i]].object == OBJ_CEILING)
 		{
 			RECT temp;
-			if (IntersectRect(&temp, &_tiles[upStateCheck[0]].rc, &_collisionRc))
+			if (IntersectRect(&temp, &_tiles[upStateCheck[i]].rc, &_collisionRc))
 			{
 				long rcHeight = _collisionRc.bottom - _collisionRc.top;
-				_collisionRc.top = _tiles[upStateCheck[0]].rc.bottom;
+				_collisionRc.top = _tiles[upStateCheck[i]].rc.bottom;
 				_collisionRc.bottom = _collisionRc.top + rcHeight;
 				_jump = -(_jump / 2);
 				_y = _collisionRc.top + (rcHeight / 2);
 			}
 		}
 
-
+			
 		//왼쪽오른쪽 체크 : leftRightCheck
 		if (_tiles[leftRightCheck[i]].object == OBJ_CULUMN)
 		{
@@ -609,3 +605,5 @@ void Player::tileCollision()
 		}
 	}
 }
+
+
