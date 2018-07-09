@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "dungeonScene.h"
 #include "tileNode.h"
+#include "Player.h"
 
 
 dungeonScene::dungeonScene() {}
@@ -9,6 +10,7 @@ dungeonScene::~dungeonScene() {}
 
 HRESULT dungeonScene::init(void)
 {
+	_player = SCENEMANAGER->getPlayerAddressLink();
 	return S_OK;
 }
 
@@ -82,7 +84,7 @@ void dungeonScene::render(void)
 	//	_mapValue[_dungeonNum] = "T";
 	//}
 	char str[128];
-	sprintf_s(str, "맵 : %d", _dungeonNum);
+	sprintf_s(str, "맵 : %d, 골드 : %d", _dungeonNum, _player->getGold());
 	TextOut(DC, 100, 100, str, strlen(str));
 	_count++;
 	_enemyBullet->render();
@@ -348,6 +350,49 @@ void dungeonScene::save()
 	}
 
 	TXTDATA->txtSave("infoDungeon.txt", vStr);
+}
+
+void dungeonScene::savePlayer()
+{
+	//int currentHp, maxHp;											 //현재 , 전체 체력 
+	//int armor;														 //방어력
+	//int currentDash, maxDash;										 //대시 횟수 
+	//int attackMinDamage, attackMaxDamage, attackPower;			 //최소 ~ 최대 데미지 , 위력 ()
+	//int fixedDamage;												 //고정데미지 
+	//																 // inven
+	//int  mainWeapon[2], assistWeapon[2];							 //현재 장착중인 메인 , 보조 무기들
+	//int  accessory[4];												 //악쎄사리
+	//int  inventory[15];											 //전체인벤토리 15칸 
+	//int  gold;														 //돈
+	//int  currentExp, maxExp;										 //현재 , 최대 경험치  
+	//int  currentFullNess, maxFullNess;							 //현재 , 최대 만복도 
+	//int  youUsingCount;											 // 1번무기 장착중인지 2번무기 장착중ㅇ인지 배열이라 0과 1값을 받게됨 ;
+
+	//															 //float 
+	//float attackSpeed, reloadSpeed;								 //공속 재장전속도 
+	//float evasionPersent, guardPersent;							 //회피확률 , 막을확률  	
+	//float moveMentSpeed;											 //이동속도 
+	//float criticalPercent, criticalAttackDamage;					 //크리티컬 확률 , 크리티컬 데미지 증가율 
+	//float dashDamage, dashSpeed;									 //대시할때 데미지 , 스피드
+	//float punchSpeed;
+	//_infoPlayer.currentHp = ;
+	//_infoPlayer.maxHp = ;
+	//_infoPlayer.armor = ;
+	//_infoPlayer.currentDash = ;
+	//_infoPlayer.maxDash = ;
+	//_infoPlayer.attackMinDamage = ;
+	//_infoPlayer.attackMaxDamage = ;
+	//_infoPlayer.attackPower = ;
+	//_infoPlayer.fixedDamage = ;
+	//_infoPlayer.mainWeapon = ;
+	//_infoPlayer.assistWeapon = ;
+	//_infoPlayer.accessory = ;
+	//_infoPlayer.inventory = ;
+	//_infoPlayer.g
+}
+void dungeonScene::loadPlayer()
+{
+
 }
 
 void dungeonScene::setDoor()

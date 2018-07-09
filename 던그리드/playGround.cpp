@@ -8,7 +8,7 @@ playGround::~playGround(){}
 
 HRESULT playGround::init(void)	
 {
-	mode = 타이틀;				//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
+	mode = 랜덤맵1;				//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
 //	rectRotate(IMAGEMANAGER->findImage("검01"), 100, 100);
 
 
@@ -19,13 +19,15 @@ HRESULT playGround::init(void)
 	
 	_mapTool = new MapTool;
 	_mapTool->init();
-	/*_player = new Player;
-	_player->init();*/
+	_player = new Player;
+	_player->init();
 	_im = new itemManager;
 	_im->init();
 
 	_title = new titleScene;
 	_title->setImLink(_im);
+
+	SCENEMANAGER->setPlayerAddressLink(_player);
 
 	SCENEMANAGER->addScene("타이틀", _title);
 	SCENEMANAGER->addScene("던전2", new dungeon2Scene);
@@ -41,9 +43,10 @@ HRESULT playGround::init(void)
 	SCENEMANAGER->addScene("던전8", new dungeon8Scene);
 	SCENEMANAGER->addScene("보스", new bossScene);
 
-	SCENEMANAGER->addScene("랜덤맵1", new RandomDungeon1);
+	//SCENEMANAGER->addScene("랜덤맵1", new RandomDungeon1);
 	
 	_randomScene1 = new RandomDungeon1;
+	_randomScene1->setPlayerAddressLink(_player);
 
 	switch (mode)
 	{
