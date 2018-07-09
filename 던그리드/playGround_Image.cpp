@@ -97,6 +97,7 @@ HRESULT playGround::Image_init(void)
 	IMAGEMANAGER->addFrameImage("cowIdleChargeAttack", "image/enemy/cowIdleChargeAttack(1840x1320,8x6).bmp", 0, 0, 1840, 1320, 8, 6, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("dieEffect", "image/enemy/dieEffect(4224x384,11x1).bmp", 0, 0, 4224, 384, 11, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("fatherBatBullet", "image/enemy/fatherBatBullet(100x20,5x1).bmp", 0, 0, 100, 20, 5, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("fatherBatBullet2", "image/enemy/fatherBatBullet(250x50,5x1).bmp", 0, 0, 250, 50, 5, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("fatherBatBulletFX", "image/enemy/fatherBatBulletFX(396x36,11x1).bmp", 0, 0, 396, 36, 11, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("giantBat", "image/enemy/giantBat(2240x1080,7x6).bmp", 0, 0, 2240, 1080, 7, 6, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("giantRedBatAttack", "image/enemy/giantRedBatAttack(3000x400,10x2).bmp", 0, 0, 3000, 400, 10, 2, true, RGB(255, 0, 255));
@@ -293,8 +294,8 @@ HRESULT playGround::Image_init(void)
 	IMAGEMANAGER->addRotateFrameImage("검쓰르륵", "image/item/weapon/sword/effect/swing.bmp", 600 , 109 , 4 , 1, true , RGB(255,0,255));
 
 	//상점 NPC
-	IMAGEMANAGER->addFrameImage("엔피시1", "image/npc/inn(600x200,6x1).bmp", 600, 200, 6, 1, true, RGB(255, 0, 255)); // 음식파는 아줌마
-	IMAGEMANAGER->addFrameImage("엔피시2", "image/npc/weaponNPC(400x196)4x1.bmp", 400, 196, 4, 1, true, RGB(255, 0, 255)); // 장비 판매하는 아저씨
+	IMAGEMANAGER->addFrameImage("엔피시1", "image/npc/inn(420x140)6x2.bmp", 420, 140 , 6, 2, true, RGB(255, 0, 255)); // 음식파는 아줌마
+	IMAGEMANAGER->addFrameImage("엔피시2", "image/npc/weaponNPC(800x392)4x2.bmp", 800, 392, 4, 2, true, RGB(255, 0, 255)); // 장비 판매하는 아저씨
 
 
 

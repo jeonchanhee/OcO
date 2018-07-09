@@ -112,6 +112,7 @@ void Item::render() // 아이템을 렌더
 		}
 	}
 
+
 }
 
 
@@ -898,4 +899,147 @@ void Item::setFood(const char * FoodName, int value)
 	}
 }
 
-
+//void Item::dropItem(DROPITEM type, const char* dropItem, int value)
+//{
+//	switch(type)
+//	{
+//		case DR_SWORD:
+//			setDropItem(dropItem, value);
+//		break;
+//		case DR_HAMMER:
+//			setDropItem(dropItem, value);
+//		break;
+//		case DR_GUN:
+//			setDropItem(dropItem, value);
+//		break;
+//		case DR_BOW:
+//			setDropItem(dropItem, value);
+//		break;
+//		case DR_ARMOR:
+//			setDropItem(dropItem, value);
+//		break;
+//		case DR_SHIELD:
+//			setDropItem(dropItem, value);
+//		break;
+//		case DR_SECOND:
+//			setDropItem(dropItem, value);
+//		break;
+//		case DR_ACCESSORY:
+//			setDropItem(dropItem, value);
+//		break;
+//		case DR_COIN:
+//
+//		break;
+//		case DR_GOLDBAR:
+//		break;
+//		default:
+//		break;
+//	}
+//	
+//}
+//
+//void Item::setDropItem(const char* dropItem, int value)
+//{
+//
+//	char str[128];
+//	sprintf_s(str, "%s%d%d", dropItem, value, 0);
+//	_item.image[0] = IMAGEMANAGER->findImage(str);
+//
+//	if (dropItem == "코인" && value == 1 || dropItem == "골드바" && value == 1)
+//	{
+//		if (_item.isFrame)
+//		{
+//			_item.rc[0] = RectMakeCenter(_item.x, _item.y, _item.image[0]->getFrameWidth(),
+//				_item.image[0]->getFrameHeight());
+//			_item.image[0]->frameRender(DC, _item.rc[0].left, _item.rc[0].top, _item.frameX, _item.frameY);
+//
+//		}
+//		else
+//		{
+//			_item.rc[0] = RectMakeCenter(_item.x, _item.y, _item.image[0]->getWidth(),
+//				_item.image[0]->getHeight());
+//			_item.image[0]->render(DC, _item.rc[0].left, _item.rc[0].top);
+//		}
+//	}
+//	
+//}
+//
+//
+//void Item::invenItem(INVENITEM type, const char* invenItem, int value)
+//{
+//	switch (type)
+//	{
+//		case IV_SWORD:
+//		setInvenItem(invenItem, value);
+//		break;
+//		case IV_HAMMER:
+//		setInvenItem(invenItem, value);
+//		break;
+//		case IV_GUN:
+//		setInvenItem(invenItem, value);
+//		break;
+//		case IV_BOW:
+//		setInvenItem(invenItem, value);
+//		break;
+//		case IV_ARMOR:
+//		setInvenItem(invenItem, value);
+//		break;
+//		case IV_SHIELD:
+//		setInvenItem(invenItem, value);
+//		break;
+//		case IV_SECOND:
+//		setInvenItem(invenItem, value);
+//		break;
+//		case IV_ACCESSORY:
+//		setInvenItem(invenItem, value);
+//		break;
+//		case IV_COIN:
+//		setInvenItem(invenItem, value);
+//		break;
+//
+//	}
+//
+//}
+//
+//void Item::setInvenItem( const char* itemName, int value)
+//{
+//	char str[128];
+//
+//	sprintf_s(str, itemName, value);
+//	_item.image[1] = IMAGEMANAGER->findImage("str");
+//	_item.rc[1] = RectMakeCenter(_item.x, _item.y, _item.image[1]->getWidth(),
+//		_item.image[1]->getHeight());
+//	_item.image[1]->render(DC, _item.rc[1].left, _item.rc[1].top); 
+//	
+//}
+//
+//void Item::wearItem()
+//{
+//}
+//
+//void Item::wearWeapon()
+//{
+//}
+//
+//void Item::wearsecond()
+//{
+//}
+//
+//void Item::storeItem()
+//{
+//}
+//
+//void Item::setIfStoreItemIsWeapon()
+//{
+//}
+//
+//void Item::setIfStoreItemIsDefence()
+//{
+//}
+//
+//void Item::setIfStoreItemIsFood()
+//{
+//}
+//
+//
+//

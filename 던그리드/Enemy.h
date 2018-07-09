@@ -40,5 +40,7 @@ public:
 
 	float getX() { return _x; }
 	float getY() { return _y; }
+
+	int getcount() { return _count; }
 };
 

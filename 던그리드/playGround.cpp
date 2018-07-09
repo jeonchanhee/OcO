@@ -8,7 +8,7 @@ playGround::~playGround(){}
 
 HRESULT playGround::init(void)	
 {
-	mode = 던전5;				//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
+	mode = 던전2;				//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
 //	rectRotate(IMAGEMANAGER->findImage("검01"), 100, 100);
 
 
@@ -106,7 +106,6 @@ HRESULT playGround::init(void)
 		SCENEMANAGER->changeScene("마을");
 	case 맵선택:
 		SCENEMANAGER->changeScene("맵선택");
-		
 		break;
 	case 기타추가하셈:
 		break;
@@ -218,7 +217,6 @@ void playGround::render(void)
 	case 맵선택:
 		SCENEMANAGER->render();
 		break;
-	
 	case 기타추가하셈:
 		break;
 	default:

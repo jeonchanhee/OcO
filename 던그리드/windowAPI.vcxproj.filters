@@ -336,6 +336,15 @@
     <ClInclude Include="townScene.h">
       <Filter>playGround\Scene\dungeon</Filter>
     </ClInclude>
+    <ClInclude Include="GodNpc.h">
+      <Filter>playGround\NPC</Filter>
+    </ClInclude>
+    <ClInclude Include="WeaponNpc.h">
+      <Filter>playGround\NPC</Filter>
+    </ClInclude>
+    <ClInclude Include="FoodNpc.h">
+      <Filter>playGround\NPC</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -553,6 +562,15 @@
     </ClCompile>
     <ClCompile Include="Property.cpp">
       <Filter>playGround\Item\Property</Filter>
+    </ClCompile>
+    <ClCompile Include="GodNpc.cpp">
+      <Filter>playGround\NPC</Filter>
+    </ClCompile>
+    <ClCompile Include="WeaponNpc.cpp">
+      <Filter>playGround\NPC</Filter>
+    </ClCompile>
+    <ClCompile Include="FoodNpc.cpp">
+      <Filter>playGround\NPC</Filter>
     </ClCompile>
     <ClCompile Include="townScene.cpp">
       <Filter>playGround\Scene\dungeon</Filter>

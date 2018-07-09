@@ -88,6 +88,11 @@ void dungeonScene::render(void)
 	TextOut(DC, 100, 100, str, strlen(str));
 	_count++;
 	_enemyBullet->render();
+	for (int i = 0; i < 20; i++)
+	{
+		_bigRadBatBullet[i]->render();
+	}
+	
 	doorRender();
 }
 
@@ -165,8 +170,11 @@ void dungeonScene::mapload()
 	_enemyBullet = new Bullet;
 	_enemyBullet->init(3000);
 
-	_enemtBullet2 = new Bullet2;
-	_enemyBullet->init(3000);
+	for (int i = 0; i < 20; i++)
+	{
+		_bigRadBatBullet[i] = new Bullet2;
+		_bigRadBatBullet[i]->init(1000);
+	}
 }
 
 void dungeonScene::setCamera(void)
@@ -649,35 +657,38 @@ void dungeonScene::BossBulletFire()
 void dungeonScene::bigbatbulletFire()
 {
 	_count2++;
-	if (_count2 % 15 == 0 && _count2 > 150)
+	if (_bigbat->getcount() %  15 == 0 && _bigbat->getcount() > 100)
 	{
 		for (int i = 0; i < 3; i++)
 		{
-			float angle = -(PI2 / 9);
-			_enemyBullet->bulletFire("fatherBatBullet", _bigbat->getX() + 200, _bigbat->getY(), angle * i, 5.0f, 500);
+			float angle = -(PI2 / 9) * i;
+			_enemyBullet->bulletFire("fatherBatBullet2", _bigbat->getX() + 50, _bigbat->getY() + 10, angle, 5.0f , 500);
 		}
 	}
 
-	if (_count2 > 200) _count2 = 0;
+	if (_count2 > 200)
+	{
+		_count2 = 0;
+		_bulletMove = false;
+	}
 	
 }
 
 
 void dungeonScene::bigRadbatbulletFire()
 {
-	//_count2++;
-	//if (_count2 % 15 == 0)
-	//{
-	//	for (int i = 0; i < 20; i++)
-	//	{
-	//		float angle = PI2 / 20;
-	//		_enemtBullet2->bulletFire("fatherBatBullet", _bigRedBat->getX() + 50, _bigRedBat->getY(), angle * i, 5.0f, 500);
-	//	}
-	//}
+	_count3++;
+	if (_count3 % 150 == 0)
+	{
+		for (int i = 0; i < 20; i++)
+		{
+			float angle2 = PI2 / 20 * i;
+			float bulletX = _bigRedBat->getX() + 150;
+			float bulletY = _bigRedBat->getY() + 50;
+			_bigRadBatBullet[i]->bulletFire("fatherBatBullet2", bulletX + cosf(angle2) * 150, _bigRedBat->getY() + -sinf(angle2) * 150, angle2, 5.0f, 500);
+			
+		}
+	}
 
-	//if (_boss->getRightDirection() == RIGHT_LASER_ON)
-	//{
-	//	_enemyBullet->bulletFire("bossRLaser", _boss->getRightX() - 850, _boss->getRightY(), 0, 0.0f, 1000, true, HEIGHT); //오른손 레이져
-	//	_boss->setRightDirection(RIGHT_IDLE);
-	//}
+	//if (_count3 > 200) _count3 = 0;
 }
