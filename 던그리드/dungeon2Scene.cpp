@@ -23,6 +23,32 @@ HRESULT dungeon2Scene::init()
 
 	_dungeonNum = 1;
 
+	doorInit();
+	setDoor();
+	
+
+	setMonster();
+	return S_OK;
+}
+
+void dungeon2Scene::update()
+{
+	dungeonScene::update();
+	nextTest();
+	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); ++_viEnemy)
+	{
+		(*_viEnemy)->update();
+	}
+	bigbatbulletFire();
+	bigRadbatbulletFire();
+	_enemyBullet->bulletframe("fatherBatBullet");
+	_enemtBullet2->bulletframe("fatherBatBullet");
+	_enemyBullet->update();
+	_enemtBullet2->update();
+}
+
+void dungeon2Scene::setRandMapNum()
+{
 	if (_randNum == 1)
 	{
 		_route.push_back(1);
@@ -41,63 +67,53 @@ HRESULT dungeon2Scene::init()
 		_route.push_back(4);
 		_route.push_back(7);
 	}
+}
 
-	_door.resize(3);
+void dungeon2Scene::doorInit()
+{
+	_vDoor.resize(3);
 
-	_door[0].x = (500 % 100) * TILESIZE, _door[0].y = (500 / 100) * TILESIZE;
-	_door[1].x = (8 % 100) * TILESIZE, _door[1].y = (8 / 100) * TILESIZE;
-	_door[2].x = (1208 % 100) * TILESIZE, _door[2].y = (1208 / 100) * TILESIZE;
+	_vDoor[0].x = (500 % 100) * TILESIZE, _vDoor[0].y = (500 / 100) * TILESIZE;
+	_vDoor[1].x = (8 % 100) * TILESIZE, _vDoor[1].y = (8 / 100) * TILESIZE;
+	_vDoor[2].x = (1208 % 100) * TILESIZE, _vDoor[2].y = (1208 / 100) * TILESIZE;
 
-	_door[0].rc = RectMake(_door[0].x, _door[0].y, TILESIZE, TILESIZE * 4);
+	_vDoor[0].rc = RectMake(_vDoor[0].x, _vDoor[0].y, TILESIZE, TILESIZE * 4);
+	_vDoor[0].dir = DOOR_LEFT;
+	_vDoor[0].img = IMAGEMANAGER->findImage("leftDoor");
 
 	for (int i = 1; i < 3; i++)
 	{
-		_door[i].rc = RectMake(_door[i].x, _door[i].y, TILESIZE * 4, TILESIZE);
+		_vDoor[i].rc = RectMake(_vDoor[i].x, _vDoor[i].y, TILESIZE * 4, TILESIZE);
+		_vDoor[i].dir = DOOR_UPDOWN;
+		_vDoor[i].img = IMAGEMANAGER->findImage("updownDoor");
 	}
-	setMonster();
-	return S_OK;
-}
-
-void dungeon2Scene::update()
-{
-	nextTest();
-	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); ++_viEnemy)
-	{
-		(*_viEnemy)->update();
-	}
-	bigbatbulletFire();
-	bigRadbatbulletFire();
-	_enemyBullet->bulletframe("fatherBatBullet");
-	_enemtBullet2->bulletframe("fatherBatBullet");
-	_enemyBullet->update();
-	_enemtBullet2->update();
 }
 
 //¸ó½ºÅÍ À§Ä¡ Àâ¾ÆÁÖ´Â ÇÔ¼ö
 void dungeon2Scene::setMonster()
 {
-//	//°³»À
-//	int id[2][2];
-//	id[0][0] = 1107 % _temp, id[0][1] = 1107 / _temp;
-//	id[1][0] = 1112 % _temp, id[1][1] = 1112 / _temp;
-//	for (int i = 0; i < 2; i++)
-//	{
-//		setDogBone(id[i][0], id[i][1]);
-//	}
-//	//È°ÀïÀÌ
-//	id[0][0] = 505 % _temp, id[0][1] = 505 / _temp;
-//	id[1][0] = 514 % _temp, id[1][1] = 514 / _temp;
-//	for (int i = 0; i < 2; i++)
-//	{
-//		setArrow(id[i][0], id[i][1]);
-//	}
-//	//Å«Ä®»À
-//	id[0][0] = 810 % _temp, id[0][1] = 810 / _temp;
-//	id[1][0] = 510 % _temp, id[1][1] = 510 / _temp;
-//	for (int i = 0; i < 2; i++)
-//	{
-//		setBigBone(id[i][0], id[i][1], i);
-//	}
+	//°³»À
+	int id[2][2];
+	id[0][0] = 810 % _temp, id[0][1] = 810 / _temp;
+	id[1][0] = 510 % _temp, id[1][1] = 510 / _temp;
+	for (int i = 0; i < 2; i++)
+	{
+		setDogBone(id[i][0], id[i][1]);
+	}
+	//È°ÀïÀÌ
+	id[0][0] = 505 % _temp, id[0][1] = 505 / _temp;
+	id[1][0] = 514 % _temp, id[1][1] = 514 / _temp;
+	for (int i = 0; i < 2; i++)
+	{
+		setArrow(id[i][0], id[i][1]);
+	}
+	//Å«Ä®»À
+	id[0][0] = 1107 % _temp, id[0][1] = 1107 / _temp;
+	id[1][0] = 1112 % _temp, id[1][1] = 1112 / _temp;
+	for (int i = 0; i < 2; i++)
+	{
+		setBigBone(id[i][0], id[i][1], i);
+	}
 	//ÀÛº¸¹Ú
 	//setBat(303 % _temp, 303 / _temp);
 	//ÀÛ°¥¹Ú

@@ -22,7 +22,23 @@ HRESULT foodScene::init()
 	load();
 
 	_dungeonNum = 9;
+	setRandMapNum();
+	
+	doorInit();
+	setDoor();
+	
+	portalInit(299 % 29, 299 / 29);
+	return S_OK;
+}
 
+void foodScene::update()
+{
+	dungeonScene::update();
+	nextTest();
+}
+
+void foodScene::setRandMapNum()
+{
 	if (_randNum == 2)
 	{
 		_route.push_back(1);
@@ -34,20 +50,26 @@ HRESULT foodScene::init()
 		_route.push_back(11);
 	}
 
-	_door.resize(2);
+}
+void foodScene::doorInit()
+{
+	_vDoor.resize(2);
 
-	_door[1].x = (201 % 29) * TILESIZE, _door[1].y = (201 / 29) * TILESIZE;
-	_door[0].x = (174 % 29) * TILESIZE, _door[0].y = (174 / 29) * TILESIZE;
+	_vDoor[1].x = (201 % 29) * TILESIZE, _vDoor[1].y = (201 / 29) * TILESIZE;
+	_vDoor[0].x = (174 % 29) * TILESIZE, _vDoor[0].y = (174 / 29) * TILESIZE;
+
+	_vDoor[0].img = IMAGEMANAGER->findImage("leftDoor");
+	_vDoor[0].dir = DOOR_LEFT;
+	_vDoor[1].img = IMAGEMANAGER->findImage("rightDoor");
+	_vDoor[1].dir = DOOR_RIGHT;
 
 	for (int i = 0; i < 2; i++)
 	{
-		_door[i].rc = RectMake(_door[i].x, _door[i].y, TILESIZE, TILESIZE * 4);
+		_vDoor[i].rc = RectMake(_vDoor[i].x, _vDoor[i].y, TILESIZE, TILESIZE * 4);
 	}
-
-	return S_OK;
 }
-
-void foodScene::update()
+void foodScene::render()
 {
-	nextTest();
+	dungeonScene::render();
+	IMAGEMANAGER->render("d_restaurant", DC, (184 % 29)*TILESIZE, (184 / 29)*TILESIZE + 25);
 }

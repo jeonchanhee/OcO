@@ -17,7 +17,8 @@ enum BOSSLEFTDIRECTION
 	LEFT_IDLE,
 	LEFT_UP_MOVE,
 	LEFT_DOWN_MOVE,
-	LEFT_LASER
+	LEFT_LASER,
+	LEFT_LASER_ON
 };
 
 //오른손꾸락 방향
@@ -26,7 +27,8 @@ enum BOSSRIGHTDIRECTION
 	RIGHT_IDLE,
 	RIGHT_UP_MOVE,
 	RIGHT_DOWN_MOVE,
-	RIGHT_LASER
+	RIGHT_LASER,
+	RIGHT_LASER_ON
 };
 
 //보스의 구조체
@@ -47,6 +49,9 @@ private:
 	BOSSRIGHTDIRECTION _bossRightDirection;
 
 	animation* _bossMotion[3]; //0왼손.1머리.2오른손
+
+	int x;
+	int y;
 	
 
 public:
@@ -62,16 +67,25 @@ public:
 	void leftMove(); //왼손 움직이게 하는 함수
 	void changeLeftDirection(BOSSLEFTDIRECTION leftDirection); //방향바꿔주는 함수
 	static void CBleftAttack(void* obj); 
+	float getLeftX() { return _boss[0].x; }
+	float getLeftY() { return _boss[0].y; }
+	BOSSLEFTDIRECTION getLDirection() { return _bossLeftDirection; }
 
 	//머리통
 	void headMove(); //머리통 움직이게 하는 함수
 	void changeHeadDirection(BOSSHEADDIRECTION headDirection); //방향바꿔주는 함수
 	static void CBheadAttack(void* obj); 
+	float getHeadX() { return (_boss[1].rc.right + _boss[1].rc.left) / 2; }
+	float getHeadY() { return (_boss[1].rc.bottom + _boss[1].rc.top) / 2; }
+	bool isAttack(void) { if (_bossHeadDirection == HEAD_ATTACK) return true; else return false; }
+
 
 	//오른손
 	void rightMove(); //오른손 움직이게 하는 함수
 	void changeRightDirection(BOSSRIGHTDIRECTION rightDirection); //방향바꿔주는 함수
 	static void CBrightAttack(void* obj);
+	float getRightX() { return _boss[2].x; }
+	float getRightY() { return _boss[2].y; }
 
 
 	//콜백함수
