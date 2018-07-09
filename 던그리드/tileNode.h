@@ -35,7 +35,7 @@
 #define SAMPLETILEY 26
 
 // 맵이름
-#define MAPNAME "map/Dungeon1(28x11).map"
+#define MAPNAME "map/Dungeon9(20x11).map"
 
 // 지형	
 enum TERRAIN
@@ -48,7 +48,7 @@ enum TERRAIN
 enum OBJECT
 {
 	//비어있음	못지나가는땅		아래점프로 내려가는땅		못지나가는 벽 기둥	미닫이문			가시		천장
-	OBJ_NONE,	OBJ_GROUND,			OBJ_GOGROUND,		 OBJ_CULUMN,		OBJ_DOOR,    OBJ_THORN, OBJ_CEILING
+	OBJ_NONE,	OBJ_GROUND,			OBJ_GOGROUND,		 OBJ_CULUMN,		OBJ_vDoor,    OBJ_THORN, OBJ_CEILING
 };
 
 // 포지션 정의
@@ -92,6 +92,7 @@ extern int TILEVALUE[12][2]; //0: 마을, 1,3~9: 던전, 10: 보스, 2,11:상점
 
 extern int _tileX, _tileY;
 
+extern int VARIABLE_SIZEX[12];
 
 extern bool _isMapSet;
 

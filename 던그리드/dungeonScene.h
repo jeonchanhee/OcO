@@ -21,7 +21,8 @@ enum DOOR_DIR { DOOR_LEFT, DOOR_RIGHT, DOOR_UPDOWN };
 struct torch
 {
 	image* img;
-	int x, y;
+	animation* ani;
+	float x, y;
 };
 
 struct Door
@@ -39,6 +40,7 @@ struct Portal
 {
 	image* img;
 	int x, y;
+	int frameX, frameY, count;
 };
 
 class dungeonScene : public gameNode
@@ -57,10 +59,10 @@ protected:
 
 	Bullet* _enemyBullet;
 	Bullet2* _enemtBullet2;
-	torch	_torch;		// È¶ºÒ
-	//Door	_door;		// ¹®
-	vector<Door> _door;
-	Portal	_portal;	// Æ÷Å»
+	vector<Door> _vDoor; //¹®
+	vector<torch> _vTorch; //È¶ºÒ
+	vector<Portal> _vPortal; //Æ÷Å»
+	
 	string _mapName;
 	int _randNum;
 	int _dungeonNum;
@@ -75,6 +77,10 @@ public:
 	virtual void release(void);
 	virtual void update(void);
 	virtual void render(void);
+	virtual void doorInit(void);
+	virtual void torchInit(int x, int y);
+	void portalInit(float x, float y);
+	virtual void setRandMapNum(void);
 
 	void mapload();
 
@@ -90,9 +96,10 @@ public:
 
 	void save();
 
+	
 	void setDoor();
-
 	void doorRender();
+	void portalRender();
 
 	dungeonScene();
 	~dungeonScene();

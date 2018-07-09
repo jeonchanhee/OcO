@@ -23,42 +23,10 @@ HRESULT dungeon2Scene::init()
 
 	_dungeonNum = 1;
 
-	if (_randNum == 1)
-	{
-		_route.push_back(1);
-		_route.push_back(4);
-		_route.push_back(3);
-	}
-	if (_randNum == 3)
-	{
-		_route.push_back(1);
-		_route.push_back(4);
-		_route.push_back(7);
-	}
-	if (_randNum == 4)
-	{
-		_route.push_back(11);
-		_route.push_back(4);
-		_route.push_back(7);
-	}
-
-	_door.resize(3);
-
-	_door[0].x = (500 % 100) * TILESIZE, _door[0].y = (500 / 100) * TILESIZE;
-	_door[1].x = (8 % 100) * TILESIZE, _door[1].y = (8 / 100) * TILESIZE;
-	_door[2].x = (1208 % 100) * TILESIZE, _door[2].y = (1208 / 100) * TILESIZE;
-
-	_door[0].rc = RectMake(_door[0].x, _door[0].y, TILESIZE, TILESIZE * 4);
-	_door[0].dir = DOOR_LEFT;
-	_door[0].img = IMAGEMANAGER->findImage("leftDoor");
-	
-	for (int i = 1; i < 3; i++)
-	{
-		_door[i].rc = RectMake(_door[i].x, _door[i].y, TILESIZE * 4, TILESIZE);
-		_door[i].dir = DOOR_UPDOWN;
-		_door[i].img = IMAGEMANAGER->findImage("updownDoor");
-	}
+	doorInit();
 	setDoor();
+	
+
 	setMonster();
 	return S_OK;
 }
@@ -77,6 +45,64 @@ void dungeon2Scene::update()
 	_enemtBullet2->bulletframe("fatherBatBullet");
 	_enemyBullet->update();
 	_enemtBullet2->update();
+}
+
+void dungeon2Scene::setRandMapNum()
+{
+	if (_randNum == 1)
+	{
+		_route.push_back(1);
+		_route.push_back(4);
+		_route.push_back(3);
+	}
+	if (_randNum == 3)
+	{
+		_route.push_back(1);
+		_route.push_back(4);
+		_route.push_back(7);
+	}
+	if (_randNum == 4)
+	{
+		_route.push_back(11);
+		_route.push_back(4);
+		_route.push_back(7);
+	}
+}
+
+void dungeon2Scene::doorInit()
+{
+	_vDoor.resize(3);
+
+	_vDoor[0].x = (500 % 100) * TILESIZE, _vDoor[0].y = (500 / 100) * TILESIZE;
+	_vDoor[1].x = (8 % 100) * TILESIZE, _vDoor[1].y = (8 / 100) * TILESIZE;
+	_vDoor[2].x = (1208 % 100) * TILESIZE, _vDoor[2].y = (1208 / 100) * TILESIZE;
+
+	_vDoor[0].rc = RectMake(_vDoor[0].x, _vDoor[0].y, TILESIZE, TILESIZE * 4);
+	_vDoor[0].dir = DOOR_LEFT;
+	_vDoor[0].img = IMAGEMANAGER->findImage("leftDoor");
+
+	for (int i = 1; i < 3; i++)
+	{
+		_door[i].rc = RectMake(_door[i].x, _door[i].y, TILESIZE * 4, TILESIZE);
+		_door[i].dir = DOOR_UPDOWN;
+		_door[i].img = IMAGEMANAGER->findImage("updownDoor");
+	}
+	setDoor();
+	setMonster();
+	return S_OK;
+}
+
+void dungeon2Scene::update()
+{
+	dungeonScene::update();
+	nextTest();
+	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); ++_viEnemy)
+	{
+		(*_viEnemy)->update();
+		_vDoor[i].rc = RectMake(_vDoor[i].x, _vDoor[i].y, TILESIZE * 4, TILESIZE);
+		_vDoor[i].dir = DOOR_UPDOWN;
+		_vDoor[i].img = IMAGEMANAGER->findImage("updownDoor");
+	}
 }
 
 //몬스터 위치 잡아주는 함수
