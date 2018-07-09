@@ -122,6 +122,7 @@ void titleScene::render(void)
 	}
 	else
 	{
+		shop();
 		//inven();
 		//reward();
 		//restaurant();
@@ -159,9 +160,28 @@ void titleScene::training()
 }
 void titleScene::shop()
 {
+	RECT rc;
+	RECT rc2;
+	RECT rc3;
+	rc = RectMake(50, 220, 100, 100);
+	rc2 = RectMake(200, 200, 100, 100);
+	rc3 = RectMake(520, 255, 100, 100);
 	IMAGEMANAGER->findImage("shop")->render(DC, 0, 0);
 	IMAGEMANAGER->findImage("slot")->render(DC, 165, 180);
 	IMAGEMANAGER->findImage("inven")->render(DC, WINSIZEX- IMAGEMANAGER->findImage("inven")->getWidth(), 0);
+	_im->getItem()[0]->getItem().image[0]->render(DC, rc.left, rc.top);
+
+	char str[128]="안녕";
+	
+	HFONT font, oldFont;
+	font = CreateFont(40, 0, 0, 0, 100, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("소야바른9"));
+	oldFont = (HFONT)SelectObject(DC, font);
+	SetTextColor(DC, RGB(255, 255, 255));
+	SetBkMode(DC, TRANSPARENT);
+	DrawText(DC, _im->getItem()[0]->getItem().name, strlen(_im->getItem()[0]->getItem().name), &rc2, DT_VCENTER);
+	DrawText(DC, itoa(_im->getItem()[0]->getItem().price,str,10), strlen(itoa(_im->getItem()[0]->getItem().price, str, 10)), &rc3, DT_VCENTER);
+	SelectObject(DC, oldFont);
+	DeleteObject(font);
 }
 
 void titleScene::inven()
@@ -203,14 +223,13 @@ void titleScene::restaurant()
 	if (_scroll == true)
 	{
 		_rc = RectMake(686, 210 + _ptMouse.y - _mouseY+_currentScroll, 42, 432);
-		
 	}
 	if (_rc.top <= 210)
 		_rc = RectMake(686, 210 , 42, 432);
 	if (_rc.bottom >= 932)
 		_rc = RectMake(686, 500, 42, 432);
 	if (_rc.top >= 210 && _rc.bottom <= 932)
-		//CAMERAMANAGER->setCameraPoint(PointMake(0, (_rc.top + 1 - 210)*1.4)); //어디간 함수일까...
+		CAMERAMANAGER->setCameraPoint(PointMake(0, (_rc.top + 1 - 210)*1.4)); //어디간 함수일까...
 		//CAMERAMANAGER->setCameraCenter(PointMake(0, (_rc.top + 1 - 210)*1.4));
 
 	IMAGEMANAGER->findImage("scroll")->render(DC, 686, _rc.top);

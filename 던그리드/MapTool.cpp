@@ -147,21 +147,10 @@ void MapTool::load()
 
 	ReadFile(file, _tiles, sizeof(tagTile) * TILEX * TILEY, &load, NULL);
 
-	for (int i = 0; i < TILESIZEX; ++i)
+	for (int i = 0; i < TILEX * TILEY; i++)
 	{
-		for (int j = 0; j < TILESIZEY; ++j)
-		{
-			//텬댱 
-			if (_tiles[i * TILESIZEX + j].objFrameX == 0 && _tiles[i * TILESIZEX + j].objFrameY == 2) _tiles[i* TILESIZEX + j].object = OBJ_CEILING;
-			if (_tiles[i * TILESIZEX + j].objFrameX == 1 && _tiles[i * TILESIZEX + j].objFrameY == 2) _tiles[i* TILESIZEX + j].object = OBJ_CEILING;
-			if (_tiles[i * TILESIZEX + j].objFrameX == 2 && _tiles[i * TILESIZEX + j].objFrameY == 2) _tiles[i* TILESIZEX + j].object = OBJ_CEILING;
-			if (_tiles[i * TILESIZEX + j].objFrameX == 0 && _tiles[i * TILESIZEX + j].objFrameY == 6) _tiles[i* TILESIZEX + j].object = OBJ_CEILING;
-			if (_tiles[i * TILESIZEX + j].objFrameX == 1 && _tiles[i * TILESIZEX + j].objFrameY == 6) _tiles[i* TILESIZEX + j].object = OBJ_CEILING;
-			if (_tiles[i * TILESIZEX + j].objFrameX == 2 && _tiles[i * TILESIZEX + j].objFrameY == 6) _tiles[i* TILESIZEX + j].object = OBJ_CEILING;
-
-			//양학선 급 대각선 
-
-		}
+		//if (_tiles[i].objFrameX==20 &&_tiles[i].objFrameY==0 )
+			//_tiles[i].object = ;
 	}
 
 	CloseHandle(file);

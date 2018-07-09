@@ -589,14 +589,16 @@ void dungeonScene::BossBulletFire()
 	if (_boss->getLeftDirection() == LEFT_LASER_ON)
 	{
 		_enemyBullet->bulletFire("bossLaser", _boss->getLeftX() + 800, _boss->getLeftY(), 0, 0.0f, 1000, true, HEIGHT);
-		_boss->setLeftDirection(LEFT_IDLE);
+		_boss->setLeftDirection(LEFT_LASER_OFF);
+	}
+
+
+	if (_boss->getRightDirection() == RIGHT_LASER_ON)
+	{
+		_enemyBullet->bulletFire("bossRLaser", _boss->getRightX() - 850, _boss->getRightY(), 0, 0.0f, 1000, true, HEIGHT); //오른손 레이져
+		_boss->setRightDirection(RIGHT_LASER_OFF);
 	}
 }
-
-////보스 총알
-//void dungeonScene::BossBulletFire()
-//{
-//}
 
 void dungeonScene::bigbatbulletFire()
 {
