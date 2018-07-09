@@ -25,6 +25,7 @@ HRESULT playGround::Image_init(void)
 	IMAGEMANAGER->addFrameImage("T_text", "image/UI/slotText(684x72,3x1).bmp", 0, 0, 684, 72, 3, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("T_textBack", "image/UI/slotBase(1152x858).bmp", 0, 0, 1152, 858, 2, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("T_delete", "image/UI/slotDeleteButton(372x102).bmp", 0, 0, 372, 102, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("edge", "image/UI/edge.bmp", 0, 0, 600, 1080, true, RGB(255, 0, 255));
 	
 	//==========¸ÊUI=============
 	IMAGEMANAGER->addFrameImage("leftDoor", "image/etc/stele_left(384x2304,4x6).bmp", 0, 0, 384, 2304, 4, 6, true, RGB(255, 0, 255));
@@ -53,6 +54,7 @@ HRESULT playGround::Image_init(void)
 	IMAGEMANAGER->addImage("reslot", "image/UI/UIrestaurantTab(600,270).bmp", 0, 0, 600, 270, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("scroll", "image/UI/UIscroll(42,432).bmp", 0, 0, 42, 432, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("rest", "image/UI/UIrestaurantTable(1146x2142,1,3).bmp", 0, 0, 1146, 2142,1,3, true, RGB(255, 0, 255));
+
 	//=========´øÀü·¹½ºÅä¶û=========
 	IMAGEMANAGER->addImage("d_restaurant", "image/UI/A_DungeonInn(1188x552).bmp", 0, 0, 1188, 552, true, RGB(255, 0, 255));
 
