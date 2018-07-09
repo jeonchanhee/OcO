@@ -1,4 +1,5 @@
 #pragma once
+#define MAX_BULLET 20
 #include "gameNode.h"
 #include "Enemy.h"
 #include "Arrow.h"
@@ -85,7 +86,7 @@ protected:
 	Boss2* _boss;			 //º¸½º
 
 	Bullet* _enemyBullet;
-	Bullet2* _enemtBullet2;
+	Bullet2* _bigRadBatBullet[MAX_BULLET];
 	vector<Door> _vDoor; //¹®
 	vector<torch> _vTorch; //È¶ºÒ
 	vector<Portal> _vPortal; //Æ÷Å»
@@ -97,6 +98,9 @@ protected:
 
 	int _count;
 	int _count2;
+	int _count3;
+
+	bool _bulletMove;
 	int _swordCount;
 
 	infoPlayer _infoPlayer;

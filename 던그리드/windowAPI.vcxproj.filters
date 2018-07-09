@@ -334,7 +334,16 @@
       <Filter>playGround\Scene</Filter>
     </ClInclude>
     <ClInclude Include="townScene.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>playGround\Scene\dungeon</Filter>
+    </ClInclude>
+    <ClInclude Include="GodNpc.h">
+      <Filter>playGround\NPC</Filter>
+    </ClInclude>
+    <ClInclude Include="WeaponNpc.h">
+      <Filter>playGround\NPC</Filter>
+    </ClInclude>
+    <ClInclude Include="FoodNpc.h">
+      <Filter>playGround\NPC</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -554,8 +563,17 @@
     <ClCompile Include="Property.cpp">
       <Filter>playGround\Item\Property</Filter>
     </ClCompile>
+    <ClCompile Include="GodNpc.cpp">
+      <Filter>playGround\NPC</Filter>
+    </ClCompile>
+    <ClCompile Include="WeaponNpc.cpp">
+      <Filter>playGround\NPC</Filter>
+    </ClCompile>
+    <ClCompile Include="FoodNpc.cpp">
+      <Filter>playGround\NPC</Filter>
+    </ClCompile>
     <ClCompile Include="townScene.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>playGround\Scene\dungeon</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

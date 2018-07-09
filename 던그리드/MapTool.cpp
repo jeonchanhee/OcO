@@ -147,11 +147,11 @@ void MapTool::load()
 
 	ReadFile(file, _tiles, sizeof(tagTile) * TILEX * TILEY, &load, NULL);
 
-	for (int i = 0; i < TILEX * TILEY; i++)
-	{
-		//if (_tiles[i].objFrameX==20 &&_tiles[i].objFrameY==0 )
-			//_tiles[i].object = ;
-	}
+	//for (int i = 0; i < TILEX * TILEY; i++)
+	//{
+	//	//if (_tiles[i].objFrameX==20 &&_tiles[i].objFrameY==0 )
+	//		//_tiles[i].object = ;
+	//}
 
 	CloseHandle(file);
 

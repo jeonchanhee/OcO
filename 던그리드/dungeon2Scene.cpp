@@ -41,11 +41,16 @@ void dungeon2Scene::update()
 		(*_viEnemy)->update();
 	}
 	bigbatbulletFire();
-	bigRadbatbulletFire();
-	_enemyBullet->bulletframe("fatherBatBullet");
-	_enemtBullet2->bulletframe("fatherBatBullet");
+	_enemyBullet->bulletframe("fatherBatBullet2");
 	_enemyBullet->update();
-	_enemtBullet2->update();
+	
+
+	bigRadbatbulletFire();
+	for (int i = 0; i < 20; i++)
+	{
+		_bigRadBatBullet[i]->bulletframe("fatherBatBullet2");
+		_bigRadBatBullet[i]->update();
+	}
 }
 
 void dungeon2Scene::setRandMapNum()
@@ -89,6 +94,21 @@ void dungeon2Scene::doorInit()
 		_vDoor[i].img = IMAGEMANAGER->findImage("updownDoor");
 	}
 }
+//
+//void dungeon2Scene::update()
+//{
+//	dungeonScene::update();
+//	nextTest();
+//	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); ++_viEnemy)
+//	{
+//		(*_viEnemy)->update();
+//		_vDoor[i].rc = RectMake(_vDoor[i].x, _vDoor[i].y, TILESIZE * 4, TILESIZE);
+//		_vDoor[i].dir = DOOR_UPDOWN;
+//		_vDoor[i].img = IMAGEMANAGER->findImage("updownDoor");
+//	}
+//}
+
+
 
 //void dungeon2Scene::update()
 //{
@@ -105,31 +125,31 @@ void dungeon2Scene::setMonster()
 {
 	
 	//°³»À
-	int id[2][2];
-	id[0][0] = 810 % _temp, id[0][1] = 810 / _temp;
-	id[1][0] = 510 % _temp, id[1][1] = 510 / _temp;
-	for (int i = 0; i < 2; i++)
-	{
-		setDogBone(id[i][0], id[i][1]);
-	}
-	//È°ÀïÀÌ
-	id[0][0] = 505 % _temp, id[0][1] = 505 / _temp;
-	id[1][0] = 514 % _temp, id[1][1] = 514 / _temp;
-	for (int i = 0; i < 2; i++)
-	{
-		setArrow(id[i][0], id[i][1]);
-	}
-	//Å«Ä®»À
-	id[0][0] = 1107 % _temp, id[0][1] = 1107 / _temp;
-	id[1][0] = 1112 % _temp, id[1][1] = 1112 / _temp;
-	for (int i = 0; i < 2; i++)
-	{
-		setBigBone(id[i][0], id[i][1], i);
-	}
+	//int id[2][2];
+	//id[0][0] = 810 % _temp, id[0][1] = 810 / _temp;
+	//id[1][0] = 510 % _temp, id[1][1] = 510 / _temp;
+	//for (int i = 0; i < 2; i++)
+	//{
+	//	setDogBone(id[i][0], id[i][1]);
+	//}
+	////È°ÀïÀÌ
+	//id[0][0] = 505 % _temp, id[0][1] = 505 / _temp;
+	//id[1][0] = 514 % _temp, id[1][1] = 514 / _temp;
+	//for (int i = 0; i < 2; i++)
+	//{
+	//	setArrow(id[i][0], id[i][1]);
+	//}
+	////Å«Ä®»À
+	//id[0][0] = 1107 % _temp, id[0][1] = 1107 / _temp;
+	//id[1][0] = 1112 % _temp, id[1][1] = 1112 / _temp;
+	//for (int i = 0; i < 2; i++)
+	//{
+	//	setBigBone(id[i][0], id[i][1], i);
+	//}
 	//ÀÛº¸¹Ú
-	//setBat(303 % _temp, 303 / _temp);
+	setBat(303 % _temp, 303 / _temp);
 	//ÀÛ°¥¹Ú
-//	setRedBat(318 % _temp, 318 / _temp);
+	setRedBat(318 % _temp, 318 / _temp);
 
 	setBigBat(410 % _temp, 410 / _temp);
 	setBigRedBat(414 % _temp, 414 / _temp);

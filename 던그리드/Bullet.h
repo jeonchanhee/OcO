@@ -91,5 +91,7 @@ public:
 	vector<tagBullet>			getVBullet() { return _vBullet2; }
 	vector<tagBullet>::iterator	getVIBullet() { return _viBullet2; }
 
+	tagBullet getbullet2() { return bullet2; }
+
 };
 

@@ -18,6 +18,7 @@ class BigBat : public Enemy
 	animation* _bigBatMotion;
 	Bullet* _bullet;
 
+	bool _isattack;
 public:
 	BigBat();
 	~BigBat();
@@ -40,7 +41,8 @@ public:
 
 	animation* getBigBatMotion() { return _bigBatMotion; }
 	void setBigBatMotion(animation* ani) { _bigBatMotion = ani; }
-
+	
+	bool getIsAttack() { return _isattack; }
 
 };
 
