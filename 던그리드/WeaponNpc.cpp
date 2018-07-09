@@ -2,11 +2,7 @@
 #include "WeaponNpc.h"
 
 
-WeaponNpc::WeaponNpc()
-{
-}
+WeaponNpc::WeaponNpc(){}
+WeaponNpc::~WeaponNpc(){}
 
 
-WeaponNpc::~WeaponNpc()
-{
-}

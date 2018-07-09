@@ -106,7 +106,7 @@ private:
  
 	//test
 	int xIndex, yIndex;
-	int leftRightCheck[2], downStateCheck[2] , upStateCheck[2];
+	int leftRightCheck[2], _downStateCheck[2], _upStateCheck[2], _leftCheck[2], _rightCheck[2];
 public:
 
 	HRESULT init();

@@ -172,7 +172,7 @@ void soundManager::resume(string keyName)
 
 bool soundManager::isPlaySound(string keyName)
 {
-	bool isPlay;
+	bool isPlay=false;
 	arrSoundsIter iter = _mTotalSounds.begin();
 
 	int count = 0;

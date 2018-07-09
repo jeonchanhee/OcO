@@ -23,12 +23,14 @@ HRESULT titleScene::init(void)
 	_button[1]=RectMake(912,800,92,62);
 	_button[2]=RectMake(907,900,102,62);
 
+	_select = 0;
 	_clickData = false;
 	_scroll = false;
 	_currentScroll = 0;
 
 	for (int i = 0; i < 3; i++)
 	{
+		_chooseRect[i] = RectMake(50 + i * 610, 90, 576, 858);
 		_deleteRect[i] = RectMake(150 + i * 610, 730, IMAGEMANAGER->findImage("T_delete")->getWidth(), IMAGEMANAGER->findImage("T_delete")->getHeight());
 	}
 
@@ -69,7 +71,7 @@ void titleScene::update(void)
 		_abird1->start();
 	}
 	
-	deleteData();
+	selectData();
 
 	KEYANIMANAGER->update();
 }
@@ -136,11 +138,17 @@ void titleScene::render(void)
 	drawData();
 	setting();
 
+	if (_select != 0)
+	{
+		IMAGEMANAGER->findImage("edge")->render(DC, _chooseRect[_select-1].left+6, _chooseRect[_select-1].top-91);
+	}
+
 	if(KEYMANAGER->isToggleKey(VK_TAB))
 	{
 		for (int i = 0; i < 3; i++)
 		{
 			Rectangle(DC, _button[i].left, _button[i].top, _button[i].right, _button[i].bottom);
+			Rectangle(DC, _chooseRect[i].left, _chooseRect[i].top, _chooseRect[i].right, _chooseRect[i].bottom);
 			Rectangle(DC, _deleteRect[i].left, _deleteRect[i].top, _deleteRect[i].right, _deleteRect[i].bottom);
 		}
 	}
@@ -166,9 +174,8 @@ void titleScene::training()
 }
 void titleScene::shop()
 {
-	RECT rc;
-	RECT rc2;
-	RECT rc3;
+	char str[128];
+	RECT rc, rc2, rc3;
 	rc = RectMake(50, 220, 100, 100);
 	rc2 = RectMake(200, 200, 100, 100);
 	rc3 = RectMake(520, 255, 100, 100);
@@ -176,8 +183,6 @@ void titleScene::shop()
 	IMAGEMANAGER->findImage("slot")->render(DC, 165, 180);
 	IMAGEMANAGER->findImage("inven")->render(DC, WINSIZEX- IMAGEMANAGER->findImage("inven")->getWidth(), 0);
 	_im->getItem()[0]->getItem().image[0]->render(DC, rc.left, rc.top);
-
-	char str[128]="안녕";
 	
 	HFONT font, oldFont;
 	font = CreateFont(40, 0, 0, 0, 100, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("소야바른9"));
@@ -297,45 +302,45 @@ void titleScene::drawData()
 			IMAGEMANAGER->frameRender("T_text", DC, 220 + i * 610, 180, i, 0);
 			IMAGEMANAGER->render("T_delete", DC, 150 + i * 610, 730);
 
-			if (_vData[i].idx != -1)
-			{
-				HFONT font, oldFont;
-				font = CreateFont(40, 0, 0, 0, 40, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("소야바른9"));
-				oldFont = (HFONT)SelectObject(DC, font);
-				SetBkMode(DC, TRANSPARENT);
-				char str[128];
-				sprintf_s(str, "<플레이 시간>");
-				TextOut(DC, 230 + i * 610, 300, str, strlen(str));
-				sprintf_s(str, "%02dH %02dM", _vData[i].hour, _vData[i].min);
-				TextOut(DC, 250 + i * 610, 350, str, strlen(str));
-				sprintf_s(str, "<도달한 층>");
-				TextOut(DC, 240 + i * 610, 440, str, strlen(str));
-				sprintf_s(str, "%5dF", _vData[i].floor);
-				TextOut(DC, 250 + i * 610, 490, str, strlen(str));
-				sprintf_s(str, "<소지금>");
-				TextOut(DC, 260 + i * 610, 580, str, strlen(str));
-				sprintf_s(str, "%5dG", _vData[i].gold);
-				TextOut(DC, 260 + i * 610, 630, str, strlen(str));
-				SelectObject(DC, oldFont);
-				DeleteObject(font);
-			}
-			else
-			{
-				HFONT font, oldFont;
-				font = CreateFont(40, 0, 0, 0, 40, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("소야바른9"));
-				oldFont = (HFONT)SelectObject(DC, font);
-				SetBkMode(DC, TRANSPARENT);
-				char str[128];
-				sprintf_s(str, "데이터 없음");
-				TextOut(DC, 250 + i * 610, 350, str, strlen(str));
-				SelectObject(DC, oldFont);
-				DeleteObject(font);
-			}
+		if (_vData[i].idx != -1)
+		{
+			HFONT font, oldFont;
+			font = CreateFont(40, 0, 0, 0, 40, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("소야바른9"));
+			oldFont = (HFONT)SelectObject(DC, font);
+			SetBkMode(DC, TRANSPARENT);
+			char str[128];
+			SetTextColor(DC, RGB(255, 255, 255));
+			sprintf_s(str, "<플레이 시간>");
+			TextOut(DC, 230 + i * 610, 300, str, strlen(str));
+			sprintf_s(str, "%02dH %02dM", _vData[i].hour, _vData[i].min);
+			TextOut(DC, 250 + i * 610, 350, str, strlen(str));
+			sprintf_s(str, "<도달한 층>");
+			TextOut(DC, 240 + i * 610, 440, str, strlen(str));
+			sprintf_s(str, "%5dF", _vData[i].floor);
+			TextOut(DC, 250 + i * 610, 490, str, strlen(str));
+			sprintf_s(str, "<소지금>");
+			TextOut(DC, 260 + i * 610, 580, str, strlen(str));
+			sprintf_s(str, "%5dG", _vData[i].gold);
+			TextOut(DC, 260 + i * 610, 630, str, strlen(str));
+			SelectObject(DC, oldFont);
+			DeleteObject(font);
+		}
+		else
+		{
+			HFONT font, oldFont;
+			font = CreateFont(40, 0, 0, 0, 40, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("소야바른9"));
+			oldFont = (HFONT)SelectObject(DC, font);
+			SetBkMode(DC, TRANSPARENT);
+			char str[128];
+			sprintf_s(str, "데이터 없음");
+			TextOut(DC, 250 + i * 610, 350, str, strlen(str));
+			SelectObject(DC, oldFont);
+			DeleteObject(font);
 		}
 	}
 }
 
-void titleScene::deleteData()
+void titleScene::selectData()
 {
 	if(!_clickData) return;
 
@@ -350,6 +355,15 @@ void titleScene::deleteData()
 				_vData[i] = temp;
 				_vData[i].idx = -1;
 				saveData();
+			}
+			else if (PtInRect(&_chooseRect[i], _ptMouse))
+			{
+				if (_select == i + 1)
+				{
+					SCENEMANAGER->changeScene("인트로");
+					break;
+				}
+				_select = i + 1;
 			}
 		}
 	}
