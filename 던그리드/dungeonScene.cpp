@@ -444,7 +444,6 @@ void dungeonScene::doorRender()
 	}
 }
 	
-}
 
 //총알 생성 함수
 //음표요정 총알
