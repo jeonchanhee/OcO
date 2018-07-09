@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "dungeon2Scene.h"
-
+#include "Player.h"
 
 dungeon2Scene::dungeon2Scene()
 {
@@ -13,6 +13,8 @@ dungeon2Scene::~dungeon2Scene()
 
 HRESULT dungeon2Scene::init()
 {
+	dungeonScene::init();
+
 	_isMapSet = true;
 	chooseMap(3);
 	selectSize(3);
@@ -26,7 +28,6 @@ HRESULT dungeon2Scene::init()
 	doorInit();
 	setDoor();
 	
-
 	setMonster();
 	return S_OK;
 }
@@ -93,6 +94,21 @@ void dungeon2Scene::doorInit()
 		_vDoor[i].img = IMAGEMANAGER->findImage("updownDoor");
 	}
 }
+//
+//void dungeon2Scene::update()
+//{
+//	dungeonScene::update();
+//	nextTest();
+//	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); ++_viEnemy)
+//	{
+//		(*_viEnemy)->update();
+//		_vDoor[i].rc = RectMake(_vDoor[i].x, _vDoor[i].y, TILESIZE * 4, TILESIZE);
+//		_vDoor[i].dir = DOOR_UPDOWN;
+//		_vDoor[i].img = IMAGEMANAGER->findImage("updownDoor");
+//	}
+//}
+
+
 
 //몬스터 위치 잡아주는 함수
 void dungeon2Scene::setMonster()

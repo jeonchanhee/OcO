@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "foodScene.h"
-
+#include "Player.h"
 
 foodScene::foodScene()
 {
@@ -13,6 +13,8 @@ foodScene::~foodScene()
 
 HRESULT foodScene::init()
 {
+	dungeonScene::init();
+
 	_isMapSet = true;
 	chooseMap(2);
 	selectSize(2);
@@ -28,6 +30,8 @@ HRESULT foodScene::init()
 	setDoor();
 	
 	portalInit(299 % 29, 299 / 29);
+
+	_player->setGold(100);
 	return S_OK;
 }
 

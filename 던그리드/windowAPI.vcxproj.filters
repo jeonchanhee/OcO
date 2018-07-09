@@ -333,6 +333,9 @@
     <ClInclude Include="introScene.h">
       <Filter>playGround\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="townScene.h">
+      <Filter>playGround\Scene\dungeon</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -550,6 +553,9 @@
     </ClCompile>
     <ClCompile Include="Property.cpp">
       <Filter>playGround\Item\Property</Filter>
+    </ClCompile>
+    <ClCompile Include="townScene.cpp">
+      <Filter>playGround\Scene\dungeon</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

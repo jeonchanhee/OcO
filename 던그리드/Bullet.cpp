@@ -29,6 +29,11 @@ void Bullet::render()
 		if (!_viBullet->isFrame) _viBullet->img->frameRender(DC, _viBullet->rc.left, _viBullet->rc.top);
 		else _viBullet->img->frameRender(DC, _viBullet->rc.left, _viBullet->rc.top, _viBullet->frameX, _viBullet->frameY);
 
+		if (_viBullet->speed == 0)
+		{
+			int a = 0;
+		}
+
 		if (KEYMANAGER->isToggleKey('E'))RectangleMake(DC, _viBullet->rc.left, _viBullet->rc.top, _viBullet->img->getFrameWidth(), _viBullet->img->getFrameHeight());
 	}
 }
