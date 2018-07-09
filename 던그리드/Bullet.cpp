@@ -38,7 +38,7 @@ void Bullet::render()
 	}
 }
 
-void Bullet::bulletFire(const char* imgName, float x, float y, float angle, float speed, float range, bool isFrame, FRAMEXY frameXY)
+void Bullet::bulletFire(const char* imgName, float x, float y, float angle, float speed, float range, bool isFrame, FRAMEXY frameXY, int swordIdx)
 {
 	if (_bulletMax < _vBullet.size()) return;
 
@@ -53,12 +53,38 @@ void Bullet::bulletFire(const char* imgName, float x, float y, float angle, floa
 	bullet.isFrame = isFrame;
 	bullet.frameXY = frameXY;
 	bullet.frameIndex = bullet.frameX = bullet.frameY = 0;
+	bullet.swordIdx = swordIdx;
 
 	bullet.rc = RectMakeCenter(bullet.x, bullet.y, bullet.img->getFrameWidth(), bullet.img->getFrameHeight());
 	
 	_vBullet.push_back(bullet);
 }
 
+void Bullet::swordRender()
+{
+	for (_viBullet = _vBullet.begin(); _viBullet != _vBullet.end(); ++_viBullet)
+	{
+		if (_viBullet->speed == 0) _viBullet->img->frameRender(DC, _viBullet->x, _viBullet->y, 0, 0);
+		else
+		{
+			_viBullet->img->rotateRender(DC, _viBullet->x, _viBullet->y, _viBullet->angle);
+		}
+	}
+}
+
+void Bullet::changeSpeedAndAngle(float x, float y)
+{
+	for (_viBullet = _vBullet.begin(); _viBullet != _vBullet.end(); ++_viBullet)
+	{
+		if (_viBullet->speed == 0)
+		{
+			_viBullet->speed = 30;
+			_viBullet->angle = getAngle(_viBullet->x, _viBullet->y, x, y);
+			_viBullet->img = IMAGEMANAGER->findImage("RotateBossSword");
+			break;
+		}
+	}
+}
 void Bullet::bulletMove()
 {
 
@@ -71,6 +97,10 @@ void Bullet::bulletMove()
 				
 		if (_viBullet->range < getDistance(_viBullet->x, _viBullet->y, _viBullet->fireX, _viBullet->fireY))
 		{
+			if (_viBullet->swordIdx != -1)
+			{
+				EFFECTMANAGER->play("bossSword", _viBullet->x, _viBullet->y);
+			}
 			_viBullet = _vBullet.erase(_viBullet);
 		}
 		else _viBullet++;

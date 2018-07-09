@@ -24,6 +24,7 @@ struct tagBullet
 	int		frameIndex;
 	int		frameX, frameY;
 	int		bulletNum;		// 원형이동인지 체크
+	int		swordIdx;
 };
 
 class Bullet : public gameNode
@@ -46,7 +47,9 @@ public:
 	void	update();
 	void	render();
 
-	void	bulletFire(const char* imgName, float x, float y, float angle, float speed, float range, bool isFrame = false, FRAMEXY frameXY = WIDTH);		// 발사
+	void	bulletFire(const char* imgName, float x, float y, float angle, float speed, float range, bool isFrame = false, FRAMEXY frameXY = WIDTH, int swordNum = -1);		// 발사
+	void	swordRender();
+	void	changeSpeedAndAngle(float x, float y);
 	void	bulletMove();												// 이동
 	void	bulletFrameX(void);												// 총알 프레임
 	void	bulletFrameY(void);

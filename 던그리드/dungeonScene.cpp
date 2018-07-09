@@ -159,6 +159,7 @@ void dungeonScene::mapload()
 			if (_tiles[i* TILEX + j].objFrameX == 8 && _tiles[i* TILEX + j].objFrameY == 0) _tiles[i* TILEX + j].object  = OBJ_DIAGONAL;
 			if (_tiles[i* TILEX + j].objFrameX == 9 && _tiles[i* TILEX + j].objFrameY == 0) _tiles[i* TILEX + j].object  = OBJ_DIAGONAL;
 			if (_tiles[i* TILEX + j].objFrameX == 11 && _tiles[i* TILEX + j].objFrameY == 0) _tiles[i* TILEX + j].object = OBJ_DIAGONAL;
+			if (_tiles[i* TILEX + j].objFrameX == 11 && _tiles[i* TILEX + j].objFrameY == 21) _tiles[i* TILEX + j].object = OBJ_DIAGONAL;
 			if (_tiles[i* TILEX + j].objFrameX == 13 && _tiles[i* TILEX + j].objFrameY == 0) _tiles[i* TILEX + j].object = OBJ_DIAGONAL;
 		//	if (_tiles[i* TILEX + j].objFrameX == 5 && _tiles[i* TILEX + j].objFrameY == 3) _tiles[i* TILEX + j].object  = OBJ_DIAGONAL;
 			if (_tiles[i* TILEX + j].objFrameX == 7 && _tiles[i* TILEX + j].objFrameY == 3) _tiles[i* TILEX + j].object  = OBJ_DIAGONAL;
@@ -331,6 +332,7 @@ void dungeonScene::setCow(int idX, int idY)
 	cow = new Cow;
 	float x = TILESIZE * idX;
 	float y = TILESIZE * idY;
+	y -= 15;
 	cow->init(x, y);
 	_vEnemy.push_back(cow);
 }
@@ -620,6 +622,26 @@ void dungeonScene::BossBulletFire()
 	if (_boss->getHeadX() < getMemDCPoint().x) isCheck = true;   // 요기 마우스 좌표를 플레이어 X 좌표로 바꾸면 됩니다.
 	else isCheck = false;
 
+	//==========================================================
+	//					보스 왼쪽 레이져
+	//==========================================================
+
+	if (_boss->getLeftDirection() == LEFT_LASER_ON)
+	{
+		_enemyBullet->bulletFire("bossLaser", _boss->getLeftX() + 800, _boss->getLeftY(), 0, 0.0f, 1000, true, HEIGHT);
+		_boss->setLeftDirection(LEFT_LASER_OFF);
+	}
+
+	//==========================================================
+	//					보스 오른쪽 레이져
+	//==========================================================
+
+	if (_boss->getRightDirection() == RIGHT_LASER_ON)
+	{
+		_enemyBullet->bulletFire("bossRLaser", _boss->getRightX() - 850, _boss->getRightY(), 0, 0.0f, 1000, true, HEIGHT); //오른손 레이져
+		_boss->setRightDirection(RIGHT_LASER_OFF);
+	}
+
 	if (!_boss->isAttack()) return;
 
 	//요기
@@ -637,17 +659,24 @@ void dungeonScene::BossBulletFire()
 		_count = 0;
 	}
 
-	//==========================================================
-	//					보스 왼쪽 레이져
-	//==========================================================
+	
 
-	if (_boss->getLeftDirection() == LEFT_LASER_ON)
+	//==========================================================
+	//						보스 칼
+	//==========================================================
+	/*
+	if (!(_count % 200))
 	{
-		_enemyBullet->bulletFire("bossLaser", _boss->getLeftX() + 800, _boss->getLeftY(), 0, 0.0f, 1000, true, HEIGHT);
-		_boss->setLeftDirection(LEFT_LASER_OFF);
+		for (int i = 0; i < 12; i++)
+		{
+			float angle = (PI2 / 12)*i;
+			_enemyBullet->bulletFire("bansheeNormalBullet", _musicAngel->getX(), _musicAngel->getY(), angle, 5.0f, 500, true);
+		}
+		_count = 0;
 	}
+	*/
 
-
+}
 	//if (_boss->getRightDirection() == RIGHT_LASER_ON)
 	//{
 	//	_enemyBullet->bulletFire("bossRLaser", _boss->getRightX() - 850, _boss->getRightY(), 0, 0.0f, 1000, true, HEIGHT); //오른손 레이져
@@ -678,6 +707,16 @@ void dungeonScene::bigbatbulletFire()
 
 void dungeonScene::bigRadbatbulletFire()
 {
+	//_count2++;
+	//if (_count2 % 15 == 0)
+	//{
+	//	for (int i = 0; i < 20; i++)
+	//	{
+	//		float angle = PI2 / 20;
+	//		_enemtBullet2->bulletFire("fatherBatBullet", _bigRedBat->getX() + 50, _bigRedBat->getY(), angle * i, 5.0f, 500);
+	//	}
+	//}
+}
 	_count3++;
 	if (_count3 % 150 == 0)
 	{

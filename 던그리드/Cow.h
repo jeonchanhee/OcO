@@ -19,6 +19,8 @@ class Cow : public Enemy
 	COWDIRECTION _cowDirection;
 	animation* _cowMotion;
 
+	RECT _rcCollision;
+
 public:
 	Cow();
 	~Cow();

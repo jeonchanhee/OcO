@@ -108,6 +108,11 @@ void DogBone::render()
 
 void DogBone::move()
 {
+	RECT rcCollision;
+	int tileIndex[2];
+	int tileX, tileY;
+	rcCollision = _rc;
+
 	switch (_dogBoneDirection)
 	{
 	case DOGBONE_RIGHT_MOVE:
@@ -123,9 +128,59 @@ void DogBone::move()
 		leftJump();
 		break;
 	default:
-		_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
+		//_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
+			return;
 		break;
 	}
+
+	rcCollision.left += 2;
+	rcCollision.top += 2;
+	rcCollision.right -= 2;
+	rcCollision.bottom -= 2;
+
+	_rcCollision = rcCollision;
+
+	tileX = rcCollision.left / TILESIZE;
+	tileY = rcCollision.top / TILESIZE;
+
+	switch (_dogBoneDirection)
+	{
+	case DOGBONE_RIGHT_MOVE: case DOGBONE_RIGHT_JUMP:
+		tileIndex[0] = (tileX + tileY * VARIABLE_SIZEX[_dungeonNum]) + 1;
+		tileIndex[1] = (tileX + (1 + tileY) *  VARIABLE_SIZEX[_dungeonNum]) + 1;
+		break;
+	case DOGBONE_LEFT_MOVE: case DOGBONE_LEFT_JUMP:
+		tileIndex[0] = tileX + tileY * VARIABLE_SIZEX[_dungeonNum];
+		tileIndex[1] = tileX + (tileY + 1)*VARIABLE_SIZEX[_dungeonNum];
+		break;
+	}
+	for (int i = 0; i < 2; i++)
+	{
+		RECT temp;
+		if ((_tiles[tileIndex[i]].object == OBJ_CULUMN) && 
+			IntersectRect(&temp, &_tiles[tileIndex[i]].rc, &rcCollision))
+		{
+			switch (_dogBoneDirection)
+			{
+			case DOGBONE_RIGHT_MOVE: case DOGBONE_RIGHT_JUMP:
+				_rc.right = _tiles[tileIndex[i]].rc.left;
+				_rc.left = _rc.right - 100;
+				_x = _rc.left + (_rc.right - _rc.left) / 2;
+				changeAnimation(DOGBONE_LEFT_IDLE);
+				break;
+			case DOGBONE_LEFT_MOVE: case DOGBONE_LEFT_JUMP:
+				_rc.left = _tiles[tileIndex[i]].rc.right;
+				_rc.right = _rc.left + 100;
+				_x = _rc.left + (_rc.right - _rc.left) / 2;
+				changeAnimation(DOGBONE_RIGHT_IDLE);
+				break;
+			}
+			return;
+		}
+	}
+	rcCollision = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
+	_rc = rcCollision;
+
 }
 void DogBone::rightMove()
 {

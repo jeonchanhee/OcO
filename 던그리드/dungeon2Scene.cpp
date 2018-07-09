@@ -111,9 +111,20 @@ void dungeon2Scene::doorInit()
 
 
 
+//void dungeon2Scene::update()
+//{
+//	dungeonScene::update();
+//	nextTest();
+//	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); ++_viEnemy)
+//	{
+//		(*_viEnemy)->update();
+//	}
+//}
+
 //몬스터 위치 잡아주는 함수
 void dungeon2Scene::setMonster()
 {
+	
 	//개뼈
 	//int id[2][2];
 	//id[0][0] = 810 % _temp, id[0][1] = 810 / _temp;
