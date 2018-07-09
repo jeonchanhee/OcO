@@ -51,6 +51,7 @@ public:
 	void reward();
 
 	void loadData();
+	void saveData();
 
 	void drawData();
 

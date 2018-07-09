@@ -1,25 +1,31 @@
 #include "stdafx.h"
-#include "townSene.h"
+#include "townScene.h"
 
 
-HRESULT townSene::init()
+HRESULT townScene::init()
 {
 	return S_OK;
 }
 
-void townSene::release()
+void townScene::release()
 {
 }
 
-void townSene::update()
+void townScene::update()
 {
 }
 
-void townSene::render()
+void townScene::render()
 {
 }
 
-townSene::townSene() {}
 
 
-townSene::~townSene() {}
+townScene::townScene()
+{
+}
+
+
+townScene::~townScene()
+{
+}

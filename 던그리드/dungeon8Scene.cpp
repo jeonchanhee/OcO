@@ -65,6 +65,7 @@ void dungeon8Scene::update()
 	{
 		(*_viEnemy)->update();
 	}
+	MusicAngelBulletFire();
 	_enemyBullet->update();
 
 	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))

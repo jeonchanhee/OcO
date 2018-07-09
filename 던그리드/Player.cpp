@@ -147,11 +147,11 @@ void Player::render()
 	//TextOut(DC, _x + 60, _collisionRc.top - 150, str, strlen(str));
 	//// tile check 
 	sprintf(str, "체크타일 %d,%d", leftRightCheck[0], leftRightCheck[1]);
-	TextOut(DC, _x - 10, _collisionRc.top + 150, str, strlen(str));
+	TextOut(DC, _x - 10, _collisionRc.top , str, strlen(str));
 	sprintf(str, "위에 타일 %d,%d", upStateCheck[0] , upStateCheck[1]);
-	TextOut(DC, _x - 10, _collisionRc.top + 200, str, strlen(str));
+	TextOut(DC, _x - 10, _collisionRc.top - 50, str, strlen(str));
 	sprintf(str, "아래 타일 %d,%d", downStateCheck[0], downStateCheck[1]);
-	TextOut(DC, _x - 10, _collisionRc.top + 250, str, strlen(str));
+	TextOut(DC, _x - 10, _collisionRc.top - 100, str, strlen(str));
 
 	//pb
 	_pb->render();
@@ -494,12 +494,12 @@ void Player::tileCollision()
 	_collisionRc.left += 3, _collisionRc.top += 3, _collisionRc.right -= 3, _collisionRc.bottom -= 3;
 
 	xIndex = (_collisionRc.left / TILESIZE) , yIndex = (_collisionRc.top / TILESIZE);
-	downStateCheck[0] = xIndex + (30 * (yIndex + 1)), downStateCheck[1] = xIndex + (30 * (yIndex + 1)) + 1;
-	upStateCheck[0] = xIndex + (30 * (yIndex )), upStateCheck[1] = xIndex + (30 * (yIndex )) + 1;
+	downStateCheck[0] = xIndex + (100 * (yIndex + 1)), downStateCheck[1] = xIndex + (100 * (yIndex + 1)) + 1;
+	upStateCheck[0] = xIndex + (100 * (yIndex )), upStateCheck[1] = xIndex + (100 * (yIndex )) + 1;
 
 
-	leftRightCheck[0] = (yIndex * 30) + xIndex;
-	leftRightCheck[1] = (yIndex  * 30) + xIndex +1;
+	leftRightCheck[0] = (yIndex * 100) + xIndex;
+	leftRightCheck[1] = (yIndex  * 100) + xIndex +1;
 
 
 	for (int i = 0; i < 2; ++i)

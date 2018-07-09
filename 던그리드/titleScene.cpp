@@ -29,7 +29,7 @@ HRESULT titleScene::init(void)
 
 	for (int i = 0; i < 3; i++)
 	{
-		_deleteRect[i] = RectMake(220 + i * 610, 150, IMAGEMANAGER->findImage("T_delete")->getWidth(), IMAGEMANAGER->findImage("T_delete")->getHeight());
+		_deleteRect[i] = RectMake(150 + i * 610, 730, IMAGEMANAGER->findImage("T_delete")->getWidth(), IMAGEMANAGER->findImage("T_delete")->getHeight());
 	}
 
 	/*int suck[51];
@@ -128,11 +128,15 @@ void titleScene::render(void)
 		//restaurant();
 		//drawData();
 	}
+	drawData();
 
 	if(KEYMANAGER->isToggleKey(VK_TAB))
 	{
-		for(int i=0;i<3;i++)
-		Rectangle(DC,_button[i].left, _button[i].top, _button[i].right, _button[i].bottom);
+		for (int i = 0; i < 3; i++)
+		{
+			Rectangle(DC, _button[i].left, _button[i].top, _button[i].right, _button[i].bottom);
+			Rectangle(DC, _deleteRect[i].left, _deleteRect[i].top, _deleteRect[i].right, _deleteRect[i].bottom);
+		}
 	}
 }
 
@@ -253,6 +257,11 @@ void titleScene::loadData()
 
 	_clickData = true;
 
+	/*HANDLE file;
+	DWORD load;
+
+	ZeroMemory(&_tiles, sizeof(tagTile) * TILEX * TILEY);*/
+
 	vector<string> vStr = TXTDATA->txtLoad("data.txt");
 
 	_vData.clear();
@@ -277,6 +286,8 @@ void titleScene::loadData()
 
 void titleScene::drawData()
 {
+	if (!_clickData) return;
+
 	IMAGEMANAGER->alphaRender("black", DC, 0, 0, 100);
 
 	for (int i = 0; i < 3; i++)
@@ -315,7 +326,7 @@ void titleScene::drawData()
 			SetBkMode(DC, TRANSPARENT);
 			char str[128];
 			sprintf_s(str, "데이터 없음");
-			TextOut(DC, 250, 350, str, strlen(str));
+			TextOut(DC, 250 + i * 610, 350, str, strlen(str));
 			SelectObject(DC, oldFont);
 			DeleteObject(font);
 		}
@@ -339,6 +350,11 @@ void titleScene::deleteData()
 			}
 		}
 	}
+}
+
+void titleScene::saveData()
+{
+
 }
 
 titleScene::titleScene()
