@@ -21,7 +21,8 @@ enum DOOR_DIR { DOOR_LEFT, DOOR_RIGHT, DOOR_UPDOWN };
 struct torch
 {
 	image* img;
-	int x, y;
+	animation* ani;
+	float x, y;
 };
 
 struct Door
@@ -39,6 +40,7 @@ struct Portal
 {
 	image* img;
 	int x, y;
+	int frameX, frameY, count;
 };
 
 class dungeonScene : public gameNode
@@ -50,16 +52,17 @@ protected:
 	vector<int> _route;
 	RandomDungeon1* _random;
 
-	MusicAngel* _musicAngel;
 	BigBat*		_bigbat;
 	BigRedBat*	_bigRedBat;
+	MusicAngel* _musicAngel; //음표요정
+	Boss2* _boss;			 //보스
 
 	Bullet* _enemyBullet;
 	Bullet2* _enemtBullet2;
-	torch	_torch;		// 횃불
-	//Door	_door;		// 문
-	vector<Door> _door;
-	Portal	_portal;	// 포탈
+	vector<Door> _vDoor; //문
+	vector<torch> _vTorch; //횃불
+	vector<Portal> _vPortal; //포탈
+	
 	string _mapName;
 	int _randNum;
 	int _dungeonNum;
@@ -74,6 +77,10 @@ public:
 	virtual void release(void);
 	virtual void update(void);
 	virtual void render(void);
+	virtual void doorInit(void);
+	virtual void torchInit(int x, int y);
+	void portalInit(float x, float y);
+	virtual void setRandMapNum(void);
 
 	void mapload();
 
@@ -89,9 +96,10 @@ public:
 
 	void save();
 
+	
 	void setDoor();
-
 	void doorRender();
+	void portalRender();
 
 	dungeonScene();
 	~dungeonScene();
@@ -112,7 +120,6 @@ public:
 
 	//몬스터 총알 생성 함수
 	void MusicAngelBulletFire(); //음표요정 총알 발사 함수
-	//void ArrowBulletFire();		 //활쟁이 총알 발사 함수
 	void BossBulletFire();		 //보스 총알 발사 함수
 	void bigbatbulletFire();
 	void bigRadbatbulletFire();
