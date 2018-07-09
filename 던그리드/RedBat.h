@@ -46,5 +46,6 @@ public:
 	animation* getRedBatMotion() { return _redBatMotion; }
 	void setRedBatMotion(animation* ani) { _redBatMotion = ani; }
 
+
 };
 

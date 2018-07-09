@@ -19,16 +19,44 @@ enum DIRECTION
 class Player : public gameNode
 {
 private:
+	struct infoPlayer
+	{
+		int currentHp, maxHp;											 //현재 , 전체 체력 
+		int armor;														 //방어력
+		int currentDash, maxDash;										 //대시 횟수 
+		int attackMinDamage, attackMaxDamage, attackPower;			 //최소 ~ 최대 데미지 , 위력 ()
+		int fixedDamage;												 //고정데미지 
+																		 // inven
+		int  mainWeapon[2], assistWeapon[2];							 //현재 장착중인 메인 , 보조 무기들
+		int  accessory[4];												 //악쎄사리
+		int  inventory[15];											 //전체인벤토리 15칸 
+		int  gold;														 //돈
+		int  currentExp, maxExp;										 //현재 , 최대 경험치  
+		int  currentFullNess, maxFullNess;							 //현재 , 최대 만복도 
+		int  youUsingCount;											 // 1번무기 장착중인지 2번무기 장착중ㅇ인지 배열이라 0과 1값을 받게됨 ;
+
+		//float 
+		float attackSpeed, reloadSpeed;								 //공속 재장전속도 
+		float evasionPersent, guardPersent;							 //회피확률 , 막을확률  	
+		float moveMentSpeed;											 //이동속도 
+		float criticalPercent, criticalAttackDamage;					 //크리티컬 확률 , 크리티컬 데미지 증가율 
+		float dashDamage, dashSpeed;									 //대시할때 데미지 , 스피드
+		float punchSpeed;												 //펀치 스피드임
+	};
+
+private:
 	playerBullet * _pb;
 	RECT _collisionRc; //충돌렉트 
-	image * _player;
-	image * _playerHand[2];
-	image * _playerWeapon;
-	image * imageDC;
-	image * _attackEffect;
+	image* _player;
+	image* _playerHand[2];
+	image* _playerWeapon;
+	image* imageDC;
+	image* _attackEffect;
 
 	DIRECTION _direction;
-	animation * _playerAnimation;
+	animation* _playerAnimation;
+
+	infoPlayer	_infoPlayer;
 
 	//bool 
 	bool _isGun;						//bool이지금 1							//현재 원거리 무기인지 체크 

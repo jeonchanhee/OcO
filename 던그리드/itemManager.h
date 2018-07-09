@@ -6,7 +6,11 @@
 #include "SecondEquipment.h"
 #include "Accessory.h"
 #include "Food.h"
+#include "WeaponNpc.h"
+#include "FoodNpc.h"
 #include "gameNode.h"
+
+
 
 
 
@@ -18,11 +22,11 @@ private:
 
 
 private:
-
+	WeaponNpc* _weaponNpc;
+	FoodNpc* _foodNpc;
 	vItem  _vItem;
 	viItem _viItem;
 	
-
 public:
 	itemManager();
 	~itemManager();
@@ -34,7 +38,10 @@ public:
 	void update();
 	void render();
 
-	void CreateItem();			
+	void CreateItem();		
+
+
+
 
 
 	// 아이템 벡터 접근자

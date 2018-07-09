@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "dungeonScene.h"
 #include "tileNode.h"
+#include "Player.h"
 
 
 dungeonScene::dungeonScene() {}
@@ -9,6 +10,7 @@ dungeonScene::~dungeonScene() {}
 
 HRESULT dungeonScene::init(void)
 {
+	_player = SCENEMANAGER->getPlayerAddressLink();
 	return S_OK;
 }
 
@@ -82,10 +84,15 @@ void dungeonScene::render(void)
 	//	_mapValue[_dungeonNum] = "T";
 	//}
 	char str[128];
-	sprintf_s(str, "맵 : %d", _dungeonNum);
+	sprintf_s(str, "맵 : %d, 골드 : %d", _dungeonNum, _player->getGold());
 	TextOut(DC, 100, 100, str, strlen(str));
 	_count++;
 	_enemyBullet->render();
+	for (int i = 0; i < 20; i++)
+	{
+		_bigRadBatBullet[i]->render();
+	}
+	
 	doorRender();
 }
 
@@ -126,6 +133,7 @@ void dungeonScene::mapload()
 {
 	HANDLE   file;
 	DWORD   load;
+
 	ZeroMemory(&_tiles, sizeof(tagTile) * TILEX * TILEY);
 
 	file = CreateFile(_mapName.c_str(), GENERIC_READ, NULL, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
@@ -164,8 +172,11 @@ void dungeonScene::mapload()
 	_enemyBullet = new Bullet;
 	_enemyBullet->init(3000);
 
-	_enemtBullet2 = new Bullet2;
-	_enemyBullet->init(3000);
+	for (int i = 0; i < 20; i++)
+	{
+		_bigRadBatBullet[i] = new Bullet2;
+		_bigRadBatBullet[i]->init(1000);
+	}
 }
 
 void dungeonScene::setCamera(void)
@@ -375,6 +386,49 @@ void dungeonScene::save()
 	}
 
 	TXTDATA->txtSave("infoDungeon.txt", vStr);
+}
+
+void dungeonScene::savePlayer()
+{
+	//int currentHp, maxHp;											 //현재 , 전체 체력 
+	//int armor;														 //방어력
+	//int currentDash, maxDash;										 //대시 횟수 
+	//int attackMinDamage, attackMaxDamage, attackPower;			 //최소 ~ 최대 데미지 , 위력 ()
+	//int fixedDamage;												 //고정데미지 
+	//																 // inven
+	//int  mainWeapon[2], assistWeapon[2];							 //현재 장착중인 메인 , 보조 무기들
+	//int  accessory[4];												 //악쎄사리
+	//int  inventory[15];											 //전체인벤토리 15칸 
+	//int  gold;														 //돈
+	//int  currentExp, maxExp;										 //현재 , 최대 경험치  
+	//int  currentFullNess, maxFullNess;							 //현재 , 최대 만복도 
+	//int  youUsingCount;											 // 1번무기 장착중인지 2번무기 장착중ㅇ인지 배열이라 0과 1값을 받게됨 ;
+
+	//															 //float 
+	//float attackSpeed, reloadSpeed;								 //공속 재장전속도 
+	//float evasionPersent, guardPersent;							 //회피확률 , 막을확률  	
+	//float moveMentSpeed;											 //이동속도 
+	//float criticalPercent, criticalAttackDamage;					 //크리티컬 확률 , 크리티컬 데미지 증가율 
+	//float dashDamage, dashSpeed;									 //대시할때 데미지 , 스피드
+	//float punchSpeed;
+	//_infoPlayer.currentHp = ;
+	//_infoPlayer.maxHp = ;
+	//_infoPlayer.armor = ;
+	//_infoPlayer.currentDash = ;
+	//_infoPlayer.maxDash = ;
+	//_infoPlayer.attackMinDamage = ;
+	//_infoPlayer.attackMaxDamage = ;
+	//_infoPlayer.attackPower = ;
+	//_infoPlayer.fixedDamage = ;
+	//_infoPlayer.mainWeapon = ;
+	//_infoPlayer.assistWeapon = ;
+	//_infoPlayer.accessory = ;
+	//_infoPlayer.inventory = ;
+	//_infoPlayer.g
+}
+void dungeonScene::loadPlayer()
+{
+
 }
 
 void dungeonScene::setDoor()
@@ -597,43 +651,46 @@ void dungeonScene::BossBulletFire()
 
 	//if (_boss->getRightDirection() == RIGHT_LASER_ON)
 	//{
-		//_enemyBullet->bulletFire("bossRLaser", _boss->getRightX() - 850, _boss->getRightY(), 0, 0.0f, 1000, true, HEIGHT); //오른손 레이져
-		//_boss->setRightDirection(RIGHT_LASER_OFF);
+	//	_enemyBullet->bulletFire("bossRLaser", _boss->getRightX() - 850, _boss->getRightY(), 0, 0.0f, 1000, true, HEIGHT); //오른손 레이져
+	//	_boss->setRightDirection(RIGHT_LASER_OFF);
 	//}
 }
 
 void dungeonScene::bigbatbulletFire()
 {
 	_count2++;
-	if (_count2 % 15 == 0 && _count2 > 150)
+	if (_bigbat->getcount() %  15 == 0 && _bigbat->getcount() > 100)
 	{
 		for (int i = 0; i < 3; i++)
 		{
-			float angle = -(PI2 / 9);
-			_enemyBullet->bulletFire("fatherBatBullet", _bigbat->getX() + 200, _bigbat->getY(), angle * i, 5.0f, 500);
+			float angle = -(PI2 / 9) * i;
+			_enemyBullet->bulletFire("fatherBatBullet2", _bigbat->getX() + 50, _bigbat->getY() + 10, angle, 5.0f , 500);
 		}
 	}
 
-	if (_count2 > 200) _count2 = 0;
+	if (_count2 > 200)
+	{
+		_count2 = 0;
+		_bulletMove = false;
+	}
 	
 }
 
 
 void dungeonScene::bigRadbatbulletFire()
 {
-	//_count2++;
-	//if (_count2 % 15 == 0)
-	//{
-	//	for (int i = 0; i < 20; i++)
-	//	{
-	//		float angle = PI2 / 20;
-	//		_enemtBullet2->bulletFire("fatherBatBullet", _bigRedBat->getX() + 50, _bigRedBat->getY(), angle * i, 5.0f, 500);
-	//	}
-	//}
+	_count3++;
+	if (_count3 % 150 == 0)
+	{
+		for (int i = 0; i < 20; i++)
+		{
+			float angle2 = PI2 / 20 * i;
+			float bulletX = _bigRedBat->getX() + 150;
+			float bulletY = _bigRedBat->getY() + 50;
+			_bigRadBatBullet[i]->bulletFire("fatherBatBullet2", bulletX + cosf(angle2) * 150, _bigRedBat->getY() + -sinf(angle2) * 150, angle2, 5.0f, 500);
+			
+		}
+	}
 
-	//if (_boss->getRightDirection() == RIGHT_LASER_ON)
-	//{
-	//	_enemyBullet->bulletFire("bossRLaser", _boss->getRightX() - 850, _boss->getRightY(), 0, 0.0f, 1000, true, HEIGHT); //오른손 레이져
-	//	_boss->setRightDirection(RIGHT_IDLE);
-	//}
+	//if (_count3 > 200) _count3 = 0;
 }

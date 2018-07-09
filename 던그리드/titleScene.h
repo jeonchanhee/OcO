@@ -32,7 +32,10 @@ class titleScene : public gameNode
 
 	vector<tagData> _vData;
 	bool _clickData;
+	RECT _chooseRect[3];
 	RECT _deleteRect[3];
+
+	int _select;
 
 public:
 	virtual HRESULT init(void);
@@ -55,7 +58,7 @@ public:
 
 	void drawData();
 
-	void deleteData();
+	void selectData();
 
 	void setImLink(itemManager* im) { _im = im; }
 
