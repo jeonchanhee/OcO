@@ -114,7 +114,7 @@ public:
 	void setHeadMotion1(animation* ani) { _bossMotion[1] = ani; }
 
 	//¿À¸¥¼Õ
-	BOSSRIGHTDIRECTION getRightDirection() { return _bossRightDirection; };
+	//BOSSRIGHTDIRECTION getRightDirection() { return _bossRightDirection; };
 	void setRightDirection(BOSSRIGHTDIRECTION rightDirection) { _bossRightDirection = rightDirection; }
 
 	animation* getRightMotion2() { return _bossMotion[2]; }

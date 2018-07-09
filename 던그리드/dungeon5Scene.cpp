@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "dungeon5Scene.h"
-
+#include "Player.h"
 
 dungeon5Scene::dungeon5Scene()
 {
@@ -13,6 +13,8 @@ dungeon5Scene::~dungeon5Scene()
 
 HRESULT dungeon5Scene::init()
 {
+	dungeonScene::init();
+
 	_isMapSet = true;
 	chooseMap(6);
 	selectSize(6);

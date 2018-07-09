@@ -30,7 +30,7 @@ class playGround : public gameNode
 {
 private:
 	MapTool * _mapTool;
-	Player *  _player;
+	Player*  _player;
 	changeMode mode;
 	itemManager* _im;
 	titleScene* _title;

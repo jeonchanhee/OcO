@@ -102,7 +102,7 @@ public:
 	void setAccessory(const char* AccessoryName, int value);	// æ«ºº ¡§¿««ÿ¡‹
 	void setFood(const char* FoodName, int value);				// ¿ΩΩƒ ¡§¿««ÿ¡‹
 
-
+	tagItem getItem() { return _item; }
 	
 
 

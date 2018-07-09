@@ -12,8 +12,15 @@
 #include "foodScene.h"
 #include "bossScene.h"
 
+class Player;
+
 class RandomDungeon1 : public gameNode
 {
+private:
+	Player * _player;
+
+	dungeonScene* _dungeonScene;
+
 public:
 	RandomDungeon1();
 	~RandomDungeon1();
@@ -25,5 +32,7 @@ public:
 	void keyControl();
 
 	void save();
+
+	void setPlayerAddressLink(Player* player) { _player = player; }
 };
 

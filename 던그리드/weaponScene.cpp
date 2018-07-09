@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "weaponScene.h"
-
+#include "Player.h"
 
 weaponScene::weaponScene()
 {
@@ -13,6 +13,8 @@ weaponScene::~weaponScene()
 
 HRESULT weaponScene::init()
 {
+	dungeonScene::init();
+
 	_isMapSet = true;
 	chooseMap(11);
 	selectSize(11);
