@@ -60,6 +60,8 @@ HRESULT Boss2::init()
 	_bossMotion[2]->start();
 	x = (_boss[1].rc.right + _boss[1].rc.left) / 2;
 	y = (_boss[1].rc.bottom + _boss[1].rc.top) / 2;
+
+	_count2 = _count3 = 0;
 	
 	return S_OK;
 }
@@ -126,10 +128,9 @@ void Boss2::leftMove()
 	if (!(_count % 100))
 	{
 		//if (_bossLeftDirection == LEFT_UP_MOVE)
-		//	changeLeftDirection(LEFT_IDLE);
+		//	changeLeftDirection(LEFT_LASER);
 		//else if (_bossLeftDirection == LEFT_DOWN_MOVE)
-		//	changeLeftDirection(LEFT_IDLE);
-
+		//	changeLeftDirection(LEFT_LASER);
 		if (_bossLeftDirection == LEFT_UP_MOVE)
 			changeLeftDirection(LEFT_LASER);
 		else if (_bossLeftDirection == LEFT_DOWN_MOVE)
@@ -165,6 +166,12 @@ void Boss2::leftMove()
 		_boss[0].y += BOSSSPEED;
 	if (_bossLeftDirection == LEFT_UP_MOVE)
 		_boss[0].y -= BOSSSPEED;
+
+	if (_bossLeftDirection == LEFT_LASER_OFF)
+	{
+		_count2 -= 1;
+		if (_count2 <= 0) changeLeftDirection(LEFT_IDLE);
+	}
 }
 
 void Boss2::changeLeftDirection(BOSSLEFTDIRECTION leftDirection)
@@ -200,8 +207,10 @@ void Boss2::changeLeftDirection(BOSSLEFTDIRECTION leftDirection)
 		_boss[0].rc = RectMakeCenter(_boss[0].x, _boss[0].y, _boss[0].img->getFrameWidth(), _boss[0].img->getFrameHeight());
 		break;
 	case LEFT_LASER_ON:
-		changeLeftDirection(LEFT_IDLE);
-
+		_bossLeftDirection = LEFT_LASER_ON;
+		break;
+	case LEFT_LASER_OFF:
+		_bossLeftDirection = LEFT_LASER_OFF;
 		break;
 	default:
 		_boss[0].rc = RectMakeCenter(_boss[0].x, _boss[0].y, _boss[0].img->getFrameWidth(), _boss[0].img->getFrameHeight());
@@ -215,6 +224,7 @@ void Boss2::CBleftAttack(void * obj)
 
 	bb->_boss[0].img = IMAGEMANAGER->findImage("bossHand");
 	bb->setLeftDirection(LEFT_LASER_ON);
+	bb->setCount2(100);
 	bb->setLeftMotion0(KEYANIMANAGER->findAnimation("leftIdle"));
 	bb->getLeftMotion0()->start();
 }
@@ -329,6 +339,12 @@ void Boss2::rightMove()
 		_boss[2].y += BOSSSPEED;
 	if (_bossRightDirection == RIGHT_UP_MOVE)
 		_boss[2].y -= BOSSSPEED;
+
+	if (_bossRightDirection == RIGHT_LASER_OFF)
+	{
+		_count3 -= 1;
+		if (_count3 <= 0) changeRightDirection(RIGHT_IDLE);
+	}
 }
 
 void Boss2::changeRightDirection(BOSSRIGHTDIRECTION rightDirection)
@@ -363,6 +379,12 @@ void Boss2::changeRightDirection(BOSSRIGHTDIRECTION rightDirection)
 		_bossMotion[2]->start();
 		_boss[2].rc = RectMakeCenter(_boss[2].x, _boss[2].y, _boss[2].img->getFrameWidth(), _boss[2].img->getFrameHeight());
 		break;
+	case RIGHT_LASER_ON:
+		_bossRightDirection = RIGHT_LASER_ON;
+		break;
+	case RIGHT_LASER_OFF:
+		_bossRightDirection = RIGHT_LASER_OFF;
+		break;
 	default:
 		_boss[2].rc = RectMakeCenter(_boss[2].x, _boss[2].y, _boss[2].img->getFrameWidth(), _boss[2].img->getFrameHeight());
 		break;
@@ -375,6 +397,7 @@ void Boss2::CBrightAttack(void * obj)
 
 	bb->_boss[2].img = IMAGEMANAGER->findImage("bossHand");
 	bb->setRightDirection(RIGHT_LASER_ON);
+	bb->setCount3(100);
 	bb->setRightMotion2(KEYANIMANAGER->findAnimation("rightIdle"));
 	bb->getRightMotion2()->start();
 }

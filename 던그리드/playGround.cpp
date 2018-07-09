@@ -123,7 +123,7 @@ void playGround::update(void)
 	gameNode::update();
 
 	_mapTool->update();
-	_player->update();
+	//_player->update();
 	SCENEMANAGER->update();
 	
 	
@@ -201,7 +201,7 @@ void playGround::render(void)
 	case 던전2: case 던전3: case 던전4: case 던전5: case 던전6: case 던전7: case 던전8:
 	case 랜덤맵1: case 보스:
 		SCENEMANAGER->render();
-		_player->render();
+		//_player->render();
 		break;
 	case 맵선택:
 		SCENEMANAGER->render();

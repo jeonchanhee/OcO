@@ -59,11 +59,13 @@ HRESULT dungeon7Scene::init()
 
 void dungeon7Scene::update()
 {
+	dungeonScene::update();
 	nextTest();
 	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); ++_viEnemy)
 	{
 		(*_viEnemy)->update();
 	}
+	MusicAngelBulletFire();
 	_enemyBullet->update();
 }
 

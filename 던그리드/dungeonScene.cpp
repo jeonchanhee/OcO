@@ -18,7 +18,7 @@ void dungeonScene::release(void)
 
 void dungeonScene::update(void)
 {
-	//KEYANIMANAGER->update();
+	KEYANIMANAGER->update();
 }
 
 void dungeonScene::render(void)
@@ -442,7 +442,6 @@ void dungeonScene::doorRender()
 	}
 }
 	
-}
 
 //총알 생성 함수
 //음표요정 총알
@@ -478,12 +477,12 @@ void dungeonScene::BossBulletFire()
 	//요기
 	if (!isCheck) angle += 0.02; //총알 돌아가는 속도 조절
 	else angle -= 0.02;
-	
+
 	if (!(_count % 7)) //총알 나가는 속도 조절
 	{
 		for (int i = 0; i < 4; i++)
 		{
-			 angle += (i * PI / 2);
+			angle += (i * PI / 2);
 			//float angle = i * PI / 2;
 			_enemyBullet->bulletFire("bossBullet", _boss->getHeadX() + 50, _boss->getHeadY() + 120, angle, 9.0f, 800, true); //9.0f랑 위에 angle, count 로 조절해서 총알 조절 가능
 		}
@@ -493,16 +492,18 @@ void dungeonScene::BossBulletFire()
 	//==========================================================
 	//					보스 왼쪽 레이져
 	//==========================================================
-	
+
 	if (_boss->getLeftDirection() == LEFT_LASER_ON)
 	{
 		_enemyBullet->bulletFire("bossLaser", _boss->getLeftX() + 800, _boss->getLeftY(), 0, 0.0f, 1000, true, HEIGHT);
-		_boss->setLeftDirection(LEFT_IDLE);
+		_boss->setLeftDirection(LEFT_LASER_OFF);
 	}
 
-//보스 총알
-void dungeonScene::BossBulletFire()
-{
+	if (_boss->getRightDirection() == RIGHT_LASER_ON)
+	{
+		_enemyBullet->bulletFire("bossRLaser", _boss->getRightX() - 850, _boss->getRightY(), 0, 0.0f, 1000, true, HEIGHT); //오른손 레이져
+		_boss->setRightDirection(RIGHT_LASER_OFF);
+	}
 }
 
 void dungeonScene::bigbatbulletFire()
@@ -533,10 +534,6 @@ void dungeonScene::bigRadbatbulletFire()
 	//		_enemtBullet2->bulletFire("fatherBatBullet", _bigRedBat->getX() + 50, _bigRedBat->getY(), angle * i, 5.0f, 500);
 	//	}
 	//}
-}
-	if (_boss->getRightDirection() == RIGHT_LASER_ON)
-	{
-		_enemyBullet->bulletFire("bossRLaser", _boss->getRightX() - 850, _boss->getRightY(), 0, 0.0f, 1000, true, HEIGHT); //오른손 레이져
-		_boss->setRightDirection(RIGHT_IDLE);
-	}
+
+
 }
