@@ -17,8 +17,9 @@ enum BOSSLEFTDIRECTION
 	LEFT_IDLE,
 	LEFT_UP_MOVE,
 	LEFT_DOWN_MOVE,
-	LEFT_LASER,
-	LEFT_LASER_ON
+	LEFT_LASER, //레이져 쏘기 전
+	LEFT_LASER_ON, //레이져 쏘는거
+	LEFT_LASER_OFF
 };
 
 //오른손꾸락 방향
@@ -28,7 +29,8 @@ enum BOSSRIGHTDIRECTION
 	RIGHT_UP_MOVE,
 	RIGHT_DOWN_MOVE,
 	RIGHT_LASER,
-	RIGHT_LASER_ON
+	RIGHT_LASER_ON,
+	RIGHT_LASER_OFF
 };
 
 //보스의 구조체
@@ -52,6 +54,7 @@ private:
 
 	int x;
 	int y;
+	int _count2, _count3;
 	
 
 public:
@@ -70,6 +73,7 @@ public:
 	float getLeftX() { return _boss[0].x; }
 	float getLeftY() { return _boss[0].y; }
 	BOSSLEFTDIRECTION getLDirection() { return _bossLeftDirection; }
+	void setCount2(int count2) { _count2 = _count; }
 
 	//머리통
 	void headMove(); //머리통 움직이게 하는 함수
@@ -86,6 +90,7 @@ public:
 	static void CBrightAttack(void* obj);
 	float getRightX() { return _boss[2].x; }
 	float getRightY() { return _boss[2].y; }
+	void setCount3(int count3) { _count3 = count3; }
 
 
 	//콜백함수
@@ -105,7 +110,7 @@ public:
 	void setHeadMotion1(animation* ani) { _bossMotion[1] = ani; }
 
 	//오른손
-	BOSSRIGHTDIRECTION getRightDirection() { return _bossRightDirection; };
+	//BOSSRIGHTDIRECTION getRightDirection() { return _bossRightDirection; };
 	void setRightDirection(BOSSRIGHTDIRECTION rightDirection) { _bossRightDirection = rightDirection; }
 
 	animation* getRightMotion2() { return _bossMotion[2]; }

@@ -70,7 +70,7 @@ private:
 	bool _attackSpeedCheckCount;		//boolÀÌÁö±İ 9							//°ø°İ½ºÇÇµåÃéÄí ÄÉÄùÄùÄù®c®cÃßÄÉÃßÄÉÃßÄÉÃßÄÉÃßÄÉÃßÄÉÃß±P¤»
 	bool _goDownJump;					//boolÀÌÁö±İ 10			¶Ç¶§ÂÅ ûıÀÌ ¸î°³´Ï
 
-	// int 
+	// int  
 	int _currentHp, _maxHp;											 //ÇöÀç , ÀüÃ¼ Ã¼·Â 
 	int _armor;														 //¹æ¾î·Â
 	int _currentDash, _maxDash;										 //´ë½Ã È½¼ö 
@@ -88,8 +88,7 @@ private:
 	int  _currentFullNess , _maxFullNess;							 //ÇöÀç , ÃÖ´ë ¸¸º¹µµ 
 	int  _youUsingCount;											 // 1¹ø¹«±â ÀåÂøÁßÀÎÁö 2¹ø¹«±â ÀåÂøÁß¤·ÀÎÁö ¹è¿­ÀÌ¶ó 0°ú 1°ªÀ» ¹Ş°ÔµÊ ;
 	int	 _attackEffectCount;										 //
-	int  _canMove;
-
+	
 	//float 
 	float _x, _y , _leftHandX, _leftHandY, _rightHandX, _rightHandY; //player x,y 
 	float _attackSpeed, _reloadSpeed;								 //°ø¼Ó ÀçÀåÀü¼Óµµ 

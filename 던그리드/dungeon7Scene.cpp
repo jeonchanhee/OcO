@@ -67,6 +67,7 @@ void dungeon7Scene::update()
 	{
 		(*_viEnemy)->update();
 	}
+	MusicAngelBulletFire();
 	_enemyBullet->update();
 }
 

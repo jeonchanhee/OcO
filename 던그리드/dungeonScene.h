@@ -91,7 +91,6 @@ protected:
 	
 	string _mapName;
 	int _randNum;
-	int _dungeonNum;
 	int _temp;
 	string _mapValue[11];
 
