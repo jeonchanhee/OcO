@@ -125,7 +125,6 @@ void titleScene::render(void)
 	else
 	{
 		//shop();
-		//shop();
 		//inven();
 		//reward();
 		//restaurant();
@@ -263,11 +262,6 @@ void titleScene::loadData()
 
 	_clickData = true;
 
-	/*HANDLE file;
-	DWORD load;
-
-	ZeroMemory(&_tiles, sizeof(tagTile) * TILEX * TILEY);*/
-
 	vector<string> vStr = TXTDATA->txtLoad("data.txt");
 
 	_vData.clear();
@@ -354,6 +348,7 @@ void titleScene::selectData()
 				ZeroMemory(&temp, sizeof(tagData));
 				_vData[i] = temp;
 				_vData[i].idx = -1;
+				saveData();
 			}
 			else if (PtInRect(&_chooseRect[i], _ptMouse))
 			{
@@ -370,7 +365,19 @@ void titleScene::selectData()
 
 void titleScene::saveData()
 {
-
+	vector<string> vStr;
+	for (int i = 0; i < 3; i++)
+	{
+		if (_vData[i].idx == -1)continue;
+		char str[128];
+		vStr.push_back(itoa(_vData[i].idx, str, 10));
+		vStr.push_back(itoa(_vData[i].hour, str, 10));
+		vStr.push_back(itoa(_vData[i].min, str, 10));
+		vStr.push_back(itoa(_vData[i].floor, str, 10));
+		vStr.push_back(itoa(_vData[i].gold, str, 10));
+		vStr.push_back(itoa(_vData[i].dash, str, 10));
+	}
+	TXTDATA->txtSave("data.txt", vStr);
 }
 
 titleScene::titleScene()

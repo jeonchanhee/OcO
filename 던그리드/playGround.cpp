@@ -19,13 +19,15 @@ HRESULT playGround::init(void)
 	
 	_mapTool = new MapTool;
 	_mapTool->init();
-	/*_player = new Player;
-	_player->init();*/
+	_player = new Player;
+	_player->init();
 	_im = new itemManager;
 	_im->init();
 
 	_title = new titleScene;
 	_title->setImLink(_im);
+
+	SCENEMANAGER->setPlayerAddressLink(_player);
 
 	SCENEMANAGER->addScene("타이틀", _title);
 	SCENEMANAGER->addScene("던전2", new dungeon2Scene);
@@ -39,11 +41,13 @@ HRESULT playGround::init(void)
 	SCENEMANAGER->addScene("던전6", new dungeon6Scene);
 	SCENEMANAGER->addScene("던전7", new dungeon7Scene);
 	SCENEMANAGER->addScene("던전8", new dungeon8Scene);
-	SCENEMANAGER->addScene("보스", new bossScene);
+	SCENEMANAGER->addScene("마을", new townScene);
+	//SCENEMANAGER->addScene("보스", new bossScene);
 
-	SCENEMANAGER->addScene("랜덤맵1", new RandomDungeon1);
+	//SCENEMANAGER->addScene("랜덤맵1", new RandomDungeon1);
 	
 	_randomScene1 = new RandomDungeon1;
+	_randomScene1->setPlayerAddressLink(_player);
 
 	switch (mode)
 	{
@@ -96,8 +100,10 @@ HRESULT playGround::init(void)
 
 		break;	
 	case 보스:
-		SCENEMANAGER->changeScene("보스");
+		//SCENEMANAGER->changeScene("보스");
 		break;
+	case 마을:
+		SCENEMANAGER->changeScene("마을");
 	case 맵선택:
 		SCENEMANAGER->changeScene("맵선택");
 		
@@ -122,7 +128,7 @@ void playGround::update(void)
 {
 	gameNode::update();
 
-	_mapTool->update();
+	//_mapTool->update();
 	//_player->update();
 	SCENEMANAGER->update();
 	
@@ -154,7 +160,7 @@ void playGround::update(void)
 		if (KEYMANAGER->isStayKeyDown('W'))//&& CAMERAMANAGER->getCameraCenter().y - WINSIZEY / 2>0)
 			CAMERAMANAGER->setCameraCenter(PointMake(CAMERAMANAGER->getCameraCenter().x, CAMERAMANAGER->getCameraCenter().y - 50));
 	}
-	//
+	
 	//if (CAMERAMANAGER->getCameraX() < 0)						CAMERAMANAGER->setCameraX(0);
 	//if (CAMERAMANAGER->getCameraY() < 0)						CAMERAMANAGER->setCameraY(0);
 	//if (CAMERAMANAGER->getCameraX() + WINSIZEX > 96 * _tileX)	CAMERAMANAGER->setCameraX(96 * _tileX - WINSIZEX);
@@ -168,6 +174,7 @@ void playGround::render(void)
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// 이 위로는 건들지 마시오
+	//_mapTool->render();
 	switch (mode)
 	{
 	case 맵툴:
@@ -203,7 +210,10 @@ void playGround::render(void)
 	case 던전2: case 던전3: case 던전4: case 던전5: case 던전6: case 던전7: case 던전8:
 	case 랜덤맵1: case 보스:
 		SCENEMANAGER->render();
-		//_player->render();
+		_player->render();
+		break;
+	case 마을:
+		SCENEMANAGER->render();
 		break;
 	case 맵선택:
 		SCENEMANAGER->render();

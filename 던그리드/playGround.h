@@ -22,15 +22,16 @@
 #include "introScene.h"
 #include "mapSelectScene.h"
 #include "RandomDungeon1.h"
+#include "townScene.h"
 
 //몬스터 나오는 맵 던전2~8 + 보스 => 랜덤맵
-enum changeMode { 맵툴, 타이틀, 다이얼로그, 몬스터, 플레이어, 아이템, 인트로, 던전2, 던전3, 던전4, 던전5, 던전6, 던전7, 던전8, 맵선택, 랜덤맵1, 보스, 기타추가하셈 };
+enum changeMode { 맵툴, 타이틀, 다이얼로그, 몬스터, 플레이어, 아이템, 인트로, 던전2, 던전3, 던전4, 던전5, 던전6, 던전7, 던전8, 맵선택, 랜덤맵1, 보스, 마을, 기타추가하셈 };
 
 class playGround : public gameNode
 {
 private:
 	MapTool * _mapTool;
-	Player *  _player;
+	Player*  _player;
 	changeMode mode;
 	itemManager* _im;
 	titleScene* _title;
