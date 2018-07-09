@@ -8,7 +8,7 @@ playGround::~playGround(){}
 
 HRESULT playGround::init(void)	
 {
-	mode = 타이틀;				//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
+	mode = 아이템;				//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
 //	rectRotate(IMAGEMANAGER->findImage("검01"), 100, 100);
 
 
@@ -26,6 +26,7 @@ HRESULT playGround::init(void)
 
 	_title = new titleScene;
 	_title->setImLink(_im);
+
 
 	SCENEMANAGER->addScene("타이틀", _title);
 	SCENEMANAGER->addScene("던전2", new dungeon2Scene);
@@ -100,7 +101,6 @@ HRESULT playGround::init(void)
 		break;
 	case 맵선택:
 		SCENEMANAGER->changeScene("맵선택");
-		
 		break;
 	case 기타추가하셈:
 		break;
@@ -206,7 +206,6 @@ void playGround::render(void)
 	case 맵선택:
 		SCENEMANAGER->render();
 		break;
-	
 	case 기타추가하셈:
 		break;
 	default:

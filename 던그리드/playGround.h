@@ -34,6 +34,7 @@ private:
 	itemManager* _im;
 	titleScene* _title;
 	RandomDungeon1* _randomScene1;
+
 public:
 	virtual HRESULT init(void);
 	virtual HRESULT Image_init(void);

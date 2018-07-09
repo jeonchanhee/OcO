@@ -333,6 +333,15 @@
     <ClInclude Include="introScene.h">
       <Filter>playGround\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="GodNpc.h">
+      <Filter>playGround\NPC</Filter>
+    </ClInclude>
+    <ClInclude Include="WeaponNpc.h">
+      <Filter>playGround\NPC</Filter>
+    </ClInclude>
+    <ClInclude Include="FoodNpc.h">
+      <Filter>playGround\NPC</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -550,6 +559,15 @@
     </ClCompile>
     <ClCompile Include="Property.cpp">
       <Filter>playGround\Item\Property</Filter>
+    </ClCompile>
+    <ClCompile Include="GodNpc.cpp">
+      <Filter>playGround\NPC</Filter>
+    </ClCompile>
+    <ClCompile Include="WeaponNpc.cpp">
+      <Filter>playGround\NPC</Filter>
+    </ClCompile>
+    <ClCompile Include="FoodNpc.cpp">
+      <Filter>playGround\NPC</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
