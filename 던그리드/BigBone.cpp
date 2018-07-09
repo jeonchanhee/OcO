@@ -60,16 +60,15 @@ void BigBone::update()
 {
 	changeDirection();
 	move();
-	tileCollision();
 	///////////die테스트!///////////////////
-	if (KEYMANAGER->isOnceKeyDown(VK_F2))
+	/*if (KEYMANAGER->isOnceKeyDown(VK_F2))
 	{
 		
 	}
 	if (KEYMANAGER->isOnceKeyUp(VK_F2))
 	{
 	
-	}
+	}*/
 	///////////▲▲▲▲▲▲▲▲▲▲▲///////////////
 
 	//KEYANIMANAGER->update();
@@ -105,6 +104,11 @@ void BigBone::render()
 	///////////테스트
 	if (KEYMANAGER->isToggleKey('Q')) RectangleMakeCenter(DC, _x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 
+	if (KEYMANAGER->isToggleKey('T'))
+	{
+		Rectangle(DC, _rcCollision.left, _rcCollision.top, _rcCollision.right, _rcCollision.bottom);
+	}
+
 }
 
 void BigBone::move()
@@ -128,7 +132,8 @@ void BigBone::move()
 			rcCollision = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 		break;
 		default:
-			rcCollision = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
+		//	rcCollision = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
+			return;
 		break;
 	}
 
@@ -137,52 +142,56 @@ void BigBone::move()
 	rcCollision.right -= 2;
 	rcCollision.bottom -= 2;
 
+	_rcCollision = rcCollision;
+
+	
 	tileX = rcCollision.left / TILESIZE;
 	tileY = rcCollision.top / TILESIZE;
 
 	switch (_bigBoneDirection)
 	{
 		case BIGBONE_RIGHT_MOVE: 
-			tileIndex[0] = (tileX + tileY * TILEY) + 1;
-			tileIndex[1] = (tileX + (1 + tileY) * TILEX) + 1;
+			tileIndex[0] = (tileX + tileY * VARIABLE_SIZEX[_dungeonNum]) + 2;
+			tileIndex[1] = (tileX + (1 + tileY) *  VARIABLE_SIZEX[_dungeonNum]) + 2;
 		break;
 		case BIGBONE_LEFT_MOVE: 
-			tileIndex[0] = tileX + tileY * TILEX;
-			tileIndex[1] = tileX + (tileY + 1) *TILEX;
+			tileIndex[0] = tileX + tileY * VARIABLE_SIZEX[_dungeonNum];
+			tileIndex[1] = tileX + (tileY + 1)*VARIABLE_SIZEX[_dungeonNum];
 		break;
 	}
-
-	/*
-	//왼쪽오른쪽 체크 : leftRightCheck
-		if (_tiles[leftRightCheck[i]].object == OBJ_CULUMN)
-		{
-			RECT temp;
-
-			if (IntersectRect(&temp, &_tiles[leftRightCheck[i]].rc, &_collisionRc))
-			{
-				if (i == 0)
-				{
-					long rcSize = _collisionRc.right - _collisionRc.left;
-					_collisionRc.left = _tiles[leftRightCheck[i]].rc.right;
-					_collisionRc.right = _collisionRc.left + rcSize;
-					_x = _collisionRc.right - rcSize / 2;
-				}
-				else if (i == 1)
-				{
-					long rcSize = _collisionRc.right - _collisionRc.left;
-					_collisionRc.right = _tiles[leftRightCheck[i]].rc.left;
-					_collisionRc.left = _collisionRc.right - rcSize;
-					_x = _collisionRc.left + rcSize / 2;
-				}
-			}
-		}
-	*/
-
+	if (tileIndex[0] == 1003 || tileIndex[1] == 1003)
+		int a = 0;
 	for (int i = 0; i < 2; i++)
 	{
-		RECT rc;
-		//if(_tiles[tileIndex[i]].object ==OBJ_)
+		if (_dungeonNum == 4 && tileIndex[i] >= 327)
+		{
+			changeAnimation(BIGBONE_LEFT_MOVE);
+			break;
+		}
+		RECT temp;
+		if ((_tiles[tileIndex[i]].object == OBJ_DIAGONAL || _tiles[tileIndex[i]].object == OBJ_CULUMN) &&
+			IntersectRect(&temp, &_tiles[tileIndex[i]].rc, &rcCollision))
+		{
+			switch (_bigBoneDirection)
+			{
+			case BIGBONE_RIGHT_MOVE:
+				_rc.right = _tiles[tileIndex[i]].rc.left;
+				_rc.left = _rc.right - 130;
+				_x = _rc.left + (_rc.right - _rc.left) / 2;
+				changeAnimation(BIGBONE_LEFT_MOVE);
+				break;
+			case BIGBONE_LEFT_MOVE:
+				_rc.left = _tiles[tileIndex[i]].rc.right;
+				_rc.right = _rc.left + 130;
+				_x = _rc.left + (_rc.right - _rc.left) / 2;
+				changeAnimation(BIGBONE_RIGHT_MOVE);
+				break;
+			}
+			return;
+		}
 	}
+	rcCollision = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
+	_rc = rcCollision;
 }
 
 /*void BigBone::rightMove()
@@ -220,14 +229,14 @@ void BigBone::leftAttack(void * obj)
 void BigBone::changeDirection()
 {
 	//방향 전환
-	if (_x - 100 < 0 && _bigBoneDirection == BIGBONE_LEFT_MOVE)
+	/*if (_x - 100 < 0 && _bigBoneDirection == BIGBONE_LEFT_MOVE)
 	{
 		changeAnimation(BIGBONE_RIGHT_MOVE);
 	}
 	if (_x + 100 > WINSIZEX && _bigBoneDirection == BIGBONE_RIGHT_MOVE)
 	{
 		changeAnimation(BIGBONE_LEFT_MOVE);
-	}
+	}*/
 
 	_count++;
 	if (!(_count % 100))
@@ -307,16 +316,4 @@ void BigBone::changeAnimation(BIGBONEDIRECTION bigBoneDirection)
 		break;
 	}
 }
-
-void BigBone::tileCollision()
-{
-	RECT rcCollision;
-
-	int tileIndex[3];
-	int tileX, tileY;
-	rcCollision = _rc;
-
-
-}
-
 

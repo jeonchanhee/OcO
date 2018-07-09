@@ -22,6 +22,8 @@ private:
 	animation* _dogBoneMotion;
 
 	float _startY;
+
+	RECT _rcCollision;
 public:
 	DogBone();
 	~DogBone();

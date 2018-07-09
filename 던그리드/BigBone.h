@@ -25,6 +25,7 @@ private:
 
 	int		_index;
 
+	RECT _rcCollision;
 public:
 	BigBone();
 	~BigBone();
@@ -41,8 +42,6 @@ public:
 	static void leftAttack(void* obj);
 	void changeDirection(); //방향전환 함수
 	void changeAnimation(BIGBONEDIRECTION bigBoneDirection); //애니메이션 바꾸는 함수
-
-	void tileCollision(); //타일 검출
 
 	//콜백함수
 	BIGBONEDIRECTION getBigBoneDirection() { return _bigBoneDirection; }

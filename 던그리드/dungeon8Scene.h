@@ -27,6 +27,6 @@ public:
 
 	void render();
 	
-	void setMonster();
+	//void setMonster();
 };
 
