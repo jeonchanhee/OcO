@@ -51,6 +51,7 @@ void RandomDungeon1::save()
 {
 	vector<string> vStr;
 	char str[128] = "";
+	//==============1번===================
 	//vStr.push_back(itoa(1, str, 10));
 	//for (int i = 0; i < 11; i++)
 	//{
@@ -59,6 +60,7 @@ void RandomDungeon1::save()
 	//	else
 	//		vStr.push_back("N");
 	//}
+	//==============2번===================
 	vStr.push_back(itoa(2, str, 10));
 	for (int i = 0; i < 11; i++)
 	{
@@ -67,6 +69,7 @@ void RandomDungeon1::save()
 	else
 	vStr.push_back("N");
 	}
+	//==============3번===================
 	//vStr.push_back(itoa(3, str, 10));
 	//for (int i = 0; i < 11; i++)
 	//{
@@ -75,6 +78,7 @@ void RandomDungeon1::save()
 	//else
 	//	vStr.push_back("N");
 	//}
+	//==============4번===================
 	/*vStr.push_back(itoa(4, str, 10));
 	for (int i = 0; i < 11; i++)
 	{
