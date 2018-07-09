@@ -8,7 +8,7 @@ playGround::~playGround(){}
 
 HRESULT playGround::init(void)	
 {
-	mode = 타이틀;				//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
+	mode = 던전5;				//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
 //	rectRotate(IMAGEMANAGER->findImage("검01"), 100, 100);
 
 
@@ -128,7 +128,7 @@ void playGround::update(void)
 {
 	gameNode::update();
 
-	//_mapTool->update();
+	_mapTool->update();
 	//_player->update();
 	SCENEMANAGER->update();
 	
@@ -178,18 +178,18 @@ void playGround::render(void)
 	switch (mode)
 	{
 	case 맵툴:
-		//PatBlt(UIDC, 0, 0, BACKGROUNDSIZEX, BACKGROUNDSIZEY, BLACKNESS);
-		//
-		//
-		//_mapTool->render();
-		//if(KEYMANAGER->isToggleKey(VK_TAB))
-		//{
-		//	IMAGEMANAGER->findImage("floor1")->render(DC, -23 * 96, 12 * 96);
-		//	IMAGEMANAGER->findImage("floor2")->render(DC, 22 * 96, 12 * 96);
-		//	IMAGEMANAGER->findImage("floor1")->render(DC, 57 * 96, 12 * 96);
-		//	IMAGEMANAGER->findImage("floor0")->render(DC, 30 * 96, 17 * 96);
-		//	IMAGEMANAGER->findImage("floor0")->render(DC, 36 * 96, 15 * 96);
-		//}
+		PatBlt(UIDC, 0, 0, BACKGROUNDSIZEX, BACKGROUNDSIZEY, BLACKNESS);
+		
+		
+		_mapTool->render();
+		if(KEYMANAGER->isToggleKey(VK_TAB))
+		{
+			IMAGEMANAGER->findImage("floor1")->render(DC, -23 * 96, 12 * 96);
+			IMAGEMANAGER->findImage("floor2")->render(DC, 22 * 96, 12 * 96);
+			IMAGEMANAGER->findImage("floor1")->render(DC, 57 * 96, 12 * 96);
+			IMAGEMANAGER->findImage("floor0")->render(DC, 30 * 96, 17 * 96);
+			IMAGEMANAGER->findImage("floor0")->render(DC, 36 * 96, 15 * 96);
+		}
 		
 		break;
 	case 타이틀:
