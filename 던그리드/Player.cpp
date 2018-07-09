@@ -77,7 +77,6 @@ void Player::release() {}
 
 void Player::update()
 {
-	_collisionRc = RectMakeCenter(_x, _y, _player->getFrameWidth()  , _player->getFrameHeight());
 	keyInput();
 	move();
 	mouseControl();
@@ -87,6 +86,8 @@ void Player::update()
 	EFFECTMANAGER->update();
 	cameraSetting();
 	tileCollision();
+	_collisionRc = RectMakeCenter(_x, _y, _player->getFrameWidth(), _player->getFrameHeight());
+	_y = _collisionRc.top + ((_collisionRc.bottom - _collisionRc.top) / 2);
 	_pb->update();
 }
 
@@ -137,15 +138,15 @@ void Player::render()
 	}
 	//text !
 	char str[128]; sprintf_s(str, "Weapon Index : %d", _youUsingCount);
-	if (_goDownJump)  sprintf_s(str, "다운점프 : true");
-	else if (!_goDownJump) sprintf_s(str, "다운점프 : false");
+	if (_isJumping)  sprintf_s(str, "점프 : true");
+	else if (!_isJumping) sprintf_s(str, "점프 : false");
 	TextOut(DC, _collisionRc.left - 50 , _collisionRc.top - 150, str, strlen(str));
 	//// tile check 
-	sprintf(str, "체크타일 %x,%x", leftRightCheck[0], leftRightCheck[1]);
+	sprintf(str, "체크타일 %d,%d", leftRightCheck[0], leftRightCheck[1]);
 	TextOut(DC, _x - 10, _collisionRc.top , str, strlen(str));
-	sprintf(str, "위에 타일 %x,%x", upStateCheck[0] , upStateCheck[1]);
+	sprintf(str, "위에 타일 %d,%d", _upStateCheck[0] , _upStateCheck[1]);
 	TextOut(DC, _x - 10, _collisionRc.top - 50, str, strlen(str));
-	sprintf(str, "아래 타일 %x,%x", downStateCheck[0], downStateCheck[1]);
+	sprintf(str, "아래 타일 %d,%d", _downStateCheck[0], _downStateCheck[1]);
 	TextOut(DC, _x - 10, _collisionRc.top - 100, str, strlen(str));
 
 	//pb
@@ -358,6 +359,7 @@ void Player::attack()
 				_leftHandX = _collisionRc.left + 15 + _locusX , _leftHandY = _collisionRc.top + 60 + _locusY;
 				_rightHandX = _collisionRc.left + 60, _rightHandY = _collisionRc.top + 60;
 			}
+
 			if (!_isLeftAttack)
 			{
 				_locusX += cosf(_angle) * _punchSpeed;
@@ -489,8 +491,8 @@ void Player::tileCollision()
 	_collisionRc.left += 3, _collisionRc.top += 3, _collisionRc.right -= 3, _collisionRc.bottom -= 3;
 
 	xIndex = (_collisionRc.left / TILESIZE) , yIndex = (_collisionRc.top / TILESIZE);
-	downStateCheck[0] = xIndex + (VARIABLE_SIZEX[_dungeonNum] * (yIndex + 1)), downStateCheck[1] = xIndex + (VARIABLE_SIZEX[_dungeonNum] * (yIndex + 1)) + 1;
-	upStateCheck[0] = xIndex + (VARIABLE_SIZEX[_dungeonNum] * (yIndex )), upStateCheck[1] = xIndex + (VARIABLE_SIZEX[_dungeonNum] * (yIndex )) + 1;
+	_downStateCheck[0] = xIndex + (VARIABLE_SIZEX[_dungeonNum] * (yIndex + 1)), _downStateCheck[1] = xIndex + (VARIABLE_SIZEX[_dungeonNum] * (yIndex + 1)) + 1;
+	_upStateCheck[0] = xIndex + (VARIABLE_SIZEX[_dungeonNum] * (yIndex )), _upStateCheck[1] = xIndex + (VARIABLE_SIZEX[_dungeonNum] * (yIndex )) + 1;
 
 
 	leftRightCheck[0] = (yIndex * VARIABLE_SIZEX[_dungeonNum]) + xIndex;
@@ -498,16 +500,17 @@ void Player::tileCollision()
 
 
 
+
 	for (int i = 0; i < 2; ++i)
 	{
 		//									 !@!!!!#!#$@!#$!@ 천장 오브젝트 !@!!!!#!#$@!#$!@
-		if (_tiles[upStateCheck[i]].object == OBJ_CEILING)
+		if (_tiles[_upStateCheck[i]].object == OBJ_CEILING)
 		{
 			RECT temp;
-			if (IntersectRect(&temp, &_tiles[upStateCheck[i]].rc, &_collisionRc))
+			if (IntersectRect(&temp, &_tiles[_upStateCheck[i]].rc, &_collisionRc))
 			{
 				long rcHeight = _collisionRc.bottom - _collisionRc.top;
-				_collisionRc.top = _tiles[upStateCheck[i]].rc.bottom;
+				_collisionRc.top = _tiles[_upStateCheck[i]].rc.bottom;
 				_collisionRc.bottom = _collisionRc.top + rcHeight;
 				_jump = -(_jump / 2);
 				_y = _collisionRc.top + (rcHeight / 2);
@@ -538,23 +541,58 @@ void Player::tileCollision()
 				}
 			}
 		}
-
-		//위 체크 :upStateCheck
-		if (_tiles[upStateCheck[i]].object == OBJ_CULUMN)
+		else if (_tiles[leftRightCheck[i]].object == OBJ_DIAGONAL_LEFT)
 		{
 			RECT temp;
-			if (IntersectRect(&temp, &_tiles[upStateCheck[i]].rc, &_collisionRc))
+
+			if (IntersectRect(&temp, &_tiles[leftRightCheck[i]].rc, &_collisionRc))
+			{
+				_isJumping = false;
+				_gravity = 0;
+				_jump = 0;
+				long rcHeight = _collisionRc.bottom - _collisionRc.top;
+				long value = abs(_tiles[leftRightCheck[i]].rc.right - _collisionRc.left);
+				_collisionRc.bottom = _tiles[leftRightCheck[i]].rc.bottom - value ;
+				_collisionRc.top = _collisionRc.bottom - rcHeight;
+				_y = _collisionRc.top + (_player->getFrameHeight() / 2);
+					
+			}
+		}
+		else if (_tiles[leftRightCheck[i]].object == OBJ_DIAGONAL_RIGHT)
+		{
+			RECT temp;
+
+			if (IntersectRect(&temp, &_tiles[leftRightCheck[i]].rc, &_collisionRc))
+			{
+				_isJumping = false;
+				_gravity = 0;
+				_jump = 0;
+				long rcHeight = _collisionRc.bottom - _collisionRc.top;
+				long value = abs(_tiles[leftRightCheck[i]].rc.left - _collisionRc.right);
+				_collisionRc.bottom = _tiles[leftRightCheck[i]].rc.bottom - value ;
+				_collisionRc.top = _collisionRc.bottom - rcHeight;
+				_y = _collisionRc.top + (_player->getFrameHeight() / 2);
+			}
+		}
+
+		//위 체크 :upStateCheck
+		if (_tiles[_upStateCheck[i]].object == OBJ_CULUMN)
+		{
+			RECT temp;
+			if (IntersectRect(&temp, &_tiles[_upStateCheck[i]].rc, &_collisionRc))
 			{
 				long rcHeight = _collisionRc.bottom - _collisionRc.top;
-				_collisionRc.top = _tiles[upStateCheck[i]].rc.bottom;
+				_collisionRc.top = _tiles[_upStateCheck[i]].rc.bottom;
 				_collisionRc.bottom = _collisionRc.top + rcHeight;
 				_y = _collisionRc.top + (rcHeight / 2);
 			}
 		}
 
 		//아래 체크 :downStateCheck
-		if (_tiles[downStateCheck[i]].object != OBJ_CULUMN
-			&& (_tiles[downStateCheck[i]].object != OBJ_GOGROUND))
+		if (_tiles[_downStateCheck[i]].object != OBJ_CULUMN
+			&& (_tiles[_downStateCheck[i]].object != OBJ_GOGROUND)
+			&& (_tiles[_downStateCheck[i]].object != OBJ_GROUND))
+			
 		{
 			_isJumping = true;
 			_gravity = GRAVITY;
@@ -567,20 +605,20 @@ void Player::tileCollision()
 				if (_jump == 0) value = 1;
 				if (_jump > 0) value = 1;
 				if (_jump < 0) value = 30;
-				if (_collisionRc.left < _tiles[downStateCheck[i]].rc.right
-					&& _collisionRc.right > _tiles[downStateCheck[i]].rc.left
-					&& _collisionRc.top < _tiles[downStateCheck[i]].rc.top
-					&& _collisionRc.bottom > _tiles[downStateCheck[i]].rc.top
-					&& _collisionRc.bottom < _tiles[downStateCheck[i]].rc.top + value)
+				if (_collisionRc.left < _tiles[_downStateCheck[i]].rc.right
+					&& _collisionRc.right > _tiles[_downStateCheck[i]].rc.left
+					&& _collisionRc.top < _tiles[_downStateCheck[i]].rc.top
+					&& _collisionRc.bottom > _tiles[_downStateCheck[i]].rc.top
+					&& _collisionRc.bottom < _tiles[_downStateCheck[i]].rc.top + value)
 				{
 					long rcHeight = _collisionRc.bottom - _collisionRc.top;
 					_isJumping = false;
 					_gravity = 0;
 					_jump = 0;
-					_collisionRc.bottom = _tiles[downStateCheck[i]].rc.top;
+					_collisionRc.bottom = _tiles[_downStateCheck[i]].rc.top;
 					_collisionRc.top = _collisionRc.bottom - rcHeight;
 					_y = _collisionRc.top + (rcHeight / 2);
-					if (_tiles[downStateCheck[i]].object == OBJ_GOGROUND) _goDownJump = true;
+					if (_tiles[_downStateCheck[i]].object == OBJ_GOGROUND) _goDownJump = true;
 					else _goDownJump = false;
 				}
 			}
@@ -588,16 +626,16 @@ void Player::tileCollision()
 			else if (_isDashing)
 			{
 				RECT temp;
-				if (IntersectRect(&temp, &_tiles[downStateCheck[i]].rc, &_collisionRc))
+				if (IntersectRect(&temp, &_tiles[_downStateCheck[i]].rc, &_collisionRc))
 				{
 					long rcHeight = _collisionRc.bottom - _collisionRc.top;
 					_isJumping = false;
 					_gravity = 0;
 					_jump = 0;
-					_collisionRc.bottom = _tiles[downStateCheck[i]].rc.top;
+					_collisionRc.bottom = _tiles[_downStateCheck[i]].rc.top;
 					_collisionRc.top = _collisionRc.bottom - rcHeight;
 					_y = _collisionRc.top + (rcHeight / 2);
-					if (_tiles[downStateCheck[i]].object == OBJ_GOGROUND) _goDownJump = true;
+					if (_tiles[_downStateCheck[i]].object == OBJ_GOGROUND) _goDownJump = true;
 					else _goDownJump = false;
 				}
 			}

@@ -48,7 +48,7 @@ enum TERRAIN
 enum OBJECT
 {
 	//비어있음	못지나가는땅		아래점프로 내려가는땅		못지나가는 벽 기둥	미닫이문			가시		      천장        대각선좀 제발 제발제발제발제발제발제발제발제발제발제발제발제발제발제발제발제발제발제발제발제발제발제발제발
-	OBJ_NONE,	OBJ_GROUND,			OBJ_GOGROUND,		 OBJ_CULUMN,		OBJ_vDoor,    OBJ_THORN,  OBJ_CEILING ,  OBJ_DIAGONAL
+	OBJ_NONE,	OBJ_GROUND,			OBJ_GOGROUND,		 OBJ_CULUMN,		OBJ_vDoor,    OBJ_THORN,  OBJ_CEILING ,  OBJ_DIAGONAL,  OBJ_DIAGONAL_LEFT , OBJ_DIAGONAL_RIGHT
 };
 
 // 포지션 정의

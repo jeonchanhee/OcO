@@ -8,7 +8,8 @@ playGround::~playGround(){}
 
 HRESULT playGround::init(void)	
 {
-	mode = 랜덤맵1;				//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
+	//던전2, 던전3, 던전4, 던전5, 던전6, 던전7, 던전8, 맵선택, 랜덤맵1, 보스,
+	mode = 보스;				//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
 //	rectRotate(IMAGEMANAGER->findImage("검01"), 100, 100);
 
 
@@ -96,7 +97,7 @@ HRESULT playGround::init(void)
 
 		break;	
 	case 보스:
-		//SCENEMANAGER->changeScene("보스");
+		SCENEMANAGER->changeScene("보스");
 		break;
 	case 맵선택:
 		SCENEMANAGER->changeScene("맵선택");
