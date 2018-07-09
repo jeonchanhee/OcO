@@ -26,6 +26,10 @@ HRESULT playGround::Image_init(void)
 	IMAGEMANAGER->addFrameImage("T_textBack", "image/UI/slotBase(1152x858).bmp", 0, 0, 1152, 858, 2, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("T_delete", "image/UI/slotDeleteButton(372x102).bmp", 0, 0, 372, 102, true, RGB(255, 0, 255));
 	
+	//========설정이미지=========
+	IMAGEMANAGER->addImage("setting", "image/UI/Sky_Night(1920x1080).bmp", 1920, 1080, false, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("exitImage", "image/UI/exitButton(200x100,2x1).bmp", 200, 100, 2, 1, true, RGB(255, 0, 255));
+
 	//==========맵UI=============
 	IMAGEMANAGER->addFrameImage("leftDoor", "image/etc/stele_left(384x2304,4x6).bmp", 0, 0, 384, 2304, 4, 6, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("rightDoor", "image/etc/stele_right(384x2304,4x6).bmp", 0, 0, 384, 2304, 4, 6, true, RGB(255, 0, 255));
