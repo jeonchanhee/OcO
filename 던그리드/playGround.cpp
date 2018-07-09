@@ -127,7 +127,7 @@ void playGround::update(void)
 {
 	gameNode::update();
 
-	//_mapTool->update();
+	_mapTool->update();
 	//_player->update();
 	SCENEMANAGER->update();
 	
@@ -177,18 +177,18 @@ void playGround::render(void)
 	switch (mode)
 	{
 	case 맵툴:
-		//PatBlt(UIDC, 0, 0, BACKGROUNDSIZEX, BACKGROUNDSIZEY, BLACKNESS);
-		//
-		//
-		//_mapTool->render();
-		//if(KEYMANAGER->isToggleKey(VK_TAB))
-		//{
-		//	IMAGEMANAGER->findImage("floor1")->render(DC, -23 * 96, 12 * 96);
-		//	IMAGEMANAGER->findImage("floor2")->render(DC, 22 * 96, 12 * 96);
-		//	IMAGEMANAGER->findImage("floor1")->render(DC, 57 * 96, 12 * 96);
-		//	IMAGEMANAGER->findImage("floor0")->render(DC, 30 * 96, 17 * 96);
-		//	IMAGEMANAGER->findImage("floor0")->render(DC, 36 * 96, 15 * 96);
-		//}
+		PatBlt(UIDC, 0, 0, BACKGROUNDSIZEX, BACKGROUNDSIZEY, BLACKNESS);
+		
+		
+		_mapTool->render();
+		if(KEYMANAGER->isToggleKey(VK_TAB))
+		{
+			IMAGEMANAGER->findImage("floor1")->render(DC, -23 * 96, 12 * 96);
+			IMAGEMANAGER->findImage("floor2")->render(DC, 22 * 96, 12 * 96);
+			IMAGEMANAGER->findImage("floor1")->render(DC, 57 * 96, 12 * 96);
+			IMAGEMANAGER->findImage("floor0")->render(DC, 30 * 96, 17 * 96);
+			IMAGEMANAGER->findImage("floor0")->render(DC, 36 * 96, 15 * 96);
+		}
 		
 		break;
 	case 타이틀:
