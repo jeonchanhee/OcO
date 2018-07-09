@@ -503,7 +503,7 @@ void Player::tileCollision()
 
 	for (int i = 0; i < 2; ++i)
 	{
-		//									 !@!!!!#!#$@!#$!@ 천장 오브젝트 !@!!!!#!#$@!#$!@
+		//천장 
 		if (_tiles[_upStateCheck[i]].object == OBJ_CEILING)
 		{
 			RECT temp;
@@ -518,7 +518,7 @@ void Player::tileCollision()
 		}
 
 			
-		//왼쪽오른쪽 체크 : leftRightCheck
+		//왼쪽오른쪽 
 		if (_tiles[leftRightCheck[i]].object == OBJ_CULUMN)
 		{
 			RECT temp;
