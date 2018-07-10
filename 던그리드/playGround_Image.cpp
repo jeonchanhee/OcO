@@ -40,6 +40,14 @@ HRESULT playGround::Image_init(void)
 	IMAGEMANAGER->addFrameImage("portal", "image/UI/portal(1296x384,9x2).bmp", 0, 0, 1296, 384, 9, 2, true, RGB(255, 0, 255));
 	
 
+	IMAGEMANAGER->addImage("BackSky", "image/UI/BackSky(1920x1080).bmp", 0, 0, 1920, 1080, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("BackMountain", "image/UI/BackMountain(2451x1080).bmp", 0, 0, 2451, 1080, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("BackForest", "image/UI/BackForest(3638x1080).bmp", 0, 0, 3638, 1080, true, RGB(255, 0, 255));
+
+	//==========건물==========
+	IMAGEMANAGER->addImage("school", "image/UI/A_TrainingSchool(1620x456).bmp", 0, 0, 1620, 456, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("shop", "image/UI/A_Shop(1254,792).bmp", 0, 0, 1254, 792, true, RGB(255, 0, 255));
+
 	//==========인벤토리==========
 	IMAGEMANAGER->addImage("inven", "image/UI/Inventory(707x1080).bmp", 0, 0, 707, 1080, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("inven0", "image/UI/Inven0(270x172).bmp", 0, 0, 270, 172, true, RGB(255, 0, 255));
@@ -302,6 +310,9 @@ HRESULT playGround::Image_init(void)
 	//상점 NPC
 	IMAGEMANAGER->addFrameImage("엔피시1", "image/npc/inn(420x140)6x2.bmp", 420, 140 , 6, 2, true, RGB(255, 0, 255)); // 음식파는 아줌마
 	IMAGEMANAGER->addFrameImage("엔피시2", "image/npc/weaponNPC(800x392)4x2.bmp", 800, 392, 4, 2, true, RGB(255, 0, 255)); // 장비 판매하는 아저씨
+	IMAGEMANAGER->addFrameImage("N마을샵", "image/npc/merchant(700x400,7x4).bmp", 560, 360, 7, 4, true, RGB(255, 0, 255)); 
+	IMAGEMANAGER->addFrameImage("N트레이너", "image/npc/commander(700x400,7x4).bmp", 700, 400, 7, 4, true, RGB(255, 0, 255)); 
+	IMAGEMANAGER->addFrameImage("N촌장", "image/npc/elder(700x400,7x4).bmp", 700, 400, 7, 4, true, RGB(255, 0, 255));
 
 
 

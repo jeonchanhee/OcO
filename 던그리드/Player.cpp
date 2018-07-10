@@ -179,7 +179,7 @@ void Player::keyInput()
 	}
 	else if (KEYMANAGER->isOnceKeyUp('A')&&_direction!=RIGHT_RUN)
 	{
-		_direction = LEFT_STOP; 
+		_direction = LEFT_STOP;
 		_playerAnimation = KEYANIMANAGER->findAnimation("왼쪽보고서있기");
 		_playerAnimation->start();
 	}
@@ -441,11 +441,11 @@ void Player::effect()
 		_count = 0;
 		if (_collisionRc.left > PTMOUSE_X)
 		{
-			EFFECTMANAGER->play("대시왼쪽", _collisionRc.left + 30 , _collisionRc.top +10 + _player->getFrameWidth() / 2);
+			EFFECTMANAGER->play("대시왼쪽", _collisionRc.left + 42 , _collisionRc.top +10 + _player->getFrameWidth() / 2);
 		}
 		else if (_collisionRc.left < PTMOUSE_X)
 		{
-			EFFECTMANAGER->play("대시오른쪽", _collisionRc.left + 20, _collisionRc.top + 10 +_player->getFrameWidth() / 2);
+			EFFECTMANAGER->play("대시오른쪽", _collisionRc.left + 42, _collisionRc.top + 10 +_player->getFrameWidth() / 2);
 		}
 	}	
 
