@@ -667,7 +667,7 @@ void dungeonScene::BossBulletFire()
 		_count = 0;
 	}
 
-	
+
 
 	//==========================================================
 	//						보스 칼
@@ -689,7 +689,7 @@ void dungeonScene::BossBulletFire()
 	//	_enemyBullet->bulletFire("bossRLaser", _boss->getRightX() - 850, _boss->getRightY(), 0, 0.0f, 1000, true, HEIGHT); //오른손 레이져
 	//	_boss->setRightDirection(RIGHT_LASER_OFF);
 	//}
-
+}
 
 void dungeonScene::bigbatbulletFire()
 {
