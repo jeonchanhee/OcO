@@ -28,7 +28,7 @@ HRESULT soundManager::init()
 	memset(_sound, 0, sizeof(Sound*) * (TOTALSOUNDBUFFER));
 	memset(_channel, 0, sizeof(Channel*) * (TOTALSOUNDBUFFER));
 
-
+	_bgmVol = _sfxVol = 1;
 
 	return S_OK;
 }
@@ -99,12 +99,27 @@ void soundManager::addSound(string keyName, string soundName, bool bgm, bool loo
 			_system->createSound(soundName.c_str(), FMOD_DEFAULT, NULL, &_sound[_mTotalSounds.size()]);
 		}
 	}
-
 	_mTotalSounds.insert(make_pair(keyName, &_sound[_mTotalSounds.size()]));
+	if (bgm)
+		_mSoundsType.insert(make_pair(keyName, BGM));
+	else
+		_mSoundsType.insert(make_pair(keyName, SFX));
 }
 
 void soundManager::play(string keyName, float volume)// 0.0 ~ 1.0f -> 0 ~ 255
 {
+	arrSoundsTypeIter typeIter = _mSoundsType.begin();
+	for (typeIter; typeIter != _mSoundsType.end(); ++typeIter)
+	{
+		if (keyName == typeIter->first)
+		{
+			if (typeIter->second == BGM)
+				volume = _bgmVol;
+			else if (typeIter->second == SFX)
+				volume = _sfxVol;
+			break;
+		}
+	}
 	arrSoundsIter iter = _mTotalSounds.begin();
 
 	int count = 0;
@@ -172,7 +187,7 @@ void soundManager::resume(string keyName)
 
 bool soundManager::isPlaySound(string keyName)
 {
-	bool isPlay;
+	bool isPlay=false;
 	arrSoundsIter iter = _mTotalSounds.begin();
 
 	int count = 0;
@@ -274,6 +289,36 @@ void soundManager::setVolume(string keyName, float volume)
 		{
 			_channel[count]->setVolume(volume);
 			break;
+		}
+	}
+}
+
+void soundManager::setBGMVolume(float volume)
+{
+	arrSoundsTypeIter iter = _mSoundsType.begin();
+
+	int count = 0;
+
+	for (iter; iter != _mSoundsType.end(); ++iter, count++)
+	{
+		if (iter->second == BGM)
+		{
+			_channel[count]->setVolume(volume);
+		}
+	}
+}
+
+void soundManager::setSFXVolume(float volume)
+{
+	arrSoundsTypeIter iter = _mSoundsType.begin();
+
+	int count = 0;
+
+	for (iter; iter != _mSoundsType.end(); ++iter, count++)
+	{
+		if (iter->second == SFX)
+		{
+			_channel[count]->setVolume(volume);
 		}
 	}
 }

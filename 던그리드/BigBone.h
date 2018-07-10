@@ -1,5 +1,7 @@
 #pragma once
 #include "Enemy.h"
+#include "MapTool.h"
+#include "progressBar.h"
 
 #define BIGBONESPEED 5.0f;
 
@@ -17,12 +19,17 @@ enum BIGBONEDIRECTION
 class BigBone : public Enemy
 {
 private:
+	progressBar* _progressBar;
+	float _currentHP, _maxHP;
+
+	MapTool* _mapTool;
 	BIGBONEDIRECTION _bigBoneDirection;
 	animation* _bigBoneMotion;
 	POINT		_renPoint[2]; //렌더할 x,y좌표 2개
 
 	int		_index;
 
+	RECT _rcCollision;
 public:
 	BigBone();
 	~BigBone();
@@ -33,8 +40,8 @@ public:
 	void render();
 
 	void move(); //움직임 함수
-	void rightMove();//오른쪽 이동 함수
-	void leftMove(); //왼쪽 이동 함수
+	//void rightMove();//오른쪽 이동 함수
+	//void leftMove(); //왼쪽 이동 함수
 	static void rightAttack(void* obj);
 	static void leftAttack(void* obj);
 	void changeDirection(); //방향전환 함수
@@ -46,5 +53,8 @@ public:
 
 	animation* getBigBoneMotion() { return _bigBoneMotion; }
 	void setBigBoneMotion(animation* ani) { _bigBoneMotion = ani; }
+
+	void playerColiision();
+	void hitDamage(float damage);
 };
 

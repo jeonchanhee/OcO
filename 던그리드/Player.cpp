@@ -77,7 +77,6 @@ void Player::release() {}
 
 void Player::update()
 {
-	_collisionRc = RectMakeCenter(_x, _y, _player->getFrameWidth()  , _player->getFrameHeight());
 	keyInput();
 	move();
 	mouseControl();
@@ -87,6 +86,8 @@ void Player::update()
 	EFFECTMANAGER->update();
 	cameraSetting();
 	tileCollision();
+	_collisionRc = RectMakeCenter(_x, _y, _player->getFrameWidth(), _player->getFrameHeight());
+	pixelCollision();
 	_pb->update();
 }
 
@@ -137,15 +138,19 @@ void Player::render()
 	}
 	//text !
 	char str[128]; sprintf_s(str, "Weapon Index : %d", _youUsingCount);
-	if (_goDownJump)  sprintf_s(str, "다운점프 : true");
-	else if (!_goDownJump) sprintf_s(str, "다운점프 : false");
+	if (_isJumping)  sprintf_s(str, "점프 : true");
+	else if (!_isJumping) sprintf_s(str, "점프 : false");
 	TextOut(DC, _collisionRc.left - 50 , _collisionRc.top - 150, str, strlen(str));
 	//// tile check 
-	sprintf(str, "체크타일 %x,%x", leftRightCheck[0], leftRightCheck[1]);
+	sprintf(str, "x 좌표 : %f", _x);
+	TextOut(DC, _x-300, _y - 200, str, strlen(str));
+	sprintf(str, "y 좌표 : %f", _y);
+	TextOut(DC, _x- 300, _y - 300, str, strlen(str)); 
+	sprintf(str, "체크타일 %d,%d", leftRightCheck[0], leftRightCheck[1]);
 	TextOut(DC, _x - 10, _collisionRc.top , str, strlen(str));
-	sprintf(str, "위에 타일 %x,%x", upStateCheck[0] , upStateCheck[1]);
+	sprintf(str, "위에 타일 %d,%d", _upStateCheck[0] , _upStateCheck[1]);
 	TextOut(DC, _x - 10, _collisionRc.top - 50, str, strlen(str));
-	sprintf(str, "아래 타일 %x,%x", downStateCheck[0], downStateCheck[1]);
+	sprintf(str, "아래 타일 %d,%d", _downStateCheck[0], _downStateCheck[1]);
 	TextOut(DC, _x - 10, _collisionRc.top - 100, str, strlen(str));
 
 	//pb
@@ -172,7 +177,7 @@ void Player::keyInput()
 		_playerAnimation->start();
 
 	}
-	else if (KEYMANAGER->isOnceKeyUp('A'))
+	else if (KEYMANAGER->isOnceKeyUp('A')&&_direction!=RIGHT_RUN)
 	{
 		_direction = LEFT_STOP;
 		_playerAnimation = KEYANIMANAGER->findAnimation("왼쪽보고서있기");
@@ -186,16 +191,16 @@ void Player::keyInput()
 		_playerAnimation->start();
 
 	}
-	else if (KEYMANAGER->isOnceKeyUp('D'))
+	else if (KEYMANAGER->isOnceKeyUp('D') && _direction != LEFT_RUN)
 	{
 		_direction = RIGHT_STOP;
 		_playerAnimation = KEYANIMANAGER->findAnimation("오른쪽보고서있기");
 		_playerAnimation->start();
 	}
 
-	if (KEYMANAGER->isStayKeyDown('S') 
-	&& KEYMANAGER->isOnceKeyDown(VK_SPACE)
-	&& _goDownJump) _y += 100;
+	if (KEYMANAGER->isStayKeyDown('S')
+		&& KEYMANAGER->isOnceKeyDown(VK_SPACE)
+		&& _goDownJump) _y += 90 , _goDownJump = false;
 	else if (KEYMANAGER->isOnceKeyDown(VK_SPACE))
 	{
 		_jumpCount++;
@@ -233,6 +238,7 @@ void Player::keyInput()
 			_currentDash--;
 			_dashSpeed = DASHSPEED;
 			_isDashing = true;
+			_jump = 0;
 			_angle = getAngle(_collisionRc.left + _player->getFrameWidth() / 2, _collisionRc.top + _player->getFrameHeight() / 2, PTMOUSE_X, PTMOUSE_Y);
 		}
 	}
@@ -358,6 +364,7 @@ void Player::attack()
 				_leftHandX = _collisionRc.left + 15 + _locusX , _leftHandY = _collisionRc.top + 60 + _locusY;
 				_rightHandX = _collisionRc.left + 60, _rightHandY = _collisionRc.top + 60;
 			}
+
 			if (!_isLeftAttack)
 			{
 				_locusX += cosf(_angle) * _punchSpeed;
@@ -435,11 +442,11 @@ void Player::effect()
 		_count = 0;
 		if (_collisionRc.left > PTMOUSE_X)
 		{
-			EFFECTMANAGER->play("대시왼쪽", _collisionRc.left + 30 , _collisionRc.top +10 + _player->getFrameWidth() / 2);
+			EFFECTMANAGER->play("대시왼쪽", _collisionRc.left + 42 , _collisionRc.top +10 + _player->getFrameWidth() / 2);
 		}
 		else if (_collisionRc.left < PTMOUSE_X)
 		{
-			EFFECTMANAGER->play("대시오른쪽", _collisionRc.left + 20, _collisionRc.top + 10 +_player->getFrameWidth() / 2);
+			EFFECTMANAGER->play("대시오른쪽", _collisionRc.left + 42, _collisionRc.top + 10 +_player->getFrameWidth() / 2);
 		}
 	}	
 
@@ -489,25 +496,58 @@ void Player::tileCollision()
 	_collisionRc.left += 3, _collisionRc.top += 3, _collisionRc.right -= 3, _collisionRc.bottom -= 3;
 
 	xIndex = (_collisionRc.left / TILESIZE) , yIndex = (_collisionRc.top / TILESIZE);
-	downStateCheck[0] = xIndex + (VARIABLE_SIZEX[_dungeonNum] * (yIndex + 1)), downStateCheck[1] = xIndex + (VARIABLE_SIZEX[_dungeonNum] * (yIndex + 1)) + 1;
-	upStateCheck[0] = xIndex + (VARIABLE_SIZEX[_dungeonNum] * (yIndex )), upStateCheck[1] = xIndex + (VARIABLE_SIZEX[_dungeonNum] * (yIndex )) + 1;
+	_downStateCheck[0] = xIndex + (VARIABLE_SIZEX[_dungeonNum] * (yIndex + 1)), _downStateCheck[1] = xIndex + (VARIABLE_SIZEX[_dungeonNum] * (yIndex + 1)) + 1;
+	_upStateCheck[0] = xIndex + (VARIABLE_SIZEX[_dungeonNum] * (yIndex )), _upStateCheck[1] = xIndex + (VARIABLE_SIZEX[_dungeonNum] * (yIndex )) + 1;
 
 
 	leftRightCheck[0] = (yIndex * VARIABLE_SIZEX[_dungeonNum]) + xIndex;
 	leftRightCheck[1] = (yIndex  * VARIABLE_SIZEX[_dungeonNum]) + xIndex +1;
+	_leftCheck[0] = (yIndex * VARIABLE_SIZEX[_dungeonNum]) + xIndex , _leftCheck[1] = ((yIndex + 1)  * VARIABLE_SIZEX[_dungeonNum]) + xIndex;
+	_rightCheck[0] = (yIndex  * VARIABLE_SIZEX[_dungeonNum]) + xIndex + 1 , _rightCheck[1] = ((yIndex + 1)  * VARIABLE_SIZEX[_dungeonNum]) + xIndex + 1;
 
+	int val = 0;
+	if (_jump > 0) val = 2;
+	else if (_jump <= 0) val = 1;
 
+	for (int i = 0; i < val; ++i)
+	{
+		if (_tiles[_leftCheck[i]].object == OBJ_CULUMN)
+		{
+			RECT temp;
+
+			if (IntersectRect(&temp, &_tiles[_leftCheck[i]].rc, &_collisionRc))
+			{
+				long rcSize = _collisionRc.right - _collisionRc.left;
+				_collisionRc.left = _tiles[_leftCheck[i]].rc.right;
+				_collisionRc.right = _collisionRc.left + rcSize;
+				_x = _collisionRc.right - rcSize / 2;
+			}
+		}
+		else if (_tiles[_rightCheck[i]].object == OBJ_CULUMN)
+		{
+			RECT temp;
+
+			if (IntersectRect(&temp, &_tiles[_rightCheck[i]].rc, &_collisionRc))
+			{
+
+				long rcSize = _collisionRc.right - _collisionRc.left;
+				_collisionRc.right = _tiles[_rightCheck[i]].rc.left;
+				_collisionRc.left = _collisionRc.right - rcSize;
+				_x = _collisionRc.left + rcSize / 2;
+			}
+		}
+	}
 
 	for (int i = 0; i < 2; ++i)
 	{
-		//									 !@!!!!#!#$@!#$!@ 천장 오브젝트 !@!!!!#!#$@!#$!@
-		if (_tiles[upStateCheck[i]].object == OBJ_CEILING)
+		//천장
+		if (_tiles[_upStateCheck[i]].object == OBJ_CEILING)
 		{
 			RECT temp;
-			if (IntersectRect(&temp, &_tiles[upStateCheck[i]].rc, &_collisionRc))
+			if (IntersectRect(&temp, &_tiles[_upStateCheck[i]].rc, &_collisionRc))
 			{
 				long rcHeight = _collisionRc.bottom - _collisionRc.top;
-				_collisionRc.top = _tiles[upStateCheck[i]].rc.bottom;
+				_collisionRc.top = _tiles[_upStateCheck[i]].rc.bottom;
 				_collisionRc.bottom = _collisionRc.top + rcHeight;
 				_jump = -(_jump / 2);
 				_y = _collisionRc.top + (rcHeight / 2);
@@ -515,8 +555,8 @@ void Player::tileCollision()
 		}
 
 			
-		//왼쪽오른쪽 체크 : leftRightCheck
-		if (_tiles[leftRightCheck[i]].object == OBJ_CULUMN)
+		//왼쪽오른쪽 
+		/*if (_tiles[leftRightCheck[i]].object == OBJ_CULUMN)
 		{
 			RECT temp;
 
@@ -537,29 +577,80 @@ void Player::tileCollision()
 					_x = _collisionRc.left + rcSize / 2;
 				}
 			}
-		}
-
+		}*/
+		//얍 
+		
+		//얍
 		//위 체크 :upStateCheck
-		if (_tiles[upStateCheck[i]].object == OBJ_CULUMN)
+		if (_tiles[_upStateCheck[i]].object == OBJ_CULUMN)
 		{
 			RECT temp;
-			if (IntersectRect(&temp, &_tiles[upStateCheck[i]].rc, &_collisionRc))
+			if (IntersectRect(&temp, &_tiles[_upStateCheck[i]].rc, &_collisionRc))
 			{
 				long rcHeight = _collisionRc.bottom - _collisionRc.top;
-				_collisionRc.top = _tiles[upStateCheck[i]].rc.bottom;
+				_collisionRc.top = _tiles[_upStateCheck[i]].rc.bottom;
 				_collisionRc.bottom = _collisionRc.top + rcHeight;
 				_y = _collisionRc.top + (rcHeight / 2);
 			}
 		}
 
 		//아래 체크 :downStateCheck
-		if (_tiles[downStateCheck[i]].object != OBJ_CULUMN
-			&& (_tiles[downStateCheck[i]].object != OBJ_GOGROUND))
+		if (_tiles[_downStateCheck[i]].object != OBJ_CULUMN
+			&& (_tiles[_downStateCheck[i]].object != OBJ_GOGROUND)
+			&& (_tiles[_downStateCheck[i]].object != OBJ_GROUND)
+			&& (_tiles[_downStateCheck[i]].terrain != TOWN_GROUND))
+			
 		{
+			_goDownJump = false;
 			_isJumping = true;
 			_gravity = GRAVITY;
 		}
-		else
+		else if(_tiles[_downStateCheck[i]].object == OBJ_CULUMN
+		|| (_tiles[_downStateCheck[i]].terrain == TOWN_GROUND))
+		{
+			 if (!_isDashing)
+			 {
+				int value = 0;
+				if (_jump == 0) value = 1;
+				if (_jump > 0) value = 1;
+				if (_jump < 0) value = 30;
+				if (_collisionRc.left < _tiles[_downStateCheck[i]].rc.right
+					&& _collisionRc.right > _tiles[_downStateCheck[i]].rc.left
+					&& _collisionRc.top < _tiles[_downStateCheck[i]].rc.top
+					&& _collisionRc.bottom > _tiles[_downStateCheck[i]].rc.top
+					&& _collisionRc.bottom < _tiles[_downStateCheck[i]].rc.top + value)
+				{
+					long rcHeight = _collisionRc.bottom - _collisionRc.top;
+					_isJumping = false;
+					_gravity = 0;
+					_jump = 0;
+					_collisionRc.bottom = _tiles[_downStateCheck[i]].rc.top;
+					_collisionRc.top = _collisionRc.bottom - rcHeight;
+					_y = _collisionRc.top + (rcHeight / 2);
+					_goDownJump = false;
+
+				}
+			 }
+
+		  	 else if (_isDashing)
+			 {
+				RECT temp;
+				if (IntersectRect(&temp, &_tiles[_downStateCheck[i]].rc, &_collisionRc))
+				{
+					long rcHeight = _collisionRc.bottom - _collisionRc.top;
+					_isJumping = false;
+					_gravity = 0;
+					_jump = 0;
+					_collisionRc.bottom = _tiles[_downStateCheck[i]].rc.top;
+					_collisionRc.top = _collisionRc.bottom - rcHeight;
+					_y = _collisionRc.top + (rcHeight / 2);
+					_goDownJump = false;
+				}
+			 }
+
+		}
+	
+		if ((_tiles[_downStateCheck[i]].object == OBJ_GOGROUND))
 		{
 			if (!_isDashing)
 			{
@@ -567,39 +658,149 @@ void Player::tileCollision()
 				if (_jump == 0) value = 1;
 				if (_jump > 0) value = 1;
 				if (_jump < 0) value = 30;
-				if (_collisionRc.left < _tiles[downStateCheck[i]].rc.right
-					&& _collisionRc.right > _tiles[downStateCheck[i]].rc.left
-					&& _collisionRc.top < _tiles[downStateCheck[i]].rc.top
-					&& _collisionRc.bottom > _tiles[downStateCheck[i]].rc.top
-					&& _collisionRc.bottom < _tiles[downStateCheck[i]].rc.top + value)
+				if (_collisionRc.left < _tiles[_downStateCheck[i]].rc.right
+					&& _collisionRc.right > _tiles[_downStateCheck[i]].rc.left
+					&& _collisionRc.top < _tiles[_downStateCheck[i]].rc.top
+					&& _collisionRc.bottom > _tiles[_downStateCheck[i]].rc.top
+					&& _collisionRc.bottom < _tiles[_downStateCheck[i]].rc.top + value)
 				{
 					long rcHeight = _collisionRc.bottom - _collisionRc.top;
 					_isJumping = false;
 					_gravity = 0;
 					_jump = 0;
-					_collisionRc.bottom = _tiles[downStateCheck[i]].rc.top;
+					_collisionRc.bottom = _tiles[_downStateCheck[i]].rc.top;
 					_collisionRc.top = _collisionRc.bottom - rcHeight;
 					_y = _collisionRc.top + (rcHeight / 2);
-					if (_tiles[downStateCheck[i]].object == OBJ_GOGROUND) _goDownJump = true;
-					else _goDownJump = false;
+					_goDownJump = true;
 				}
 			}
-
-			else if (_isDashing)
+		}
+		if (_tiles[_downStateCheck[i]].object == OBJ_GROUND)
+		{
+			if (_dungeonNum == 11)
 			{
-				RECT temp;
-				if (IntersectRect(&temp, &_tiles[downStateCheck[i]].rc, &_collisionRc))
+				if (!_isDashing)
 				{
-					long rcHeight = _collisionRc.bottom - _collisionRc.top;
-					_isJumping = false;
-					_gravity = 0;
-					_jump = 0;
-					_collisionRc.bottom = _tiles[downStateCheck[i]].rc.top;
-					_collisionRc.top = _collisionRc.bottom - rcHeight;
-					_y = _collisionRc.top + (rcHeight / 2);
-					if (_tiles[downStateCheck[i]].object == OBJ_GOGROUND) _goDownJump = true;
-					else _goDownJump = false;
+					int value = 0;
+					if (_jump == 0) value = 1;
+					if (_jump > 0) value = 1;
+					if (_jump < 0) value = 30;
+					if (_collisionRc.left < _tiles[_downStateCheck[i]].rc.right
+						&& _collisionRc.right > _tiles[_downStateCheck[i]].rc.left
+						&& _collisionRc.top < _tiles[_downStateCheck[i]].rc.top
+						&& _collisionRc.bottom > _tiles[_downStateCheck[i]].rc.top
+						&& _collisionRc.bottom < _tiles[_downStateCheck[i]].rc.top + value)
+					{
+						long rcHeight = _collisionRc.bottom - _collisionRc.top;
+						_isJumping = false;
+						_gravity = 0;
+						_jump = 0;
+						_collisionRc.bottom = _tiles[_downStateCheck[i]].rc.top;
+						_collisionRc.top = _collisionRc.bottom - rcHeight;
+						_y = _collisionRc.top + (rcHeight / 2);
+						_goDownJump = true;
+
+					}
 				}
+			}
+			else
+			{
+				if (!_isDashing)
+				{
+					int value = 0;
+					if (_jump == 0) value = 1;
+					if (_jump > 0) value = 1;
+					if (_jump < 0) value = 30;
+					if (_collisionRc.left < _tiles[_downStateCheck[i]].rc.right
+						&& _collisionRc.right > _tiles[_downStateCheck[i]].rc.left
+						&& _collisionRc.top < _tiles[_downStateCheck[i]].rc.top
+						&& _collisionRc.bottom > _tiles[_downStateCheck[i]].rc.top
+						&& _collisionRc.bottom < _tiles[_downStateCheck[i]].rc.top + value)
+					{
+						long rcHeight = _collisionRc.bottom - _collisionRc.top;
+						_isJumping = false;
+						_gravity = 0;
+						_jump = 0;
+						_collisionRc.bottom = _tiles[_downStateCheck[i]].rc.top;
+						_collisionRc.top = _collisionRc.bottom - rcHeight;
+						_y = _collisionRc.top + (rcHeight / 2);
+						_goDownJump = false;
+
+					}
+				}
+				else
+				{
+					int value = 0;
+					if (_jump == 0) value = 1;
+					if (_jump > 0) value = 1;
+					if (_jump < 0) value = 30;
+					if (_collisionRc.left < _tiles[_downStateCheck[i]].rc.right
+						&& _collisionRc.right > _tiles[_downStateCheck[i]].rc.left
+						&& _collisionRc.top < _tiles[_downStateCheck[i]].rc.top
+						&& _collisionRc.bottom > _tiles[_downStateCheck[i]].rc.top
+						&& _collisionRc.bottom < _tiles[_downStateCheck[i]].rc.top + value)
+					{
+						long rcHeight = _collisionRc.bottom - _collisionRc.top;
+						_isJumping = false;
+						_gravity = 0;
+						_jump = 0;
+						_collisionRc.bottom = _tiles[_downStateCheck[i]].rc.top;
+						_collisionRc.top = _collisionRc.bottom - rcHeight;
+						_y = _collisionRc.top + (rcHeight / 2);
+						_goDownJump = false;
+					}
+
+				}
+			}
+		}
+	}
+}
+
+void Player::pixelCollision()
+{
+
+
+	for (int j = _y + 20; j < _y + 70; ++j)
+	{	COLORREF color = RGB(0,0,0);
+
+		if(_dungeonNum == 1) color = GetPixel(IMAGEMANAGER->findImage("던전2픽셀")->getMemDC(), _x, j);
+		if(_dungeonNum == 4) color = GetPixel(IMAGEMANAGER->findImage("던전5픽셀")->getMemDC(), _x, j);
+		if (_dungeonNum == 10) color = GetPixel(IMAGEMANAGER->findImage("던전10픽셀")->getMemDC(), _x, j);
+		if(_dungeonNum == 11) color = GetPixel(IMAGEMANAGER->findImage("pixelTown")->getMemDC(), _x, j);
+		
+		if (_dungeonNum == 11)
+		{
+			if (!_isDashing)
+			{
+				int r = GetRValue(color), g = GetGValue(color), b = GetBValue(color);
+
+				if (r == 0 && g == 255 && b == 0)
+				{
+					if (KEYMANAGER->isOnceKeyDown(VK_SPACE))_isJumping = true;
+					else
+					{
+						_y = j - 50;
+						_isJumping = false;
+						_goDownJump = true;
+					}
+					break;
+				}
+			}
+		}
+		else
+		{
+			int r = GetRValue(color), g = GetGValue(color), b = GetBValue(color);
+
+			if (r == 0 && g == 255 && b == 0)
+			{
+				if (KEYMANAGER->isOnceKeyDown(VK_SPACE))_isJumping = true;
+				else
+				{
+					_y = j - 50;
+					_isJumping = false;
+					_goDownJump = false;
+				}
+				break;
 			}
 
 		}

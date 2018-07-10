@@ -19,6 +19,7 @@ class Player;
 enum DOOR_STATE { DOOR_OPEN, DOOR_IDLE, DOOR_CLOSE };
 enum DOOR_DIR { DOOR_LEFT, DOOR_RIGHT, DOOR_UPDOWN };
 
+
 struct torch
 {
 	image* img;
@@ -108,6 +109,7 @@ protected:
 	int _start2;
 
 	bool _bulletMove;
+	int _swordCount;
 
 	infoPlayer _infoPlayer;
 

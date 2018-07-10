@@ -7,14 +7,14 @@ Item::Item(){} Item::~Item(){}
 
 
 
-HRESULT Item::init(ITEMTYPE type, const char* itemName, int value, POINT position)
+HRESULT Item::init(ITEMTYPE type, const char * itemName, int value, POINT position)
 {
 	_item.type = type;
 	_item.name = itemName;
 	_item.value = value;
 	_item.x = position.x;
 	_item.y = position.y;
-	
+
 	CreateItem(type, itemName, value);
 	return S_OK;
 }
@@ -112,6 +112,7 @@ void Item::render() // 아이템을 렌더
 		}
 	}
 
+
 }
 
 
@@ -119,6 +120,7 @@ void Item::render() // 아이템을 렌더
 
 void Item::CreateItem(ITEMTYPE type, const char * itemName, int value) // 아이템 만듬
 {
+
 	switch (type)
 	{
 		case SWORD:
@@ -152,49 +154,21 @@ void Item::CreateItem(ITEMTYPE type, const char * itemName, int value) // 아이템
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void Item::setSword(const char * weaponName, int value)
 {
 	char str[128];
+
 	for (int i = 0; i < 3; i++)
 	{
 		sprintf_s(str, "%s%d%d", weaponName, value, i);
 		_item.image[i] = IMAGEMANAGER->findImage(str);
-
-		if (value == 4 && i == 2 || value == 5 && i == 2) // 착용 이미지 일때
-		{
-			_item.isFrame = true;
-			if (_item.isFrame)
-			{
-				_item.rc[i] = RectMake(_item.x + i * 100, _item.y, _item.image[i]->getFrameWidth(),
-					_item.image[i]->getFrameHeight());
-			}
-			else
-			{
-				_item.isFrame = false;
-			}
-		}
-		else
-		{
-			_item.rc[i] = RectMake(_item.x + i * 100, _item.y, _item.image[i]->getWidth(),
+		
+		_item.rc[i] = RectMake(_item.x + i * 100, _item.y, _item.image[i]->getWidth(),
 				_item.image[i]->getHeight());
-		}
-
+		
 	}
+
+	
 
 	if (value == 1) // 기본무기
 	{
@@ -260,8 +234,72 @@ void Item::setSword(const char * weaponName, int value)
 
 	}
 
-	
-	
+	if (value == 6) // 코스모스
+	{
+		_item.grade = LEGENDARY;			// 전설등급
+		_item.minimumAtt = 30;			// 최소 데미지 30
+		_item.MaxAtt = 55;				// 최대 데미지 45
+		_item.fixedDamage = 30;			// 고정데미지 30
+		_item.attackSpeed = 3.3f;			// 공격속도  
+		_item.criticalPersent = 30.0f;	// 크리율
+		_item.evasionPersent = 5.0f;		// 회피율
+		_item.addMaxHp = 10;				// 최대HP
+		_item.price = 15000;				// 가격
+	}
+
+	if (value == 7) // 코스모스
+	{
+		_item.grade = LEGENDARY;			// 전설등급
+		_item.minimumAtt = 30;			// 최소 데미지 30
+		_item.MaxAtt = 55;				// 최대 데미지 45
+		_item.fixedDamage = 30;			// 고정데미지 30
+		_item.attackSpeed = 3.3f;			// 공격속도  
+		_item.criticalPersent = 30.0f;	// 크리율
+		_item.evasionPersent = 5.0f;		// 회피율
+		_item.addMaxHp = 10;				// 최대HP
+		_item.price = 15000;				// 가격
+	}
+
+	if (value == 8) // 코스모스
+	{
+		_item.grade = LEGENDARY;			// 전설등급
+		_item.minimumAtt = 30;			// 최소 데미지 30
+		_item.MaxAtt = 55;				// 최대 데미지 45
+		_item.fixedDamage = 30;			// 고정데미지 30
+		_item.attackSpeed = 3.3f;			// 공격속도  
+		_item.criticalPersent = 30.0f;	// 크리율
+		_item.evasionPersent = 5.0f;		// 회피율
+		_item.addMaxHp = 10;				// 최대HP
+		_item.price = 15000;				// 가격
+	}
+
+	if (value == 9) // 코스모스
+	{
+		_item.grade = LEGENDARY;			// 전설등급
+		_item.minimumAtt = 30;			// 최소 데미지 30
+		_item.MaxAtt = 55;				// 최대 데미지 45
+		_item.fixedDamage = 30;			// 고정데미지 30
+		_item.attackSpeed = 3.3f;			// 공격속도  
+		_item.criticalPersent = 30.0f;	// 크리율
+		_item.evasionPersent = 5.0f;		// 회피율
+		_item.addMaxHp = 10;				// 최대HP
+		_item.price = 15000;				// 가격
+	}
+
+	if (value == 10) // 코스모스
+	{
+		_item.grade = LEGENDARY;			// 전설등급
+		_item.minimumAtt = 30;			// 최소 데미지 30
+		_item.MaxAtt = 55;				// 최대 데미지 45
+		_item.fixedDamage = 30;			// 고정데미지 30
+		_item.attackSpeed = 3.3f;			// 공격속도  
+		_item.criticalPersent = 30.0f;	// 크리율
+		_item.evasionPersent = 5.0f;		// 회피율
+		_item.addMaxHp = 10;				// 최대HP
+		_item.price = 15000;				// 가격
+	}
+
+
 }
 
 
@@ -765,14 +803,6 @@ void Item::setAccessory(const char * AccessoryName, int value)
 
 
 
-
-
-
-
-
-
-
-
 void Item::setFood(const char * FoodName, int value)
 {
 	char str[128];
@@ -780,7 +810,7 @@ void Item::setFood(const char * FoodName, int value)
 	{
 		sprintf_s(str, "%s%d%d", FoodName, value, i);
 		_item.image[i] = IMAGEMANAGER->findImage(str);
-		_item.rc[i] = RectMake(_item.x + i * 400, _item.y, _item.image[i]->getWidth(),
+		_item.rc[i] = RectMake(_item.x + i * 300, _item.y, _item.image[i]->getWidth(),
 			_item.image[i]->getHeight());
 
 		if (value == 1 && i == 0)
@@ -897,5 +927,4 @@ void Item::setFood(const char * FoodName, int value)
 		}
 	}
 }
-
 

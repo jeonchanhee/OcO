@@ -41,6 +41,11 @@ HRESULT Cow::init(float x, float y)
 
 	_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 
+	//소 체력바 초기화
+	_progressBar = new progressBar;
+	_progressBar->init(_x, _y + 30, 70, 10, "소앞", "소뒤", BAR_MONSTER);
+	_currentHP = _maxHP = 100;
+
 	return S_OK;
 }
 
@@ -50,6 +55,28 @@ void Cow::release()
 
 void Cow::update()
 {
+	//소 체력바 
+	_progressBar->setX(_x);
+	_progressBar->setY(_y + 30);
+	_progressBar->setGauge(_currentHP, _maxHP);
+	_progressBar->update();
+
+	_count++;
+	if (!(_count % 250))
+	{
+		if (_cowDirection == COW_RIGHT_MOVE)
+			changeAnimation(COW_RIGHT_CHARGE);
+		if (_cowDirection == COW_LEFT_MOVE)
+			changeAnimation(COW_LEFT_CHARGE);
+	}
+	if (!(_count % 300))
+	{
+		if (_cowDirection == COW_RIGHT_MOVE)
+			changeAnimation(COW_RIGHT_ATTACK);
+		if (_cowDirection == COW_LEFT_MOVE)
+			changeAnimation(COW_LEFT_ATTACK);
+	}
+
 	move();
 	changeDirection();
 
@@ -74,53 +101,103 @@ void Cow::update()
 void Cow::render()
 {
 	_img->aniRender(DC, _rc.left, _rc.top, _cowMotion);
+	_progressBar->render();
 }
 
 void Cow::move()
 {
+	RECT rcCollision;
+
+	int tileIndex[2];
+	int tileX, tileY;
+	rcCollision = _rc;
+
+	switch (_cowDirection)
+	{
+	case COW_RIGHT_CHARGE:
+		_x += COWSPEED;
+		rcCollision = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
+		break;
+	case COW_LEFT_CHARGE:
+		_x -= COWSPEED;
+		rcCollision = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
+		break;
+	default:
+		return;
+		break;
+	}
 	
-	_count++;
-	if (!(_count % 250))
+	rcCollision.left += 2;
+	rcCollision.top += 2;
+	rcCollision.right -= 2;
+	rcCollision.bottom -= 2;
+
+	_rcCollision = rcCollision;
+
+	tileX = rcCollision.left / TILESIZE;
+	tileY = rcCollision.top / TILESIZE;
+
+	switch (_cowDirection)
 	{
-		if (_cowDirection == COW_RIGHT_MOVE)
-			changeAnimation(COW_RIGHT_CHARGE);
-		if (_cowDirection == COW_LEFT_MOVE)
-			changeAnimation(COW_LEFT_CHARGE);
-	}
-	if (!(_count % 300))
-	{
-		if (_cowDirection == COW_RIGHT_MOVE)
-			changeAnimation(COW_RIGHT_ATTACK);
-		if (_cowDirection == COW_LEFT_MOVE)
-			changeAnimation(COW_LEFT_ATTACK);
+	case COW_RIGHT_CHARGE:
+		tileIndex[0] = (tileX + tileY * VARIABLE_SIZEX[_dungeonNum]) + 2;
+		tileIndex[1] = (tileX + (1 + tileY) *  VARIABLE_SIZEX[_dungeonNum]) + 2;
+		break;
+	case COW_LEFT_CHARGE:
+		tileIndex[0] = tileX + tileY * VARIABLE_SIZEX[_dungeonNum];
+		tileIndex[1] = tileX + (tileY + 1)*VARIABLE_SIZEX[_dungeonNum];
+		break;
 	}
 
-
+	
+	
+	for (int i = 0; i < 2; i++)
+	{
+		RECT temp;
+		if ((_tiles[tileIndex[i]].object == OBJ_CULUMN) &&
+			IntersectRect(&temp, &_tiles[tileIndex[i]].rc, &rcCollision))
+		{
+			switch (_cowDirection)
+			{
+			case COW_RIGHT_CHARGE: 
+				_rc.right = _tiles[tileIndex[i]].rc.left;
+				_rc.left = _rc.right - 230;
+				_x = _rc.left + (_rc.right - _rc.left) / 2;
+				changeAnimation(COW_LEFT_MOVE);
+				break;
+			case COW_LEFT_CHARGE:
+				_rc.left = _tiles[tileIndex[i]].rc.right;
+				_rc.right = _rc.left + 230;
+				_x = _rc.left + (_rc.right - _rc.left) / 2;
+				changeAnimation(COW_RIGHT_MOVE);
+				break;
+			}
+			return;
+		}
+	}
+	rcCollision = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
+	_rc = rcCollision;
 }
 
 void Cow::changeDirection()
 {
-	if (_cowDirection == COW_RIGHT_CHARGE)
-		_x += COWSPEED;
-	if (_cowDirection == COW_LEFT_CHARGE)
-		_x -= COWSPEED;
-	//if (_x <= _img->getFrameWidth())
+	//if (_cowDirection == COW_RIGHT_CHARGE)
+	//	_x += COWSPEED;
+	//if (_cowDirection == COW_LEFT_CHARGE)
+	//	_x -= COWSPEED;
+
+	//방향 전환
+	//if (_x <= 255)
 	//{
-	//	_x = _img->getFrameWidth() + 5;
+	//	_x = 260;
 	//	changeAnimation(COW_RIGHT_MOVE);
 	//	//_x += COWSPEED;
 	//}
-	if (_x <= 255)
-	{
-		_x = 260;
-		changeAnimation(COW_RIGHT_MOVE);
-		//_x += COWSPEED;
-	}
-	if (_x >= WINSIZEX - _img->getFrameWidth())
-	{
-		_x = WINSIZEX - _img->getFrameWidth() - 5;
-		changeAnimation(COW_LEFT_MOVE);
-	}
+	//if (_x >= WINSIZEX - _img->getFrameWidth())
+	//{
+	//	_x = WINSIZEX - _img->getFrameWidth() - 5;
+	//	changeAnimation(COW_LEFT_MOVE);
+	//}
 }
 
 void Cow::rightCharge(void * obj)
@@ -128,18 +205,33 @@ void Cow::rightCharge(void * obj)
 	Cow* c = (Cow*)obj;
 
 	c->_img = IMAGEMANAGER->findImage("cowIdleChargeAttack");
-	c->setCowDirection(COW_RIGHT_MOVE);
-	c->setCowMotion(KEYANIMANAGER->findAnimation("cowRightMove"));
+	if (_dungeonNum == 6)
+	{
+		c->setCowDirection(COW_LEFT_MOVE);
+		c->setCowMotion(KEYANIMANAGER->findAnimation("cowLeftMove"));
+	}
+	else
+	{
+		c->setCowDirection(COW_RIGHT_MOVE);
+		c->setCowMotion(KEYANIMANAGER->findAnimation("cowRightMove"));
+	}
 	c->getCowMotion()->start();
 }
 
 void Cow::leftCharge(void * obj)
 {
 	Cow* c = (Cow*)obj;
-
 	c->_img = IMAGEMANAGER->findImage("cowIdleChargeAttack");
-	c->setCowDirection(COW_LEFT_MOVE);
-	c->setCowMotion(KEYANIMANAGER->findAnimation("cowLeftMove"));
+	if (_dungeonNum == 6)
+	{
+		c->setCowDirection(COW_RIGHT_MOVE);
+		c->setCowMotion(KEYANIMANAGER->findAnimation("cowRightMove"));
+	}
+	else
+	{
+		c->setCowDirection(COW_LEFT_MOVE);
+		c->setCowMotion(KEYANIMANAGER->findAnimation("cowLeftMove"));
+	}
 	c->getCowMotion()->start();
 }
 
@@ -227,4 +319,13 @@ void Cow::changeAnimation(COWDIRECTION cowDirection)
 	default:
 		break;
 	}
+}
+
+void Cow::playerCollision()
+{
+}
+
+void Cow::hitDamage(float damage)
+{
+	_currentHP -= damage;
 }

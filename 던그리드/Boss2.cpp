@@ -16,11 +16,13 @@ HRESULT Boss2::init()
 	_boss[0].img = IMAGEMANAGER->findImage("bossHand");
 	_boss[1].img = IMAGEMANAGER->findImage("bossIdleAttackDie");
 	_boss[2].img = IMAGEMANAGER->findImage("bossHand");
+	//_boss[3].img = IMAGEMANAGER->findImage("bossSword");
 
 	for (int i = 0; i < 3; i++) 
 	{
 		_boss[i].x = WINSIZEX / 4 + (i * WINSIZEX / 4);
-		_boss[i].y = WINSIZEY / 2;
+		_boss[i].y = WINSIZEY / 2 + 400;
+		_boss[2].y = WINSIZEY / 2 + 395;
 
 		_boss[i].rc = RectMakeCenter(_boss[i].x, _boss[i].y, _boss[i].img->getFrameWidth(), _boss[i].img->getFrameHeight());
 	}
@@ -62,7 +64,12 @@ HRESULT Boss2::init()
 	y = (_boss[1].rc.bottom + _boss[1].rc.top) / 2;
 
 	_count2 = _count3 = 0;
-	
+
+	//보스 체력바 초기화
+	_progressBar = new progressBar;
+	_progressBar->init(500, WINSIZEY - 100, 1000, 100, "보스앞", "보스뒤", BAR_BOSS);
+	_currentHP = _maxHP = 100;
+
 	return S_OK;
 }
 
@@ -72,6 +79,12 @@ void Boss2::release()
 
 void Boss2::update()
 {
+	//보스 체력바 업데이트
+	_progressBar->setX(500);
+	_progressBar->setY(WINSIZEY - 100);
+	_progressBar->setGauge(_currentHP, _maxHP);
+	_progressBar->update();
+	
 	///////////////HEAD DIE TEST/////////////////
 	if (KEYMANAGER->isOnceKeyDown(VK_F9))
 	{
@@ -104,6 +117,7 @@ void Boss2::update()
 
 void Boss2::render()
 {
+	_progressBar->render();
 	for (int i = 0; i < 3; i++)
 	{
 		//_boss[i].img->aniRender(DC, _boss[i].rc.left, _boss[i].rc.top, _bossMotion[i]);
@@ -127,10 +141,6 @@ void Boss2::leftMove()
 	//위아래로 움직이다 멈춤
 	if (!(_count % 100))
 	{
-		//if (_bossLeftDirection == LEFT_UP_MOVE)
-		//	changeLeftDirection(LEFT_LASER);
-		//else if (_bossLeftDirection == LEFT_DOWN_MOVE)
-		//	changeLeftDirection(LEFT_LASER);
 		if (_bossLeftDirection == LEFT_UP_MOVE)
 			changeLeftDirection(LEFT_LASER);
 		else if (_bossLeftDirection == LEFT_DOWN_MOVE)
@@ -142,7 +152,8 @@ void Boss2::leftMove()
 	{
 		if (_bossLeftDirection == LEFT_IDLE)
 		{
-			if (_boss[0].y < WINSIZEY / 2)
+			//if (_boss[0].y < WINSIZEY / 2)
+			if (_boss[0].y < WINSIZEY / 2 + 395)
 				changeLeftDirection(LEFT_DOWN_MOVE);
 			else
 				changeLeftDirection(LEFT_UP_MOVE);
@@ -150,7 +161,7 @@ void Boss2::leftMove()
 	}
 
 	//위 범위 지정
-	if (_boss[0].y < 100)
+	if (_boss[0].y < 300)
 	{
 		changeLeftDirection(LEFT_IDLE);
 		_boss[0].y = _boss[0].y;
@@ -237,14 +248,14 @@ void Boss2::CBleftAttack(void * obj)
 void Boss2::headMove()
 {
 	//입 총알 발사하게 함
-	if (!(_count % 100))
+	if (!(_count % 500))
 	{
 		if(_bossHeadDirection == HEAD_IDLE)
 			changeHeadDirection(HEAD_ATTACK);
 		
 	}
 	//입 다물게 함
-	if (!(_count % 500))
+	if (!(_count % 800))
 	{
 		if(_bossHeadDirection == HEAD_ATTACK)
 			changeHeadDirection(HEAD_IDLE);
@@ -301,11 +312,6 @@ void Boss2::rightMove()
 {
 	if (!(_count % 100))
 	{
-		//if (_bossRightDirection == RIGHT_UP_MOVE)
-		//	changeRightDirection(RIGHT_IDLE);
-		//else if (_bossRightDirection == RIGHT_DOWN_MOVE)
-		//	changeRightDirection(RIGHT_IDLE);
-
 		if (_bossRightDirection == RIGHT_UP_MOVE)
 			changeRightDirection(RIGHT_LASER);
 		else if (_bossRightDirection == RIGHT_DOWN_MOVE)
@@ -316,15 +322,17 @@ void Boss2::rightMove()
 	{
 		if (_bossRightDirection == RIGHT_IDLE)
 		{
-			if (_boss[2].y < WINSIZEY / 2)
+			//if (_boss[2].y < WINSIZEY / 2)
+			if (_boss[2].y < WINSIZEY / 2 + 400)
 				changeRightDirection(RIGHT_DOWN_MOVE);
+				//changeRightDirection(RIGHT_UP_MOVE);
 			else
 				changeRightDirection(RIGHT_UP_MOVE);
+				//changeRightDirection(RIGHT_DOWN_MOVE);
 		}
-
 	}
 
-	if (_boss[2].y < 100)
+	if (_boss[2].y < 300)
 	{
 		changeRightDirection(RIGHT_IDLE);
 		_boss[2].y = _boss[2].y;
@@ -400,4 +408,13 @@ void Boss2::CBrightAttack(void * obj)
 	bb->setCount3(100);
 	bb->setRightMotion2(KEYANIMANAGER->findAnimation("rightIdle"));
 	bb->getRightMotion2()->start();
+}
+
+void Boss2::playerCollision()
+{
+}
+
+void Boss2::hitDamage(float damage)
+{
+	_currentHP -= damage;
 }

@@ -183,18 +183,18 @@
     <ClInclude Include="effectManager.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Food.h" />
+    <ClInclude Include="FoodNpc.h" />
     <ClInclude Include="foodScene.h" />
     <ClInclude Include="gameNode.h" />
+    <ClInclude Include="GodNpc.h" />
     <ClInclude Include="image.h" />
     <ClInclude Include="imageManager.h" />
-    <ClInclude Include="inGameScene.h" />
     <ClInclude Include="iniDataManager.h" />
     <ClInclude Include="introScene.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="itemManager.h" />
     <ClInclude Include="keyAniManager.h" />
     <ClInclude Include="keyManager.h" />
-    <ClInclude Include="loadingScene.h" />
     <ClInclude Include="mapSelectScene.h" />
     <ClInclude Include="MapTool.h" />
     <ClInclude Include="MusicAngel.h" />
@@ -223,6 +223,7 @@
     <ClInclude Include="UI.h" />
     <ClInclude Include="utils.h" />
     <ClInclude Include="Weapon.h" />
+    <ClInclude Include="WeaponNpc.h" />
     <ClInclude Include="weaponScene.h" />
   </ItemGroup>
   <ItemGroup>
@@ -260,18 +261,18 @@
     <ClCompile Include="effectManager.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Food.cpp" />
+    <ClCompile Include="FoodNpc.cpp" />
     <ClCompile Include="foodScene.cpp" />
     <ClCompile Include="gameNode.cpp" />
+    <ClCompile Include="GodNpc.cpp" />
     <ClCompile Include="image.cpp" />
     <ClCompile Include="imageManager.cpp" />
-    <ClCompile Include="inGameScene.cpp" />
     <ClCompile Include="iniDataManager.cpp" />
     <ClCompile Include="introScene.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="itemManager.cpp" />
     <ClCompile Include="keyAniManager.cpp" />
     <ClCompile Include="keyManager.cpp" />
-    <ClCompile Include="loadingScene.cpp" />
     <ClCompile Include="mapSelectScene.cpp" />
     <ClCompile Include="MapTool.cpp" />
     <ClCompile Include="MusicAngel.cpp" />
@@ -302,6 +303,7 @@
     <ClCompile Include="UI.cpp" />
     <ClCompile Include="utils.cpp" />
     <ClCompile Include="Weapon.cpp" />
+    <ClCompile Include="WeaponNpc.cpp" />
     <ClCompile Include="weaponScene.cpp" />
     <ClCompile Include="windowAPI.cpp" />
   </ItemGroup>

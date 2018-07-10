@@ -28,7 +28,7 @@ HRESULT dungeon8Scene::init()
 	doorInit();
 	
 	setDoor();
-	setMonster();
+	//setMonster();
 
 	setDungeonDoor();
 	portalInit(363 % 50, 363 / 50);
@@ -63,12 +63,12 @@ void dungeon8Scene::update()
 {
 	dungeonScene::update();
 	nextTest();
-	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); ++_viEnemy)
-	{
-		(*_viEnemy)->update();
-	}
-	MusicAngelBulletFire();
-	_enemyBullet->update();
+	//for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); ++_viEnemy)
+	//{
+	//	(*_viEnemy)->update();
+	//}
+	//MusicAngelBulletFire();
+	//_enemyBullet->update();
 
 	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
 	{
@@ -97,7 +97,7 @@ void dungeon8Scene::setDungeonDoor()
 }
 
 
-void dungeon8Scene::setMonster()
+/*void dungeon8Scene::setMonster()
 {
 	//소
 	setCow(415 % _temp, 415 / _temp);
@@ -126,4 +126,4 @@ void dungeon8Scene::setMonster()
 
 	//작보박
 	setBat(208 % _temp, 208 / _temp);
-}
+}*/

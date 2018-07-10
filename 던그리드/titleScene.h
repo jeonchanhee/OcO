@@ -3,6 +3,8 @@
 
 class itemManager;
 
+enum TITLETYPE {TITLE_MENU, TITLE_START, TITLE_SET};
+
 struct tagData
 {
 	int idx;
@@ -33,9 +35,14 @@ class titleScene : public gameNode
 	vector<tagData> _vData;
 	bool _clickData;
 	RECT _chooseRect[3];
+	bool _setData;
 	RECT _deleteRect[3];
+	RECT _exitRect;
 
 	int _select;
+	TITLETYPE _titleType;
+	RECT _soundRC, _soundRC2, _bgmBack, _sfxBack;
+	float _soundX, _soundY, _soundX2, _soundY2;
 
 public:
 	virtual HRESULT init(void);
@@ -61,6 +68,10 @@ public:
 	void selectData();
 
 	void setImLink(itemManager* im) { _im = im; }
+
+	void setting();
+
+	void drawSetting();
 
 	titleScene();
 	~titleScene();

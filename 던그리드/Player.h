@@ -1,6 +1,7 @@
 #pragma once
 #include "gameNode.h"
 #include "playerBullet.h"
+
 #define DASHSPEED 33
 #define PUNCHSPEED 6.0f
 #define GRAVITY 0.3
@@ -10,10 +11,7 @@
 
 enum DIRECTION
 {
-	LEFT_STOP,
-	LEFT_RUN,
-	RIGHT_STOP,
-	RIGHT_RUN
+	LEFT_STOP, LEFT_RUN, RIGHT_STOP, RIGHT_RUN
 };
 
 class Player : public gameNode
@@ -59,16 +57,16 @@ private:
 	infoPlayer	_infoPlayer;
 
 	//bool 
-	bool _isGun;						//boolÀÌÁö±İ 1							//ÇöÀç ¿ø°Å¸® ¹«±âÀÎÁö Ã¼Å© 
-	bool _isAlive;						//boolÀÌÁö±İ 2							//ÀÚ³× »ıÁ¸ÁßÀÎ°¡ ????
-	bool _isJumping;					//boolÀÌÁö±İ 3							//Á¡ÇÁÁßÀÎ°¡ ?
-	bool _isDashing;					//boolÀÌÁö±İ 4							//´ë½ÃÁß?
-	bool _isAttacking;					//boolÀÌÁö±İ 5							//¶§¸®´ÂÁß ?
-	bool _isLeftAttack;					//boolÀÌÁö±İ 6						    //¿ŞÂÊ¶§·Ç´Ï 
-	bool _isChap;						//boolÀÌÁö±İ 7							//°¡¹ö¸®³ª???
-	bool _showAttackEffect;				//boolÀÌÁö±İ 8							//°ø°İÀÌÆåÆ®!
-	bool _attackSpeedCheckCount;		//boolÀÌÁö±İ 9							//°ø°İ½ºÇÇµåÃéÄí ÄÉÄùÄùÄù®c®cÃßÄÉÃßÄÉÃßÄÉÃßÄÉÃßÄÉÃßÄÉÃß±P¤»
-	bool _goDownJump;					//boolÀÌÁö±İ 10			¶Ç¶§ÂÅ ûıÀÌ ¸î°³´Ï
+	bool _isGun;						//boolÀÌÁö±İ 1
+	bool _isAlive;						//boolÀÌÁö±İ 2					
+	bool _isJumping;					//boolÀÌÁö±İ 3							
+	bool _isDashing;					//boolÀÌÁö±İ 4							
+	bool _isAttacking;					//boolÀÌÁö±İ 5							
+	bool _isLeftAttack;					//boolÀÌÁö±İ 6						    
+	bool _isChap;						//boolÀÌÁö±İ 7							
+	bool _showAttackEffect;				//boolÀÌÁö±İ 8							
+	bool _attackSpeedCheckCount;		//boolÀÌÁö±İ 9							
+	bool _goDownJump;					//boolÀÌÁö±İ 10  
 
 	// int  
 	int _currentHp, _maxHp;											 //ÇöÀç , ÀüÃ¼ Ã¼·Â 
@@ -106,7 +104,7 @@ private:
  
 	//test
 	int xIndex, yIndex;
-	int leftRightCheck[2], downStateCheck[2] , upStateCheck[2];
+	int leftRightCheck[2], _downStateCheck[2], _upStateCheck[2], _leftCheck[2], _rightCheck[2];
 public:
 
 	HRESULT init();
@@ -121,7 +119,7 @@ public:
 	void effect();
 	void cameraSetting();
 	void tileCollision();
-
+	void pixelCollision();
 
 	//Á¢±ÙÀÚ (get)      
 	bool getIsGun()						    { return _isGun; }						     //¿ø°Å¸® ¹«±âÀåÂø ?

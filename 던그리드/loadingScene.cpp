@@ -20,9 +20,9 @@ HRESULT loadingScene::init()
 
 	_background = IMAGEMANAGER->addImage("배그", "로비.bmp", WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
 
-	_loadingBar = new progressBar;
-	_loadingBar->init(0, WINSIZEY - 50, WINSIZEX, 50);
-	_loadingBar->setGauge(0, 0);
+	//_loadingBar = new progressBar;
+	//_loadingBar->init(0, WINSIZEY - 50, WINSIZEX, 50,);
+	//_loadingBar->setGauge(0, 0);
 
 	//쓰레드를 사용하기위한 쓰레드 초기화
 	CreateThread(

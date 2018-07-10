@@ -147,11 +147,11 @@ void MapTool::load()
 
 	ReadFile(file, _tiles, sizeof(tagTile) * TILEX * TILEY, &load, NULL);
 
-	for (int i = 0; i < TILEX * TILEY; i++)
-	{
-		//if (_tiles[i].objFrameX==20 &&_tiles[i].objFrameY==0 )
-			//_tiles[i].object = ;
-	}
+	//for (int i = 0; i < TILEX * TILEY; i++)
+	//{
+	//	//if (_tiles[i].objFrameX==20 &&_tiles[i].objFrameY==0 )
+	//		//_tiles[i].object = ;
+	//}
 
 	CloseHandle(file);
 
@@ -241,7 +241,7 @@ void MapTool::setmap()
 		}
 	}
 
-	//if (_ptMouse.x < CAMERAX&&_ptMouse.y < CAMERAY)
+	if (_ptMouse.x < CAMERAX&&_ptMouse.y < CAMERAY)
 	{
 		for (int i = 0; i < TILEX * TILEY; i++)
 		{
@@ -337,7 +337,7 @@ OBJECT MapTool::objSelect(int FrameX, int FrameY)
 		if (FrameX == i && FrameY == 4) return OBJ_GROUND;
 	}
 	
-	for (int i = 10; i < 19; i++)
+	for (int i = 10; i < 20; i++)
 	{
 		if (FrameX == i && FrameY == 1) return OBJ_GROUND;
 	}

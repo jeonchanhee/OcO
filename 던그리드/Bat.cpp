@@ -43,6 +43,10 @@ HRESULT Bat::init(float x, float y)
 
 	_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 
+	//작보박 체력바 초기화
+	_progressBar = new progressBar;
+	_progressBar->init(_x - 20, _y + 30, 70 , 10, "작보박앞", "작보박뒤", BAR_MONSTER);
+	_currentHP = _maxHP = 100;
 
 	return S_OK;
 }
@@ -53,6 +57,12 @@ void Bat::release()
 
 void Bat::update()
 {
+	//체력바 업데이트
+	_progressBar->setX(_x - 20);
+	_progressBar->setY(_y + 30);
+	_progressBar->setGauge(_currentHP, _maxHP);
+	_progressBar->update();
+
 	move();
 
 	///////////////////DIE테스트////////////////////
@@ -85,6 +95,7 @@ void Bat::update()
 
 void Bat::render()
 {
+	_progressBar->render();
 	_img->aniRender(DC, _rc.left, _rc.top, _batMotion);
 	if (KEYMANAGER->isToggleKey(VK_TAB))
 	{
@@ -174,6 +185,16 @@ void Bat::leftMove()
 
 	_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 
+}
+
+void Bat::playerCollision()
+{
+}
+
+void Bat::hitDamage(float damage)
+{
+	_currentHP -= damage;
+}
 }
 
 void Bat::tileDetection()

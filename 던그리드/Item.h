@@ -26,12 +26,6 @@ enum ITEMTYPE // 아이템의 타입
 
 };
 
-enum ITEMCONDITION
-{
-	DROPITEM,	// 드랍아이템인지 
-	INVENITEM,	// 인벤토리 안에 있는 아이템 인지.
-	WEARITEM,	// 착용아이템인지
-};
 
 struct tagproperty
 {
@@ -51,7 +45,6 @@ struct tagItem // 아이템
 	RECT rc[3];					// 렉트
 	ITEMTYPE type;				// 아이템 종류
 	ITEMGRADE grade;			// 아이템 등급
-	ITEMCONDITION condition;	// 무슨 아이템인지 확인
 	float x, y;					//x, y 좌표
 	bool isFrame;				// 프레임 이미지 인지 아닌지 확인
 	bool sellBan;				// 아이템 판매금지 시킬때
@@ -78,6 +71,8 @@ class Item : public gameNode
 private:
 
 	tagItem _item;
+
+
 	int _count;
 	
 	
@@ -85,22 +80,23 @@ public:
 	Item();
 	~Item();
 
-	HRESULT init(ITEMTYPE type, const char* itemName, int value, POINT position);
+	HRESULT init(ITEMTYPE type, const char * itemName, int value, POINT position);
 	void release();
 	void update();
 	void render();
 
 
-	void CreateItem(ITEMTYPE type, const char* itemName, int value); // 아이템 만들어줌
-	void setSword(const char* weaponName, int value);			// 검 정의해줌
-	void setHammer(const char * weaponName, int value);			// 해머 정의해줌
-	void setGun(const char * weaponName, int value);			// 총 정의해줌
-	void setBow(const char * weaponName, int value);			// 활 정의해줌
-	void setArmor(const char* ArmorName, int value);			// 아머 정의해줌
-	void setShield(const char* ShieldName, int value);			// 쉴드 정의해줌
-	void setEquip(const char* secondEquipment, int value);		// 보조장비 정의해줌
-	void setAccessory(const char* AccessoryName, int value);	// 악세 정의해줌
-	void setFood(const char* FoodName, int value);				// 음식 정의해줌
+	void CreateItem(ITEMTYPE type, const char* itemName, int value); // 아이템 만드러줌
+	
+	void setSword(const char* weaponName, int value);				// 검 정의해줌
+	void setHammer(const char * weaponName, int value);				// 해머 정의해줌
+	void setGun(const char * weaponName, int value);				// 총 정의해줌
+	void setBow(const char * weaponName, int value);				// 활 정의해줌
+	void setArmor(const char* ArmorName, int value);				// 아머 정의해줌
+	void setShield(const char* ShieldName, int value);				// 쉴드 정의해줌
+	void setEquip(const char* secondEquipment, int value);			// 보조장비 정의해줌
+	void setAccessory(const char* AccessoryName, int value);		// 악세 정의해줌
+	void setFood(const char* FoodName, int value);					// 음식 정의해줌
 
 	tagItem getItem() { return _item; }
 	

@@ -14,6 +14,7 @@ HRESULT dungeon3Scene::init()
 {
 	dungeonScene::init();
 
+
 	_isMapSet = true;
 	chooseMap(4);
 	selectSize(4);
@@ -70,7 +71,7 @@ void dungeon3Scene::setMonster()
 	setRedBat(142 % _temp, 142 / _temp);
 
 	//∞≥ª¿
-	setDogBone(390 % _temp, 390 / _temp);
+	setDogBone(396 % _temp, 396 / _temp);
 
 	//»∞¿Ô¿Ã
 	int id2[3][2];

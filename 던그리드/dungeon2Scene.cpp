@@ -15,6 +15,22 @@ HRESULT dungeon2Scene::init()
 {
 	dungeonScene::init();
 
+	IMAGEMANAGER->addImage("던전2픽셀", 1920, 1152);
+
+	HPEN pen, oldPen;
+	pen = CreatePen(BS_SOLID, 25, RGB(0, 255, 0));
+	oldPen = (HPEN)SelectObject(IMAGEMANAGER->findImage("던전2픽셀")->getMemDC(), pen);
+
+	LineMake(IMAGEMANAGER->findImage("던전2픽셀")->getMemDC(), 290, 976, 470, 1145);
+	LineMake(IMAGEMANAGER->findImage("던전2픽셀")->getMemDC(), 1445, 1150, 1625, 975);
+	oldPen = (HPEN)SelectObject(IMAGEMANAGER->findImage("던전2픽셀")->getMemDC(), pen);
+	SelectObject(IMAGEMANAGER->findImage("던전2픽셀")->getMemDC(), oldPen);
+
+	SelectObject(IMAGEMANAGER->findImage("던전2픽셀")->getMemDC(), oldPen);
+	//제거  ===== 
+	DeleteObject(oldPen);
+	DeleteObject(pen);
+
 	_isMapSet = true;
 	chooseMap(3);
 	selectSize(3);
@@ -110,31 +126,42 @@ void dungeon2Scene::doorInit()
 
 
 
+//void dungeon2Scene::update()
+//{
+//	dungeonScene::update();
+//	nextTest();
+//	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); ++_viEnemy)
+//	{
+//		(*_viEnemy)->update();
+//	}
+//}
+
 //몬스터 위치 잡아주는 함수
 void dungeon2Scene::setMonster()
 {
+	
 	//개뼈
-	//int id[2][2];
-	//id[0][0] = 810 % _temp, id[0][1] = 810 / _temp;
-	//id[1][0] = 510 % _temp, id[1][1] = 510 / _temp;
-	//for (int i = 0; i < 2; i++)
-	//{
-	//	setDogBone(id[i][0], id[i][1]);
-	//}
-	////활쟁이
-	//id[0][0] = 505 % _temp, id[0][1] = 505 / _temp;
-	//id[1][0] = 514 % _temp, id[1][1] = 514 / _temp;
-	//for (int i = 0; i < 2; i++)
-	//{
-	//	setArrow(id[i][0], id[i][1]);
-	//}
-	////큰칼뼈
-	//id[0][0] = 1107 % _temp, id[0][1] = 1107 / _temp;
-	//id[1][0] = 1112 % _temp, id[1][1] = 1112 / _temp;
-	//for (int i = 0; i < 2; i++)
-	//{
-	//	setBigBone(id[i][0], id[i][1], i);
-	//}
+	int id[2][2];
+	id[0][0] = 810 % _temp, id[0][1] = 810 / _temp;
+	id[1][0] = 510 % _temp, id[1][1] = 510 / _temp;
+	for (int i = 0; i < 2; i++)
+	{
+		setDogBone(id[i][0], id[i][1]);
+	}
+	//활쟁이
+	id[0][0] = 505 % _temp, id[0][1] = 505 / _temp;
+	id[1][0] = 514 % _temp, id[1][1] = 514 / _temp;
+	for (int i = 0; i < 2; i++)
+	{
+		setArrow(id[i][0], id[i][1]);
+	}
+	//큰칼뼈
+	id[0][0] = 1107 % _temp, id[0][1] = 1107 / _temp;
+	id[1][0] = 1112 % _temp, id[1][1] = 1112 / _temp;
+	for (int i = 0; i < 2; i++)
+	{
+		setBigBone(id[i][0], id[i][1], i);
+	}
 	//작보박
 	setBat(303 % _temp, 303 / _temp);
 	//작갈박

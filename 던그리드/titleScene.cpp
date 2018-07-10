@@ -34,6 +34,13 @@ HRESULT titleScene::init(void)
 		_deleteRect[i] = RectMake(150 + i * 610, 730, IMAGEMANAGER->findImage("T_delete")->getWidth(), IMAGEMANAGER->findImage("T_delete")->getHeight());
 	}
 
+	_titleType = TITLE_MENU;
+	_soundX = 1500, _soundY = 490;
+	_soundX2 = 1500, _soundY2 = 640;
+	_soundRC = RectMakeCenter(_soundX, _soundY, 100, 100);
+	_soundRC2 = RectMakeCenter(_soundX2, _soundY2, 100, 100);
+	_bgmBack = RectMake(600, 470, 900, 50);
+	_sfxBack = RectMake(600, 620, 900, 50);
 	/*int suck[51];
 	for (int i = 0; i<51; i++)
 		suck[i] = i;
@@ -73,6 +80,10 @@ void titleScene::update(void)
 	
 	selectData();
 
+	if (_titleType == TITLE_SET)
+	{
+		drawSetting();
+	}
 	KEYANIMANAGER->update();
 }
 
@@ -85,7 +96,8 @@ void titleScene::render(void)
 	_birdImg1->aniRender(DC, _bird1.x, _bird1.y, _abird1);
 	
 	
-	if (!_clickData)
+	//if (!_clickData)
+	if(_titleType == TITLE_MENU)
 	{
 		if (PtInRect(&_button[0], _ptMouse))
 		{
@@ -93,6 +105,7 @@ void titleScene::render(void)
 			if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
 			{
 				//SCENEMANAGER->changeScene("던전");
+				_titleType = TITLE_START;
 				loadData();
 				
 				int suck[52];
@@ -109,6 +122,12 @@ void titleScene::render(void)
 		if (PtInRect(&_button[1], _ptMouse))
 		{
 			IMAGEMANAGER->frameRender("T_option", DC, 850, 800, 1, 0);
+			if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
+			{
+				_titleType = TITLE_SET;
+				_setData = true;
+				_exitRect = RectMake(WINSIZEX - 130, 50,100,100);
+			}
 		}
 		else
 			IMAGEMANAGER->frameRender("T_option", DC, 850, 800, 0, 0);
@@ -131,6 +150,7 @@ void titleScene::render(void)
 		//drawData();
 	}
 	drawData();
+	setting();
 
 	if (_select != 0)
 	{
@@ -234,8 +254,7 @@ void titleScene::restaurant()
 	if (_rc.bottom >= 932)
 		_rc = RectMake(686, 500, 42, 432);
 	if (_rc.top >= 210 && _rc.bottom <= 932)
-		CAMERAMANAGER->setCameraPoint(PointMake(0, (_rc.top + 1 - 210)*1.4)); //어디간 함수일까...
-		//CAMERAMANAGER->setCameraCenter(PointMake(0, (_rc.top + 1 - 210)*1.4));
+		CAMERAMANAGER->setCameraPoint(PointMake(0, (_rc.top + 1 - 210)*1.4));
 
 	IMAGEMANAGER->findImage("scroll")->render(DC, 686, _rc.top);
 
@@ -243,6 +262,20 @@ void titleScene::restaurant()
 	{
 		Rectangle(DC, _rc.left, _rc.top, _rc.right, _rc.bottom);
 	}
+	//28~31
+	RECT rc=RectMake(35,35,100,50);
+	RECT rc2=RectMake(35,305,100,50);
+	_im->getItem()[29]->getItem().image[0]->render(DC, 1120, 540);
+	
+	HFONT font, oldFont;
+	font = CreateFont(40, 0, 0, 0, 100, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("소야바른9"));
+	oldFont = (HFONT)SelectObject(UIDC2, font);
+	SetTextColor(UIDC2, RGB(255, 255, 255));
+	SetBkMode(UIDC2, TRANSPARENT);
+	DrawText(UIDC2, _im->getItem()[29]->getItem().name, strlen(_im->getItem()[29]->getItem().name), &rc, DT_VCENTER);
+	DrawText(UIDC2, _im->getItem()[30]->getItem().name, strlen(_im->getItem()[30]->getItem().name), &rc2, DT_VCENTER);
+	SelectObject(UIDC2, oldFont);
+	DeleteObject(font);
 }
 
 void titleScene::reward()
@@ -251,14 +284,15 @@ void titleScene::reward()
 	IMAGEMANAGER->findImage("expBar")->render(DC, 0, WINSIZEY- IMAGEMANAGER->findImage("expBar")->getHeight());
 	//IMAGEMANAGER->findImage("suck")->frameRender(DC, 780, 546);
 
-	_img->aniRender(DC, 780, 546, _suck);
+	_img->aniRender(DC, 740, 546, _suck);
 	KEYANIMANAGER->update();
 
 }
 
 void titleScene::loadData()
 {
-	if (_clickData) return;
+	//if (_clickData) return;
+	if (_titleType != TITLE_START) return;
 
 	_clickData = true;
 
@@ -286,50 +320,51 @@ void titleScene::loadData()
 
 void titleScene::drawData()
 {
-	if (!_clickData) return;
-
-	IMAGEMANAGER->alphaRender("black", DC, 0, 0, 100);
-
-	for (int i = 0; i < 3; i++)
+	if (_titleType == TITLE_START)
 	{
-		IMAGEMANAGER->frameRender("T_textBack", DC, 50 + i * 610, 90, 0, 0);
-		IMAGEMANAGER->frameRender("T_text", DC, 220 + i * 610, 180, i, 0);
-		IMAGEMANAGER->render("T_delete", DC, 150 + i * 610, 730);
+		IMAGEMANAGER->alphaRender("black", DC, 0, 0, 100);
 
-		if (_vData[i].idx != -1)
+		for (int i = 0; i < 3; i++)
 		{
-			HFONT font, oldFont;
-			font = CreateFont(40, 0, 0, 0, 40, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("소야바른9"));
-			oldFont = (HFONT)SelectObject(DC, font);
-			SetBkMode(DC, TRANSPARENT);
-			char str[128];
-			SetTextColor(DC, RGB(255, 255, 255));
-			sprintf_s(str, "<플레이 시간>");
-			TextOut(DC, 230 + i * 610, 300, str, strlen(str));
-			sprintf_s(str, "%02dH %02dM", _vData[i].hour, _vData[i].min);
-			TextOut(DC, 250 + i * 610, 350, str, strlen(str));
-			sprintf_s(str, "<도달한 층>");
-			TextOut(DC, 240 + i * 610, 440, str, strlen(str));
-			sprintf_s(str, "%5dF", _vData[i].floor);
-			TextOut(DC, 250 + i * 610, 490, str, strlen(str));
-			sprintf_s(str, "<소지금>");
-			TextOut(DC, 260 + i * 610, 580, str, strlen(str));
-			sprintf_s(str, "%5dG", _vData[i].gold);
-			TextOut(DC, 260 + i * 610, 630, str, strlen(str));
-			SelectObject(DC, oldFont);
-			DeleteObject(font);
-		}
-		else
-		{
-			HFONT font, oldFont;
-			font = CreateFont(40, 0, 0, 0, 40, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("소야바른9"));
-			oldFont = (HFONT)SelectObject(DC, font);
-			SetBkMode(DC, TRANSPARENT);
-			char str[128];
-			sprintf_s(str, "데이터 없음");
-			TextOut(DC, 250 + i * 610, 350, str, strlen(str));
-			SelectObject(DC, oldFont);
-			DeleteObject(font);
+			IMAGEMANAGER->frameRender("T_textBack", DC, 50 + i * 610, 90, 0, 0);
+			IMAGEMANAGER->frameRender("T_text", DC, 220 + i * 610, 180, i, 0);
+			IMAGEMANAGER->render("T_delete", DC, 150 + i * 610, 730);
+
+			if (_vData[i].idx != -1)
+			{
+				HFONT font, oldFont;
+				font = CreateFont(40, 0, 0, 0, 40, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("소야바른9"));
+				oldFont = (HFONT)SelectObject(DC, font);
+				SetBkMode(DC, TRANSPARENT);
+				char str[128];
+				SetTextColor(DC, RGB(255, 255, 255));
+				sprintf_s(str, "<플레이 시간>");
+				TextOut(DC, 230 + i * 610, 300, str, strlen(str));
+				sprintf_s(str, "%02dH %02dM", _vData[i].hour, _vData[i].min);
+				TextOut(DC, 250 + i * 610, 350, str, strlen(str));
+				sprintf_s(str, "<도달한 층>");
+				TextOut(DC, 240 + i * 610, 440, str, strlen(str));
+				sprintf_s(str, "%5dF", _vData[i].floor);
+				TextOut(DC, 250 + i * 610, 490, str, strlen(str));
+				sprintf_s(str, "<소지금>");
+				TextOut(DC, 260 + i * 610, 580, str, strlen(str));
+				sprintf_s(str, "%5dG", _vData[i].gold);
+				TextOut(DC, 260 + i * 610, 630, str, strlen(str));
+				SelectObject(DC, oldFont);
+				DeleteObject(font);
+			}
+			else
+			{
+				HFONT font, oldFont;
+				font = CreateFont(40, 0, 0, 0, 40, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("소야바른9"));
+				oldFont = (HFONT)SelectObject(DC, font);
+				SetBkMode(DC, TRANSPARENT);
+				char str[128];
+				sprintf_s(str, "데이터 없음");
+				TextOut(DC, 250 + i * 610, 350, str, strlen(str));
+				SelectObject(DC, oldFont);
+				DeleteObject(font);
+			}
 		}
 	}
 }
@@ -354,7 +389,8 @@ void titleScene::selectData()
 			{
 				if (_select == i + 1)
 				{
-					SCENEMANAGER->changeScene("인트로");
+					SOUNDMANAGER->stop("title");
+					SCENEMANAGER->changeScene("마을");
 					break;
 				}
 				_select = i + 1;
@@ -378,6 +414,97 @@ void titleScene::saveData()
 		vStr.push_back(itoa(_vData[i].dash, str, 10));
 	}
 	TXTDATA->txtSave("data.txt", vStr);
+}
+
+void titleScene::setting()
+{
+	if (_setData)
+	{
+		IMAGEMANAGER->render("setting", DC);
+		//Rectangle(DC, _exitRect.left, _exitRect.top, _exitRect.right, _exitRect.bottom);
+		HFONT font, oldFont;
+		font = CreateFont(100, 0, 0, 0, 100, 0, 0, 0, HANGEUL_CHARSET, 0, 0, 0, 0, TEXT("소야바른9"));
+		oldFont = (HFONT)SelectObject(DC, font);
+		SetTextColor(DC, RGB(255, 255, 255));
+		SetBkMode(DC, TRANSPARENT);
+		TextOut(DC, WINSIZEX / 2 - 100, 280, "사운드", strlen("사운드"));
+		TextOut(DC, 200, 450, "음악 볼륨", strlen("음악 볼륨"));
+		TextOut(DC, 150, 600, "효과음 볼륨", strlen("효과음 볼륨"));
+		TextOut(DC, WINSIZEX / 2 - 100, 750, "컨트롤", strlen("컨트롤"));
+		TextOut(DC, 150, 900, "화면 흔들림", strlen("화면 흔들림"));
+		SelectObject(DC, oldFont);
+		DeleteObject(font);
+
+		IMAGEMANAGER->findImage("soundbar")->render(DC, _bgmBack.left, _bgmBack.top);
+		IMAGEMANAGER->findImage("soundbar")->render(DC, _sfxBack.left, _sfxBack.top);
+
+		IMAGEMANAGER->findImage("soundIcon")->frameRender(DC, _soundRC.left, _soundRC.top);
+		IMAGEMANAGER->findImage("soundIcon")->frameRender(DC, _soundRC2.left, _soundRC2.top);
+
+		RECT rc = RectMake(900, 900, 100, 100);
+		if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON) && PtInRect(&rc, _ptMouse))
+		{
+			if (IMAGEMANAGER->findImage("toggleCheck")->getFrameX() == 0)
+				IMAGEMANAGER->findImage("toggleCheck")->setFrameX(1);
+			else
+				IMAGEMANAGER->findImage("toggleCheck")->setFrameX(0);
+		}
+		IMAGEMANAGER->findImage("toggleCheck")->frameRender(DC, 900, 900);
+		//RectangleMake(DC, 900, 900, 100, 100);
+
+		if (PtInRect(&_exitRect, getMemDCPoint()))
+		{
+			IMAGEMANAGER->frameRender("exitImage", DC, _exitRect.left, _exitRect.top, 1, 0);
+			if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
+			{
+				_setData = false;
+				_titleType = TITLE_MENU;
+			}
+		}
+		else
+			IMAGEMANAGER->frameRender("exitImage", DC, _exitRect.left, _exitRect.top, 0, 0);
+	}
+}
+
+void titleScene::drawSetting()
+{
+	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
+	{
+		if (PtInRect(&_bgmBack, _ptMouse))
+		{
+			float pos = _ptMouse.x - 600;
+			float volume = pos / 900;
+			SOUNDMANAGER->setBGMVolume(volume);
+			_soundX = _ptMouse.x;
+		}
+		if (PtInRect(&_sfxBack, _ptMouse))
+		{
+			float pos = _ptMouse.x - 600;
+			float volume = pos / 900;
+			SOUNDMANAGER->setBGMVolume(volume);
+			_soundX2 = _ptMouse.x;
+		}
+	}
+	if (KEYMANAGER->isStayKeyDown(VK_LBUTTON))
+	{
+		if (PtInRect(&_bgmBack, _ptMouse))
+		{
+			float pos = _ptMouse.x - 600;
+			float volume = pos / 900;
+			SOUNDMANAGER->setBGMVolume(volume);
+			_soundX = _ptMouse.x;
+		}
+		if (PtInRect(&_sfxBack, _ptMouse))
+		{
+			float pos = _ptMouse.x - 600;
+			float volume = pos / 900;
+			SOUNDMANAGER->setBGMVolume(volume);
+			_soundX2 = _ptMouse.x;
+		}
+	}
+
+	_soundRC = RectMakeCenter(_soundX, _soundY, 100, 100);
+	_soundRC2 = RectMakeCenter(_soundX2, _soundY2, 100, 100);
 }
 
 titleScene::titleScene()
