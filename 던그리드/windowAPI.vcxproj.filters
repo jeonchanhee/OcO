@@ -97,6 +97,9 @@
     <Filter Include="playGround\Bullet">
       <UniqueIdentifier>{da504023-5401-4c49-b9e5-d2f47fd3d9ad}</UniqueIdentifier>
     </Filter>
+    <Filter Include="playGround\minimap">
+      <UniqueIdentifier>{1fed8050-389a-4441-8ce2-263193c11262}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -345,6 +348,9 @@
     <ClInclude Include="FoodNpc.h">
       <Filter>playGround\NPC</Filter>
     </ClInclude>
+    <ClInclude Include="minimap.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -574,6 +580,9 @@
     </ClCompile>
     <ClCompile Include="townScene.cpp">
       <Filter>playGround\Scene\dungeon</Filter>
+    </ClCompile>
+    <ClCompile Include="minimap.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

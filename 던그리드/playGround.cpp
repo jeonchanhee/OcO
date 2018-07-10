@@ -8,7 +8,7 @@ playGround::~playGround(){}
 
 HRESULT playGround::init(void)	
 {
-	mode = 타이틀;				//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
+	mode = 마을;				//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
 //	rectRotate(IMAGEMANAGER->findImage("검01"), 100, 100);
 
 
@@ -44,6 +44,7 @@ HRESULT playGround::init(void)
 	SCENEMANAGER->addScene("던전8", new dungeon8Scene);
 	SCENEMANAGER->addScene("마을", new townScene);
 	SCENEMANAGER->addScene("무기", new weaponScene);
+	SCENEMANAGER->addScene("푸드", new foodScene);
 	//SCENEMANAGER->addScene("보스", new bossScene);
 
 	//SCENEMANAGER->addScene("랜덤맵1", new RandomDungeon1);
@@ -96,7 +97,9 @@ HRESULT playGround::init(void)
 	case 무기:
 		SCENEMANAGER->changeScene("무기");
 		break;
-
+	case 푸드:
+		SCENEMANAGER->changeScene("푸드");
+		break;
 	case 랜덤맵1:
 		//SCENEMANAGER->changeScene("랜덤맵1");
 		_randomScene1->init();
@@ -173,7 +176,7 @@ void playGround::update(void)
 
 void playGround::render(void)
 {
-	PatBlt(getMemDC(), CAMERAMANAGER->getCameraCenter().x - WINSIZEX / 2, CAMERAMANAGER->getCameraCenter().y - WINSIZEY / 2, WINSIZEX, WINSIZEY, BLACKNESS);
+	PatBlt(getMemDC(), CAMERAMANAGER->getCameraCenter().x - WINSIZEX / 2, CAMERAMANAGER->getCameraCenter().y - WINSIZEY / 2, WINSIZEX, WINSIZEY, WHITENESS);
 	PatBlt(CAMERAMANAGER->getCameraDC(), 0, 0, WINSIZEX, WINSIZEY, BLACKNESS);
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
@@ -208,7 +211,7 @@ void playGround::render(void)
 		SCENEMANAGER->render();
 		break;
 	case 던전2: case 던전3: case 던전4: case 던전5: case 던전6: case 던전7: case 던전8:
-	case 랜덤맵1: case 보스:  case 무기:
+	case 랜덤맵1: case 보스:  case 무기: case 푸드:
 		SCENEMANAGER->render();
 		_player->render();
 		break;

@@ -27,6 +27,7 @@ HRESULT townScene::init()
 	_tileX = 80, _tileY = 25;
 	_dungeonNum = 11;
 	mapload();
+	setMinimap();
 	return S_OK;
 }
 
@@ -50,7 +51,7 @@ void townScene::render()
 	IMAGEMANAGER->findImage("floor0")->render(DC, 30 * 96, 17 * 96);
 	IMAGEMANAGER->findImage("floor0")->render(DC, 36 * 96, 15 * 96);
 	_player->render();
-
+	_minimap->render();
 }
 
 void townScene::mapload()
@@ -89,6 +90,24 @@ void townScene::mapload()
 	CAMERAMANAGER->setCameraCenter(PointMake(0, 0));
 }
 
+void townScene::setMinimap()
+{
+	_minimap = new minimap;
+	_minimap->init();
+
+	image* tempImg;
+	tempImg = IMAGEMANAGER->addImage("ÅÛÇª", TILEVALUE[_dungeonNum][0]*TILESIZE, TILEVALUE[_dungeonNum][1] * TILESIZE);
+
+	for (int i = 0; i < _tileY; i++)
+	{
+		for (int j = 0; j < _tileX; j++)
+		{
+			IMAGEMANAGER->frameRender("map", tempImg->getMemDC(), _tiles[i*_temp + j].rc.left, _tiles[i*_temp + j].rc.top, _tiles[i*_temp + j].rc.right, _tiles[i*_temp + j].rc.bottom);
+		}
+	}
+
+	_minimap->setMinimap(tempImg->getMemDC());
+}
 void townScene::mapRender()
 {
 	for (int i = (CAMERAMANAGER->getCameraCenter().y - WINSIZEY / 2) / 96; i < (CAMERAMANAGER->getCameraCenter().y + WINSIZEY / 2) / 96 + 1; ++i)
