@@ -49,9 +49,6 @@
     <Filter Include="2DFramework\button">
       <UniqueIdentifier>{f7d51706-c5d3-48b6-820a-231ce8fb495f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="2DFramework\loading">
-      <UniqueIdentifier>{da20ded3-a458-4aef-83e5-50e843ef8d30}</UniqueIdentifier>
-    </Filter>
     <Filter Include="playGround\Player">
       <UniqueIdentifier>{6d85e355-4285-474d-98a2-c32ed6fc85a1}</UniqueIdentifier>
     </Filter>
@@ -96,6 +93,9 @@
     </Filter>
     <Filter Include="playGround\Bullet">
       <UniqueIdentifier>{da504023-5401-4c49-b9e5-d2f47fd3d9ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\minimap">
+      <UniqueIdentifier>{1fed8050-389a-4441-8ce2-263193c11262}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -167,12 +167,6 @@
     </ClInclude>
     <ClInclude Include="keyAniManager.h">
       <Filter>2DFramework\Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="loadingScene.h">
-      <Filter>2DFramework\loading</Filter>
-    </ClInclude>
-    <ClInclude Include="inGameScene.h">
-      <Filter>2DFramework\loading</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>playGround\Player</Filter>
@@ -345,6 +339,9 @@
     <ClInclude Include="FoodNpc.h">
       <Filter>playGround\NPC</Filter>
     </ClInclude>
+    <ClInclude Include="minimap.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -406,12 +403,6 @@
     </ClCompile>
     <ClCompile Include="keyAniManager.cpp">
       <Filter>2DFramework\Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="loadingScene.cpp">
-      <Filter>2DFramework\loading</Filter>
-    </ClCompile>
-    <ClCompile Include="inGameScene.cpp">
-      <Filter>2DFramework\loading</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>playGround\Player</Filter>
@@ -574,6 +565,9 @@
     </ClCompile>
     <ClCompile Include="townScene.cpp">
       <Filter>playGround\Scene\dungeon</Filter>
+    </ClCompile>
+    <ClCompile Include="minimap.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

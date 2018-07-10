@@ -38,6 +38,11 @@ HRESULT MusicAngel::init(float x, float y)
 
 	_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 
+	//음표요정 체력 초기화
+	_progressBar = new progressBar;
+	_progressBar->init(_x - 30, _y + 50, 70, 10, "음표요정앞", "음표요정뒤", BAR_MONSTER);
+	_currentHP = _maxHP = 100;
+
 	return S_OK;
 }
 
@@ -47,6 +52,12 @@ void MusicAngel::release()
 
 void MusicAngel::update()
 {
+	//음표요정 체력 업데이트
+	_progressBar->setX(_x - 30);
+	_progressBar->setY(_y + 50);
+	_progressBar->setGauge(_currentHP, _maxHP);
+	_progressBar->update();
+
 	attackMove();
 
 	//////////////////////DIE 테스트///////////////////////
@@ -74,6 +85,7 @@ void MusicAngel::update()
 
 void MusicAngel::render()
 {
+	_progressBar->render();
 	_img->aniRender(DC, _rc.left, _rc.top, _musicAngelMotion);
 }
 
@@ -151,4 +163,13 @@ void MusicAngel::changeAnimation(MUSICANGELDIRECTION musicAngelDirection)
 		_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 		break;
 	}
+}
+
+void MusicAngel::playerCollision()
+{
+}
+
+void MusicAngel::hitDamage(float damage)
+{
+	_currentHP -= damage;
 }

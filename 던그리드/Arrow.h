@@ -1,5 +1,7 @@
 #pragma once
 #include "Enemy.h"
+#include "progressBar.h"
+
 #define ARROWSPEED 10.0f
 
 struct tagArrow
@@ -18,6 +20,10 @@ private:
 
 	int	_index;
 
+	progressBar* _progressBar; //체력바
+	float _currentHP, _maxHP; //현재체력과 최대체력
+
+
 public:
 	Arrow();
 	~Arrow();
@@ -30,4 +36,7 @@ public:
 	void frameMove();
 	void shootArrow();
 	void fireArrow(); //활쟁이가 마우스방향으로 활쏘게 하는 내용
+
+	void playerCollision(); //플레이어와 활쟁이의 충돌 함수
+	void hitDamage(float damage);//hp깎이게 하는 함수
 };

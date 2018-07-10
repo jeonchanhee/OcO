@@ -1,8 +1,11 @@
 #pragma once
 #include "dungeonScene.h"
-class foodScene :
-	public dungeonScene
+#include "FoodNpc.h"
+
+class foodScene : public dungeonScene
 {
+private:
+	FoodNpc* _foodNpc;
 public:
 	foodScene();
 	~foodScene();

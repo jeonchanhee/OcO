@@ -43,12 +43,12 @@ HRESULT BigBat::init(float x, float y)
 
 	_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 
-	_isattack = false;
 
-	// bullet
-	_bullet = new Bullet;
-	_bullet->init(50);
 
+	//큰보박 체력바 초기화
+	_progressBar = new progressBar;
+	_progressBar->init(_x, _y + 50, 70, 10, "큰보박앞", "큰보박뒤", BAR_MONSTER);
+	_currentHP = _maxHP = 100;
 
 	return S_OK;
 }
@@ -59,6 +59,12 @@ void BigBat::release()
 
 void BigBat::update()
 {
+	//체력바 업데이트
+	_progressBar->setX(_x);
+	_progressBar->setY(_y + 50);
+	_progressBar->setGauge(_currentHP, _maxHP);
+	_progressBar->update();
+
 	attackMove();
 
 	////////////////////DIE 테스트///////////////////////
@@ -85,19 +91,20 @@ void BigBat::update()
 
 void BigBat::render()
 {
+	_progressBar->render();
 	_img->aniRender(DC, _rc.left, _rc.top, _bigBatMotion);
 }
 
 void BigBat::attackMove()
 {
 	_count++;
-	if (_count % 150 == 0)
+	if(!(_count % 170)) _isAttack = true;
+	if (!(_count % 200))
 	{
 		if (_bigBatDirection == BIGBAT_RIGHT_MOVE)
 			changeAnimation(BIGBAT_RIGHT_ATTACK);
 		if (_bigBatDirection == BIGBAT_LEFT_MOVE)
 			changeAnimation(BIGBAT_LEFT_ATTACK);
-
 		_count = 0;
 	}
 }
@@ -183,4 +190,13 @@ void BigBat::leftAttack(void* obj)
 	bb->setBigBatDirection(BIGBAT_LEFT_MOVE);
 	bb->setBigBatMotion(KEYANIMANAGER->findAnimation("bigBatLeftMove"));
 	bb->getBigBatMotion()->start();
+}
+
+void BigBat::playerCollision()
+{
+}
+
+void BigBat::hitDamage(float damage)
+{
+	_currentHP -= damage;
 }

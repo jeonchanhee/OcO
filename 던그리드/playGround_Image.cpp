@@ -108,7 +108,7 @@ HRESULT playGround::Image_init(void)
 	IMAGEMANAGER->addFrameImage("bossIdleAttackDie", "image/enemy/bossIdleAttackDie(4620x1100,11x2).bmp", 0, 0, 4620, 1100, 11, 2, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("bossLaser", "image/enemy/bossLaser(1550x2100,1x7).bmp", 0, 0, 1550, 2100, 1, 7, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("bossRLaser", "image/enemy/bossRLaser(1550x2100,1x7).bmp", 0, 0, 1550, 2100, 1, 7, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("bossRedBar", "image/enemy/bossRedBar(750x100,1x1),bmp", 0, 0, 750, 100, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("bossRedBar", "image/enemy/bossRedBar(750x100,1x1).bmp", 0, 0, 750, 100, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("bossSword", "image/enemy/bossSword(1260x390,10x1).bmp", 0, 0, 1260, 390, 10, 1, true, RGB(255, 0, 255));
 	//IMAGEMANAGER->addRotateFrameImage("RotateBossSword", "image/enemy/bossSword(1260x390,10x1).bmp", 1260, 390, 10, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addRotateImage("RotateBossSword", "image/enemy/sword(390x126,1x1).bmp", 390, 126, true, RGB(255, 0, 255));
@@ -333,7 +333,7 @@ HRESULT playGround::Image_init(void)
 	IMAGEMANAGER->addRotateFrameImage("검쓰르륵", "image/item/weapon/sword/effect/swing.bmp", 600 , 109 , 4 , 1, true , RGB(255,0,255));
 
 	//상점 NPC
-	IMAGEMANAGER->addFrameImage("엔피시1", "image/npc/inn(420x140)6x2.bmp", 420, 140 , 6, 2, true, RGB(255, 0, 255)); // 음식파는 아줌마
+	IMAGEMANAGER->addFrameImage("엔피시1", "image/npc/inn(420x200)6x2.bmp", 420, 200 , 6, 2, true, RGB(255, 0, 255)); // 음식파는 아줌마
 	IMAGEMANAGER->addFrameImage("엔피시2", "image/npc/weaponNPC(800x392)4x2.bmp", 800, 392, 4, 2, true, RGB(255, 0, 255)); // 장비 판매하는 아저씨
 	IMAGEMANAGER->addFrameImage("N마을샵", "image/npc/merchant(700x400,7x4).bmp", 560, 360, 7, 4, true, RGB(255, 0, 255)); 
 	IMAGEMANAGER->addFrameImage("N트레이너", "image/npc/commander(700x400,7x4).bmp", 700, 400, 7, 4, true, RGB(255, 0, 255)); 
