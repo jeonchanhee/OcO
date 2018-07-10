@@ -15,7 +15,6 @@ HRESULT dungeon2Scene::init()
 {
 	dungeonScene::init();
 
-	_pixel = IMAGEMANAGER->addImage("´øÀü2ÇÈ¼¿", 1920, 1152, true, RGB(255, 0, 255));
 	_isMapSet = true;
 	chooseMap(3);
 	selectSize(3);

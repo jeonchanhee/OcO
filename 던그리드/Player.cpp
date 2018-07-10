@@ -631,9 +631,6 @@ void Player::pixelCollision()
 
 			if (r == 0 && g == 255 && b == 0)
 			{
-
-				
-
 				if (KEYMANAGER->isOnceKeyDown(VK_SPACE))_isJumping = true;
 				else
 				{

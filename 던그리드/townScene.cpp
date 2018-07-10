@@ -8,7 +8,7 @@ HRESULT townScene::init()
 	SOUNDMANAGER->play("town");
 	_player = SCENEMANAGER->getPlayerAddressLink();
 
-	_pixel = IMAGEMANAGER->addImage("pixel", 4800, 2400);
+	_pixel = IMAGEMANAGER->findImage("pixel");
 	HPEN pen, oldPen;
 	pen = CreatePen(BS_SOLID, 25, RGB(0, 255, 0));
 	oldPen = (HPEN)SelectObject(_pixel->getMemDC(), pen);
