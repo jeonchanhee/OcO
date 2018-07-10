@@ -97,6 +97,10 @@ void Bat::render()
 {
 	_progressBar->render();
 	_img->aniRender(DC, _rc.left, _rc.top, _batMotion);
+	if (KEYMANAGER->isToggleKey(VK_TAB))
+	{
+		Rectangle(DC, _rc.left, _rc.top, _rc.right, _rc.bottom);
+	}
 }
 
 void Bat::move()
@@ -190,4 +194,10 @@ void Bat::playerCollision()
 void Bat::hitDamage(float damage)
 {
 	_currentHP -= damage;
+}
+}
+
+void Bat::tileDetection()
+{
+	
 }

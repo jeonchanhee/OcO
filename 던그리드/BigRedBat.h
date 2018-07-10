@@ -19,7 +19,7 @@ class BigRedBat : public Enemy
 
 	BIGREDBATDIRECTION _bigRedBatDirection;
 	animation* _bigRedBatMotion;
-
+	bool _isAttack;
 public:
 	BigRedBat();
 	~BigRedBat();
@@ -45,5 +45,8 @@ public:
 
 	void playerCollision();
 	void hitDamage(float damage);
+	bool getisAtteck2() { return _isAttack; }
+	void setisAtteck2(bool isAttack) { _isAttack = isAttack; }
+
 };
 

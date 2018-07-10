@@ -57,15 +57,15 @@ void dungeon2Scene::update()
 		(*_viEnemy)->update();
 	}
 	bigbatbulletFire();
-	_enemyBullet->bulletframe("fatherBatBullet2");
-	_enemyBullet->update();
-	
-
+	_bigBatBullet->bulletframe("fatherBatBullet2");
+	if (_start2 == 1)	_bigBatBullet->update();
 	bigRadbatbulletFire();
 	for (int i = 0; i < 20; i++)
 	{
+
 		_bigRadBatBullet[i]->bulletframe("fatherBatBullet2");
-		_bigRadBatBullet[i]->update();
+
+		if(_start == 1) _bigRadBatBullet[i]->update();
 	}
 }
 

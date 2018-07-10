@@ -19,7 +19,12 @@ private:
 
 	BATDIRECTION _batDirection;
 	animation* _batMotion;
+	BATDIRECTION	_batDirection;
+	animation*		_batMotion;
+	RECT			_detectionrc;		// 타일 검출 렉트
 
+	int		_detectionX, _detectionY;
+	int		_up, _down, _left, _right;
 	float _startX, _startY;//박쥐 이동 기준점
 
 public:
@@ -40,5 +45,6 @@ public:
 	void playerCollision();
 	void hitDamage(float damage);
 
+	void tileDetection();	// 타일 검출
 };
 

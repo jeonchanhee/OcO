@@ -90,13 +90,13 @@ void BigRedBat::render()
 void BigRedBat::attackMove()
 {
 	_count++;
-	if (!(_count % 150))
+	if(!(_count % 640)) _isAttack = true;
+	if (!(_count % 700))
 	{
 		if (_bigRedBatDirection == BIGREDBAT_RIGHT_MOVE)
 			changeAnimation(BIGREDBAT_RIGHT_ATTACK);
 		if (_bigRedBatDirection == BIGREDBAT_LEFT_MOVE)
 			changeAnimation(BIGREDBAT_LEFT_ATTACK);
-	
 		_count = 0;
 	}
 }
