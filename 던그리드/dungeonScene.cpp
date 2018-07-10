@@ -676,7 +676,6 @@ void dungeonScene::BossBulletFire()
 	}
 	*/
 
-}
 	//if (_boss->getRightDirection() == RIGHT_LASER_ON)
 	//{
 	//	_enemyBullet->bulletFire("bossRLaser", _boss->getRightX() - 850, _boss->getRightY(), 0, 0.0f, 1000, true, HEIGHT); //오른손 레이져
@@ -716,7 +715,7 @@ void dungeonScene::bigRadbatbulletFire()
 	//		_enemtBullet2->bulletFire("fatherBatBullet", _bigRedBat->getX() + 50, _bigRedBat->getY(), angle * i, 5.0f, 500);
 	//	}
 	//}
-}
+
 	_count3++;
 	if (_count3 % 150 == 0)
 	{

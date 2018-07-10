@@ -35,7 +35,7 @@
 #define SAMPLETILEY 26
 
 // 맵이름
-#define MAPNAME "map/Dungeon6(49x28).map"
+#define MAPNAME "map/weaponsStore(25x15).map"
 
 // 지형	
 enum TERRAIN
