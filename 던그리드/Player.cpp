@@ -606,7 +606,6 @@ void Player::tileCollision()
 			_gravity = GRAVITY;
 		}
 		else if(_tiles[_downStateCheck[i]].object == OBJ_CULUMN
-		|| (_tiles[_downStateCheck[i]].object == OBJ_GROUND)
 		|| (_tiles[_downStateCheck[i]].terrain == TOWN_GROUND))
 		{
 			 if (!_isDashing)
@@ -676,11 +675,90 @@ void Player::tileCollision()
 				}
 			}
 		}
+		if (_tiles[_downStateCheck[i]].object == OBJ_GROUND)
+		{
+			if (_dungeonNum == 11)
+			{
+				if (!_isDashing)
+				{
+					int value = 0;
+					if (_jump == 0) value = 1;
+					if (_jump > 0) value = 1;
+					if (_jump < 0) value = 30;
+					if (_collisionRc.left < _tiles[_downStateCheck[i]].rc.right
+						&& _collisionRc.right > _tiles[_downStateCheck[i]].rc.left
+						&& _collisionRc.top < _tiles[_downStateCheck[i]].rc.top
+						&& _collisionRc.bottom > _tiles[_downStateCheck[i]].rc.top
+						&& _collisionRc.bottom < _tiles[_downStateCheck[i]].rc.top + value)
+					{
+						long rcHeight = _collisionRc.bottom - _collisionRc.top;
+						_isJumping = false;
+						_gravity = 0;
+						_jump = 0;
+						_collisionRc.bottom = _tiles[_downStateCheck[i]].rc.top;
+						_collisionRc.top = _collisionRc.bottom - rcHeight;
+						_y = _collisionRc.top + (rcHeight / 2);
+						_goDownJump = true;
+
+					}
+				}
+			}
+			else
+			{
+				if (!_isDashing)
+				{
+					int value = 0;
+					if (_jump == 0) value = 1;
+					if (_jump > 0) value = 1;
+					if (_jump < 0) value = 30;
+					if (_collisionRc.left < _tiles[_downStateCheck[i]].rc.right
+						&& _collisionRc.right > _tiles[_downStateCheck[i]].rc.left
+						&& _collisionRc.top < _tiles[_downStateCheck[i]].rc.top
+						&& _collisionRc.bottom > _tiles[_downStateCheck[i]].rc.top
+						&& _collisionRc.bottom < _tiles[_downStateCheck[i]].rc.top + value)
+					{
+						long rcHeight = _collisionRc.bottom - _collisionRc.top;
+						_isJumping = false;
+						_gravity = 0;
+						_jump = 0;
+						_collisionRc.bottom = _tiles[_downStateCheck[i]].rc.top;
+						_collisionRc.top = _collisionRc.bottom - rcHeight;
+						_y = _collisionRc.top + (rcHeight / 2);
+						_goDownJump = false;
+
+					}
+				}
+				else
+				{
+					int value = 0;
+					if (_jump == 0) value = 1;
+					if (_jump > 0) value = 1;
+					if (_jump < 0) value = 30;
+					if (_collisionRc.left < _tiles[_downStateCheck[i]].rc.right
+						&& _collisionRc.right > _tiles[_downStateCheck[i]].rc.left
+						&& _collisionRc.top < _tiles[_downStateCheck[i]].rc.top
+						&& _collisionRc.bottom > _tiles[_downStateCheck[i]].rc.top
+						&& _collisionRc.bottom < _tiles[_downStateCheck[i]].rc.top + value)
+					{
+						long rcHeight = _collisionRc.bottom - _collisionRc.top;
+						_isJumping = false;
+						_gravity = 0;
+						_jump = 0;
+						_collisionRc.bottom = _tiles[_downStateCheck[i]].rc.top;
+						_collisionRc.top = _collisionRc.bottom - rcHeight;
+						_y = _collisionRc.top + (rcHeight / 2);
+						_goDownJump = false;
+					}
+
+				}
+			}
+		}
 	}
 }
 
 void Player::pixelCollision()
 {
+
 
 	for (int j = _y + 20; j < _y + 70; ++j)
 	{	COLORREF color = RGB(0,0,0);
@@ -720,7 +798,7 @@ void Player::pixelCollision()
 				{
 					_y = j - 50;
 					_isJumping = false;
-					_goDownJump = false;;
+					_goDownJump = false;
 				}
 				break;
 			}
