@@ -135,7 +135,7 @@ void titleScene::render(void)
 		restaurant();
 		//drawData();
 	}
-	drawData();
+	//drawData();
 	setting();
 
 	if (_select != 0)
@@ -240,8 +240,7 @@ void titleScene::restaurant()
 	if (_rc.bottom >= 932)
 		_rc = RectMake(686, 500, 42, 432);
 	if (_rc.top >= 210 && _rc.bottom <= 932)
-		CAMERAMANAGER->setCameraPoint(PointMake(0, (_rc.top + 1 - 210)*1.4)); //어디간 함수일까...
-		//CAMERAMANAGER->setCameraCenter(PointMake(0, (_rc.top + 1 - 210)*1.4));
+		CAMERAMANAGER->setCameraPoint(PointMake(0, (_rc.top + 1 - 210)*1.4));
 
 	IMAGEMANAGER->findImage("scroll")->render(DC, 686, _rc.top);
 
@@ -249,6 +248,20 @@ void titleScene::restaurant()
 	{
 		Rectangle(DC, _rc.left, _rc.top, _rc.right, _rc.bottom);
 	}
+	//28~31
+	RECT rc=RectMake(35,35,100,50);
+	RECT rc2=RectMake(35,305,100,50);
+	_im->getItem()[29]->getItem().image[0]->render(DC, 1120, 540);
+	
+	HFONT font, oldFont;
+	font = CreateFont(40, 0, 0, 0, 100, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("소야바른9"));
+	oldFont = (HFONT)SelectObject(UIDC2, font);
+	SetTextColor(UIDC2, RGB(255, 255, 255));
+	SetBkMode(UIDC2, TRANSPARENT);
+	DrawText(UIDC2, _im->getItem()[29]->getItem().name, strlen(_im->getItem()[29]->getItem().name), &rc, DT_VCENTER);
+	DrawText(UIDC2, _im->getItem()[30]->getItem().name, strlen(_im->getItem()[30]->getItem().name), &rc2, DT_VCENTER);
+	SelectObject(UIDC2, oldFont);
+	DeleteObject(font);
 }
 
 void titleScene::reward()
@@ -257,7 +270,7 @@ void titleScene::reward()
 	IMAGEMANAGER->findImage("expBar")->render(DC, 0, WINSIZEY- IMAGEMANAGER->findImage("expBar")->getHeight());
 	//IMAGEMANAGER->findImage("suck")->frameRender(DC, 780, 546);
 
-	_img->aniRender(DC, 780, 546, _suck);
+	_img->aniRender(DC, 740, 546, _suck);
 	KEYANIMANAGER->update();
 
 }
