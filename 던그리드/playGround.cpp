@@ -8,7 +8,7 @@ playGround::~playGround(){}
 
 HRESULT playGround::init(void)	
 {
-	mode = 던전2;				//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
+	mode = 아이템;				//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
 //	rectRotate(IMAGEMANAGER->findImage("검01"), 100, 100);
 
 
@@ -201,7 +201,7 @@ void playGround::render(void)
 		SCENEMANAGER->render();
 		break;
 	case 플레이어:
-		//_player->render();
+		_player->render();
 		break;
 	case 아이템:
 		SCENEMANAGER->render();
