@@ -13,6 +13,8 @@ using namespace FMOD;
 
 #define TOTALSOUNDBUFFER SOUNDBUFFER + EXTRACHANNELBUFFER
 
+enum SOUNDTYPE {BGM, SFX};
+
 class soundManager : public singletonBase<soundManager>
 {
 private:
@@ -20,6 +22,8 @@ private:
 	typedef map<string, Sound**>::iterator arrSoundsIter;
 	typedef map<string, Channel**> arrChannels;
 	typedef map<string, Channel**>::iterator arrChannelsIter;
+	typedef map<string, SOUNDTYPE>  arrSoundsType;
+	typedef map<string, SOUNDTYPE>::iterator arrSoundsTypeIter;
 
 private:
 	System * _system;
@@ -27,6 +31,9 @@ private:
 	Channel** _channel;
 
 	arrSounds _mTotalSounds;
+	arrSoundsType _mSoundsType;
+
+	float _bgmVol, _sfxVol;
 
 public:
 	HRESULT init();
@@ -50,7 +57,11 @@ public:
 
 	void setVolume(string keyName, float volume);
 
-	float getVolume(string keyName);
+	void setBGMVolume(float volume);
+
+	void setSFXVolume(float volume);
+
+	//float getVolume(string keyName);
 
 
 	soundManager();

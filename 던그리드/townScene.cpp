@@ -1,15 +1,31 @@
 #include "stdafx.h"
 #include "townScene.h"
+#include "Player.h"
 
 
 HRESULT townScene::init()
 {
-	//_player = SCENEMANAGER->getPlayerAddressLink();
+	SOUNDMANAGER->play("town");
+	_player = SCENEMANAGER->getPlayerAddressLink();
+	//픽쎌  =\=======
+	_pixel = IMAGEMANAGER->addImage("pixelTown", 4800, 2400);
+	HPEN pen, oldPen;
+	pen = CreatePen(BS_SOLID, 20, RGB(0, 255, 0));
+	oldPen = (HPEN)SelectObject(_pixel->getMemDC(), pen);
+
+	LineMake(_pixel->getMemDC(), 1050, 1170, 1800, 1920);
+	LineMake(_pixel->getMemDC(), 2220, 1920, 2980, 1170);
+	LineMake(_pixel->getMemDC(), 4420, 1175, 4790, 1546);
+	SelectObject(_pixel->getMemDC(), oldPen);
+	//제거  ===== 
+	DeleteObject(oldPen);
+	DeleteObject(pen);
 
 	_isMapSet = true;
 	_mapName = "map/townmap(80x25).map";
 	_temp = 80;
 	_tileX = 80, _tileY = 25;
+	_dungeonNum = 11;
 	mapload();
 	return S_OK;
 }
@@ -21,11 +37,20 @@ void townScene::release()
 
 void townScene::update()
 {
+	_player->update();
 }
 
 void townScene::render()
 {
+	//if(KEYMANAGER->isToggleKey(VK_F3))
 	mapRender();
+	IMAGEMANAGER->findImage("floor1")->render(DC, -23 * 96, 12 * 96);
+	IMAGEMANAGER->findImage("floor2")->render(DC, 22 * 96, 12 * 96);
+	IMAGEMANAGER->findImage("floor1")->render(DC, 57 * 96, 12 * 96);
+	IMAGEMANAGER->findImage("floor0")->render(DC, 30 * 96, 17 * 96);
+	IMAGEMANAGER->findImage("floor0")->render(DC, 36 * 96, 15 * 96);
+	_player->render();
+
 }
 
 void townScene::mapload()
@@ -39,6 +64,26 @@ void townScene::mapload()
 
 	ReadFile(file, _tiles, sizeof(tagTile) * TILEX * TILEY, &load, NULL);
 
+
+	for (int i = 0; i < TILEX * TILEY; i++)
+	{
+		if (_tiles[i].terrain == TOWN_GROUND) continue;
+		if (_tiles[i].object == OBJ_DIAGONAL) continue;
+		if (_tiles[i].terrainFrameX == 17 && _tiles[i].terrainFrameY == 1)  _tiles[i].terrain = TOWN_GROUND;
+		if (_tiles[i].terrainFrameX == 16 && _tiles[i].terrainFrameY == 1)  _tiles[i].terrain = TOWN_GROUND;
+		if (_tiles[i].terrainFrameX == 12 && _tiles[i].terrainFrameY == 25) _tiles[i].terrain = TOWN_GROUND;
+		if (_tiles[i].terrainFrameX == 19 && _tiles[i].terrainFrameY == 18) _tiles[i].terrain = TOWN_GROUND;
+		if (_tiles[i].terrainFrameX == 12 && _tiles[i].terrainFrameY == 25) _tiles[i].terrain = TOWN_GROUND;
+		if (_tiles[i].terrainFrameX == 4 && _tiles[i].terrainFrameY == 0) _tiles[i].terrain = TOWN_GROUND;
+		if (_tiles[i].terrainFrameX == 10 && _tiles[i].terrainFrameY == 1) _tiles[i].terrain = TOWN_GROUND;
+		if (_tiles[i].terrainFrameX == 12 && _tiles[i].terrainFrameY == 0) _tiles[i].terrain = TOWN_GROUND;
+		if (_tiles[i].terrainFrameX == 15 && _tiles[i].terrainFrameY == 18) _tiles[i].terrain = TOWN_GROUND;
+		if (_tiles[i].terrainFrameX == 19 && _tiles[i].terrainFrameY == 1) _tiles[i].terrain = TOWN_GROUND;
+		if (_tiles[i].terrainFrameX == 15 && _tiles[i].terrainFrameY == 1) _tiles[i].terrain = TOWN_GROUND;
+		//대각
+		if (_tiles[i].objFrameX == 7 && _tiles[i].objFrameY == 17) _tiles[i].object = OBJ_DIAGONAL;
+		if (_tiles[i].objFrameX == 11 && _tiles[i].objFrameY == 0) _tiles[i].object = OBJ_DIAGONAL;
+	}
 	CloseHandle(file);
 
 	CAMERAMANAGER->setCameraCenter(PointMake(0, 0));

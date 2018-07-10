@@ -44,12 +44,16 @@ struct tagBoss
 class Boss2 : public Enemy
 {
 private:
+	//tagBoss _boss[4]; //보스의 머리,왼손,오른손,칼이 있는 구조체변수
 	tagBoss _boss[3]; //보스의 머리,왼손,오른손이 있는 구조체변수
+
 	
 	BOSSHEADDIRECTION _bossHeadDirection;
 	BOSSLEFTDIRECTION _bossLeftDirection;
 	BOSSRIGHTDIRECTION _bossRightDirection;
+	//SWORDDIRECTION		_swordDirection;
 
+	//animation* _bossMotion[4]; //0왼손.1머리.2오른손.3칼
 	animation* _bossMotion[3]; //0왼손.1머리.2오른손
 
 	int x;
@@ -110,7 +114,7 @@ public:
 	void setHeadMotion1(animation* ani) { _bossMotion[1] = ani; }
 
 	//오른손
-	//BOSSRIGHTDIRECTION getRightDirection() { return _bossRightDirection; };
+	BOSSRIGHTDIRECTION getRightDirection() { return _bossRightDirection; };
 	void setRightDirection(BOSSRIGHTDIRECTION rightDirection) { _bossRightDirection = rightDirection; }
 
 	animation* getRightMotion2() { return _bossMotion[2]; }

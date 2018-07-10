@@ -4,7 +4,7 @@
 #define _TILE_H_
 
 // 타일 갯수(50,50)은 맵의 기본입니당~~, 수정하면 커밋은 바꿔서 올려주세용~~
-#define TILEX 50
+#define TILEX 80
 #define TILEY 50
 //(80,25)는 타운맵입니당
 //#define TILEX 80
@@ -35,20 +35,20 @@
 #define SAMPLETILEY 26
 
 // 맵이름
-#define MAPNAME "map/Dungeon9(20x11).map"
+#define MAPNAME "map/townmap(80x25).map"
 
 // 지형	
 enum TERRAIN
 {
 	//무조건 지나갈 수 있는 배경 벽지
-	TR_WALL, TR_NULL
+	TR_WALL, TOWN_GROUND, TR_NULL
 };
 
 // 오브젝트
 enum OBJECT
 {
 	//비어있음	못지나가는땅		아래점프로 내려가는땅		못지나가는 벽 기둥	미닫이문			가시		      천장        대각선좀 제발 제발제발제발제발제발제발제발제발제발제발제발제발제발제발제발제발제발제발제발제발제발제발제발
-	OBJ_NONE,	OBJ_GROUND,			OBJ_GOGROUND,		 OBJ_CULUMN,		OBJ_vDoor,    OBJ_THORN,  OBJ_CEILING ,  OBJ_DIAGONAL
+	OBJ_NONE, 	OBJ_GROUND,			OBJ_GOGROUND,		 OBJ_CULUMN,		OBJ_vDoor,    OBJ_THORN,  OBJ_CEILING ,  OBJ_DIAGONAL,  OBJ_DIAGONAL_LEFT , OBJ_DIAGONAL_RIGHT
 };
 
 // 포지션 정의

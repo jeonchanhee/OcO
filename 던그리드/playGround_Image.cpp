@@ -27,6 +27,14 @@ HRESULT playGround::Image_init(void)
 	IMAGEMANAGER->addImage("T_delete", "image/UI/slotDeleteButton(372x102).bmp", 0, 0, 372, 102, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("edge", "image/UI/edge.bmp", 0, 0, 600, 1080, true, RGB(255, 0, 255));
 	
+	//========설정이미지=========
+	IMAGEMANAGER->addImage("setting", "image/UI/Sky_Night(1920x1080).bmp", 1920, 1080, false, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("exitImage", "image/UI/exitButton(200x100,2x1).bmp", 200, 100, 2, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("soundbar", "image/UI/sounbar(900x50).bmp", 900, 50, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("toggleCheck", "image/UI/toggleCheck(200x100,2x1).bmp", 200, 100, 2, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("soundIcon", "image/UI/soundSetIcon(200x100,2x1).bmp", 200, 100, 2, 1, true, RGB(255, 0, 255));
+	
+	
 	//==========맵UI=============
 	IMAGEMANAGER->addFrameImage("leftDoor", "image/etc/stele_left(384x2304,4x6).bmp", 0, 0, 384, 2304, 4, 6, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("rightDoor", "image/etc/stele_right(384x2304,4x6).bmp", 0, 0, 384, 2304, 4, 6, true, RGB(255, 0, 255));
@@ -94,6 +102,8 @@ HRESULT playGround::Image_init(void)
 	IMAGEMANAGER->addFrameImage("bossRLaser", "image/enemy/bossRLaser(1550x2100,1x7).bmp", 0, 0, 1550, 2100, 1, 7, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("bossRedBar", "image/enemy/bossRedBar(750x100,1x1),bmp", 0, 0, 750, 100, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("bossSword", "image/enemy/bossSword(1260x390,10x1).bmp", 0, 0, 1260, 390, 10, 1, true, RGB(255, 0, 255));
+	//IMAGEMANAGER->addRotateFrameImage("RotateBossSword", "image/enemy/bossSword(1260x390,10x1).bmp", 1260, 390, 10, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addRotateImage("RotateBossSword", "image/enemy/sword(390x126,1x1).bmp", 390, 126, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("cowIdleChargeAttack", "image/enemy/cowIdleChargeAttack(1840x1320,8x6).bmp", 0, 0, 1840, 1320, 8, 6, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("dieEffect", "image/enemy/dieEffect(4224x384,11x1).bmp", 0, 0, 4224, 384, 11, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("fatherBatBullet", "image/enemy/fatherBatBullet(100x20,5x1).bmp", 0, 0, 100, 20, 5, 1, true, RGB(255, 0, 255));
@@ -279,18 +289,18 @@ HRESULT playGround::Image_init(void)
 
 
 	//음식 이미지
-	IMAGEMANAGER->addImage("음식10", "image/item/food/01_bread(73x30)1x1.bmp", 73, 30, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("음식11", "image/item/food/02_FriedEgg(73x30)1x1.bmp", 73, 30, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("음식12", "image/item/food/03_grilledMushroom(73x30)1x1.bmp", 73, 30, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("음식20", "image/item/food/04_TamatoSoup(73x30)1x1.bmp", 73, 30, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("음식21", "image/item/food/05_OnionSoup(73x30)1x1.bmp", 73, 30, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("음식22", "image/item/food/06_VegetableSalsaSoup(73x30)1x1.bmp", 73, 30, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("음식30", "image/item/food/07_ChocolateCookie(73x30)1x1.bmp", 73, 30, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("음식31", "image/item/food/08_RaspberryCookie(73x30)1x1.bmp", 73, 30, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("음식32", "image/item/food/09_GriffonEggOmelette(73x30)1x1.bmp", 73, 30, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("음식40", "image/item/food/10_DeluxeBurger(73x48)1x1.bmp", 73, 48, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("음식41", "image/item/food/11_HotChickenStew(73x35)1x1.bmp", 73, 35, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("음식42", "image/item/food/12_MinotaursSteak(73x32)1x1.bmp", 73, 32, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("음식10", "image/item/food/01_bread(73x30)1x1.bmp", 438, 180, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("음식11", "image/item/food/02_FriedEgg(73x30)1x1.bmp", 438, 180, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("음식12", "image/item/food/03_grilledMushroom(73x30)1x1.bmp", 438, 180, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("음식20", "image/item/food/04_TamatoSoup(73x30)1x1.bmp", 438, 180, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("음식21", "image/item/food/05_OnionSoup(73x30)1x1.bmp", 438, 180, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("음식22", "image/item/food/06_VegetableSalsaSoup(73x30)1x1.bmp", 438, 180, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("음식30", "image/item/food/07_ChocolateCookie(73x30)1x1.bmp", 438, 180, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("음식31", "image/item/food/08_RaspberryCookie(73x30)1x1.bmp", 438, 180, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("음식32", "image/item/food/09_GriffonEggOmelette(73x30)1x1.bmp", 438, 180, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("음식40", "image/item/food/10_DeluxeBurger(73x48)1x1.bmp", 438, 288, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("음식41", "image/item/food/11_HotChickenStew(73x35)1x1.bmp", 438, 210, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("음식42", "image/item/food/12_MinotaursSteak(73x32)1x1.bmp", 438, 192, true, RGB(255, 0, 255));
 
 	//힐링요정 이미지
 	IMAGEMANAGER->addFrameImage("힐링1", "image/item/healing/heal1(216x24)9x1.bmp", 216, 24, 9, 1, true, RGB(255, 0, 255));		// 프레임 이미지
@@ -319,7 +329,8 @@ HRESULT playGround::Image_init(void)
 	IMAGEMANAGER->addFrameImage("엔피시2", "image/npc/weaponNPC(800x392)4x2.bmp", 800, 392, 4, 2, true, RGB(255, 0, 255)); // 장비 판매하는 아저씨
 
 
-
+	//픽셀
+	IMAGEMANAGER->addImage("pixel", 4800, 2400);
 
 	//========임시로 애니메이션 추가함!==============
 	KEYANIMANAGER->addDefaultFrameAnimation("torchAni", "torch", 10, false, true);

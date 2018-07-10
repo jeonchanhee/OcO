@@ -15,6 +15,18 @@ HRESULT weaponScene::init()
 {
 	dungeonScene::init();
 
+	IMAGEMANAGER->addImage("´øÀü10ÇÈ¼¿",2400,1440);
+	HPEN pen, oldPen;
+	pen = CreatePen(BS_SOLID, 30, RGB(0, 255, 0));
+	oldPen = (HPEN)SelectObject(IMAGEMANAGER->findImage("´øÀü10ÇÈ¼¿")->getMemDC(), pen);
+
+	LineMake(IMAGEMANAGER->findImage("´øÀü10ÇÈ¼¿")->getMemDC(), 300, 980, 570, 1246);
+	LineMake(IMAGEMANAGER->findImage("´øÀü10ÇÈ¼¿")->getMemDC(), 1740, 1246, 2010, 973);
+	SelectObject(IMAGEMANAGER->findImage("´øÀü10ÇÈ¼¿")->getMemDC(), oldPen);
+	//Á¦°Å  ===== 
+	DeleteObject(oldPen);
+	DeleteObject(pen);
+
 	_isMapSet = true;
 	chooseMap(11);
 	selectSize(11);

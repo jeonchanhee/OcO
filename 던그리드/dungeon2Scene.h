@@ -16,5 +16,7 @@ public:
 	void update();
 
 	void setMonster();
+
+
 };
 
