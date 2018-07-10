@@ -14,6 +14,23 @@ dungeon5Scene::~dungeon5Scene()
 HRESULT dungeon5Scene::init()
 {
 	dungeonScene::init();
+	IMAGEMANAGER->addImage("´øÀü5ÇÈ¼¿",4704,2688);
+	HPEN pen, oldPen;
+	pen = CreatePen(BS_SOLID, 25, RGB(0, 255, 0));
+	oldPen = (HPEN)SelectObject(IMAGEMANAGER->findImage("´øÀü5ÇÈ¼¿")->getMemDC(), pen);
+	
+	LineMake(IMAGEMANAGER->findImage("´øÀü5ÇÈ¼¿")->getMemDC(), 3080, 1825, 3728, 1188);
+	LineMake(IMAGEMANAGER->findImage("´øÀü5ÇÈ¼¿")->getMemDC(), 1352, 2040, 1908, 2583);
+	LineMake(IMAGEMANAGER->findImage("´øÀü5ÇÈ¼¿")->getMemDC(), 2768, 958, 2595, 785);
+	LineMake(IMAGEMANAGER->findImage("´øÀü5ÇÈ¼¿")->getMemDC(), 3150, 1065, 3065, 975);
+
+	oldPen = (HPEN)SelectObject(IMAGEMANAGER->findImage("´øÀü5ÇÈ¼¿")->getMemDC(), pen);
+	SelectObject(IMAGEMANAGER->findImage("´øÀü5ÇÈ¼¿")->getMemDC(), oldPen);
+
+	SelectObject(IMAGEMANAGER->findImage("´øÀü5ÇÈ¼¿")->getMemDC(), oldPen);
+	//Á¦°Å  ===== 
+	DeleteObject(oldPen);
+	DeleteObject(pen);
 
 	_isMapSet = true;
 	chooseMap(6);

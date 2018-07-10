@@ -14,6 +14,7 @@ HRESULT dungeon3Scene::init()
 {
 	dungeonScene::init();
 
+
 	_isMapSet = true;
 	chooseMap(4);
 	selectSize(4);

@@ -8,8 +8,8 @@ playGround::~playGround(){}
 
 HRESULT playGround::init(void)	
 {
-	mode = 보스;				//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
-//	rectRotate(IMAGEMANAGER->findImage("검01"), 100, 100);
+	mode = 마을;				//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
+
 
 
 
@@ -17,8 +17,8 @@ HRESULT playGround::init(void)
 	Image_init();
 	Sound_init();
 	
-	_mapTool = new MapTool;
-	_mapTool->init();
+	//_mapTool = new MapTool;
+	//_mapTool->init();
 	_player = new Player;
 	_player->init();
 	_im = new itemManager;
@@ -42,6 +42,8 @@ HRESULT playGround::init(void)
 	SCENEMANAGER->addScene("던전7", new dungeon7Scene);
 	SCENEMANAGER->addScene("던전8", new dungeon8Scene);
 	SCENEMANAGER->addScene("마을", new townScene);
+	SCENEMANAGER->addScene("무기", new weaponScene);
+	//SCENEMANAGER->addScene("보스", new bossScene);
 	SCENEMANAGER->addScene("보스", new bossScene);
 
 	//SCENEMANAGER->addScene("랜덤맵1", new RandomDungeon1);
@@ -91,6 +93,9 @@ HRESULT playGround::init(void)
 	case 던전8:
 		SCENEMANAGER->changeScene("던전8");
 		break;
+	case 무기:
+		SCENEMANAGER->changeScene("무기");
+		break;
 
 	case 랜덤맵1:
 		//SCENEMANAGER->changeScene("랜덤맵1");
@@ -126,7 +131,6 @@ void playGround::release(void)
 void playGround::update(void)	
 {
 	gameNode::update();
-
 	if(mode == 맵툴)
 		_mapTool->update();
 	if(KEYMANAGER->isToggleKey(VK_F2))_player->update();
@@ -149,17 +153,17 @@ void playGround::update(void)
 	if (KEYMANAGER->isStayKeyDown('W') && CAMERAMANAGER->getCameraRc().top>0) CAMERAMANAGER->setCameraY(CAMERAMANAGER->getCameraY() - 50);
 */
 
-	if (mode != 타이틀)
-	{
-		if (KEYMANAGER->isStayKeyDown('D'))//&& CAMERAMANAGER->getCameraCenter().x+WINSIZEX/2<BACKGROUNDSIZEX)
-			CAMERAMANAGER->setCameraCenter(PointMake(CAMERAMANAGER->getCameraCenter().x + 50, CAMERAMANAGER->getCameraCenter().y));
-		if (KEYMANAGER->isStayKeyDown('S'))// && CAMERAMANAGER->getCameraCenter().y + WINSIZEY / 2<BACKGROUNDSIZEY)
-			CAMERAMANAGER->setCameraCenter(PointMake(CAMERAMANAGER->getCameraCenter().x, CAMERAMANAGER->getCameraCenter().y + 50));
-		if (KEYMANAGER->isStayKeyDown('A'))// && CAMERAMANAGER->getCameraCenter().x - WINSIZEX / 2>0)
-			CAMERAMANAGER->setCameraCenter(PointMake(CAMERAMANAGER->getCameraCenter().x - 50, CAMERAMANAGER->getCameraCenter().y));
-		if (KEYMANAGER->isStayKeyDown('W'))//&& CAMERAMANAGER->getCameraCenter().y - WINSIZEY / 2>0)
-			CAMERAMANAGER->setCameraCenter(PointMake(CAMERAMANAGER->getCameraCenter().x, CAMERAMANAGER->getCameraCenter().y - 50));
-	}
+	//if (mode != 타이틀)
+	//{
+	//	if (KEYMANAGER->isStayKeyDown('D'))//&& CAMERAMANAGER->getCameraCenter().x+WINSIZEX/2<BACKGROUNDSIZEX)
+	//		CAMERAMANAGER->setCameraCenter(PointMake(CAMERAMANAGER->getCameraCenter().x + 50, CAMERAMANAGER->getCameraCenter().y));
+	//	if (KEYMANAGER->isStayKeyDown('S'))// && CAMERAMANAGER->getCameraCenter().y + WINSIZEY / 2<BACKGROUNDSIZEY)
+	//		CAMERAMANAGER->setCameraCenter(PointMake(CAMERAMANAGER->getCameraCenter().x, CAMERAMANAGER->getCameraCenter().y + 50));
+	//	if (KEYMANAGER->isStayKeyDown('A'))// && CAMERAMANAGER->getCameraCenter().x - WINSIZEX / 2>0)
+	//		CAMERAMANAGER->setCameraCenter(PointMake(CAMERAMANAGER->getCameraCenter().x - 50, CAMERAMANAGER->getCameraCenter().y));
+	//	if (KEYMANAGER->isStayKeyDown('W'))//&& CAMERAMANAGER->getCameraCenter().y - WINSIZEY / 2>0)
+	//		CAMERAMANAGER->setCameraCenter(PointMake(CAMERAMANAGER->getCameraCenter().x, CAMERAMANAGER->getCameraCenter().y - 50));
+	//}
 	
 	//if (CAMERAMANAGER->getCameraX() < 0)						CAMERAMANAGER->setCameraX(0);
 	//if (CAMERAMANAGER->getCameraY() < 0)						CAMERAMANAGER->setCameraY(0);
@@ -181,14 +185,10 @@ void playGround::render(void)
 		//PatBlt(UIDC, 0, 0, BACKGROUNDSIZEX, BACKGROUNDSIZEY, WHITENESS);
 		
 		
-		_mapTool->render();
+		//_mapTool->render();
 		if(KEYMANAGER->isToggleKey(VK_TAB))
 		{
-			IMAGEMANAGER->findImage("floor1")->render(DC, -23 * 96, 12 * 96);
-			IMAGEMANAGER->findImage("floor2")->render(DC, 22 * 96, 12 * 96);
-			IMAGEMANAGER->findImage("floor1")->render(DC, 57 * 96, 12 * 96);
-			IMAGEMANAGER->findImage("floor0")->render(DC, 30 * 96, 17 * 96);
-			IMAGEMANAGER->findImage("floor0")->render(DC, 36 * 96, 15 * 96);
+		
 		}
 		
 		break;
@@ -202,13 +202,13 @@ void playGround::render(void)
 		SCENEMANAGER->render();
 		break;
 	case 플레이어:
-		//_player->render();
+		_player->render();
 		break;
 	case 아이템:
 		SCENEMANAGER->render();
 		break;
 	case 던전2: case 던전3: case 던전4: case 던전5: case 던전6: case 던전7: case 던전8:
-	case 랜덤맵1: case 보스:
+	case 랜덤맵1: case 보스:  case 무기:
 		SCENEMANAGER->render();
 		_player->render();
 		break;
