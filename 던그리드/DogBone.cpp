@@ -166,13 +166,15 @@ void DogBone::move()
 				_rc.right = _tiles[tileIndex[i]].rc.left;
 				_rc.left = _rc.right - 100;
 				_x = _rc.left + (_rc.right - _rc.left) / 2;
-				changeAnimation(DOGBONE_LEFT_IDLE);
+				//changeAnimation(DOGBONE_LEFT_IDLE);
+				changeAnimation(DOGBONE_LEFT_JUMP);
 				break;
 			case DOGBONE_LEFT_MOVE: case DOGBONE_LEFT_JUMP:
 				_rc.left = _tiles[tileIndex[i]].rc.right;
 				_rc.right = _rc.left + 100;
 				_x = _rc.left + (_rc.right - _rc.left) / 2;
-				changeAnimation(DOGBONE_RIGHT_IDLE);
+				//changeAnimation(DOGBONE_RIGHT_IDLE);
+				changeAnimation(DOGBONE_RIGHT_JUMP);
 				break;
 			}
 			return;
@@ -213,16 +215,42 @@ void DogBone::leftJump()
 void DogBone::changeDirection()
 {
 	//이동 가능 범위(방향전환)
-	if (_x - _img->getFrameWidth() / 2 < 0)
-	{
-		if (_dogBoneDirection == DOGBONE_LEFT_JUMP) changeAnimation(DOGBONE_RIGHT_JUMP);
-		else changeAnimation(DOGBONE_RIGHT_MOVE);
-	}
-	if (_x + _img->getFrameWidth() / 2 > WINSIZEX)
-	{
-		if (_dogBoneDirection == DOGBONE_RIGHT_JUMP) changeAnimation(DOGBONE_LEFT_JUMP);
-		else changeAnimation(DOGBONE_LEFT_MOVE);
-	}
+	//if (_x - _img->getFrameWidth() / 2 < 0)
+	//{
+	//	if (_dogBoneDirection == DOGBONE_LEFT_JUMP) changeAnimation(DOGBONE_RIGHT_JUMP);
+	//	else changeAnimation(DOGBONE_RIGHT_MOVE);
+	//}
+	//if (_x + _img->getFrameWidth() / 2 > WINSIZEX)
+	//{
+	//	if (_dogBoneDirection == DOGBONE_RIGHT_JUMP) changeAnimation(DOGBONE_LEFT_JUMP);
+	//	else changeAnimation(DOGBONE_LEFT_MOVE);
+	//}
+
+	////마우스가 개보다 더 오른쪽에 있으면
+	//if (_x <= PTMOUSE_X)
+	//{
+	//	if (_dogBoneDirection == DOGBONE_LEFT_JUMP) changeAnimation(DOGBONE_RIGHT_JUMP);
+	//	else changeAnimation(DOGBONE_RIGHT_MOVE);
+	//}
+	////마우스가 개보다 더 왼쪽에 있으면
+	//if (_x > PTMOUSE_X)
+	//{
+	//	if (_dogBoneDirection == DOGBONE_RIGHT_JUMP) changeAnimation(DOGBONE_LEFT_JUMP);
+	//	else changeAnimation(DOGBONE_LEFT_MOVE);
+	//}
+	////마우스가 개보다 더 아래에 있으면
+	//if (_y < PTMOUSE_Y)
+	//{
+	//	//_y = PTMOUSE_Y;
+	//	if (_dogBoneDirection == DOGBONE_LEFT_MOVE)
+	//	{
+	//		changeAnimation(DOGBONE_LEFT_JUMP);
+	//	}
+	//	if (_dogBoneDirection == DOGBONE_RIGHT_MOVE)
+	//	{
+	//		changeAnimation(DOGBONE_RIGHT_JUMP);
+	//	}
+	//}
 
 	//점프
 	_count++;
@@ -233,15 +261,17 @@ void DogBone::changeDirection()
 		_isJumping = true;
 		_jumpPower = 5.0f;
 		_gravity = 0.15f;
-
-		if (_dogBoneDirection == DOGBONE_RIGHT_MOVE)
-		{
-			changeAnimation(DOGBONE_RIGHT_JUMP);
-		}
-		if (_dogBoneDirection == DOGBONE_LEFT_MOVE)
-		{
-			changeAnimation(DOGBONE_LEFT_JUMP);
-		}
+		//if (_y < PTMOUSE_Y)
+		//{
+		//	if (_dogBoneDirection == DOGBONE_RIGHT_MOVE)
+		//	{
+		//		changeAnimation(DOGBONE_RIGHT_JUMP);
+		//	}
+		//	if (_dogBoneDirection == DOGBONE_LEFT_MOVE)
+		//	{
+		//		changeAnimation(DOGBONE_LEFT_JUMP);
+		//	}
+		//}
 	}
 }
 
