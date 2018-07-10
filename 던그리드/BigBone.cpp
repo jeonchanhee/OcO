@@ -58,8 +58,8 @@ void BigBone::release()
 
 void BigBone::update()
 {
-	changeDirection();
-	move();
+	//changeDirection();
+	//move();
 	///////////dieÅ×½ºÆ®!///////////////////
 	/*if (KEYMANAGER->isOnceKeyDown(VK_F2))
 	{
@@ -139,8 +139,8 @@ void BigBone::move()
 
 	rcCollision.left += 2;
 	rcCollision.top += 2;
-	rcCollision.right -= 2;
-	rcCollision.bottom -= 2;
+	rcCollision.right += 30;
+	rcCollision.bottom += 30;
 
 	_rcCollision = rcCollision;
 
@@ -159,7 +159,7 @@ void BigBone::move()
 			tileIndex[1] = tileX + (tileY + 1)*VARIABLE_SIZEX[_dungeonNum];
 		break;
 	}
-	if (tileIndex[0] == 1003 || tileIndex[1] == 1003)
+	if (tileIndex[0] == 1004 || tileIndex[1] == 1004)
 		int a = 0;
 	for (int i = 0; i < 2; i++)
 	{
@@ -169,13 +169,13 @@ void BigBone::move()
 			break;
 		}
 		RECT temp;
-		if ((_tiles[tileIndex[i]].object == OBJ_DIAGONAL_LEFT || _tiles[tileIndex[i]].object == OBJ_DIAGONAL_RIGHT || _tiles[tileIndex[i]].object == OBJ_DIAGONAL || _tiles[tileIndex[i]].object == OBJ_CULUMN) &&
+		if ((_tiles[tileIndex[i]].object == OBJ_CULUMN) &&
 			IntersectRect(&temp, &_tiles[tileIndex[i]].rc, &rcCollision))
 		{
 			switch (_bigBoneDirection)
 			{
 			case BIGBONE_RIGHT_MOVE:
-				_rc.right = _tiles[tileIndex[i]].rc.left;
+				_rc.right = _tiles[tileIndex[i]].rc.left - 30;
 				_rc.left = _rc.right - 130;
 				_x = _rc.left + (_rc.right - _rc.left) / 2;
 				changeAnimation(BIGBONE_LEFT_MOVE);

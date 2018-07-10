@@ -135,7 +135,7 @@ void titleScene::render(void)
 		//restaurant();
 		//drawData();
 	}
-	//drawData();
+	drawData();
 	setting();
 
 	if (_select != 0)
