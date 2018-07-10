@@ -9,14 +9,12 @@ HRESULT itemManager::init()
 {
 	CreateItem();
 
-	_foodNpc = new FoodNpc;
-	_foodNpc->init(NPC_LEFT_STOP, FOOD_NPC, "엔피시", 1, PointMake(200, 200));
+	//_foodNpc = new FoodNpc;
+	//_foodNpc->init(NPC_LEFT_STOP, FOOD_NPC, "엔피시", 1, PointMake(200, 200));
 
-	_weaponNpc = new WeaponNpc;
-	_weaponNpc->init(NPC_LEFT_STOP, WEAPON_NPC, "엔피시", 2, PointMake(400, 100));
-	
-
-
+	//_weaponNpc = new WeaponNpc;
+	//_weaponNpc->init(NPC_LEFT_STOP, WEAPON_NPC, "엔피시", 2, PointMake(400, 100));
+	//
 	return S_OK;
 }
 
@@ -35,8 +33,8 @@ void itemManager::update()
 		(*_viItem)->update();
 	}
 
-	_weaponNpc->update();
-	_foodNpc->update();
+	//_weaponNpc->update();
+	//_foodNpc->update();
 }
 
 
@@ -46,18 +44,18 @@ void itemManager::render()
 	{
 		(*_viItem)->render();
 	}
-	_weaponNpc->render();
-	_foodNpc->render();
+	//_weaponNpc->render();
+	//_foodNpc->render();
 }
 
 void itemManager::CreateItem()
 {
 
-	for (int i = 1; i < 6; i++)
+	for (int i = 1; i < 11; i++)
 	{
 		Item* weapon;
 		weapon = new Weapon;
-		weapon->init(SWORD, "검", i, PointMake(100 + i * 300, 100));
+		weapon->init(SWORD, "검", i, PointMake(100 + i * 100, 20));
 		_vItem.push_back(weapon);
 	}
 
@@ -112,9 +110,12 @@ void itemManager::CreateItem()
 	{
 		Item* food;
 		food = new Food;
-		food->init(FOOD, "음식", i, PointMake(100 + i * 200, 900));
+		food->init(FOOD, "음식", i, PointMake(100 + i * 100, 900));
 		_vItem.push_back(food);
 	}
+
+
+
 
 }
 

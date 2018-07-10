@@ -5,7 +5,7 @@
 
 // 타일 갯수(50,50)은 맵의 기본입니당~~, 수정하면 커밋은 바꿔서 올려주세용~~
 #define TILEX 80
-#define TILEY 25
+#define TILEY 50
 //(80,25)는 타운맵입니당
 //#define TILEX 80
 //#define TILEY 25
