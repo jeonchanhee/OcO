@@ -156,14 +156,14 @@ void dungeonScene::mapload()
 			if (_tiles[i * TILEX + j].objFrameX == 2 && _tiles[i * TILEX + j].objFrameY == 6) _tiles[i* TILEX + j].object = OBJ_CEILING;
 			
 			////ÎÃ Èñ Áø ÎÃ Èñ Áø ÎÃ Èñ Áø ÎÃ Èñ Áø ÎÃ Èñ Áø ÎÃ Èñ Áø ÎÃ Èñ Áø ÎÃ Èñ Áø ÎÃ Èñ Áø ÎÃ Èñ Áø ÎÃ Èñ Áø ÎÃ Èñ Áø ÎÃ Èñ Áø ÎÃ Èñ Áø ÎÃ Èñ Áø ÎÃ Èñ Áø 
-			if (_tiles[i* TILEX + j].objFrameX == 8 && _tiles[i* TILEX + j].objFrameY == 0) _tiles[i* TILEX + j].object  = OBJ_DIAGONAL;
-			if (_tiles[i* TILEX + j].objFrameX == 9 && _tiles[i* TILEX + j].objFrameY == 0) _tiles[i* TILEX + j].object  = OBJ_DIAGONAL;
-			if (_tiles[i* TILEX + j].objFrameX == 11 && _tiles[i* TILEX + j].objFrameY == 0) _tiles[i* TILEX + j].object = OBJ_DIAGONAL;
+			if (_tiles[i* TILEX + j].objFrameX == 8 && _tiles[i* TILEX + j].objFrameY == 0) _tiles[i* TILEX + j].object  = OBJ_DIAGONAL_LEFT;
+			if (_tiles[i* TILEX + j].objFrameX == 9 && _tiles[i* TILEX + j].objFrameY == 0) _tiles[i* TILEX + j].object  = OBJ_DIAGONAL_RIGHT;
+			if (_tiles[i* TILEX + j].objFrameX == 11 && _tiles[i* TILEX + j].objFrameY == 0) _tiles[i* TILEX + j].object = OBJ_DIAGONAL_RIGHT;
 			if (_tiles[i* TILEX + j].objFrameX == 11 && _tiles[i* TILEX + j].objFrameY == 21) _tiles[i* TILEX + j].object = OBJ_DIAGONAL;
-			if (_tiles[i* TILEX + j].objFrameX == 13 && _tiles[i* TILEX + j].objFrameY == 0) _tiles[i* TILEX + j].object = OBJ_DIAGONAL;
+			if (_tiles[i* TILEX + j].objFrameX == 13 && _tiles[i* TILEX + j].objFrameY == 0) _tiles[i* TILEX + j].object = OBJ_DIAGONAL_LEFT;
 		//	if (_tiles[i* TILEX + j].objFrameX == 5 && _tiles[i* TILEX + j].objFrameY == 3) _tiles[i* TILEX + j].object  = OBJ_DIAGONAL;
-			if (_tiles[i* TILEX + j].objFrameX == 7 && _tiles[i* TILEX + j].objFrameY == 3) _tiles[i* TILEX + j].object  = OBJ_DIAGONAL;
-			if (_tiles[i* TILEX + j].objFrameX == 8 && _tiles[i* TILEX + j].objFrameY == 3) _tiles[i* TILEX + j].object  = OBJ_DIAGONAL;
+			if (_tiles[i* TILEX + j].objFrameX == 7 && _tiles[i* TILEX + j].objFrameY == 3) _tiles[i* TILEX + j].object  = OBJ_DIAGONAL_RIGHT;
+			if (_tiles[i* TILEX + j].objFrameX == 8 && _tiles[i* TILEX + j].objFrameY == 3) _tiles[i* TILEX + j].object  = OBJ_DIAGONAL_LEFT;
 			if (_tiles[i* TILEX + j].objFrameX == 10 && _tiles[i* TILEX + j].objFrameY == 3) _tiles[i* TILEX + j].object = OBJ_DIAGONAL;
 		}
 	}
@@ -608,7 +608,7 @@ void dungeonScene::MusicAngelBulletFire()
 	}
 }
 
-//º¸½º ÃÑ¾Ë
+//º¸½ºÃÑ¾Ë
 void dungeonScene::BossBulletFire()
 {
 	//==========================================================
@@ -682,7 +682,7 @@ void dungeonScene::BossBulletFire()
 	//	_enemyBullet->bulletFire("bossRLaser", _boss->getRightX() - 850, _boss->getRightY(), 0, 0.0f, 1000, true, HEIGHT); //¿À¸¥¼Õ ·¹ÀÌÁ®
 	//	_boss->setRightDirection(RIGHT_LASER_OFF);
 	//}
-}
+
 
 void dungeonScene::bigbatbulletFire()
 {
@@ -707,16 +707,6 @@ void dungeonScene::bigbatbulletFire()
 
 void dungeonScene::bigRadbatbulletFire()
 {
-	//_count2++;
-	//if (_count2 % 15 == 0)
-	//{
-	//	for (int i = 0; i < 20; i++)
-	//	{
-	//		float angle = PI2 / 20;
-	//		_enemtBullet2->bulletFire("fatherBatBullet", _bigRedBat->getX() + 50, _bigRedBat->getY(), angle * i, 5.0f, 500);
-	//	}
-	//}
-}
 	_count3++;
 	if (_count3 % 150 == 0)
 	{

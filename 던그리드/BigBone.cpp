@@ -169,7 +169,7 @@ void BigBone::move()
 			break;
 		}
 		RECT temp;
-		if ((_tiles[tileIndex[i]].object == OBJ_DIAGONAL || _tiles[tileIndex[i]].object == OBJ_CULUMN) &&
+		if ((_tiles[tileIndex[i]].object == OBJ_DIAGONAL_LEFT || _tiles[tileIndex[i]].object == OBJ_DIAGONAL_RIGHT || _tiles[tileIndex[i]].object == OBJ_DIAGONAL || _tiles[tileIndex[i]].object == OBJ_CULUMN) &&
 			IntersectRect(&temp, &_tiles[tileIndex[i]].rc, &rcCollision))
 		{
 			switch (_bigBoneDirection)
