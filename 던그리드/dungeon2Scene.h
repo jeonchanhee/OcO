@@ -4,7 +4,7 @@
 class dungeon2Scene : public dungeonScene
 {
 private:
-	image * _pixel;
+	
 public:
 	dungeon2Scene();
 	~dungeon2Scene();
@@ -17,6 +17,6 @@ public:
 
 	void setMonster();
 
-	image* getPixel() { return _pixel; }
+
 };
 

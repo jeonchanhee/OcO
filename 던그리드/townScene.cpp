@@ -7,16 +7,20 @@ HRESULT townScene::init()
 {
 	SOUNDMANAGER->play("town");
 	_player = SCENEMANAGER->getPlayerAddressLink();
-
-	_pixel = IMAGEMANAGER->findImage("pixel");
+	//ÇÈ½ì  =\=======
+	_pixel = IMAGEMANAGER->addImage("pixelTown", 4800, 2400);
 	HPEN pen, oldPen;
-	pen = CreatePen(BS_SOLID, 25, RGB(0, 255, 0));
+	pen = CreatePen(BS_SOLID, 20, RGB(0, 255, 0));
 	oldPen = (HPEN)SelectObject(_pixel->getMemDC(), pen);
 
 	LineMake(_pixel->getMemDC(), 1050, 1170, 1800, 1920);
 	LineMake(_pixel->getMemDC(), 2220, 1920, 2980, 1170);
 	LineMake(_pixel->getMemDC(), 4420, 1175, 4790, 1546);
 	SelectObject(_pixel->getMemDC(), oldPen);
+	//Á¦°Å  ===== 
+	DeleteObject(oldPen);
+	DeleteObject(pen);
+
 	_isMapSet = true;
 	_mapName = "map/townmap(80x25).map";
 	_temp = 80;
@@ -33,11 +37,20 @@ void townScene::release()
 
 void townScene::update()
 {
+	_player->update();
 }
 
 void townScene::render()
 {
-	if(KEYMANAGER->isToggleKey(VK_F3))mapRender();	
+	//if(KEYMANAGER->isToggleKey(VK_F3))
+	mapRender();
+	IMAGEMANAGER->findImage("floor1")->render(DC, -23 * 96, 12 * 96);
+	IMAGEMANAGER->findImage("floor2")->render(DC, 22 * 96, 12 * 96);
+	IMAGEMANAGER->findImage("floor1")->render(DC, 57 * 96, 12 * 96);
+	IMAGEMANAGER->findImage("floor0")->render(DC, 30 * 96, 17 * 96);
+	IMAGEMANAGER->findImage("floor0")->render(DC, 36 * 96, 15 * 96);
+	_player->render();
+
 }
 
 void townScene::mapload()

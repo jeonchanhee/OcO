@@ -13,12 +13,13 @@ DogBone::~DogBone()
 
 HRESULT DogBone::init(float x, float y)
 {
-	_dogBoneDirection = DOGBONE_LEFT_MOVE;
+	_dogBoneDirection = DOGBONE_LEFT_JUMP;
 	_x = x;
 	_y = _startY = y;
-	_jumpPower = 5.0f;
+	
 	_gravity = 0.15f;
 
+	_jumpPower = 0;
 	//IDLE상태
 	_img = IMAGEMANAGER->findImage("skelDogMoveDie");
 
@@ -43,7 +44,7 @@ HRESULT DogBone::init(float x, float y)
 
 	_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 
-	_count = 0;
+	_count = 80;
 
 	_isJumping = false;
 
@@ -56,22 +57,23 @@ void DogBone::release()
 
 void DogBone::update()
 {
-	changeDirection();
 	move();
+	changeDirection();
+	
 
-	if (_isJumping && _y > _startY)//초기 위치보다 크면 초기위치에서 멈춤 (_startY)
-	{
-		_isJumping = false;
-		_y = _startY;
-		_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
-		if (_dogBoneDirection == DOGBONE_LEFT_JUMP)
-			_dogBoneDirection = DOGBONE_LEFT_MOVE;
-		else if (_dogBoneDirection == DOGBONE_RIGHT_JUMP)
-			_dogBoneDirection = DOGBONE_RIGHT_MOVE;
-	}
+	//if (_isJumping && _y > _startY)//초기 위치보다 크면 초기위치에서 멈춤 (_startY)
+	//{
+	//	_isJumping = false;
+	//	_y = _startY;
+	//	_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
+	//	if (_dogBoneDirection == DOGBONE_LEFT_JUMP)
+	//		_dogBoneDirection = DOGBONE_LEFT_MOVE;
+	//	else if (_dogBoneDirection == DOGBONE_RIGHT_JUMP)
+	//		_dogBoneDirection = DOGBONE_RIGHT_MOVE;
+	//}
 
 	//KEYANIMANAGER->update();
-
+	_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 
 	////////////////////DIE테스트임///////////////////////////
 	if (KEYMANAGER->isOnceKeyDown(VK_F1))
@@ -104,6 +106,11 @@ void DogBone::update()
 void DogBone::render()
 {
 	_img->aniRender(DC, _rc.left, _rc.top, _dogBoneMotion);
+	if (KEYMANAGER->isToggleKey('T'))
+	{
+		Rectangle(DC, _rcCollision.left, _rcCollision.top, _rcCollision.right, _rcCollision.bottom);
+		TextOut(DC, 200, 200, _str.c_str(), strlen(_str.c_str()));
+	}
 }
 
 void DogBone::move()
@@ -113,29 +120,45 @@ void DogBone::move()
 	int tileX, tileY;
 	rcCollision = _rc;
 
+	
+
 	switch (_dogBoneDirection)
 	{
 	case DOGBONE_RIGHT_MOVE:
-		rightMove();
+		//rightMove();
+		_x += DOGBONESPEED;
+		rcCollision = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 		break;
 	case DOGBONE_LEFT_MOVE:
-		leftMove();
+		//leftMove();
+		_x -= DOGBONESPEED;
+		rcCollision = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 		break;
 	case DOGBONE_RIGHT_JUMP:
-		rightJump();
+		//rightJump();
+		_x += DOGBONESPEED;
+		_y -= _jumpPower;
+		_jumpPower -= _gravity;
+		rcCollision = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 		break;
 	case DOGBONE_LEFT_JUMP:
-		leftJump();
+		//leftJump();
+		_x -= DOGBONESPEED;
+		_y -= _jumpPower;
+		_jumpPower -= _gravity;
+		rcCollision = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 		break;
 	default:
-		//_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
-			return;
+		_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
+		return;
 		break;
 	}
+	_y -= _jumpPower;
+	_jumpPower -= _gravity;
 
 	rcCollision.left += 2;
 	rcCollision.top += 2;
-	rcCollision.right -= 2;
+	rcCollision.right += 100;
 	rcCollision.bottom -= 2;
 
 	_rcCollision = rcCollision;
@@ -143,47 +166,118 @@ void DogBone::move()
 	tileX = rcCollision.left / TILESIZE;
 	tileY = rcCollision.top / TILESIZE;
 
+
 	switch (_dogBoneDirection)
 	{
 	case DOGBONE_RIGHT_MOVE: case DOGBONE_RIGHT_JUMP:
-		tileIndex[0] = (tileX + tileY * VARIABLE_SIZEX[_dungeonNum]) + 1;
-		tileIndex[1] = (tileX + (1 + tileY) *  VARIABLE_SIZEX[_dungeonNum]) + 1;
+		tileIndex[0] = (tileX + (tileY) * VARIABLE_SIZEX[_dungeonNum]) + 1;
 		break;
 	case DOGBONE_LEFT_MOVE: case DOGBONE_LEFT_JUMP:
-		tileIndex[0] = tileX + tileY * VARIABLE_SIZEX[_dungeonNum];
-		tileIndex[1] = tileX + (tileY + 1)*VARIABLE_SIZEX[_dungeonNum];
+		tileIndex[0] = tileX + (tileY) * VARIABLE_SIZEX[_dungeonNum];
 		break;
 	}
-	for (int i = 0; i < 2; i++)
-	{
+	_str = to_string(tileIndex[0]) + "," + to_string(tileIndex[1]);
+
+	
+		if (_dungeonNum == 1 && !(tileIndex[0] % 100))
+		{
+			changeAnimation(DOGBONE_RIGHT_MOVE);
+			return;
+		}
 		RECT temp;
-		if ((_tiles[tileIndex[i]].object == OBJ_CULUMN) && 
-			IntersectRect(&temp, &_tiles[tileIndex[i]].rc, &rcCollision))
+		
+		if (_tiles[tileIndex[0]].object == OBJ_CULUMN && IntersectRect(&temp, &_tiles[tileIndex[0]].rc, &rcCollision))
 		{
 			switch (_dogBoneDirection)
 			{
-			case DOGBONE_RIGHT_MOVE: case DOGBONE_RIGHT_JUMP:
-				_rc.right = _tiles[tileIndex[i]].rc.left;
+			case DOGBONE_RIGHT_MOVE: 
+				_rc.right = _tiles[tileIndex[0]].rc.left;
 				_rc.left = _rc.right - 100;
 				_x = _rc.left + (_rc.right - _rc.left) / 2;
-				//changeAnimation(DOGBONE_LEFT_IDLE);
+				changeAnimation(DOGBONE_LEFT_MOVE);
+				break;
+			case DOGBONE_RIGHT_JUMP:
+				_rc.right = _tiles[tileIndex[0]].rc.left;
+				_rc.left = _rc.right - 100;
+				_x = _rc.left + (_rc.right - _rc.left) / 2;
 				changeAnimation(DOGBONE_LEFT_JUMP);
 				break;
-			case DOGBONE_LEFT_MOVE: case DOGBONE_LEFT_JUMP:
-				_rc.left = _tiles[tileIndex[i]].rc.right;
+			case DOGBONE_LEFT_MOVE:
+				_rc.left = _tiles[tileIndex[0]].rc.right;
 				_rc.right = _rc.left + 100;
 				_x = _rc.left + (_rc.right - _rc.left) / 2;
-				//changeAnimation(DOGBONE_RIGHT_IDLE);
+				changeAnimation(DOGBONE_RIGHT_MOVE);
+				break;
+			case DOGBONE_LEFT_JUMP:
+				_rc.left = _tiles[tileIndex[0]].rc.right;
+				_rc.right = _rc.left + 100;
+				_x = _rc.left + (_rc.right - _rc.left) / 2;
 				changeAnimation(DOGBONE_RIGHT_JUMP);
 				break;
 			}
 			return;
 		}
-	}
+
+		rcCollision.left += 2;
+		rcCollision.top += 2;
+		rcCollision.right -= 102;
+		rcCollision.bottom -= 20;
+
+		switch (_dogBoneDirection)
+		{
+		case DOGBONE_RIGHT_MOVE: case DOGBONE_RIGHT_JUMP:
+			tileIndex[0] = (tileX + (tileY + 1)* VARIABLE_SIZEX[_dungeonNum]);
+			tileIndex[1] = (tileX + (tileY + 1)* VARIABLE_SIZEX[_dungeonNum]) + 1;
+			break;
+		case DOGBONE_LEFT_MOVE: case DOGBONE_LEFT_JUMP:
+			tileIndex[0] = (tileX + (tileY + 1)* VARIABLE_SIZEX[_dungeonNum]) - 1;
+			tileIndex[1] = (tileX + (tileY + 1)* VARIABLE_SIZEX[_dungeonNum]);
+			break;
+		}
+
+		_str = to_string(tileIndex[0]) + "," + to_string(tileIndex[1]);
+		
+		for (int i = 0; i < 2; i++)
+		{
+			if (tileIndex[i] == 1205)
+				int a = 0;
+			if ((_tiles[tileIndex[i]].object == OBJ_CULUMN || _tiles[tileIndex[i]].object == OBJ_GOGROUND) && IntersectRect(&temp, &_tiles[tileIndex[i]].rc, &rcCollision))
+			{
+				/*switch (_dogBoneDirection)
+				{
+				case DOGBONE_RIGHT_MOVE:
+					_rc.right = _tiles[tileIndex[0]].rc.left;
+					_rc.left = _rc.right - 100;
+					_x = _rc.left + (_rc.right - _rc.left) / 2;
+					changeAnimation(DOGBONE_LEFT_MOVE);
+					break;
+				case DOGBONE_RIGHT_JUMP:
+					break;
+				case DOGBONE_LEFT_MOVE:
+					_rc.left = _tiles[tileIndex[0]].rc.right;
+					_rc.right = _rc.left + 100;
+					_x = _rc.left + (_rc.right - _rc.left) / 2;
+					changeAnimation(DOGBONE_RIGHT_MOVE);
+					break;
+				case DOGBONE_LEFT_JUMP:
+					break;
+				}
+				return;*/
+			//	if (_y > _tiles[tileIndex[i]].rc.top - 30)
+				{
+					_jumpPower = 0;
+					_y = _tiles[tileIndex[i]].rc.top - 30;
+					_isJumping = false;
+				}
+				return;
+			}
+		}
+
 	rcCollision = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 	_rc = rcCollision;
 
 }
+/*
 void DogBone::rightMove()
 {
 	_x += DOGBONESPEED;
@@ -211,6 +305,7 @@ void DogBone::leftJump()
 	_jumpPower -= _gravity;
 	_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 }
+*/
 
 void DogBone::changeDirection()
 {
@@ -254,24 +349,26 @@ void DogBone::changeDirection()
 
 	//점프
 	_count++;
-	
+	if (!(_count % 100))
+	{
+		int a = 0;
+	}
 	if (!(_count % 100) && !_isJumping)
 	{
 		_count = 0;
 		_isJumping = true;
-		_jumpPower = 5.0f;
-		_gravity = 0.15f;
-		//if (_y < PTMOUSE_Y)
-		//{
-		//	if (_dogBoneDirection == DOGBONE_RIGHT_MOVE)
-		//	{
-		//		changeAnimation(DOGBONE_RIGHT_JUMP);
-		//	}
-		//	if (_dogBoneDirection == DOGBONE_LEFT_MOVE)
-		//	{
-		//		changeAnimation(DOGBONE_LEFT_JUMP);
-		//	}
-		//}
+		_jumpPower = 6.0f;
+		if (_dogBoneDirection == DOGBONE_RIGHT_MOVE)
+		{
+			_y -= 100;
+			changeAnimation(DOGBONE_RIGHT_JUMP);
+		}
+		if (_dogBoneDirection == DOGBONE_LEFT_MOVE)
+		{
+			_y -= 100;
+			changeAnimation(DOGBONE_LEFT_JUMP);
+		}
+		
 	}
 }
 
@@ -280,12 +377,14 @@ void DogBone::changeAnimation(DOGBONEDIRECTION dogBoneDirection)
 	switch (dogBoneDirection)
 	{
 	case DOGBONE_RIGHT_MOVE:
+		_isJumping = false;
 		_img = IMAGEMANAGER->findImage("skelDogMoveDie");
 		_dogBoneDirection = DOGBONE_RIGHT_MOVE;
 		_dogBoneMotion = KEYANIMANAGER->findAnimation("dogBoneRightMove");
 		_dogBoneMotion->start();
 		break;
 	case DOGBONE_LEFT_MOVE:
+		_isJumping = false;
 		_img = IMAGEMANAGER->findImage("skelDogMoveDie");
 		_dogBoneDirection = DOGBONE_LEFT_MOVE;
 		_dogBoneMotion = KEYANIMANAGER->findAnimation("dogBoneLeftMove");
@@ -315,8 +414,8 @@ void DogBone::changeAnimation(DOGBONEDIRECTION dogBoneDirection)
 		_dogBoneMotion = KEYANIMANAGER->findAnimation("dogBoneLeftDie");
 		_dogBoneMotion->start();
 		break;
-	default:
+	/*default:
 		_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
-		break;
+		break;*/
 	}
 }
