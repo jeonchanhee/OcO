@@ -40,7 +40,13 @@ void townScene::render()
 {
 	//if(KEYMANAGER->isToggleKey(VK_F3))
 	mapRender();
+	IMAGEMANAGER->findImage("floor1")->render(DC, -23 * 96, 12 * 96);
+	IMAGEMANAGER->findImage("floor2")->render(DC, 22 * 96, 12 * 96);
+	IMAGEMANAGER->findImage("floor1")->render(DC, 57 * 96, 12 * 96);
+	IMAGEMANAGER->findImage("floor0")->render(DC, 30 * 96, 17 * 96);
+	IMAGEMANAGER->findImage("floor0")->render(DC, 36 * 96, 15 * 96);
 	_player->render();
+
 }
 
 void townScene::mapload()

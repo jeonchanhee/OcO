@@ -179,7 +179,7 @@ void Player::keyInput()
 	}
 	else if (KEYMANAGER->isOnceKeyUp('A')&&_direction!=RIGHT_RUN)
 	{
-		_direction = LEFT_STOP;
+		_direction = LEFT_STOP; 
 		_playerAnimation = KEYANIMANAGER->findAnimation("왼쪽보고서있기");
 		_playerAnimation->start();
 	}
