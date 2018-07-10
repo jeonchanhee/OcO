@@ -1,15 +1,18 @@
 #include "stdafx.h"
 #include "townScene.h"
+#include "Player.h"
 
 
 HRESULT townScene::init()
 {
-	//_player = SCENEMANAGER->getPlayerAddressLink();
+	SOUNDMANAGER->play("town");
+	_player = SCENEMANAGER->getPlayerAddressLink();
 
 	_isMapSet = true;
 	_mapName = "map/townmap(80x25).map";
 	_temp = 80;
 	_tileX = 80, _tileY = 25;
+	_dungeonNum = 11;
 	mapload();
 	return S_OK;
 }

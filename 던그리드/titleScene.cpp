@@ -132,7 +132,7 @@ void titleScene::render(void)
 		//shop();
 		//inven();
 		//reward();
-		restaurant();
+		//restaurant();
 		//drawData();
 	}
 	drawData();
@@ -361,7 +361,8 @@ void titleScene::selectData()
 			{
 				if (_select == i + 1)
 				{
-					SCENEMANAGER->changeScene("인트로");
+					SOUNDMANAGER->stop("title");
+					SCENEMANAGER->changeScene("마을");
 					break;
 				}
 				_select = i + 1;
@@ -399,6 +400,10 @@ void titleScene::setting()
 		SetTextColor(DC, RGB(255, 255, 255));
 		SetBkMode(DC, TRANSPARENT);
 		TextOut(DC, WINSIZEX / 2 - 100, 280, "사운드", strlen("사운드"));
+		TextOut(DC, 200, 450, "음악 볼륨", strlen("음악 볼륨"));
+		TextOut(DC, 150, 600, "효과음 볼륨", strlen("효과음 볼륨"));
+		TextOut(DC, WINSIZEX / 2 - 100, 750, "컨트롤", strlen("컨트롤"));
+		TextOut(DC, 150, 900, "화면 흔들림", strlen("화면 흔들림"));
 		SelectObject(DC, oldFont);
 		DeleteObject(font);
 		if (PtInRect(&_exitRect, getMemDCPoint()))

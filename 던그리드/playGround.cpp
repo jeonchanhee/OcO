@@ -8,14 +8,14 @@ playGround::~playGround(){}
 
 HRESULT playGround::init(void)	
 {
-	mode =타이틀;				//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
+	mode = 맵툴;				//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
 //	rectRotate(IMAGEMANAGER->findImage("검01"), 100, 100);
 
 
 
 	gameNode::init(true);
 	Image_init();
-//	Sound_init();
+	Sound_init();
 	
 	_mapTool = new MapTool;
 	_mapTool->init();
@@ -47,7 +47,6 @@ HRESULT playGround::init(void)
 	//SCENEMANAGER->addScene("랜덤맵1", new RandomDungeon1);
 	
 	_randomScene1 = new RandomDungeon1;
-	_randomScene1->setPlayerAddressLink(_player);
 
 	switch (mode)
 	{
@@ -127,7 +126,7 @@ void playGround::update(void)
 {
 	gameNode::update();
 
-	//_mapTool->update();
+	_mapTool->update();
 	//_player->update();
 	SCENEMANAGER->update();
 	
