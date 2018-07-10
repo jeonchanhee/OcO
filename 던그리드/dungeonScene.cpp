@@ -76,13 +76,13 @@ void dungeonScene::render(void)
 		(*_viEnemy)->render();
 	}
 
-//	RECT rc;
-//	rc = RectMakeCenter(WINSIZEX / 2, WINSIZEY / 2, 100, 100);
-//	Rectangle(DC, rc.left, rc.top, rc.right, rc.bottom);
-	//if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON) && PtInRect(&rc, getMemDCPoint()))
-	//{
-	//	_mapValue[_dungeonNum] = "T";
-	//}
+	//	RECT rc;
+	//	rc = RectMakeCenter(WINSIZEX / 2, WINSIZEY / 2, 100, 100);
+	//	Rectangle(DC, rc.left, rc.top, rc.right, rc.bottom);
+		//if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON) && PtInRect(&rc, getMemDCPoint()))
+		//{
+		//	_mapValue[_dungeonNum] = "T";
+		//}
 	char str[128];
 	sprintf_s(str, "¸Ê : %d, °ñµå : %d", _dungeonNum, _player->getGold());
 	TextOut(DC, 100, 100, str, strlen(str));
@@ -92,7 +92,7 @@ void dungeonScene::render(void)
 	{
 		_bigRadBatBullet[i]->render();
 	}
-	
+
 	doorRender();
 }
 
@@ -105,8 +105,8 @@ void dungeonScene::torchInit(int x, int y)
 	torch torch;
 	torch.img = IMAGEMANAGER->findImage("torch");
 	torch.ani = KEYANIMANAGER->findAnimation("torchAni");
-	torch.x = x*TILESIZE;
-	torch.y = y*TILESIZE;
+	torch.x = x * TILESIZE;
+	torch.y = y * TILESIZE;
 	torch.ani->start();
 	_vTorch.push_back(torch);
 }
@@ -128,7 +128,7 @@ void dungeonScene::setRandMapNum(void)
 {
 }
 
-	
+
 void dungeonScene::mapload()
 {
 	HANDLE   file;
@@ -154,16 +154,16 @@ void dungeonScene::mapload()
 			if (_tiles[i * TILEX + j].objFrameX == 0 && _tiles[i * TILEX + j].objFrameY == 6) _tiles[i* TILEX + j].object = OBJ_CEILING;
 			if (_tiles[i * TILEX + j].objFrameX == 1 && _tiles[i * TILEX + j].objFrameY == 6) _tiles[i* TILEX + j].object = OBJ_CEILING;
 			if (_tiles[i * TILEX + j].objFrameX == 2 && _tiles[i * TILEX + j].objFrameY == 6) _tiles[i* TILEX + j].object = OBJ_CEILING;
-			
+
 			////ÎÃ Èñ Áø ÎÃ Èñ Áø ÎÃ Èñ Áø ÎÃ Èñ Áø ÎÃ Èñ Áø ÎÃ Èñ Áø ÎÃ Èñ Áø ÎÃ Èñ Áø ÎÃ Èñ Áø ÎÃ Èñ Áø ÎÃ Èñ Áø ÎÃ Èñ Áø ÎÃ Èñ Áø ÎÃ Èñ Áø ÎÃ Èñ Áø ÎÃ Èñ Áø 
-			if (_tiles[i* TILEX + j].objFrameX == 8 && _tiles[i* TILEX + j].objFrameY == 0) _tiles[i* TILEX + j].object  = OBJ_DIAGONAL_LEFT;
-			if (_tiles[i* TILEX + j].objFrameX == 9 && _tiles[i* TILEX + j].objFrameY == 0) _tiles[i* TILEX + j].object  = OBJ_DIAGONAL_RIGHT;
+			if (_tiles[i* TILEX + j].objFrameX == 8 && _tiles[i* TILEX + j].objFrameY == 0) _tiles[i* TILEX + j].object = OBJ_DIAGONAL_LEFT;
+			if (_tiles[i* TILEX + j].objFrameX == 9 && _tiles[i* TILEX + j].objFrameY == 0) _tiles[i* TILEX + j].object = OBJ_DIAGONAL_RIGHT;
 			if (_tiles[i* TILEX + j].objFrameX == 11 && _tiles[i* TILEX + j].objFrameY == 0) _tiles[i* TILEX + j].object = OBJ_DIAGONAL_RIGHT;
 			if (_tiles[i* TILEX + j].objFrameX == 11 && _tiles[i* TILEX + j].objFrameY == 21) _tiles[i* TILEX + j].object = OBJ_DIAGONAL;
 			if (_tiles[i* TILEX + j].objFrameX == 13 && _tiles[i* TILEX + j].objFrameY == 0) _tiles[i* TILEX + j].object = OBJ_DIAGONAL_LEFT;
-		//	if (_tiles[i* TILEX + j].objFrameX == 5 && _tiles[i* TILEX + j].objFrameY == 3) _tiles[i* TILEX + j].object  = OBJ_DIAGONAL;
-			if (_tiles[i* TILEX + j].objFrameX == 7 && _tiles[i* TILEX + j].objFrameY == 3) _tiles[i* TILEX + j].object  = OBJ_DIAGONAL_RIGHT;
-			if (_tiles[i* TILEX + j].objFrameX == 8 && _tiles[i* TILEX + j].objFrameY == 3) _tiles[i* TILEX + j].object  = OBJ_DIAGONAL_LEFT;
+			//	if (_tiles[i* TILEX + j].objFrameX == 5 && _tiles[i* TILEX + j].objFrameY == 3) _tiles[i* TILEX + j].object  = OBJ_DIAGONAL;
+			if (_tiles[i* TILEX + j].objFrameX == 7 && _tiles[i* TILEX + j].objFrameY == 3) _tiles[i* TILEX + j].object = OBJ_DIAGONAL_RIGHT;
+			if (_tiles[i* TILEX + j].objFrameX == 8 && _tiles[i* TILEX + j].objFrameY == 3) _tiles[i* TILEX + j].object = OBJ_DIAGONAL_LEFT;
 			if (_tiles[i* TILEX + j].objFrameX == 10 && _tiles[i* TILEX + j].objFrameY == 3) _tiles[i* TILEX + j].object = OBJ_DIAGONAL;
 		}
 	}
@@ -316,7 +316,7 @@ void dungeonScene::setBigBat(int idX, int idY)
 
 void dungeonScene::setBigRedBat(int idX, int idY)
 {
-	
+
 	_bigRedBat = new BigRedBat;
 	float x = TILESIZE * idX;
 	float y = TILESIZE * idY;
@@ -326,7 +326,7 @@ void dungeonScene::setBigRedBat(int idX, int idY)
 
 void dungeonScene::setMusicAngel(int idX, int idY)
 {
-	
+
 	_musicAngel = new MusicAngel;
 	float x = TILESIZE * idX;
 	float y = TILESIZE * idY;
@@ -363,7 +363,7 @@ void dungeonScene::nextTest()
 			{
 				string str = "´øÀü¸Ê";
 				char temp[128];
-				str += itoa(_route[i],temp,10);
+				str += itoa(_route[i], temp, 10);
 				save();
 				SCENEMANAGER->changeScene(str);
 			}
@@ -388,7 +388,7 @@ void dungeonScene::save()
 {
 	vector<string> vStr;
 	char str[128];
-	vStr.push_back(itoa(_randNum,str,10));
+	vStr.push_back(itoa(_randNum, str, 10));
 	for (int i = 0; i < 11; i++)
 	{
 		vStr.push_back(_mapValue[i]);
@@ -582,13 +582,13 @@ void dungeonScene::portalRender()
 		_vPortal[i].count++;
 		if (!(_vPortal[i].count % 5))
 		{
-			
+
 			if (_vPortal[i].frameY == 0)
 			{
 				if (_vPortal[i].frameX == 0) _vPortal[i].frameY = 1;
 				else _vPortal[i].frameX--;
 			}
-			else if(!(_vPortal[i].count % 10))
+			else if (!(_vPortal[i].count % 10))
 			{
 				_vPortal[i].count = 0;
 				if (_vPortal[i].frameX >= _vPortal[i].img->getMaxFrameX())
@@ -599,7 +599,7 @@ void dungeonScene::portalRender()
 		}
 	}
 }
-	
+
 
 //ÃÑ¾Ë »ý¼º ÇÔ¼ö
 //À½Ç¥¿äÁ¤ ÃÑ¾Ë
@@ -666,66 +666,43 @@ void dungeonScene::BossBulletFire()
 		}
 		_count = 0;
 	}
-
-
-
-	//==========================================================
-	//						º¸½º Ä®
-	//==========================================================
-	/*
-	if (!(_count % 200))
-	{
-		for (int i = 0; i < 12; i++)
-		{
-			float angle = (PI2 / 12)*i;
-			_enemyBullet->bulletFire("bansheeNormalBullet", _musicAngel->getX(), _musicAngel->getY(), angle, 5.0f, 500, true);
-		}
-		_count = 0;
-	}
-	*/
-
-	//if (_boss->getRightDirection() == RIGHT_LASER_ON)
-	//{
-	//	_enemyBullet->bulletFire("bossRLaser", _boss->getRightX() - 850, _boss->getRightY(), 0, 0.0f, 1000, true, HEIGHT); //¿À¸¥¼Õ ·¹ÀÌÁ®
-	//	_boss->setRightDirection(RIGHT_LASER_OFF);
-	//}
 }
 
-void dungeonScene::bigbatbulletFire()
-{
-	_count2++;
-	if (_bigbat->getcount() %  15 == 0 && _bigbat->getcount() > 100)
+	void dungeonScene::bigbatbulletFire()
 	{
-		for (int i = 0; i < 3; i++)
+		_count2++;
+		if (_bigbat->getcount() % 15 == 0 && _bigbat->getcount() > 100)
 		{
-			float angle = -(PI2 / 9) * i;
-			_enemyBullet->bulletFire("fatherBatBullet2", _bigbat->getX() + 50, _bigbat->getY() + 10, angle, 5.0f , 500);
+			for (int i = 0; i < 3; i++)
+			{
+				float angle = -(PI2 / 9) * i;
+				_enemyBullet->bulletFire("fatherBatBullet2", _bigbat->getX() + 50, _bigbat->getY() + 10, angle, 5.0f, 500);
+			}
 		}
-	}
 
-	if (_count2 > 200)
-	{
-		_count2 = 0;
-		_bulletMove = false;
-	}
-	
-}
-
-
-void dungeonScene::bigRadbatbulletFire()
-{
-	_count3++;
-	if (_count3 % 150 == 0)
-	{
-		for (int i = 0; i < 20; i++)
+		if (_count2 > 200)
 		{
-			float angle2 = PI2 / 20 * i;
-			float bulletX = _bigRedBat->getX() + 150;
-			float bulletY = _bigRedBat->getY() + 50;
-			_bigRadBatBullet[i]->bulletFire("fatherBatBullet2", bulletX + cosf(angle2) * 150, _bigRedBat->getY() + -sinf(angle2) * 150, angle2, 5.0f, 500);
-			
+			_count2 = 0;
+			_bulletMove = false;
 		}
+
 	}
 
-	//if (_count3 > 200) _count3 = 0;
-}
+
+	void dungeonScene::bigRadbatbulletFire()
+	{
+		_count3++;
+		if (_count3 % 150 == 0)
+		{
+			for (int i = 0; i < 20; i++)
+			{
+				float angle2 = PI2 / 20 * i;
+				float bulletX = _bigRedBat->getX() + 150;
+				float bulletY = _bigRedBat->getY() + 50;
+				_bigRadBatBullet[i]->bulletFire("fatherBatBullet2", bulletX + cosf(angle2) * 150, _bigRedBat->getY() + -sinf(angle2) * 150, angle2, 5.0f, 500);
+
+			}
+		}
+
+		//if (_count3 > 200) _count3 = 0;
+	}
