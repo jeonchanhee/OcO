@@ -68,7 +68,7 @@ void DogBone::update()
 	_progressBar->setGauge(_currentHP, _maxHP);
 	_progressBar->update();
 
-	move();
+	//move();
 	changeDirection();
 	
 

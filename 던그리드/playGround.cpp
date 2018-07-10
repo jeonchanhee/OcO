@@ -8,10 +8,7 @@ playGround::~playGround(){}
 
 HRESULT playGround::init(void)	
 {
-	mode = 마을;				//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
-
-
-
+	mode = 타이틀;				//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
 
 	gameNode::init(true);
 	Image_init();
@@ -44,7 +41,6 @@ HRESULT playGround::init(void)
 	SCENEMANAGER->addScene("마을", new townScene);
 	SCENEMANAGER->addScene("무기", new weaponScene);
 	//SCENEMANAGER->addScene("보스", new bossScene);
-	SCENEMANAGER->addScene("보스", new bossScene);
 
 	//SCENEMANAGER->addScene("랜덤맵1", new RandomDungeon1);
 	

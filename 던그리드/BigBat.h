@@ -15,6 +15,7 @@ enum BIGBATDIRECTION
 
 class BigBat : public Enemy
 {
+private:
 	progressBar* _progressBar;
 	float _currentHP, _maxHP;
 

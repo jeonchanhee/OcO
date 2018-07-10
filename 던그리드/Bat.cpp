@@ -195,7 +195,6 @@ void Bat::hitDamage(float damage)
 {
 	_currentHP -= damage;
 }
-}
 
 void Bat::tileDetection()
 {

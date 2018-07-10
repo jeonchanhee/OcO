@@ -146,10 +146,10 @@ void titleScene::render(void)
 		//shop();
 		//inven();
 		//reward();
-		//restaurant();
+		restaurant();
 		//drawData();
 	}
-	drawData();
+	//drawData();
 	setting();
 
 	if (_select != 0)
@@ -262,18 +262,18 @@ void titleScene::restaurant()
 	{
 		Rectangle(DC, _rc.left, _rc.top, _rc.right, _rc.bottom);
 	}
-	//28~31
+	//28~31+5
 	RECT rc=RectMake(35,35,100,50);
 	RECT rc2=RectMake(35,305,100,50);
-	_im->getItem()[29]->getItem().image[0]->render(DC, 1120, 540);
+	_im->getItem()[34]->getItem().image[0]->render(DC, 1120, 540);
 	
 	HFONT font, oldFont;
 	font = CreateFont(40, 0, 0, 0, 100, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("소야바른9"));
 	oldFont = (HFONT)SelectObject(UIDC2, font);
 	SetTextColor(UIDC2, RGB(255, 255, 255));
 	SetBkMode(UIDC2, TRANSPARENT);
-	DrawText(UIDC2, _im->getItem()[29]->getItem().name, strlen(_im->getItem()[29]->getItem().name), &rc, DT_VCENTER);
-	DrawText(UIDC2, _im->getItem()[30]->getItem().name, strlen(_im->getItem()[30]->getItem().name), &rc2, DT_VCENTER);
+	DrawText(UIDC2, _im->getItem()[34]->getItem().name, strlen(_im->getItem()[34]->getItem().name), &rc, DT_VCENTER);
+	DrawText(UIDC2, _im->getItem()[34]->getItem().name, strlen(_im->getItem()[34]->getItem().name), &rc2, DT_VCENTER);
 	SelectObject(UIDC2, oldFont);
 	DeleteObject(font);
 }

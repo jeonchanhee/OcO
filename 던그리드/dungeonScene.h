@@ -73,6 +73,7 @@ private:
 		float dashDamage, dashSpeed;									 //대시할때 데미지 , 스피드
 		float punchSpeed;												 //펀치 스피드임
 	};
+
 protected:
 	vector<Enemy*>					_vEnemy;
 	vector<Enemy*>::iterator		_viEnemy;
