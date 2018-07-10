@@ -130,9 +130,8 @@ void playGround::release(void)
 void playGround::update(void)	
 {
 	gameNode::update();
-
-	//_mapTool->update();
-
+	if(mode == ¸ÊÅø)
+		_mapTool->update();
 	if(KEYMANAGER->isToggleKey(VK_F2))_player->update();
 	SCENEMANAGER->update();
 	

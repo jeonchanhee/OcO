@@ -34,6 +34,13 @@ HRESULT titleScene::init(void)
 		_deleteRect[i] = RectMake(150 + i * 610, 730, IMAGEMANAGER->findImage("T_delete")->getWidth(), IMAGEMANAGER->findImage("T_delete")->getHeight());
 	}
 
+	_titleType = TITLE_MENU;
+	_soundX = 1500, _soundY = 490;
+	_soundX2 = 1500, _soundY2 = 640;
+	_soundRC = RectMakeCenter(_soundX, _soundY, 100, 100);
+	_soundRC2 = RectMakeCenter(_soundX2, _soundY2, 100, 100);
+	_bgmBack = RectMake(600, 470, 900, 50);
+	_sfxBack = RectMake(600, 620, 900, 50);
 	/*int suck[51];
 	for (int i = 0; i<51; i++)
 		suck[i] = i;
@@ -73,6 +80,10 @@ void titleScene::update(void)
 	
 	selectData();
 
+	if (_titleType == TITLE_SET)
+	{
+		drawSetting();
+	}
 	KEYANIMANAGER->update();
 }
 
@@ -85,7 +96,8 @@ void titleScene::render(void)
 	_birdImg1->aniRender(DC, _bird1.x, _bird1.y, _abird1);
 	
 	
-	if (!_clickData)
+	//if (!_clickData)
+	if(_titleType == TITLE_MENU)
 	{
 		if (PtInRect(&_button[0], _ptMouse))
 		{
@@ -93,6 +105,7 @@ void titleScene::render(void)
 			if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
 			{
 				//SCENEMANAGER->changeScene("던전");
+				_titleType = TITLE_START;
 				loadData();
 				
 				int suck[52];
@@ -111,6 +124,7 @@ void titleScene::render(void)
 			IMAGEMANAGER->frameRender("T_option", DC, 850, 800, 1, 0);
 			if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
 			{
+				_titleType = TITLE_SET;
 				_setData = true;
 				_exitRect = RectMake(WINSIZEX - 130, 50,100,100);
 			}
@@ -277,7 +291,8 @@ void titleScene::reward()
 
 void titleScene::loadData()
 {
-	if (_clickData) return;
+	//if (_clickData) return;
+	if (_titleType != TITLE_START) return;
 
 	_clickData = true;
 
@@ -305,7 +320,7 @@ void titleScene::loadData()
 
 void titleScene::drawData()
 {
-	if (_clickData)
+	if (_titleType == TITLE_START)
 	{
 		IMAGEMANAGER->alphaRender("black", DC, 0, 0, 100);
 
@@ -419,18 +434,79 @@ void titleScene::setting()
 		TextOut(DC, 150, 900, "화면 흔들림", strlen("화면 흔들림"));
 		SelectObject(DC, oldFont);
 		DeleteObject(font);
+
+		IMAGEMANAGER->findImage("soundbar")->render(DC, _bgmBack.left, _bgmBack.top);
+		IMAGEMANAGER->findImage("soundbar")->render(DC, _sfxBack.left, _sfxBack.top);
+
+		IMAGEMANAGER->findImage("soundIcon")->frameRender(DC, _soundRC.left, _soundRC.top);
+		IMAGEMANAGER->findImage("soundIcon")->frameRender(DC, _soundRC2.left, _soundRC2.top);
+
+		RECT rc = RectMake(900, 900, 100, 100);
+		if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON) && PtInRect(&rc, _ptMouse))
+		{
+			if (IMAGEMANAGER->findImage("toggleCheck")->getFrameX() == 0)
+				IMAGEMANAGER->findImage("toggleCheck")->setFrameX(1);
+			else
+				IMAGEMANAGER->findImage("toggleCheck")->setFrameX(0);
+		}
+		IMAGEMANAGER->findImage("toggleCheck")->frameRender(DC, 900, 900);
+		//RectangleMake(DC, 900, 900, 100, 100);
+
 		if (PtInRect(&_exitRect, getMemDCPoint()))
 		{
 			IMAGEMANAGER->frameRender("exitImage", DC, _exitRect.left, _exitRect.top, 1, 0);
 			if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
 			{
 				_setData = false;
+				_titleType = TITLE_MENU;
 			}
 		}
 		else
 			IMAGEMANAGER->frameRender("exitImage", DC, _exitRect.left, _exitRect.top, 0, 0);
 	}
 }
+
+void titleScene::drawSetting()
+{
+	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
+	{
+		if (PtInRect(&_bgmBack, _ptMouse))
+		{
+			float pos = _ptMouse.x - 600;
+			float volume = pos / 900;
+			SOUNDMANAGER->setBGMVolume(volume);
+			_soundX = _ptMouse.x;
+		}
+		if (PtInRect(&_sfxBack, _ptMouse))
+		{
+			float pos = _ptMouse.x - 600;
+			float volume = pos / 900;
+			SOUNDMANAGER->setBGMVolume(volume);
+			_soundX2 = _ptMouse.x;
+		}
+	}
+	if (KEYMANAGER->isStayKeyDown(VK_LBUTTON))
+	{
+		if (PtInRect(&_bgmBack, _ptMouse))
+		{
+			float pos = _ptMouse.x - 600;
+			float volume = pos / 900;
+			SOUNDMANAGER->setBGMVolume(volume);
+			_soundX = _ptMouse.x;
+		}
+		if (PtInRect(&_sfxBack, _ptMouse))
+		{
+			float pos = _ptMouse.x - 600;
+			float volume = pos / 900;
+			SOUNDMANAGER->setBGMVolume(volume);
+			_soundX2 = _ptMouse.x;
+		}
+	}
+
+	_soundRC = RectMakeCenter(_soundX, _soundY, 100, 100);
+	_soundRC2 = RectMakeCenter(_soundX2, _soundY2, 100, 100);
+}
+
 titleScene::titleScene()
 {
 }

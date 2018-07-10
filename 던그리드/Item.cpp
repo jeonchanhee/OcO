@@ -7,14 +7,14 @@ Item::Item(){} Item::~Item(){}
 
 
 
-HRESULT Item::init(ITEMTYPE type, const char* itemName, int value, POINT position)
+HRESULT Item::init(ITEMTYPE type, const char * itemName, int value, POINT position)
 {
 	_item.type = type;
 	_item.name = itemName;
 	_item.value = value;
 	_item.x = position.x;
 	_item.y = position.y;
-	
+
 	CreateItem(type, itemName, value);
 	return S_OK;
 }
@@ -120,6 +120,7 @@ void Item::render() // 아이템을 렌더
 
 void Item::CreateItem(ITEMTYPE type, const char * itemName, int value) // 아이템 만듬
 {
+
 	switch (type)
 	{
 		case SWORD:
@@ -153,49 +154,21 @@ void Item::CreateItem(ITEMTYPE type, const char * itemName, int value) // 아이템
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void Item::setSword(const char * weaponName, int value)
 {
 	char str[128];
+
 	for (int i = 0; i < 3; i++)
 	{
 		sprintf_s(str, "%s%d%d", weaponName, value, i);
 		_item.image[i] = IMAGEMANAGER->findImage(str);
-
-		if (value == 4 && i == 2 || value == 5 && i == 2) // 착용 이미지 일때
-		{
-			_item.isFrame = true;
-			if (_item.isFrame)
-			{
-				_item.rc[i] = RectMake(_item.x + i * 100, _item.y, _item.image[i]->getFrameWidth(),
-					_item.image[i]->getFrameHeight());
-			}
-			else
-			{
-				_item.isFrame = false;
-			}
-		}
-		else
-		{
-			_item.rc[i] = RectMake(_item.x + i * 100, _item.y, _item.image[i]->getWidth(),
+		
+		_item.rc[i] = RectMake(_item.x + i * 100, _item.y, _item.image[i]->getWidth(),
 				_item.image[i]->getHeight());
-		}
-
+		
 	}
+
+	
 
 	if (value == 1) // 기본무기
 	{
@@ -261,8 +234,72 @@ void Item::setSword(const char * weaponName, int value)
 
 	}
 
-	
-	
+	if (value == 6) // 코스모스
+	{
+		_item.grade = LEGENDARY;			// 전설등급
+		_item.minimumAtt = 30;			// 최소 데미지 30
+		_item.MaxAtt = 55;				// 최대 데미지 45
+		_item.fixedDamage = 30;			// 고정데미지 30
+		_item.attackSpeed = 3.3f;			// 공격속도  
+		_item.criticalPersent = 30.0f;	// 크리율
+		_item.evasionPersent = 5.0f;		// 회피율
+		_item.addMaxHp = 10;				// 최대HP
+		_item.price = 15000;				// 가격
+	}
+
+	if (value == 7) // 코스모스
+	{
+		_item.grade = LEGENDARY;			// 전설등급
+		_item.minimumAtt = 30;			// 최소 데미지 30
+		_item.MaxAtt = 55;				// 최대 데미지 45
+		_item.fixedDamage = 30;			// 고정데미지 30
+		_item.attackSpeed = 3.3f;			// 공격속도  
+		_item.criticalPersent = 30.0f;	// 크리율
+		_item.evasionPersent = 5.0f;		// 회피율
+		_item.addMaxHp = 10;				// 최대HP
+		_item.price = 15000;				// 가격
+	}
+
+	if (value == 8) // 코스모스
+	{
+		_item.grade = LEGENDARY;			// 전설등급
+		_item.minimumAtt = 30;			// 최소 데미지 30
+		_item.MaxAtt = 55;				// 최대 데미지 45
+		_item.fixedDamage = 30;			// 고정데미지 30
+		_item.attackSpeed = 3.3f;			// 공격속도  
+		_item.criticalPersent = 30.0f;	// 크리율
+		_item.evasionPersent = 5.0f;		// 회피율
+		_item.addMaxHp = 10;				// 최대HP
+		_item.price = 15000;				// 가격
+	}
+
+	if (value == 9) // 코스모스
+	{
+		_item.grade = LEGENDARY;			// 전설등급
+		_item.minimumAtt = 30;			// 최소 데미지 30
+		_item.MaxAtt = 55;				// 최대 데미지 45
+		_item.fixedDamage = 30;			// 고정데미지 30
+		_item.attackSpeed = 3.3f;			// 공격속도  
+		_item.criticalPersent = 30.0f;	// 크리율
+		_item.evasionPersent = 5.0f;		// 회피율
+		_item.addMaxHp = 10;				// 최대HP
+		_item.price = 15000;				// 가격
+	}
+
+	if (value == 10) // 코스모스
+	{
+		_item.grade = LEGENDARY;			// 전설등급
+		_item.minimumAtt = 30;			// 최소 데미지 30
+		_item.MaxAtt = 55;				// 최대 데미지 45
+		_item.fixedDamage = 30;			// 고정데미지 30
+		_item.attackSpeed = 3.3f;			// 공격속도  
+		_item.criticalPersent = 30.0f;	// 크리율
+		_item.evasionPersent = 5.0f;		// 회피율
+		_item.addMaxHp = 10;				// 최대HP
+		_item.price = 15000;				// 가격
+	}
+
+
 }
 
 
@@ -766,14 +803,6 @@ void Item::setAccessory(const char * AccessoryName, int value)
 
 
 
-
-
-
-
-
-
-
-
 void Item::setFood(const char * FoodName, int value)
 {
 	char str[128];
@@ -781,7 +810,7 @@ void Item::setFood(const char * FoodName, int value)
 	{
 		sprintf_s(str, "%s%d%d", FoodName, value, i);
 		_item.image[i] = IMAGEMANAGER->findImage(str);
-		_item.rc[i] = RectMake(_item.x + i * 400, _item.y, _item.image[i]->getWidth(),
+		_item.rc[i] = RectMake(_item.x + i * 300, _item.y, _item.image[i]->getWidth(),
 			_item.image[i]->getHeight());
 
 		if (value == 1 && i == 0)
@@ -899,147 +928,3 @@ void Item::setFood(const char * FoodName, int value)
 	}
 }
 
-//void Item::dropItem(DROPITEM type, const char* dropItem, int value)
-//{
-//	switch(type)
-//	{
-//		case DR_SWORD:
-//			setDropItem(dropItem, value);
-//		break;
-//		case DR_HAMMER:
-//			setDropItem(dropItem, value);
-//		break;
-//		case DR_GUN:
-//			setDropItem(dropItem, value);
-//		break;
-//		case DR_BOW:
-//			setDropItem(dropItem, value);
-//		break;
-//		case DR_ARMOR:
-//			setDropItem(dropItem, value);
-//		break;
-//		case DR_SHIELD:
-//			setDropItem(dropItem, value);
-//		break;
-//		case DR_SECOND:
-//			setDropItem(dropItem, value);
-//		break;
-//		case DR_ACCESSORY:
-//			setDropItem(dropItem, value);
-//		break;
-//		case DR_COIN:
-//
-//		break;
-//		case DR_GOLDBAR:
-//		break;
-//		default:
-//		break;
-//	}
-//	
-//}
-//
-//void Item::setDropItem(const char* dropItem, int value)
-//{
-//
-//	char str[128];
-//	sprintf_s(str, "%s%d%d", dropItem, value, 0);
-//	_item.image[0] = IMAGEMANAGER->findImage(str);
-//
-//	if (dropItem == "코인" && value == 1 || dropItem == "골드바" && value == 1)
-//	{
-//		if (_item.isFrame)
-//		{
-//			_item.rc[0] = RectMakeCenter(_item.x, _item.y, _item.image[0]->getFrameWidth(),
-//				_item.image[0]->getFrameHeight());
-//			_item.image[0]->frameRender(DC, _item.rc[0].left, _item.rc[0].top, _item.frameX, _item.frameY);
-//
-//		}
-//		else
-//		{
-//			_item.rc[0] = RectMakeCenter(_item.x, _item.y, _item.image[0]->getWidth(),
-//				_item.image[0]->getHeight());
-//			_item.image[0]->render(DC, _item.rc[0].left, _item.rc[0].top);
-//		}
-//	}
-//	
-//}
-//
-//
-//void Item::invenItem(INVENITEM type, const char* invenItem, int value)
-//{
-//	switch (type)
-//	{
-//		case IV_SWORD:
-//		setInvenItem(invenItem, value);
-//		break;
-//		case IV_HAMMER:
-//		setInvenItem(invenItem, value);
-//		break;
-//		case IV_GUN:
-//		setInvenItem(invenItem, value);
-//		break;
-//		case IV_BOW:
-//		setInvenItem(invenItem, value);
-//		break;
-//		case IV_ARMOR:
-//		setInvenItem(invenItem, value);
-//		break;
-//		case IV_SHIELD:
-//		setInvenItem(invenItem, value);
-//		break;
-//		case IV_SECOND:
-//		setInvenItem(invenItem, value);
-//		break;
-//		case IV_ACCESSORY:
-//		setInvenItem(invenItem, value);
-//		break;
-//		case IV_COIN:
-//		setInvenItem(invenItem, value);
-//		break;
-//
-//	}
-//
-//}
-//
-//void Item::setInvenItem( const char* itemName, int value)
-//{
-//	char str[128];
-//
-//	sprintf_s(str, itemName, value);
-//	_item.image[1] = IMAGEMANAGER->findImage("str");
-//	_item.rc[1] = RectMakeCenter(_item.x, _item.y, _item.image[1]->getWidth(),
-//		_item.image[1]->getHeight());
-//	_item.image[1]->render(DC, _item.rc[1].left, _item.rc[1].top); 
-//	
-//}
-//
-//void Item::wearItem()
-//{
-//}
-//
-//void Item::wearWeapon()
-//{
-//}
-//
-//void Item::wearsecond()
-//{
-//}
-//
-//void Item::storeItem()
-//{
-//}
-//
-//void Item::setIfStoreItemIsWeapon()
-//{
-//}
-//
-//void Item::setIfStoreItemIsDefence()
-//{
-//}
-//
-//void Item::setIfStoreItemIsFood()
-//{
-//}
-//
-//
-//
