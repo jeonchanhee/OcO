@@ -7,7 +7,7 @@ itemManager::itemManager(){} itemManager::~itemManager(){}
 
 HRESULT itemManager::init()
 {
-	//CreateItem();
+	CreateItem();
 
 	_foodNpc = new FoodNpc;
 	_foodNpc->init(NPC_LEFT_STOP, FOOD_NPC, "¿£ÇÇ½Ã", 1, PointMake(200, 200));

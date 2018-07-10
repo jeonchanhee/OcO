@@ -35,20 +35,20 @@
 #define SAMPLETILEY 26
 
 // 맵이름
-#define MAPNAME "map/weaponsStore(25x15).map"
+#define MAPNAME "map/Dungeon3(20x13).map"
 
 // 지형	
 enum TERRAIN
 {
 	//무조건 지나갈 수 있는 배경 벽지
-	TR_WALL, TR_NULL
+	TR_WALL, TOWN_GROUND, TR_NULL
 };
 
 // 오브젝트
 enum OBJECT
 {
 	//비어있음	못지나가는땅		아래점프로 내려가는땅		못지나가는 벽 기둥	미닫이문			가시		      천장        대각선좀 제발 제발제발제발제발제발제발제발제발제발제발제발제발제발제발제발제발제발제발제발제발제발제발제발
-	OBJ_NONE,	OBJ_GROUND,			OBJ_GOGROUND,		 OBJ_CULUMN,		OBJ_vDoor,    OBJ_THORN,  OBJ_CEILING ,  OBJ_DIAGONAL,  OBJ_DIAGONAL_LEFT , OBJ_DIAGONAL_RIGHT
+	OBJ_NONE, 	OBJ_GROUND,			OBJ_GOGROUND,		 OBJ_CULUMN,		OBJ_vDoor,    OBJ_THORN,  OBJ_CEILING ,  OBJ_DIAGONAL,  OBJ_DIAGONAL_LEFT , OBJ_DIAGONAL_RIGHT
 };
 
 // 포지션 정의

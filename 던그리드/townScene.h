@@ -8,6 +8,7 @@ class townScene : public gameNode
 private:
 	Player* _player;
 	string	_mapName;
+	image* _pixel;
 	int		_temp;
 
 public:

@@ -103,6 +103,7 @@ HRESULT playGround::init(void)
 		break;
 	case ¸¶À»:
 		SCENEMANAGER->changeScene("¸¶À»");
+		break;
 	case ¸Ê¼±ÅÃ:
 		SCENEMANAGER->changeScene("¸Ê¼±ÅÃ");
 		break;
@@ -127,7 +128,7 @@ void playGround::update(void)
 	gameNode::update();
 
 	_mapTool->update();
-	//_player->update();
+	if(KEYMANAGER->isToggleKey(VK_F2))_player->update();
 	SCENEMANAGER->update();
 	
 	
@@ -176,7 +177,7 @@ void playGround::render(void)
 	switch (mode)
 	{
 	case ¸ÊÅø:
-		PatBlt(UIDC, 0, 0, BACKGROUNDSIZEX, BACKGROUNDSIZEY, BLACKNESS);
+		//PatBlt(UIDC, 0, 0, BACKGROUNDSIZEX, BACKGROUNDSIZEY, WHITENESS);
 		
 		
 		_mapTool->render();
@@ -212,6 +213,7 @@ void playGround::render(void)
 		break;
 	case ¸¶À»:
 		SCENEMANAGER->render();
+		_player->render();
 		break;
 	case ¸Ê¼±ÅÃ:
 		SCENEMANAGER->render();
