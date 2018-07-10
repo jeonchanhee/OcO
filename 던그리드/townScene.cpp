@@ -33,11 +33,14 @@ void townScene::release()
 
 void townScene::update()
 {
+	_player->update();
 }
 
 void townScene::render()
 {
-	if(KEYMANAGER->isToggleKey(VK_F3))mapRender();	
+	//if(KEYMANAGER->isToggleKey(VK_F3))
+	mapRender();
+	_player->render();
 }
 
 void townScene::mapload()
