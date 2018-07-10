@@ -11,8 +11,10 @@ private:
 	image* _pixel;
 	image* _trainer;
 	image* _shop;
+	image* _suckImg;
 	animation* _training;
 	animation* _shopping;
+	animation* _suck;
 	int		_temp;
 
 public:

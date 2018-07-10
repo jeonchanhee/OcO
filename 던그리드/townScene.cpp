@@ -26,12 +26,16 @@ HRESULT townScene::init()
 
 	_trainer = IMAGEMANAGER->findImage("N트레이너");
 	_shop = IMAGEMANAGER->findImage("N마을샵");
+	_suckImg = IMAGEMANAGER->findImage("suck");
 	int trainer[] = { 0,1,2,3,4,5 };
 	int shop[] = { 15,16,17,18,19,20 };
+	int suck[] = { 0,1,2,3,4,5,6,7,8,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50 };
 	KEYANIMANAGER->addArrayFrameAnimation("trainer", "N트레이너", trainer, 6, 5, true);
 	KEYANIMANAGER->addArrayFrameAnimation("shop", "N마을샵", shop, 6, 5, true);
+	KEYANIMANAGER->addArrayFrameAnimation("suck", "suck", shop, 34, 5, false);
 	_training = KEYANIMANAGER->findAnimation("trainer");
 	_shopping = KEYANIMANAGER->findAnimation("shop");
+	_suck = KEYANIMANAGER->findAnimation("suck");
 	_training->start();
 	_shopping->start();
 

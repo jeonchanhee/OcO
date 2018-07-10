@@ -87,6 +87,5 @@ HRESULT sceneManager::changeScene(string sceneName)
 
 		return S_OK;
 	}
-
 	return E_FAIL;
 }

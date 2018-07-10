@@ -42,7 +42,10 @@ private:
 		float punchSpeed;												 //펀치 스피드임
 	};
 
+	class dungeonScene;
+
 private:
+	dungeonScene * _ds;
 	playerBullet * _pb;
 	RECT _collisionRc; //충돌렉트 
 	image* _player;
@@ -184,6 +187,8 @@ public:
 	void setMaxFullNess(int fullNess)		{ _maxFullNess = fullNess; }
 	void setCurrentExp(int exp)				{ _currentExp = exp; }
 	void setMaxExp(int exp)				    { _maxExp = exp; }
+
+	void setDungeonScene(dungeonScene* ds) { _ds = ds; }
 
 	Player();
 	~Player();

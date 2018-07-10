@@ -22,8 +22,10 @@ class titleScene : public gameNode
 	POINT _bird0, _bird1;
 	image* _birdImg0, *_birdImg1;
 	image* _img;
+	image* _restImg;
 	animation* _abird0, *_abird1;
 	animation* _suck;
+	animation* _rest;
 	RECT _button[3];
 
 	RECT _rc = RectMake(686, 210, 42, 432);

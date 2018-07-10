@@ -1,5 +1,7 @@
 #include "stdafx.h" 
 #include "Player.h"
+#include "dungeonScene.h"
+
 Player::Player(){}
 Player::~Player() {}
 
