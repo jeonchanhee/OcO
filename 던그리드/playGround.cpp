@@ -17,8 +17,8 @@ HRESULT playGround::init(void)
 	Image_init();
 //	Sound_init();
 	
-	//_mapTool = new MapTool;
-	//_mapTool->init();
+	_mapTool = new MapTool;
+	_mapTool->init();
 	_player = new Player;
 	_player->init();
 	_im = new itemManager;
@@ -180,7 +180,7 @@ void playGround::render(void)
 		PatBlt(UIDC, 0, 0, BACKGROUNDSIZEX, BACKGROUNDSIZEY, BLACKNESS);
 		
 		
-		//_mapTool->render();
+		_mapTool->render();
 		if(KEYMANAGER->isToggleKey(VK_TAB))
 		{
 			IMAGEMANAGER->findImage("floor1")->render(DC, -23 * 96, 12 * 96);
