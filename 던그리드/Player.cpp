@@ -87,7 +87,7 @@ void Player::update()
 	cameraSetting();
 	tileCollision();
 	_collisionRc = RectMakeCenter(_x, _y, _player->getFrameWidth(), _player->getFrameHeight());
-	_y = _collisionRc.top + ((_collisionRc.bottom - _collisionRc.top) / 2);
+	pixelCollision();
 	_pb->update();
 }
 
@@ -142,6 +142,10 @@ void Player::render()
 	else if (!_isJumping) sprintf_s(str, "점프 : false");
 	TextOut(DC, _collisionRc.left - 50 , _collisionRc.top - 150, str, strlen(str));
 	//// tile check 
+	sprintf(str, "x 좌표 : %f", _x);
+	TextOut(DC, _x-300, _y - 200, str, strlen(str));
+	sprintf(str, "y 좌표 : %f", _y);
+	TextOut(DC, _x- 300, _y - 300, str, strlen(str)); 
 	sprintf(str, "체크타일 %d,%d", leftRightCheck[0], leftRightCheck[1]);
 	TextOut(DC, _x - 10, _collisionRc.top , str, strlen(str));
 	sprintf(str, "위에 타일 %d,%d", _upStateCheck[0] , _upStateCheck[1]);
@@ -503,7 +507,7 @@ void Player::tileCollision()
 
 	for (int i = 0; i < 2; ++i)
 	{
-		//천장 
+		//천장
 		if (_tiles[_upStateCheck[i]].object == OBJ_CEILING)
 		{
 			RECT temp;
@@ -541,40 +545,6 @@ void Player::tileCollision()
 				}
 			}
 		}
-		else if (_tiles[leftRightCheck[i]].object == OBJ_DIAGONAL_LEFT)
-		{
-			RECT temp;
-
-			if (IntersectRect(&temp, &_tiles[leftRightCheck[i]].rc, &_collisionRc))
-			{
-				_isJumping = false;
-				_gravity = 0;
-				_jump = 0;
-				long rcHeight = _collisionRc.bottom - _collisionRc.top;
-				long value = abs(_tiles[leftRightCheck[i]].rc.right - _collisionRc.left);
-				_collisionRc.bottom = _tiles[leftRightCheck[i]].rc.bottom - value ;
-				_collisionRc.top = _collisionRc.bottom - rcHeight;
-				_y = _collisionRc.top + (_player->getFrameHeight() / 2);
-					
-			}
-		}
-		else if (_tiles[leftRightCheck[i]].object == OBJ_DIAGONAL_RIGHT)
-		{
-			RECT temp;
-
-			if (IntersectRect(&temp, &_tiles[leftRightCheck[i]].rc, &_collisionRc))
-			{
-				_isJumping = false;
-				_gravity = 0;
-				_jump = 0;
-				long rcHeight = _collisionRc.bottom - _collisionRc.top;
-				long value = abs(_tiles[leftRightCheck[i]].rc.left - _collisionRc.right);
-				_collisionRc.bottom = _tiles[leftRightCheck[i]].rc.bottom - value ;
-				_collisionRc.top = _collisionRc.bottom - rcHeight;
-				_y = _collisionRc.top + (_player->getFrameHeight() / 2);
-			}
-		}
-
 		//위 체크 :upStateCheck
 		if (_tiles[_upStateCheck[i]].object == OBJ_CULUMN)
 		{
@@ -591,16 +561,20 @@ void Player::tileCollision()
 		//아래 체크 :downStateCheck
 		if (_tiles[_downStateCheck[i]].object != OBJ_CULUMN
 			&& (_tiles[_downStateCheck[i]].object != OBJ_GOGROUND)
-			&& (_tiles[_downStateCheck[i]].object != OBJ_GROUND))
+			&& (_tiles[_downStateCheck[i]].object != OBJ_GROUND)
+			&& (_tiles[_downStateCheck[i]].terrain != TOWN_GROUND))
 			
 		{
 			_isJumping = true;
 			_gravity = GRAVITY;
 		}
-		else
+		else if(_tiles[_downStateCheck[i]].object == OBJ_CULUMN
+		|| (_tiles[_downStateCheck[i]].object == OBJ_GOGROUND)
+		|| (_tiles[_downStateCheck[i]].object == OBJ_GROUND)
+		|| (_tiles[_downStateCheck[i]].terrain == TOWN_GROUND))
 		{
-			if (!_isDashing)
-			{
+			 if (!_isDashing)
+			 {
 				int value = 0;
 				if (_jump == 0) value = 1;
 				if (_jump > 0) value = 1;
@@ -621,10 +595,10 @@ void Player::tileCollision()
 					if (_tiles[_downStateCheck[i]].object == OBJ_GOGROUND) _goDownJump = true;
 					else _goDownJump = false;
 				}
-			}
+			 }
 
-			else if (_isDashing)
-			{
+		  	 else if (_isDashing)
+			 {
 				RECT temp;
 				if (IntersectRect(&temp, &_tiles[_downStateCheck[i]].rc, &_collisionRc))
 				{
@@ -638,8 +612,36 @@ void Player::tileCollision()
 					if (_tiles[_downStateCheck[i]].object == OBJ_GOGROUND) _goDownJump = true;
 					else _goDownJump = false;
 				}
-			}
+			 }
 
+		}
+	}
+}
+
+void Player::pixelCollision()
+{
+
+	for (int j = _y + 20; j < _y + 70; ++j)
+	{
+		if (!_isDashing)
+		{
+			COLORREF color = GetPixel(IMAGEMANAGER->findImage("pixel")->getMemDC(), _x, j);
+
+			int r = GetRValue(color), g = GetGValue(color), b = GetBValue(color);
+
+			if (r == 0 && g == 255 && b == 0)
+			{
+
+				
+
+				if (KEYMANAGER->isOnceKeyDown(VK_SPACE))_isJumping = true;
+				else
+				{
+					_y = j - 50;
+					_isJumping = false;
+				}
+				break;
+			}
 		}
 	}
 }

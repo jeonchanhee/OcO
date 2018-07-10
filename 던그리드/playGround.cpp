@@ -8,14 +8,14 @@ playGround::~playGround(){}
 
 HRESULT playGround::init(void)	
 {
-	mode =던전2;				//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
+	mode = 맵툴;				//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
 //	rectRotate(IMAGEMANAGER->findImage("검01"), 100, 100);
 
 
 
 	gameNode::init(true);
 	Image_init();
-//	Sound_init();
+	Sound_init();
 	
 	_mapTool = new MapTool;
 	_mapTool->init();
@@ -47,7 +47,6 @@ HRESULT playGround::init(void)
 	//SCENEMANAGER->addScene("랜덤맵1", new RandomDungeon1);
 	
 	_randomScene1 = new RandomDungeon1;
-	_randomScene1->setPlayerAddressLink(_player);
 
 	switch (mode)
 	{
@@ -104,6 +103,7 @@ HRESULT playGround::init(void)
 		break;
 	case 마을:
 		SCENEMANAGER->changeScene("마을");
+		break;
 	case 맵선택:
 		SCENEMANAGER->changeScene("맵선택");
 		break;
@@ -127,8 +127,8 @@ void playGround::update(void)
 {
 	gameNode::update();
 
-	//_mapTool->update();
-	//_player->update();
+	_mapTool->update();
+	if(KEYMANAGER->isToggleKey(VK_F2))_player->update();
 	SCENEMANAGER->update();
 	
 	
@@ -177,7 +177,7 @@ void playGround::render(void)
 	switch (mode)
 	{
 	case 맵툴:
-		PatBlt(UIDC, 0, 0, BACKGROUNDSIZEX, BACKGROUNDSIZEY, BLACKNESS);
+		//PatBlt(UIDC, 0, 0, BACKGROUNDSIZEX, BACKGROUNDSIZEY, WHITENESS);
 		
 		
 		_mapTool->render();
@@ -213,6 +213,7 @@ void playGround::render(void)
 		break;
 	case 마을:
 		SCENEMANAGER->render();
+		_player->render();
 		break;
 	case 맵선택:
 		SCENEMANAGER->render();
