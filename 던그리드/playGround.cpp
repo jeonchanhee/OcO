@@ -8,7 +8,7 @@ playGround::~playGround(){}
 
 HRESULT playGround::init(void)	
 {
-	mode = 맵툴;				//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
+	mode = 보스;				//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
 //	rectRotate(IMAGEMANAGER->findImage("검01"), 100, 100);
 
 
@@ -42,7 +42,7 @@ HRESULT playGround::init(void)
 	SCENEMANAGER->addScene("던전7", new dungeon7Scene);
 	SCENEMANAGER->addScene("던전8", new dungeon8Scene);
 	SCENEMANAGER->addScene("마을", new townScene);
-	//SCENEMANAGER->addScene("보스", new bossScene);
+	SCENEMANAGER->addScene("보스", new bossScene);
 
 	//SCENEMANAGER->addScene("랜덤맵1", new RandomDungeon1);
 	
@@ -127,7 +127,8 @@ void playGround::update(void)
 {
 	gameNode::update();
 
-	_mapTool->update();
+	if(mode == 맵툴)
+		_mapTool->update();
 	if(KEYMANAGER->isToggleKey(VK_F2))_player->update();
 	SCENEMANAGER->update();
 	

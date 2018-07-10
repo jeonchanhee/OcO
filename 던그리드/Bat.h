@@ -1,5 +1,6 @@
 #pragma once
 #include "Enemy.h"
+#include "progressBar.h"
 
 enum BATDIRECTION
 {
@@ -13,6 +14,9 @@ enum BATDIRECTION
 class Bat : public Enemy
 {
 private:
+	progressBar* _progressBar;
+	float _currentHP, _maxHP;
+
 	BATDIRECTION _batDirection;
 	animation* _batMotion;
 
@@ -32,6 +36,9 @@ public:
 	//void changeDirection(); //방향전환 함수
 	void rightMove();
 	void leftMove();
+
+	void playerCollision();
+	void hitDamage(float damage);
 
 };
 

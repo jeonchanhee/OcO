@@ -64,7 +64,12 @@ HRESULT Boss2::init()
 	y = (_boss[1].rc.bottom + _boss[1].rc.top) / 2;
 
 	_count2 = _count3 = 0;
-	
+
+	//보스 체력바 초기화
+	_progressBar = new progressBar;
+	_progressBar->init(500, WINSIZEY - 100, 1000, 100, "보스앞", "보스뒤", BAR_BOSS);
+	_currentHP = _maxHP = 100;
+
 	return S_OK;
 }
 
@@ -74,6 +79,12 @@ void Boss2::release()
 
 void Boss2::update()
 {
+	//보스 체력바 업데이트
+	_progressBar->setX(500);
+	_progressBar->setY(WINSIZEY - 100);
+	_progressBar->setGauge(_currentHP, _maxHP);
+	_progressBar->update();
+	
 	///////////////HEAD DIE TEST/////////////////
 	if (KEYMANAGER->isOnceKeyDown(VK_F9))
 	{
@@ -106,6 +117,7 @@ void Boss2::update()
 
 void Boss2::render()
 {
+	_progressBar->render();
 	for (int i = 0; i < 3; i++)
 	{
 		//_boss[i].img->aniRender(DC, _boss[i].rc.left, _boss[i].rc.top, _bossMotion[i]);
@@ -396,4 +408,13 @@ void Boss2::CBrightAttack(void * obj)
 	bb->setCount3(100);
 	bb->setRightMotion2(KEYANIMANAGER->findAnimation("rightIdle"));
 	bb->getRightMotion2()->start();
+}
+
+void Boss2::playerCollision()
+{
+}
+
+void Boss2::hitDamage(float damage)
+{
+	_currentHP -= damage;
 }

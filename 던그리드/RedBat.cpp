@@ -43,6 +43,11 @@ HRESULT RedBat::init(float x, float y)
 
 	_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 
+	//ÀÛ»¡¹Ú Ã¼·Â ÃÊ±âÈ­
+	_progressBar = new progressBar;
+	_progressBar->init(_x - 30, _y + 20, 70, 10, "ÀÛ»¡¹Ú¾Õ", "ÀÛºý¹ÚµÚ", BAR_MONSTER);
+	_currentHP = _maxHP = 100;
+
 	return S_OK;
 }
 
@@ -52,6 +57,12 @@ void RedBat::release()
 
 void RedBat::update()
 {
+	//ÀÛ»¡¹Ú Ã¼·Â ¾÷µ¥ÀÌÆ®
+	_progressBar->setX(_x - 30);
+	_progressBar->setY(_y + 20);
+	_progressBar->setGauge(_currentHP, _maxHP);
+	_progressBar->update();
+
 	_count++;
 
 	move();
@@ -90,6 +101,7 @@ void RedBat::update()
 void RedBat::render()
 {
 	_img->aniRender(DC, _rc.left, _rc.top, _redBatMotion);
+	_progressBar->render();
 }
 
 void RedBat::move()
@@ -211,4 +223,13 @@ void RedBat::leftAttack(void * obj)
 	rb->setRedBatDirection(REDBAT_LEFT_MOVE);
 	rb->setRedBatMotion(KEYANIMANAGER->findAnimation("redBatLeftMove"));
 	rb->getRedBatMotion()->start();
+}
+
+void RedBat::playerCollision()
+{
+}
+
+void RedBat::hitDamage(float damage)
+{
+	_currentHP -= damage;
 }

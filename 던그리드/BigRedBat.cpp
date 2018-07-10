@@ -36,7 +36,11 @@ HRESULT BigRedBat::init(float x, float y)
 	_bigRedBatMotion->start();
 
 	_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
-	
+
+	//큰빨박 체력바 초기화
+	_progressBar = new progressBar;
+	_progressBar->init(_x + 30, _y + 30, 70, 10, "큰빨박앞", "큰빨박뒤", BAR_MONSTER);
+	_currentHP = _maxHP = 100;
 
 	return S_OK;
 }
@@ -47,6 +51,12 @@ void BigRedBat::release()
 
 void BigRedBat::update()
 {
+	//체력바 업데이트
+	_progressBar->setX(_x + 30);
+	_progressBar->setY(_y + 30);
+	_progressBar->setGauge(_currentHP, _maxHP);
+	_progressBar->update();
+
 	attackMove();
 
 	/////////////////DIE 테스트////////////////////
@@ -73,6 +83,7 @@ void BigRedBat::update()
 
 void BigRedBat::render()
 {
+	_progressBar->render();
 	_img->aniRender(DC, _rc.left, _rc.top, _bigRedBatMotion);
 }
 
@@ -160,4 +171,13 @@ void BigRedBat::changeAnimation(BIGREDBATDIRECTION bigRedBatDirection)
 		_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 		break;
 	}
+}
+
+void BigRedBat::playerCollision()
+{
+}
+
+void BigRedBat::hitDamage(float damage)
+{
+	_currentHP -= damage;
 }

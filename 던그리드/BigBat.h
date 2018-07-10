@@ -1,6 +1,7 @@
 #pragma once
 #include "Enemy.h"
 #include "Bullet.h"
+#include "progressBar.h"
 
 enum BIGBATDIRECTION
 {
@@ -14,6 +15,9 @@ enum BIGBATDIRECTION
 
 class BigBat : public Enemy
 {
+	progressBar* _progressBar;
+	float _currentHP, _maxHP;
+
 	BIGBATDIRECTION _bigBatDirection;
 	animation* _bigBatMotion;
 	Bullet* _bullet;
@@ -44,5 +48,8 @@ public:
 	
 	bool getIsAttack() { return _isattack; }
 
+
+	void playerCollision();
+	void hitDamage(float damage);
 };
 

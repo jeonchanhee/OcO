@@ -340,6 +340,7 @@ void dungeonScene::setCow(int idX, int idY)
 	cow = new Cow;
 	float x = TILESIZE * idX;
 	float y = TILESIZE * idY;
+	x += 50;
 	y -= 15;
 	cow->init(x, y);
 	_vEnemy.push_back(cow);

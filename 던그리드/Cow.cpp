@@ -41,6 +41,11 @@ HRESULT Cow::init(float x, float y)
 
 	_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 
+	//소 체력바 초기화
+	_progressBar = new progressBar;
+	_progressBar->init(_x, _y + 30, 70, 10, "소앞", "소뒤", BAR_MONSTER);
+	_currentHP = _maxHP = 100;
+
 	return S_OK;
 }
 
@@ -50,6 +55,12 @@ void Cow::release()
 
 void Cow::update()
 {
+	//소 체력바 
+	_progressBar->setX(_x);
+	_progressBar->setY(_y + 30);
+	_progressBar->setGauge(_currentHP, _maxHP);
+	_progressBar->update();
+
 	_count++;
 	if (!(_count % 250))
 	{
@@ -90,6 +101,7 @@ void Cow::update()
 void Cow::render()
 {
 	_img->aniRender(DC, _rc.left, _rc.top, _cowMotion);
+	_progressBar->render();
 }
 
 void Cow::move()
@@ -136,6 +148,8 @@ void Cow::move()
 		tileIndex[1] = tileX + (tileY + 1)*VARIABLE_SIZEX[_dungeonNum];
 		break;
 	}
+
+	
 	
 	for (int i = 0; i < 2; i++)
 	{
@@ -145,7 +159,7 @@ void Cow::move()
 		{
 			switch (_cowDirection)
 			{
-			case COW_RIGHT_CHARGE:
+			case COW_RIGHT_CHARGE: 
 				_rc.right = _tiles[tileIndex[i]].rc.left;
 				_rc.left = _rc.right - 230;
 				_x = _rc.left + (_rc.right - _rc.left) / 2;
@@ -191,18 +205,33 @@ void Cow::rightCharge(void * obj)
 	Cow* c = (Cow*)obj;
 
 	c->_img = IMAGEMANAGER->findImage("cowIdleChargeAttack");
-	c->setCowDirection(COW_RIGHT_MOVE);
-	c->setCowMotion(KEYANIMANAGER->findAnimation("cowRightMove"));
+	if (_dungeonNum == 6)
+	{
+		c->setCowDirection(COW_LEFT_MOVE);
+		c->setCowMotion(KEYANIMANAGER->findAnimation("cowLeftMove"));
+	}
+	else
+	{
+		c->setCowDirection(COW_RIGHT_MOVE);
+		c->setCowMotion(KEYANIMANAGER->findAnimation("cowRightMove"));
+	}
 	c->getCowMotion()->start();
 }
 
 void Cow::leftCharge(void * obj)
 {
 	Cow* c = (Cow*)obj;
-
 	c->_img = IMAGEMANAGER->findImage("cowIdleChargeAttack");
-	c->setCowDirection(COW_LEFT_MOVE);
-	c->setCowMotion(KEYANIMANAGER->findAnimation("cowLeftMove"));
+	if (_dungeonNum == 6)
+	{
+		c->setCowDirection(COW_RIGHT_MOVE);
+		c->setCowMotion(KEYANIMANAGER->findAnimation("cowRightMove"));
+	}
+	else
+	{
+		c->setCowDirection(COW_LEFT_MOVE);
+		c->setCowMotion(KEYANIMANAGER->findAnimation("cowLeftMove"));
+	}
 	c->getCowMotion()->start();
 }
 
@@ -290,4 +319,13 @@ void Cow::changeAnimation(COWDIRECTION cowDirection)
 	default:
 		break;
 	}
+}
+
+void Cow::playerCollision()
+{
+}
+
+void Cow::hitDamage(float damage)
+{
+	_currentHP -= damage;
 }

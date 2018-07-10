@@ -48,6 +48,11 @@ HRESULT DogBone::init(float x, float y)
 
 	_isJumping = false;
 
+	//°³»À Ã¼·Â ÃÊ±âÈ­
+	_progressBar = new progressBar;
+	_progressBar->init(_x - 30, _y + 30, 70, 10, "°³»À¾Õ", "°³»ÀµÚ", BAR_MONSTER);
+	_currentHP = _maxHP = 100;
+
 	return S_OK;
 }
 
@@ -57,6 +62,12 @@ void DogBone::release()
 
 void DogBone::update()
 {
+	//°³»À Ã¼·Â ¾÷µ¥ÀÌÆ®
+	_progressBar->setX(_x - 30);
+	_progressBar->setY(_y + 30);
+	_progressBar->setGauge(_currentHP, _maxHP);
+	_progressBar->update();
+
 	move();
 	changeDirection();
 	
@@ -105,6 +116,7 @@ void DogBone::update()
 
 void DogBone::render()
 {
+	_progressBar->render();
 	_img->aniRender(DC, _rc.left, _rc.top, _dogBoneMotion);
 	if (KEYMANAGER->isToggleKey('T'))
 	{
@@ -166,27 +178,72 @@ void DogBone::move()
 	tileX = rcCollision.left / TILESIZE;
 	tileY = rcCollision.top / TILESIZE;
 
-
+	int tempY = (rcCollision.bottom - 20) / TILESIZE;
+	int temp2 = (rcCollision.right - 110) / TILESIZE;
+	
+	int index;
 	switch (_dogBoneDirection)
 	{
 	case DOGBONE_RIGHT_MOVE: case DOGBONE_RIGHT_JUMP:
 		tileIndex[0] = (tileX + (tileY) * VARIABLE_SIZEX[_dungeonNum]) + 1;
+		
+		index = (temp2 + tempY * VARIABLE_SIZEX[_dungeonNum]);
 		break;
 	case DOGBONE_LEFT_MOVE: case DOGBONE_LEFT_JUMP:
 		tileIndex[0] = tileX + (tileY) * VARIABLE_SIZEX[_dungeonNum];
+		index = (tileX + tempY * VARIABLE_SIZEX[_dungeonNum]);
 		break;
 	}
 	_str = to_string(tileIndex[0]) + "," + to_string(tileIndex[1]);
 
+	if (_tiles[index].object == OBJ_DIAGONAL)
+	{
+		if(_dogBoneDirection == DOGBONE_RIGHT_MOVE || _dogBoneDirection == DOGBONE_RIGHT_JUMP)
+			_y = _tiles[index].rc.bottom - (_rc.right - _tiles[index].rc.left) - _img->getFrameHeight() / 2;  // ¿À¸¥ÂÊ
+		if (_dogBoneDirection == DOGBONE_LEFT_MOVE || _dogBoneDirection == DOGBONE_LEFT_JUMP)
+			_y = _tiles[index].rc.bottom - (_tiles[index].rc.right - _rc.left) - _img->getFrameHeight() / 2;//¿ÞÂÊ
+	}
+
+	if (_tiles[index].object == OBJ_DIAGONAL_RIGHT)
+	{
+		if (_dogBoneDirection == DOGBONE_RIGHT_MOVE || _dogBoneDirection == DOGBONE_RIGHT_JUMP)
+			_y = _tiles[index].rc.bottom - (_rc.right - _tiles[index].rc.left) - _img->getFrameHeight() / 2;  // ¿À¸¥ÂÊ
+		if (_dogBoneDirection == DOGBONE_LEFT_MOVE || _dogBoneDirection == DOGBONE_LEFT_JUMP)
+			_y = _tiles[index].rc.bottom - (_tiles[index].rc.right - _rc.left) - _img->getFrameHeight() / 2;//¿ÞÂÊ
+	}
+
+	if (_tiles[index].object == OBJ_DIAGONAL_LEFT)
+	{
+		if(_dogBoneDirection == DOGBONE_LEFT_MOVE || _dogBoneDirection == DOGBONE_LEFT_JUMP)
+			_y = _tiles[index].rc.bottom - (_tiles[index].rc.right - _rc.left) - _img->getFrameHeight() / 2; // ¿ÞÂÊ
+		if(_dogBoneDirection == DOGBONE_RIGHT_MOVE || _dogBoneDirection == DOGBONE_RIGHT_JUMP)
+			_y = _tiles[index].rc.bottom - (_rc.right - _tiles[index].rc.left) - _img->getFrameHeight() / 2;  // ¿À¸¥ÂÊ
+	}
+
 	
+
+
 		if (_dungeonNum == 1 && !(tileIndex[0] % 100))
 		{
 			changeAnimation(DOGBONE_RIGHT_MOVE);
 			return;
 		}
+
+		if (_dungeonNum == 2 && !(tileIndex[0] % 30))
+		{
+			changeAnimation(DOGBONE_RIGHT_MOVE);
+			return;
+		}
+
+		if (_dungeonNum == 6 && (tileIndex[0] % 20 == 19))
+		{
+			changeAnimation(DOGBONE_LEFT_MOVE);
+			return;
+		}
+
 		RECT temp;
 		
-		if (_tiles[tileIndex[0]].object == OBJ_CULUMN && IntersectRect(&temp, &_tiles[tileIndex[0]].rc, &rcCollision))
+		if ((_tiles[tileIndex[0]].object == OBJ_CULUMN) && IntersectRect(&temp, &_tiles[tileIndex[0]].rc, &rcCollision))
 		{
 			switch (_dogBoneDirection)
 			{
@@ -272,6 +329,21 @@ void DogBone::move()
 				return;
 			}
 		}
+
+		//if (_tiles[index].object == OBJ_DIAGONAL_LEFT && 
+		//	(_dogBoneDirection == DOGBONE_LEFT_MOVE || _dogBoneDirection == DOGBONE_LEFT_JUMP))
+		//{
+		//	_y -= 4;
+		//}
+		//
+		//if (_tiles[index].object == OBJ_DIAGONAL_RIGHT &&
+		//	(_dogBoneDirection == DOGBONE_RIGHT_MOVE || _dogBoneDirection == DOGBONE_RIGHT_JUMP))
+		//{
+		//	_y -= 4;
+		//}
+		
+		
+
 
 	rcCollision = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 	_rc = rcCollision;
@@ -418,4 +490,13 @@ void DogBone::changeAnimation(DOGBONEDIRECTION dogBoneDirection)
 		_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 		break;*/
 	}
+}
+
+void DogBone::playerCollision()
+{
+}
+
+void DogBone::hitDamage(float damage)
+{
+	_currentHP -= damage;
 }
