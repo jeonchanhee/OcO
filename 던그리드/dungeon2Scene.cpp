@@ -15,7 +15,22 @@ HRESULT dungeon2Scene::init()
 {
 	dungeonScene::init();
 
-	_pixel = IMAGEMANAGER->addImage("´øÀü2ÇÈ¼¿", 1920, 1152, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("´øÀü2ÇÈ¼¿", 1920, 1152);
+
+	HPEN pen, oldPen;
+	pen = CreatePen(BS_SOLID, 25, RGB(0, 255, 0));
+	oldPen = (HPEN)SelectObject(IMAGEMANAGER->findImage("´øÀü2ÇÈ¼¿")->getMemDC(), pen);
+
+	LineMake(IMAGEMANAGER->findImage("´øÀü2ÇÈ¼¿")->getMemDC(), 290, 976, 470, 1145);
+	LineMake(IMAGEMANAGER->findImage("´øÀü2ÇÈ¼¿")->getMemDC(), 1445, 1150, 1625, 975);
+	oldPen = (HPEN)SelectObject(IMAGEMANAGER->findImage("´øÀü2ÇÈ¼¿")->getMemDC(), pen);
+	SelectObject(IMAGEMANAGER->findImage("´øÀü2ÇÈ¼¿")->getMemDC(), oldPen);
+
+	SelectObject(IMAGEMANAGER->findImage("´øÀü2ÇÈ¼¿")->getMemDC(), oldPen);
+	//Á¦°Å  ===== 
+	DeleteObject(oldPen);
+	DeleteObject(pen);
+
 	_isMapSet = true;
 	chooseMap(3);
 	selectSize(3);
