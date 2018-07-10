@@ -15,7 +15,7 @@ class BigRedBat : public Enemy
 {
 	BIGREDBATDIRECTION _bigRedBatDirection;
 	animation* _bigRedBatMotion;
-
+	bool _isAttack;
 public:
 	BigRedBat();
 	~BigRedBat();
@@ -38,6 +38,9 @@ public:
 
 	animation* getBigRedBatMotion() { return _bigRedBatMotion; }
 	void setBigRedBatMotion(animation* ani) { _bigRedBatMotion = ani; }
+
+	bool getisAtteck2() { return _isAttack; }
+	void setisAtteck2(bool isAttack) { _isAttack = isAttack; }
 
 };
 

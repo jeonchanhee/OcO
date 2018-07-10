@@ -43,11 +43,6 @@ HRESULT BigBat::init(float x, float y)
 
 	_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 
-	_isattack = false;
-
-	// bullet
-	_bullet = new Bullet;
-	_bullet->init(50);
 
 
 	return S_OK;
@@ -91,13 +86,13 @@ void BigBat::render()
 void BigBat::attackMove()
 {
 	_count++;
-	if (_count % 150 == 0)
+	if(!(_count % 170)) _isAttack = true;
+	if (!(_count % 200))
 	{
 		if (_bigBatDirection == BIGBAT_RIGHT_MOVE)
 			changeAnimation(BIGBAT_RIGHT_ATTACK);
 		if (_bigBatDirection == BIGBAT_LEFT_MOVE)
 			changeAnimation(BIGBAT_LEFT_ATTACK);
-
 		_count = 0;
 	}
 }

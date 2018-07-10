@@ -18,7 +18,7 @@ protected:
 	float _jumpPower;		//점프파워
 	float _gravity;			//중력
 	bool _isJumping;		//점프중이냐 아니냐
-
+	
 public:
 
 	Enemy();
@@ -42,5 +42,6 @@ public:
 	float getY() { return _y; }
 
 	int getcount() { return _count; }
+	
 };
 

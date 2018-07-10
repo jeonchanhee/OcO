@@ -86,6 +86,10 @@ void Bat::update()
 void Bat::render()
 {
 	_img->aniRender(DC, _rc.left, _rc.top, _batMotion);
+	if (KEYMANAGER->isToggleKey(VK_TAB))
+	{
+		Rectangle(DC, _rc.left, _rc.top, _rc.right, _rc.bottom);
+	}
 }
 
 void Bat::move()
@@ -170,4 +174,9 @@ void Bat::leftMove()
 
 	_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 
+}
+
+void Bat::tileDetection()
+{
+	
 }

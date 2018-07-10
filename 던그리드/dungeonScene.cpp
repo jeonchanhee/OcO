@@ -11,6 +11,8 @@ dungeonScene::~dungeonScene() {}
 HRESULT dungeonScene::init(void)
 {
 	_player = SCENEMANAGER->getPlayerAddressLink();
+	j = 0;
+	_start = _start2 = 0;
 	return S_OK;
 }
 
@@ -92,7 +94,9 @@ void dungeonScene::render(void)
 	{
 		_bigRadBatBullet[i]->render();
 	}
-	
+	_bigBatBullet->render();
+	_bigRadBullet->render();
+
 	doorRender();
 }
 
@@ -175,6 +179,14 @@ void dungeonScene::mapload()
 		_bigRadBatBullet[i] = new Bullet2;
 		_bigRadBatBullet[i]->init(1000);
 	}
+
+
+	_bigBatBullet = new Bullet;
+	_bigBatBullet->init(1000);
+
+	_bigRadBullet = new Bullet2;
+	_bigRadBullet->init(2000);
+
 }
 
 void dungeonScene::setCamera(void)
@@ -657,38 +669,68 @@ void dungeonScene::BossBulletFire()
 void dungeonScene::bigbatbulletFire()
 {
 	_count2++;
-	if (_bigbat->getcount() %  15 == 0 && _bigbat->getcount() > 100)
+	if (_bigbat->getisAtteck() == true)
 	{
-		for (int i = 0; i < 3; i++)
+		if (_count2 % 10 == 0 && _count2 > 170)
 		{
-			float angle = -(PI2 / 9) * i;
-			_enemyBullet->bulletFire("fatherBatBullet2", _bigbat->getX() + 50, _bigbat->getY() + 10, angle, 5.0f , 500);
+			for (int i = 0; i < 3; i++)
+			{
+				float angle = -(PI2 / 9) * i;
+				_bigBatBullet->bulletFire("fatherBatBullet2", _bigbat->getX() + 50, _bigbat->getY() + 10, angle, 5.0f, 500);
+			}
+			_start2 = 1;
+		}
+		if (_count2 > 200)
+		{
+			_count2 = 0;
+			_bigbat->setisAtteck(false);
 		}
 	}
-
-	if (_count2 > 200)
-	{
-		_count2 = 0;
-		_bulletMove = false;
-	}
-	
 }
 
 
 void dungeonScene::bigRadbatbulletFire()
 {
 	_count3++;
-	if (_count3 % 150 == 0)
+	if(!(_count3 % 5) && _count3 > 0)
 	{
-		for (int i = 0; i < 20; i++)
+		if (_bigRedBat->getisAtteck2() == true)
 		{
-			float angle2 = PI2 / 20 * i;
-			float bulletX = _bigRedBat->getX() + 150;
-			float bulletY = _bigRedBat->getY() + 50;
-			_bigRadBatBullet[i]->bulletFire("fatherBatBullet2", bulletX + cosf(angle2) * 150, _bigRedBat->getY() + -sinf(angle2) * 150, angle2, 5.0f, 500);
-			
+			if (j <= 20)
+			{
+				if (j == 20)
+					_start = 1;
+				else
+				{
+					if (j == 0)
+						_start = 0;
+					float angle2 = PI2 / 20 * j;
+					float bulletX = _bigRedBat->getX() + 150;
+					float bulletY = _bigRedBat->getY() + 50;
+					_bigRadBatBullet[j]->bulletFire("fatherBatBullet2", bulletX + cosf(angle2) * 150, _bigRedBat->getY() + -sinf(angle2) * 150, angle2, 5.0f, 500);
+					j++;
+				}
+			}
+
+			if (j == 20)
+			{
+				bool fin = false;
+				for (int i = 0; i < MAX_BULLET; i++)
+				{
+					if (_bigRadBatBullet[i]->getVBullet().size() != 0)
+					{
+						fin = true;
+						break;
+					}
+				}
+				if (!fin)
+				{
+					_start = 0;
+					j = 0;
+					_count3 = -500;
+					_bigRedBat->setisAtteck2(false);
+				}
+			}
 		}
 	}
-
-	//if (_count3 > 200) _count3 = 0;
 }
