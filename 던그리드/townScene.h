@@ -10,6 +10,10 @@ private:
 	Player* _player;
 	string	_mapName;
 	image* _pixel;
+	image* _trainer;
+	image* _shop;
+	animation* _training;
+	animation* _shopping;
 	int		_temp;
 
 	minimap* _minimap;

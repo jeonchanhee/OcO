@@ -26,6 +26,7 @@ private:
 	FoodNpc* _foodNpc;
 	vItem  _vItem;
 	viItem _viItem;
+
 	
 public:
 	itemManager();

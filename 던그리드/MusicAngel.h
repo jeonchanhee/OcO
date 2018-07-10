@@ -1,5 +1,6 @@
 #pragma once
 #include "Enemy.h"
+#include "progressBar.h"
 
 enum MUSICANGELDIRECTION
 {
@@ -13,6 +14,9 @@ enum MUSICANGELDIRECTION
 class MusicAngel : public Enemy
 {
 private:
+	progressBar* _progressBar;
+	float _currentHP, _maxHP;
+
 	MUSICANGELDIRECTION _musicAngelDirection;
 	animation* _musicAngelMotion;
 
@@ -38,5 +42,8 @@ public:
 
 	animation* getMusicAngelMotion() { return _musicAngelMotion; }
 	void setMusicAngelMotion(animation* ani) { _musicAngelMotion = ani; }
+
+	void playerCollision();
+	void hitDamage(float damage);
 };
 

@@ -208,7 +208,9 @@ void Bullet2::bulletFire(const char * imgName, float x, float y, float angle, fl
 	bullet2.radius = bullet2.img->getWidth() / 2;
 	bullet2.x = bullet2.fireX = x;
 	bullet2.y = bullet2.fireY = y;
-	bullet2.angle = angle;
+	x = x += cosf(angle);
+	y = y += -sin(angle);
+	bullet2.angle = angle; 
 	bullet2.range = range;
 	bullet2.rc = RectMakeCenter(bullet2.x, bullet2.y, bullet2.img->getWidth(), bullet2.img->getHeight());
 
@@ -217,12 +219,11 @@ void Bullet2::bulletFire(const char * imgName, float x, float y, float angle, fl
 
 void Bullet2::bulletMove()
 {
-
 	for (_viBullet2 = _vBullet2.begin(); _viBullet2 != _vBullet2.end();)
 	{
 		_viBullet2->x += 1 * _viBullet2->speed; //cosf(_viBullet2->angle) * _viBullet2->speed;
 		_viBullet2->y += 1 * _viBullet2->speed; //-sinf(_viBullet2->angle)* _viBullet2->speed;
-
+		
 		_viBullet2->rc = RectMakeCenter(_viBullet2->x, _viBullet2->y, _viBullet2->img->getWidth(), _viBullet2->img->getHeight());
 
 		if (_viBullet2->range < getDistance(_viBullet2->x, _viBullet2->y, _viBullet2->fireX, _viBullet2->fireY))
@@ -231,6 +232,8 @@ void Bullet2::bulletMove()
 		}
 		else _viBullet2++;
 	}
+
+	
 }
 
 void Bullet2::removeBullet(int arrNum)

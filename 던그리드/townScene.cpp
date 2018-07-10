@@ -8,18 +8,32 @@ HRESULT townScene::init()
 	SOUNDMANAGER->play("town");
 	_player = SCENEMANAGER->getPlayerAddressLink();
 	//ÇÈ½ì  =\=======
-	_pixel = IMAGEMANAGER->addImage("pixelTown", 4800, 2400);
+
+	_pixel = IMAGEMANAGER->addImage("pixelTown", 7680, 2400);
 	HPEN pen, oldPen;
 	pen = CreatePen(BS_SOLID, 20, RGB(0, 255, 0));
 	oldPen = (HPEN)SelectObject(_pixel->getMemDC(), pen);
 
 	LineMake(_pixel->getMemDC(), 1050, 1170, 1800, 1920);
 	LineMake(_pixel->getMemDC(), 2220, 1920, 2980, 1170);
-	LineMake(_pixel->getMemDC(), 4420, 1175, 4790, 1546);
+	LineMake(_pixel->getMemDC(), 4420, 1165, 5170, 1910);
+	LineMake(_pixel->getMemDC(), 5580, 1925, 6336, 1175);
+
 	SelectObject(_pixel->getMemDC(), oldPen);
 	//Á¦°Å  ===== 
 	DeleteObject(oldPen);
 	DeleteObject(pen);
+
+	_trainer = IMAGEMANAGER->findImage("NÆ®·¹ÀÌ³Ê");
+	_shop = IMAGEMANAGER->findImage("N¸¶À»¼¥");
+	int trainer[] = { 0,1,2,3,4,5 };
+	int shop[] = { 15,16,17,18,19,20 };
+	KEYANIMANAGER->addArrayFrameAnimation("trainer", "NÆ®·¹ÀÌ³Ê", trainer, 6, 5, true);
+	KEYANIMANAGER->addArrayFrameAnimation("shop", "N¸¶À»¼¥", shop, 6, 5, true);
+	_training = KEYANIMANAGER->findAnimation("trainer");
+	_shopping = KEYANIMANAGER->findAnimation("shop");
+	_training->start();
+	_shopping->start();
 
 	_isMapSet = true;
 	_mapName = "map/townmap(80x25).map";
@@ -44,12 +58,23 @@ void townScene::update()
 void townScene::render()
 {
 	//if(KEYMANAGER->isToggleKey(VK_F3))
+
+	
+	IMAGEMANAGER->findImage("BackSky")->render(DC,CAMERAMANAGER->getCameraCenter().x - WINSIZEX / 2, CAMERAMANAGER->getCameraCenter().y - WINSIZEY / 2);
+	IMAGEMANAGER->findImage("BackMountain")->render(DC, CAMERAMANAGER->getCameraCenter().x - WINSIZEX / 2, CAMERAMANAGER->getCameraCenter().y - WINSIZEY / 2, (CAMERAMANAGER->getCameraCenter().x - WINSIZEX / 2)/12,0,WINSIZEX,WINSIZEY);
+	IMAGEMANAGER->findImage("BackForest")->render(DC, CAMERAMANAGER->getCameraCenter().x - WINSIZEX / 2, WINSIZEY*5/6+50, (CAMERAMANAGER->getCameraCenter().x - WINSIZEX / 2)/3.5,0,WINSIZEX,WINSIZEY);
+	//IMAGEMANAGER->findImage("BackSky")->render(DC,0,0);
 	mapRender();
 	IMAGEMANAGER->findImage("floor1")->render(DC, -23 * 96, 12 * 96);
 	IMAGEMANAGER->findImage("floor2")->render(DC, 22 * 96, 12 * 96);
 	IMAGEMANAGER->findImage("floor1")->render(DC, 57 * 96, 12 * 96);
 	IMAGEMANAGER->findImage("floor0")->render(DC, 30 * 96, 17 * 96);
 	IMAGEMANAGER->findImage("floor0")->render(DC, 36 * 96, 15 * 96);
+	IMAGEMANAGER->findImage("school")->render(DC, 1 * 96, 16* 96+24);
+	IMAGEMANAGER->findImage("shop")->render(DC, 67 * 96-50, 4* 96-24);
+	_trainer->aniRender(DC, 10 * 96, 20 * 96, _training);
+	_shop->aniRender(DC, 72 * 96-20, 11* 96+10, _shopping);
+
 	_player->render();
 	_minimap->render();
 }

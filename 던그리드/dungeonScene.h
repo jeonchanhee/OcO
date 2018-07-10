@@ -63,8 +63,9 @@ private:
 		int  currentExp, maxExp;										 //현재 , 최대 경험치  
 		int  currentFullNess, maxFullNess;							 //현재 , 최대 만복도 
 		int  youUsingCount;											 // 1번무기 장착중인지 2번무기 장착중ㅇ인지 배열이라 0과 1값을 받게됨 ;
+		
 
-																	 //float 
+		//float 
 		float attackSpeed, reloadSpeed;								 //공속 재장전속도 
 		float evasionPersent, guardPersent;							 //회피확률 , 막을확률  	
 		float moveMentSpeed;											 //이동속도 
@@ -72,6 +73,7 @@ private:
 		float dashDamage, dashSpeed;									 //대시할때 데미지 , 스피드
 		float punchSpeed;												 //펀치 스피드임
 	};
+
 protected:
 	vector<Enemy*>					_vEnemy;
 	vector<Enemy*>::iterator		_viEnemy;
@@ -86,7 +88,11 @@ protected:
 	Boss2* _boss;			 //보스
 
 	Bullet* _enemyBullet;
+	Bullet* _bigBatBullet;
 	Bullet2* _bigRadBatBullet[MAX_BULLET];
+	// 임시
+	Bullet2* _bigRadBullet;
+
 	vector<Door> _vDoor; //문
 	vector<torch> _vTorch; //횃불
 	vector<Portal> _vPortal; //포탈
@@ -99,6 +105,9 @@ protected:
 	int _count;
 	int _count2;
 	int _count3;
+	int  j;
+	int _start;
+	int _start2;
 
 	bool _bulletMove;
 	int _swordCount;
