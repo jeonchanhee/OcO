@@ -15,7 +15,7 @@ HRESULT dungeonScene::init(void)
 }
 
 void dungeonScene::release(void)
-{
+{ 
 }
 
 void dungeonScene::update(void)
