@@ -8,7 +8,7 @@ playGround::~playGround(){}
 
 HRESULT playGround::init(void)	
 {
-	mode = 맵툴;				//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
+	mode =타이틀;				//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
 //	rectRotate(IMAGEMANAGER->findImage("검01"), 100, 100);
 
 
@@ -127,7 +127,7 @@ void playGround::update(void)
 {
 	gameNode::update();
 
-	_mapTool->update();
+	//_mapTool->update();
 	//_player->update();
 	SCENEMANAGER->update();
 	
