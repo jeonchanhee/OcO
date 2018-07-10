@@ -58,7 +58,7 @@ void townScene::update()
 void townScene::render()
 {
 	//if(KEYMANAGER->isToggleKey(VK_F3))
-
+	
 	
 	IMAGEMANAGER->findImage("BackSky")->render(DC,CAMERAMANAGER->getCameraCenter().x - WINSIZEX / 2, CAMERAMANAGER->getCameraCenter().y - WINSIZEY / 2);
 	IMAGEMANAGER->findImage("BackMountain")->render(DC, CAMERAMANAGER->getCameraCenter().x - WINSIZEX / 2, CAMERAMANAGER->getCameraCenter().y - WINSIZEY / 2, (CAMERAMANAGER->getCameraCenter().x - WINSIZEX / 2)/12,0,WINSIZEX,WINSIZEY);
@@ -76,7 +76,9 @@ void townScene::render()
 	_shop->aniRender(DC, 72 * 96-20, 11* 96+10, _shopping);
 
 	_player->render();
+	//setMinimap();
 	_minimap->render();
+	
 }
 
 void townScene::mapload()
@@ -121,17 +123,21 @@ void townScene::setMinimap()
 	_minimap->init();
 
 	image* tempImg;
-	tempImg = IMAGEMANAGER->addImage("ÅÛÇª", TILEVALUE[_dungeonNum][0]*TILESIZE, TILEVALUE[_dungeonNum][1] * TILESIZE);
+	tempImg = IMAGEMANAGER->addImage("ÅÛÇª", _tileX*TILESIZE, _tileY * TILESIZE);
+	PatBlt(tempImg->getMemDC(), 0, 0, _tileX * TILESIZE, _tileY * TILESIZE, BLACKNESS);
 
 	for (int i = 0; i < _tileY; i++)
 	{
 		for (int j = 0; j < _tileX; j++)
 		{
-			IMAGEMANAGER->frameRender("map", tempImg->getMemDC(), _tiles[i*_temp + j].rc.left, _tiles[i*_temp + j].rc.top, _tiles[i*_temp + j].rc.right, _tiles[i*_temp + j].rc.bottom);
+			if (_tiles[i * _temp + j].object == OBJ_NONE) continue;
+			//IMAGEMANAGER->frameRender("map", tempImg->getMemDC(), _tiles[i*_temp + j].rc.left, _tiles[i*_temp + j].rc.top, _tiles[i * _temp + j].terrainFrameX, _tiles[i * _temp + j].terrainFrameY);
+			IMAGEMANAGER->frameRender("map", tempImg->getMemDC(), _tiles[i * _temp + j].rc.left, _tiles[i * _temp + j].rc.top, _tiles[i * _temp + j].objFrameX, _tiles[i * _temp + j].objFrameY);
 		}
 	}
-
+	//tempImg->render(DC, 0, 0);
 	_minimap->setMinimap(tempImg->getMemDC());
+	//StretchBlt(DC, 0, 0, 500, 500, tempImg->getMemDC(), 0, 0, _tileX*TILESIZE, _tileY *TILESIZE, SRCCOPY);
 }
 void townScene::mapRender()
 {

@@ -23,9 +23,7 @@ void minimap::release()
 
 void minimap::render()
 {
-	//RectangleMake(DC, 100, 100, 100, 100);
-	_minimap->render(UIDC, 100, 100);
-	
+	_minimap->render(DC, CAMERAMANAGER->getCameraCenter().x + WINSIZEX / 2 - 450, CAMERAMANAGER->getCameraCenter().y - WINSIZEY / 2 + 50);
 }
 
 void minimap::update()
@@ -34,6 +32,8 @@ void minimap::update()
 
 void minimap::setMinimap(HDC dc)
 {
-	PatBlt(_minimap->getMemDC(), 0, 0, 400, 200, WHITENESS);
-	StretchBlt(_minimap->getMemDC(), 0, 0, 400, 200, dc, 0,0,TILEVALUE[_dungeonNum][0]*TILESIZE, TILEVALUE[_dungeonNum][1] * TILESIZE, SRCCOPY);
+	PatBlt(_minimap->getMemDC(), 0, 0, 400, 200, BLACKNESS);
+	StretchBlt(_minimap->getMemDC(), 0, 0, 400, 200, dc, 0, 0, _tileX*TILESIZE, _tileY *TILESIZE, SRCCOPY);
+
+	
 }
