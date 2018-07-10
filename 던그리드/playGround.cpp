@@ -8,7 +8,7 @@ playGround::~playGround(){}
 
 HRESULT playGround::init(void)	
 {
-	mode =타이틀;				//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
+	mode = 맵툴;				//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
 //	rectRotate(IMAGEMANAGER->findImage("검01"), 100, 100);
 
 
@@ -17,8 +17,8 @@ HRESULT playGround::init(void)
 	Image_init();
 //	Sound_init();
 	
-	//_mapTool = new MapTool;
-	//_mapTool->init();
+	_mapTool = new MapTool;
+	_mapTool->init();
 	_player = new Player;
 	_player->init();
 	_im = new itemManager;
@@ -104,6 +104,7 @@ HRESULT playGround::init(void)
 		break;
 	case 마을:
 		SCENEMANAGER->changeScene("마을");
+		break;
 	case 맵선택:
 		SCENEMANAGER->changeScene("맵선택");
 		break;
@@ -127,8 +128,8 @@ void playGround::update(void)
 {
 	gameNode::update();
 
-	//_mapTool->update();
-	//_player->update();
+	_mapTool->update();
+	if(KEYMANAGER->isToggleKey(VK_F2))_player->update();
 	SCENEMANAGER->update();
 	
 	
@@ -177,10 +178,10 @@ void playGround::render(void)
 	switch (mode)
 	{
 	case 맵툴:
-		PatBlt(UIDC, 0, 0, BACKGROUNDSIZEX, BACKGROUNDSIZEY, BLACKNESS);
+		//PatBlt(UIDC, 0, 0, BACKGROUNDSIZEX, BACKGROUNDSIZEY, WHITENESS);
 		
 		
-		//_mapTool->render();
+		_mapTool->render();
 		if(KEYMANAGER->isToggleKey(VK_TAB))
 		{
 			IMAGEMANAGER->findImage("floor1")->render(DC, -23 * 96, 12 * 96);
@@ -213,6 +214,7 @@ void playGround::render(void)
 		break;
 	case 마을:
 		SCENEMANAGER->render();
+		_player->render();
 		break;
 	case 맵선택:
 		SCENEMANAGER->render();

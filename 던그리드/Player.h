@@ -119,7 +119,7 @@ public:
 	void effect();
 	void cameraSetting();
 	void tileCollision();
-
+	void pixelCollision();
 
 	//접근자 (get)      
 	bool getIsGun()						    { return _isGun; }						     //원거리 무기장착 ?
