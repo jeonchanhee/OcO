@@ -6,7 +6,7 @@
 
 void dungeonScene::collision()
 {
-	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); ++_viEnemy)
+	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); )
 	{
 		for (int i=0; i < _player->getPBullet()->getvPBullet().size();)
 		{
@@ -14,6 +14,7 @@ void dungeonScene::collision()
 			if (IntersectRect(&temp, &(*_viEnemy)->getRect(), &_player->getPBullet()->getvPBullet()[i].rc))
 			{
 				_player->getPBullet()->removeBullet(i);
+				(*_viEnemy)->setCurrentHp((*_viEnemy)->getCurrentHp() - 10);
 			}
 			else
 			{
@@ -21,14 +22,15 @@ void dungeonScene::collision()
 			}
 
 		}
-		//if ()//적의 HP가 0이하가되면)
-		//{
-		//		//삭제!
-		//}
-		//else
-		//{
-		//	++_viEnemy;
-		//}
+		if ((*_viEnemy)->getCurrentHp() <= 0)   //적의 HP가 0이하가되면)
+		{
+			_viEnemy = _vEnemy.erase(_viEnemy);
+				//삭제!
+		}
+		else
+		{
+			++_viEnemy;
+		}
 	}
 }
 
