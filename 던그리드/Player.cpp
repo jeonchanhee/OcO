@@ -15,7 +15,8 @@ HRESULT Player::init()
 	_playerWeapon   = IMAGEMANAGER->findImage("검10");
 	_x = WINSIZEX / 2; _y = WINSIZEY / 2 -100;
 	_attackEffect = IMAGEMANAGER->findImage("검쓰르륵");
-	_count = 0;  _mouseAngle = 0;
+	_dashCount = 0, _attackCount = 0;
+	_mouseAngle = 0;
 	_attackEffectCount = 0;
 	_gravity = GRAVITY;
 	_currentHp = 80; _maxHp = 80;
@@ -35,7 +36,7 @@ HRESULT Player::init()
 	_youUsingCount = 0;
 	_isDashing = false;
 	_isAttacking = false;
-	_isGun = true;
+	_isGun = false;
 	_attackSpeedCheckCount = false;
 	
 
@@ -60,7 +61,7 @@ HRESULT Player::init()
 	_playerAnimation = KEYANIMANAGER->findAnimation("오른쪽보고서있기");
 	
 	//equipment
-	_mainWeapon[0] = 2;
+	_mainWeapon[0] = 1;
 	_mainWeapon[1] = 0;
 	for (int i = 0; i < 15; ++i)
 	{
@@ -90,7 +91,6 @@ void Player::update()
 	tileCollision();
 	_collisionRc = RectMakeCenter(_x, _y, _player->getFrameWidth(), _player->getFrameHeight());
 	pixelCollision();
-	enemyCollision();
 	_pb->update();
 }
 
@@ -98,7 +98,7 @@ void Player::render()
 {
 	//여윽시 희진누나 작품 !!
 	char strGun[128]; 
-	if (_isLeftAttack) sprintf_s(strGun, "총10좌"); else if (!_isLeftAttack) sprintf_s(strGun, "총10우");
+	if (_isLeftAttack) sprintf_s(strGun, "검92"); else if (!_isLeftAttack) sprintf_s(strGun, "검92");
 	RECT rc = RectMake(0,0,IMAGEMANAGER->findImage(strGun)->getWidth() * 2, IMAGEMANAGER->findImage(strGun)->getHeight());
 	imageDC = IMAGEMANAGER->addRotateImage("rotateimage", rc.right - rc.left, rc.bottom - rc.top ,true,RGB(0,0,0), false);
 	IMAGEMANAGER->findImage(strGun)->render(imageDC->getMemDC(), IMAGEMANAGER->findImage(strGun)->getWidth(),
@@ -133,11 +133,12 @@ void Player::render()
 		imageDC->rotateRender(DC, _leftHandX, _leftHandY, _weaponAngle + 1.8f);
 		else if (!_isLeftAttack && _mainWeapon[_youUsingCount] != 0)
 		imageDC->rotateRender(DC, _rightHandX, _rightHandY, _weaponAngle + 1.8f);
-		_player->aniRender(DC, _x, _collisionRc.top, _playerAnimation);
+		_player->aniRender(DC, _collisionRc.left, _collisionRc.top, _playerAnimation);
 	}
 	if (_showAttackEffect)
 	{
-		_attackEffect->rotateFrameRender(DC, _collisionRc.left + (cosf(_angle) * ONE_HUNDRED) + _player->getFrameWidth() / 2 , _collisionRc.top + (-sinf(_angle) * ONE_HUNDRED) + _player->getFrameHeight() / 2, _angle - 1.8);
+		_attackEffect->setX(_collisionRc.left + (cosf(_angle) * ONE_HUNDRED) + _player->getFrameWidth() / 2), _attackEffect->setY(_collisionRc.top + (-sinf(_angle) * ONE_HUNDRED) + _player->getFrameHeight() / 2);
+		_attackEffect->rotateFrameRender(DC, _attackEffect->getX() , _attackEffect->getY(), _angle - 1.8);
 	}
 	//text !
 	char str[128]; sprintf_s(str, "Weapon Index : %d", _youUsingCount);
@@ -154,14 +155,19 @@ void Player::render()
 
 	//pb
 	_pb->render();
-	for (int i = 0; i < 30; ++i)
+	if (KEYMANAGER->isToggleKey(VK_F1))
 	{
-		for (int j = 0; j < 30; ++j)
+		for (int i = 0; i < 30; ++i)
 		{
-		if(KEYMANAGER->isToggleKey(VK_F1))	Rectangle(DC, _tiles[j + i * 30].rc.left, _tiles[j + i * 30].rc.top, _tiles[j + i * 30].rc.right, _tiles[j + i * 30].rc.bottom);
+			for (int j = 0; j < 30; ++j)
+			{
+				Rectangle(DC, _tiles[j + i * 30].rc.left, _tiles[j + i * 30].rc.top, _tiles[j + i * 30].rc.right, _tiles[j + i * 30].rc.bottom);
+			}
 		}
+		Rectangle(DC, _collisionRc.left, _collisionRc.top, _collisionRc.right, _collisionRc.bottom);
+		Rectangle(DC, _attackEffect->effectCheckBox().left, _attackEffect->effectCheckBox().top,
+			_attackEffect->effectCheckBox().right, _attackEffect->effectCheckBox().bottom);
 	}
-	if (KEYMANAGER->isToggleKey(VK_F1)) Rectangle(DC,_collisionRc.left , _collisionRc.top , _collisionRc.right, _collisionRc.bottom);
 }
 
 void Player::keyInput()
@@ -347,6 +353,7 @@ void Player::attack()
 	float _cosValue = cosf(_angle) * ONE_HUNDRED - 40, _sinValue = -sinf(_angle) * ONE_HUNDRED - 40;
 	static unsigned int attackSpeedCheckCount = 0;
 	if(_attackSpeedCheckCount)++attackSpeedCheckCount;
+	if (_isAttacking)_attackCount++;
 	if(_isAttacking)
 	{
 	
@@ -356,7 +363,7 @@ void Player::attack()
 		//punch
 		if (_mainWeapon[_youUsingCount] == 0)
 		{
-			if (_isLeftAttack)
+			if (_isLeftAttack && _attackCount == 0)
 			{
 				_locusX +=  cosf(_angle) * _punchSpeed; 
 				_locusY += -sinf(_angle) * _punchSpeed;
@@ -374,6 +381,7 @@ void Player::attack()
 		}
 		else if (_mainWeapon[_youUsingCount] == 1)
 		{
+			_attackCount++;
 			if (_isChap)_weaponAttackAngle += (PI / 180) * 200;
 			else if (!_isChap)_weaponAttackAngle -= (PI / 180) * 200;
 
@@ -382,14 +390,14 @@ void Player::attack()
 				(_isChap == false ? _isChap = true : _isChap = false);
 				_leftHandX = _collisionRc.left + 15, _leftHandY = _collisionRc.top + 60;
 				_rightHandX = _collisionRc.left + 60, _rightHandY = _collisionRc.top + 60;
-				_isAttacking = false;
+			
 			}
 			else if (!_isLeftAttack)
 			{
 				(_isChap == false ? _isChap = true : _isChap = false);
 				_leftHandX = _collisionRc.left + 10, _leftHandY = _collisionRc.top + 60;
 				_rightHandX = _collisionRc.left + 65 , _rightHandY = _collisionRc.top + 60 ;
-				_isAttacking = false;
+			
 			}
 		}
 		else if (_isGun)
@@ -425,6 +433,11 @@ void Player::attack()
 		_attackSpeedCheckCount = false;
 		if (_isGun) _weaponAttackAngle = 0;
 	}
+	if (_attackCount > 2)
+	{
+		_attackCount = 0;
+		_isAttacking = false;
+	}
 }
 
 void Player::effect()
@@ -435,10 +448,10 @@ void Player::effect()
 		if (KEYMANAGER->isStayKeyDown('A')) EFFECTMANAGER->play("왼쪽걸을때", _collisionRc.left + 70, _collisionRc.top + 70);
 		if (KEYMANAGER->isStayKeyDown('D')) EFFECTMANAGER->play("오른쪽걸을때", _collisionRc.left, _collisionRc.top + 70);
 	}
-	if (_isDashing) ++_count;
-	if (_count > 5)
+	if (_isDashing) ++_dashCount;
+	if (_dashCount > 5)
 	{
-		_count = 0;
+		_dashCount = 0;
 		if (_collisionRc.left > PTMOUSE_X)
 		{
 			EFFECTMANAGER->play("대시왼쪽", _collisionRc.left + 42 , _collisionRc.top +10 + _player->getFrameWidth() / 2);
@@ -495,9 +508,6 @@ void Player::tileCollision()
 	_downStateCheck[0] = xIndex + (VARIABLE_SIZEX[_dungeonNum] * (yIndex + 1)), _downStateCheck[1] = xIndex + (VARIABLE_SIZEX[_dungeonNum] * (yIndex + 1)) + 1;
 	_upStateCheck[0] = xIndex + (VARIABLE_SIZEX[_dungeonNum] * (yIndex )), _upStateCheck[1] = xIndex + (VARIABLE_SIZEX[_dungeonNum] * (yIndex )) + 1;
 
-
-	leftRightCheck[0] = (yIndex * VARIABLE_SIZEX[_dungeonNum]) + xIndex;
-	leftRightCheck[1] = (yIndex  * VARIABLE_SIZEX[_dungeonNum]) + xIndex +1;
 	_leftCheck[0] = (yIndex * VARIABLE_SIZEX[_dungeonNum]) + xIndex , _leftCheck[1] = ((yIndex + 1)  * VARIABLE_SIZEX[_dungeonNum]) + xIndex;
 	_rightCheck[0] = (yIndex  * VARIABLE_SIZEX[_dungeonNum]) + xIndex + 1 , _rightCheck[1] = ((yIndex + 1)  * VARIABLE_SIZEX[_dungeonNum]) + xIndex + 1;
 
@@ -717,7 +727,6 @@ void Player::tileCollision()
 						_y = _collisionRc.top + (rcHeight / 2);
 						_goDownJump = false;
 					}
-
 				}
 			}
 		}
@@ -772,19 +781,6 @@ void Player::pixelCollision()
 			}
 
 		}
-	}
-}
-
-void Player::enemyCollision()
-{
-	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end();)
-	{
-		RECT temp;
-		if (IntersectRect(&temp, &(*_viEnemy)->getRect(), &_collisionRc))
-		{
-			_viEnemy = _vEnemy.erase(_viEnemy);
-		}
-		else _viEnemy++;
 	}
 }
 

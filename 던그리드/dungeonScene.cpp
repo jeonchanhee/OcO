@@ -8,6 +8,15 @@ void dungeonScene::collision()
 {
 	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); )
 	{
+		if (_player->getIsAttacking())
+		{
+			RECT checkRc;
+			if (IntersectRect(&checkRc, &_player->getEffect()->effectCheckBox(), &(*_viEnemy)->getRect()))
+			{
+				(*_viEnemy)->setCurrentHp((*_viEnemy)->getCurrentHp() - 10);
+			}
+		}
+
 		for (int i=0; i < _player->getPBullet()->getvPBullet().size();)
 		{
 			RECT temp;
@@ -54,7 +63,7 @@ void dungeonScene::update(void)
 {
 	KEYANIMANAGER->update();
 	collision();
-//	_player->setEnemyVector(_vEnemy);
+
 }
 
 void dungeonScene::render(void)

@@ -200,6 +200,18 @@ public:
 
 		return rc;
 	}
+	/*RectMakeCenter(_imageInfo->x,
+		_imageInfo->y,
+		_imageInfo->x + _imageInfo->frameWidth,
+		_imageInfo->y + _imageInfo->frameHeight);*/
+	inline RECT effectCheckBox()
+	{
+		RECT rc = { _imageInfo->x - (_imageInfo->frameWidth / 2) + 8,
+				   _imageInfo->y - (_imageInfo->frameHeight / 2) + 8,
+				   _imageInfo->x + (_imageInfo->frameWidth / 2) -  8,
+				   _imageInfo->y + (_imageInfo->frameHeight / 2) - 8 };
+		return rc;
+	}
 
 	inline void setFrameX(int frameX)
 	{
