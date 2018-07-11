@@ -784,4 +784,9 @@ void Player::pixelCollision()
 	}
 }
 
+void Player::hitDamage(float damage)
+{
+	_currentHp -= damage;
+}
+
 

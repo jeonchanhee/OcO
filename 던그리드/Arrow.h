@@ -23,7 +23,7 @@ private:
 	POINT _bowCenter;//È° Áß¾Ó
 
 	int	_index;
-
+	float _arrowX, _arrowY;
 public:
 	Arrow();
 	~Arrow();
