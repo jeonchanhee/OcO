@@ -823,4 +823,9 @@ void Player::enemyCollision()
 	}
 }
 
+void Player::hitDamage(float damage)
+{
+	_currentHp -= damage;
+}
+
 

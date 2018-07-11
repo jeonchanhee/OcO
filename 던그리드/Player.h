@@ -104,6 +104,7 @@ public:
 	void tileCollision();
 	void pixelCollision();
 	void enemyCollision();
+	void hitDamage(float damage);//hp깎이게 하는 함수
 
 	//접근자 (get)      
 	bool getIsGun()						    { return _isGun; }						     //원거리 무기장착 ?

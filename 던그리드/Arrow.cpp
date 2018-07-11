@@ -76,8 +76,11 @@ void Arrow::update()
 	//	_arrow[1].img->setFrameX(0);
 	//}
 
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < 2; i++)
 		_arrow[i].rc = RectMake(_arrow[i].x, _arrow[i].y, _arrow[i].img->getFrameWidth(), _arrow[i].img->getFrameHeight());
+	//_arrow[2].rc = RectMake(_arrow[2].x, _arrow[2].y, _arrow[2].img->getWidth(), _arrow[2].img->getHeight());
+	//_arrow[2].rc = RectMakeCenter(_arrow[2].x, _arrow[2].y, _arrow[2].img->getWidth(), _arrow[2].img->getHeight());
+	_arrow[2].rc = RectMake(_arrowX, _arrowY, 15, 15);
 
 	_progressBar->setX(_arrow[0].x);
 	_progressBar->setY(_arrow[0].y + 80);
@@ -92,8 +95,12 @@ void Arrow::render()
 	_arrow[2].img->rotateRender(DC, _arrow[2].x, _arrow[2].y, _angle);
 	_arrow[1].img->rotateFrameRender(DC, _arrow[1].x, _arrow[1].y, _angle);
 	_progressBar->render();
-	if(KEYMANAGER->isToggleKey(VK_SPACE))
+	if (KEYMANAGER->isToggleKey(VK_SPACE))
 		Rectangle(DC, _arrow[0].rc.left, _arrow[0].rc.top, _arrow[0].rc.right, _arrow[0].rc.bottom);
+	if (KEYMANAGER->isToggleKey('N'))
+	{
+		Rectangle(DC, _arrow[2].rc.left, _arrow[2].rc.top, _arrow[2].rc.right, _arrow[2].rc.bottom);
+	}
 }
 
 void Arrow::frameMove()
@@ -105,12 +112,16 @@ void Arrow::frameMove()
 		{
 			_arrow[2].x += cosf(_angle)*_speed;
 			_arrow[2].y += -sinf(_angle)*_speed;
+			_arrowX = _arrow[2].x + cosf(_angle)*_arrow[2].img->getWidth() / 2 - 10;
+			_arrowY = _arrow[2].y - sinf(_angle)*_arrow[2].img->getHeight() / 2;
 		}
 		//哭率 规氢
 		if(_arrow[0].x > PTMOUSE_X)
 		{
 			_arrow[2].x += cosf(_angle) *_speed ;
 			_arrow[2].y += -sinf(_angle) * _speed;
+			_arrowX = _arrow[2].x + cosf(_angle)*_arrow[2].img->getWidth() / 2;
+			_arrowY = _arrow[2].y - sinf(_angle)*_arrow[2].img->getHeight() / 2;
 		}
 		
 		//_speed += 10;
@@ -152,8 +163,10 @@ void Arrow::shootArrow()
 	{
 		_arrow[1].x = _arrow[0].x + 40;
 		_arrow[1].y = _arrow[0].y + 50;
-		_arrow[2].x = _arrow[1].x - _arrow[2].img->getFrameWidth() / 2;
+		_arrow[2].x = _arrow[1].x - _arrow[2].img->getWidth() / 2;
 		_arrow[2].y = _arrow[1].y - 2;
+		_arrowX = _arrow[2].x + cosf(_angle)*_arrow[2].img->getWidth() / 2 - 10;
+		_arrowY = _arrow[2].y - sinf(_angle)*_arrow[2].img->getHeight() / 2;
 	}
 	//哭率 规氢
 	if (_arrow[0].x + _arrow[0].img->getFrameWidth() / 2 > PTMOUSE_X)
@@ -162,6 +175,8 @@ void Arrow::shootArrow()
 		_arrow[1].y = _arrow[0].y + 50;
 		_arrow[2].x = _arrow[1].x;
 		_arrow[2].y = _arrow[1].y - 3;
+		_arrowX = _arrow[2].x + cosf(_angle)*_arrow[2].img->getWidth() / 2;
+		_arrowY = _arrow[2].y - sinf(_angle)*_arrow[2].img->getHeight() / 2;
 	}
 }
 
@@ -195,7 +210,7 @@ void Arrow::playerCollision()
 	RECT temp;
 	if (IntersectRect(&temp, &_arrow[2].rc, &_player->getPlayerRect()))
 	{
-		//_player.h
+		_player->hitDamage(2.3);
 	}
 }
 

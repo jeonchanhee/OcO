@@ -68,8 +68,8 @@ void BigBone::update()
 	_progressBar->setGauge(_currentHP, _maxHP);
 	_progressBar->update();
 
-	//changeDirection();
-	//move();
+	changeDirection();
+	move();
 	///////////dieÅ×½ºÆ®!///////////////////
 	/*if (KEYMANAGER->isOnceKeyDown(VK_F2))
 	{
