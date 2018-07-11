@@ -80,7 +80,7 @@ void Player::update()
 	keyInput();
 	move();
 	mouseControl();
-	effect();
+	effect();	
 	attack();
 	KEYANIMANAGER->update();
 	EFFECTMANAGER->update();
@@ -88,6 +88,7 @@ void Player::update()
 	tileCollision();
 	_collisionRc = RectMakeCenter(_x, _y, _player->getFrameWidth(), _player->getFrameHeight());
 	pixelCollision();
+	enemyCollision();
 	_pb->update();
 }
 
@@ -804,6 +805,19 @@ void Player::pixelCollision()
 			}
 
 		}
+	}
+}
+
+void Player::enemyCollision()
+{
+	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end();)
+	{
+		RECT temp;
+		if (IntersectRect(&temp, &(*_viEnemy)->getRect(), &_collisionRc))
+		{
+			_viEnemy = _vEnemy.erase(_viEnemy);
+		}
+		else _viEnemy++;
 	}
 }
 

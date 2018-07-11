@@ -136,6 +136,7 @@ public:
 	void doorRender();
 	void portalRender();
 
+	void collision();
 	dungeonScene();
 	~dungeonScene();
 
