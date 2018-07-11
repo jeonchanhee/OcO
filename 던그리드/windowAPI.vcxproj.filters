@@ -340,7 +340,7 @@
       <Filter>playGround\NPC</Filter>
     </ClInclude>
     <ClInclude Include="minimap.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>playGround\minimap</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -567,7 +567,7 @@
       <Filter>playGround\Scene\dungeon</Filter>
     </ClCompile>
     <ClCompile Include="minimap.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>playGround\minimap</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -53,6 +53,7 @@ void townScene::release()
 void townScene::update()
 {
 	_player->update();
+	_minimap->setPlayerXY(((400*_player->getPlayerX()) / (_tileX * TILESIZE)), ((200*_player->getPlayerY()) / (_tileY * TILESIZE)));
 }
 
 void townScene::render()
@@ -76,9 +77,7 @@ void townScene::render()
 	_shop->aniRender(DC, 72 * 96-20, 11* 96+10, _shopping);
 
 	_player->render();
-	//setMinimap();
 	_minimap->render();
-	
 }
 
 void townScene::mapload()
@@ -120,7 +119,7 @@ void townScene::mapload()
 void townScene::setMinimap()
 {
 	_minimap = new minimap;
-	_minimap->init();
+	_minimap->init(false);
 
 	image* tempImg;
 	tempImg = IMAGEMANAGER->addImage("ÅÛÇª", _tileX*TILESIZE, _tileY * TILESIZE);
@@ -131,13 +130,13 @@ void townScene::setMinimap()
 		for (int j = 0; j < _tileX; j++)
 		{
 			if (_tiles[i * _temp + j].object == OBJ_NONE) continue;
-			//IMAGEMANAGER->frameRender("map", tempImg->getMemDC(), _tiles[i*_temp + j].rc.left, _tiles[i*_temp + j].rc.top, _tiles[i * _temp + j].terrainFrameX, _tiles[i * _temp + j].terrainFrameY);
 			IMAGEMANAGER->frameRender("map", tempImg->getMemDC(), _tiles[i * _temp + j].rc.left, _tiles[i * _temp + j].rc.top, _tiles[i * _temp + j].objFrameX, _tiles[i * _temp + j].objFrameY);
 		}
 	}
-	//tempImg->render(DC, 0, 0);
 	_minimap->setMinimap(tempImg->getMemDC());
-	//StretchBlt(DC, 0, 0, 500, 500, tempImg->getMemDC(), 0, 0, _tileX*TILESIZE, _tileY *TILESIZE, SRCCOPY);
+	_minimap->setPlayerXY(((400*_player->getPlayerX()) / (_tileX * TILESIZE)), ((200*_player->getPlayerY()) / (_tileY * TILESIZE)));
+	_minimap->setNPCXY(0, ((400 * (10 * 96)) / (_tileX*TILESIZE)), ((200 * (20 * 96)) / (_tileY*TILESIZE)));
+	_minimap->setNPCXY(1, ((400 * (72 * 96 - 20)) / (_tileX*TILESIZE)), ((200 * (11 * 96 + 10)) / (_tileY*TILESIZE)));
 }
 void townScene::mapRender()
 {
@@ -172,6 +171,7 @@ void townScene::mapRender()
 		}
 	}
 }
+
 townScene::townScene()
 {
 }
