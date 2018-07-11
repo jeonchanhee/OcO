@@ -10,6 +10,9 @@ HRESULT playGround::init(void)
 {
 	mode = ´øÀü2;				//º»ÀÎÀÌ ÆíÁıÇÏ´Â ºÎºĞÀ¸·Î ÀÌ³Ñ¿¡ Ãß°¡ÇÏ°í ¼öÁ¤ÇØ¼­ »ç¿ëÇÏ±â!!
 
+
+
+
 	gameNode::init(true);
 	Image_init();
 	Sound_init();
@@ -40,7 +43,8 @@ HRESULT playGround::init(void)
 	SCENEMANAGER->addScene("´øÀü8", new dungeon8Scene);
 	SCENEMANAGER->addScene("¸¶À»", new townScene);
 	SCENEMANAGER->addScene("¹«±â", new weaponScene);
-	SCENEMANAGER->addScene("º¸½º", new bossScene);
+	SCENEMANAGER->addScene("Çªµå", new foodScene);
+	//SCENEMANAGER->addScene("º¸½º", new bossScene);
 
 	//SCENEMANAGER->addScene("·£´ı¸Ê1", new RandomDungeon1);
 	
@@ -92,7 +96,9 @@ HRESULT playGround::init(void)
 	case ¹«±â:
 		SCENEMANAGER->changeScene("¹«±â");
 		break;
-
+	case Çªµå:
+		SCENEMANAGER->changeScene("Çªµå");
+		break;
 	case ·£´ı¸Ê1:
 		//SCENEMANAGER->changeScene("·£´ı¸Ê1");
 		_randomScene1->init();
@@ -127,8 +133,7 @@ void playGround::release(void)
 void playGround::update(void)	
 {
 	gameNode::update();
-	if(mode == ¸ÊÅø)
-		_mapTool->update();
+	if(mode == ¸ÊÅø) _mapTool->update();
 	if(KEYMANAGER->isToggleKey(VK_F2))_player->update();
 	SCENEMANAGER->update();
 	
@@ -169,7 +174,7 @@ void playGround::update(void)
 
 void playGround::render(void)
 {
-	PatBlt(getMemDC(), CAMERAMANAGER->getCameraCenter().x - WINSIZEX / 2, CAMERAMANAGER->getCameraCenter().y - WINSIZEY / 2, WINSIZEX, WINSIZEY, BLACKNESS);
+	PatBlt(getMemDC(), CAMERAMANAGER->getCameraCenter().x - WINSIZEX / 2, CAMERAMANAGER->getCameraCenter().y - WINSIZEY / 2, WINSIZEX, WINSIZEY, WHITENESS);
 	PatBlt(CAMERAMANAGER->getCameraDC(), 0, 0, WINSIZEX, WINSIZEY, BLACKNESS);
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
@@ -178,10 +183,10 @@ void playGround::render(void)
 	switch (mode)
 	{
 	case ¸ÊÅø:
-		//PatBlt(UIDC, 0, 0, BACKGROUNDSIZEX, BACKGROUNDSIZEY, WHITENESS);
+	//	PatBlt(UIDC, 0, 0, BACKGROUNDSIZEX, BACKGROUNDSIZEY, WHITENESS);
 		
 		
-		//_mapTool->render();
+		_mapTool->render();
 		if(KEYMANAGER->isToggleKey(VK_TAB))
 		{
 		
@@ -204,7 +209,7 @@ void playGround::render(void)
 		SCENEMANAGER->render();
 		break;
 	case ´øÀü2: case ´øÀü3: case ´øÀü4: case ´øÀü5: case ´øÀü6: case ´øÀü7: case ´øÀü8:
-	case ·£´ı¸Ê1: case º¸½º:  case ¹«±â:
+	case ·£´ı¸Ê1: case º¸½º:  case ¹«±â: case Çªµå:
 		SCENEMANAGER->render();
 		_player->render();
 		break;

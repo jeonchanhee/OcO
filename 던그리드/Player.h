@@ -1,6 +1,7 @@
 #pragma once
 #include "gameNode.h"
 #include "playerBullet.h"
+#include "Enemy.h"
 
 #define DASHSPEED 33
 #define PUNCHSPEED 6.0f
@@ -17,8 +18,13 @@ enum DIRECTION
 class Player : public gameNode
 {
 private:
+
+	class dungeonScene;
+
+private:
+	dungeonScene * _ds;
 	playerBullet * _pb;
-	RECT _collisionRc; //충돌렉트 
+	RECT _collisionRc; //충돌렉트  
 	image* _player;
 	image* _playerHand[2];
 	image* _playerWeapon;
@@ -27,6 +33,12 @@ private:
 
 	DIRECTION _direction;
 	animation* _playerAnimation;
+
+	infoPlayer	_infoPlayer;
+
+	//에너미의 정보를 받아오는 벡터 
+	vector<Enemy*> _vEnemy;
+	vector<Enemy*>::iterator _viEnemy;
 
 	//bool 
 	bool _isGun;						//bool이지금 1
@@ -92,6 +104,7 @@ public:
 	void cameraSetting();
 	void tileCollision();
 	void pixelCollision();
+	void enemyCollision();
 
 	//접근자 (get)      
 	bool getIsGun()						    { return _isGun; }						     //원거리 무기장착 ?
@@ -114,8 +127,10 @@ public:
 	int getCurrentFullNess()				{ return _currentFullNess; }				 //현재 만복도 
 	int getMaxFullNess()				    { return _maxFullNess; }					 //최대 만복도
 	int getYouUsingCount()				    { return _youUsingCount; }					 // 사용중인 무기 1번인가 2번인가 ?
+	RECT  getPlayerRect()					{ return _collisionRc; }				//충돌 rc
+	playerBullet * getPBullet()				{ return _pb; }
 
-										   
+
 	float getPlayerX()					    { return _x; }								 // 플레이어 x 좌표
 	float getPlayerY()					    { return _y; }								 // 플레이어 y좌표
 	float getAttackSpeed()				    { return _attackSpeed; }					 // 공격속도
@@ -156,6 +171,9 @@ public:
 	void setMaxFullNess(int fullNess)		{ _maxFullNess = fullNess; }
 	void setCurrentExp(int exp)				{ _currentExp = exp; }
 	void setMaxExp(int exp)				    { _maxExp = exp; }
+
+
+	void setEnemyVector(vector<Enemy*> vEnemy) { _vEnemy = vEnemy; }
 
 	Player();
 	~Player();

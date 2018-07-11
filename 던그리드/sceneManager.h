@@ -32,7 +32,7 @@ public:
 
 	//¾À º¯°æ
 	HRESULT changeScene(string sceneName);
-	
+
 	void setPlayerAddressLink(Player* player) { _player = player; }
 	Player* getPlayerAddressLink() { return _player; }
 };
