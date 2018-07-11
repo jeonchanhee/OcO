@@ -149,12 +149,8 @@ void Player::render()
 	TextOut(DC, _x-300, _y - 200, str, strlen(str));
 	sprintf(str, "y 좌표 : %f", _y);
 	TextOut(DC, _x- 300, _y - 300, str, strlen(str)); 
-	sprintf(str, "체크타일 %d,%d", leftRightCheck[0], leftRightCheck[1]);
+	sprintf(str, "currentHP : %d maxHP : %d", _currentHp, _maxHp);
 	TextOut(DC, _x - 10, _collisionRc.top , str, strlen(str));
-	sprintf(str, "위에 타일 %d,%d", _upStateCheck[0] , _upStateCheck[1]);
-	TextOut(DC, _x - 10, _collisionRc.top - 50, str, strlen(str));
-	sprintf(str, "아래 타일 %d,%d", _downStateCheck[0], _downStateCheck[1]);
-	TextOut(DC, _x - 10, _collisionRc.top - 100, str, strlen(str));
 
 	//pb
 	_pb->render();
@@ -180,7 +176,7 @@ void Player::keyInput()
 		_playerAnimation->start();
 
 	}
-	else if (KEYMANAGER->isOnceKeyUp('A')&&_direction!=RIGHT_RUN)
+	else if (KEYMANAGER->isOnceKeyUp('A') && _direction!=RIGHT_RUN)
 	{
 		_direction = LEFT_STOP;
 		_playerAnimation = KEYANIMANAGER->findAnimation("왼쪽보고서있기");
@@ -433,7 +429,7 @@ void Player::attack()
 
 void Player::effect()
 {
-	//if(_showAttackEffect)CAMERAMANAGER->cameraShaking();
+	if(_showAttackEffect)CAMERAMANAGER->cameraShaking();
 	if (!_isJumping)
 	{
 		if (KEYMANAGER->isStayKeyDown('A')) EFFECTMANAGER->play("왼쪽걸을때", _collisionRc.left + 70, _collisionRc.top + 70);
@@ -490,9 +486,6 @@ void Player::cameraSetting()
 	if (_collisionRc.top > cameraY + 50 && cameraY + WINSIZEY / 2 < BACKGROUNDSIZEY)
 		CAMERAMANAGER->setCameraY(cameraY + plusCameraMoveValueY);
 }
-// 1. 왼쪽으로갈때 벽있으면 벽에붙음
-// 2. 
-
 
 void Player::tileCollision()
 {
@@ -555,35 +548,7 @@ void Player::tileCollision()
 				_jump = -(_jump / 2);
 				_y = _collisionRc.top + (rcHeight / 2);
 			}
-		}
-
-			
-		//왼쪽오른쪽 
-		/*if (_tiles[leftRightCheck[i]].object == OBJ_CULUMN)
-		{
-			RECT temp;
-
-			if (IntersectRect(&temp, &_tiles[leftRightCheck[i]].rc, &_collisionRc))
-			{
-				if (i == 0)
-				{
-					long rcSize = _collisionRc.right - _collisionRc.left;
-					_collisionRc.left = _tiles[leftRightCheck[i]].rc.right;
-					_collisionRc.right = _collisionRc.left + rcSize;
-					_x = _collisionRc.right - rcSize / 2;
-				}
-				else if (i == 1)
-				{
-					long rcSize = _collisionRc.right - _collisionRc.left;
-					_collisionRc.right = _tiles[leftRightCheck[i]].rc.left;
-					_collisionRc.left = _collisionRc.right - rcSize;
-					_x = _collisionRc.left + rcSize / 2;
-				}
-			}
-		}*/
-		//얍 
-		
-		//얍
+		} 
 		//위 체크 :upStateCheck
 		if (_tiles[_upStateCheck[i]].object == OBJ_CULUMN)
 		{

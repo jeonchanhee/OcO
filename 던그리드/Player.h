@@ -40,16 +40,16 @@ private:
 	vector<Enemy*>::iterator _viEnemy;
 
 	//bool 
-	bool _isGun;						//bool이지금 1
-	bool _isAlive;						//bool이지금 2					
-	bool _isJumping;					//bool이지금 3							
-	bool _isDashing;					//bool이지금 4							
-	bool _isAttacking;					//bool이지금 5							
-	bool _isLeftAttack;					//bool이지금 6						    
-	bool _isChap;						//bool이지금 7							
-	bool _showAttackEffect;				//bool이지금 8							
-	bool _attackSpeedCheckCount;		//bool이지금 9							
-	bool _goDownJump;					//bool이지금 10  
+	bool _isGun;						// 10BOOL 의 기 적 
+	bool _isAlive;						// 10BOOL 의 기 적 				
+	bool _isJumping;					// 10BOOL 의 기 적 						
+	bool _isDashing;					// 10BOOL 의 기 적 						
+	bool _isAttacking;					// 10BOOL 의 기 적 						
+	bool _isLeftAttack;					// 10BOOL 의 기 적 					    
+	bool _isChap;						// 10BOOL 의 기 적 						
+	bool _showAttackEffect;				// 10BOOL 의 기 적 						
+	bool _attackSpeedCheckCount;		// 10BOOL 의 기 적 						
+	bool _goDownJump;					// 10BOOL 의 기 적  
 
 	// int  
 	int _currentHp, _maxHp;											 //현재 , 전체 체력 
@@ -171,7 +171,7 @@ public:
 	void setMaxFullNess(int fullNess)		{ _maxFullNess = fullNess; }
 	void setCurrentExp(int exp)				{ _currentExp = exp; }
 	void setMaxExp(int exp)				    { _maxExp = exp; }
-
+	void hitDamamge(int damage)				{ _currentHp -= damage; }
 
 	void setEnemyVector(vector<Enemy*> vEnemy) { _vEnemy = vEnemy; }
 

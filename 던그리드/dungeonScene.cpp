@@ -6,11 +6,31 @@
 
 void dungeonScene::collision()
 {
-	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end();)
+	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); )
 	{
-		//for(_player->getPBullet()->getviPBullet() = _player->getPBullet()->getvPBullet().begin(); _player->getPBullet()->getviPBullet() !=)d
-		RECT temp;
-		//if(IntersectRect(&temp,&(*_viEnemy)->getRect(),&_player->getPBullet()->getviPBullet()->rc)
+		for (int i=0; i < _player->getPBullet()->getvPBullet().size();)
+		{
+			RECT temp;
+			if (IntersectRect(&temp, &(*_viEnemy)->getRect(), &_player->getPBullet()->getvPBullet()[i].rc))
+			{
+				_player->getPBullet()->removeBullet(i);
+				(*_viEnemy)->setCurrentHp((*_viEnemy)->getCurrentHp() - 10);
+			}
+			else
+			{
+				++i;
+			}
+
+		}
+		if ((*_viEnemy)->getCurrentHp() <= 0)   //적의 HP가 0이하가되면)
+		{
+			_viEnemy = _vEnemy.erase(_viEnemy);
+				//삭제!
+		}
+		else
+		{
+			++_viEnemy;
+		}
 	}
 }
 
@@ -33,6 +53,7 @@ void dungeonScene::release(void)
 void dungeonScene::update(void)
 {
 	KEYANIMANAGER->update();
+	collision();
 //	_player->setEnemyVector(_vEnemy);
 }
 
