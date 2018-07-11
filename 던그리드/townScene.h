@@ -12,8 +12,10 @@ private:
 	image* _pixel;
 	image* _trainer;
 	image* _shop;
+	image* _suckImg;
 	animation* _training;
 	animation* _shopping;
+	animation* _suck;
 	int		_temp;
 
 	minimap* _minimap;
@@ -25,6 +27,7 @@ public:
 	void mapload();
 	void setMinimap();
 	void mapRender();
+	void dungeonGo();
 	townScene();
 	~townScene();
 };

@@ -26,12 +26,16 @@ HRESULT townScene::init()
 
 	_trainer = IMAGEMANAGER->findImage("N트레이너");
 	_shop = IMAGEMANAGER->findImage("N마을샵");
+	_suckImg = IMAGEMANAGER->findImage("suck");
 	int trainer[] = { 0,1,2,3,4,5 };
 	int shop[] = { 15,16,17,18,19,20 };
+	int suck[] = { 0,1,2,3,4,5,6,7,8,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50 };
 	KEYANIMANAGER->addArrayFrameAnimation("trainer", "N트레이너", trainer, 6, 5, true);
 	KEYANIMANAGER->addArrayFrameAnimation("shop", "N마을샵", shop, 6, 5, true);
+	KEYANIMANAGER->addArrayFrameAnimation("suck", "suck", shop, 34, 5, false);
 	_training = KEYANIMANAGER->findAnimation("trainer");
 	_shopping = KEYANIMANAGER->findAnimation("shop");
+	_suck = KEYANIMANAGER->findAnimation("suck");
 	_training->start();
 	_shopping->start();
 
@@ -54,6 +58,7 @@ void townScene::update()
 {
 	_player->update();
 	_minimap->setPlayerXY(((400*_player->getPlayerX()) / (_tileX * TILESIZE)), ((200*_player->getPlayerY()) / (_tileY * TILESIZE)));
+	dungeonGo();
 }
 
 void townScene::render()
@@ -96,17 +101,20 @@ void townScene::mapload()
 	{
 		if (_tiles[i].terrain == TOWN_GROUND) continue;
 		if (_tiles[i].object == OBJ_DIAGONAL) continue;
-		if (_tiles[i].terrainFrameX == 17 && _tiles[i].terrainFrameY == 1)  _tiles[i].terrain = TOWN_GROUND;
-		if (_tiles[i].terrainFrameX == 16 && _tiles[i].terrainFrameY == 1)  _tiles[i].terrain = TOWN_GROUND;
-		if (_tiles[i].terrainFrameX == 12 && _tiles[i].terrainFrameY == 25) _tiles[i].terrain = TOWN_GROUND;
-		if (_tiles[i].terrainFrameX == 19 && _tiles[i].terrainFrameY == 18) _tiles[i].terrain = TOWN_GROUND;
-		if (_tiles[i].terrainFrameX == 12 && _tiles[i].terrainFrameY == 25) _tiles[i].terrain = TOWN_GROUND;
-		if (_tiles[i].terrainFrameX == 4 && _tiles[i].terrainFrameY == 0) _tiles[i].terrain = TOWN_GROUND;
-		if (_tiles[i].terrainFrameX == 10 && _tiles[i].terrainFrameY == 1) _tiles[i].terrain = TOWN_GROUND;
-		if (_tiles[i].terrainFrameX == 12 && _tiles[i].terrainFrameY == 0) _tiles[i].terrain = TOWN_GROUND;
-		if (_tiles[i].terrainFrameX == 15 && _tiles[i].terrainFrameY == 18) _tiles[i].terrain = TOWN_GROUND;
-		if (_tiles[i].terrainFrameX == 19 && _tiles[i].terrainFrameY == 1) _tiles[i].terrain = TOWN_GROUND;
-		if (_tiles[i].terrainFrameX == 15 && _tiles[i].terrainFrameY == 1) _tiles[i].terrain = TOWN_GROUND;
+		if (_tiles[i].objFrameX == 17 && _tiles[i].objFrameY == 1)  _tiles[i].terrain = TOWN_GROUND;
+		if (_tiles[i].objFrameX == 16 && _tiles[i].objFrameY == 1)  _tiles[i].terrain = TOWN_GROUND;
+		if (_tiles[i].objFrameX == 12 && _tiles[i].objFrameY == 25) _tiles[i].terrain = TOWN_GROUND;
+		if (_tiles[i].objFrameX == 19 && _tiles[i].objFrameY == 18) _tiles[i].terrain = TOWN_GROUND;
+		if (_tiles[i].objFrameX == 12 && _tiles[i].objFrameY == 25) _tiles[i].terrain = TOWN_GROUND;
+		if (_tiles[i].objFrameX == 4  && _tiles[i].objFrameY == 0) _tiles[i].terrain = TOWN_GROUND;
+		if (_tiles[i].objFrameX == 10 && _tiles[i].objFrameY == 1) _tiles[i].terrain = TOWN_GROUND;
+		if (_tiles[i].objFrameX == 15 && _tiles[i].objFrameY == 18) _tiles[i].terrain = TOWN_GROUND;
+		if (_tiles[i].objFrameX == 19 && _tiles[i].objFrameY == 1) _tiles[i].terrain = TOWN_GROUND;
+		if (_tiles[i].objFrameX == 15 && _tiles[i].objFrameY == 1) _tiles[i].terrain = TOWN_GROUND;
+		if (_tiles[i].objFrameX == 10 && _tiles[i].objFrameY == 25) _tiles[i].terrain = TOWN_GROUND;
+		if (_tiles[i].objFrameX == 11 && _tiles[i].objFrameY == 25) _tiles[i].terrain = TOWN_GROUND;
+		if (_tiles[i].objFrameX == 12 && _tiles[i].objFrameY == 0) _tiles[i].terrain = TOWN_GROUND;
+		if (_tiles[i].objFrameX == 18 && _tiles[i].objFrameY == 1) _tiles[i].terrain = TOWN_GROUND;
 		//대각
 		if (_tiles[i].objFrameX == 7 && _tiles[i].objFrameY == 17) _tiles[i].object = OBJ_DIAGONAL;
 		if (_tiles[i].objFrameX == 11 && _tiles[i].objFrameY == 0) _tiles[i].object = OBJ_DIAGONAL;
@@ -169,7 +177,14 @@ void townScene::mapRender()
 				TextOut(DC, _tiles[i * _temp + j].rc.left, _tiles[i * _temp + j].rc.top, str, strlen(str));
 			}
 		}
+		Rectangle(DC,_player->getRc().left, _player->getRc().top, _player->getRc().right, _player->getRc().bottom);
 	}
+}
+
+void townScene::dungeonGo()
+{
+	RECT rc = RectangleMake();
+	Rectangle(DC, rc.left, rc.top, rc.right, rc.bottom);
 }
 
 townScene::townScene()

@@ -14,6 +14,7 @@ HRESULT playGround::init(void)
 
 
 
+
 	gameNode::init(true);
 	Image_init();
 	Sound_init();
@@ -134,11 +135,9 @@ void playGround::release(void)
 void playGround::update(void)	
 {
 	gameNode::update();
-	if(mode == ¸ÊÅø)
-		_mapTool->update();
+	if(mode == ¸ÊÅø) _mapTool->update();
 	if(KEYMANAGER->isToggleKey(VK_F2))_player->update();
 	SCENEMANAGER->update();
-	
 	
 	/*if (KEYMANAGER->isStayKeyDown('D') && CAMERAMANAGER->getCameraRc2().right<BACKGROUNDSIZEX) CAMERAMANAGER->setCameraX2(CAMERAMANAGER->getCameraX2() + 50);
 	if (KEYMANAGER->isStayKeyDown('S') && CAMERAMANAGER->getCameraRc2().bottom<BACKGROUNDSIZEY) CAMERAMANAGER->setCameraY2(CAMERAMANAGER->getCameraY2() + 50);
@@ -185,10 +184,10 @@ void playGround::render(void)
 	switch (mode)
 	{
 	case ¸ÊÅø:
-		//PatBlt(UIDC, 0, 0, BACKGROUNDSIZEX, BACKGROUNDSIZEY, WHITENESS);
+	//	PatBlt(UIDC, 0, 0, BACKGROUNDSIZEX, BACKGROUNDSIZEY, WHITENESS);
 		
 		
-		//_mapTool->render();
+		_mapTool->render();
 		if(KEYMANAGER->isToggleKey(VK_TAB))
 		{
 		

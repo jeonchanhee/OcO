@@ -78,13 +78,17 @@ void BigRedBat::update()
 
 
 	//KEYANIMANAGER->update();
-	_rc = RectMakeCenter(_x, _y, _img->getFrameHeight(), _img->getFrameHeight());
+	_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 }
 
 void BigRedBat::render()
 {
 	_progressBar->render();
 	_img->aniRender(DC, _rc.left, _rc.top, _bigRedBatMotion);
+	if (KEYMANAGER->isToggleKey('Z'))
+	{
+		Rectangle(DC, _rc.left, _rc.top, _rc.right, _rc.bottom);
+	}
 }
 
 void BigRedBat::attackMove()

@@ -151,14 +151,16 @@ void dungeon2Scene::setMonster()
 {
 	
 	//°³»À
-	int id[2][2];
-	id[0][0] = 810 % _temp, id[0][1] = 810 / _temp;
-	id[1][0] = 510 % _temp, id[1][1] = 510 / _temp;
-	for (int i = 0; i < 2; i++)
-	{
-		setDogBone(id[i][0], id[i][1]);
-	}
+	//int id[2][2];
+	//id[0][0] = 810 % _temp, id[0][1] = 810 / _temp;
+	//id[1][0] = 510 % _temp, id[1][1] = 510 / _temp;
+	//for (int i = 0; i < 2; i++)
+	//{
+	//	setDogBone(id[i][0], id[i][1]);
+	//}
+
 	//È°ÀïÀÌ
+	int id[2][2];
 	id[0][0] = 505 % _temp, id[0][1] = 505 / _temp;
 	id[1][0] = 514 % _temp, id[1][1] = 514 / _temp;
 	for (int i = 0; i < 2; i++)

@@ -68,8 +68,8 @@ void BigBone::update()
 	_progressBar->setGauge(_currentHP, _maxHP);
 	_progressBar->update();
 
-	//changeDirection();
-	//move();
+	changeDirection();
+	move();
 	///////////die테스트!///////////////////
 	/*if (KEYMANAGER->isOnceKeyDown(VK_F2))
 	{
@@ -115,10 +115,10 @@ void BigBone::render()
 	///////////테스트
 	if (KEYMANAGER->isToggleKey('Q')) RectangleMakeCenter(DC, _x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 
-	if (KEYMANAGER->isToggleKey('T'))
-	{
-		Rectangle(DC, _rcCollision.left, _rcCollision.top, _rcCollision.right, _rcCollision.bottom);
-	}
+	//if (KEYMANAGER->isToggleKey('T'))
+	//{
+	//	Rectangle(DC, _rcCollision.left, _rcCollision.top, _rcCollision.right, _rcCollision.bottom);
+	//}
 
 }
 
