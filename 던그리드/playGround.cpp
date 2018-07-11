@@ -10,10 +10,6 @@ HRESULT playGround::init(void)
 {
 	mode = 던전2;				//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
 
-
-
-
-
 	gameNode::init(true);
 	Image_init();
 	Sound_init();
