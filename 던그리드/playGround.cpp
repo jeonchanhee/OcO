@@ -8,8 +8,8 @@ playGround::~playGround(){}
 
 HRESULT playGround::init(void)	
 {
-	mode = 마을;				//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
-//	rectRotate(IMAGEMANAGER->findImage("검01"), 100, 100);
+	mode = 던전2;				//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
+
 
 
 
@@ -134,8 +134,7 @@ void playGround::release(void)
 void playGround::update(void)	
 {
 	gameNode::update();
-	if(mode == 맵툴)
-		_mapTool->update();
+	if(mode == 맵툴) _mapTool->update();
 	if(KEYMANAGER->isToggleKey(VK_F2))_player->update();
 	SCENEMANAGER->update();
 	
@@ -184,10 +183,10 @@ void playGround::render(void)
 	switch (mode)
 	{
 	case 맵툴:
-		//PatBlt(UIDC, 0, 0, BACKGROUNDSIZEX, BACKGROUNDSIZEY, WHITENESS);
+	//	PatBlt(UIDC, 0, 0, BACKGROUNDSIZEX, BACKGROUNDSIZEY, WHITENESS);
 		
 		
-		//_mapTool->render();
+		_mapTool->render();
 		if(KEYMANAGER->isToggleKey(VK_TAB))
 		{
 		

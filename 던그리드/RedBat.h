@@ -1,6 +1,5 @@
 #pragma once
 #include "Enemy.h"
-#include "progressBar.h"
 
 enum REDBATDIRECTION
 {
@@ -14,9 +13,6 @@ enum REDBATDIRECTION
 
 class RedBat : public Enemy
 {
-	progressBar* _progressBar;
-	float _currentHP, _maxHP;
-
 	REDBATDIRECTION _redBatDirection;
 	animation* _redBatMotion;
 	

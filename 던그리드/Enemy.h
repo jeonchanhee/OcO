@@ -1,5 +1,6 @@
 #pragma once
 #include "gameNode.h"
+#include "progressBar.h"
 
 class Enemy :	public gameNode
 {
@@ -18,6 +19,9 @@ protected:
 	float _jumpPower;		//점프파워
 	float _gravity;			//중력
 	bool _isJumping;		//점프중이냐 아니냐
+
+	progressBar* _progressBar; //체력바
+	float _currentHP, _maxHP; //현재체력과 최대체력
 	
 public:
 
@@ -42,6 +46,12 @@ public:
 	float getY() { return _y; }
 
 	int getcount() { return _count; }
+
+	int getCurrentHp() { return _currentHP; } //현재 hp
+	int getMaxHp() { return _maxHP; } //전체hp
+	void setCurrentHp(int currentHP) { _currentHP = currentHP; }
+	void setMaxHp(int maxHP) { _maxHP = maxHP; }
+	RECT  getEnemyRect() { return _rc; } //arrow,boss는 클래스 안에 따로 있음
 	
 };
 

@@ -85,6 +85,10 @@ void MusicAngel::update()
 
 void MusicAngel::render()
 {
+	if (KEYMANAGER->isToggleKey('V'))
+	{
+		Rectangle(DC, _rc.left, _rc.top, _rc.right, _rc.bottom);
+	}
 	_progressBar->render();
 	_img->aniRender(DC, _rc.left, _rc.top, _musicAngelMotion);
 }

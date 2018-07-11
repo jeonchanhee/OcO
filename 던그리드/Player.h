@@ -17,37 +17,13 @@ enum DIRECTION
 class Player : public gameNode
 {
 private:
-	struct infoPlayer
-	{
-		int currentHp, maxHp;											 //현재 , 전체 체력 
-		int armor;														 //방어력
-		int currentDash, maxDash;										 //대시 횟수 
-		int attackMinDamage, attackMaxDamage, attackPower;			 //최소 ~ 최대 데미지 , 위력 ()
-		int fixedDamage;												 //고정데미지 
-																		 // inven
-		int  mainWeapon[2], assistWeapon[2];							 //현재 장착중인 메인 , 보조 무기들
-		int  accessory[4];												 //악쎄사리
-		int  inventory[15];											 //전체인벤토리 15칸 
-		int  gold;														 //돈
-		int  currentExp, maxExp;										 //현재 , 최대 경험치  
-		int  currentFullNess, maxFullNess;							 //현재 , 최대 만복도 
-		int  youUsingCount;											 // 1번무기 장착중인지 2번무기 장착중ㅇ인지 배열이라 0과 1값을 받게됨 ;
-
-		//float 
-		float attackSpeed, reloadSpeed;								 //공속 재장전속도 
-		float evasionPersent, guardPersent;							 //회피확률 , 막을확률  	
-		float moveMentSpeed;											 //이동속도 
-		float criticalPercent, criticalAttackDamage;					 //크리티컬 확률 , 크리티컬 데미지 증가율 
-		float dashDamage, dashSpeed;									 //대시할때 데미지 , 스피드
-		float punchSpeed;												 //펀치 스피드임
-	};
 
 	class dungeonScene;
 
 private:
 	dungeonScene * _ds;
 	playerBullet * _pb;
-	RECT _collisionRc; //충돌렉트 
+	RECT _collisionRc; //충돌렉트  
 	image* _player;
 	image* _playerHand[2];
 	image* _playerWeapon;
@@ -57,19 +33,17 @@ private:
 	DIRECTION _direction;
 	animation* _playerAnimation;
 
-	infoPlayer	_infoPlayer;
-
 	//bool 
-	bool _isGun;						//bool이지금 1
-	bool _isAlive;						//bool이지금 2					
-	bool _isJumping;					//bool이지금 3							
-	bool _isDashing;					//bool이지금 4							
-	bool _isAttacking;					//bool이지금 5							
-	bool _isLeftAttack;					//bool이지금 6						    
-	bool _isChap;						//bool이지금 7							
-	bool _showAttackEffect;				//bool이지금 8							
-	bool _attackSpeedCheckCount;		//bool이지금 9							
-	bool _goDownJump;					//bool이지금 10  
+	bool _isGun;													 // bool 의 기 적 1 
+	bool _isAlive;													 // bool 의 기 적 2 				
+	bool _isJumping;												 // bool 의 기 적 3 						
+	bool _isDashing;												 // bool 의 기 적 4 						
+	bool _isAttacking;												 // bool 의 기 적 5 						
+	bool _isLeftAttack;												 // bool 의 기 적 6 					    
+	bool _isChap;													 // bool 의 기 적 7 						
+	bool _showAttackEffect;											 // bool 의 기 적 8 						
+	bool _attackSpeedCheckCount;									 // bool 의 기 적 9 						
+	bool _goDownJump;												 // bool 의 기 적 10 
 
 	// int  
 	int _currentHp, _maxHp;											 //현재 , 전체 체력 
@@ -84,7 +58,7 @@ private:
 	int  _accessory[4];												 //악쎄사리
 	int  _inventory[15];											 //전체인벤토리 15칸 
 	int  _gold;														 //돈
-	int  _count;													 //카운트 값 
+	int  _dashCount , _attackCount;									 //카운트 값 
 	int  _currentExp, _maxExp;										 //현재 , 최대 경험치  
 	int  _currentFullNess , _maxFullNess;							 //현재 , 최대 만복도 
 	int  _youUsingCount;											 // 1번무기 장착중인지 2번무기 장착중ㅇ인지 배열이라 0과 1값을 받게됨 ;
@@ -107,7 +81,8 @@ private:
  
 	//test
 	int xIndex, yIndex;
-	int leftRightCheck[2], _downStateCheck[2], _upStateCheck[2], _leftCheck[2], _rightCheck[2];
+	int _downStateCheck[2], _upStateCheck[2], _leftCheck[2], _rightCheck[2];
+
 public:
 
 	HRESULT init();
@@ -126,10 +101,14 @@ public:
 	void tileCollision();
 	void pixelCollision();
 
+	void hitDamage(float damage);//hp깎이게 하는 함수
+
 	//접근자 (get)      
 	bool getIsGun()						    { return _isGun; }						     //원거리 무기장착 ?
 	bool getIsAlive()					    { return _isAlive; }						 //생존 ?
-										   
+	bool getIsAttacking()					{ return _isAttacking; }				
+	bool getAttackCheck()					{ return _attackSpeedCheckCount; } 	//you  attaking ;
+
 	int getCurrentHp()					    { return _currentHp; }						 //현재 hp
 	int getMaxHp()						    { return _maxHp; }							 //전체hp
 	int getArmor()						    { return _armor; }							 // 방어력
@@ -144,11 +123,14 @@ public:
 	int getGold()						    { return _gold; }							 // 가진		돈 돈 돈  
 	int getCurrentExp()						{ return _currentExp; }						 //현재경험치
 	int getMaxExp()							{ return _maxExp; }
-	int getCurrentFullNess()				{ return _currentFullNess; }				 //현재 만복도 
-	int getMaxFullNess()				    { return _maxFullNess; }					 //최대 만복도
-	int getYouUsingCount()				    { return _youUsingCount; }					 // 사용중인 무기 1번인가 2번인가 ?
+	int getCurrentFullNess()				{ return _currentFullNess; }				 //현재 만복도 접
+	int getMaxFullNess()				    { return _maxFullNess; }					 //최대 만복도 접
+	int getYouUsingCount()				    { return _youUsingCount; }					 // 사용중인 무기 접 
+	RECT  getPlayerRect()					{ return _collisionRc; }					 //충돌 rc 접 
+	playerBullet * getPBullet()				{ return _pb; }								 //총알 접
+	image * getEffect()						{ return _attackEffect; }					 //이펙트 이미지 접 
 
-										   
+
 	float getPlayerX()					    { return _x; }								 // 플레이어 x 좌표
 	float getPlayerY()					    { return _y; }								 // 플레이어 y좌표
 	float getAttackSpeed()				    { return _attackSpeed; }					 // 공격속도
@@ -189,8 +171,8 @@ public:
 	void setMaxFullNess(int fullNess)		{ _maxFullNess = fullNess; }
 	void setCurrentExp(int exp)				{ _currentExp = exp; }
 	void setMaxExp(int exp)				    { _maxExp = exp; }
-
-	void setDungeonScene(dungeonScene* ds) { _ds = ds; }
+	void hitDamamge(int damage)				{ _currentHp -= damage; }
+	void healing(int heal)				    { _currentHp += heal; if (_currentHp > _maxHp) _currentHp = _maxHp; }
 
 	Player();
 	~Player();
