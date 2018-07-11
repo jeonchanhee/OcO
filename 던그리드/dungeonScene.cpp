@@ -312,12 +312,12 @@ void dungeonScene::setBat(int idX, int idY)
 //ÀÛ»¡¹Ú
 void dungeonScene::setRedBat(int idX, int idY)
 {
-	RedBat* redBat;
-	redBat = new RedBat;
+	
+	_redBat = new RedBat;
 	float x = TILESIZE * idX;
 	float y = TILESIZE * idY;
-	redBat->init(x, y);
-	_vEnemy.push_back(redBat);
+	_redBat->init(x, y);
+	_vEnemy.push_back(_redBat);
 }
 
 void dungeonScene::setBigBat(int idX, int idY)
@@ -689,18 +689,22 @@ void dungeonScene::bigbatbulletFire()
 	_count2++;
 	if (_bigbat->getisAtteck() == true)
 	{
-		if (_count2 % 10 == 0 && _count2 > 170)
+		if (_count2 % 5 == 0 && _count2 > 170)
 		{
 			for (int i = 0; i < 3; i++)
 			{
-				float angle = -(PI2 / 9) * i;
-				_bigBatBullet->bulletFire("fatherBatBullet2", _bigbat->getX() + 50, _bigbat->getY() + 10, angle, 5.0f, 500);
+				for (int j = 0; j < 3; j++)
+				{
+					float angle = -(PI2 / 9) * i;
+					_bigBatBullet->bulletFire("fatherBatBullet2", _bigbat->getX() + 50, _bigbat->getY() + 10, angle, 5.0f + i - 0.5f, 500);
+				}
 			}
-			_start2 = 1;
+			_start2 = 0;
 		}
-		if (_count2 > 200)
+		if (_count2 > 220)
 		{
 			_count2 = 0;
+			_start2 = 1;
 			_bigbat->setisAtteck(false);
 		}
 	}
@@ -750,5 +754,16 @@ void dungeonScene::bigRadbatbulletFire()
 				}
 			}
 		}
+	}
+}
+
+void dungeonScene::redBatBullet()
+{
+	_count4++;
+	if (_count4 % 150 == 0 && _redBat->getisAtteck() == true)
+	{
+		int angle = GetAngle(_redBat->getX(), _redBat->getY(), _ptMouse.x, _ptMouse.y);
+		_enemyBullet->bulletFire("fatherBatBullet2", _redBat->getX(), _redBat->getY(), angle, 5.0f, 200);
+		_redBat->setisAtteck(false);
 	}
 }

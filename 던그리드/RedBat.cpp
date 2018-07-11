@@ -157,7 +157,7 @@ void RedBat::Attack()
 			changeAnimation(REDBAT_RIGHT_ATTACK);
 		if (_redBatDirection == REDBAT_LEFT_MOVE)
 			changeAnimation(REDBAT_LEFT_ATTACK);
-		
+		_isAtteck = true;
 		_count = 0;
 	}
 }

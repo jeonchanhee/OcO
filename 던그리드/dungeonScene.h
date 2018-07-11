@@ -83,6 +83,7 @@ protected:
 
 	BigBat*		_bigbat;
 	BigRedBat*	_bigRedBat;
+	RedBat*		_redBat;
 	MusicAngel* _musicAngel; //음표요정
 	Boss2* _boss;			 //보스
 
@@ -104,6 +105,7 @@ protected:
 	int _count;
 	int _count2;
 	int _count3;
+	int _count4;
 	int  j;
 	int _start;
 	int _start2;
@@ -166,5 +168,6 @@ public:
 	void BossBulletFire();		 //보스 총알 발사 함수
 	void bigbatbulletFire();
 	void bigRadbatbulletFire();
+	void redBatBullet();
 };
 

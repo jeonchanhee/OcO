@@ -21,6 +21,7 @@ class RedBat : public Enemy
 	animation* _redBatMotion;
 	
 	float _startX, _startY;
+	bool _isAtteck;
 
 public:
 	RedBat();
@@ -52,5 +53,8 @@ public:
 
 	void playerCollision();
 	void hitDamage(float damage);
+
+	bool getisAtteck() { return _isAtteck; }
+	void setisAtteck(bool isAtteck) { _isAtteck = isAtteck; }
 };
 
