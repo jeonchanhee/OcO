@@ -80,11 +80,18 @@ void Player::release() {}
 
 void Player::update()
 {
-	keyInput();
-	move();
-	mouseControl();
-	effect();	
-	attack();
+	if (_canMove == true)
+	{
+		keyInput();
+		mouseControl();
+		attack();
+		effect();
+		move();
+	}
+	
+	
+	
+	
 	KEYANIMANAGER->update();
 	EFFECTMANAGER->update();
 	cameraSetting();
@@ -184,9 +191,7 @@ void Player::keyInput()
 	}
 	else if (KEYMANAGER->isOnceKeyUp('A') && _direction!=RIGHT_RUN)
 	{
-		_direction = LEFT_STOP;
-		_playerAnimation = KEYANIMANAGER->findAnimation("왼쪽보고서있기");
-		_playerAnimation->start();
+		leftStop();
 	}
 
 	if (KEYMANAGER->isOnceKeyDown('D'))
@@ -198,9 +203,7 @@ void Player::keyInput()
 	}
 	else if (KEYMANAGER->isOnceKeyUp('D') && _direction != LEFT_RUN)
 	{
-		_direction = RIGHT_STOP;
-		_playerAnimation = KEYANIMANAGER->findAnimation("오른쪽보고서있기");
-		_playerAnimation->start();
+		rightStop();
 	}
 
 	if (KEYMANAGER->isStayKeyDown('S')
@@ -247,6 +250,20 @@ void Player::keyInput()
 			_angle = getAngle(_collisionRc.left + _player->getFrameWidth() / 2, _collisionRc.top + _player->getFrameHeight() / 2, PTMOUSE_X, PTMOUSE_Y);
 		}
 	}
+}
+
+void Player::rightStop()
+{
+	_direction = RIGHT_STOP;
+	_playerAnimation = KEYANIMANAGER->findAnimation("오른쪽보고서있기");
+	_playerAnimation->start();
+}
+
+void Player::leftStop()
+{
+	_direction = LEFT_STOP;
+	_playerAnimation = KEYANIMANAGER->findAnimation("왼쪽보고서있기");
+	_playerAnimation->start();
 }
 
 void Player::mouseControl()

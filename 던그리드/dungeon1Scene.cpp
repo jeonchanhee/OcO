@@ -15,11 +15,12 @@ HRESULT dungeon1Scene::init()
 {
 	dungeonScene::init();
 
-	_isMapSet = true;
+//	_isMapSet = true;
 	chooseMap(1);
 	selectSize(1);
 	mapload();
 	setCamera();
+	
 
 	load();
 
@@ -32,6 +33,8 @@ HRESULT dungeon1Scene::init()
 	portalInit(250 % 29, 250 / 29);
 	setDungeonDoor();
 
+	setMinimap();
+	setDoorMinimap();
 	//_player->setGold(10);
 	return S_OK;
 }

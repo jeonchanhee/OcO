@@ -15,7 +15,7 @@ HRESULT dungeon7Scene::init()
 {
 	dungeonScene::init();
 
-	_isMapSet = true;
+//	_isMapSet = true;
 	chooseMap(8);
 	selectSize(8);
 	mapload();
@@ -56,6 +56,14 @@ HRESULT dungeon7Scene::init()
 
 	setDoor();
 	setMonster();
+
+	setMinimap();
+
+	for (int i = 0; i < _vEnemy.size(); i++)
+	{
+		_minimap->setEnemyXY(((_vEnemy[i]->getX() * 300) / (_tileX*TILESIZE)), ((_vEnemy[i]->getY() * 150) / (_tileY*TILESIZE)));
+	}
+	setDoorMinimap();
 	return S_OK;
 }
 
@@ -66,6 +74,8 @@ void dungeon7Scene::update()
 	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); ++_viEnemy)
 	{
 		(*_viEnemy)->update();
+		int idx = _viEnemy - _vEnemy.begin();
+		_minimap->changeEnemyXY(idx, (((*_viEnemy)->getX() * 300) / (_tileX*TILESIZE)), (((*_viEnemy)->getY() * 150) / (_tileY*TILESIZE)));
 	}
 	MusicAngelBulletFire();
 	_enemyBullet->update();

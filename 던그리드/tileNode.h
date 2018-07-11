@@ -47,8 +47,8 @@ enum TERRAIN
 // 오브젝트
 enum OBJECT
 {
-	//비어있음	못지나가는땅		아래점프로 내려가는땅		못지나가는 벽 기둥	미닫이문			가시		      천장        대각선좀 제발 제발제발제발제발제발제발제발제발제발제발제발제발제발제발제발제발제발제발제발제발제발제발제발
-	OBJ_NONE, 	OBJ_GROUND,			OBJ_GOGROUND,		 OBJ_CULUMN,		OBJ_vDoor,    OBJ_THORN,  OBJ_CEILING ,  OBJ_DIAGONAL,  OBJ_DIAGONAL_LEFT , OBJ_DIAGONAL_RIGHT
+	//비어있음	못지나가는땅		아래점프로 내려가는땅		못지나가는 벽 기둥	미닫이문			가시		      천장        대각선좀 제발 제발제발제발제발제발제발제발제발제발제발제발 문짝
+	OBJ_NONE, 	OBJ_GROUND,			OBJ_GOGROUND,		 OBJ_CULUMN,		OBJ_vDoor,    OBJ_THORN,  OBJ_CEILING ,  OBJ_DIAGONAL,  OBJ_DIAGONAL_LEFT , OBJ_DIAGONAL_RIGHT, OBJ_DOOR
 };
 
 // 포지션 정의
@@ -94,7 +94,7 @@ extern int _tileX, _tileY;
 
 extern int VARIABLE_SIZEX[12];
 
-extern bool _isMapSet;
+extern bool _canMove;
 
 extern int _dungeonNum;
 
