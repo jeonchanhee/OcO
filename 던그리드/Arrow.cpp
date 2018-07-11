@@ -13,6 +13,8 @@ Arrow::~Arrow()
 
 HRESULT Arrow::init(float x, float y)
 {
+	
+
 	static int a = 0;
 	++a;
 	_index = a;
@@ -48,6 +50,11 @@ HRESULT Arrow::init(float x, float y)
 
 	_isShoot = false;
 
+	//활쟁이 체력바 초기화
+	_progressBar = new progressBar;
+	_progressBar->init(_arrow[0].x, _arrow[0].y + 80, 70, 10, "활쟁이앞", "활쟁이뒤", BAR_MONSTER);
+	_currentHP = _maxHP = 100;
+
 	return S_OK;
 }
 
@@ -57,6 +64,7 @@ void Arrow::release()
 
 void Arrow::update()
 {
+	//체력바 업데이트
 	_count++;
 	shootArrow();
 	frameMove();
@@ -69,6 +77,11 @@ void Arrow::update()
 
 	for (int i = 0; i < 3; i++)
 		_arrow[i].rc = RectMake(_arrow[i].x, _arrow[i].y, _arrow[i].img->getFrameWidth(), _arrow[i].img->getFrameHeight());
+
+	_progressBar->setX(_arrow[0].x);
+	_progressBar->setY(_arrow[0].y + 80);
+	_progressBar->setGauge(_currentHP, _maxHP);
+	_progressBar->update();
 	
 }
 
@@ -77,7 +90,7 @@ void Arrow::render()
 	_arrow[0].img->frameRender(DC, _arrow[0].x, _arrow[0].y);
 	_arrow[2].img->rotateRender(DC, _arrow[2].x, _arrow[2].y, _angle);
 	_arrow[1].img->rotateFrameRender(DC, _arrow[1].x, _arrow[1].y, _angle);
-
+	_progressBar->render();
 	if(KEYMANAGER->isToggleKey(VK_SPACE))
 		Rectangle(DC, _arrow[0].rc.left, _arrow[0].rc.top, _arrow[0].rc.right, _arrow[0].rc.bottom);
 }
@@ -174,4 +187,13 @@ void Arrow::fireArrow()
 		_isShoot = true;
 	}
 
+}
+
+void Arrow::playerCollision()
+{
+}
+
+void Arrow::hitDamage(float damage)
+{
+	_currentHP -= damage;
 }

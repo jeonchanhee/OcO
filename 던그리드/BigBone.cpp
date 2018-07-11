@@ -48,6 +48,10 @@ HRESULT BigBone::init(float x, float y, int index)
 	_renPoint[0] = PointMake(72, 170);
 	_renPoint[1] = PointMake(72, 100);
 
+	//Å«Ä®»À Ã¼·Â¹Ù ÃÊ±âÈ­
+	_progressBar = new progressBar;
+	_progressBar->init(_x - 30, _y + 120, 70, 10, "Å«Ä®»À¾Õ", "Å«Ä®»ÀµÚ", BAR_MONSTER);
+	_currentHP = _maxHP = 100;
 
 	return S_OK;
 }
@@ -58,6 +62,12 @@ void BigBone::release()
 
 void BigBone::update()
 {
+	//Ã¼·Â¹Ù ¾÷µ¥ÀÌÆ®
+	_progressBar->setX(_x - 20);
+	_progressBar->setY(_y + 120);
+	_progressBar->setGauge(_currentHP, _maxHP);
+	_progressBar->update();
+
 	//changeDirection();
 	//move();
 	///////////dieÅ×½ºÆ®!///////////////////
@@ -77,6 +87,7 @@ void BigBone::update()
 
 void BigBone::render()
 {
+	_progressBar->render();
 	switch (_bigBoneDirection)
 	{
 	case BIGBONE_RIGHT_IDLE:
@@ -315,5 +326,14 @@ void BigBone::changeAnimation(BIGBONEDIRECTION bigBoneDirection)
 			_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 		break;
 	}
+}
+
+void BigBone::playerColiision()
+{
+}
+
+void BigBone::hitDamage(float damage)
+{
+	_currentHP -= damage;
 }
 

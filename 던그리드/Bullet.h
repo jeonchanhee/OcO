@@ -73,6 +73,9 @@ private:
 	int			_bulletMax;		// 최대 총알 갯수
 	int			_index;			// 프레임 인덱스값
 	int			_count2;
+	int			_count;
+	int			j;
+	int			start;
 public:
 	Bullet2();
 	~Bullet2();

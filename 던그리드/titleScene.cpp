@@ -11,14 +11,19 @@ HRESULT titleScene::init(void)
 	_bird0 = { RND->getFromIntTo(-500,-300),RND->getFromIntTo(500,900) };
 	_bird1 = { RND->getFromIntTo(-1000,-700),RND->getFromIntTo(200,500) };
 	_loop0= _loop1 = 0;
+	_restImg = IMAGEMANAGER->findImage("rest");
 	int bird[] = { 0,1,2,3,4,5,6,7 };
 	KEYANIMANAGER->addArrayFrameAnimation("bird0", "T_bird", bird, 8, 7, true);
 	int bird1[] = { 6,7,0,1,2,3,4,5 };
 	KEYANIMANAGER->addArrayFrameAnimation("bird1", "T_bird1", bird, 8, 7, true);
+	int rest[] = { 0,1,2 };
+	KEYANIMANAGER->addArrayFrameAnimation("rest", "rest", rest, 3, 7, true);
 	_abird0 = KEYANIMANAGER->findAnimation("bird0");
 	_abird1 = KEYANIMANAGER->findAnimation("bird1");
+	_rest = KEYANIMANAGER->findAnimation("rest");
 	_abird0->start();
 	_abird1->start();
+	_rest->start();
 	_button[0]=RectMake(850,700,210,62);
 	_button[1]=RectMake(912,800,92,62);
 	_button[2]=RectMake(907,900,102,62);
@@ -146,10 +151,10 @@ void titleScene::render(void)
 		//shop();
 		//inven();
 		//reward();
-		//restaurant();
+		restaurant();
 		//drawData();
 	}
-	drawData();
+	//drawData();
 	setting();
 
 	if (_select != 0)
@@ -262,18 +267,21 @@ void titleScene::restaurant()
 	{
 		Rectangle(DC, _rc.left, _rc.top, _rc.right, _rc.bottom);
 	}
+
+	_restImg->aniRender(DC, 744, 216, _rest);
+
 	//28~31
 	RECT rc=RectMake(35,35,100,50);
 	RECT rc2=RectMake(35,305,100,50);
-	_im->getItem()[29]->getItem().image[0]->render(DC, 1120, 540);
+	_im->getItem()[34]->getItem().image[0]->render(DC, 1120, 540);
 	
 	HFONT font, oldFont;
 	font = CreateFont(40, 0, 0, 0, 100, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("소야바른9"));
 	oldFont = (HFONT)SelectObject(UIDC2, font);
 	SetTextColor(UIDC2, RGB(255, 255, 255));
 	SetBkMode(UIDC2, TRANSPARENT);
-	DrawText(UIDC2, _im->getItem()[29]->getItem().name, strlen(_im->getItem()[29]->getItem().name), &rc, DT_VCENTER);
-	DrawText(UIDC2, _im->getItem()[30]->getItem().name, strlen(_im->getItem()[30]->getItem().name), &rc2, DT_VCENTER);
+	DrawText(UIDC2, _im->getItem()[34]->getItem().name, strlen(_im->getItem()[34]->getItem().name), &rc, DT_VCENTER);
+	DrawText(UIDC2, _im->getItem()[34]->getItem().name, strlen(_im->getItem()[34]->getItem().name), &rc2, DT_VCENTER);
 	SelectObject(UIDC2, oldFont);
 	DeleteObject(font);
 }

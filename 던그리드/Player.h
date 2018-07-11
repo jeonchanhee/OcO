@@ -49,7 +49,10 @@ private:
 		float punchSpeed;												 //펀치 스피드임
 	};
 
+	class dungeonScene;
+
 private:
+	dungeonScene * _ds;
 	playerBullet * _pb;
 	RECT _collisionRc; //충돌렉트  
 	image* _player;

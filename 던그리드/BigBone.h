@@ -1,6 +1,7 @@
 #pragma once
 #include "Enemy.h"
 #include "MapTool.h"
+#include "progressBar.h"
 
 #define BIGBONESPEED 5.0f;
 
@@ -18,6 +19,9 @@ enum BIGBONEDIRECTION
 class BigBone : public Enemy
 {
 private:
+	progressBar* _progressBar;
+	float _currentHP, _maxHP;
+
 	MapTool* _mapTool;
 	BIGBONEDIRECTION _bigBoneDirection;
 	animation* _bigBoneMotion;
@@ -49,5 +53,8 @@ public:
 
 	animation* getBigBoneMotion() { return _bigBoneMotion; }
 	void setBigBoneMotion(animation* ani) { _bigBoneMotion = ani; }
+
+	void playerColiision();
+	void hitDamage(float damage);
 };
 
