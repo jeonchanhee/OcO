@@ -115,6 +115,8 @@ public:
 	void update();
 	void render();
 
+	RECT getRc() { return _collisionRc; }
+
 	void keyInput();
 	void mouseControl();
 	void move();

@@ -57,6 +57,7 @@ void townScene::release()
 void townScene::update()
 {
 	_player->update();
+	dungeonGo();
 }
 
 void townScene::render()
@@ -174,8 +175,16 @@ void townScene::mapRender()
 				TextOut(DC, _tiles[i * _temp + j].rc.left, _tiles[i * _temp + j].rc.top, str, strlen(str));
 			}
 		}
+		Rectangle(DC,_player->getRc().left, _player->getRc().top, _player->getRc().right, _player->getRc().bottom);
 	}
 }
+
+void townScene::dungeonGo()
+{
+	RECT rc = RectangleMake();
+	Rectangle(DC, rc.left, rc.top, rc.right, rc.bottom);
+}
+
 townScene::townScene()
 {
 }

@@ -27,6 +27,7 @@ public:
 	void mapload();
 	void setMinimap();
 	void mapRender();
+	void dungeonGo();
 	townScene();
 	~townScene();
 };
