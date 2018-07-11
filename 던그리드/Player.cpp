@@ -370,17 +370,17 @@ void Player::attack()
 	float _cosValue = cosf(_angle) * ONE_HUNDRED - 40, _sinValue = -sinf(_angle) * ONE_HUNDRED - 40;
 	static unsigned int attackSpeedCheckCount = 0;
 	if(_attackSpeedCheckCount)++attackSpeedCheckCount;
-	if (_isAttacking)_attackCount++;
-	if(_isAttacking)
-	{
 	
+	if(_isAttacking && _attackCount == 0 )
+	{
+		if (_isAttacking)_attackCount++;
 		if (_isGun && _isLeftAttack) _weaponAngle -= PI / 100;
 		else if (_isGun && !_isLeftAttack) _weaponAngle += PI / 100;
 		if(_mainWeapon[_youUsingCount] == 0)_punchSpeed -= 0.7;
 		//punch
 		if (_mainWeapon[_youUsingCount] == 0)
 		{
-			if (_isLeftAttack && _attackCount == 0)
+			if (_isLeftAttack)
 			{
 				_locusX +=  cosf(_angle) * _punchSpeed; 
 				_locusY += -sinf(_angle) * _punchSpeed;
@@ -450,7 +450,7 @@ void Player::attack()
 		_attackSpeedCheckCount = false;
 		if (_isGun) _weaponAttackAngle = 0;
 	}
-	if (_attackCount > 2)
+	if (_attackCount > 0)
 	{
 		_attackCount = 0;
 		_isAttacking = false;
