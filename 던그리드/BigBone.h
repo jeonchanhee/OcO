@@ -1,7 +1,6 @@
 #pragma once
 #include "Enemy.h"
 #include "MapTool.h"
-#include "progressBar.h"
 
 #define BIGBONESPEED 5.0f;
 
@@ -19,9 +18,6 @@ enum BIGBONEDIRECTION
 class BigBone : public Enemy
 {
 private:
-	progressBar* _progressBar;
-	float _currentHP, _maxHP;
-
 	MapTool* _mapTool;
 	BIGBONEDIRECTION _bigBoneDirection;
 	animation* _bigBoneMotion;
@@ -56,11 +52,5 @@ public:
 
 	void playerColiision();
 	void hitDamage(float damage);
-
-	int getCurrentHp() { return _currentHP; } //현재 hp
-	int getMaxHp() { return _maxHP; } //전체hp
-	void setCurrentHp(int currentHP) { _currentHP = currentHP; }
-	void setMaxHp(int maxHP) { _maxHP = maxHP; }
-	RECT  getBigBoneRect() { return _rc; } //rc
 };
 

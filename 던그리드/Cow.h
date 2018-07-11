@@ -1,6 +1,5 @@
 #pragma once
 #include "Enemy.h"
-#include "progressBar.h"
 
 #define COWSPEED 9.0f;
 
@@ -17,9 +16,6 @@ enum COWDIRECTION
 
 class Cow : public Enemy
 {
-	progressBar* _progressBar;
-	float _currentHP, _maxHP;
-
 	COWDIRECTION _cowDirection;
 	animation* _cowMotion;
 
@@ -55,10 +51,5 @@ public:
 	void playerCollision();
 	void hitDamage(float damage);
 
-	int getCurrentHp() { return _currentHP; } //현재 hp
-	int getMaxHp() { return _maxHP; } //전체hp
-	void setCurrentHp(int currentHP) { _currentHP = currentHP; }
-	void setMaxHp(int maxHP) { _maxHP = maxHP; }
-	RECT  getCowRect() { return _rc; } //rc
 };
 

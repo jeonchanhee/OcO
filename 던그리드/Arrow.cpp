@@ -195,7 +195,7 @@ void Arrow::playerCollision()
 	RECT temp;
 	if (IntersectRect(&temp, &_arrow[2].rc, &_player->getPlayerRect()))
 	{
-
+		//_player.h
 	}
 }
 

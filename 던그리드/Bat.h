@@ -1,6 +1,6 @@
 #pragma once
 #include "Enemy.h"
-#include "progressBar.h"
+
 enum BATDIRECTION
 {
 	BAT_RIGHT_MOVE,
@@ -13,7 +13,6 @@ enum BATDIRECTION
 class Bat : public Enemy
 {	
 private:
-	progressBar* _progressBar;
 	float _currentHP, _maxHP;
 
 	BATDIRECTION _batDirection;
@@ -44,10 +43,6 @@ public:
 	void playerCollision();
 	void hitDamage(float damage);
 
-	int getCurrentHp() { return _currentHP; } //현재 hp
-	int getMaxHp() { return _maxHP; } //전체hp
-	void setCurrentHp(int currentHP) { _currentHP = currentHP; }
-	void setMaxHp(int maxHP) { _maxHP = maxHP; }
 	RECT  getBatRect() { return _rc; } //rc
 };
 

@@ -1,6 +1,5 @@
 #pragma once
 #include "Enemy.h"
-#include "progressBar.h"
 
 #define DOGBONESPEED 5.0f
 
@@ -19,9 +18,6 @@ enum DOGBONEDIRECTION
 class DogBone : public Enemy
 {
 private:
-	progressBar* _progressBar;
-	float _currentHP, _maxHP;
-
 	DOGBONEDIRECTION _dogBoneDirection;
 	animation* _dogBoneMotion;
 
@@ -48,11 +44,5 @@ public:
 
 	void playerCollision();
 	void hitDamage(float damage);
-
-	int getCurrentHp() { return _currentHP; } //현재 hp
-	int getMaxHp() { return _maxHP; } //전체hp
-	void setCurrentHp(int currentHP) { _currentHP = currentHP; }
-	void setMaxHp(int maxHP) { _maxHP = maxHP; }
-	RECT  getDogBoneRect() { return _rc; } //rc
 };
 

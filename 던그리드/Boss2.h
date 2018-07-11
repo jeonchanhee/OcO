@@ -1,6 +1,5 @@
 #pragma once
 #include "Enemy.h"
-#include "progressBar.h"
 
 #define BOSSSPEED 3.0f
 
@@ -45,9 +44,6 @@ struct tagBoss
 class Boss2 : public Enemy
 {
 private:
-	progressBar* _progressBar;
-	float _currentHP, _maxHP;
-
 	tagBoss _boss[3]; //보스의 머리,왼손,오른손이 있는 구조체변수
 
 	
@@ -63,7 +59,6 @@ private:
 	int y;
 	int _count2, _count3;
 	
-
 public:
 	Boss2();
 	~Boss2();
@@ -126,10 +121,6 @@ public:
 	void playerCollision();
 	void hitDamage(float damage);
 
-	int getCurrentHp() { return _currentHP; } //현재 hp
-	int getMaxHp() { return _maxHP; } //전체hp
-	void setCurrentHp(int currentHP) { _currentHP = currentHP; }
-	void setMaxHp(int maxHP) { _maxHP = maxHP; }
 	RECT  getBossRect() { return _boss[1].rc; } //rc
 };
 
