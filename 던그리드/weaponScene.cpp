@@ -100,4 +100,5 @@ void weaponScene::render()
 	dungeonScene::render();
 	IMAGEMANAGER->render("d_restaurant", DC, (181 % 25)*TILESIZE, (181 / 25)*TILESIZE + 25);
 	_weaponNpc->render();
+	_player->render();
 }

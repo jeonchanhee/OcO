@@ -49,6 +49,9 @@ dungeonScene::~dungeonScene() {}
 
 HRESULT dungeonScene::init(void)
 {
+	CAMERAMANAGER->setCameraCenter(PointMake(WINSIZEX / 2, WINSIZEY / 2));
+	KEYANIMANAGER->addDefaultFrameAnimation("torchAni", "torch", 10, false, true);
+	KEYANIMANAGER->addCoordinateFrameAnimation("portalAni", "portal", 9, 17, 10, false, true);
 	_player = SCENEMANAGER->getPlayerAddressLink();
 	j = 0;
 	_start = _start2 = 0;
@@ -66,6 +69,7 @@ void dungeonScene::update(void)
 
 	if(_minimap != NULL)
 	_minimap->setPlayerXY(((300 * _player->getPlayerX()) / (_tileX * TILESIZE)), ((150 * (_player->getPlayerY() - 80)) / (_tileY * TILESIZE)));
+	_player->update();
 }
 
 void dungeonScene::render(void)
@@ -146,6 +150,8 @@ void dungeonScene::render(void)
 	doorRender();
 	if(_minimap != NULL)
 		_minimap->render();
+
+	_player->render();
 }
 
 void dungeonScene::doorInit(void)

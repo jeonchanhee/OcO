@@ -148,7 +148,6 @@ void titleScene::render(void)
 	}
 	else
 	{
-		//shop();
 		//inven();
 		//reward();
 		restaurant();
@@ -171,47 +170,6 @@ void titleScene::render(void)
 			Rectangle(DC, _deleteRect[i].left, _deleteRect[i].top, _deleteRect[i].right, _deleteRect[i].bottom);
 		}
 	}
-}
-
-void titleScene::training()
-{
-	IMAGEMANAGER->findImage("black")->alphaRender(DC, 0, 0,450);
-	IMAGEMANAGER->findImage("training")->render(DC,0,0);
-	for (int j = 0; j < 15; j+=3)
-	{
-		for (int i = 0; i < 3; i++)
-			IMAGEMANAGER->findImage("trainI")->frameRender(DC, 110+(i*72)+(j*124), 720, j, i);
-	}
-	for (int i = 0; i < 5; i++)
-	IMAGEMANAGER->findImage("trainB")->frameRender(DC,165+(i * 371),810,i,0);
-	RECT rc = RectMake(1764, 50, 120, 115);
-
-	if (KEYMANAGER->isToggleKey(VK_TAB))
-	{
-		Rectangle(DC, rc.left, rc.top, rc.right, rc.bottom);
-	}
-}
-void titleScene::shop()
-{
-	char str[128];
-	RECT rc, rc2, rc3;
-	rc = RectMake(50, 220, 100, 100);
-	rc2 = RectMake(200, 200, 100, 100);
-	rc3 = RectMake(520, 255, 100, 100);
-	IMAGEMANAGER->findImage("shop")->render(DC, 0, 0);
-	IMAGEMANAGER->findImage("slot")->render(DC, 165, 180);
-	IMAGEMANAGER->findImage("inven")->render(DC, WINSIZEX- IMAGEMANAGER->findImage("inven")->getWidth(), 0);
-	_im->getItem()[0]->getItem().image[0]->render(DC, rc.left, rc.top);
-	
-	HFONT font, oldFont;
-	font = CreateFont(40, 0, 0, 0, 100, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("소야바른9"));
-	oldFont = (HFONT)SelectObject(DC, font);
-	SetTextColor(DC, RGB(255, 255, 255));
-	SetBkMode(DC, TRANSPARENT);
-	DrawText(DC, _im->getItem()[0]->getItem().name, strlen(_im->getItem()[0]->getItem().name), &rc2, DT_VCENTER);
-	DrawText(DC, itoa(_im->getItem()[0]->getItem().price,str,10), strlen(itoa(_im->getItem()[0]->getItem().price, str, 10)), &rc3, DT_VCENTER);
-	SelectObject(DC, oldFont);
-	DeleteObject(font);
 }
 
 void titleScene::inven()

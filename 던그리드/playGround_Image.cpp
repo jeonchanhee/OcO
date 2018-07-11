@@ -6,6 +6,7 @@ HRESULT playGround::Image_init(void)
 {
 	IMAGEMANAGER->addImage("cursor", "image/UI/Cursor(61,70).bmp", 0, 0, 61, 70, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("black", "image/UI/Black(1920x1080).bmp", 0, 0, 1920, 1080, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addImage("gray", "image/UI/gray(1920x1080).bmp", 0, 0, 1920, 1080, false, RGB(255, 0, 255), true);
 
 	IMAGEMANAGER->addFrameImage("map", "image/map/Map(2208x2496,23x26).bmp", 0, 0, 2208, 2496, SAMPLETILEX, SAMPLETILEY, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("map2", "image/map/Map2(736x832,23x26).bmp", 0, 0, 736, 832, SAMPLETILEX, SAMPLETILEY, true, RGB(255, 0, 255));
@@ -33,7 +34,8 @@ HRESULT playGround::Image_init(void)
 	IMAGEMANAGER->addImage("soundbar", "image/UI/sounbar(900x50).bmp", 900, 50, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("toggleCheck", "image/UI/toggleCheck(200x100,2x1).bmp", 200, 100, 2, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("soundIcon", "image/UI/soundSetIcon(200x100,2x1).bmp", 200, 100, 2, 1, true, RGB(255, 0, 255));
-	
+
+	IMAGEMANAGER->addFrameImage("keyIcon", "image/etc/keyboard(432x84,3x1).bmp", 432, 84, 3, 1, true, RGB(255, 0, 255));
 	
 	//==========¸ÊUI=============
 	IMAGEMANAGER->addFrameImage("leftDoor", "image/etc/stele_left(384x2304,4x6).bmp", 0, 0, 384, 2304, 4, 6, true, RGB(255, 0, 255));
@@ -43,7 +45,6 @@ HRESULT playGround::Image_init(void)
 	IMAGEMANAGER->addFrameImage("dungeonDoor", "image/etc/door(1750x800,5x2).bmp", 0, 0, 1750, 800, 5, 2, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("portal", "image/UI/portal(1296x384,9x2).bmp", 0, 0, 1296, 384, 9, 2, true, RGB(255, 0, 255));
 	
-
 	IMAGEMANAGER->addImage("BackSky", "image/UI/BackSky(1920x1080).bmp", 0, 0, 1920, 1080, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("BackMountain", "image/UI/BackMountain(2451x1080).bmp", 0, 0, 2451, 1080, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("BackForest", "image/UI/BackForest(3638x1080).bmp", 0, 0, 3638, 1080, true, RGB(255, 0, 255));
@@ -62,7 +63,7 @@ HRESULT playGround::Image_init(void)
 	IMAGEMANAGER->addFrameImage("trainB", "image/UI/UItrainB(535x214,5x2).bmp", 0, 0, 535, 214 ,5 ,2, true, RGB(255, 0, 255));
 
 	//==========»óÁ¡==========
-	IMAGEMANAGER->addImage("shop", "image/UI/UIshop(720x1080).bmp", 0, 0, 720, 1080, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("shopUI", "image/UI/UIshop(720x1080).bmp", 0, 0, 720, 1080, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("slot", "image/UI/UISslot(493x126).bmp", 0, 0, 493, 126, true, RGB(255, 0, 255));
 
 	//==========·¹½ºÅä¶û==========

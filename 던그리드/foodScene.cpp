@@ -85,4 +85,5 @@ void foodScene::render()
 	dungeonScene::render();
 	IMAGEMANAGER->render("d_restaurant", DC, (184 % 29)*TILESIZE, (184 / 29)*TILESIZE + 25);
 	_foodNpc->render();
+	_player->render();
 }
