@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "MusicAngel.h"
-
+#include "Player.h"
 
 MusicAngel::MusicAngel()
 {
@@ -59,6 +59,7 @@ void MusicAngel::update()
 	_progressBar->update();
 
 	attackMove();
+	//playerCollision();
 
 	//////////////////////DIE Å×½ºÆ®///////////////////////
 	if (KEYMANAGER->isOnceKeyDown(VK_F7))
@@ -169,9 +170,18 @@ void MusicAngel::changeAnimation(MUSICANGELDIRECTION musicAngelDirection)
 	}
 }
 
-void MusicAngel::playerCollision()
-{
-}
+//void MusicAngel::playerCollision()
+//{
+//	for (int i = 0; i < _bullet->getVBullet().size(); i++)
+//	{
+//		RECT temp;
+//		if (IntersectRect(&temp, &_bullet->getVBullet()[i].rc, &_player->getPlayerRect()))
+//		{
+//			_player->hitDamage(1.7f);
+//			break;
+//		}
+//	}
+//}
 
 void MusicAngel::hitDamage(float damage)
 {

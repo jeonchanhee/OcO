@@ -47,7 +47,7 @@ HRESULT playGround::init(void)
 	SCENEMANAGER->addScene("마을",_town);
 	SCENEMANAGER->addScene("무기", new weaponScene);
 	SCENEMANAGER->addScene("푸드", new foodScene);
-	//SCENEMANAGER->addScene("보스", new bossScene);
+	SCENEMANAGER->addScene("보스", new bossScene);
 
 //	
 	//_randomScene1 = new RandomDungeon1;
@@ -144,6 +144,9 @@ void playGround::update(void)
 	if(mode == 맵툴) _mapTool->update();
 	//_player->update();
 	SCENEMANAGER->update();
+	EFFECTMANAGER->update();
+	KEYANIMANAGER->update();
+
 	
 	/*if (KEYMANAGER->isStayKeyDown('D') && CAMERAMANAGER->getCameraRc2().right<BACKGROUNDSIZEX) CAMERAMANAGER->setCameraX2(CAMERAMANAGER->getCameraX2() + 50);
 	if (KEYMANAGER->isStayKeyDown('S') && CAMERAMANAGER->getCameraRc2().bottom<BACKGROUNDSIZEY) CAMERAMANAGER->setCameraY2(CAMERAMANAGER->getCameraY2() + 50);
@@ -232,6 +235,7 @@ void playGround::render(void)
 	default:
 		break;
 	}
+	EFFECTMANAGER->render();
 	//SCENEMANAGER->render();
 
 	//char str[128];

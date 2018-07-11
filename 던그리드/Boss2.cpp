@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Boss2.h"
-
+#include "Player.h"
 
 Boss2::Boss2()
 {
@@ -13,6 +13,22 @@ Boss2::~Boss2()
 
 HRESULT Boss2::init()
 {	
+	//칼새끼 초기호ㅏ
+	for (int i = 0; i < 5; i++)
+	{
+		_sword[i].img = new image;
+		_sword[i].img ->init("image/enemy/sword(126x390,1x1).bmp", 126, 390, true, RGB(255, 0, 255));
+		_sword[i].x = 400 + i * 300;
+		_sword[i].y = 300;
+		_sword[i].count = 0;
+		_sword[i].isShoot = _sword[i].isAppear = false;
+		_sword[i].rc = RectMakeCenter(_sword[i].x, _sword[i].y, _sword[i].img->getWidth(), _sword[i].img->getHeight());
+	}
+	//_isShoot = false;
+	_hit = false;
+	_swordCount = 0;
+	////////////////////////////////////////////////////////////////////////
+	// 보스 대갈 손들 초기화
 	_boss[0].img = IMAGEMANAGER->findImage("bossHand");
 	_boss[1].img = IMAGEMANAGER->findImage("bossIdleAttackDie");
 	_boss[2].img = IMAGEMANAGER->findImage("bossHand");
@@ -26,7 +42,7 @@ HRESULT Boss2::init()
 
 		_boss[i].rc = RectMakeCenter(_boss[i].x, _boss[i].y, _boss[i].img->getFrameWidth(), _boss[i].img->getFrameHeight());
 	}
-	
+
 	_bossLeftDirection = LEFT_IDLE;
 	_bossHeadDirection = HEAD_IDLE;
 	_bossRightDirection = RIGHT_IDLE;
@@ -67,7 +83,8 @@ HRESULT Boss2::init()
 
 	//보스 체력바 초기화
 	_progressBar = new progressBar;
-	_progressBar->init(500, WINSIZEY - 100, 1000, 100, "보스앞", "보스뒤", BAR_BOSS);
+	//_progressBar->init(500, WINSIZEY - 100, 1000, 100, "보스앞", "보스뒤", BAR_BOSS);
+	_progressBar->init(500, WINSIZEY - 120, 1000, 100, "보스앞", "보스뒤", BAR_BOSS);
 	_currentHP = _maxHP = 100;
 
 	return S_OK;
@@ -81,7 +98,7 @@ void Boss2::update()
 {
 	//보스 체력바 업데이트
 	_progressBar->setX(500);
-	_progressBar->setY(WINSIZEY - 100);
+	_progressBar->setY(WINSIZEY - 120);
 	_progressBar->setGauge(_currentHP, _maxHP);
 	_progressBar->update();
 	
@@ -110,9 +127,17 @@ void Boss2::update()
 	headMove();
 	rightMove();
 
+	fireSword();
+	shootSword();
+
+	playerCollision();
+
 	//KEYANIMANAGER->update();
 	for (int i = 0; i < 3; i++)
 		_boss[i].rc = RectMakeCenter(_boss[i].x, _boss[i].y, _boss[i].img->getFrameWidth(), _boss[i].img->getFrameHeight());
+	//for(int i= 0;i<5;i++)
+	//	_sword[i].rc = RectMakeCenter(_sword[i].x, _sword[i].y, _sword[i].img->getFrameWidth(), _sword[i].img->getFrameHeight());
+	
 }
 
 void Boss2::render()
@@ -123,10 +148,22 @@ void Boss2::render()
 	}
 
 	_progressBar->render();
+
 	for (int i = 0; i < 3; i++)
 	{
 		//_boss[i].img->aniRender(DC, _boss[i].rc.left, _boss[i].rc.top, _bossMotion[i]);
 		_boss[i].img->aniRender(DC, _boss[i].rc.left, _boss[i].rc.top, _bossMotion[i]);
+	}
+
+	for (int i = 0; i < 5; i++)
+	{
+		if (_sword[i].isAppear)
+		{
+			if (_sword[i].isShoot)
+				_sword[i].img->rotateRender(DC, _sword[i].rc.left, _sword[i].rc.top, _sword[i].angle);
+			else
+				_sword[i].img->render(DC, _sword[i].rc.left, _sword[i].rc.top);
+		}
 	}
 
 	//Rectangle(DC, _boss[1].rc.left, _boss[1].rc.top, _boss[1].rc.right, _boss[1].rc.bottom);
@@ -135,6 +172,124 @@ void Boss2::render()
 	char str[128];
 	sprintf_s(str, "%f %f", _boss[1].x, _boss[1].y);
 	TextOut(DC, 100, 100, str, strlen(str));
+
+	for (int i = 0; i < 5; i++)
+	{
+		if (KEYMANAGER->isToggleKey('M'))
+		{
+			//Rectangle(DC, _sword[i].rc.left, _sword[i].rc.top, _sword[i].rc.right, _sword[i].rc.bottom);
+			Rectangle(DC, _sword[i].collisionRC.left, _sword[i].collisionRC.top, _sword[i].collisionRC.right, _sword[i].collisionRC.bottom);
+			SetPixel(DC, _sword[i].x, _sword[i].y, RGB(255, 0, 0));
+		}
+	}
+}
+
+void Boss2::frameMove()
+{
+	//for (int i = 0; i < 5; i++)
+	//{
+	//	if (_isShoot)
+	//	{
+	//		//오른쪽 방향
+	//		if (_sword[i].x < _player->getPlayerX())
+	//		{
+	//			_sword[i].x += cosf(_angle)*_speed;
+	//			_sword[i].y += -sinf(_angle)*_speed;
+	//		}
+	//		//왼쪽 방향
+	//		if (_sword[i].x > _player->getPlayerX())
+	//		{
+	//			_sword[i].x += cosf(_angle)*_speed;
+	//			_sword[i].y += -sinf(_angle)*_speed;
+	//		}
+	//	}
+	//}
+}
+
+void Boss2::shootSword()
+{
+	int cnt = 0;
+	for (int i = 0; i < 5; i++)
+	{
+		if (!_sword[i].isShoot) continue;
+
+		_sword[i].x += cosf(_sword[i].angle)*_sword[i].speed;
+		_sword[i].y += -sinf(_sword[i].angle)*_sword[i].speed;
+
+		_sword[i].rcX = _sword[i].x + cosf(_sword[i].angle);
+		_sword[i].rcY = _sword[i].y - sinf(_sword[i].angle);
+		
+		_sword[i].collisionRC = RectMake(_sword[i].rcX, _sword[i].rcY, 50, 50);
+
+		if (getDistance(_sword[i].x, _sword[i].y, _sword[i].fireX, _sword[i].fireY) > WINSIZEY)
+		{
+			//_sword[i].isShoot = false;
+			_sword[i].isAppear = false;
+			cnt++;
+		}
+	}
+	if (cnt == 5)
+	{
+		_swordCount = 0;
+		for (int i = 0; i < 5; i++)
+		{
+			_sword[i].isShoot = false;
+			_sword[i].img->init("image/enemy/sword(126x390,1x1).bmp", 126, 390, true, RGB(255, 0, 255));
+			_sword[i].x = 400 + i * 300;
+			_sword[i].y = 300;
+		}
+	}
+}
+
+void Boss2::fireSword()
+{
+	_swordCount++;
+	if (_swordCount == 300)
+	{
+		for (int i = 0; i < 5; i++)
+		{
+			_sword[i].isAppear = true;
+		}
+	}
+
+	if (_swordCount > 300 && !(_swordCount % 50))
+	{
+		for (int i = 0; i < 5; i++)
+		{
+			if (_sword[i].isShoot) continue;
+
+			_sword[i].isShoot = true;
+			_sword[i].img->rotateInit("image/enemy/sword(390x126,1x1).bmp", 390, 126, true, RGB(255, 0, 255));
+			_sword[i].speed = 10;
+			_sword[i].fireX = _sword[i].x;
+			_sword[i].fireY = _sword[i].y;
+			_sword[i].angle = getAngle(_sword[i].x, _sword[i].y, _player->getPlayerX(), _player->getPlayerY());
+			break;
+		}
+	}
+
+	for (int i = 0; i < 5; i++)
+	{
+		_sword[i].rc = RectMakeCenter(_sword[i].x, _sword[i].y, _sword[i].img->getWidth(), _sword[i].img->getHeight());
+	}
+}
+
+void Boss2::playerCollision()
+{
+	RECT temp;
+
+	for (int i = 0; i < 5; i++)
+	{
+		if (IntersectRect(&temp, &_player->getPlayerRect(), &_sword[i].rc))
+		{
+			if(!_hit)
+			{	
+				_player->hitDamage(3.0f);
+				EFFECTMANAGER->play("bossCollisionBullet", (_player->getPlayerRect().right + _player->getPlayerRect().left) / 2, (_player->getPlayerRect().bottom + _player->getPlayerRect().top) / 2);
+				_hit = true;
+			}
+		}
+	}
 }
 
 //===============================================================================
@@ -415,9 +570,6 @@ void Boss2::CBrightAttack(void * obj)
 	bb->getRightMotion2()->start();
 }
 
-void Boss2::playerCollision()
-{
-}
 
 void Boss2::hitDamage(float damage)
 {

@@ -55,6 +55,11 @@ HRESULT dungeonScene::init(void)
 	_player = SCENEMANAGER->getPlayerAddressLink();
 	j = 0;
 	_start = _start2 = 0;
+	for (int i = 0; i < 2; i++)
+	{
+		_bossLaserHitCount[i] = 0;
+		_bossLaserHit[i] = false;
+	}
 	return S_OK;
 }
 
@@ -64,7 +69,6 @@ void dungeonScene::release(void)
 
 void dungeonScene::update(void)
 {
-	KEYANIMANAGER->update();
 	collision();
 
 	if(_minimap != NULL)
@@ -370,6 +374,7 @@ void dungeonScene::setDogBone(int idX, int idY)
 	float y = TILESIZE * idY;
 	y += TILESIZE / 2 + 15;
 	dogBone->init(x, y);
+	dogBone->setPlayerAddressLink(_player);
 	_vEnemy.push_back(dogBone);
 }
 //Å«Ä®»À
@@ -381,6 +386,7 @@ void dungeonScene::setBigBone(int idX, int idY, int index)
 	float y = TILESIZE * idY;
 	y -= 20;
 	bigBone->init(x, y, index);
+	bigBone->setPlayerAddressLink(_player);
 	_vEnemy.push_back(bigBone);
 }
 //È°ÀïÀÌ
@@ -392,6 +398,7 @@ void dungeonScene::setArrow(int idX, int idY)
 	float y = TILESIZE * idY;
 	y += 15;
 	arrow->init(x, y);
+	arrow->setPlayerAddressLink(_player);
 	_vEnemy.push_back(arrow);
 }
 //ÀÛº¸¹Ú
@@ -402,6 +409,7 @@ void dungeonScene::setBat(int idX, int idY)
 	float x = TILESIZE * idX;
 	float y = TILESIZE * idY;
 	bat->init(x, y);
+	bat->setPlayerAddressLink(_player);
 	_vEnemy.push_back(bat);
 }
 //ÀÛ»¡¹Ú
@@ -412,6 +420,7 @@ void dungeonScene::setRedBat(int idX, int idY)
 	float x = TILESIZE * idX;
 	float y = TILESIZE * idY;
 	redBat->init(x, y);
+	redBat->setPlayerAddressLink(_player);
 	_vEnemy.push_back(redBat);
 }
 
@@ -421,26 +430,27 @@ void dungeonScene::setBigBat(int idX, int idY)
 	float x = TILESIZE * idX;
 	float y = TILESIZE * idY;
 	_bigbat->init(x, y);
+	_bigbat->setPlayerAddressLink(_player);
 	_vEnemy.push_back(_bigbat);
 }
 
 void dungeonScene::setBigRedBat(int idX, int idY)
 {
-
 	_bigRedBat = new BigRedBat;
 	float x = TILESIZE * idX;
 	float y = TILESIZE * idY;
 	_bigRedBat->init(x, y);
+	_bigRedBat->setPlayerAddressLink(_player);
 	_vEnemy.push_back(_bigRedBat);
 }
 
 void dungeonScene::setMusicAngel(int idX, int idY)
 {
-
 	_musicAngel = new MusicAngel;
 	float x = TILESIZE * idX;
 	float y = TILESIZE * idY;
 	_musicAngel->init(x, y);
+	_musicAngel->setPlayerAddressLink(_player);
 	_vEnemy.push_back(_musicAngel);
 }
 
@@ -453,6 +463,7 @@ void dungeonScene::setCow(int idX, int idY)
 	x += 50;
 	y -= 15;
 	cow->init(x, y);
+	cow->setPlayerAddressLink(_player);
 	_vEnemy.push_back(cow);
 }
 
@@ -460,6 +471,7 @@ void dungeonScene::setBoss()
 {
 	_boss = new Boss2;
 	_boss->init();
+	_boss->setPlayerAddressLink(_player);
 	_vEnemy.push_back(_boss);
 }
 
@@ -473,7 +485,7 @@ void dungeonScene::nextTest()
 			if (PtInRect(&_vDoor[i].rc, getMemDCPoint()))
 			{
 				string str = "´øÀü¸Ê";
-				char temp[128];
+				char temp[128] = "";
 				str += itoa(_route[i], temp, 10);
 				save();
 				SCENEMANAGER->changeScene(str);
@@ -671,11 +683,92 @@ void dungeonScene::portalRender()
 	}
 }
 
+void dungeonScene::musicAngelBulletCollision()
+{
+	for (int i = 0; i < _enemyBullet->getVBullet().size(); i++)
+	{
+		RECT temp;
+		if (IntersectRect(&temp, &_enemyBullet->getVBullet()[i].rc, &_player->getPlayerRect()))
+		{
+			_player->hitDamage(1.7f);
+			EFFECTMANAGER->play("bansheeBigBullet", (_player->getPlayerRect().right + _player->getPlayerRect().left) / 2, (_player->getPlayerRect().bottom + _player->getPlayerRect().top) / 2);
+			_enemyBullet->removeBullet(i);
+			break;
+		}
+	}
+}
+
+void dungeonScene::bossBulletCollision()
+{
+	for (int i = 0; i < _enemyBullet->getVBullet().size(); i++)
+	{
+		RECT temp;
+		//ÃÑ¾Ë Ãæµ¹
+		//if (_enemyBullet->getFrameXY(_enemyBullet->getVBullet()[i].frameXY) == WIDTH)
+		if (_enemyBullet->getFrameXY(i) == WIDTH)
+		{
+			if (IntersectRect(&temp, &_enemyBullet->getVBullet()[i].rc, &_player->getPlayerRect()))
+			{
+				//_player->hitDamage(3.1f);
+				EFFECTMANAGER->play("bossCollisionBullet", (_player->getPlayerRect().right + _player->getPlayerRect().left) / 2, (_player->getPlayerRect().bottom + _player->getPlayerRect().top) / 2);
+				_enemyBullet->removeBullet(i);
+				break;
+			}
+		}
+	}
+
+	for (int i = 0; i < _enemyBullet->getVBullet().size(); i++)
+	{
+		//·¹ÀÌÁ® Ãæµ¹
+		//if (_enemyBullet->getFrameXY(_enemyBullet->getVBullet()[i].frameXY) == HEIGHT)
+		if (_enemyBullet->getFrameXY(i) == HEIGHT)
+		{
+			RECT temp;
+			if (_boss->getLeftDirection() == LEFT_LASER_OFF)
+			{
+				if (IntersectRect(&temp, &_enemyBullet->getVBullet()[i].rc, &_player->getPlayerRect()))
+				{
+					if (!_bossLaserHit[0])
+					{
+						//_player->hitDamage(2.6f);
+						EFFECTMANAGER->play("bossCollisionBullet", (_player->getPlayerRect().right + _player->getPlayerRect().left) / 2, (_player->getPlayerRect().bottom + _player->getPlayerRect().top) / 2);
+						_bossLaserHit[0] = true;
+						_bossLaserHitCount[0] = 0;
+					}
+					_bossLaserHitCount[0]++;
+					if (!(_bossLaserHitCount[0] % 120) && _bossLaserHit[0])
+					{
+						_bossLaserHit[0] = false;
+					}
+				}
+			}
+			if (_boss->getRightDirection() == RIGHT_LASER_OFF)
+			{
+				if (IntersectRect(&temp, &_enemyBullet->getVBullet()[i].rc, &_player->getPlayerRect()))
+				{
+					if (!_bossLaserHit[1])
+					{
+						//_player->hitDamage(2.6f);
+						EFFECTMANAGER->play("bossCollisionBullet", (_player->getPlayerRect().right + _player->getPlayerRect().left) / 2, (_player->getPlayerRect().bottom + _player->getPlayerRect().top) / 2);
+						_bossLaserHit[1] = true;
+						_bossLaserHitCount[1] = 0;
+					}
+					_bossLaserHitCount[1]++;
+					if (!(_bossLaserHitCount[1] % 120) && _bossLaserHit[1])
+					{
+						_bossLaserHit[1] = false;
+					}
+				}
+			}
+		}
+	}
+}
 
 //ÃÑ¾Ë »ý¼º ÇÔ¼ö
 //À½Ç¥¿äÁ¤ ÃÑ¾Ë
 void dungeonScene::MusicAngelBulletFire()
 {
+	musicAngelBulletCollision();
 	if (!(_count % 200))
 	{
 		for (int i = 0; i < 12; i++)
@@ -685,11 +778,13 @@ void dungeonScene::MusicAngelBulletFire()
 		}
 		_count = 0;
 	}
+
 }
 
 //º¸½ºÃÑ¾Ë
 void dungeonScene::BossBulletFire()
 {
+	bossBulletCollision();
 	//==========================================================
 	//						º¸½º ÃÑ¾Ë
 	//==========================================================
@@ -733,7 +828,7 @@ void dungeonScene::BossBulletFire()
 		{
 			angle += (i * PI / 2);
 			//float angle = i * PI / 2;
-			_enemyBullet->bulletFire("bossBullet", _boss->getHeadX() + 50, _boss->getHeadY() + 120, angle, 9.0f, 800, true); //9.0f¶û À§¿¡ angle, count ·Î Á¶ÀýÇØ¼­ ÃÑ¾Ë Á¶Àý °¡´É
+			_enemyBullet->bulletFire("bossBullet", _boss->getHeadX() + 50, _boss->getHeadY() + 120, angle, 9.0f, 1000, true); //9.0f¶û À§¿¡ angle, count ·Î Á¶ÀýÇØ¼­ ÃÑ¾Ë Á¶Àý °¡´É
 		}
 		_count = 0;
 	}

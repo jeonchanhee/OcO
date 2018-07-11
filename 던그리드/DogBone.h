@@ -25,6 +25,8 @@ private:
 
 	RECT _rcCollision;
 	string _str;
+	bool _hit;
+	int _hitCount;
 public:
 	DogBone();
 	~DogBone();

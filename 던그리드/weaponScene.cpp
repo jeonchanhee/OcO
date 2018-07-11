@@ -45,7 +45,7 @@ HRESULT weaponScene::init()
 	_weaponNpc->init(NPC_LEFT_STOP, WEAPON_NPC, "¿£ÇÇ½Ã", 2, PointMake((290 % 25)*TILESIZE, (290 / 25) * TILESIZE));
 
 	setMinimap();
-	_minimap->setNPCXY(0, (((300 * ((290 % 25)*TILESIZE)) / (_tileX*TILESIZE))), ((((290 / 25) * TILESIZE) - 50) * 150 / (_tileY * TILESIZE)));
+	_minimap->setNPCXY(0, (((300 * ((290 % 25)*TILESIZE)) / (_tileX*TILESIZE))), ((((290 / 25) * TILESIZE)) * 150 / (_tileY * TILESIZE)));
 	setDoorMinimap();
 	return S_OK;
 }

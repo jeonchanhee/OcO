@@ -104,6 +104,7 @@ public:
 	void pixelCollision();
 
 	void hitDamage(float damage);//hp깎이게 하는 함수
+	void enemyCollision();
 
 	//접근자 (get)      
 	bool getIsLeftAttack() { return _isLeftAttack; }
@@ -175,8 +176,11 @@ public:
 	void setMaxFullNess(int fullNess)		{ _maxFullNess = fullNess; }
 	void setCurrentExp(int exp)				{ _currentExp = exp; }
 	void setMaxExp(int exp)				    { _maxExp = exp; }
-	void hitDamamge(int damage)				{ _currentHp -= damage; }
+		
 	void healing(int heal)				    { _currentHp += heal; if (_currentHp > _maxHp) _currentHp = _maxHp; }
+	void hitDamage(int damage)				{ _currentHp -= damage; }
+
+	void setEnemyVector(vector<Enemy*> vEnemy) { _vEnemy = vEnemy; }
 
 	Player();
 	~Player();
