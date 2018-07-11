@@ -41,6 +41,7 @@ HRESULT dungeon2Scene::init()
 
 	_dungeonNum = 1;
 
+	setRandMapNum();
 	doorInit();
 	setDoor();
 	

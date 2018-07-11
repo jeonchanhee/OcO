@@ -183,8 +183,8 @@ void townScene::mapRender()
 
 void townScene::dungeonGo()
 {
-	RECT rc = RectangleMake();
-	Rectangle(DC, rc.left, rc.top, rc.right, rc.bottom);
+//	RECT rc = RectangleMake();
+//	Rectangle(DC, rc.left, rc.top, rc.right, rc.bottom);
 }
 
 townScene::townScene()

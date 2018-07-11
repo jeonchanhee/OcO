@@ -467,7 +467,7 @@ void dungeonScene::nextTest()
 			if (PtInRect(&_vDoor[i].rc, getMemDCPoint()))
 			{
 				string str = "´øÀü¸Ê";
-				char temp[128];
+				char temp[128] = "";
 				str += itoa(_route[i], temp, 10);
 				save();
 				SCENEMANAGER->changeScene(str);
