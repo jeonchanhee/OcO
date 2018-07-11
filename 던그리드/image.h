@@ -74,7 +74,7 @@ private:
 	BLENDFUNCTION	_blendFunc;		//알파블렌드 관련 함수를 사용할수있음.
 	LPIMAGE_INFO	_blendImage;	//알파블렌드 먹일 이미지
 
-
+	POINT _rotateCenter;
 public:
 	image();
 	~image();
@@ -231,5 +231,7 @@ public:
 	inline int getFrameX(void) { return _imageInfo->currentFrameX; }
 	inline int getFrameY(void) { return _imageInfo->currentFrameY; }
 
+
+	POINT getRotateCenter() { return _rotateCenter; }
 };
 

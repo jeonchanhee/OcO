@@ -17,7 +17,7 @@ HRESULT Boss2::init()
 	for (int i = 0; i < 5; i++)
 	{
 		_sword[i].img = new image;
-		_sword[i].img ->init("image/enemy/sword(126x390,1x1).bmp", 126, 390, true, RGB(255, 0, 255));
+		_sword[i].img->init("image/enemy/sword(126x390,1x1).bmp", 126, 390, true, RGB(255, 0, 255));
 		_sword[i].x = 400 + i * 300;
 		_sword[i].y = 300;
 		_sword[i].count = 0;
@@ -130,7 +130,7 @@ void Boss2::update()
 	fireSword();
 	shootSword();
 
-	playerCollision();
+	//playerCollision();
 
 	//KEYANIMANAGER->update();
 	for (int i = 0; i < 3; i++)
@@ -144,7 +144,7 @@ void Boss2::render()
 {
 	if (KEYMANAGER->isToggleKey('X'))
 	{
-		Rectangle(DC, _boss[1].rc.left, _boss[1].rc.top, _boss[1].rc.right, _boss[1].rc.bottom);
+		//Rectangle(DC, _boss[1].rc.left, _boss[1].rc.top, _boss[1].rc.right, _boss[1].rc.bottom);
 	}
 
 	_progressBar->render();
@@ -154,13 +154,17 @@ void Boss2::render()
 		//_boss[i].img->aniRender(DC, _boss[i].rc.left, _boss[i].rc.top, _bossMotion[i]);
 		_boss[i].img->aniRender(DC, _boss[i].rc.left, _boss[i].rc.top, _bossMotion[i]);
 	}
-
+	POINT temp = PointMake(-1, -1);
 	for (int i = 0; i < 5; i++)
 	{
 		if (_sword[i].isAppear)
 		{
 			if (_sword[i].isShoot)
+			{
 				_sword[i].img->rotateRender(DC, _sword[i].rc.left, _sword[i].rc.top, _sword[i].angle);
+			//	temp = _sword[i].img->getRotateCenter();
+			//	_sword[i].collisionRC = RectMakeCenter(temp.x, temp.y, 70, 70);
+			}
 			else
 				_sword[i].img->render(DC, _sword[i].rc.left, _sword[i].rc.top);
 		}
@@ -170,16 +174,23 @@ void Boss2::render()
 		//RectangleMake(DC, _boss[1].x, _boss[1].y, _boss[1].img->getFrameWidth(), _boss[1].img->getFrameHeight());
 	//RectangleMakeCenter(DC, (_boss[1].rc.right + _boss[1].rc.left) / 2, (_boss[1].rc.bottom + _boss[1].rc.top) / 2, 10, 10);
 	char str[128];
-	sprintf_s(str, "%f %f", _boss[1].x, _boss[1].y);
-	TextOut(DC, 100, 100, str, strlen(str));
-
+	//sprintf_s(str, "%f %f", _boss[1].x, _boss[1].y);
+	//TextOut(DC, 100, 100, str, strlen(str));
+	for (int i = 0; i < 5; i++)
+	{
+		sprintf_s(str, "%f %f", _sword[i].x, _sword[i].y);
+		TextOut(DC, 100, 400 + i*100, str, strlen(str));
+	}
 	for (int i = 0; i < 5; i++)
 	{
 		if (KEYMANAGER->isToggleKey('M'))
 		{
+			if (_sword[i].isShoot)
+				Rectangle(DC, _sword[i].collisionRC.left, _sword[i].collisionRC.top, _sword[i].collisionRC.right, _sword[i].collisionRC.bottom);
+				//RectangleMake(DC, temp.x, temp.y, 90, 70);
 			//Rectangle(DC, _sword[i].rc.left, _sword[i].rc.top, _sword[i].rc.right, _sword[i].rc.bottom);
-			Rectangle(DC, _sword[i].collisionRC.left, _sword[i].collisionRC.top, _sword[i].collisionRC.right, _sword[i].collisionRC.bottom);
-			SetPixel(DC, _sword[i].x, _sword[i].y, RGB(255, 0, 0));
+			
+			//RectangleMake(DC, _sword[i].x, _sword[i].y, 10, 10);
 		}
 	}
 }
@@ -213,14 +224,25 @@ void Boss2::shootSword()
 	{
 		if (!_sword[i].isShoot) continue;
 
-		_sword[i].x += cosf(_sword[i].angle)*_sword[i].speed;
-		_sword[i].y += -sinf(_sword[i].angle)*_sword[i].speed;
+		if (_sword[i].x <= _player->getPlayerX())
+		{
+			_sword[i].x += cosf(_sword[i].angle)*_sword[i].speed;
+			_sword[i].y += -sinf(_sword[i].angle)*_sword[i].speed;
+			//_sword[i].rcX = _sword[i].x - cosf(_sword[i].angle)*(_sword[i].img->getWidth() / 2);
+			//_sword[i].rcY = _sword[i].y + sinf(_sword[i].angle)*(_sword[i].img->getHeight() / 2);
+			_sword[i].rcX = _sword[i].x - cosf(_sword[i].angle)*(_sword[i].img->getWidth());
+			_sword[i].rcY = _sword[i].y + sinf(_sword[i].angle)*(_sword[i].img->getHeight());
+		}
+		else if (_sword[i].x > _player->getPlayerX())
+		{
+			_sword[i].x += cosf(_sword[i].angle)*_sword[i].speed;
+			_sword[i].y += -sinf(_sword[i].angle)*_sword[i].speed;
+			_sword[i].rcX = _sword[i].x + cosf(_sword[i].angle)*(_sword[i].img->getWidth()) - 80;
+			_sword[i].rcY = _sword[i].y - sinf(_sword[i].angle)*(_sword[i].img->getHeight()) - 40;
 
-		_sword[i].rcX = _sword[i].x + cosf(_sword[i].angle);
-		_sword[i].rcY = _sword[i].y - sinf(_sword[i].angle);
+		}
+		//_sword[i].collisionRC = RectMake(_sword[i].rcX, _sword[i].rcY, 30, 30);
 		
-		_sword[i].collisionRC = RectMake(_sword[i].rcX, _sword[i].rcY, 50, 50);
-
 		if (getDistance(_sword[i].x, _sword[i].y, _sword[i].fireX, _sword[i].fireY) > WINSIZEY)
 		{
 			//_sword[i].isShoot = false;
@@ -232,6 +254,7 @@ void Boss2::shootSword()
 	{
 		_swordCount = 0;
 		for (int i = 0; i < 5; i++)
+		//for(int i=0;i<5;i++)
 		{
 			_sword[i].isShoot = false;
 			_sword[i].img->init("image/enemy/sword(126x390,1x1).bmp", 126, 390, true, RGB(255, 0, 255));
@@ -280,7 +303,7 @@ void Boss2::playerCollision()
 
 	for (int i = 0; i < 5; i++)
 	{
-		if (IntersectRect(&temp, &_player->getPlayerRect(), &_sword[i].rc))
+		if (IntersectRect(&temp, &_player->getPlayerRect(), &_sword[i].collisionRC))
 		{
 			if(!_hit)
 			{	

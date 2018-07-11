@@ -46,6 +46,12 @@ struct Portal
 	int frameX, frameY, count;
 };
 
+struct minimapIcon
+{
+	image* img;
+	float x, y;
+};
+
 class dungeonScene : public gameNode
 {
 protected:
@@ -89,6 +95,8 @@ protected:
 	int _swordCount;
 
 	minimap* _minimap;
+	image*	_tabMap;
+	minimapIcon _minimapIcon[11];
 	//infoPlayer _infoPlayer;
 
 public:
@@ -112,6 +120,8 @@ public:
 	void selectSize(int idx);
 
 	void chooseMap(int idx);
+
+	void minimapIconRender();
 
 	void nextTest();
 

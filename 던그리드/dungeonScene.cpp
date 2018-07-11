@@ -288,6 +288,16 @@ void dungeonScene::setMinimap()
 	{
 		_minimap->setPortalXY(((300 * _vPortal[0].x) / (_tileX*TILESIZE)), ((150 * (_vPortal[0].y - 50)) / (_tileY*TILESIZE)));
 	}
+	string randName = "tabMap1";
+	//randName += to_string(_randNum);
+	_tabMap = IMAGEMANAGER->findImage(randName);
+
+	for (int i = 0; i < 11; i++)
+	{
+		randName = "minimap";
+		randName += to_string(i);
+		_minimapIcon[i].img = IMAGEMANAGER->findImage(randName);
+	}
 }
 
 void dungeonScene::setDoorMinimap()
@@ -362,6 +372,17 @@ void dungeonScene::chooseMap(int idx)
 		_mapName = "map/weaponsStore(25x15).map";
 
 	_tileX = TILEVALUE[idx][0], _tileY = TILEVALUE[idx][1];
+}
+
+void dungeonScene::minimapIconRender()
+{
+	for (int i = 0; i < 11; i++)
+	{
+		if (_mapValue[i] == "T")
+		{
+			_minimapIcon[i].img->render(UIDC, _minimapIcon[i].x, _minimapIcon[i].y);
+		}
+	}
 }
 
 //몬스터 생성 함수
