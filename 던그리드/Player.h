@@ -34,7 +34,6 @@ private:
 	DIRECTION _direction;
 	animation* _playerAnimation;
 
-	infoPlayer	_infoPlayer;
 
 	//에너미의 정보를 받아오는 벡터 
 	vector<Enemy*> _vEnemy;
