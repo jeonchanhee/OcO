@@ -35,7 +35,7 @@
 #define SAMPLETILEY 26
 
 // 맵이름
-#define MAPNAME "map/townmap(80x25).map"
+#define MAPNAME "map/Dungeon9(20x11).map"
 
 // 지형	
 enum TERRAIN
@@ -94,7 +94,7 @@ extern int _tileX, _tileY;
 
 extern int VARIABLE_SIZEX[12];
 
-extern bool _isMapSet;
+extern bool _canMove;
 
 extern int _dungeonNum;
 

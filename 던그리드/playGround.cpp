@@ -8,19 +8,18 @@ playGround::~playGround(){}
 
 HRESULT playGround::init(void)	
 {
-	mode = 랜덤맵1;//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
+	mode = 랜덤맵1;		//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
 //	rectRotate(IMAGEMANAGER->findImage("검01"), 100, 100);
-
-
-
-
 
 	gameNode::init(true);
 	Image_init();
 	Sound_init();
 	
-	//_mapTool = new MapTool;
-	//_mapTool->init();
+	if (mode == 맵툴)
+	{
+		_mapTool = new MapTool;
+		_mapTool->init();
+	}
 	_player = new Player;
 	_player->init();
 	_im = new itemManager;
@@ -46,12 +45,17 @@ HRESULT playGround::init(void)
 	SCENEMANAGER->addScene("마을", new townScene);
 	SCENEMANAGER->addScene("무기", new weaponScene);
 	SCENEMANAGER->addScene("푸드", new foodScene);
-	//SCENEMANAGER->addScene("보스", new bossScene);
+	SCENEMANAGER->addScene("보스", new bossScene);
 
-	//SCENEMANAGER->addScene("랜덤맵1", new RandomDungeon1);
-	
+//	
 	_randomScene1 = new RandomDungeon1;
-
+	//SCENEMANAGER->addScene("랜덤맵1", _randomScene1);
+	_randomScene1->init();
+////	_randomScene1->init();
+//
+//	
+//	_randomScene1->init();
+//
 	switch (mode)
 	{
 	case 맵툴:
@@ -103,7 +107,7 @@ HRESULT playGround::init(void)
 		break;
 	case 랜덤맵1:
 		//SCENEMANAGER->changeScene("랜덤맵1");
-		_randomScene1->init();
+		//_randomScene1->init();
 		break;
 
 		break;	
@@ -138,6 +142,9 @@ void playGround::update(void)
 	if(mode == 맵툴) _mapTool->update();
 	if(KEYMANAGER->isToggleKey(VK_F2))_player->update();
 	SCENEMANAGER->update();
+	EFFECTMANAGER->update();
+	KEYANIMANAGER->update();
+
 	
 	/*if (KEYMANAGER->isStayKeyDown('D') && CAMERAMANAGER->getCameraRc2().right<BACKGROUNDSIZEX) CAMERAMANAGER->setCameraX2(CAMERAMANAGER->getCameraX2() + 50);
 	if (KEYMANAGER->isStayKeyDown('S') && CAMERAMANAGER->getCameraRc2().bottom<BACKGROUNDSIZEY) CAMERAMANAGER->setCameraY2(CAMERAMANAGER->getCameraY2() + 50);
@@ -155,7 +162,7 @@ void playGround::update(void)
 	if (KEYMANAGER->isStayKeyDown('W') && CAMERAMANAGER->getCameraRc().top>0) CAMERAMANAGER->setCameraY(CAMERAMANAGER->getCameraY() - 50);
 */
 
-	if (mode != 타이틀)
+	if (mode == 맵툴)
 	{
 		if (KEYMANAGER->isStayKeyDown('D'))//&& CAMERAMANAGER->getCameraCenter().x+WINSIZEX/2<BACKGROUNDSIZEX)
 			CAMERAMANAGER->setCameraCenter(PointMake(CAMERAMANAGER->getCameraCenter().x + 50, CAMERAMANAGER->getCameraCenter().y));
@@ -226,6 +233,7 @@ void playGround::render(void)
 	default:
 		break;
 	}
+	EFFECTMANAGER->render();
 	//SCENEMANAGER->render();
 
 	//char str[128];

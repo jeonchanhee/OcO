@@ -20,6 +20,7 @@ class Cow : public Enemy
 	animation* _cowMotion;
 
 	RECT _rcCollision;
+	bool _hit;
 
 public:
 	Cow();

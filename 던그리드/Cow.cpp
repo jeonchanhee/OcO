@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Cow.h"
-
+#include "Player.h"
 
 Cow::Cow()
 {
@@ -13,6 +13,7 @@ Cow::~Cow()
 
 HRESULT Cow::init(float x, float y)
 {
+	_hit = false;
 	_x = x;
 	_y = y;
 
@@ -79,6 +80,8 @@ void Cow::update()
 
 	move();
 	changeDirection();
+	//playerCollision();
+
 
 	///////////////////////DIE ┼╫╜║╞о///////////////////////////
 	if (KEYMANAGER->isOnceKeyDown(VK_F8))
@@ -93,8 +96,6 @@ void Cow::update()
 	}*/
 	///////////////////////бубубубубубубубубу///////////////////////////
 
-
-	//KEYANIMANAGER->update();
 	_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 }
 
@@ -268,6 +269,7 @@ void Cow::changeAnimation(COWDIRECTION cowDirection)
 		_img = IMAGEMANAGER->findImage("cowIdleChargeAttack");
 		_cowDirection = COW_RIGHT_MOVE;
 		_cowMotion->stop();
+		_hit = false;
 		_cowMotion = KEYANIMANAGER->findAnimation("cowRightMove");
 		_cowMotion->start();
 		_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
@@ -276,6 +278,7 @@ void Cow::changeAnimation(COWDIRECTION cowDirection)
 		_img = IMAGEMANAGER->findImage("cowIdleChargeAttack");
 		_cowDirection = COW_LEFT_MOVE;
 		_cowMotion->stop();
+		_hit = false;
 		_cowMotion = KEYANIMANAGER->findAnimation("cowLeftMove");
 		_cowMotion->start();
 		_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
@@ -284,6 +287,7 @@ void Cow::changeAnimation(COWDIRECTION cowDirection)
 		_img = IMAGEMANAGER->findImage("cowIdleChargeAttack");
 		_cowDirection = COW_RIGHT_CHARGE;
 		_cowMotion->stop();
+		_hit = false;
 		_cowMotion = KEYANIMANAGER->findAnimation("cowRightCharge");
 		_cowMotion->start();
 		_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
@@ -292,6 +296,7 @@ void Cow::changeAnimation(COWDIRECTION cowDirection)
 		_img = IMAGEMANAGER->findImage("cowIdleChargeAttack");
 		_cowDirection = COW_LEFT_CHARGE;
 		_cowMotion->stop();
+		_hit = false;
 		_cowMotion = KEYANIMANAGER->findAnimation("cowLeftCharge");
 		_cowMotion->start();
 		_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
@@ -300,6 +305,7 @@ void Cow::changeAnimation(COWDIRECTION cowDirection)
 		_img = IMAGEMANAGER->findImage("cowIdleChargeAttack");
 		_cowDirection = COW_RIGHT_ATTACK;
 		_cowMotion->stop();
+		_hit = false;
 		_cowMotion = KEYANIMANAGER->findAnimation("cowRightAttack");
 		_cowMotion->start();
 		_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
@@ -308,6 +314,7 @@ void Cow::changeAnimation(COWDIRECTION cowDirection)
 		_img = IMAGEMANAGER->findImage("cowIdleChargeAttack");
 		_cowDirection = COW_LEFT_ATTACK;
 		_cowMotion->stop();
+		_hit = false;
 		_cowMotion = KEYANIMANAGER->findAnimation("cowLeftAttack");
 		_cowMotion->start();
 		_rc = RectMakeCenter(_x,_y,_img->getFrameWidth(),_img->getFrameHeight());
@@ -327,6 +334,16 @@ void Cow::changeAnimation(COWDIRECTION cowDirection)
 
 void Cow::playerCollision()
 {
+	RECT temp;
+
+	if (IntersectRect(&temp, &_rc, &_player->getPlayerRect()))
+	{
+		if (!_hit)
+		{
+			_player->hitDamage(1.0f);
+			_hit = true;
+		}
+	}
 }
 
 void Cow::hitDamage(float damage)

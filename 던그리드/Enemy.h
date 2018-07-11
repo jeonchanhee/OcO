@@ -2,9 +2,12 @@
 #include "gameNode.h"
 #include "progressBar.h"
 
+class Player; //플레이어 클래스 전방선언
+
 class Enemy :	public gameNode
 {
 protected:
+	Player* _player;
 	image* _img;				//적 이미지
 	RECT _rc;				//적 렉트
 	int _frameX, _frameY;	//프레임 번호
@@ -52,6 +55,8 @@ public:
 	void setCurrentHp(int currentHP) { _currentHP = currentHP; }
 	void setMaxHp(int maxHP) { _maxHP = maxHP; }
 	RECT  getEnemyRect() { return _rc; } //arrow,boss는 클래스 안에 따로 있음
+
+	void setPlayerAddressLink(Player* player) { _player = player; }
 	
 };
 

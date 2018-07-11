@@ -93,6 +93,8 @@ public:
 	RECT getRc() { return _collisionRc; }
 
 	void keyInput();
+	void rightStop();
+	void leftStop();
 	void mouseControl();
 	void move();
 	void attack();
@@ -102,12 +104,15 @@ public:
 	void pixelCollision();
 
 	void hitDamage(float damage);//hp깎이게 하는 함수
+	void enemyCollision();
 
 	//접근자 (get)      
+	bool getIsLeftAttack() { return _isLeftAttack; }
 	bool getIsGun()						    { return _isGun; }						     //원거리 무기장착 ?
 	bool getIsAlive()					    { return _isAlive; }						 //생존 ?
 	bool getIsAttacking()					{ return _isAttacking; }				
 	bool getAttackCheck()					{ return _attackSpeedCheckCount; } 	//you  attaking ;
+
 
 	int getCurrentHp()					    { return _currentHp; }						 //현재 hp
 	int getMaxHp()						    { return _maxHp; }							 //전체hp
@@ -171,8 +176,11 @@ public:
 	void setMaxFullNess(int fullNess)		{ _maxFullNess = fullNess; }
 	void setCurrentExp(int exp)				{ _currentExp = exp; }
 	void setMaxExp(int exp)				    { _maxExp = exp; }
-	void hitDamamge(int damage)				{ _currentHp -= damage; }
+		
 	void healing(int heal)				    { _currentHp += heal; if (_currentHp > _maxHp) _currentHp = _maxHp; }
+	void hitDamage(int damage)				{ _currentHp -= damage; }
+
+	void setEnemyVector(vector<Enemy*> vEnemy) { _vEnemy = vEnemy; }
 
 	Player();
 	~Player();

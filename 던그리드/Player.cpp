@@ -80,11 +80,18 @@ void Player::release() {}
 
 void Player::update()
 {
-	keyInput();
-	move();
-	mouseControl();
-	effect();	
-	attack();
+	if (_canMove == true)
+	{
+		keyInput();
+		mouseControl();
+		attack();
+		effect();
+		move();
+	}
+	
+	
+	
+	
 	KEYANIMANAGER->update();
 	EFFECTMANAGER->update();
 	cameraSetting();
@@ -105,7 +112,6 @@ void Player::render()
 		0,0,0, IMAGEMANAGER->findImage(strGun)->getWidth(), IMAGEMANAGER->findImage(strGun)->getHeight());
 		
 	// ===================
-	EFFECTMANAGER->render();
 	if (_direction == LEFT_RUN || _direction == LEFT_STOP)
 	{
 		_playerHand[0]->rotateRender(DC, _leftHandX , _leftHandY , _mouseAngle);
@@ -184,9 +190,7 @@ void Player::keyInput()
 	}
 	else if (KEYMANAGER->isOnceKeyUp('A') && _direction!=RIGHT_RUN)
 	{
-		_direction = LEFT_STOP;
-		_playerAnimation = KEYANIMANAGER->findAnimation("왼쪽보고서있기");
-		_playerAnimation->start();
+		leftStop();
 	}
 
 	if (KEYMANAGER->isOnceKeyDown('D'))
@@ -198,9 +202,7 @@ void Player::keyInput()
 	}
 	else if (KEYMANAGER->isOnceKeyUp('D') && _direction != LEFT_RUN)
 	{
-		_direction = RIGHT_STOP;
-		_playerAnimation = KEYANIMANAGER->findAnimation("오른쪽보고서있기");
-		_playerAnimation->start();
+		rightStop();
 	}
 
 	if (KEYMANAGER->isStayKeyDown('S')
@@ -247,6 +249,20 @@ void Player::keyInput()
 			_angle = getAngle(_collisionRc.left + _player->getFrameWidth() / 2, _collisionRc.top + _player->getFrameHeight() / 2, PTMOUSE_X, PTMOUSE_Y);
 		}
 	}
+}
+
+void Player::rightStop()
+{
+	_direction = RIGHT_STOP;
+	_playerAnimation = KEYANIMANAGER->findAnimation("오른쪽보고서있기");
+	_playerAnimation->start();
+}
+
+void Player::leftStop()
+{
+	_direction = LEFT_STOP;
+	_playerAnimation = KEYANIMANAGER->findAnimation("왼쪽보고서있기");
+	_playerAnimation->start();
 }
 
 void Player::mouseControl()
@@ -353,17 +369,17 @@ void Player::attack()
 	float _cosValue = cosf(_angle) * ONE_HUNDRED - 40, _sinValue = -sinf(_angle) * ONE_HUNDRED - 40;
 	static unsigned int attackSpeedCheckCount = 0;
 	if(_attackSpeedCheckCount)++attackSpeedCheckCount;
-	if (_isAttacking)_attackCount++;
-	if(_isAttacking)
-	{
 	
+	if(_isAttacking && _attackCount == 0 )
+	{
+		if (_isAttacking)_attackCount++;
 		if (_isGun && _isLeftAttack) _weaponAngle -= PI / 100;
 		else if (_isGun && !_isLeftAttack) _weaponAngle += PI / 100;
 		if(_mainWeapon[_youUsingCount] == 0)_punchSpeed -= 0.7;
 		//punch
 		if (_mainWeapon[_youUsingCount] == 0)
 		{
-			if (_isLeftAttack && _attackCount == 0)
+			if (_isLeftAttack)
 			{
 				_locusX +=  cosf(_angle) * _punchSpeed; 
 				_locusY += -sinf(_angle) * _punchSpeed;
@@ -433,7 +449,7 @@ void Player::attack()
 		_attackSpeedCheckCount = false;
 		if (_isGun) _weaponAttackAngle = 0;
 	}
-	if (_attackCount > 2)
+	if (_attackCount > 0)
 	{
 		_attackCount = 0;
 		_isAttacking = false;
@@ -783,10 +799,3 @@ void Player::pixelCollision()
 		}
 	}
 }
-
-void Player::hitDamage(float damage)
-{
-	_currentHp -= damage;
-}
-
-

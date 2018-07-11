@@ -27,7 +27,7 @@ HRESULT weaponScene::init()
 	DeleteObject(oldPen);
 	DeleteObject(pen);
 
-	_isMapSet = true;
+	//_isMapSet = true;
 	chooseMap(11);
 	selectSize(11);
 	mapload();

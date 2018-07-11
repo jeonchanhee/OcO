@@ -15,7 +15,7 @@ HRESULT dungeon6Scene::init()
 {
 	dungeonScene::init();
 
-	_isMapSet = true;
+//	_isMapSet = true;
 	chooseMap(7);
 	selectSize(7);
 	mapload();

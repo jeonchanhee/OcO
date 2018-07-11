@@ -1,14 +1,17 @@
 #pragma once
 #include "dungeonScene.h"
+
+class Player;
+
 class bossScene : public dungeonScene
 {
 private:
-	enum SWORDDIRECTION
-	{
-		SWORD_READY,
-		SWORD_FALLING,
-		SWORD_DOWN
-	};
+	//enum SWORDDIRECTION
+	//{
+	//	SWORD_READY,
+	//	SWORD_FALLING,
+	//	SWORD_DOWN
+	//};
 private:
 	Bullet* _sword;
 	int _swordCount;
@@ -19,6 +22,7 @@ public:
 	void update();
 	void render();
 	void setBossMon();
-	void bossSwordFire();
+	//void bossSwordFire();
+	//void bossSwordCollision();
 };
 
