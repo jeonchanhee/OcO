@@ -191,6 +191,8 @@ void Arrow::fireArrow()
 
 void Arrow::playerCollision()
 {
+	RECT temp;
+	//if(IntersectRect(&temp, &_arrow[2].rc, &_player.get))
 }
 
 void Arrow::hitDamage(float damage)

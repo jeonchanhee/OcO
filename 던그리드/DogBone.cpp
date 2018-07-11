@@ -68,7 +68,7 @@ void DogBone::update()
 	_progressBar->setGauge(_currentHP, _maxHP);
 	_progressBar->update();
 
-	//move();
+	move();
 	changeDirection();
 	
 
@@ -118,10 +118,14 @@ void DogBone::render()
 {
 	_progressBar->render();
 	_img->aniRender(DC, _rc.left, _rc.top, _dogBoneMotion);
+	//if (KEYMANAGER->isToggleKey('T'))
+	//{
+	//	Rectangle(DC, _rcCollision.left, _rcCollision.top, _rcCollision.right, _rcCollision.bottom);
+	//	TextOut(DC, 200, 200, _str.c_str(), strlen(_str.c_str()));
+	//}
 	if (KEYMANAGER->isToggleKey('T'))
 	{
-		Rectangle(DC, _rcCollision.left, _rcCollision.top, _rcCollision.right, _rcCollision.bottom);
-		TextOut(DC, 200, 200, _str.c_str(), strlen(_str.c_str()));
+		Rectangle(DC, _rc.left, _rc.top, _rc.right, _rc.bottom);
 	}
 }
 
@@ -198,26 +202,26 @@ void DogBone::move()
 
 	if (_tiles[index].object == OBJ_DIAGONAL)
 	{
-		if(_dogBoneDirection == DOGBONE_RIGHT_MOVE || _dogBoneDirection == DOGBONE_RIGHT_JUMP)
+		//if(_dogBoneDirection == DOGBONE_RIGHT_MOVE)|| _dogBoneDirection == DOGBONE_RIGHT_JUMP)
 			_y = _tiles[index].rc.bottom - (_rc.right - _tiles[index].rc.left) - _img->getFrameHeight() / 2;  // 坷弗率
-		if (_dogBoneDirection == DOGBONE_LEFT_MOVE || _dogBoneDirection == DOGBONE_LEFT_JUMP)
-			_y = _tiles[index].rc.bottom - (_tiles[index].rc.right - _rc.left) - _img->getFrameHeight() / 2;//哭率
+		//if (_dogBoneDirection == DOGBONE_LEFT_MOVE || _dogBoneDirection == DOGBONE_LEFT_JUMP)
+			//_y = _tiles[index].rc.bottom - (_tiles[index].rc.right - _rc.left) - _img->getFrameHeight() / 2;//哭率
 	}
 
 	if (_tiles[index].object == OBJ_DIAGONAL_RIGHT)
 	{
-		if (_dogBoneDirection == DOGBONE_RIGHT_MOVE || _dogBoneDirection == DOGBONE_RIGHT_JUMP)
+		//if (_dogBoneDirection == DOGBONE_RIGHT_MOVE || _dogBoneDirection == DOGBONE_RIGHT_JUMP)
 			_y = _tiles[index].rc.bottom - (_rc.right - _tiles[index].rc.left) - _img->getFrameHeight() / 2;  // 坷弗率
-		if (_dogBoneDirection == DOGBONE_LEFT_MOVE || _dogBoneDirection == DOGBONE_LEFT_JUMP)
-			_y = _tiles[index].rc.bottom - (_tiles[index].rc.right - _rc.left) - _img->getFrameHeight() / 2;//哭率
+		//if (_dogBoneDirection == DOGBONE_LEFT_MOVE || _dogBoneDirection == DOGBONE_LEFT_JUMP)
+			//_y = _tiles[index].rc.bottom - (_tiles[index].rc.right - _rc.left) - _img->getFrameHeight() / 2;//哭率
 	}
 
 	if (_tiles[index].object == OBJ_DIAGONAL_LEFT)
 	{
-		if(_dogBoneDirection == DOGBONE_LEFT_MOVE || _dogBoneDirection == DOGBONE_LEFT_JUMP)
+		//if(_dogBoneDirection == DOGBONE_LEFT_MOVE || _dogBoneDirection == DOGBONE_LEFT_JUMP)
 			_y = _tiles[index].rc.bottom - (_tiles[index].rc.right - _rc.left) - _img->getFrameHeight() / 2; // 哭率
-		if(_dogBoneDirection == DOGBONE_RIGHT_MOVE || _dogBoneDirection == DOGBONE_RIGHT_JUMP)
-			_y = _tiles[index].rc.bottom - (_rc.right - _tiles[index].rc.left) - _img->getFrameHeight() / 2;  // 坷弗率
+		//if(_dogBoneDirection == DOGBONE_RIGHT_MOVE || _dogBoneDirection == DOGBONE_RIGHT_JUMP)
+			//_y = _tiles[index].rc.bottom - (_rc.right - _tiles[index].rc.left) - _img->getFrameHeight() / 2;  // 坷弗率
 	}
 
 	

@@ -100,6 +100,10 @@ void Cow::update()
 
 void Cow::render()
 {
+	if (KEYMANAGER->isToggleKey('C'))
+	{
+		Rectangle(DC, _rc.left, _rc.top, _rc.right, _rc.bottom);
+	}
 	_img->aniRender(DC, _rc.left, _rc.top, _cowMotion);
 	_progressBar->render();
 }

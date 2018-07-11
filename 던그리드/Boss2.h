@@ -48,7 +48,6 @@ private:
 	progressBar* _progressBar;
 	float _currentHP, _maxHP;
 
-	//tagBoss _boss[4]; //보스의 머리,왼손,오른손,칼이 있는 구조체변수
 	tagBoss _boss[3]; //보스의 머리,왼손,오른손이 있는 구조체변수
 
 	
