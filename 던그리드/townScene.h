@@ -1,5 +1,6 @@
 #pragma once
 #include "gameNode.h"
+#include "minimap.h"
 
 class Player;
 
@@ -11,16 +12,20 @@ private:
 	image* _pixel;
 	image* _trainer;
 	image* _shop;
+	image* _suckImg;
 	animation* _training;
 	animation* _shopping;
+	animation* _suck;
 	int		_temp;
 
+	minimap* _minimap;
 public:
 	HRESULT init();
 	void release();
 	void update();
 	void render();
 	void mapload();
+	void setMinimap();
 	void mapRender();
 	townScene();
 	~townScene();

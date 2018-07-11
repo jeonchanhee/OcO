@@ -333,7 +333,7 @@ HRESULT playGround::Image_init(void)
 	IMAGEMANAGER->addRotateFrameImage("검쓰르륵", "image/item/weapon/sword/effect/swing.bmp", 600 , 109 , 4 , 1, true , RGB(255,0,255));
 
 	//상점 NPC
-	IMAGEMANAGER->addFrameImage("엔피시1", "image/npc/inn(420x140)6x2.bmp", 420, 140 , 6, 2, true, RGB(255, 0, 255)); // 음식파는 아줌마
+	IMAGEMANAGER->addFrameImage("엔피시1", "image/npc/inn(420x200)6x2.bmp", 420, 200 , 6, 2, true, RGB(255, 0, 255)); // 음식파는 아줌마
 	IMAGEMANAGER->addFrameImage("엔피시2", "image/npc/weaponNPC(800x392)4x2.bmp", 800, 392, 4, 2, true, RGB(255, 0, 255)); // 장비 판매하는 아저씨
 	IMAGEMANAGER->addFrameImage("N마을샵", "image/npc/merchant(700x400,7x4).bmp", 560, 360, 7, 4, true, RGB(255, 0, 255)); 
 	IMAGEMANAGER->addFrameImage("N트레이너", "image/npc/commander(700x400,7x4).bmp", 700, 400, 7, 4, true, RGB(255, 0, 255)); 

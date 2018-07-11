@@ -197,6 +197,7 @@
     <ClInclude Include="keyManager.h" />
     <ClInclude Include="mapSelectScene.h" />
     <ClInclude Include="MapTool.h" />
+    <ClInclude Include="minimap.h" />
     <ClInclude Include="MusicAngel.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="playerBullet.h" />
@@ -275,6 +276,7 @@
     <ClCompile Include="keyManager.cpp" />
     <ClCompile Include="mapSelectScene.cpp" />
     <ClCompile Include="MapTool.cpp" />
+    <ClCompile Include="minimap.cpp" />
     <ClCompile Include="MusicAngel.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="playerBullet.cpp" />

@@ -1,7 +1,6 @@
 #pragma once
 #include "Enemy.h"
 #include "progressBar.h"
-
 enum BATDIRECTION
 {
 	BAT_RIGHT_MOVE,
@@ -12,14 +11,14 @@ enum BATDIRECTION
 
 //공격안하고 날아다니기만하는 박쥐
 class Bat : public Enemy
-{
+{	
 private:
 	progressBar* _progressBar;
 	float _currentHP, _maxHP;
 
 	BATDIRECTION _batDirection;
 	animation* _batMotion;
-	RECT			_detectionrc;		// 타일 검출 렉트
+	RECT		_detectionrc;		// 타일 검출 렉트
 
 	int		_detectionX, _detectionY;
 	float _startX, _startY;//박쥐 이동 기준점
@@ -39,9 +38,15 @@ public:
 	void rightMove();
 	void leftMove();
 
+	void tileDetection();	// 타일 검출
+
 	void playerCollision();
 	void hitDamage(float damage);
 
-	void tileDetection();	// 타일 검출
+	int getCurrentHp() { return _currentHP; } //현재 hp
+	int getMaxHp() { return _maxHP; } //전체hp
+	void setCurrentHp(int currentHP) { _currentHP = currentHP; }
+	void setMaxHp(int maxHP) { _maxHP = maxHP; }
+	RECT  getBatRect() { return _rc; } //rc
 };
 

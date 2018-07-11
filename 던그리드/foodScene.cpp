@@ -32,6 +32,10 @@ HRESULT foodScene::init()
 	portalInit(299 % 29, 299 / 29);
 
 	_player->setGold(100);
+
+	_foodNpc = new FoodNpc;
+	_foodNpc->init(NPC_LEFT_STOP, FOOD_NPC, "¿£ÇÇ½Ã", 1, PointMake((339 % 29)*TILESIZE, (339 / 29) * TILESIZE));
+
 	return S_OK;
 }
 
@@ -39,6 +43,7 @@ void foodScene::update()
 {
 	dungeonScene::update();
 	nextTest();
+	_foodNpc->update();
 }
 
 void foodScene::setRandMapNum()
@@ -76,4 +81,5 @@ void foodScene::render()
 {
 	dungeonScene::render();
 	IMAGEMANAGER->render("d_restaurant", DC, (184 % 29)*TILESIZE, (184 / 29)*TILESIZE + 25);
+	_foodNpc->render();
 }

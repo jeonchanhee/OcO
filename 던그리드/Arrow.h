@@ -11,9 +11,13 @@ struct tagArrow
 	float x, y;
 };
 
+class Player; //플레이어 클래스 전방선언
+
 class Arrow : public Enemy
 {
 private:
+	Player * _player;
+
 	tagArrow _arrow[3]; //0활쟁이.1활.2화살
 	bool _isShoot;
 	POINT _bowCenter;//활 중앙
@@ -39,4 +43,12 @@ public:
 
 	void playerCollision(); //플레이어와 활쟁이의 충돌 함수
 	void hitDamage(float damage);//hp깎이게 하는 함수
+
+	int getCurrentHp() { return _currentHP; } //현재 hp
+	int getMaxHp() { return _maxHP; } //전체hp
+	void setCurrentHp(int currentHP) { _currentHP = currentHP; }
+	void setMaxHp(int maxHP) { _maxHP = maxHP; }
+	RECT  getArrowRect() { return _arrow[0].rc; } //rc
+
+	void setPlayerAddressLink(Player* player) { _player = player; }
 };

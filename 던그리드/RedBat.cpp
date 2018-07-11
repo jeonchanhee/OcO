@@ -102,6 +102,10 @@ void RedBat::render()
 {
 	_img->aniRender(DC, _rc.left, _rc.top, _redBatMotion);
 	_progressBar->render();
+	if (KEYMANAGER->isToggleKey('B'))
+	{
+		Rectangle(DC, _rc.left, _rc.top, _rc.right, _rc.bottom);
+	}
 }
 
 void RedBat::move()

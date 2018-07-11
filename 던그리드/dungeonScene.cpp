@@ -4,6 +4,16 @@
 #include "Player.h"
 
 
+void dungeonScene::collision()
+{
+	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end();)
+	{
+		//for(_player->getPBullet()->getviPBullet() = _player->getPBullet()->getvPBullet().begin(); _player->getPBullet()->getviPBullet() !=)d
+		RECT temp;
+		//if(IntersectRect(&temp,&(*_viEnemy)->getRect(),&_player->getPBullet()->getviPBullet()->rc)
+	}
+}
+
 dungeonScene::dungeonScene() {}
 
 dungeonScene::~dungeonScene() {}
@@ -17,17 +27,18 @@ HRESULT dungeonScene::init(void)
 }
 
 void dungeonScene::release(void)
-{
+{ 
 }
 
 void dungeonScene::update(void)
 {
 	KEYANIMANAGER->update();
+//	_player->setEnemyVector(_vEnemy);
 }
 
 void dungeonScene::render(void)
 {
-	if (KEYMANAGER->isToggleKey(VK_F3))
+	//if (KEYMANAGER->isToggleKey(VK_F3))
 	{
 		for (int i = (CAMERAMANAGER->getCameraCenter().y - WINSIZEY / 2) / 96; i < (CAMERAMANAGER->getCameraCenter().y + WINSIZEY / 2) / 96 + 1; ++i)
 		{

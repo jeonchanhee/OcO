@@ -115,10 +115,10 @@ void BigBone::render()
 	///////////Å×½ºÆ®
 	if (KEYMANAGER->isToggleKey('Q')) RectangleMakeCenter(DC, _x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 
-	if (KEYMANAGER->isToggleKey('T'))
-	{
-		Rectangle(DC, _rcCollision.left, _rcCollision.top, _rcCollision.right, _rcCollision.bottom);
-	}
+	//if (KEYMANAGER->isToggleKey('T'))
+	//{
+	//	Rectangle(DC, _rcCollision.left, _rcCollision.top, _rcCollision.right, _rcCollision.bottom);
+	//}
 
 }
 
