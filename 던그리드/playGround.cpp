@@ -8,7 +8,7 @@ playGround::~playGround(){}
 
 HRESULT playGround::init(void)	
 {
-	mode = 랜덤맵1;//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
+	mode = 랜덤맵1;		//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
 //	rectRotate(IMAGEMANAGER->findImage("검01"), 100, 100);
 
 
@@ -53,6 +53,7 @@ HRESULT playGround::init(void)
 
 //	
 	_randomScene1 = new RandomDungeon1;
+	//SCENEMANAGER->addScene("랜덤맵1", _randomScene1);
 	_randomScene1->init();
 ////	_randomScene1->init();
 //
