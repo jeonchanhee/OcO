@@ -36,6 +36,9 @@ HRESULT foodScene::init()
 	_foodNpc = new FoodNpc;
 	_foodNpc->init(NPC_LEFT_STOP, FOOD_NPC, "¿£ÇÇ½Ã", 1, PointMake((339 % 29)*TILESIZE, (339 / 29) * TILESIZE));
 
+	setMinimap();
+	_minimap->setNPCXY(0, (((300 * ((339 % 29)*TILESIZE))/(_tileX*TILESIZE))), ((((339 / 29) * TILESIZE) - 50)*150/(_tileY * TILESIZE)));
+	setDoorMinimap();
 	return S_OK;
 }
 

@@ -8,7 +8,8 @@ playGround::~playGround(){}
 
 HRESULT playGround::init(void)	
 {
-	mode = 마을;				//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
+	mode = 랜덤맵1;//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
+//	rectRotate(IMAGEMANAGER->findImage("검01"), 100, 100);
 
 
 
@@ -51,7 +52,8 @@ HRESULT playGround::init(void)
 	//SCENEMANAGER->addScene("보스", new bossScene);
 
 //	
-//	_randomScene1 = new RandomDungeon1;
+	_randomScene1 = new RandomDungeon1;
+	_randomScene1->init();
 ////	_randomScene1->init();
 //
 //	
@@ -246,7 +248,8 @@ void playGround::render(void)
 	IMAGEMANAGER->render("cursor", UIDC, _ptMouse.x, _ptMouse.y);
 	TIMEMANAGER->render(UIDC);
 
-	IMAGEMANAGER->findImage("카메라DC")->render(DC, 54,240,CAMERAMANAGER->getCameraPoint().x, CAMERAMANAGER->getCameraPoint().y, 600, 670);
+	//if(mode == 타이틀)
+		IMAGEMANAGER->findImage("카메라DC")->render(DC, 54,240,CAMERAMANAGER->getCameraPoint().x, CAMERAMANAGER->getCameraPoint().y, 600, 670);
 
 	CAMERAMANAGER->render(this->getBackBuffer());
 	this->getBackBuffer()->render(getHDC(), 0, 0, CAMERAMANAGER->getCameraCenter().x - WINSIZEX / 2, CAMERAMANAGER->getCameraCenter().y - WINSIZEY / 2, WINSIZEX, WINSIZEY);
