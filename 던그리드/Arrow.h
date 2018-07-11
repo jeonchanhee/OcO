@@ -44,5 +44,11 @@ public:
 	void playerCollision(); //플레이어와 활쟁이의 충돌 함수
 	void hitDamage(float damage);//hp깎이게 하는 함수
 
+	int getCurrentHp() { return _currentHP; } //현재 hp
+	int getMaxHp() { return _maxHP; } //전체hp
+	void setCurrentHp(int currentHP) { _currentHP = currentHP; }
+	void setMaxHp(int maxHP) { _maxHP = maxHP; }
+	RECT  getArrowRect() { return _arrow[0].rc; } //rc
+
 	void setPlayerAddressLink(Player* player) { _player = player; }
 };

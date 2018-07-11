@@ -49,5 +49,11 @@ public:
 	bool getisAtteck2() { return _isAttack; }
 	void setisAtteck2(bool isAttack) { _isAttack = isAttack; }
 
+
+	int getCurrentHp() { return _currentHP; } //현재 hp
+	int getMaxHp() { return _maxHP; } //전체hp
+	void setCurrentHp(int currentHP) { _currentHP = currentHP; }
+	void setMaxHp(int maxHP) { _maxHP = maxHP; }
+	RECT  getBigRedBatRect() { return _rc; } //rc
 };
 

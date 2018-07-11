@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Arrow.h"
+#include "Player.h"
 
 
 Arrow::Arrow()
@@ -192,7 +193,10 @@ void Arrow::fireArrow()
 void Arrow::playerCollision()
 {
 	RECT temp;
-	//if(IntersectRect(&temp, &_arrow[2].rc, &_player.get))
+	if (IntersectRect(&temp, &_arrow[2].rc, &_player->getPlayerRect()))
+	{
+
+	}
 }
 
 void Arrow::hitDamage(float damage)

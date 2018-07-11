@@ -52,5 +52,11 @@ public:
 
 	void playerCollision();
 	void hitDamage(float damage);
+
+	int getCurrentHp() { return _currentHP; } //현재 hp
+	int getMaxHp() { return _maxHP; } //전체hp
+	void setCurrentHp(int currentHP) { _currentHP = currentHP; }
+	void setMaxHp(int maxHP) { _maxHP = maxHP; }
+	RECT  getRedBatRect() { return _rc; } //rc
 };
 
