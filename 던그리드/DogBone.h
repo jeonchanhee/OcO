@@ -1,6 +1,5 @@
 #pragma once
 #include "Enemy.h"
-#include "progressBar.h"
 
 #define DOGBONESPEED 5.0f
 
@@ -19,9 +18,6 @@ enum DOGBONEDIRECTION
 class DogBone : public Enemy
 {
 private:
-	progressBar* _progressBar;
-	float _currentHP, _maxHP;
-
 	DOGBONEDIRECTION _dogBoneDirection;
 	animation* _dogBoneMotion;
 

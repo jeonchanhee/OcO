@@ -117,6 +117,11 @@ void Boss2::update()
 
 void Boss2::render()
 {
+	if (KEYMANAGER->isToggleKey('X'))
+	{
+		Rectangle(DC, _boss[1].rc.left, _boss[1].rc.top, _boss[1].rc.right, _boss[1].rc.bottom);
+	}
+
 	_progressBar->render();
 	for (int i = 0; i < 3; i++)
 	{
