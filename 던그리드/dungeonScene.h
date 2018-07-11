@@ -59,6 +59,8 @@ protected:
 	BigRedBat*	_bigRedBat;
 	MusicAngel* _musicAngel; //음표요정
 	Boss2* _boss;			 //보스
+	int _bossLaserHitCount[2];
+	bool _bossLaserHit[2];
 
 	Bullet* _enemyBullet;
 	Bullet* _bigBatBullet;
@@ -119,6 +121,8 @@ public:
 	void portalRender();
 
 	void collision();
+	void musicAngelBulletCollision();
+	void bossBulletCollision();
 	dungeonScene();
 	~dungeonScene();
 

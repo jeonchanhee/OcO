@@ -41,7 +41,6 @@ void Bullet::render()
 void Bullet::bulletFire(const char* imgName, float x, float y, float angle, float speed, float range, bool isFrame, FRAMEXY frameXY, int swordIdx)
 {
 	if (_bulletMax < _vBullet.size()) return;
-
 	ZeroMemory(&bullet, sizeof(tagBullet));
 	bullet.img = IMAGEMANAGER->findImage(imgName);
 	bullet.speed = speed;
@@ -69,6 +68,8 @@ void Bullet::swordRender()
 		{
 			_viBullet->img->rotateRender(DC, _viBullet->x, _viBullet->y, _viBullet->angle);
 		}
+		if (KEYMANAGER->isToggleKey('M'))
+			Rectangle(DC, _viBullet->rc.left, _viBullet->rc.top, _viBullet->rc.right, _viBullet->rc.bottom);
 	}
 }
 
@@ -81,6 +82,7 @@ void Bullet::changeSpeedAndAngle(float x, float y)
 			_viBullet->speed = 30;
 			_viBullet->angle = getAngle(_viBullet->x, _viBullet->y, x, y);
 			_viBullet->img = IMAGEMANAGER->findImage("RotateBossSword");
+			_viBullet->rc = RectMakeCenter(_viBullet->x, _viBullet->y, _viBullet->img->getFrameWidth(), _viBullet->img->getFrameHeight());
 			break;
 		}
 	}

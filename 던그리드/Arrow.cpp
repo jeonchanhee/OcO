@@ -2,7 +2,6 @@
 #include "Arrow.h"
 #include "Player.h"
 
-
 Arrow::Arrow()
 {
 }
@@ -14,8 +13,7 @@ Arrow::~Arrow()
 
 HRESULT Arrow::init(float x, float y)
 {
-	
-
+	_hit = false;
 	static int a = 0;
 	++a;
 	_index = a;
@@ -70,7 +68,7 @@ void Arrow::update()
 	shootArrow();
 	frameMove();
 	fireArrow();
-
+	
 	//if (!(_count % 100))
 	//{
 	//	_arrow[1].img->setFrameX(0);
@@ -86,7 +84,8 @@ void Arrow::update()
 	_progressBar->setY(_arrow[0].y + 80);
 	_progressBar->setGauge(_currentHP, _maxHP);
 	_progressBar->update();
-	
+
+	playerCollision();
 }
 
 void Arrow::render()
@@ -95,6 +94,7 @@ void Arrow::render()
 	_arrow[2].img->rotateRender(DC, _arrow[2].x, _arrow[2].y, _angle);
 	_arrow[1].img->rotateFrameRender(DC, _arrow[1].x, _arrow[1].y, _angle);
 	_progressBar->render();
+	
 	if (KEYMANAGER->isToggleKey(VK_SPACE))
 		Rectangle(DC, _arrow[0].rc.left, _arrow[0].rc.top, _arrow[0].rc.right, _arrow[0].rc.bottom);
 	if (KEYMANAGER->isToggleKey('N'))
@@ -108,7 +108,8 @@ void Arrow::frameMove()
 	if (_isShoot)
 	{
 		//오른쪽 방향
-		if (_arrow[0].x < PTMOUSE_X)
+		//if (_arrow[0].x < PTMOUSE_X)
+		if (_arrow[0].x < _player->getPlayerX())
 		{
 			_arrow[2].x += cosf(_angle)*_speed;
 			_arrow[2].y += -sinf(_angle)*_speed;
@@ -116,7 +117,8 @@ void Arrow::frameMove()
 			_arrowY = _arrow[2].y - sinf(_angle)*_arrow[2].img->getHeight() / 2;
 		}
 		//왼쪽 방향
-		if(_arrow[0].x > PTMOUSE_X)
+		//if(_arrow[0].x > PTMOUSE_X)
+		if(_arrow[0].x > _player->getPlayerX())
 		{
 			_arrow[2].x += cosf(_angle) *_speed ;
 			_arrow[2].y += -sinf(_angle) * _speed;
@@ -130,12 +132,14 @@ void Arrow::frameMove()
 	if (!(_count % 10))
 	{		
 		//오른쪽 방향 이미지 설정
-		if (_arrow[0].x < PTMOUSE_X)
+		//if (_arrow[0].x < PTMOUSE_X)
+		if (_arrow[0].x < _player->getPlayerX())
 		{
 			_arrow[0].img->setFrameX(0);
 		}
 		//왼쪽 방향 이미지 설정
-		if (_arrow[0].x > PTMOUSE_X)
+		//if (_arrow[0].x > PTMOUSE_X)
+		if (_arrow[0].x > _player->getPlayerX())
 		{
 			_arrow[0].img->setFrameX(1);
 		}
@@ -156,10 +160,12 @@ void Arrow::shootArrow()
 {
 	if (_isShoot) return;
 
-	_angle = GetAngle( _arrow[0].x, _arrow[0].y, PTMOUSE_X, PTMOUSE_Y);
+	//_angle = GetAngle( _arrow[0].x, _arrow[0].y, PTMOUSE_X, PTMOUSE_Y);
+	_angle = GetAngle( _arrow[0].x, _arrow[0].y, _player->getPlayerX(), _player->getPlayerY());
 	
 	//오른쪽 방향
-	if (_arrow[0].x + _arrow[0].img->getFrameWidth() / 2 < PTMOUSE_X)
+	//if (_arrow[0].x + _arrow[0].img->getFrameWidth() / 2 < PTMOUSE_X)
+	if (_arrow[0].x + _arrow[0].img->getFrameWidth() / 2 < _player->getPlayerX())
 	{
 		_arrow[1].x = _arrow[0].x + 40;
 		_arrow[1].y = _arrow[0].y + 50;
@@ -169,7 +175,8 @@ void Arrow::shootArrow()
 		_arrowY = _arrow[2].y - sinf(_angle)*_arrow[2].img->getHeight() / 2;
 	}
 	//왼쪽 방향
-	if (_arrow[0].x + _arrow[0].img->getFrameWidth() / 2 > PTMOUSE_X)
+	//if (_arrow[0].x + _arrow[0].img->getFrameWidth() / 2 > PTMOUSE_X)
+	if (_arrow[0].x + _arrow[0].img->getFrameWidth() / 2 > _player->getPlayerX())
 	{
 		_arrow[1].x = _arrow[0].x + 10;
 		_arrow[1].y = _arrow[0].y + 50;
@@ -180,11 +187,12 @@ void Arrow::shootArrow()
 	}
 }
 
-//활쟁이가 마우스방향으로 활쏘게 하는 내용
+//활쟁이가 플레이어방향으로 활쏘게 하는 내용
 void Arrow::fireArrow() 
 {
 	if (_isShoot) return;
 
+	_hit = false;
 	/*if (KEYMANAGER->isStayKeyDown(VK_LBUTTON))
 	{
 		_angle = GetAngle(_arrow[0].x, _arrow[0].y, PTMOUSE_X, PTMOUSE_Y);
@@ -196,7 +204,8 @@ void Arrow::fireArrow()
 
 	if (!(_count % 100))
 	{
-		_angle = GetAngle( _arrow[0].x, _arrow[0].y, PTMOUSE_X, PTMOUSE_Y);
+		//_angle = GetAngle( _arrow[0].x, _arrow[0].y, PTMOUSE_X, PTMOUSE_Y);
+		_angle = GetAngle( _arrow[0].x, _arrow[0].y, _player->getPlayerX(), _player->getPlayerY());
 
 		_speed = _arrow[1].img->getFrameWidth() / 2;
 
@@ -210,7 +219,14 @@ void Arrow::playerCollision()
 	RECT temp;
 	if (IntersectRect(&temp, &_arrow[2].rc, &_player->getPlayerRect()))
 	{
-		_player->hitDamage(2.3);
+		if (!_hit)
+		{
+		_player->hitDamage(0.5f);
+		//EFFECTMANAGER->play("arrowEffect", _arrow[2].x, _arrow[2].y);
+		
+			EFFECTMANAGER->play("arrowEffect", (_player->getPlayerRect().right + _player->getPlayerRect().left) / 2, (_player->getPlayerRect().bottom + _player->getPlayerRect().top) / 2);
+			_hit = true;
+		}
 	}
 }
 

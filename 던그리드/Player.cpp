@@ -84,8 +84,6 @@ void Player::update()
 	mouseControl();
 	effect();	
 	attack();
-	KEYANIMANAGER->update();
-	EFFECTMANAGER->update();
 	cameraSetting();
 	tileCollision();
 	_collisionRc = RectMakeCenter(_x, _y, _player->getFrameWidth(), _player->getFrameHeight());
@@ -105,7 +103,6 @@ void Player::render()
 		0,0,0, IMAGEMANAGER->findImage(strGun)->getWidth(), IMAGEMANAGER->findImage(strGun)->getHeight());
 		
 	// ===================
-	EFFECTMANAGER->render();
 	if (_direction == LEFT_RUN || _direction == LEFT_STOP)
 	{
 		_playerHand[0]->rotateRender(DC, _leftHandX , _leftHandY , _mouseAngle);
@@ -787,10 +784,3 @@ void Player::enemyCollision()
 		else _viEnemy++;
 	}
 }
-
-void Player::hitDamage(float damage)
-{
-	_currentHp -= damage;
-}
-
-
