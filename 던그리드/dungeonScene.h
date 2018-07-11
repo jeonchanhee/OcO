@@ -13,6 +13,7 @@
 #include "Cow.h"
 #include "Boss2.h"
 #include "Bullet.h"
+#include "minimap.h"
 
 class Player;
 
@@ -87,6 +88,7 @@ protected:
 	bool _bulletMove;
 	int _swordCount;
 
+	minimap* _minimap;
 	//infoPlayer _infoPlayer;
 
 public:
@@ -101,6 +103,10 @@ public:
 
 	void mapload();
 
+	void setMinimap();
+
+	void setDoorMinimap();
+
 	void setCamera(void);
 
 	void selectSize(int idx);
@@ -110,11 +116,8 @@ public:
 	void nextTest();
 
 	void load();
-
 	void save();
 
-	void savePlayer();
-	void loadPlayer();
 	
 	void setDoor();
 	void doorRender();

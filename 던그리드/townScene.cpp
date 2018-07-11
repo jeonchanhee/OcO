@@ -29,17 +29,19 @@ HRESULT townScene::init()
 	_suckImg = IMAGEMANAGER->findImage("suck");
 	int trainer[] = { 0,1,2,3,4,5 };
 	int shop[] = { 15,16,17,18,19,20 };
-	int suck[] = { 0,1,2,3,4,5,6,7,8,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50 };
+	int suck[] = { 0,1,2,3,4,5,6,7,8,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51 };
 	KEYANIMANAGER->addArrayFrameAnimation("trainer", "NÆ®·¹ÀÌ³Ê", trainer, 6, 5, true);
 	KEYANIMANAGER->addArrayFrameAnimation("shop", "N¸¶À»¼¥", shop, 6, 5, true);
-	KEYANIMANAGER->addArrayFrameAnimation("suck", "suck", shop, 34, 5, false);
+	KEYANIMANAGER->addArrayFrameAnimation("suck", "suck", suck, 35, 20, false, moveDungeon,this);
 	_training = KEYANIMANAGER->findAnimation("trainer");
 	_shopping = KEYANIMANAGER->findAnimation("shop");
 	_suck = KEYANIMANAGER->findAnimation("suck");
 	_training->start();
 	_shopping->start();
-
-	_isMapSet = true;
+	_suck->start();
+	
+	_canMove = true;
+	_sucking = false;
 	_mapName = "map/townmap(80x25).map";
 	_temp = 80;
 	_tileX = 80, _tileY = 25;
@@ -56,7 +58,10 @@ void townScene::release()
 
 void townScene::update()
 {
+	//if(_canMove==true)
 	_player->update();
+	_minimap->setPlayerXY(((400*_player->getPlayerX()) / (_tileX * TILESIZE)), ((200*_player->getPlayerY()) / (_tileY * TILESIZE)));
+	dungeonGo();
 }
 
 void townScene::render()
@@ -80,9 +85,8 @@ void townScene::render()
 	_shop->aniRender(DC, 72 * 96-20, 11* 96+10, _shopping);
 
 	_player->render();
-	//setMinimap();
 	_minimap->render();
-	
+	dungeonGo();
 }
 
 void townScene::mapload()
@@ -127,7 +131,7 @@ void townScene::mapload()
 void townScene::setMinimap()
 {
 	_minimap = new minimap;
-	_minimap->init();
+	_minimap->init(false);
 
 	image* tempImg;
 	tempImg = IMAGEMANAGER->addImage("ÅÛÇª", _tileX*TILESIZE, _tileY * TILESIZE);
@@ -138,13 +142,13 @@ void townScene::setMinimap()
 		for (int j = 0; j < _tileX; j++)
 		{
 			if (_tiles[i * _temp + j].object == OBJ_NONE) continue;
-			//IMAGEMANAGER->frameRender("map", tempImg->getMemDC(), _tiles[i*_temp + j].rc.left, _tiles[i*_temp + j].rc.top, _tiles[i * _temp + j].terrainFrameX, _tiles[i * _temp + j].terrainFrameY);
 			IMAGEMANAGER->frameRender("map", tempImg->getMemDC(), _tiles[i * _temp + j].rc.left, _tiles[i * _temp + j].rc.top, _tiles[i * _temp + j].objFrameX, _tiles[i * _temp + j].objFrameY);
 		}
 	}
-	//tempImg->render(DC, 0, 0);
 	_minimap->setMinimap(tempImg->getMemDC());
-	//StretchBlt(DC, 0, 0, 500, 500, tempImg->getMemDC(), 0, 0, _tileX*TILESIZE, _tileY *TILESIZE, SRCCOPY);
+	_minimap->setPlayerXY(((400*_player->getPlayerX()) / (_tileX * TILESIZE)), ((200*_player->getPlayerY()) / (_tileY * TILESIZE)));
+	_minimap->setNPCXY(0, ((400 * (10 * 96)) / (_tileX*TILESIZE)), ((200 * (20 * 96)) / (_tileY*TILESIZE)));
+	_minimap->setNPCXY(1, ((400 * (72 * 96 - 20)) / (_tileX*TILESIZE)), ((200 * (11 * 96 + 10)) / (_tileY*TILESIZE)));
 }
 void townScene::mapRender()
 {
@@ -177,8 +181,41 @@ void townScene::mapRender()
 				TextOut(DC, _tiles[i * _temp + j].rc.left, _tiles[i * _temp + j].rc.top, str, strlen(str));
 			}
 		}
+		Rectangle(DC,_player->getRc().left, _player->getRc().top, _player->getRc().right, _player->getRc().bottom);
 	}
 }
+
+void townScene::dungeonGo()
+{
+	RECT temp;
+	RECT rc = RectMake( 2750, 2015, 2000, 30);
+	if (_sucking == false)
+	{
+		if (IntersectRect(&temp, &_player->getRc(), &rc))
+		{
+			//_suckImg->render(DC, _player->getRc().left, rc.top - 100);
+			_suck->start();
+			_sucking = true;
+			_canMove = false;
+			if (_player->getIsLeftAttack() == true)
+				_player->leftStop();
+			else
+				_player->rightStop();
+		}
+	}
+	else
+		_suckImg->aniRender(DC, _player->getRc().left-350,1510,_suck);
+	//Rectangle(DC, rc.left, rc.top, rc.right, rc.bottom);
+}
+
+ void townScene::moveDungeon(void* object)
+{
+	 townScene* T = (townScene*)object;
+	 T->_sucking = false;
+	 _canMove = true;
+	 SCENEMANAGER->changeScene("·£´ý¸Ê1");
+}
+
 townScene::townScene()
 {
 }

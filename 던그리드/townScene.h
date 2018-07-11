@@ -17,6 +17,7 @@ private:
 	animation* _shopping;
 	animation* _suck;
 	int		_temp;
+	bool _sucking;
 
 	minimap* _minimap;
 public:
@@ -27,6 +28,8 @@ public:
 	void mapload();
 	void setMinimap();
 	void mapRender();
+	void dungeonGo();
+	static	void moveDungeon(void* object);
 	townScene();
 	~townScene();
 };

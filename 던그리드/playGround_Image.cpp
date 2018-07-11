@@ -346,6 +346,14 @@ HRESULT playGround::Image_init(void)
 	IMAGEMANAGER->addFrameImage("NÃÌÀå", "image/npc/elder(700x400,7x4).bmp", 700, 400, 7, 4, true, RGB(255, 0, 255));
 
 
+	//¹Ì´Ï¸Ê
+	IMAGEMANAGER->addImage("playerIcon", "image/icon/playerIcon(20x20).bmp", 20, 20, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("npcIcon", "image/icon/npcIcon(20x20).bmp", 20, 20, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("enemyIcon", "image/icon/enemyIcon(20x20).bmp", 20, 20, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("portalIcon", "image/icon/worm(80x40,2x1).bmp", 80, 40, 2, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("heightDoorIcon", "image/icon/heightDoorIcon(10x50).bmp", 10, 50, true, RGB(255, 0, 255));
+
+	
 	//ÇÈ¼¿
 	IMAGEMANAGER->addImage("pixel", 4800, 2400);
 

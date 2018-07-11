@@ -489,7 +489,7 @@ void titleScene::drawSetting()
 		{
 			float pos = _ptMouse.x - 600;
 			float volume = pos / 900;
-			SOUNDMANAGER->setBGMVolume(volume);
+			SOUNDMANAGER->setSFXVolume(volume);
 			_soundX2 = _ptMouse.x;
 		}
 	}
@@ -506,7 +506,7 @@ void titleScene::drawSetting()
 		{
 			float pos = _ptMouse.x - 600;
 			float volume = pos / 900;
-			SOUNDMANAGER->setBGMVolume(volume);
+			SOUNDMANAGER->setSFXVolume(volume);
 			_soundX2 = _ptMouse.x;
 		}
 	}

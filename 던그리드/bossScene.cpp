@@ -14,7 +14,7 @@ bossScene::~bossScene()
 HRESULT bossScene::init()
 {
 	dungeonScene::init();
-	_isMapSet = true;
+//	_isMapSet = true;
 	chooseMap(10);
 	selectSize(10);
 	mapload();

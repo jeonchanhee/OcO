@@ -8,6 +8,15 @@ void dungeonScene::collision()
 {
 	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); )
 	{
+		if (_player->getIsAttacking())
+		{
+			RECT checkRc;
+			if (IntersectRect(&checkRc, &_player->getEffect()->effectCheckBox(), &(*_viEnemy)->getRect()))
+			{
+				(*_viEnemy)->setCurrentHp((*_viEnemy)->getCurrentHp() - 10);
+			}
+		}
+
 		for (int i=0; i < _player->getPBullet()->getvPBullet().size();)
 		{
 			RECT temp;
@@ -58,7 +67,9 @@ void dungeonScene::release(void)
 void dungeonScene::update(void)
 {
 	collision();
-//	_player->setEnemyVector(_vEnemy);
+
+	if(_minimap != NULL)
+	_minimap->setPlayerXY(((300 * _player->getPlayerX()) / (_tileX * TILESIZE)), ((150 * (_player->getPlayerY() - 80)) / (_tileY * TILESIZE)));
 }
 
 void dungeonScene::render(void)
@@ -137,8 +148,8 @@ void dungeonScene::render(void)
 	_bigRadBullet->render();
 
 	doorRender();
-
-	
+	if(_minimap != NULL)
+		_minimap->render();
 }
 
 void dungeonScene::doorInit(void)
@@ -185,6 +196,7 @@ void dungeonScene::mapload()
 
 	ReadFile(file, _tiles, sizeof(tagTile) * TILEX * TILEY, &load, NULL);
 
+	//setMinimap();
 	//희진누나 바께 없다 여윽시 /
 	for (int i = 0; i < TILEX; ++i)
 	{
@@ -222,6 +234,8 @@ void dungeonScene::mapload()
 	}
 	CloseHandle(file);
 
+	//setMinimap();
+
 	_enemyBullet = new Bullet;
 	_enemyBullet->init(3000);
 
@@ -238,6 +252,47 @@ void dungeonScene::mapload()
 	_bigRadBullet = new Bullet2;
 	_bigRadBullet->init(2000);
 
+}
+
+void dungeonScene::setMinimap()
+{
+	_minimap = new minimap;
+	_minimap->init(true);
+
+	image* tempImg;
+	/*tempImg = IMAGEMANAGER->addImage("템푸", _tileX*TILESIZE, _tileY * TILESIZE);
+	PatBlt(tempImg->getMemDC(), 0, 0, _tileX * TILESIZE, _tileY * TILESIZE, BLACKNESS);*/
+
+	tempImg = IMAGEMANAGER->addImage("템푸", TILEX*TILESIZE, TILEY * TILESIZE);
+	PatBlt(tempImg->getMemDC(), 0, 0, TILEX * TILESIZE, TILEY * TILESIZE, BLACKNESS);
+
+
+	for (int i = 0; i < TILEY; i++)
+	{
+		for (int j = 0; j < TILEX; j++)
+		{
+			if (_tiles[i * TILEX + j].object == OBJ_NONE) continue;
+			IMAGEMANAGER->frameRender("map", tempImg->getMemDC(), _tiles[i * TILEX + j].rc.left, _tiles[i * TILEX + j].rc.top, _tiles[i * TILEX + j].objFrameX, _tiles[i * TILEX + j].objFrameY);
+			//IMAGEMANAGER->frameRender("map", tempImg->getMemDC(), _tiles[i * _temp + j].rc.left, _tiles[i * _temp + j].rc.top, _tiles[i * _temp + j].terrainFrameX, _tiles[i * _temp + j].terrainFrameY);
+		}
+	}
+	_minimap->setMinimap(tempImg->getMemDC());
+	_minimap->setPlayerXY(((300 * _player->getPlayerX()) / (_tileX * TILESIZE)), ((150 * _player->getPlayerY()) / (_tileY * TILESIZE)));
+	if (_vPortal.size() > 0)
+	{
+		_minimap->setPortalXY(((300 * _vPortal[0].x) / (_tileX*TILESIZE)), ((150 * (_vPortal[0].y - 50)) / (_tileY*TILESIZE)));
+	}
+}
+
+void dungeonScene::setDoorMinimap()
+{
+	for (int i = 0; i < _vDoor.size(); i++)
+	{
+		if (_vDoor[i].dir == DOOR_UPDOWN)
+			_minimap->setDoorXY((300*_vDoor[i].x)/(_tileX*TILESIZE), (150*_vDoor[i].y)/(_tileY*TILESIZE), false);
+		else
+			_minimap->setDoorXY((300 * _vDoor[i].x) / (_tileX*TILESIZE), (150 * _vDoor[i].y) / (_tileY*TILESIZE), true);
+	}
 }
 
 void dungeonScene::setCamera(void)
@@ -459,48 +514,8 @@ void dungeonScene::save()
 	TXTDATA->txtSave("infoDungeon.txt", vStr);
 }
 
-void dungeonScene::savePlayer()
-{
-	//int currentHp, maxHp;											 //현재 , 전체 체력 
-	//int armor;														 //방어력
-	//int currentDash, maxDash;										 //대시 횟수 
-	//int attackMinDamage, attackMaxDamage, attackPower;			 //최소 ~ 최대 데미지 , 위력 ()
-	//int fixedDamage;												 //고정데미지 
-	//																 // inven
-	//int  mainWeapon[2], assistWeapon[2];							 //현재 장착중인 메인 , 보조 무기들
-	//int  accessory[4];												 //악쎄사리
-	//int  inventory[15];											 //전체인벤토리 15칸 
-	//int  gold;														 //돈
-	//int  currentExp, maxExp;										 //현재 , 최대 경험치  
-	//int  currentFullNess, maxFullNess;							 //현재 , 최대 만복도 
-	//int  youUsingCount;											 // 1번무기 장착중인지 2번무기 장착중ㅇ인지 배열이라 0과 1값을 받게됨 ;
 
-	//															 //float 
-	//float attackSpeed, reloadSpeed;								 //공속 재장전속도 
-	//float evasionPersent, guardPersent;							 //회피확률 , 막을확률  	
-	//float moveMentSpeed;											 //이동속도 
-	//float criticalPercent, criticalAttackDamage;					 //크리티컬 확률 , 크리티컬 데미지 증가율 
-	//float dashDamage, dashSpeed;									 //대시할때 데미지 , 스피드
-	//float punchSpeed;
-	//_infoPlayer.currentHp = ;
-	//_infoPlayer.maxHp = ;
-	//_infoPlayer.armor = ;
-	//_infoPlayer.currentDash = ;
-	//_infoPlayer.maxDash = ;
-	//_infoPlayer.attackMinDamage = ;
-	//_infoPlayer.attackMaxDamage = ;
-	//_infoPlayer.attackPower = ;
-	//_infoPlayer.fixedDamage = ;
-	//_infoPlayer.mainWeapon = ;
-	//_infoPlayer.assistWeapon = ;
-	//_infoPlayer.accessory = ;
-	//_infoPlayer.inventory = ;
-	//_infoPlayer.g
-}
-void dungeonScene::loadPlayer()
-{
 
-}
 
 void dungeonScene::setDoor()
 {

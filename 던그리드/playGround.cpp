@@ -8,18 +8,18 @@ playGround::~playGround(){}
 
 HRESULT playGround::init(void)	
 {
-	mode = 보스;				//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
-
-
-
-
+	mode = 랜덤맵1;		//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
+//	rectRotate(IMAGEMANAGER->findImage("검01"), 100, 100);
 
 	gameNode::init(true);
 	Image_init();
 	Sound_init();
 	
-	//_mapTool = new MapTool;
-	//_mapTool->init();
+	if (mode == 맵툴)
+	{
+		_mapTool = new MapTool;
+		_mapTool->init();
+	}
 	_player = new Player;
 	_player->init();
 	_im = new itemManager;
@@ -47,10 +47,15 @@ HRESULT playGround::init(void)
 	SCENEMANAGER->addScene("푸드", new foodScene);
 	SCENEMANAGER->addScene("보스", new bossScene);
 
-	//SCENEMANAGER->addScene("랜덤맵1", new RandomDungeon1);
-	
+//	
 	_randomScene1 = new RandomDungeon1;
-
+	//SCENEMANAGER->addScene("랜덤맵1", _randomScene1);
+	_randomScene1->init();
+////	_randomScene1->init();
+//
+//	
+//	_randomScene1->init();
+//
 	switch (mode)
 	{
 	case 맵툴:
@@ -102,7 +107,7 @@ HRESULT playGround::init(void)
 		break;
 	case 랜덤맵1:
 		//SCENEMANAGER->changeScene("랜덤맵1");
-		_randomScene1->init();
+		//_randomScene1->init();
 		break;
 
 		break;	
@@ -157,17 +162,17 @@ void playGround::update(void)
 	if (KEYMANAGER->isStayKeyDown('W') && CAMERAMANAGER->getCameraRc().top>0) CAMERAMANAGER->setCameraY(CAMERAMANAGER->getCameraY() - 50);
 */
 
-	//if (mode != 타이틀)
-	//{
-	//	if (KEYMANAGER->isStayKeyDown('D'))//&& CAMERAMANAGER->getCameraCenter().x+WINSIZEX/2<BACKGROUNDSIZEX)
-	//		CAMERAMANAGER->setCameraCenter(PointMake(CAMERAMANAGER->getCameraCenter().x + 50, CAMERAMANAGER->getCameraCenter().y));
-	//	if (KEYMANAGER->isStayKeyDown('S'))// && CAMERAMANAGER->getCameraCenter().y + WINSIZEY / 2<BACKGROUNDSIZEY)
-	//		CAMERAMANAGER->setCameraCenter(PointMake(CAMERAMANAGER->getCameraCenter().x, CAMERAMANAGER->getCameraCenter().y + 50));
-	//	if (KEYMANAGER->isStayKeyDown('A'))// && CAMERAMANAGER->getCameraCenter().x - WINSIZEX / 2>0)
-	//		CAMERAMANAGER->setCameraCenter(PointMake(CAMERAMANAGER->getCameraCenter().x - 50, CAMERAMANAGER->getCameraCenter().y));
-	//	if (KEYMANAGER->isStayKeyDown('W'))//&& CAMERAMANAGER->getCameraCenter().y - WINSIZEY / 2>0)
-	//		CAMERAMANAGER->setCameraCenter(PointMake(CAMERAMANAGER->getCameraCenter().x, CAMERAMANAGER->getCameraCenter().y - 50));
-	//}
+	if (mode == 맵툴)
+	{
+		if (KEYMANAGER->isStayKeyDown('D'))//&& CAMERAMANAGER->getCameraCenter().x+WINSIZEX/2<BACKGROUNDSIZEX)
+			CAMERAMANAGER->setCameraCenter(PointMake(CAMERAMANAGER->getCameraCenter().x + 50, CAMERAMANAGER->getCameraCenter().y));
+		if (KEYMANAGER->isStayKeyDown('S'))// && CAMERAMANAGER->getCameraCenter().y + WINSIZEY / 2<BACKGROUNDSIZEY)
+			CAMERAMANAGER->setCameraCenter(PointMake(CAMERAMANAGER->getCameraCenter().x, CAMERAMANAGER->getCameraCenter().y + 50));
+		if (KEYMANAGER->isStayKeyDown('A'))// && CAMERAMANAGER->getCameraCenter().x - WINSIZEX / 2>0)
+			CAMERAMANAGER->setCameraCenter(PointMake(CAMERAMANAGER->getCameraCenter().x - 50, CAMERAMANAGER->getCameraCenter().y));
+		if (KEYMANAGER->isStayKeyDown('W'))//&& CAMERAMANAGER->getCameraCenter().y - WINSIZEY / 2>0)
+			CAMERAMANAGER->setCameraCenter(PointMake(CAMERAMANAGER->getCameraCenter().x, CAMERAMANAGER->getCameraCenter().y - 50));
+	}
 	
 	//if (CAMERAMANAGER->getCameraX() < 0)						CAMERAMANAGER->setCameraX(0);
 	//if (CAMERAMANAGER->getCameraY() < 0)						CAMERAMANAGER->setCameraY(0);
@@ -244,7 +249,8 @@ void playGround::render(void)
 	IMAGEMANAGER->render("cursor", UIDC, _ptMouse.x, _ptMouse.y);
 	TIMEMANAGER->render(UIDC);
 
-	IMAGEMANAGER->findImage("카메라DC")->render(DC, 54,240,CAMERAMANAGER->getCameraPoint().x, CAMERAMANAGER->getCameraPoint().y, 600, 670);
+	//if(mode == 타이틀)
+		IMAGEMANAGER->findImage("카메라DC")->render(DC, 54,240,CAMERAMANAGER->getCameraPoint().x, CAMERAMANAGER->getCameraPoint().y, 600, 670);
 
 	CAMERAMANAGER->render(this->getBackBuffer());
 	this->getBackBuffer()->render(getHDC(), 0, 0, CAMERAMANAGER->getCameraCenter().x - WINSIZEX / 2, CAMERAMANAGER->getCameraCenter().y - WINSIZEY / 2, WINSIZEX, WINSIZEY);

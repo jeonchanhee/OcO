@@ -49,6 +49,8 @@ HRESULT Arrow::init(float x, float y)
 
 	_isShoot = false;
 
+	_x = _arrow[0].x, _y = _arrow[0].y;
+
 	//활쟁이 체력바 초기화
 	_progressBar = new progressBar;
 	_progressBar->init(_arrow[0].x, _arrow[0].y + 80, 70, 10, "활쟁이앞", "활쟁이뒤", BAR_MONSTER);
@@ -79,6 +81,8 @@ void Arrow::update()
 	//_arrow[2].rc = RectMake(_arrow[2].x, _arrow[2].y, _arrow[2].img->getWidth(), _arrow[2].img->getHeight());
 	//_arrow[2].rc = RectMakeCenter(_arrow[2].x, _arrow[2].y, _arrow[2].img->getWidth(), _arrow[2].img->getHeight());
 	_arrow[2].rc = RectMake(_arrowX, _arrowY, 15, 15);
+
+	_x = _arrow[0].x, _y = _arrow[0].y;
 
 	_progressBar->setX(_arrow[0].x);
 	_progressBar->setY(_arrow[0].y + 80);
