@@ -93,6 +93,8 @@ public:
 	RECT getRc() { return _collisionRc; }
 
 	void keyInput();
+	void rightStop();
+	void leftStop();
 	void mouseControl();
 	void move();
 	void attack();
@@ -104,10 +106,12 @@ public:
 	void hitDamage(float damage);//hp깎이게 하는 함수
 
 	//접근자 (get)      
+	bool getIsLeftAttack() { return _isLeftAttack; }
 	bool getIsGun()						    { return _isGun; }						     //원거리 무기장착 ?
 	bool getIsAlive()					    { return _isAlive; }						 //생존 ?
 	bool getIsAttacking()					{ return _isAttacking; }				
 	bool getAttackCheck()					{ return _attackSpeedCheckCount; } 	//you  attaking ;
+
 
 	int getCurrentHp()					    { return _currentHp; }						 //현재 hp
 	int getMaxHp()						    { return _maxHp; }							 //전체hp

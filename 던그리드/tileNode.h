@@ -94,7 +94,7 @@ extern int _tileX, _tileY;
 
 extern int VARIABLE_SIZEX[12];
 
-extern bool _isMapSet;
+extern bool _canMove;
 
 extern int _dungeonNum;
 

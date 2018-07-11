@@ -15,7 +15,7 @@ HRESULT foodScene::init()
 {
 	dungeonScene::init();
 
-	_isMapSet = true;
+//	_isMapSet = true;
 	chooseMap(2);
 	selectSize(2);
 	mapload();

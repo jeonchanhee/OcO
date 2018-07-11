@@ -15,7 +15,7 @@ HRESULT dungeon8Scene::init()
 {
 	dungeonScene::init();
 
-	_isMapSet = true;
+	//_isMapSet = true;
 	chooseMap(9);
 	selectSize(9);
 	mapload();

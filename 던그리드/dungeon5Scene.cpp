@@ -32,7 +32,7 @@ HRESULT dungeon5Scene::init()
 	DeleteObject(oldPen);
 	DeleteObject(pen);
 
-	_isMapSet = true;
+//	_isMapSet = true;
 	chooseMap(6);
 	selectSize(6);
 	mapload();
