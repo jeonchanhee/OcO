@@ -115,7 +115,6 @@ HRESULT playGround::Image_init(void)
 	IMAGEMANAGER->addFrameImage("bigWhiteSkelAttack", "image/enemy/bigWhiteSkelAttack(2160x340,12x2).bmp", 0, 0, 2520, 600, 12, 2, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("bigWhiteSkelIdleMove", "image/enemy/bigWhiteSkelIdleMove(780x680,6x4).bmp", 0, 0, 780, 680, 6, 4, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("BombBatExplosion", "image/enemy/BombBatExplosion(486x27,18x1).bmp", 0, 0, 486, 27, 18, 1, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("bossBack", "image/enemy/bossBack(2400x300,8x1).bmp", 0, 0, 2400, 300, 8, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("bossBullet", "image/enemy/bossBullet(650x65,10x1).bmp", 0, 0, 650, 65, 10, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("bossHand", "image/enemy/bossHand(3300x1400,10x4).bmp", 0, 0, 3300, 1400, 10, 4, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("bossHit", "image/enemy/bossHit(1530x132,5x1).bmp", 0, 0, 1530, 132, 5, 1, true, RGB(255, 0, 255));
@@ -143,8 +142,11 @@ HRESULT playGround::Image_init(void)
 	IMAGEMANAGER->addFrameImage("skelBone", "image/enemy/skelBone(480x60,8x1).bmp", 0, 0, 480, 60, 8, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("skelDogIdle", "image/enemy/skelDogIdle(500x180,5x2).bmp", 0, 0, 500, 180, 5, 2, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("skelDogMoveDie", "image/enemy/skelDogMoveDie(700x270,7x3).bmp", 0, 0, 700, 270, 7, 3, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("bossBackBullet", "image/enemy/bossBackBullet(1500x115,10x1).bmp", 0, 0, 1750, 160, 10, 1, true, RGB(255, 0, 255));
 	//IMAGEMANAGER->addFrameImage("arrowEffect", "image/enemy/arrowEffect(720x370,3x1).bmp", 0, 0, 720, 370, 3, 1, true, RGB(255, 0, 255));
 	//IMAGEMANAGER->addFrameImage("bansheeBigBullet", "image/enemy/bansheeBigBullet(480x110,6x1).bmp", 0, 0, 480, 110, 6, 1, true, RGB(255, 0, 255));
+	//IMAGEMANAGER->addFrameImage("bossBack", "image/enemy/bossBack(2400x300,8x1).bmp", 0, 0, 2400, 300, 8, 1, true, RGB(255, 0, 255));
+	//EFFECTMANAGER->addEffect("bossBack", "image/enemy/bossBack(2400x300,8x1).bmp", 1600, 200, 1600 / 8, 200, 1, 0.1f, 10);
 	IMAGEMANAGER->addFrameImage("dieEffect", "image/enemy/dieEffect(4224x384,11x1).bmp", 0, 0, 4224, 384, 11, 1, true, RGB(255, 0, 255));
 	EFFECTMANAGER->addEffect("dieEffect", "image/enemy/dieEffect(4224x384,11x1).bmp", 4224, 384, 4224 / 11, 384, 1, 0.1f, 50);
 	EFFECTMANAGER->addEffect("bossCollisionBullet", "image/enemy/bossCollisionEffect(1100x100,11x1).bmp", 1100, 100, 1100 / 11, 100, 1.0f, 0.3f, 1);

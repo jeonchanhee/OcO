@@ -25,7 +25,7 @@ private:
 	int _itemNum[5];
 	bool _ui[3];
 	bool _sucking;
-	int _trainStat[6];
+	//int _trainStat[6];
 	int _count;
 	
 

@@ -10,9 +10,9 @@ HRESULT playGround::init(void)
 {
 	vector<string> vStr;
 	vStr.resize(4);
-	vStr = { "F","F","F","F" };
+	vStr = { "F","F","T","T" };
 	TXTDATA->txtSave("random.txt", vStr);
-	mode = 던전2;		//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
+	mode = 마을;		//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
 
 	gameNode::init(true);
 	Image_init();
