@@ -72,22 +72,31 @@ void dungeon2Scene::update()
 		int idx = _viEnemy - _vEnemy.begin();
 		_minimap->changeEnemyXY(idx, (((*_viEnemy)->getX() * 300) / (_tileX*TILESIZE)), (((*_viEnemy)->getY() * 150) / (_tileY*TILESIZE)));
 	}
-	bigbatbulletFire();
+	if (!_bigbat->getdiedie())
+	{
+		bigbatbulletFire();
+	}
 	_bigBatBullet->bulletframe("fatherBatBullet2");
 	if (_start2 != 0)
 	{
 		_bigBatBullet->update();
 	}
-
-	bigRadbatbulletFire();
-	for (int i = 0; i < 20; i++)
+	if (!_bigRedBat->getdiedie())
 	{
-
-		_bigRadBatBullet[i]->bulletframe("fatherBatBullet2");
-
-		if(_start == 1) _bigRadBatBullet[i]->update();
+		bigRadbatbulletFire();
+	}
+	else
+	{
+		_start = 1;
 	}
 
+		for (int i = 0; i < 20; i++)
+		{
+			_bigRadBatBullet[i]->bulletframe("fatherBatBullet2");
+			if (_start == 1) 
+				_bigRadBatBullet[i]->update();
+		}
+	
 	redBatBullet();
 	_radBatBullet->bulletframe("fatherBatBullet2");
 	_radBatBullet->update();

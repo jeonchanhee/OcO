@@ -51,5 +51,7 @@ public:
 
 	bool getisAtteck2() { return _isAttack; }
 	void setisAtteck2(bool isAttack) { _isAttack = isAttack; }
+
+	bool getdiedie() { return _diedie;	}
 };
 

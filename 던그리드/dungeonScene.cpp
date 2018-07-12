@@ -8,26 +8,28 @@ void dungeonScene::collision()
 {
 	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); ++_viEnemy)
 	{
-
-		RECT checkRc;
-		if (IntersectRect(&checkRc, &_player->getEffect()->effectCheckBox(), &(*_viEnemy)->getRect()))
+		if (_player->getAttackCheck())
 		{
-			(*_viEnemy)->setCurrentHp((*_viEnemy)->getCurrentHp() - 10);
-		}
-
-
-		for (int i = 0; i < _player->getPBullet()->getvPBullet().size();)
-		{
-			RECT temp;
-			if (IntersectRect(&temp, &(*_viEnemy)->getRect(), &_player->getPBullet()->getvPBullet()[i].rc))
+			RECT checkRc;
+			if (IntersectRect(&checkRc, &_player->getEffect()->effectCheckBox(), &(*_viEnemy)->getRect()))
 			{
-				_player->getPBullet()->removeBullet(i);
 				(*_viEnemy)->setCurrentHp((*_viEnemy)->getCurrentHp() - 10);
 			}
-			else
+
+
+			for (int i = 0; i < _player->getPBullet()->getvPBullet().size();)
 			{
-				++i;
-			}
+				RECT temp;
+				if (IntersectRect(&temp, &(*_viEnemy)->getRect(), &_player->getPBullet()->getvPBullet()[i].rc))
+				{
+					_player->getPBullet()->removeBullet(i);
+					(*_viEnemy)->setCurrentHp((*_viEnemy)->getCurrentHp() - 10);
+				}
+				else
+				{
+					++i;
+				}
+			}	
 		}
 	}
 	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); )
@@ -57,7 +59,6 @@ HRESULT dungeonScene::init(void)
 
 	j = 0;
 	_start = _start2 = 0;
-	_diecount2 = true;
 	for (int i = 0; i < 2; i++)
 	{
 		_bossLaserHitCount[i] = 0;
@@ -158,6 +159,7 @@ void dungeonScene::render(void)
 	TextOut(DC, 100, 100, str, strlen(str));
 	_count++;
 	_enemyBullet->render();
+
 	for (int i = 0; i < 20; i++)
 	{
 		_bigRadBatBullet[i]->render();
@@ -1023,6 +1025,8 @@ void dungeonScene::MusicAngelBulletFire()
 //º¸½ºÃÑ¾Ë
 void dungeonScene::BossBulletFire()
 {
+	if (_boss->getDieDie()) return;
+	
 	bossBulletCollision();
 	//==========================================================
 	//						º¸½º ÃÑ¾Ë
@@ -1075,6 +1079,9 @@ void dungeonScene::BossBulletFire()
 
 void dungeonScene::bigbatbulletFire()
 {
+	if (_bigbat->getdiedie() == true)
+		return;
+
 	bigbatBulletCollision();
 	if (_bigbat->getisAtteck() == true)
 	{
@@ -1105,6 +1112,9 @@ void dungeonScene::bigbatbulletFire()
 
 void dungeonScene::bigRadbatbulletFire()
 {
+	if (_bigRedBat->getdiedie() == true)
+		return;
+
 	bigRadbatBulletCollision();
 	_count3++;
 	if(!(_count3 % 5) && _count3 > 0)
@@ -1157,6 +1167,8 @@ void dungeonScene::bigRadbatbulletFire()
 
 void dungeonScene::redBatBullet()
 {
+	if (_redBat->getdiedie() == true) return;
+
 	redBatBulletCollision();
 	_count4++;
 	if (_count4 % 150 == 0 && _redBat->getisAtteck() == true)
@@ -1177,6 +1189,11 @@ void dungeonScene::bigbatBulletCollision()
 			EFFECTMANAGER->play("fatherBatBulletFX2", _bigBatBullet->getVBullet()[i].x, _bigBatBullet->getVBullet()[i].y);
 			_bigBatBullet->removeBullet(i);
 		}
+
+		if (_bigbat->getdiedie())
+		{
+			_bigBatBullet->removeBullet(i);
+		}
 	}
 }
 
@@ -1192,8 +1209,13 @@ void dungeonScene::bigRadbatBulletCollision()
 				EFFECTMANAGER->play("fatherBatBulletFX2", _bigRadBatBullet[j]->getVBullet()[i].x, _bigRadBatBullet[j]->getVBullet()[i].y);
 				_bigRadBatBullet[j]->removeBullet(i);
 			}
+			if (_bigRedBat->getdiedie())
+			{
+				_bigRadBatBullet[j]->removeBullet(i);
+			}
 		}
 	}
+	
 }
 
 void dungeonScene::redBatBulletCollision()

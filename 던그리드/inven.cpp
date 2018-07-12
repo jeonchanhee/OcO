@@ -29,7 +29,7 @@ HRESULT inven::init()
 	{
 		_accessarryRect[i] = RectMake(WINSIZEX / 2 + 363 + i * 129 , WINSIZEY / 2 -180, 114, 114);
 	}
-	_isSelect = 1;
+	_isSelect = 0;
 	_index = 0;
 	_halfW = (_selectRect[0].right - _selectRect[0].left) / 2; 
 	_halfH = (_selectRect[0].bottom - _selectRect[0].top) / 2;
@@ -118,7 +118,8 @@ void inven::render()
 			else if (_onMouseAs) IMAGEMANAGER->findImage("mouseOnAs")->render(UIDC, _assistWeaponRect[_index].left, _assistWeaponRect[_index].top);
 			for (int i = 0; i < _vItem.size(); ++i)
 			{
-				_vItem[i]->invenRender(UIDC, _selectRect[i].left + _halfW - 10, _selectRect[i].top + _halfH / 2 - 10);
+				if(_vItem[i]->getItemType() == ACCESSORY)_vItem[i]->invenRender(UIDC, _selectRect[i].left + 25, _selectRect[i].top + _halfH / 2 - 10);
+				else _vItem[i]->invenRender(UIDC, _selectRect[i].left + _halfW - 10, _selectRect[i].top + _halfH / 2 - 10);
 			}
 			for (int i = 0; i < _vMainWeapon.size(); ++i)
 			{
@@ -130,7 +131,7 @@ void inven::render()
 			}
 			for (int i = 0; i < _vAccessary.size(); ++i)
 			{
-				_vAccessary[i]->invenRender(UIDC, _accessarryRect[i].left + _halfW - 10, _accessarryRect[i].top + _halfH / 2 - 10);
+				_vAccessary[i]->invenRender(UIDC, _accessarryRect[i].left + 25 , _accessarryRect[i].top + _halfH / 2 - 10);
 			}
 		}
 		if (KEYMANAGER->isToggleKey(VK_F6))

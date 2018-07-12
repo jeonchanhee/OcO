@@ -13,6 +13,7 @@ HRESULT Player::init()
 	_hpbar = new progressBar;
 	_hpbar->init(170,56, 294,60,"hp","hpb", BAR_PLAYER);
 
+	imageDC = new image;
 	_pb = new playerBullet;
 	_pb->init("총알0", "총알1", "총알2", "총알3");
 	_player			= IMAGEMANAGER->findImage("기본플레이어");
@@ -78,6 +79,8 @@ HRESULT Player::init()
 	}
 	
 	_collisionRc = RectMakeCenter(_x, _y, _player->getFrameWidth(), _player->getFrameHeight());
+	RECT rc = RectMake(0, 0, _playerWeapon->getWidth() * 2, _playerWeapon->getHeight());
+	imageDC->rotateInit(rc.right - rc.left, rc.bottom - rc.top, true, RGB(0, 0, 0), false);
 	return S_OK;
 }
 
@@ -90,7 +93,6 @@ void Player::update()
 	if (KEYMANAGER->isOnceKeyDown(VK_F6)) _inven->pickUpItem(SWORD, "검", 5);
 	if (KEYMANAGER->isOnceKeyDown(VK_F7)) _inven->pickUpItem(ACCESSORY, "악세", 1);
 	if (KEYMANAGER->isOnceKeyDown(VK_F8)) _inven->pickUpItem(SECOND_EQUIPMENT, "보조", 1);
-	if (KEYMANAGER->isOnceKeyDown(VK_F5)) _inven->pickUpItem(SWORD , "검", 2);
 	if (_canMove == true)
 	{
 		keyInput();
@@ -117,12 +119,8 @@ void Player::update()
 void Player::render()
 {
 	//여윽시 희진누나 작품 !!
-
-	RECT rc = RectMake(0,0, _playerWeapon->getWidth() * 2, _playerWeapon->getHeight());
-	imageDC = IMAGEMANAGER->addRotateImage("rotateimage", rc.right - rc.left, rc.bottom - rc.top ,true,RGB(0,0,0), false);
 	_playerWeapon->render(imageDC->getMemDC(), _playerWeapon->getWidth(),
-	0,0,0, _playerWeapon->getWidth(), _playerWeapon->getHeight());
-	
+		0, 0, 0, _playerWeapon->getWidth(), _playerWeapon->getHeight());
 	// ===================
 	if (_direction == LEFT_RUN || _direction == LEFT_STOP)
 	{
@@ -439,6 +437,7 @@ void Player::attack()
 			|| _inven->getMainWeapon()[_youUsingCount]->getItemType() == HAMMER)
 		{
 			_attackCount+=2;
+			_attackSpeedCheckCount = true;
 			if (_isChap)_weaponAttackAngle += (PI / 180) * 200;
 			else if (!_isChap)_weaponAttackAngle -= (PI / 180) * 200;
 
@@ -485,7 +484,16 @@ void Player::attack()
 		_isAttacking = false;
 		_locusX = 0, _locusY = 0;
 	}
-	if (attackSpeedCheckCount > 30)
+	int interval = 0;
+
+	if (_inven->getMainWeapon().size() > _youUsingCount)
+	{
+		if (_inven->getMainWeapon()[_youUsingCount]->getItemType() == SWORD) interval = 1;
+		else interval = 30;
+	}
+	else interval = 30;
+
+	if (attackSpeedCheckCount > interval)
 	{
 		attackSpeedCheckCount = 0;
 		_attackSpeedCheckCount = false;
@@ -843,8 +851,18 @@ void Player::pixelCollision()
 
 void Player::itemInfo()
 {
-	if(_inven->getMainWeapon().size() > _youUsingCount)
-	_playerWeapon = _inven->getMainWeapon()[_youUsingCount]->equipmentImage(); //무기 이미지 넣어준다
-																			   //가져가서먹어
+	if (_inven->getMainWeapon().size() > _youUsingCount )
+	{
+		_playerWeapon = _inven->getMainWeapon()[_youUsingCount]->equipmentImage();
+		RECT rc = RectMake(0, 0, _playerWeapon->getWidth() * 2, _playerWeapon->getHeight());
+		imageDC->rotateInit(rc.right - rc.left, rc.bottom - rc.top, true, RGB(0, 0, 0), false);
+	}
+	
+	RECT rc = RectMake(0, 0, _playerWeapon->getWidth() * 2, _playerWeapon->getHeight());
+	imageDC->rotateInit(rc.right - rc.left, rc.bottom - rc.top, true, RGB(0, 0, 0), false);
+
+
+	//무기 이미지 넣어준다
+																			   
 
 }

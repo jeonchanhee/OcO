@@ -76,5 +76,8 @@ public:
 	void setisAtteck(bool isAtteck) { _isAtteck = isAtteck; }
 
 	//REDBATDIRECTION getredBatDirection() { return _redBatDirection; }
+	
+	bool getdiedie() { return _diedie; }
+
 };
 

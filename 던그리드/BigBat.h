@@ -54,5 +54,6 @@ public:
 	void die();
 	static void bigbatDieMotion(void * obj);
 	void hitDamage(float damage);
-};
 
+	bool getdiedie() { return _diedie; }
+};

@@ -173,6 +173,7 @@ void BigRedBat::changeAnimation(BIGREDBATDIRECTION bigRedBatDirection)
 	case BIGREDBAT_RIGHT_DIE:
 		_img = IMAGEMANAGER->findImage("giantRedBatIdleDie");
 		_bigRedBatDirection = BIGREDBAT_RIGHT_DIE;
+		_bigRedBatMotion->stop();
 		_bigRedBatMotion = KEYANIMANAGER->findAnimation("bigRedBatRightDie");
 		_bigRedBatMotion->start();
 		_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
@@ -180,6 +181,7 @@ void BigRedBat::changeAnimation(BIGREDBATDIRECTION bigRedBatDirection)
 	case BIGREDBAT_LEFT_DIE:
 		_img = IMAGEMANAGER->findImage("giantRedBatIdleDie");
 		_bigRedBatDirection = BIGREDBAT_LEFT_DIE;
+		_bigRedBatMotion->stop();
 		_bigRedBatMotion = KEYANIMANAGER->findAnimation("bigRedBatLeftDie");
 		_bigRedBatMotion->start();
 		_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
@@ -204,14 +206,14 @@ void BigRedBat::hitDamage()
 
 void BigRedBat::die()
 {
-	if (_bigRedBatDirection == BIGREDBAT_RIGHT_ATTACK)
+	if (_bigRedBatDirection == BIGREDBAT_RIGHT_ATTACK || _bigRedBatDirection == BIGREDBAT_RIGHT_MOVE)
 		changeAnimation(BIGREDBAT_RIGHT_DIE);
-	if (_bigRedBatDirection == BIGREDBAT_LEFT_ATTACK)
+	if (_bigRedBatDirection == BIGREDBAT_LEFT_ATTACK || _bigRedBatDirection == BIGREDBAT_RIGHT_MOVE)
 		changeAnimation(BIGREDBAT_LEFT_DIE);
 }
 
 void BigRedBat::bigRedBatDieMotion(void * obj)
 {
 	BigRedBat* c = (BigRedBat*)obj;
-	c->_diedie;
+	c->_diedie = true;
 }
