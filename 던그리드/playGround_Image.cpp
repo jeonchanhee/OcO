@@ -116,7 +116,8 @@ HRESULT playGround::Image_init(void)
 	IMAGEMANAGER->addFrameImage("dieEffect", "image/enemy/dieEffect(4224x384,11x1).bmp", 0, 0, 4224, 384, 11, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("fatherBatBullet", "image/enemy/fatherBatBullet(100x20,5x1).bmp", 0, 0, 100, 20, 5, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("fatherBatBullet2", "image/enemy/fatherBatBullet(250x50,5x1).bmp", 0, 0, 250, 50, 5, 1, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("fatherBatBulletFX", "image/enemy/fatherBatBulletFX(396x36,11x1).bmp", 0, 0, 396, 36, 11, 1, true, RGB(255, 0, 255));
+	EFFECTMANAGER->addEffect("fatherBatBulletFX", "image/enemy/fatherBatBulletFX(396x36,11x1).bmp",396, 36, 396/11, 36, 1.0f, 0.3f, 5);
+	EFFECTMANAGER->addEffect("fatherBatBulletFX2", "image/enemy/fatherBatBulletFX(550x50,11x1).bmp", 550,50,550/11,50, 1.0f, 0.3f, 5);
 	IMAGEMANAGER->addFrameImage("giantBat", "image/enemy/giantBat(2240x1080,7x6).bmp", 0, 0, 2240, 1080, 7, 6, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("giantRedBatAttack", "image/enemy/giantRedBatAttack(3000x400,10x2).bmp", 0, 0, 3000, 400, 10, 2, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("giantRedBatIdleDie", "image/enemy/giantRedBatIdleDie(2100x600,7x3).bmp", 0, 0, 2100, 600, 7, 3, true, RGB(255, 0, 255));

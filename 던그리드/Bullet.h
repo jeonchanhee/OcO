@@ -25,6 +25,7 @@ struct tagBullet
 	int		frameX, frameY;
 	int		bulletNum;		// 원형이동인지 체크
 	int		swordIdx;
+	
 };
 
 class Bullet : public gameNode

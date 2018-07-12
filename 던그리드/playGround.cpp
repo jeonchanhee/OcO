@@ -136,7 +136,8 @@ void playGround::update(void)
 	if(mode == ¸ÊÅø) _mapTool->update();
 	if(KEYMANAGER->isToggleKey(VK_F2))_player->update();
 	SCENEMANAGER->update();
-	
+	EFFECTMANAGER->update();
+
 	
 	/*if (KEYMANAGER->isStayKeyDown('D') && CAMERAMANAGER->getCameraRc2().right<BACKGROUNDSIZEX) CAMERAMANAGER->setCameraX2(CAMERAMANAGER->getCameraX2() + 50);
 	if (KEYMANAGER->isStayKeyDown('S') && CAMERAMANAGER->getCameraRc2().bottom<BACKGROUNDSIZEY) CAMERAMANAGER->setCameraY2(CAMERAMANAGER->getCameraY2() + 50);
@@ -225,6 +226,8 @@ void playGround::render(void)
 	default:
 		break;
 	}
+	EFFECTMANAGER->render();
+
 	//SCENEMANAGER->render();
 
 	//char str[128];

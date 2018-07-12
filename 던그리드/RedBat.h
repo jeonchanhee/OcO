@@ -6,6 +6,12 @@ enum REDBATDIRECTION
 {
 	REDBAT_RIGHT_MOVE,
 	REDBAT_LEFT_MOVE,
+	REDBAT_RIGHT_UP_MOVE,
+	REDBAT_LEFT_UP_MOVE,
+	REDBAT_RIGHT_DOWN_MOVE,
+	REDBAT_LEFT_DOWN_MOVE,
+	REDBAT_UP_MOVE,
+	REDBAT_DOWN_MOVE,
 	REDBAT_RIGHT_ATTACK,
 	REDBAT_LEFT_ATTACK,
 	REDBAT_RIGHT_DIE,
@@ -19,10 +25,12 @@ class RedBat : public Enemy
 
 	REDBATDIRECTION _redBatDirection;
 	animation* _redBatMotion;
-	
+	RECT rcCollision;	// 타일 검출 렉트
+
 	float _startX, _startY;
 	bool _isAtteck;
-
+	int		randNum;	// 랜덤이동
+	int		_moveCount;
 public:
 	RedBat();
 	~RedBat();

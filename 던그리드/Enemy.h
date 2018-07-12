@@ -1,6 +1,9 @@
 #pragma once
 #include "gameNode.h"
 
+#define SPEED 5.0f
+
+
 class Enemy :	public gameNode
 {
 protected:
