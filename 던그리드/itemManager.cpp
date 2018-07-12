@@ -8,13 +8,17 @@ itemManager::itemManager(){} itemManager::~itemManager(){}
 HRESULT itemManager::init()
 {
 	CreateItem();
-	
-	//_foodNpc = new FoodNpc;
-	//_foodNpc->init(NPC_LEFT_STOP, FOOD_NPC, "엔피시", 1, PointMake(200, 200));
+	_isSelect = 1;
+	_showInven = false;
+	for (int i = 0; i < 3; ++i)
+	{
+		for (int j = 0; j < 5; ++j)
+		{
+			//_selectRect[(i*5) + j] = RectMake()
+		}
+	}
 
-	//_weaponNpc = new WeaponNpc;
-	//_weaponNpc->init(NPC_LEFT_STOP, WEAPON_NPC, "엔피시", 2, PointMake(400, 100));
-	//
+
 	return S_OK;
 }
 
@@ -32,9 +36,9 @@ void itemManager::update()
 	{
 		(*_viItem)->update();
 	}
+	if (KEYMANAGER->isOnceKeyDown('1')) _isSelect = 1;
+	if (KEYMANAGER->isOnceKeyDown('2')) _isSelect = 2;
 
-	//_weaponNpc->update();
-	//_foodNpc->update();
 }
 
 
@@ -45,10 +49,21 @@ void itemManager::render()
 		(*_viItem)->render();
 		
 	}
-	
-	
-	//_weaponNpc->render();
-	//_foodNpc->render();
+	if (KEYMANAGER->isToggleKey('I'))
+	{
+		IMAGEMANAGER->findImage("inven")->render(DC , CAMERAMANAGER->getCameraCenter().x + IMAGEMANAGER->findImage("inven")->getWidth() / 2 - 100 
+			, CAMERAMANAGER->getCameraCenter().y - IMAGEMANAGER->findImage("inven")->getHeight() / 2);
+		if(_isSelect == 1)
+		IMAGEMANAGER->findImage("inven0")->render(DC , CAMERAMANAGER->getCameraCenter().x + 328 , CAMERAMANAGER->getCameraCenter().y - 385);
+		if (_isSelect == 2)
+		IMAGEMANAGER->findImage("inven0")->render(DC, CAMERAMANAGER->getCameraCenter().x + 638, CAMERAMANAGER->getCameraCenter().y - 385);
+	}
+	for (int i = 0; i < 15; ++i)
+	{
+		Rectangle(DC, _selectRect[i].left, _selectRect[i].top, _selectRect[i].right, _selectRect[i].bottom);
+	}
+
+
 }
 
 void itemManager::CreateItem()

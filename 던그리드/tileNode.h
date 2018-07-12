@@ -98,4 +98,6 @@ extern bool _canMove;
 
 extern int _dungeonNum;
 
+extern int _floorNum;
+
 #endif 

@@ -105,16 +105,16 @@ public:
 	void cameraSetting();
 	void tileCollision();
 	void pixelCollision();
+	void itemInfo();
 
-	//void hitDamage(float damage);//hp깎이게 하는 함수
-	//void enemyCollision();
+
 
 	//접근자 (get)      
 	bool getIsLeftAttack() { return _isLeftAttack; }
 	bool getIsGun()						    { return _isGun; }						     //원거리 무기장착 ?
 	bool getIsAlive()					    { return _isAlive; }						 //생존 ?
 	bool getIsAttacking()					{ return _isAttacking; }				
-	bool getAttackCheck()					{ return _attackSpeedCheckCount; } 	//you  attaking ;
+	bool getAttackCheck()					{ return _attackSpeedCheckCount; } 	//you  attacking ;
 
 
 	int getCurrentHp()					    { return _currentHp; }						 //현재 hp
@@ -182,8 +182,6 @@ public:
 		
 	void healing(int heal)				    { _currentHp += heal; if (_currentHp > _maxHp) _currentHp = _maxHp; }
 	void hitDamage(int damage)				{ _currentHp -= damage; }
-
-//	void setEnemyVector(vector<Enemy*> vEnemy) { _vEnemy = vEnemy; }
 
 	Player();
 	~Player();

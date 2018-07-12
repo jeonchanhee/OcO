@@ -9,6 +9,7 @@
 #include "WeaponNpc.h"
 #include "FoodNpc.h"
 #include "gameNode.h"
+#include "Player.h"
 
 class itemManager : public gameNode
 {
@@ -22,9 +23,12 @@ private:
 	FoodNpc * _foodNpc;
 	vItem  _vItem;
 	viItem _viItem;
-
-
-
+	Player* _player;
+	//inven 
+	bool _showInven;
+	char _isSelect;
+	RECT _selectRect[15];
+	//인벤토리에 집어넣기 빼기 장착하기 해체하기 ;
 public:
 	itemManager();
 	~itemManager();

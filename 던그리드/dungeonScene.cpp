@@ -17,7 +17,7 @@ void dungeonScene::collision()
 			}
 		}
 
-		for (int i=0; i < _player->getPBullet()->getvPBullet().size();)
+		for (int i = 0; i < _player->getPBullet()->getvPBullet().size();)
 		{
 			RECT temp;
 			if (IntersectRect(&temp, &(*_viEnemy)->getRect(), &_player->getPBullet()->getvPBullet()[i].rc))
@@ -60,6 +60,13 @@ HRESULT dungeonScene::init(void)
 		_bossLaserHitCount[i] = 0;
 		_bossLaserHit[i] = false;
 	}
+	if (_floorNum == 1)
+		_floorName = "1Ãþ : ÁöÇÏ°¨¿Á";
+	else if (_floorNum == 2)
+		_floorName = "2Ãþ : ÁöÇÏ°¨¿Á";
+	else if (_floorNum == 3)
+		_floorName = "3Ãþ : ÁöÇÏ°¨¿Á";
+
 	return S_OK;
 }
 
@@ -152,6 +159,7 @@ void dungeonScene::render(void)
 	_radBatBullet->render();
 
 	doorRender();
+
 	if(_minimap != NULL)
 		_minimap->render();
 
@@ -268,17 +276,18 @@ void dungeonScene::setMinimap()
 	image* tempImg;
 	/*tempImg = IMAGEMANAGER->addImage("ÅÛÇª", _tileX*TILESIZE, _tileY * TILESIZE);
 	PatBlt(tempImg->getMemDC(), 0, 0, _tileX * TILESIZE, _tileY * TILESIZE, BLACKNESS);*/
+	string str = "ÅÛÇÁ";
+	str += to_string(_dungeonNum);
+	tempImg = IMAGEMANAGER->addImage(str, _tileX*TILESIZE, _tileY * TILESIZE);
+	PatBlt(tempImg->getMemDC(), 0, 0, _tileX * TILESIZE, _tileY * TILESIZE, BLACKNESS);
 
-	tempImg = IMAGEMANAGER->addImage("ÅÛÇª", TILEX*TILESIZE, TILEY * TILESIZE);
-	PatBlt(tempImg->getMemDC(), 0, 0, TILEX * TILESIZE, TILEY * TILESIZE, BLACKNESS);
 
-
-	for (int i = 0; i < TILEY; i++)
+	for (int i = 0; i < _tileY; i++)
 	{
-		for (int j = 0; j < TILEX; j++)
+		for (int j = 0; j < _tileX; j++)
 		{
-			if (_tiles[i * TILEX + j].object == OBJ_NONE) continue;
-			IMAGEMANAGER->frameRender("map", tempImg->getMemDC(), _tiles[i * TILEX + j].rc.left, _tiles[i * TILEX + j].rc.top, _tiles[i * TILEX + j].objFrameX, _tiles[i * TILEX + j].objFrameY);
+			if (_tiles[i * _temp + j].object == OBJ_NONE) continue;
+			IMAGEMANAGER->frameRender("map", tempImg->getMemDC(), _tiles[i * _temp + j].rc.left, _tiles[i * _temp + j].rc.top, _tiles[i * _temp + j].objFrameX, _tiles[i * _temp + j].objFrameY);
 			//IMAGEMANAGER->frameRender("map", tempImg->getMemDC(), _tiles[i * _temp + j].rc.left, _tiles[i * _temp + j].rc.top, _tiles[i * _temp + j].terrainFrameX, _tiles[i * _temp + j].terrainFrameY);
 		}
 	}
@@ -298,6 +307,113 @@ void dungeonScene::setMinimap()
 		randName += to_string(i);
 		_minimapIcon[i].img = IMAGEMANAGER->findImage(randName);
 	}
+	setMinimapXY();																													
+}
+
+void dungeonScene::setMinimapXY()
+{
+	for (int i = 0; i < 4; i++)
+	{
+		_miniPortal[i].img = new image;
+		_miniPortal[i].img->init("image/icon/worm(80x40,2x1).bmp", 80, 40, 2, 1, true, RGB(255, 0, 255));
+		_miniPortal[i].x = _miniPortal[i].y = -1;
+	}
+
+	switch (_randNum)
+	{
+	case 1:
+		_minimapIcon[0].x = 740, _minimapIcon[0].y = 530;
+		_minimapIcon[1].x = 860, _minimapIcon[1].y = 530;
+		_minimapIcon[3].x = 860, _minimapIcon[3].y = 410;
+		_minimapIcon[2].x = 860, _minimapIcon[2].y = 650;
+		_minimapIcon[6].x = 860, _minimapIcon[6].y = 770;
+		_minimapIcon[7].x = 980, _minimapIcon[7].y = 770;
+
+		_miniPortal[0].x = 800, _miniPortal[0].y = 570;
+		_miniPortal[2].x = 1040, _miniPortal[2].y = 810;
+		_miniPortal[0].rc = RectMake(_miniPortal[0].x, _miniPortal[0].y, _miniPortal[0].img->getFrameWidth(), _miniPortal[0].img->getFrameHeight());
+		_miniPortal[2].rc = RectMake(_miniPortal[2].x, _miniPortal[2].y, _miniPortal[2].img->getFrameWidth(), _miniPortal[2].img->getFrameHeight());
+		_miniPortal[0].dungeonNum = 1;
+		_miniPortal[2].dungeonNum = 8;
+		break;
+	case 2:
+		_minimapIcon[0].x = 640, _minimapIcon[0].y = 500;
+		_minimapIcon[9].x = 760, _minimapIcon[9].y = 500;
+		_minimapIcon[4].x = 880, _minimapIcon[4].y = 500;
+		_minimapIcon[10].x = 1000, _minimapIcon[10].y = 500;
+		_minimapIcon[7].x = 1120, _minimapIcon[7].y = 500;
+		_minimapIcon[5].x = 880, _minimapIcon[5].y = 620;
+
+		_miniPortal[0].x = 700, _miniPortal[0].y = 540;
+		_miniPortal[1].x = 940, _miniPortal[1].y = 660;
+		_miniPortal[2].x = 1180, _miniPortal[2].y = 540;
+		_miniPortal[3].x = 820, _miniPortal[3].y = 540;
+		
+		_miniPortal[0].rc = RectMake(_miniPortal[0].x, _miniPortal[0].y, _miniPortal[0].img->getFrameWidth(), _miniPortal[0].img->getFrameHeight());
+		_miniPortal[1].rc = RectMake(_miniPortal[1].x, _miniPortal[1].y, _miniPortal[1].img->getFrameWidth(), _miniPortal[1].img->getFrameHeight());
+		_miniPortal[2].rc = RectMake(_miniPortal[2].x, _miniPortal[2].y, _miniPortal[2].img->getFrameWidth(), _miniPortal[2].img->getFrameHeight());
+		_miniPortal[3].rc = RectMake(_miniPortal[3].x, _miniPortal[3].y, _miniPortal[3].img->getFrameWidth(), _miniPortal[3].img->getFrameHeight());
+		_miniPortal[0].dungeonNum = 1;
+		_miniPortal[1].dungeonNum = 6;
+		_miniPortal[2].dungeonNum = 8;
+		_miniPortal[3].dungeonNum = 10;
+		break;
+	case 3:
+		_minimapIcon[0].x = 720, _minimapIcon[0].y = 580;
+		_minimapIcon[1].x = 840, _minimapIcon[1].y = 580;
+		_minimapIcon[3].x = 840, _minimapIcon[3].y = 460;
+		_minimapIcon[6].x = 840, _minimapIcon[6].y = 700;
+		_minimapIcon[10].x = 960, _minimapIcon[10].y = 700;
+		_minimapIcon[7].x = 1080, _minimapIcon[7].y = 700;
+
+		_miniPortal[0].x = 780, _miniPortal[0].y = 620;
+		_miniPortal[2].x = 1140, _miniPortal[2].y = 740;
+		_miniPortal[0].rc = RectMake(_miniPortal[0].x, _miniPortal[0].y, _miniPortal[0].img->getFrameWidth(), _miniPortal[0].img->getFrameHeight());
+		_miniPortal[2].rc = RectMake(_miniPortal[2].x, _miniPortal[2].y, _miniPortal[2].img->getFrameWidth(), _miniPortal[2].img->getFrameHeight());
+		_miniPortal[0].dungeonNum = 1;
+		_miniPortal[2].dungeonNum = 8;
+		break;
+	case 4:
+		_minimapIcon[0].x = 540, _minimapIcon[0].y = 560;
+		_minimapIcon[4].x = 660, _minimapIcon[4].y = 560;
+		_minimapIcon[5].x = 660, _minimapIcon[5].y = 680;
+		_minimapIcon[9].x = 780, _minimapIcon[9].y = 560;
+		_minimapIcon[10].x = 900, _minimapIcon[10].y = 560;
+		_minimapIcon[1].x = 1020, _minimapIcon[1].y = 560;
+		_minimapIcon[3].x = 1020, _minimapIcon[3].y = 440;
+		_minimapIcon[6].x = 1020, _minimapIcon[6].y = 680;
+		_minimapIcon[7].x = 1140, _minimapIcon[7].y = 680;
+
+		_miniPortal[0].x = 600, _miniPortal[0].y = 600;
+		_miniPortal[1].x = 720, _miniPortal[1].y = 720;
+		_miniPortal[2].x = 1200, _miniPortal[2].y = 720;
+		_miniPortal[3].x = 840, _miniPortal[3].y = 600;
+		
+		_miniPortal[0].rc = RectMake(_miniPortal[0].x, _miniPortal[0].y, _miniPortal[0].img->getFrameWidth(), _miniPortal[0].img->getFrameHeight());
+		_miniPortal[1].rc = RectMake(_miniPortal[1].x, _miniPortal[1].y, _miniPortal[1].img->getFrameWidth(), _miniPortal[1].img->getFrameHeight());
+		_miniPortal[2].rc = RectMake(_miniPortal[2].x, _miniPortal[2].y, _miniPortal[2].img->getFrameWidth(), _miniPortal[2].img->getFrameHeight());
+		_miniPortal[3].rc = RectMake(_miniPortal[3].x, _miniPortal[3].y, _miniPortal[3].img->getFrameWidth(), _miniPortal[3].img->getFrameHeight());
+		_miniPortal[0].dungeonNum = 1;
+		_miniPortal[1].dungeonNum = 6;
+		_miniPortal[2].dungeonNum = 8;
+		_miniPortal[3].dungeonNum = 10;
+		break;
+	case 5:
+		_minimapIcon[0].x = 740, _minimapIcon[0].y = 560;
+		_minimapIcon[8].x = 860, _minimapIcon[8].y = 560;
+		_minimapIcon[7].x = 980, _minimapIcon[7].y = 560;
+
+		_miniPortal[0].x = 800, _miniPortal[0].y = 600;
+		_miniPortal[2].x = 1040, _miniPortal[2].y = 600;
+		_miniPortal[0].rc = RectMake(_miniPortal[0].x, _miniPortal[0].y, _miniPortal[0].img->getFrameWidth(), _miniPortal[0].img->getFrameHeight());
+		_miniPortal[2].rc = RectMake(_miniPortal[2].x, _miniPortal[2].y, _miniPortal[2].img->getFrameWidth(), _miniPortal[2].img->getFrameHeight());
+		_miniPortal[0].dungeonNum = 1;
+		_miniPortal[2].dungeonNum = 8;
+	}
+
+	for (int i = 0; i < 2; i++)
+		_movePortal[i][0] = _movePortal[i][1] = -1;
+	
 }
 
 void dungeonScene::setDoorMinimap()
@@ -376,13 +492,101 @@ void dungeonScene::chooseMap(int idx)
 
 void dungeonScene::minimapIconRender()
 {
+	int click = -1;
+
+	for (int i = 0; i < 4; i++)
+	{
+		if (_miniPortal[i].x != -1)
+		{
+			if (PtInRect(&_miniPortal[i].rc, getCameraPoint()))
+			{
+				_miniPortal[i].img->setFrameX(1);
+				if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
+				{
+					click = 0;
+					if (_isClickPortal) //ÀÌµ¿ÇÕ½Ã´ç
+					{
+						_isClickPortal = false;
+						string str = "´øÀü¸Ê";
+						char temp[128] = "";
+						str += itoa(_miniPortal[i].dungeonNum, temp, 10);
+						save();
+						SCENEMANAGER->changeScene(str);
+					}
+					else
+					{
+						if (_miniPortal[i].dungeonNum - 1 == _dungeonNum)
+						{
+							_isClickPortal = true;
+							//MoveToEx(UIDC, _miniPortal[i].x + _miniPortal[i].img->getFrameWidth() / 2, _miniPortal[i].y + _miniPortal[i].img->getFrameHeight() / 2, NULL);
+							_movePortal[0][0] = _miniPortal[i].x + _miniPortal[i].img->getFrameWidth() / 2;
+							_movePortal[0][1] = _miniPortal[i].y + _miniPortal[i].img->getFrameHeight() / 2;
+						}
+					}
+				}
+			}
+			else if(!_isClickPortal)
+				_miniPortal[i].img->setFrameX(0);
+		}
+	}
+
+	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON) && click == -1)
+	{
+		_isClickPortal = false;
+	}
+	
 	for (int i = 0; i < 11; i++)
 	{
 		if (_mapValue[i] == "T")
 		{
 			_minimapIcon[i].img->render(UIDC, _minimapIcon[i].x, _minimapIcon[i].y);
+
+			if (i == 0 && _miniPortal[0].x != -1)
+			{
+				_miniPortal[0].img->frameRender(UIDC, _miniPortal[0].x, _miniPortal[0].y);
+				if(KEYMANAGER->isToggleKey('T'))
+					Rectangle(UIDC, _miniPortal[0].rc.left, _miniPortal[0].rc.top, _miniPortal[0].rc.right, _miniPortal[0].rc.bottom);
+			}
+			else if (i == 5 && _miniPortal[1].x != -1)
+			{
+				_miniPortal[1].img->frameRender(UIDC, _miniPortal[1].x, _miniPortal[1].y);
+				if (KEYMANAGER->isToggleKey('T'))
+					Rectangle(UIDC, _miniPortal[1].rc.left, _miniPortal[1].rc.top, _miniPortal[1].rc.right, _miniPortal[1].rc.bottom);
+			}
+			else if (i == 7 && _miniPortal[2].x != -1)
+			{
+				_miniPortal[2].img->frameRender(UIDC, _miniPortal[2].x, _miniPortal[2].y);
+				if (KEYMANAGER->isToggleKey('T'))
+					Rectangle(UIDC, _miniPortal[2].rc.left, _miniPortal[2].rc.top, _miniPortal[2].rc.right, _miniPortal[2].rc.bottom);
+			}
+
+			else if (i == 9 && _miniPortal[3].x != -1)
+			{
+				_miniPortal[3].img->frameRender(UIDC, _miniPortal[3].x, _miniPortal[3].y);
+				if (KEYMANAGER->isToggleKey('T'))
+					Rectangle(UIDC, _miniPortal[3].rc.left, _miniPortal[3].rc.top, _miniPortal[3].rc.right, _miniPortal[3].rc.bottom);
+			}
 		}
 	}
+	
+	if (_isClickPortal)
+	{
+		HPEN pen, oldPen;
+		pen = CreatePen(BS_SOLID, 10, RGB(0, 255, 0));
+		oldPen = (HPEN)SelectObject(UIDC, pen);
+		LineMake(UIDC, _movePortal[0][0], _movePortal[0][1], getCameraPoint().x, getCameraPoint().y);
+		SelectObject(UIDC, oldPen);
+		DeleteObject(pen);
+	}
+
+	HFONT font, oldFont;
+	font = CreateFont(60, 0, 0, 0, 80, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("¼Ò¾ß¹Ù¸¥9"));
+	oldFont = (HFONT)SelectObject(UIDC, font);
+	SetTextColor(UIDC, RGB(200, 200, 200));
+	SetBkMode(UIDC, TRANSPARENT);
+	TextOut(UIDC, WINSIZEX - 600, WINSIZEY - 212, _floorName.c_str(), strlen(_floorName.c_str()));
+	SelectObject(UIDC, oldFont);
+	DeleteObject(font);
 }
 
 //¸ó½ºÅÍ »ý¼º ÇÔ¼ö

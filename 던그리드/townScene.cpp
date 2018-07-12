@@ -55,6 +55,7 @@ HRESULT townScene::init()
 	mapload();
 	setMinimap();
 	_start = 0;
+	_floorNum = 1;
 
 	for (int i = 0; i < 6; i++)
 		_trainStat[i] = 0;
