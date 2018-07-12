@@ -49,12 +49,13 @@ private:
 	bool _goDownJump;											
 
 	// int  
-	int _currentHp, _maxHp;											
-	int _armor;														
-	int _currentDash, _maxDash;										
-	int _attackMinDamage, _attackMaxDamage, _attackPower;			
-	int _fixedDamage;												
-	int _jumpCount, _jumpMax;										
+	int _level;
+	int _currentHp, _maxHp;											 //현재 , 전체 체력 
+	int _armor;														 //방어력
+	int _currentDash, _maxDash;										 //대시 횟수 
+	int _attackMinDamage, _attackMaxDamage, _attackPower;			 //최소 ~ 최대 데미지 , 위력 ()
+	int _fixedDamage;												 //고정데미지 
+	int _jumpCount, _jumpMax;										 // 점프 카운트 , 맥스 점프 
 						
 
 
@@ -114,6 +115,7 @@ public:
 	bool getAttackCheck()					{ return _attackSpeedCheckCount; } 
 
 
+	int getLv()								 { return _level; }
 	int getCurrentHp()					    { return _currentHp; }						
 	int getMaxHp()						    { return _maxHp; }							
 	int getArmor()						    { return _armor; }							
@@ -130,7 +132,7 @@ public:
 	RECT  getPlayerRect()					{ return _collisionRc; }					
 	playerBullet * getPBullet()				{ return _pb; }								
 	image * getEffect()						{ return _attackEffect; }					
-
+	inven* getInven()						 { return _inven; }
 
 	float getPlayerX()					    { return _x; }								
 	float getPlayerY()					    { return _y; }								
@@ -146,6 +148,7 @@ public:
 
 
 	//설정자 (set) 
+	void setLv(bool lv)						{ _level = lv; }
 	void setIsGun(bool isGun)				{ _isGun = isGun; }
 	void setIsAlive(bool isAlive)			{ _isAlive = isAlive; }
 	void setCurrentHp(int currentHp)		{ _currentHp = currentHp; }

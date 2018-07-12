@@ -22,9 +22,13 @@ HRESULT Player::init()
 	itemInfo();
 	_x = WINSIZEX / 2; _y = WINSIZEY / 2 -100;
 	_attackEffect = IMAGEMANAGER->findImage("검1효과");
+	//_attackEffect = IMAGEMANAGER->findImage("검쓰르륵");
+
+	_level = 1;
 	_dashCount = 0, _attackCount = 0;
 	_mouseAngle = 0;
 	_currentDash = 1024 , _maxDash = 1024;
+	//_currentDash = 2 , _maxDash =2;
 	_currentFullNess = 0; _maxFullNess = 100;
 	_jumpPower = 12.0f;
 	_moveMentSpeed = 10.0f;
@@ -186,6 +190,21 @@ void Player::render()
 	if (_currentDash>1)
 	IMAGEMANAGER->findImage("dash")->render(UIDC, 101, 162);
 	_hpbar->render();
+
+	
+
+	HFONT font, oldFont;
+	font = CreateFont(50, 0, 0, 0, 100, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("소야바른9"));
+	oldFont = (HFONT)SelectObject(UIDC, font);
+	SetTextColor(UIDC, RGB(255, 255, 255));
+	SetBkMode(UIDC, TRANSPARENT);
+	//string str = _vDialog[(int)_elder][_idY].substr(0, _idX);
+	//DrawText(DC, _dialog[(int)_training][_idY].c_str(), strlen(_dialog[(int)_training][_idY].c_str()), &_rc[0], DT_VCENTER);
+	//DrawText(DC, str.c_str(), strlen(str.c_str()), &_rc[1], DT_VCENTER);
+	sprintf(str, "%d", _level);
+	TextOut(UIDC, 80, 65, str, strlen(str));
+	SelectObject(UIDC, oldFont);
+	DeleteObject(font);
 }
 
 void Player::keyInput()

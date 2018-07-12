@@ -10,7 +10,7 @@ HRESULT playGround::init(void)
 {
 	vector<string> vStr;
 	vStr.resize(4);
-	vStr = { "T","T","F","F" };
+	vStr = { "F","F","F","F" };
 	TXTDATA->txtSave("random.txt", vStr);
 	mode = 마을;		//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
 //	rectRotate(IMAGEMANAGER->findImage("검01"), 100, 100);
@@ -33,6 +33,7 @@ HRESULT playGround::init(void)
 	_title = new titleScene;
 	_town->setImLink(_im);
 	_title->setImLink(_im);
+	_player->getInven()->setImLink(_im);
 
 	SCENEMANAGER->setPlayerAddressLink(_player);
 

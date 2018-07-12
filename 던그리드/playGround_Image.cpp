@@ -21,6 +21,7 @@ HRESULT playGround::Image_init(void)
 	IMAGEMANAGER->addImage("hpb", "image/UI/UIhpb(294,60).bmp", 0, 0, 294, 60, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("dashBar", "image/UI/UIdashBar(400x300,1,5).bmp", 0, 0, 400, 300,1,5, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("dash", "image/UI/UIdash(54x24).bmp", 0, 0, 54, 24, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("thank", "image/UI/UIresThank.bmp", 0, 0, 317, 76, true, RGB(255, 0, 255));
 	
 
 	//==========타이틀이미지==========
