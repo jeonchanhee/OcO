@@ -14,7 +14,7 @@ RandomDungeon1::~RandomDungeon1()
 HRESULT RandomDungeon1::init()
 {
 	save();
-
+	
 	SCENEMANAGER->addScene("´øÀü¸Ê1", new dungeon1Scene);
 	SCENEMANAGER->addScene("´øÀü¸Ê2", new dungeon2Scene);
 	SCENEMANAGER->addScene("´øÀü¸Ê3", new dungeon3Scene);
@@ -57,7 +57,7 @@ void RandomDungeon1::save()
 		if (vRand[randNum] == "F")
 			break;
 	}*/
-	randNum = 3;
+	randNum = 0;
 	int count = 0;
 	for (int i = 0; i < 4; i++)
 	{
@@ -79,7 +79,7 @@ void RandomDungeon1::save()
 		vStr.push_back(itoa(1, str, 10));
 		for (int i = 0; i < 11; i++)
 		{
-			if (i == 0 || i == 1 || i == 2 || i == 3 || i == 6 || i == 7)
+			if (i == 0 || i == 1 || i == 2 || i == 3 || i == 4 || i == 7)
 				vStr.push_back("F");
 			else
 				vStr.push_back("N");

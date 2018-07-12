@@ -14,8 +14,12 @@ bossScene::~bossScene()
 HRESULT bossScene::init()
 {
 	dungeonScene::init();
+
+	SOUNDMANAGER->stop("town");
+	SOUNDMANAGER->play("boss");
 	//SOUNDMANAGER->play("bossChest");
-//	_isMapSet = true;
+	SOUNDMANAGER->play("bossLaughter");
+
 	chooseMap(10);
 	selectSize(10);
 	mapload();
@@ -61,19 +65,15 @@ void bossScene::update()
 		(*_viEnemy)->update();
 	}
 	nextTest();
-//	bossSwordFire();
 	BossBulletFire();
 	_enemyBullet->update();
 	EFFECTMANAGER->update();
-	//if (!SOUNDMANAGER->isPauseSound("bossChest"))
-	//	SOUNDMANAGER->play("bossLaughter");
 }
 
 void bossScene::render()
 {
 	EFFECTMANAGER->render();
 	dungeonScene::render();
-	EFFECTMANAGER->render();
 
 	_player->render();
 
