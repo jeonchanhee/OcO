@@ -440,9 +440,9 @@ void dungeonScene::setRedBat(int idX, int idY)
 	_redBat = new RedBat;
 	float x = TILESIZE * idX;
 	float y = TILESIZE * idY;
-	redBat->init(x, y);
-	redBat->setPlayerAddressLink(_player);
-	_vEnemy.push_back(redBat);
+	_redBat->init(x, y);
+	_redBat->setPlayerAddressLink(_player);
+	_vEnemy.push_back(_redBat);
 }
 
 void dungeonScene::setBigBat(int idX, int idY)
