@@ -57,7 +57,7 @@ void RandomDungeon1::save()
 		if (vRand[randNum] == "F")
 			break;
 	}*/
-	randNum = 4;
+	randNum = 0;
 	int count = 0;
 	for (int i = 0; i < 4; i++)
 	{
@@ -79,7 +79,8 @@ void RandomDungeon1::save()
 		vStr.push_back(itoa(1, str, 10));
 		for (int i = 0; i < 11; i++)
 		{
-			if (i == 0 || i == 1 || i == 2 || i == 3 || i == 4 || i == 7)
+			//if (i == 0 || i == 1 || i == 2 || i == 3 || i == 6 || i == 7)
+			if (i == 5 || i == 0)
 				vStr.push_back("F");
 			else
 				vStr.push_back("N");

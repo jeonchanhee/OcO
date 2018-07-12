@@ -19,7 +19,7 @@ HRESULT dungeon7Scene::init()
 	chooseMap(8);
 	selectSize(8);
 	mapload();
-	setCamera();
+	//setCamera();
 
 	load();
 	_dungeonNum = 6;
@@ -64,6 +64,7 @@ HRESULT dungeon7Scene::init()
 	{
 		_minimap->setEnemyXY(((_vEnemy[i]->getX() * 300) / (_tileX*TILESIZE)), ((_vEnemy[i]->getY() * 150) / (_tileY*TILESIZE)));
 	}
+	setMinimap();
 	setDoorMinimap();
 
 	_player->setPlayerX(_vDoor[0].x + TILESIZE * 2);
