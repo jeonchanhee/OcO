@@ -4,6 +4,9 @@
 
 class Player; //플레이어 클래스 전방선언
 
+#define SPEED 5.0f
+
+
 class Enemy :	public gameNode
 {
 protected:

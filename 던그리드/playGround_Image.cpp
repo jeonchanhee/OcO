@@ -56,6 +56,11 @@ HRESULT playGround::Image_init(void)
 	//==========ÀÎº¥Åä¸®==========
 	IMAGEMANAGER->addImage("inven", "image/UI/Inventory(707x1080).bmp", 0, 0, 707, 1080, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("inven0", "image/UI/Inven0(270x172).bmp", 0, 0, 270, 172, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("invenRectOff", "image/UI/inventoryM.bmp", 0, 0, 114, 114, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("invenRectOn", "image/UI/UIinvenslot.bmp", 0, 0, 114, 114, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("invenRectOnAc", "image/UI/Inven1(114x114).bmp" , 0, 0, 114, 114, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("mouseOnMain", "image/UI/mainWeaponOnMouse.bmp", 0, 0, 114, 114, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("mouseOnAs", "image/UI/assistWeaponOnMouse.bmp", 0, 0, 114, 114, true, RGB(255, 0, 255));
 
 	//==========Æ®·¹ÀÌ´×==========
 	IMAGEMANAGER->addImage("training", "image/UI/UItraning(1920x1080).bmp", 0, 0, 1920, 1080, true, RGB(255, 0, 255));
@@ -118,7 +123,8 @@ HRESULT playGround::Image_init(void)
 	IMAGEMANAGER->addFrameImage("dieEffect", "image/enemy/dieEffect(4224x384,11x1).bmp", 0, 0, 4224, 384, 11, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("fatherBatBullet", "image/enemy/fatherBatBullet(100x20,5x1).bmp", 0, 0, 100, 20, 5, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("fatherBatBullet2", "image/enemy/fatherBatBullet(250x50,5x1).bmp", 0, 0, 250, 50, 5, 1, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("fatherBatBulletFX", "image/enemy/fatherBatBulletFX(396x36,11x1).bmp", 0, 0, 396, 36, 11, 1, true, RGB(255, 0, 255));
+	EFFECTMANAGER->addEffect("fatherBatBulletFX", "image/enemy/fatherBatBulletFX(396x36,11x1).bmp",396, 36, 396/11, 36, 1.0f, 0.3f, 5);
+	EFFECTMANAGER->addEffect("fatherBatBulletFX2", "image/enemy/fatherBatBulletFX(550x50,11x1).bmp", 550,50,550/11,50, 1.0f, 0.3f, 5);
 	IMAGEMANAGER->addFrameImage("giantBat", "image/enemy/giantBat(2240x1080,7x6).bmp", 0, 0, 2240, 1080, 7, 6, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("giantRedBatAttack", "image/enemy/giantRedBatAttack(3000x400,10x2).bmp", 0, 0, 3000, 400, 10, 2, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("giantRedBatIdleDie", "image/enemy/giantRedBatIdleDie(2100x600,7x3).bmp", 0, 0, 2100, 600, 7, 3, true, RGB(255, 0, 255));
@@ -353,8 +359,21 @@ HRESULT playGround::Image_init(void)
 	IMAGEMANAGER->addImage("enemyIcon", "image/icon/enemyIcon(20x20).bmp", 20, 20, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("portalIcon", "image/icon/worm(80x40,2x1).bmp", 80, 40, 2, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("heightDoorIcon", "image/icon/heightDoorIcon(10x50).bmp", 10, 50, true, RGB(255, 0, 255));
-
-	
+	IMAGEMANAGER->addImage("tabMap1", "image/icon/tabMap(1920x1080).bmp", 1920,1080,true,RGB(255,0,255));
+	IMAGEMANAGER->addImage("tabMap2", "image/icon/tabMap2(1920x1080,1x1).bmp", 1920, 1080, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("tabMap3", "image/icon/tabMap3(1920x1080,1x1).bmp", 1920, 1080, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("tabMap4", "image/icon/tabMap4(1920x1080,1x1).bmp", 1920, 1080, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("minimap0", "image/icon/minimap1(120x120).bmp", 120, 120, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("minimap9", "image/icon/minimap2(120x120).bmp", 120, 120, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("minimap1", "image/icon/minimap3(120x120).bmp", 120, 120, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("minimap2", "image/icon/minimap4(120x120).bmp", 120, 120, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("minimap3", "image/icon/minimap5(120x120).bmp", 120, 120, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("minimap4", "image/icon/minimap6(120x120).bmp", 120, 120, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("minimap5", "image/icon/minimap7(120x120).bmp", 120, 120, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("minimap6", "image/icon/minimap8(120x120).bmp", 120, 120, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("minimap7", "image/icon/minimap9(120x120).bmp", 120, 120, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("minimap10", "image/icon/minimap11(120x120).bmp", 120, 120, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("minimap8", "image/icon/minimapBoss(120x120).bmp", 120, 120, true, RGB(255, 0, 255));
 	//ÇÈ¼¿
 	IMAGEMANAGER->addImage("pixel", 4800, 2400);
 

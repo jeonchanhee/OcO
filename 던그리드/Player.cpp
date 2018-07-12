@@ -7,6 +7,9 @@ Player::~Player() {}
 
 HRESULT Player::init()
 {
+	_inven = new inven;
+	_inven->init();
+
 	_pb = new playerBullet;
 	_pb->init("ÃÑ¾Ë0", "ÃÑ¾Ë1", "ÃÑ¾Ë2", "ÃÑ¾Ë3");
 	_player			= IMAGEMANAGER->findImage("±âº»ÇÃ·¹ÀÌ¾î");
@@ -80,17 +83,12 @@ void Player::release() {}
 
 void Player::update()
 {
-	if (_canMove == true)
-	{
-		keyInput();
-		mouseControl();
-		attack();
-		effect();
-		move();
-	}
-	
-	
-	
+	if (KEYMANAGER->isOnceKeyDown(VK_F5)) _inven->pickUpItem(SWORD , "°Ë", 2);
+	keyInput();
+	mouseControl();
+	attack();
+	effect();
+	move();
 	
 	KEYANIMANAGER->update();
 	EFFECTMANAGER->update();
@@ -99,6 +97,7 @@ void Player::update()
 	_collisionRc = RectMakeCenter(_x, _y, _player->getFrameWidth(), _player->getFrameHeight());
 	pixelCollision();
 	_pb->update();
+	_inven->update();
 }
 
 void Player::render()
@@ -110,7 +109,7 @@ void Player::render()
 	imageDC = IMAGEMANAGER->addRotateImage("rotateimage", rc.right - rc.left, rc.bottom - rc.top ,true,RGB(0,0,0), false);
 	IMAGEMANAGER->findImage(strGun)->render(imageDC->getMemDC(), IMAGEMANAGER->findImage(strGun)->getWidth(),
 		0,0,0, IMAGEMANAGER->findImage(strGun)->getWidth(), IMAGEMANAGER->findImage(strGun)->getHeight());
-		
+	
 	// ===================
 	if (_direction == LEFT_RUN || _direction == LEFT_STOP)
 	{
@@ -147,7 +146,8 @@ void Player::render()
 		_attackEffect->rotateFrameRender(DC, _attackEffect->getX() , _attackEffect->getY(), _angle - 1.8);
 	}
 	//text !
-	char str[128]; sprintf_s(str, "Weapon Index : %d", _youUsingCount);
+	char str[128]; sprintf_s(str, "vector sizzE : %d", _inven->getItem().size());
+	TextOut(DC, _collisionRc.left - 50, _collisionRc.top - 350, str, strlen(str));
 	if (_isJumping)  sprintf_s(str, "Á¡ÇÁ : true");
 	else if (!_isJumping) sprintf_s(str, "Á¡ÇÁ : false");
 	TextOut(DC, _collisionRc.left - 50 , _collisionRc.top - 150, str, strlen(str));
@@ -161,6 +161,8 @@ void Player::render()
 
 	//pb
 	_pb->render();
+	//inven
+	_inven->render();
 	if (KEYMANAGER->isToggleKey(VK_F1))
 	{
 		for (int i = 0; i < 30; ++i)
@@ -178,8 +180,17 @@ void Player::render()
 
 void Player::keyInput()
 {
-	if (KEYMANAGER->isOnceKeyDown('1'))		 _youUsingCount = 0;
-	else if (KEYMANAGER->isOnceKeyDown('2')) _youUsingCount = 1;
+	if (KEYMANAGER->isOnceKeyDown('1'))
+	{
+		_youUsingCount = 0;
+		_inven->setIsSelect(_youUsingCount);
+		
+	}
+	else if (KEYMANAGER->isOnceKeyDown('2'))
+	{
+		_youUsingCount = 1;
+		_inven->setIsSelect(_youUsingCount);
+	}
 
 	if (KEYMANAGER->isOnceKeyDown('A'))
 	{
@@ -313,6 +324,8 @@ void Player::mouseControl()
 
 void Player::move()
 {
+	if (_isJumping == false) _jumpCount = 0;
+
 	static int count;
 	count++;
 	if (count > 100)

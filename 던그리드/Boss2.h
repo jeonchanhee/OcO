@@ -44,7 +44,7 @@ struct tagBoss
 //Ä® ±¸Á¶Ã¼
 struct tagSword
 {
-	RECT rc, collisionRC;
+	RECT rc,collisionRC;
 	image* img;
 	float x, y, angle, speed;
 	float fireX, fireY;

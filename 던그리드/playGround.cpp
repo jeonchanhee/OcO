@@ -236,6 +236,7 @@ void playGround::render(void)
 		break;
 	}
 	EFFECTMANAGER->render();
+
 	//SCENEMANAGER->render();
 
 	//char str[128];

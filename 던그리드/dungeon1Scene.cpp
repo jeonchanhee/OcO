@@ -35,6 +35,8 @@ HRESULT dungeon1Scene::init()
 
 	setMinimap();
 	setDoorMinimap();
+
+	_mapValue[0] = "T";
 	//_player->setGold(10);
 	return S_OK;
 }
@@ -44,14 +46,17 @@ void dungeon1Scene::setRandMapNum()
 	if (_randNum == 1 || _randNum == 3)
 	{
 		_route.push_back(2);
+		_minimapIcon[0].x = 400, _minimapIcon[0].y = 400;
 	}
 	if (_randNum == 2)
 	{
 		_route.push_back(10);
+		_minimapIcon[0].x = 400, _minimapIcon[0].y = 400;
 	}
 	if (_randNum == 4)
 	{
 		_route.push_back(5);
+		_minimapIcon[0].x = 500, _minimapIcon[0].y = 500;
 	}
 
 }
@@ -71,6 +76,13 @@ void dungeon1Scene::render()
 	_dungeonDoor.img->aniRender(DC, _dungeonDoor.x, _dungeonDoor.y, _dungeonDoor.ani);
 
 	_player->render();
+
+	if (KEYMANAGER->isToggleKey(VK_TAB))
+	{
+		IMAGEMANAGER->findImage("gray")->alphaRender(DC,CAMERAMANAGER->getCameraCenter().x - WINSIZEX/2,CAMERAMANAGER->getCameraCenter().y - WINSIZEY/2,450);
+		_tabMap->render(UIDC, 0, 0);
+		dungeonScene::minimapIconRender();
+	}
 }
 
 void dungeon1Scene::doorInit()

@@ -1,10 +1,17 @@
 #pragma once
 #include "Enemy.h"
+#include "progressBar.h"
 
 enum BATDIRECTION
 {
 	BAT_RIGHT_MOVE,
 	BAT_LEFT_MOVE,
+	BAT_RIGHT_UP_MOVE,
+	BAT_LEFT_UP_MOVE,
+	BAT_RIGHT_DOWN_MOVE,
+	BAT_LEFT_DOWN_MOVE,
+	BAT_UP_MOVE,
+	BAT_DOWN_MOVE,
 	BAT_RIGHT_DIE,
 	BAT_LEFT_DIE
 };
@@ -17,11 +24,15 @@ private:
 
 	BATDIRECTION _batDirection;
 	animation* _batMotion;
-	RECT		_detectionrc;		// 타일 검출 렉트
+	RECT rcCollision;	// 타일 검출 렉트
 
+	int		randNum;	// 랜덤이동
 	int		_detectionX, _detectionY;
-	int		_up, _down, _left, _right;
+	int		_moveCount;
 	float _startX, _startY;//박쥐 이동 기준점
+
+	//임시
+	int j = 0;
 
 public:
 	Bat();
