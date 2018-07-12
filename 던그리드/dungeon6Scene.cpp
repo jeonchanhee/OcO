@@ -32,6 +32,7 @@ HRESULT dungeon6Scene::init()
 	if (_mapValue[_dungeonNum] == "F")
 		setMonster();
 
+
 	setMinimap();
 
 	for (int i = 0; i < _vEnemy.size(); i++)
@@ -60,6 +61,35 @@ void dungeon6Scene::update()
 		_minimap->changeEnemyXY(idx, (((*_viEnemy)->getX() * 300) / (_tileX*TILESIZE)), (((*_viEnemy)->getY() * 150) / (_tileY*TILESIZE)));
 	}
 	_enemyBullet->update();
+
+	/*if (!_bigbat->getdiedie())
+	{
+		bigbatbulletFire();
+	}
+	_bigBatBullet->bulletframe("fatherBatBullet2");
+	if (_start2 != 0)
+	{
+		_bigBatBullet->update();
+	}*/
+	//if (!_bigRedBat->getdiedie())
+	//{
+	//	bigRadbatbulletFire();
+	//}
+	//else
+	//{
+	//	_start = 1;
+	//}
+
+	//for (int i = 0; i < 20; i++)
+	//{
+	//	_bigRadBatBullet[i]->bulletframe("fatherBatBullet2");
+	//	if (_start == 1) 
+	//		_bigRadBatBullet[i]->update();
+	//}
+	
+/*	redBatBullet();
+	_radBatBullet->bulletframe("fatherBatBullet2");
+	_radBatBullet->update()*/;
 }
 
 void dungeon6Scene::render()

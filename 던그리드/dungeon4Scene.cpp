@@ -72,7 +72,17 @@ void dungeon4Scene::update()
 		_minimap->changeEnemyXY(idx, (((*_viEnemy)->getX() * 300) / (_tileX*TILESIZE)), (((*_viEnemy)->getY() * 150) / (_tileY*TILESIZE)));
 	}
 	MusicAngelBulletFire();
+
 	_enemyBullet->update();
+	if (!_bigbat->getdiedie())
+	{
+		bigbatbulletFire();
+	}
+	_bigBatBullet->bulletframe("fatherBatBullet2");
+	if (_start2 != 0)
+	{
+		_bigBatBullet->update();
+	}
 }
 void dungeon4Scene::render()
 {

@@ -109,6 +109,8 @@ void dungeon8Scene::update()
 			_dungeonDoor.ani->start();
 		}
 	}
+
+
 }
 
 void dungeon8Scene::render()

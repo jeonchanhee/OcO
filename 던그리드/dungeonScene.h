@@ -15,6 +15,7 @@
 #include "Bullet.h"
 #include "minimap.h"
 #include "effect.h"
+#include "itemManager.h"
 
 class Player;
 
@@ -55,6 +56,14 @@ struct minimapIcon
 	int dungeonNum;
 };
 
+struct RandomBox
+{
+	image* img;
+	int x, y;
+	RECT rc;
+};
+
+
 class dungeonScene : public gameNode
 {
 protected:
@@ -74,13 +83,12 @@ protected:
 
 	Bullet* _enemyBullet;
 	Bullet* _bigBatBullet;
-	Bullet* _bigBatBullet2;
-	Bullet* _bigBatBullet3;
 	Bullet2* _bigRadBatBullet[MAX_BULLET];
-	// ¿”Ω√
 	Bullet2* _radBatBullet;
 
 	effect* _effect;
+
+	itemManager* _item;
 
 	vector<Door> _vDoor; //πÆ
 	vector<torch> _vTorch; //»∂∫“
@@ -98,19 +106,21 @@ protected:
 	int  j;
 	int _start;
 	int _start2;
-	
+	int random;
 	int _swordCount;
 
 	minimap* _minimap;
 	image*	_tabMap;
 	minimapIcon _minimapIcon[11];
 	minimapIcon _miniPortal[4];
+	RandomBox _randomBox;
 	float _movePortal[2][2];
 	bool _isClickPortal;
 	string _floorName;
 
 	bool _diecount2;
-
+	bool _isBoxOpen;
+	bool _isrand;
 public:
 	virtual HRESULT init(void);
 	virtual void release(void);
@@ -178,6 +188,6 @@ public:
 	void bigbatBulletCollision();
 	void bigRadbatBulletCollision();
 	void redBatBulletCollision();
-	void removeMonster(int arrNum);
+	void RandomBoxCreating();
 };
 

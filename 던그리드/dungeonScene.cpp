@@ -6,7 +6,7 @@
 
 void dungeonScene::collision()
 {
-	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); ++_viEnemy)
+	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end();)
 	{
 		if (_player->getAttackCheck())
 		{
@@ -16,7 +16,6 @@ void dungeonScene::collision()
 				(*_viEnemy)->setCurrentHp((*_viEnemy)->getCurrentHp() - 10);
 				SOUNDMANAGER->play("hitMonster");
 			}
-
 
 			for (int i = 0; i < _player->getPBullet()->getvPBullet().size();)
 			{
@@ -34,7 +33,6 @@ void dungeonScene::collision()
 
 			}
 			++_viEnemy;
-
 		}
 
 		for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); )
@@ -77,6 +75,13 @@ HRESULT dungeonScene::init(void)
 	else if (_floorNum == 3)
 		_floorName = "3층 : 지하감옥";
 
+	_isBoxOpen = false;
+	RandomBoxCreating();
+
+	random = RND->getInt(20);
+
+	_item = new itemManager;
+	_item->init();
 	return S_OK;
 }
 
@@ -95,7 +100,9 @@ void dungeonScene::update(void)
 	if (_vEnemy.size() == 0)
 	{
 		_mapValue[_dungeonNum] = "T";
+		RandomBoxCreating();
 	}
+	
 }
 
 void dungeonScene::render(void)
@@ -180,6 +187,22 @@ void dungeonScene::render(void)
 		_minimap->render();
 
 	_player->render();
+	if (_vEnemy.size() == 0)
+	{
+		_randomBox.img->frameRender(DC, _randomBox.rc.left, _randomBox.rc.top);
+	}
+
+	if (_isBoxOpen)
+	{
+		for (int i = 0; i < 19; i++)
+		{
+			if (random == i)
+			{
+				_item->getItem()[i]->getItem().image[0]->render(DC, _randomBox.rc.left, _randomBox.rc.top);
+			}
+			
+		}
+	}
 }
 
 void dungeonScene::doorInit(void)
@@ -1238,4 +1261,44 @@ void dungeonScene::redBatBulletCollision()
 	}
 }
 
+void dungeonScene::RandomBoxCreating()
+{
+	_randomBox.img = IMAGEMANAGER->findImage("일반상자1");
+	_randomBox.x = WINSIZEX / 2;
+	_randomBox.y = WINSIZEY / 2;
+	_randomBox.rc = RectMakeCenter(_randomBox.x, _randomBox.y, _randomBox.img->getFrameWidth(), _randomBox.img->getFrameHeight());
+	
+	if (!_isBoxOpen)
+	{
+		_randomBox.img = IMAGEMANAGER->findImage("일반상자1");
+		_randomBox.img->setFrameY(0);
+		_randomBox.img->setFrameX(0);
+	}
+	else
+	{
+		_randomBox.img = IMAGEMANAGER->findImage("일반상자1");
+		_randomBox.img->setFrameY(0);
+		_randomBox.img->setFrameX(1);
+	}
 
+	RECT tmep;
+	if (IntersectRect(&tmep, &_randomBox.rc, &_player->getRc()))
+	{
+		if (KEYMANAGER->isOnceKeyDown('F'))
+		{
+			_isBoxOpen = true;
+		}
+	}
+
+	/*if (_isBoxOpen)
+	{
+		int random = RND->getInt(20);
+		for (int i = 0; i < 20; i++)
+		{
+			if (random == i)
+			{
+				_item->getvItem()[i * 3]->render();
+			}
+		}
+	}*/
+}
