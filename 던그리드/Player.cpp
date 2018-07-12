@@ -10,6 +10,9 @@ HRESULT Player::init()
 	_inven = new inven;
 	_inven->init();
 
+	_hpbar = new progressBar;
+	_hpbar->init(170,56, 294,60,"hp","hpb", BAR_PLAYER);
+
 	_pb = new playerBullet;
 	_pb->init("ÃÑ¾Ë0", "ÃÑ¾Ë1", "ÃÑ¾Ë2", "ÃÑ¾Ë3");
 	_player			= IMAGEMANAGER->findImage("±âº»ÇÃ·¹ÀÌ¾î");
@@ -20,11 +23,6 @@ HRESULT Player::init()
 	_attackEffect = IMAGEMANAGER->findImage("°Ë¾²¸£¸¤");
 	_dashCount = 0, _attackCount = 0;
 	_mouseAngle = 0;
-	_attackEffectCount = 0;
-	_gravity = GRAVITY;
-	_currentHp = 80; _maxHp = 80;
-	_currentDash = 2; _maxDash = 2;
-	_armor = 0;
 	_currentDash = 1024 , _maxDash = 1024;
 	_currentFullNess = 0; _maxFullNess = 100;
 	_jumpPower = 12.0f;
@@ -37,6 +35,10 @@ HRESULT Player::init()
 	_weaponAttackAngle = 0;
 	_fixedDamage = 0;
 	_youUsingCount = 0;
+
+	_currentHp = 50;
+	_maxHp = 100;
+
 	_isDashing = false;
 	_isAttacking = false;
 	_isGun = false;
@@ -83,17 +85,21 @@ void Player::release() {}
 
 void Player::update()
 {
-	effect();
 	EFFECTMANAGER->update();
 	if (KEYMANAGER->isOnceKeyDown(VK_F5)) _inven->pickUpItem(SWORD , "°Ë", 7);
 	if (KEYMANAGER->isOnceKeyDown(VK_F6)) _inven->pickUpItem(SWORD, "°Ë", 5);
 	if (KEYMANAGER->isOnceKeyDown(VK_F7)) _inven->pickUpItem(ACCESSORY, "¾Ç¼¼", 1);
 	if (KEYMANAGER->isOnceKeyDown(VK_F8)) _inven->pickUpItem(SECOND_EQUIPMENT, "º¸Á¶", 1);
-	keyInput();
-	mouseControl();
-	attack();
-	
-	move();
+	if (KEYMANAGER->isOnceKeyDown(VK_F5)) _inven->pickUpItem(SWORD , "°Ë", 2);
+	if (_canMove == true)
+	{
+		keyInput();
+		mouseControl();
+		attack();
+		effect();
+		move();
+	}
+
 	
 	KEYANIMANAGER->update();
 	
@@ -103,6 +109,8 @@ void Player::update()
 	pixelCollision();
 	_pb->update();
 	_inven->update();
+	_hpbar->setGauge(_currentHp, _maxHp);
+	_hpbar->update();
 	itemInfo();
 }
 
@@ -189,6 +197,13 @@ void Player::render()
 		Rectangle(DC, _attackEffect->effectCheckBox().left, _attackEffect->effectCheckBox().top,
 		_attackEffect->effectCheckBox().right, _attackEffect->effectCheckBox().bottom);
 	}
+	IMAGEMANAGER->findImage("hpBar")->render(UIDC, 20, 20);
+	IMAGEMANAGER->findImage("dashBar")->frameRender(UIDC, 35, 150);
+	if(_currentDash>0)
+	IMAGEMANAGER->findImage("dash")->render(UIDC, 47, 162);
+	if (_currentDash>1)
+		IMAGEMANAGER->findImage("dash")->render(UIDC, 101, 162);
+	_hpbar->render();
 }
 
 void Player::keyInput()

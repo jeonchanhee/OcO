@@ -36,8 +36,6 @@ HRESULT bossScene::init()
 		_route.push_back(8);
 	}
 
-	//_sword = new Bullet;
-	//_sword->init(3000);
 	setBossMon();
 
 	_mapValue[_dungeonNum] = "T";
@@ -56,9 +54,6 @@ void bossScene::update()
 //	bossSwordFire();
 	BossBulletFire();
 	_enemyBullet->update();
-	//_sword->update();
-	//bossSwordFire();
-	//bossSwordCollision();
 	EFFECTMANAGER->update();
 }
 
@@ -66,7 +61,6 @@ void bossScene::render()
 {
 	EFFECTMANAGER->render();
 	dungeonScene::render();
-	//_sword->swordRender();
 	EFFECTMANAGER->render();
 
 	_player->render();
@@ -103,39 +97,3 @@ void bossScene::setBossMon()
 {
 	setBoss();
 }
-/*
-void bossScene::bossSwordCollision()
-{
-	for (int i = 0; i < _sword->getVBullet().size(); i++)
-	{
-		RECT temp;
-		if (IntersectRect(&temp, &_sword->getVBullet()[i].rc, &_player->getPlayerRect()))
-		{
-			_player->hitDamage(3.0f);
-			EFFECTMANAGER->play("bossCollisionBullet", (_player->getPlayerRect().right + _player->getPlayerRect().left) / 2, (_player->getPlayerRect().bottom + _player->getPlayerRect().top) / 2);
-			//_sword->removeBullet(i);
-			break;
-		}
-	}
-}
-
-void bossScene::bossSwordFire()
-{
-	
-	//bossSwordCollision();
-	_swordCount++;
-	if (_swordCount == 300)
-	{
-		for (int i = 0; i < 5; i++)
-		{
-			_sword->bulletFire("bossSword", 600 + i * 200, 100, 0, 0, 1600, false, WIDTH, i);
-		}
-	}
-	else if (_swordCount > 300 && !(_swordCount % 100))
-	{
-		_sword->changeSpeedAndAngle(_player->getPlayerX(), _player->getPlayerY());
-	}
-}
-
-
-*/

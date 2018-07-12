@@ -13,6 +13,7 @@ MusicAngel::~MusicAngel()
 
 HRESULT MusicAngel::init(float x, float y)
 {
+	_isDie = false;
 	_x = x;
 	_y = y;
 
@@ -30,7 +31,7 @@ HRESULT MusicAngel::init(float x, float y)
 	KEYANIMANAGER->addCoordinateFrameAnimation("musicAngelLeftAttack", "bansheeIdleAttack", 18, 23, 2, false, false, leftAttack, this);
 
 	//DIE
-	KEYANIMANAGER->addCoordinateFrameAnimation("musicAngelDie", "dieEffect", 2, 10, 5, false, false);
+	KEYANIMANAGER->addCoordinateFrameAnimation("musicAngelDie", "dieEffect", 2, 10, 5, false, false, dieMotion, this);
 
 	_musicAngelMotion = KEYANIMANAGER->findAnimation("musicAngelLeftMove");
 	//_musicAngelMotion = KEYANIMANAGER->findAnimation("musicAngelRightMove");
@@ -59,15 +60,25 @@ void MusicAngel::update()
 	_progressBar->update();
 
 	attackMove();
-	//playerCollision();
+	if(!_diedie)
+		hitDamage();
+	if (_diedie)
+	{
+		_diecount++;
+		if (_diecount > 120)
+		{
+			_isDie = true;
+		}
+	}
 
 	//////////////////////DIE Å×½ºÆ®///////////////////////
 	if (KEYMANAGER->isOnceKeyDown(VK_F7))
 	{
 		{
-			if (_musicAngelDirection == MUSICANGEL_RIGHT_MOVE || _musicAngelDirection == MUSICANGEL_LEFT_MOVE)
-				_img = IMAGEMANAGER->findImage("musicAngelDie");
-			changeAnimation(MUSICANGEL_DIE);
+			EFFECTMANAGER->play("dieEffect", _x, _y);
+			//if (_musicAngelDirection == MUSICANGEL_RIGHT_MOVE || _musicAngelDirection == MUSICANGEL_LEFT_MOVE)
+			//	_img = IMAGEMANAGER->findImage("musicAngelDie");
+			//changeAnimation(MUSICANGEL_DIE);
 		}
 	}
 	/*if (KEYMANAGER->isOnceKeyUp(VK_F7))
@@ -128,11 +139,19 @@ void MusicAngel::leftAttack(void * obj)
 	ma->getMusicAngelMotion()->start();
 }
 
+void MusicAngel::dieMotion(void * obj)
+{
+	MusicAngel* ma = (MusicAngel*)obj;
+
+	ma->_diedie = true;
+}
+
 void MusicAngel::changeAnimation(MUSICANGELDIRECTION musicAngelDirection)
 {
 	switch (musicAngelDirection)
 	{
 	case MUSICANGEL_RIGHT_MOVE:
+		_isDie = false;
 		_img = IMAGEMANAGER->findImage("bansheeIdleAttack");
 		_musicAngelDirection = MUSICANGEL_RIGHT_MOVE;
 		_musicAngelMotion = KEYANIMANAGER->findAnimation("musicAngelRightMove");
@@ -140,6 +159,7 @@ void MusicAngel::changeAnimation(MUSICANGELDIRECTION musicAngelDirection)
 		_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 		break;
 	case MUSICANGEL_LEFT_MOVE:
+		_isDie = false;
 		_img = IMAGEMANAGER->findImage("bansheeIdleAttack");
 		_musicAngelDirection = MUSICANGEL_LEFT_MOVE;
 		_musicAngelMotion = KEYANIMANAGER->findAnimation("musicAngelLeftMove");
@@ -147,6 +167,7 @@ void MusicAngel::changeAnimation(MUSICANGELDIRECTION musicAngelDirection)
 		_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 		break;
 	case MUSICANGEL_RIGHT_ATTACK:
+		_isDie = false;
 		_img = IMAGEMANAGER->findImage("bansheeIdleAttack");
 		_musicAngelDirection = MUSICANGEL_RIGHT_ATTACK;
 		_musicAngelMotion = KEYANIMANAGER->findAnimation("musicAngelRightAttack");
@@ -154,6 +175,7 @@ void MusicAngel::changeAnimation(MUSICANGELDIRECTION musicAngelDirection)
 		_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 		break;
 	case MUSICANGEL_LEFT_ATTACK:
+		_isDie = false;
 		_img = IMAGEMANAGER->findImage("bansheeIdleAttack");
 		_musicAngelDirection = MUSICANGEL_LEFT_ATTACK;
 		_musicAngelMotion = KEYANIMANAGER->findAnimation("musicAngelLeftAttack");
@@ -161,6 +183,7 @@ void MusicAngel::changeAnimation(MUSICANGELDIRECTION musicAngelDirection)
 		_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 		break;
 	case MUSICANGEL_DIE:
+		_isDie = true;
 		_img = IMAGEMANAGER->findImage("dieEffect");
 		_musicAngelDirection = MUSICANGEL_DIE;
 		_musicAngelMotion = KEYANIMANAGER->findAnimation("musicAngelDie");
@@ -170,20 +193,10 @@ void MusicAngel::changeAnimation(MUSICANGELDIRECTION musicAngelDirection)
 	}
 }
 
-//void MusicAngel::playerCollision()
-//{
-//	for (int i = 0; i < _bullet->getVBullet().size(); i++)
-//	{
-//		RECT temp;
-//		if (IntersectRect(&temp, &_bullet->getVBullet()[i].rc, &_player->getPlayerRect()))
-//		{
-//			_player->hitDamage(1.7f);
-//			break;
-//		}
-//	}
-//}
-
-void MusicAngel::hitDamage(float damage)
+void MusicAngel::hitDamage()
 {
-	_currentHP -= damage;
+	if (_currentHP <= 0)
+	{
+		changeAnimation(MUSICANGEL_DIE);
+	}
 }

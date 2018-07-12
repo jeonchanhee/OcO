@@ -21,6 +21,8 @@ class Cow : public Enemy
 
 	RECT _rcCollision;
 	bool _hit;
+	int _dieCount;
+	bool _diedie;
 
 public:
 	Cow();
@@ -39,7 +41,8 @@ public:
 
 	static void rightAttack(void* obj);
 	static void leftAttack(void* obj);
-	
+	static void dieMotion(void * obj);
+
 	void changeAnimation(COWDIRECTION cowDirection);
 
 	//콜백함수
@@ -50,7 +53,8 @@ public:
 	void setCowMotion(animation* ani) { _cowMotion = ani; }
 
 	void playerCollision();
-	void hitDamage(float damage);
+	void hitDamage();
 
 };
+
 

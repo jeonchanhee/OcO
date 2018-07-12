@@ -64,7 +64,6 @@ protected:
 	vector<int> _route;
 	
 	Player* _player;
-
 	BigBat*		_bigbat;
 	BigRedBat*	_bigRedBat;
 	RedBat*		_redBat;
@@ -101,8 +100,10 @@ protected:
 	int _start2;
 	int i;
 	int k;
-
+	int _dieCount;
+	
 	bool _bulletMove;
+	bool _diecount2;
 	int _swordCount;
 
 	minimap* _minimap;

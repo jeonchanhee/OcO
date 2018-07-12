@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "BigBone.h"
-
+#include "Player.h"
 
 BigBone::BigBone()
 {
@@ -13,6 +13,8 @@ BigBone::~BigBone()
 
 HRESULT BigBone::init(float x, float y, int index)
 {
+
+
 	_index = index;
 
 	_bigBoneDirection = BIGBONE_LEFT_MOVE;
@@ -23,11 +25,11 @@ HRESULT BigBone::init(float x, float y, int index)
 	_img = IMAGEMANAGER->findImage("bigWhiteSkelIdleMove");
 	
 	//IDLE상태
-	KEYANIMANAGER->addCoordinateFrameAnimation("bigBoneRightIdle", "bigWhiteSkelIdleMove", 0, 5, 10, false, true);
-	KEYANIMANAGER->addCoordinateFrameAnimation("bigBoneLeftIdle", "bigWhiteSkelIdleMove", 6, 11, 10, false, true);
+	KEYANIMANAGER->addCoordinateFrameAnimation("bigBoneRightIdle", "bigWhiteSkelIdleMove", 0, 5, 5, false, true);
+	KEYANIMANAGER->addCoordinateFrameAnimation("bigBoneLeftIdle", "bigWhiteSkelIdleMove", 6, 11, 5, false, true);
 	//MOVE상태
-	KEYANIMANAGER->addCoordinateFrameAnimation("bigBoneRightMove", "bigWhiteSkelIdleMove", 12, 17, 10, false, true);
-	KEYANIMANAGER->addCoordinateFrameAnimation("bigBoneLeftMove", "bigWhiteSkelIdleMove", 18, 23, 10, false, true);
+	KEYANIMANAGER->addCoordinateFrameAnimation("bigBoneRightMove", "bigWhiteSkelIdleMove", 12, 17, 5, false, true);
+	KEYANIMANAGER->addCoordinateFrameAnimation("bigBoneLeftMove", "bigWhiteSkelIdleMove", 18, 23, 5, false, true);
 
 	//ATTACK상태
 	char str[50];
@@ -38,7 +40,9 @@ HRESULT BigBone::init(float x, float y, int index)
 	KEYANIMANAGER->addCoordinateFrameAnimation(str, "bigWhiteSkelAttack", 12, 23, 10, false, false, leftAttack, this);
 	
 	//DIE상태
-	//IMAGEMANAGER->findImage("skelBone");
+	//KEYANIMANAGER->addCoordinateFrameAnimation("bigBoneDie", "skelBone", 0, 7, 5, false, false, dieMotion, this);
+	int bigBoneDie[] = { 0 };
+	KEYANIMANAGER->addArrayFrameAnimation("bigBoneDie", "skelBone", bigBoneDie, 1, 5, false, dieMotion, this);
 
 	_bigBoneMotion = KEYANIMANAGER->findAnimation("bigBoneLeftMove");
 	_bigBoneMotion->start();
@@ -53,6 +57,13 @@ HRESULT BigBone::init(float x, float y, int index)
 	_progressBar->init(_x - 30, _y + 120, 70, 10, "큰칼뼈앞", "큰칼뼈뒤", BAR_MONSTER);
 	_currentHP = _maxHP = 100;
 
+	_hit = false;
+	_hitCount = 0;
+
+	_isDie = false;
+
+	//_playerCollisionRc = RectMakeCenter(_x - 80, _y - 30, 40, 200);
+	
 	return S_OK;
 }
 
@@ -62,6 +73,19 @@ void BigBone::release()
 
 void BigBone::update()
 {
+	if (_bigBoneDirection == BIGBONE_LEFT_ATTACK)
+	{
+		_playerCollisionRc = _rc;
+		_playerCollisionRc = RectMakeCenter(_x - 80, _y - 30, 40, 200);
+	}
+	else if (_bigBoneDirection == BIGBONE_RIGHT_ATTACK)
+	{
+		_playerCollisionRc = _rc;
+		_playerCollisionRc = RectMakeCenter(_x + 110, _y - 30, 40, 200);
+	}
+	else
+		_playerCollisionRc = RectMakeCenter(0, 0, 0, 0);
+
 	//체력바 업데이트
 	_progressBar->setX(_x - 20);
 	_progressBar->setY(_y + 120);
@@ -70,19 +94,17 @@ void BigBone::update()
 
 	changeDirection();
 	move();
-	///////////die테스트!///////////////////
-	/*if (KEYMANAGER->isOnceKeyDown(VK_F2))
+	playerColiision();
+
+	if(!_diedie)
+		hitDamage();
+
+	if (_diedie)
 	{
-		
+		_dieCount++;
+		if (_dieCount > 120)
+			_isDie = true;
 	}
-	if (KEYMANAGER->isOnceKeyUp(VK_F2))
-	{
-	
-	}*/
-	///////////▲▲▲▲▲▲▲▲▲▲▲///////////////
-
-	//KEYANIMANAGER->update();
-
 }
 
 void BigBone::render()
@@ -102,24 +124,30 @@ void BigBone::render()
 		_img->aniRender(DC, _x - 45, _y - 50, _bigBoneMotion);
 		break;
 	case BIGBONE_DIE:
+		_img->aniRender(DC, _x - 45, _y + 50, _bigBoneMotion);
 		break;
 	case BIGBONE_RIGHT_ATTACK:
-		_img->aniRender(DC, _x  - 45, _y - 125 + 5 -60, _bigBoneMotion);
+		_img->aniRender(DC, _x - 45, _y - 125 + 5 - 60, _bigBoneMotion);
 		break;
 	case BIGBONE_LEFT_ATTACK:
-		_img->aniRender(DC, _x - 90 - 45, _y - 85 - 50 + 15-60, _bigBoneMotion);
+		_img->aniRender(DC, _x - 90 - 45, _y - 85 - 50 + 15 - 60, _bigBoneMotion);
 		break;
 	}
 
-	
 	///////////테스트
-	if (KEYMANAGER->isToggleKey('Q')) RectangleMakeCenter(DC, _x, _y, _img->getFrameWidth(), _img->getFrameHeight());
+	//if (KEYMANAGER->isToggleKey('Q')) RectangleMakeCenter(DC, _x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 
-	//if (KEYMANAGER->isToggleKey('T'))
-	//{
-	//	Rectangle(DC, _rcCollision.left, _rcCollision.top, _rcCollision.right, _rcCollision.bottom);
-	//}
-
+	if (KEYMANAGER->isToggleKey('T'))
+	{
+		Rectangle(DC, _rcCollision.left, _rcCollision.top, _rcCollision.right, _rcCollision.bottom);
+	}
+	if (KEYMANAGER->isToggleKey('R'))
+	{
+		//if(_bigBoneDirection == BIGBONE_LEFT_ATTACK )
+		//	Rectangle(DC, _playerCollisionRc.left, _playerCollisionRc.top, _playerCollisionRc.right, _playerCollisionRc.bottom);
+		//if (_bigBoneDirection == BIGBONE_RIGHT_ATTACK)
+			Rectangle(DC, _playerCollisionRc.left, _playerCollisionRc.top, _playerCollisionRc.right, _playerCollisionRc.bottom);
+	}
 }
 
 void BigBone::move()
@@ -237,6 +265,12 @@ void BigBone::leftAttack(void * obj)
 	b->getBigBoneMotion()->start();
 }
 
+void BigBone::dieMotion(void * obj)
+{
+	BigBone* b = (BigBone*)obj;
+	b->_diedie = true;
+}
+
 void BigBone::changeDirection()
 {
 	//방향 전환
@@ -250,7 +284,7 @@ void BigBone::changeDirection()
 	}*/
 
 	_count++;
-	if (!(_count % 100))
+	if (!(_count % 120))
 	{
 		_count = 0;
 		//_isAttack = true;
@@ -272,6 +306,7 @@ void BigBone::changeAnimation(BIGBONEDIRECTION bigBoneDirection)
 	switch (bigBoneDirection)
 	{
 		case BIGBONE_RIGHT_IDLE:
+			_isDie = false;
 			_img = IMAGEMANAGER->findImage("bigWhiteSkelIdleMove");
 			_bigBoneDirection = BIGBONE_RIGHT_IDLE;
 			_bigBoneMotion = KEYANIMANAGER->findAnimation("bigBoneRightIdle");
@@ -279,6 +314,7 @@ void BigBone::changeAnimation(BIGBONEDIRECTION bigBoneDirection)
 			_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 		break;
 		case BIGBONE_LEFT_IDLE:
+			_isDie = false;
 			_img = IMAGEMANAGER->findImage("bigWhiteSkelIdleMove");
 			_bigBoneDirection = BIGBONE_LEFT_IDLE;
 			_bigBoneMotion = KEYANIMANAGER->findAnimation("bigBoneLeftIdle");
@@ -286,6 +322,7 @@ void BigBone::changeAnimation(BIGBONEDIRECTION bigBoneDirection)
 			_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 		break;
 		case BIGBONE_RIGHT_MOVE:
+			_isDie = false;
 			_img = IMAGEMANAGER->findImage("bigWhiteSkelIdleMove");
 			_bigBoneDirection = BIGBONE_RIGHT_MOVE;
 			_bigBoneMotion = KEYANIMANAGER->findAnimation("bigBoneRightMove");
@@ -293,19 +330,15 @@ void BigBone::changeAnimation(BIGBONEDIRECTION bigBoneDirection)
 			_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 		break;
 		case BIGBONE_LEFT_MOVE:
+			_isDie = false;
 			_img = IMAGEMANAGER->findImage("bigWhiteSkelIdleMove");
 			_bigBoneDirection = BIGBONE_LEFT_MOVE;
 			_bigBoneMotion = KEYANIMANAGER->findAnimation("bigBoneLeftMove");
 			_bigBoneMotion->start();
 			_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 		break;
-		/*case DIE:
-			_img = IMAGEMANAGER->findImage("skelBone");
-			_bigBoneDirection = DIE;
-			//
-			_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
-		break;*/
 		case BIGBONE_RIGHT_ATTACK:
+			_isDie = false;
 			_img = IMAGEMANAGER->findImage("bigWhiteSkelAttack");
 			_bigBoneDirection = BIGBONE_RIGHT_ATTACK;
 			char str[50];
@@ -315,6 +348,7 @@ void BigBone::changeAnimation(BIGBONEDIRECTION bigBoneDirection)
 			_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 		break;
 		case BIGBONE_LEFT_ATTACK:
+			_isDie = false;
 			_img = IMAGEMANAGER->findImage("bigWhiteSkelAttack");
 			_bigBoneDirection = BIGBONE_LEFT_ATTACK;
 			sprintf_s(str, "bigBoneLeftAttack%d", _index);
@@ -322,6 +356,15 @@ void BigBone::changeAnimation(BIGBONEDIRECTION bigBoneDirection)
 			_bigBoneMotion->start();
 			_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 		break;
+		case BIGBONE_DIE:
+			//_isDie = true;
+			_diedie = true;
+			_img = IMAGEMANAGER->findImage("skelBone");
+			_bigBoneDirection = BIGBONE_DIE;
+			_bigBoneMotion = KEYANIMANAGER->findAnimation("bigBoneDie");
+			_bigBoneMotion->start();
+			_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
+			break;
 		default:
 			_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 		break;
@@ -330,11 +373,30 @@ void BigBone::changeAnimation(BIGBONEDIRECTION bigBoneDirection)
 
 void BigBone::playerColiision()
 {
-	
+	RECT temp;
+	if (IntersectRect(&temp, &_player->getPlayerRect(), &_playerCollisionRc))
+	{
+		if (!_hit)
+		{
+			_player->hitDamage(3);
+			EFFECTMANAGER->play("arrowEffect", (_player->getPlayerRect().right + _player->getPlayerRect().left) / 2, (_player->getPlayerRect().bottom + _player->getPlayerRect().top) / 2);
+			_hit = true;
+			_hitCount = 0;
+		}
+	}
+	_hitCount++;
+
+	if (!(_hitCount % 180) && _hit)
+	{
+		_hit = false;
+	}
 }
 
-void BigBone::hitDamage(float damage)
+void BigBone::hitDamage()
 {
-	_currentHP -= damage;
+	if (_currentHP <= 0)
+	{
+		changeAnimation(BIGBONE_DIE);
+	}
 }
 

@@ -36,10 +36,10 @@ HRESULT DogBone::init(float x, float y)
 
 	int leftMove[] = { 7,8,9,10,11,12,13 };
 	KEYANIMANAGER->addArrayFrameAnimation("dogBoneLeftMove", "skelDogMoveDie", leftMove, 7, 15, true);
-	int rightDie[] = { 14 };
-	KEYANIMANAGER->addArrayFrameAnimation("dogBoneRightDie", "skelDogMoveDie", rightDie, 1, 6, false);
-	int leftDie[] = { 15 };
-	KEYANIMANAGER->addArrayFrameAnimation("dogBoneLeftDie", "skelDogMoveDie", leftDie, 1, 6, false);
+	int Die[] = { 14 };
+	KEYANIMANAGER->addArrayFrameAnimation("dogBoneDie", "skelDogMoveDie", Die, 1, 6, false);
+	//int leftDie[] = { 15 };
+	//KEYANIMANAGER->addArrayFrameAnimation("dogBoneLeftDie", "skelDogMoveDie", leftDie, 1, 6, false);
 
 	_dogBoneMotion = KEYANIMANAGER->findAnimation("dogBoneLeftStop");
 	_dogBoneMotion->start();
@@ -74,7 +74,17 @@ void DogBone::update()
 
 	move();
 	changeDirection();
-	//playerCollision();
+	playerCollision();
+
+	if (!_diedie)
+		hitDamage();
+	if (_diedie)
+	{
+		_dieCount++;
+		if (_dieCount > 120)
+			_isDie = true;
+	}
+
 
 	//if (_isJumping && _y > _startY)//초기 위치보다 크면 초기위치에서 멈춤 (_startY)
 	//{
@@ -91,30 +101,30 @@ void DogBone::update()
 	_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 
 	////////////////////DIE테스트임///////////////////////////
-	if (KEYMANAGER->isOnceKeyDown(VK_F1))
-	{
-		if (_dogBoneDirection == DOGBONE_RIGHT_MOVE || _dogBoneDirection == DOGBONE_RIGHT_IDLE || _dogBoneDirection == DOGBONE_RIGHT_JUMP)
-		{
-			//_dogBoneDirection = RIGHT_DIE;
-			changeAnimation(DOGBONE_RIGHT_DIE);
-		}
-		else if (_dogBoneDirection == DOGBONE_LEFT_MOVE || _dogBoneDirection == DOGBONE_LEFT_IDLE || _dogBoneDirection == DOGBONE_LEFT_JUMP)
-		{
-			//_dogBoneDirection = LEFT_DIE;
-			changeAnimation(DOGBONE_LEFT_DIE);
-		}
-	}
-	if (KEYMANAGER->isOnceKeyUp(VK_F1))
-	{
-		if (_dogBoneDirection == DOGBONE_RIGHT_DIE)
-		{
-			changeAnimation(DOGBONE_RIGHT_MOVE);
-		}
-		else if (_dogBoneDirection == DOGBONE_LEFT_DIE)
-		{
-			changeAnimation(DOGBONE_LEFT_MOVE);
-		}
-	}
+	//if (KEYMANAGER->isOnceKeyDown(VK_F1))
+	//{
+	//	if (_dogBoneDirection == DOGBONE_RIGHT_MOVE || _dogBoneDirection == DOGBONE_RIGHT_IDLE || _dogBoneDirection == DOGBONE_RIGHT_JUMP)
+	//	{
+	//		//_dogBoneDirection = RIGHT_DIE;
+	//		changeAnimation(DOGBONE_RIGHT_DIE);
+	//	}
+	//	else if (_dogBoneDirection == DOGBONE_LEFT_MOVE || _dogBoneDirection == DOGBONE_LEFT_IDLE || _dogBoneDirection == DOGBONE_LEFT_JUMP)
+	//	{
+	//		//_dogBoneDirection = LEFT_DIE;
+	//		changeAnimation(DOGBONE_LEFT_DIE);
+	//	}
+	//}
+	//if (KEYMANAGER->isOnceKeyUp(VK_F1))
+	//{
+	//	if (_dogBoneDirection == DOGBONE_RIGHT_DIE)
+	//	{
+	//		changeAnimation(DOGBONE_RIGHT_MOVE);
+	//	}
+	//	else if (_dogBoneDirection == DOGBONE_LEFT_DIE)
+	//	{
+	//		changeAnimation(DOGBONE_LEFT_MOVE);
+	//	}
+	//}
 	////////////////////▲▲▲▲▲▲▲▲///////////////////
 }
 
@@ -349,9 +359,6 @@ void DogBone::move()
 		//{
 		//	_y -= 4;
 		//}
-		
-		
-
 
 	rcCollision = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 	_rc = rcCollision;
@@ -460,6 +467,7 @@ void DogBone::changeAnimation(DOGBONEDIRECTION dogBoneDirection)
 	{
 	case DOGBONE_RIGHT_MOVE:
 		_isJumping = false;
+		_isDie = false;
 		_img = IMAGEMANAGER->findImage("skelDogMoveDie");
 		_dogBoneDirection = DOGBONE_RIGHT_MOVE;
 		_dogBoneMotion = KEYANIMANAGER->findAnimation("dogBoneRightMove");
@@ -467,33 +475,31 @@ void DogBone::changeAnimation(DOGBONEDIRECTION dogBoneDirection)
 		break;
 	case DOGBONE_LEFT_MOVE:
 		_isJumping = false;
+		_isDie = false;
 		_img = IMAGEMANAGER->findImage("skelDogMoveDie");
 		_dogBoneDirection = DOGBONE_LEFT_MOVE;
 		_dogBoneMotion = KEYANIMANAGER->findAnimation("dogBoneLeftMove");
 		_dogBoneMotion->start();
 		break;
 	case DOGBONE_RIGHT_JUMP:
+		_isDie = false;
 		_img = IMAGEMANAGER->findImage("skelDogMoveDie");
 		_dogBoneDirection = DOGBONE_RIGHT_JUMP;
 		_dogBoneMotion = KEYANIMANAGER->findAnimation("dogBoneRightMove");
 		_dogBoneMotion->start();
 		break;
 	case DOGBONE_LEFT_JUMP:
+		_isDie = false;
 		_img = IMAGEMANAGER->findImage("skelDogMoveDie");
 		_dogBoneDirection = DOGBONE_LEFT_JUMP;
 		_dogBoneMotion = KEYANIMANAGER->findAnimation("dogBoneLeftMove");
 		_dogBoneMotion->start();
 		break;
-	case DOGBONE_RIGHT_DIE:
+	case DOGBONE_DIE:
+		_diedie = true;
 		_img = IMAGEMANAGER->findImage("skelDogMoveDie");
-		_dogBoneDirection = DOGBONE_RIGHT_DIE;
-		_dogBoneMotion = KEYANIMANAGER->findAnimation("dogBoneRightDie");
-		_dogBoneMotion->start();
-		break;
-	case DOGBONE_LEFT_DIE:
-		_img = IMAGEMANAGER->findImage("skelDogMoveDie");
-		_dogBoneDirection = DOGBONE_LEFT_DIE;
-		_dogBoneMotion = KEYANIMANAGER->findAnimation("dogBoneLeftDie");
+		_dogBoneDirection = DOGBONE_DIE;
+		_dogBoneMotion = KEYANIMANAGER->findAnimation("dogBoneDie");
 		_dogBoneMotion->start();
 		break;
 	/*default:
@@ -510,7 +516,8 @@ void DogBone::playerCollision()
 	{
 		if (!_hit)
 		{
-			_player->hitDamage(1.5f);
+			_player->hitDamage(2);
+			EFFECTMANAGER->play("bossCollisionBullet", (_player->getPlayerRect().right + _player->getPlayerRect().left) / 2, (_player->getPlayerRect().bottom + _player->getPlayerRect().top) / 2);
 			_hit = true;
 			_hitCount = 0;
 		}
@@ -523,7 +530,11 @@ void DogBone::playerCollision()
 	}
 }
 
-void DogBone::hitDamage(float damage)
+void DogBone::hitDamage()
 {
-	_currentHP -= damage;
+	if (_currentHP <= 0)
+	{
+		_diedie = true;
+		changeAnimation(DOGBONE_DIE);
+	}
 }

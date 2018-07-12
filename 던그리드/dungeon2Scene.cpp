@@ -202,7 +202,7 @@ void dungeon2Scene::setMonster()
 		setBigBone(id[i][0], id[i][1], i);
 	}
 	//작보박
-	setBat(416 % _temp, 416 / _temp);
+	setBat(405 % _temp, 405 / _temp);
 	//작갈박
 	setRedBat(318 % _temp, 318 / _temp);
 

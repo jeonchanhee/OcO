@@ -17,6 +17,9 @@ private:
 	BIGREDBATDIRECTION _bigRedBatDirection;
 	animation* _bigRedBatMotion;
 	bool _isAttack;
+	bool _diedie;
+
+	int _diecount;
 public:
 	BigRedBat();
 	~BigRedBat();
@@ -41,6 +44,9 @@ public:
 	void setBigRedBatMotion(animation* ani) { _bigRedBatMotion = ani; }
 
 	void playerCollision();
+	void hitDamage();
+	void die();
+	static void bigRedBatDieMotion(void * obj);
 	void hitDamage(float damage);
 
 	bool getisAtteck2() { return _isAttack; }

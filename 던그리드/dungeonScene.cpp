@@ -8,14 +8,13 @@ void dungeonScene::collision()
 {
 	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); )
 	{
-		if (_player->getIsAttacking())
-		{
+		
 			RECT checkRc;
 			if (IntersectRect(&checkRc, &_player->getEffect()->effectCheckBox(), &(*_viEnemy)->getRect()))
 			{
 				(*_viEnemy)->setCurrentHp((*_viEnemy)->getCurrentHp() - 10);
 			}
-		}
+		
 
 		for (int i = 0; i < _player->getPBullet()->getvPBullet().size();)
 		{
@@ -31,10 +30,22 @@ void dungeonScene::collision()
 			}
 
 		}
-		if ((*_viEnemy)->getCurrentHp() <= 0)   //적의 HP가 0이하가되면)
+		//if ((*_viEnemy)->getCurrentHp() <= 0)   //적의 HP가 0이하가되면)
+		//{
+
+		//	//_viEnemy = _vEnemy.erase(_viEnemy);
+		//		//삭제!
+		//}
+		//else
 		{
-			_viEnemy = _vEnemy.erase(_viEnemy);//삭제!
+			++_viEnemy;
 		}
+	}
+
+	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); )
+	{
+		if((*_viEnemy)->getIsDie())
+			_viEnemy = _vEnemy.erase(_viEnemy);
 		else
 		{
 			++_viEnemy;
@@ -54,6 +65,7 @@ HRESULT dungeonScene::init(void)
 	_player = SCENEMANAGER->getPlayerAddressLink();
 	j = 0;
 	_start = _start2 = 0;
+	_diecount2 = true;
 	for (int i = 0; i < 2; i++)
 	{
 		_bossLaserHitCount[i] = 0;
@@ -914,7 +926,7 @@ void dungeonScene::musicAngelBulletCollision()
 		RECT temp;
 		if (IntersectRect(&temp, &_enemyBullet->getVBullet()[i].rc, &_player->getPlayerRect()))
 		{
-			_player->hitDamage(1.7f);
+			_player->hitDamage(2);
 			EFFECTMANAGER->play("bansheeBigBullet", (_player->getPlayerRect().right + _player->getPlayerRect().left) / 2, (_player->getPlayerRect().bottom + _player->getPlayerRect().top) / 2);
 			_enemyBullet->removeBullet(i);
 			break;
@@ -924,16 +936,16 @@ void dungeonScene::musicAngelBulletCollision()
 
 void dungeonScene::bossBulletCollision()
 {
+	//총알 충돌
 	for (int i = 0; i < _enemyBullet->getVBullet().size(); i++)
 	{
 		RECT temp;
-		//총알 충돌
 		//if (_enemyBullet->getFrameXY(_enemyBullet->getVBullet()[i].frameXY) == WIDTH)
 		if (_enemyBullet->getFrameXY(i) == WIDTH)
 		{
 			if (IntersectRect(&temp, &_enemyBullet->getVBullet()[i].rc, &_player->getPlayerRect()))
 			{
-				//_player->hitDamage(3.1f);
+				_player->hitDamage(2);
 				EFFECTMANAGER->play("bossCollisionBullet", (_player->getPlayerRect().right + _player->getPlayerRect().left) / 2, (_player->getPlayerRect().bottom + _player->getPlayerRect().top) / 2);
 				_enemyBullet->removeBullet(i);
 				break;
@@ -941,20 +953,21 @@ void dungeonScene::bossBulletCollision()
 		}
 	}
 
+	//레이져 충돌
 	for (int i = 0; i < _enemyBullet->getVBullet().size(); i++)
 	{
-		//레이져 충돌
 		//if (_enemyBullet->getFrameXY(_enemyBullet->getVBullet()[i].frameXY) == HEIGHT)
 		if (_enemyBullet->getFrameXY(i) == HEIGHT)
 		{
 			RECT temp;
+			//왼손
 			if (_boss->getLeftDirection() == LEFT_LASER_OFF)
 			{
 				if (IntersectRect(&temp, &_enemyBullet->getVBullet()[i].rc, &_player->getPlayerRect()))
 				{
 					if (!_bossLaserHit[0])
 					{
-						//_player->hitDamage(2.6f);
+						_player->hitDamage(5);
 						EFFECTMANAGER->play("bossCollisionBullet", (_player->getPlayerRect().right + _player->getPlayerRect().left) / 2, (_player->getPlayerRect().bottom + _player->getPlayerRect().top) / 2);
 						_bossLaserHit[0] = true;
 						_bossLaserHitCount[0] = 0;
@@ -966,13 +979,14 @@ void dungeonScene::bossBulletCollision()
 					}
 				}
 			}
+			//오른손
 			if (_boss->getRightDirection() == RIGHT_LASER_OFF)
 			{
 				if (IntersectRect(&temp, &_enemyBullet->getVBullet()[i].rc, &_player->getPlayerRect()))
 				{
 					if (!_bossLaserHit[1])
 					{
-						//_player->hitDamage(2.6f);
+						_player->hitDamage(5);
 						EFFECTMANAGER->play("bossCollisionBullet", (_player->getPlayerRect().right + _player->getPlayerRect().left) / 2, (_player->getPlayerRect().bottom + _player->getPlayerRect().top) / 2);
 						_bossLaserHit[1] = true;
 						_bossLaserHitCount[1] = 0;
@@ -992,6 +1006,8 @@ void dungeonScene::bossBulletCollision()
 //음표요정 총알
 void dungeonScene::MusicAngelBulletFire()
 {
+	if (_musicAngel->getDieDie()) return;
+
 	musicAngelBulletCollision();
 	if (!(_count % 200))
 	{
