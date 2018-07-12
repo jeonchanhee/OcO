@@ -8,7 +8,7 @@ void dungeonScene::collision()
 {
 	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); )
 	{
-		if (_player->getIsAttacking())
+		if (_player->getAttackCheck())
 		{
 			RECT checkRc;
 			if (IntersectRect(&checkRc, &_player->getEffect()->effectCheckBox(), &(*_viEnemy)->getRect()))
