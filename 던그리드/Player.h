@@ -2,6 +2,7 @@
 #include "gameNode.h"
 #include "playerBullet.h"
 #include "inven.h"
+#include "progressBar.h"
 
 #define DASHSPEED 33
 #define PUNCHSPEED 6.0f
@@ -22,6 +23,7 @@ private:
 	class dungeonScene;
 
 private:
+	progressBar * _hpbar;
 	inven * _inven;
 	playerBullet * _pb;
 	RECT _collisionRc; //충돌렉트  

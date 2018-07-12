@@ -13,6 +13,15 @@ HRESULT playGround::Image_init(void)
 	IMAGEMANAGER->addImage("floor0", "image/map/Floor0.bmp", 0, 0, 384, 96,true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("floor1", "image/map/Floor1.bmp", 0, 0, 4164, 864,true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("floor2", "image/map/Floor2.bmp", 0, 0, 4164, 864,true, RGB(255, 0, 255));
+	
+
+	//==========기본UI==========
+	IMAGEMANAGER->addImage("hpBar", "image/UI/UIhpBar(469x120).bmp", 0, 0, 469, 120, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("hp", "image/UI/UIhp(294,60).bmp", 0, 0, 294, 60, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("hpb", "image/UI/UIhpb(294,60).bmp", 0, 0, 294, 60, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("dashBar", "image/UI/UIdashBar(400x300,1,5).bmp", 0, 0, 400, 300,1,5, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("dash", "image/UI/UIdash(54x24).bmp", 0, 0, 54, 24, true, RGB(255, 0, 255));
+	
 
 	//==========타이틀이미지==========
 	IMAGEMANAGER->addImage("title", "image/UI/Title(1920x1080).bmp", 0, 0, 1920,1080, true, RGB(255, 0, 255));
