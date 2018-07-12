@@ -1,6 +1,8 @@
 #pragma once
 #include "gameNode.h"
 #include "item.h"
+
+#define INVENSIZE 15
 class inven : public gameNode
 {
 private:
@@ -13,6 +15,8 @@ private:
 	vector<Item*> _vAssistWeapon;
 	//Accessarry
 	vector<Item*> _vAccessary;
+	//save vector 
+	vector<Item*> _vSaveItem;
 
 	//inven 
 	image * _image[15];
@@ -33,7 +37,7 @@ public:
 	void update();
 	void render();
 
-	//¿Â¬¯ «ÿ¡¶ »πµÊ ªË¡¶ 
+	 
 	void setIsSelect(int index) { _isSelect = index; }
 	int getIsSelect()			{ return _isSelect; }
 
@@ -41,11 +45,15 @@ public:
 	vector<Item*> getMainWeapon()   { return _vMainWeapon; }
 	vector<Item*> getAssistWeapon() { return _vAssistWeapon; }
 	vector<Item*> getAccessarry()   { return _vAccessary; }
+
 	
-	void dismantItem();
-	void mount();
-	void pickUpItem(ITEMTYPE type, const char * weaponName, int value);
-	void deleteItem(int i);
+	void mount(); //¿Â¬¯ 
+	void pickUpItem(ITEMTYPE type, const char * weaponName, int value); // »πµÊ 
+	void deleteItem(int i);  //ªË¡¶ 
+	void dismantWeapon();
+	void dismantAs();
+	void dismantAccessarry();
+	
 
 	
 	inven();

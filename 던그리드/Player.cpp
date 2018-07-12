@@ -86,6 +86,9 @@ void Player::update()
 	effect();
 	EFFECTMANAGER->update();
 	if (KEYMANAGER->isOnceKeyDown(VK_F5)) _inven->pickUpItem(SWORD , "검", 2);
+	if (KEYMANAGER->isOnceKeyDown(VK_F6)) _inven->pickUpItem(SWORD, "검", 4);
+	if (KEYMANAGER->isOnceKeyDown(VK_F7)) _inven->pickUpItem(SWORD, "검", 4);
+	if (KEYMANAGER->isOnceKeyDown(VK_F8)) _inven->pickUpItem(SWORD, "검", 4);
 	keyInput();
 	mouseControl();
 	attack();
