@@ -7,6 +7,7 @@ HRESULT inven::init()
 	
 	_onInven = false , _onMouseInven = false, _onMouseAc = false, _onMouseMain = false, _onMouseAs =false , _onInven =false;
 	_gold = 0;
+	_moneyRect = RectMake(WINSIZEX / 2 + 800, WINSIZEY / 2 + 427, 300, 50);
 	for (int i = 0; i < INVENSIZE; ++i)
 	{
 		_image[i] = IMAGEMANAGER->findImage("invenRectOff");
@@ -42,9 +43,18 @@ void inven::release(){}
 
 void inven::update()
 {
+
 	if (KEYMANAGER->isOnceKeyDown('I')) _onInven == false ? _onInven = true : _onInven = false;
 	if (_onInven)
 	{
+		if (KEYMANAGER->isOnceKeyDown(VK_LEFT)) _gold += 100;
+		if (KEYMANAGER->isOnceKeyDown(VK_RIGHT)) _gold += 1000;
+		int value=0;
+		if (_gold > 99) value = 1;
+		if (_gold > 999) value = 2; 
+		if (_gold > 9999) value = 3;
+		if (_gold > 99999) value = 4;
+		_moneyRect = RectMake(WINSIZEX / 2 + 800 - (value * 30), WINSIZEY / 2 + 427, 300, 50);
 		for (int i = 0; i < INVENSIZE; ++i)
 		{
 			if (PtInRect(&_selectRect[i], _ptMouse))
@@ -146,6 +156,17 @@ void inven::render()
 				Rectangle(UIDC, _accessarryRect[i].left, _accessarryRect[i].top, _accessarryRect[i].right, _accessarryRect[i].bottom);
 			}
 		}
+		char str[256];
+		sprintf_s(str, "%d", _gold);
+		HFONT font, oldFont;
+		font = CreateFont(50, 0, 0, 0, 100, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("소야바른9"));
+		oldFont = (HFONT)SelectObject(UIDC, font);
+		SetTextColor(UIDC, RGB(250, 250, 0));
+		SetBkMode(UIDC, TRANSPARENT);
+		DrawText(UIDC, str, strlen(str), &_moneyRect, DT_VCENTER);
+		SelectObject(UIDC, oldFont);
+		DeleteObject(font);
+		//Rectangle(UIDC, _moneyRect.left, _moneyRect.top, _moneyRect.right, _moneyRect.bottom);
 	}
 }
 

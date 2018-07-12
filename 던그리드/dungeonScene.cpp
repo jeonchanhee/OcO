@@ -15,33 +15,34 @@ void dungeonScene::collision()
 			{
 				(*_viEnemy)->setCurrentHp((*_viEnemy)->getCurrentHp() - 10);
 			}
-		
 
-		for (int i = 0; i < _player->getPBullet()->getvPBullet().size();)
-		{
-			RECT temp;
-			if (IntersectRect(&temp, &(*_viEnemy)->getRect(), &_player->getPBullet()->getvPBullet()[i].rc))
+
+			for (int i = 0; i < _player->getPBullet()->getvPBullet().size();)
 			{
-				_player->getPBullet()->removeBullet(i);
-				(*_viEnemy)->setCurrentHp((*_viEnemy)->getCurrentHp() - 10);
+				RECT temp;
+				if (IntersectRect(&temp, &(*_viEnemy)->getRect(), &_player->getPBullet()->getvPBullet()[i].rc))
+				{
+					_player->getPBullet()->removeBullet(i);
+					(*_viEnemy)->setCurrentHp((*_viEnemy)->getCurrentHp() - 10);
+				}
+				else
+				{
+					++i;
+				}
+
 			}
-			else
-			{
-				++i;
-			}
+			++_viEnemy;
 
 		}
-		++_viEnemy;
-		
-	}
 
-	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); )
-	{
-		if((*_viEnemy)->getIsDie())
-			_viEnemy = _vEnemy.erase(_viEnemy);
-		else
+		for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); )
 		{
-			++_viEnemy;
+			if ((*_viEnemy)->getIsDie())
+				_viEnemy = _vEnemy.erase(_viEnemy);
+			else
+			{
+				++_viEnemy;
+			}
 		}
 	}
 }
@@ -58,7 +59,7 @@ HRESULT dungeonScene::init(void)
 	_player = SCENEMANAGER->getPlayerAddressLink();
 	j = 0;
 	_start = _start2 = 0;
-	_diecount2 = true;
+	//_diecount2 = true;
 	for (int i = 0; i < 2; i++)
 	{
 		_bossLaserHitCount[i] = 0;
