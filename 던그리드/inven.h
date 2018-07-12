@@ -26,6 +26,7 @@ private:
 	RECT _accessarryRect[4];
 	bool _onMouseInven, _onMouseAc , _onMouseMain , _onMouseAs , _onInven;
 	int _isSelect;
+	int _gold;
 	long _halfW, _halfH;
 	short _index, _index2;
 
@@ -45,6 +46,7 @@ public:
 	vector<Item*> getMainWeapon()   { return _vMainWeapon; }
 	vector<Item*> getAssistWeapon() { return _vAssistWeapon; }
 	vector<Item*> getAccessarry()   { return _vAccessary; }
+	
 
 	
 	void mount(); //ÀåÂø 

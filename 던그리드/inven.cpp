@@ -4,7 +4,9 @@
 
 HRESULT inven::init()
 {
+	
 	_onInven = false , _onMouseInven = false, _onMouseAc = false, _onMouseMain = false, _onMouseAs =false , _onInven =false;
+	_gold = 0;
 	for (int i = 0; i < INVENSIZE; ++i)
 	{
 		_image[i] = IMAGEMANAGER->findImage("invenRectOff");
@@ -31,6 +33,8 @@ HRESULT inven::init()
 	_index = 0;
 	_halfW = (_selectRect[0].right - _selectRect[0].left) / 2; 
 	_halfH = (_selectRect[0].bottom - _selectRect[0].top) / 2;
+	pickUpItem(SWORD, "°Ë", 1);
+	mount();
 	return S_OK;
 }
 
@@ -76,17 +80,18 @@ void inven::update()
 				break;
 			}
 			else _onMouseMain = false;
-
+		}
+		for (int i = 0; i < 2; ++i)
+		{
 			if (PtInRect(&_assistWeaponRect[i], _ptMouse))
 			{
 				_index = i;
 				_onMouseAs = true;
 				//ÇØÃ¼ 
-				if (KEYMANAGER->isOnceKeyDown(VK_RBUTTON)) dismantAs(); 
+				if (KEYMANAGER->isOnceKeyDown(VK_RBUTTON)) dismantAs();
 				break;
 			}
 			else _onMouseAs = false;
-
 		}
 	}
 }
@@ -113,19 +118,19 @@ void inven::render()
 			else if (_onMouseAs) IMAGEMANAGER->findImage("mouseOnAs")->render(UIDC, _assistWeaponRect[_index].left, _assistWeaponRect[_index].top);
 			for (int i = 0; i < _vItem.size(); ++i)
 			{
-				_vItem[i]->invenRender(UIDC, _selectRect[i].left + _halfW, _selectRect[i].top + _halfH);
+				_vItem[i]->invenRender(UIDC, _selectRect[i].left + _halfW - 10, _selectRect[i].top + _halfH / 2 - 10);
 			}
 			for (int i = 0; i < _vMainWeapon.size(); ++i)
 			{
-				_vMainWeapon[i]->invenRender(UIDC, _mainWeaponRect[i].left + _halfW, _mainWeaponRect[i].top + _halfH);
+				_vMainWeapon[i]->invenRender(UIDC, _mainWeaponRect[i].left + _halfW - 10, _mainWeaponRect[i].top + _halfH / 2 - 10);
 			}
 			for (int i = 0; i < _vAssistWeapon.size(); ++i)
 			{
-				_vAssistWeapon[i]->invenRender(UIDC, _assistWeaponRect[i].left + _halfW, _assistWeaponRect[i].top + _halfH);
+				_vAssistWeapon[i]->invenRender(UIDC, _assistWeaponRect[i].left + _halfW - 10, _assistWeaponRect[i].top + _halfH / 2 - 10);
 			}
 			for (int i = 0; i < _vAccessary.size(); ++i)
 			{
-				_vAccessary[i]->invenRender(UIDC, _accessarryRect[i].left + _halfW, _accessarryRect[i].top + _halfH);
+				_vAccessary[i]->invenRender(UIDC, _accessarryRect[i].left + _halfW - 10, _accessarryRect[i].top + _halfH / 2 - 10);
 			}
 		}
 		if (KEYMANAGER->isToggleKey(VK_F6))
@@ -158,26 +163,26 @@ void inven::mount()
 	|| _vItem[_index]->getItemType() == GUN
 	|| _vItem[_index]->getItemType() == BOW)
 	{
-		if (_vMainWeapon.size() > 1)
+		if (_vMainWeapon.size() > 1 || ((_isSelect == 0) && (_vMainWeapon.size() >=1)))
 		{
 			_vSaveItem.push_back(_vMainWeapon[_isSelect]);							 //1. push weaponData in Save vector  
 			_vMainWeapon.erase(_vMainWeapon.begin() + _isSelect);					 //2. erase vMainWeapon select data 
 			_vMainWeapon.insert(_vMainWeapon.begin() + _isSelect, _vItem[_index]);   //3. weaponVector insert to inventory item index ;
-			_vItem.erase(_vItem.begin() + _index);									 //4. inventory inndex erase!!!!
+			_vItem.erase(_vItem.begin() + _index);									 //4. inventory index erase!!!!
 			_vItem.insert(_vItem.begin() + _index, _vSaveItem[0]);					 //5. inventory insert to weapon select data
 			_vSaveItem.pop_back();													 // 6. save vector erase
 			return;
-			
 		} 
-		
-		_vMainWeapon.push_back(_vItem[_index]);
-		_vItem.erase(_vItem.begin() + _index);
-
+		else
+		{
+			_vMainWeapon.push_back(_vItem[_index]);
+			_vItem.erase(_vItem.begin() + _index);
+		}
 	}
 	else if (_vItem[_index]->getItemType() == ARMOR
 	|| _vItem[_index]->getItemType() == ACCESSORY)
 	{
-		if (_vAccessary.size() > 3) 	return;
+		if (_vAccessary.size() > 3) return;
 		
 		_vAccessary.push_back(_vItem[_index]);
 		_vItem.erase(_vItem.begin() + _index);
@@ -185,12 +190,21 @@ void inven::mount()
 	else if(_vItem[_index]->getItemType() == SHIELD
 		 || _vItem[_index]->getItemType() == SECOND_EQUIPMENT)
 	{
-		if (_vAssistWeapon.size() > 1)
+		if (_vAssistWeapon.size() > 1 
+			|| ((_isSelect == 0) && (_vAssistWeapon.size() >= 1)))
 		{
-
+			_vSaveItem.push_back(_vAssistWeapon[_isSelect]);							 //1. push weaponData in Save vector  
+			_vAssistWeapon.erase(_vAssistWeapon.begin() + _isSelect);					 //2. erase vMainWeapon select data 
+			_vAssistWeapon.insert(_vAssistWeapon.begin() + _isSelect, _vItem[_index]);   //3. weaponVector insert to inventory item index ;
+			_vItem.erase(_vItem.begin() + _index);									 //4. inventory index erase!!!!
+			_vItem.insert(_vItem.begin() + _index, _vSaveItem[0]);					 //5. inventory insert to weapon select data
+			_vSaveItem.pop_back();													 // 6. save vector erase
 		}
-		_vAssistWeapon.push_back(_vItem[_index]);
-		_vItem.erase(_vItem.begin() + _index);
+		else
+		{
+			_vAssistWeapon.push_back(_vItem[_index]);
+			_vItem.erase(_vItem.begin() + _index);
+		}
 	}
 }
 

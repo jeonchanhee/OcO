@@ -15,7 +15,7 @@ HRESULT Player::init()
 	_player			= IMAGEMANAGER->findImage("기본플레이어");
 	_playerHand[0]  = IMAGEMANAGER->findImage("플레이어손");
 	_playerHand[1]  = IMAGEMANAGER->findImage("플레이어손");
-	_playerWeapon   = IMAGEMANAGER->findImage("검10");
+	itemInfo();
 	_x = WINSIZEX / 2; _y = WINSIZEY / 2 -100;
 	_attackEffect = IMAGEMANAGER->findImage("검쓰르륵");
 	_dashCount = 0, _attackCount = 0;
@@ -85,10 +85,10 @@ void Player::update()
 {
 	effect();
 	EFFECTMANAGER->update();
-	if (KEYMANAGER->isOnceKeyDown(VK_F5)) _inven->pickUpItem(SWORD , "검", 2);
-	if (KEYMANAGER->isOnceKeyDown(VK_F6)) _inven->pickUpItem(SWORD, "검", 4);
-	if (KEYMANAGER->isOnceKeyDown(VK_F7)) _inven->pickUpItem(SWORD, "검", 4);
-	if (KEYMANAGER->isOnceKeyDown(VK_F8)) _inven->pickUpItem(SWORD, "검", 4);
+	if (KEYMANAGER->isOnceKeyDown(VK_F5)) _inven->pickUpItem(SWORD , "검", 7);
+	if (KEYMANAGER->isOnceKeyDown(VK_F6)) _inven->pickUpItem(SWORD, "검", 5);
+	if (KEYMANAGER->isOnceKeyDown(VK_F7)) _inven->pickUpItem(ACCESSORY, "악세", 1);
+	if (KEYMANAGER->isOnceKeyDown(VK_F8)) _inven->pickUpItem(SECOND_EQUIPMENT, "보조", 1);
 	keyInput();
 	mouseControl();
 	attack();
@@ -103,17 +103,17 @@ void Player::update()
 	pixelCollision();
 	_pb->update();
 	_inven->update();
+	itemInfo();
 }
 
 void Player::render()
 {
 	//여윽시 희진누나 작품 !!
-	char strGun[128]; 
-	if (_isLeftAttack) sprintf_s(strGun, "검92"); else if (!_isLeftAttack) sprintf_s(strGun, "검92");
-	RECT rc = RectMake(0,0,IMAGEMANAGER->findImage(strGun)->getWidth() * 2, IMAGEMANAGER->findImage(strGun)->getHeight());
+
+	RECT rc = RectMake(0,0, _playerWeapon->getWidth() * 2, _playerWeapon->getHeight());
 	imageDC = IMAGEMANAGER->addRotateImage("rotateimage", rc.right - rc.left, rc.bottom - rc.top ,true,RGB(0,0,0), false);
-	IMAGEMANAGER->findImage(strGun)->render(imageDC->getMemDC(), IMAGEMANAGER->findImage(strGun)->getWidth(),
-		0,0,0, IMAGEMANAGER->findImage(strGun)->getWidth(), IMAGEMANAGER->findImage(strGun)->getHeight());
+	_playerWeapon->render(imageDC->getMemDC(), _playerWeapon->getWidth(),
+	0,0,0, _playerWeapon->getWidth(), _playerWeapon->getHeight());
 	
 	// ===================
 	if (_direction == LEFT_RUN || _direction == LEFT_STOP)
@@ -131,17 +131,25 @@ void Player::render()
 	//무기의 분기점
 	if (_isGun)
 	{
-		if (_isLeftAttack && _mainWeapon[_youUsingCount] != 0)
+		if (_isLeftAttack 
+			&& _inven->getMainWeapon().size() != 0
+			&& _inven->getMainWeapon().size() > _youUsingCount)
 			imageDC->rotateRender(DC, _leftHandX + TEN, _leftHandY, _weaponAngle);
-		else if (!_isLeftAttack && _mainWeapon[_youUsingCount] != 0)
+		else if (!_isLeftAttack 
+			&& _inven->getMainWeapon().size() != 0
+			&& _inven->getMainWeapon().size() > _youUsingCount)
 			imageDC->rotateRender(DC, _rightHandX  - TEN, _rightHandY, _weaponAngle);
-		_player->aniRender(DC, _collisionRc.left, _collisionRc.top, _playerAnimation);
+			_player->aniRender(DC, _collisionRc.left, _collisionRc.top, _playerAnimation);
 	}
 	if (!_isGun)
 	{
-		if (_isLeftAttack && _mainWeapon[_youUsingCount] != 0)
+		if (_isLeftAttack 
+			&& _inven->getMainWeapon().size() != 0
+			&& _inven->getMainWeapon().size() > _youUsingCount)
 		imageDC->rotateRender(DC, _leftHandX, _leftHandY, _weaponAngle + 1.8f);
-		else if (!_isLeftAttack && _mainWeapon[_youUsingCount] != 0)
+		else if (!_isLeftAttack 
+			&& _inven->getMainWeapon().size() != 0
+			&& _inven->getMainWeapon().size() > _youUsingCount)
 		imageDC->rotateRender(DC, _rightHandX, _rightHandY, _weaponAngle + 1.8f);
 		_player->aniRender(DC, _collisionRc.left, _collisionRc.top, _playerAnimation);
 	}
@@ -248,7 +256,7 @@ void Player::keyInput()
 	{
 		if (!_isAttacking && !_attackSpeedCheckCount)
 		{
-			if (_mainWeapon[_youUsingCount] == 0) _punchSpeed = PUNCHSPEED;
+			 _punchSpeed = PUNCHSPEED;
 			_angle = getAngle(_collisionRc.left + _player->getFrameWidth() / 2, _collisionRc.top + _player->getFrameHeight() / 2, PTMOUSE_X, PTMOUSE_Y);
 			_isAttacking = true;
 		}
@@ -390,12 +398,11 @@ void Player::attack()
 	
 	if(_isAttacking && _attackCount == 0 )
 	{
-		if (_isAttacking)_attackCount++;
 		if (_isGun && _isLeftAttack) _weaponAngle -= PI / 100;
 		else if (_isGun && !_isLeftAttack) _weaponAngle += PI / 100;
-		if(_mainWeapon[_youUsingCount] == 0)_punchSpeed -= 0.7;
+		if(_inven->getMainWeapon().size() <= _youUsingCount)_punchSpeed -= 0.7;
 		//punch
-		if (_mainWeapon[_youUsingCount] == 0)
+		if (_inven->getMainWeapon().size() <= _youUsingCount)
 		{
 			if (_isLeftAttack)
 			{
@@ -413,9 +420,10 @@ void Player::attack()
 				_rightHandX = _collisionRc.left + 65 + _locusX, _rightHandY = _collisionRc.top + 60 + _locusY;
 			}
 		}
-		else if (_mainWeapon[_youUsingCount] == 1)
+		else if (_inven->getMainWeapon()[_youUsingCount]->getItemType() == SWORD
+			|| _inven->getMainWeapon()[_youUsingCount]->getItemType() == HAMMER)
 		{
-			_attackCount++;
+			_attackCount+=2;
 			if (_isChap)_weaponAttackAngle += (PI / 180) * 200;
 			else if (!_isChap)_weaponAttackAngle -= (PI / 180) * 200;
 
@@ -456,6 +464,7 @@ void Player::attack()
 			}
 		}
 	}
+
 	if (_punchSpeed < -PUNCHSPEED)
 	{
 		_isAttacking = false;
@@ -498,7 +507,8 @@ void Player::effect()
 
 	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
 	{
-		if (_mainWeapon[_youUsingCount] == 1)
+		if (_inven->getMainWeapon().size() <= _youUsingCount) return;
+		if (_inven->getMainWeapon()[_youUsingCount]->getItemType() == SWORD)
 		{
 			_showAttackEffect = true;
 			_attackEffect->setFrameX(0) , _attackEffect->setFrameY(0);
@@ -769,8 +779,6 @@ void Player::tileCollision()
 
 void Player::pixelCollision()
 {
-
-
 	for (int j = _y + 20; j < _y + 70; ++j)
 	{	COLORREF color = RGB(0,0,0);
 
@@ -816,4 +824,12 @@ void Player::pixelCollision()
 
 		}
 	}
+}
+
+void Player::itemInfo()
+{
+	if(_inven->getMainWeapon().size() > _youUsingCount)
+	_playerWeapon = _inven->getMainWeapon()[_youUsingCount]->equipmentImage(); //무기 이미지 넣어준다
+																			   //가져가서먹어
+
 }

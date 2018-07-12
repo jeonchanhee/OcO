@@ -100,6 +100,7 @@ public:
 	void setFood(const char* FoodName, int value);					// 음식 정의해줌
 
 	ITEMTYPE getItemType() { return _item.type; }
+	image * equipmentImage() { return _item.image[2]; }
 	tagItem getItem() { return _item; }
 	
 

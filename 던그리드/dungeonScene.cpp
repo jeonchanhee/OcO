@@ -17,7 +17,7 @@ void dungeonScene::collision()
 			}
 		}
 
-		for (int i=0; i < _player->getPBullet()->getvPBullet().size();)
+		for (int i = 0; i < _player->getPBullet()->getvPBullet().size();)
 		{
 			RECT temp;
 			if (IntersectRect(&temp, &(*_viEnemy)->getRect(), &_player->getPBullet()->getvPBullet()[i].rc))
