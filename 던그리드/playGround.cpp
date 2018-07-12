@@ -12,7 +12,7 @@ HRESULT playGround::init(void)
 	vStr.resize(4);
 	vStr = { "F","F","F","F" };
 	TXTDATA->txtSave("random.txt", vStr);
-	mode = 던전2;		//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
+	mode = 마을;		//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
 
 	gameNode::init(true);
 	Image_init();
@@ -224,14 +224,14 @@ void playGround::render(void)
 		break;
 	case 던전2: case 던전3: case 던전4: case 던전5: case 던전6: case 던전7: case 던전8:
 	case 랜덤맵1: case 보스:  case 무기: case 푸드:
-		SCENEMANAGER->render();
 		EFFECTMANAGER->render();
-		_player->render();
+		SCENEMANAGER->render();	
+		//_player->render();
 		break;
 	case 마을:
 		SCENEMANAGER->render();
 		EFFECTMANAGER->render();
-		//_player->render();
+		_player->render();
 		break;
 	case 맵선택:
 		SCENEMANAGER->render();
