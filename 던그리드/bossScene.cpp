@@ -47,10 +47,9 @@ void bossScene::update()
 
 void bossScene::render()
 {
-
+	EFFECTMANAGER->render();
 	dungeonScene::render();
 	//_sword->swordRender();
-	EFFECTMANAGER->render();
 }
 void bossScene::setBossMon()
 {

@@ -42,6 +42,7 @@ void inven::release()
 
 void inven::update()
 {
+	if (KEYMANAGER->isOnceKeyDown('I')) _onInven == false ? _onInven = true : _onInven = false;
 	if (_onInven)
 	{
 		for (int i = 0; i < 15; ++i)

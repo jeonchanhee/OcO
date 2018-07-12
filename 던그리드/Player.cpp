@@ -83,15 +83,17 @@ void Player::release() {}
 
 void Player::update()
 {
+	effect();
+	EFFECTMANAGER->update();
 	if (KEYMANAGER->isOnceKeyDown(VK_F5)) _inven->pickUpItem(SWORD , "°Ë", 2);
 	keyInput();
 	mouseControl();
 	attack();
-	effect();
+	
 	move();
 	
 	KEYANIMANAGER->update();
-	EFFECTMANAGER->update();
+	
 	cameraSetting();
 	tileCollision();
 	_collisionRc = RectMakeCenter(_x, _y, _player->getFrameWidth(), _player->getFrameHeight());
@@ -174,7 +176,7 @@ void Player::render()
 		}
 		Rectangle(DC, _collisionRc.left, _collisionRc.top, _collisionRc.right, _collisionRc.bottom);
 		Rectangle(DC, _attackEffect->effectCheckBox().left, _attackEffect->effectCheckBox().top,
-			_attackEffect->effectCheckBox().right, _attackEffect->effectCheckBox().bottom);
+		_attackEffect->effectCheckBox().right, _attackEffect->effectCheckBox().bottom);
 	}
 }
 
