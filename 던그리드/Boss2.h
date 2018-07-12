@@ -60,6 +60,10 @@ private:
 	int y;
 	int _count2, _count3;
 
+	bool _diedie;
+	int _dieCount;
+	int _rndX, _rndY;
+
 public:
 	Boss2();
 	~Boss2();
@@ -84,6 +88,7 @@ public:
 	void headMove(); //머리통 움직이게 하는 함수
 	void changeHeadDirection(BOSSHEADDIRECTION headDirection); //방향바꿔주는 함수
 	static void CBheadAttack(void* obj); 
+	static void dieMotion(void* obj);
 	float getHeadX() { return (_boss[1].rc.right + _boss[1].rc.left) / 2; }
 	float getHeadY() { return (_boss[1].rc.bottom + _boss[1].rc.top) / 2; }
 	bool isAttack(void) { if (_bossHeadDirection == HEAD_ATTACK) return true; else return false; }
@@ -122,7 +127,8 @@ public:
 	void setRightMotion2(animation* ani) { _bossMotion[2] = ani; }
 
 	//void playerCollision();
-	void hitDamage(float damage);
+	void hitDamage();
+	bool getDieDie() { return _diedie; }
 
 	RECT  getBossRect() { return _boss[1].rc; } //rc
 };

@@ -1023,6 +1023,8 @@ void dungeonScene::MusicAngelBulletFire()
 //º¸½ºÃÑ¾Ë
 void dungeonScene::BossBulletFire()
 {
+	if (_boss->getDieDie()) return;
+	
 	bossBulletCollision();
 	//==========================================================
 	//						º¸½º ÃÑ¾Ë
