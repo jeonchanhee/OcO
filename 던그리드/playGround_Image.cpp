@@ -378,6 +378,10 @@ HRESULT playGround::Image_init(void)
 	//픽셀
 	IMAGEMANAGER->addImage("pixel", 4800, 2400);
 
+	//f버튼
+
+	IMAGEMANAGER->addImage("f버튼", "image/icon/Keyboard_F(50x54)1x1.bmp", 50, 54, true, RGB(255, 0, 255));
+
 	//========임시로 애니메이션 추가함!==============
 	KEYANIMANAGER->addDefaultFrameAnimation("torchAni", "torch", 10, false, true);
 	KEYANIMANAGER->addCoordinateFrameAnimation("portalAni", "portal", 9, 17, 10, false, true);

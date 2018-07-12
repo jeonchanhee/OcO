@@ -55,6 +55,7 @@ HRESULT townScene::init()
 	mapload();
 	setMinimap();
 	_start = 0;
+	_floorNum = 1;
 	return S_OK;
 }
 

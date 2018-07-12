@@ -32,7 +32,7 @@ HRESULT dungeon7Scene::init()
 	if (_randNum == 3)
 	{
 		_route.push_back(6);
-		_route.push_back(8);
+		_route.push_back(11);
 	}
 	if (_randNum == 4)
 	{
@@ -64,6 +64,9 @@ HRESULT dungeon7Scene::init()
 		_minimap->setEnemyXY(((_vEnemy[i]->getX() * 300) / (_tileX*TILESIZE)), ((_vEnemy[i]->getY() * 150) / (_tileY*TILESIZE)));
 	}
 	setDoorMinimap();
+
+	_mapValue[_dungeonNum] = "T";
+
 	return S_OK;
 }
 
@@ -79,6 +82,23 @@ void dungeon7Scene::update()
 	}
 	MusicAngelBulletFire();
 	_enemyBullet->update();
+}
+
+void dungeon7Scene::render()
+{
+	dungeonScene::render();
+	
+	_player->render();
+
+	if (KEYMANAGER->isToggleKey(VK_TAB))
+	{
+		IMAGEMANAGER->findImage("gray")->alphaRender(DC, CAMERAMANAGER->getCameraCenter().x - WINSIZEX / 2, CAMERAMANAGER->getCameraCenter().y - WINSIZEY / 2, 450);
+		_tabMap->render(UIDC, 0, 0);
+		dungeonScene::minimapIconRender();
+		char str[128];
+		sprintf_s(str, "%d %d", getCameraPoint().x, getCameraPoint().y);
+		TextOut(UIDC, 500, 500, str, strlen(str));
+	}
 }
 
 void dungeon7Scene::setMonster()

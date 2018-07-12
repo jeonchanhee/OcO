@@ -8,7 +8,11 @@ playGround::~playGround(){}
 
 HRESULT playGround::init(void)	
 {
-	mode = 던전2;		//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
+	vector<string> vStr;
+	vStr.resize(4);
+	vStr = { "F","F","F","F" };
+	TXTDATA->txtSave("random.txt", vStr);
+	mode = 마을;		//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
 //	rectRotate(IMAGEMANAGER->findImage("검01"), 100, 100);
 
 	gameNode::init(true);
