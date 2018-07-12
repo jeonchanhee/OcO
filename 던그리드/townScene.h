@@ -21,7 +21,9 @@ private:
 	animation* _suck;
 	int		_temp;
 	int _start;
+	bool _ui[3];
 	bool _sucking;
+	int _trainStat[6];
 
 	minimap* _minimap;
 	RandomDungeon1* _randMap;

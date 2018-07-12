@@ -115,6 +115,12 @@ void Item::render() // 아이템을 렌더
 
 }
 
+void Item::invenRender(HDC hdc, int x, int y)
+{	
+	_item.image[1]->render(UIDC, x , y);
+}
+
+
 
 
 

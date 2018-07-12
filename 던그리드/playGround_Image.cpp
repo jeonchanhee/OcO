@@ -13,6 +13,15 @@ HRESULT playGround::Image_init(void)
 	IMAGEMANAGER->addImage("floor0", "image/map/Floor0.bmp", 0, 0, 384, 96,true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("floor1", "image/map/Floor1.bmp", 0, 0, 4164, 864,true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("floor2", "image/map/Floor2.bmp", 0, 0, 4164, 864,true, RGB(255, 0, 255));
+	
+
+	//==========기본UI==========
+	IMAGEMANAGER->addImage("hpBar", "image/UI/UIhpBar(469x120).bmp", 0, 0, 469, 120, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("hp", "image/UI/UIhp(294,60).bmp", 0, 0, 294, 60, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("hpb", "image/UI/UIhpb(294,60).bmp", 0, 0, 294, 60, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("dashBar", "image/UI/UIdashBar(400x300,1,5).bmp", 0, 0, 400, 300,1,5, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("dash", "image/UI/UIdash(54x24).bmp", 0, 0, 54, 24, true, RGB(255, 0, 255));
+	
 
 	//==========타이틀이미지==========
 	IMAGEMANAGER->addImage("title", "image/UI/Title(1920x1080).bmp", 0, 0, 1920,1080, true, RGB(255, 0, 255));
@@ -56,6 +65,11 @@ HRESULT playGround::Image_init(void)
 	//==========인벤토리==========
 	IMAGEMANAGER->addImage("inven", "image/UI/Inventory(707x1080).bmp", 0, 0, 707, 1080, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("inven0", "image/UI/Inven0(270x172).bmp", 0, 0, 270, 172, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("invenRectOff", "image/UI/inventoryM.bmp", 0, 0, 114, 114, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("invenRectOn", "image/UI/UIinvenslot.bmp", 0, 0, 114, 114, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("invenRectOnAc", "image/UI/Inven1(114x114).bmp" , 0, 0, 114, 114, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("mouseOnMain", "image/UI/mainWeaponOnMouse.bmp", 0, 0, 114, 114, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("mouseOnAs", "image/UI/assistWeaponOnMouse.bmp", 0, 0, 114, 114, true, RGB(255, 0, 255));
 
 	//==========트레이닝==========
 	IMAGEMANAGER->addImage("training", "image/UI/UItraning(1920x1080).bmp", 0, 0, 1920, 1080, true, RGB(255, 0, 255));
@@ -117,7 +131,8 @@ HRESULT playGround::Image_init(void)
 	IMAGEMANAGER->addFrameImage("cowIdleChargeAttack", "image/enemy/cowIdleChargeAttack(1840x1320,8x6).bmp", 0, 0, 1840, 1320, 8, 6, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("fatherBatBullet", "image/enemy/fatherBatBullet(100x20,5x1).bmp", 0, 0, 100, 20, 5, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("fatherBatBullet2", "image/enemy/fatherBatBullet(250x50,5x1).bmp", 0, 0, 250, 50, 5, 1, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("fatherBatBulletFX", "image/enemy/fatherBatBulletFX(396x36,11x1).bmp", 0, 0, 396, 36, 11, 1, true, RGB(255, 0, 255));
+	EFFECTMANAGER->addEffect("fatherBatBulletFX", "image/enemy/fatherBatBulletFX(396x36,11x1).bmp",396, 36, 396/11, 36, 1.0f, 0.3f, 5);
+	EFFECTMANAGER->addEffect("fatherBatBulletFX2", "image/enemy/fatherBatBulletFX(550x50,11x1).bmp", 550,50,550/11,50, 1.0f, 0.3f, 5);
 	IMAGEMANAGER->addFrameImage("giantBat", "image/enemy/giantBat(2240x1080,7x6).bmp", 0, 0, 2240, 1080, 7, 6, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("giantRedBatAttack", "image/enemy/giantRedBatAttack(3000x400,10x2).bmp", 0, 0, 3000, 400, 10, 2, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("giantRedBatIdleDie", "image/enemy/giantRedBatIdleDie(2100x600,7x3).bmp", 0, 0, 2100, 600, 7, 3, true, RGB(255, 0, 255));
@@ -144,95 +159,96 @@ HRESULT playGround::Image_init(void)
 	
 	// ============== 아이템  ================
 	// 근거리 무기 이미지
-
+	//바꿈 07 12 	//바꿈 07 12 	//바꿈 07 12
 	IMAGEMANAGER->addImage("검10", "image/item/weapon/sword/ShortSwordDrop(81x30)1x1.bmp", 81, 30, true, RGB(255, 0, 255)); //드랍 
-	IMAGEMANAGER->addImage("검11", "image/item/weapon/sword/ShortSwordInven(7x19)1x1.bmp", 7, 19, true, RGB(255, 0, 255)); //인벤
+	IMAGEMANAGER->addImage("검11", "image/item/weapon/sword/ShortSwordInven(30x80)1x1.bmp", 30, 80, true, RGB(255, 0, 255)); //인벤
 	IMAGEMANAGER->addRotateImage("검12", "image/item/weapon/sword/ShortSword(81x30)1x1.bmp", 81, 30, true, RGB(255, 0, 255)); //착용
 
 	IMAGEMANAGER->addImage("검20", "image/item/weapon/sword/MuramasaDrop(96x30)1x1.bmp", 96, 30, true, RGB(255, 0, 255));	//드랍
-	IMAGEMANAGER->addImage("검21", "image/item/weapon/sword/MuramasaInven(10x32)1x1.bmp", 10, 32, true, RGB(255, 0, 255));	//인벤
+	IMAGEMANAGER->addImage("검21", "image/item/weapon/sword/MuramasaInven(28x80)1x1.bmp", 28, 80, true, RGB(255, 0, 255));	//인벤
 	IMAGEMANAGER->addRotateImage("검22", "image/item/weapon/sword/Muramasa(96X30)1x1.bmp", 96, 30, true, RGB(255, 0, 255));	//착용
 
 	IMAGEMANAGER->addImage("검30", "image/item/weapon/sword/FireDragonKillerDrop(92x40)1x1.bmp", 92, 40, true, RGB(255, 0, 255));	//드랍
-	IMAGEMANAGER->addImage("검31", "image/item/weapon/sword/FireDragonKillerinven(13x30)1x1.bmp", 13, 30, true, RGB(255, 0, 255));	//인벤
+	IMAGEMANAGER->addImage("검31", "image/item/weapon/sword/FireDragonKillerinven(35x80)1x1.bmp", 35, 80, true, RGB(255, 0, 255));	//인벤
 	IMAGEMANAGER->addRotateImage("검32", "image/item/weapon/sword/FireDragonKiller(92x40)1x1.bmp", 92, 40, true, RGB(255, 0, 255));	//착용
 
 
 	IMAGEMANAGER->addImage("검40", "image/item/weapon/sword/DemonSwordDrop(60x20)1x1.bmp", 60, 20, true, RGB(255, 0, 255));					//드랍
-	IMAGEMANAGER->addImage("검41", "image/item/weapon/sword/DemonSwordInven(20x60)1x1.bmp", 20, 60, true, RGB(255, 0, 255));					//인벤
+	IMAGEMANAGER->addImage("검41", "image/item/weapon/sword/DemonSwordInven(27x80)1x1.bmp", 27, 80, true, RGB(255, 0, 255));					//인벤
 	IMAGEMANAGER->addRotateImage("검42", "image/item/weapon/sword/DemonSword(60x20)1x1.bmp", 60, 20, true, RGB(255, 0, 255));					//착용
 
 	IMAGEMANAGER->addImage("검50", "image/item/weapon/sword/CosmosSwordDrop(90x30)1x1.bmp", 90, 30, true, RGB(255, 0, 255));					// 드랍
-	IMAGEMANAGER->addImage("검51", "image/item/weapon/sword/CosmosSwordInven(11x33)1x1.bmp", 11, 33, true, RGB(255, 0, 255));				// 인벤
+	IMAGEMANAGER->addImage("검51", "image/item/weapon/sword/CosmosSwordInven(27x80)1x1.bmp", 27, 80, true, RGB(255, 0, 255));				// 인벤
 	IMAGEMANAGER->addRotateImage("검52", "image/item/weapon/sword/CosmosSword(90x30)1x1.bmp", 90, 30, true, RGB(255, 0, 255));					// 착용
 	
 	IMAGEMANAGER->addImage("검60", "image/item/weapon/sword/EternalSwordDrop(123x50)1x1.bmp", 123, 50, true, RGB(255, 0, 255));				// 드랍
-	IMAGEMANAGER->addImage("검61", "image/item/weapon/sword/EternalSwordInven(13x32)1x1.bmp", 13, 32, true, RGB(255, 0, 255));				// 인벤
+	IMAGEMANAGER->addImage("검61", "image/item/weapon/sword/EternalSwordInven(33x80)1x1.bmp", 33, 80, true, RGB(255, 0, 255));				// 인벤
 	IMAGEMANAGER->addRotateImage("검62", "image/item/weapon/sword/EternalSword(123x50)1x1.bmp", 123, 50, true, RGB(255, 0, 255));			// 착용
 
 	IMAGEMANAGER->addImage("검70", "image/item/weapon/sword/BloodStoneSwordDrop(73x30)1x1.bmp", 73, 30, true, RGB(255, 0, 255));				// 드랍
-	IMAGEMANAGER->addImage("검71", "image/item/weapon/sword/BloodStoneSwordInven(7x17)1x1.bmp", 7, 17, true, RGB(255, 0, 255));				// 인벤
+	IMAGEMANAGER->addImage("검71", "image/item/weapon/sword/BloodStoneSwordInven(33x80)1x1.bmp", 33, 80, true, RGB(255, 0, 255));				// 인벤
 	IMAGEMANAGER->addRotateImage("검72", "image/item/weapon/sword/BloodStoneSword(73x30)1x1.bmp", 73, 30, true, RGB(255, 0, 255));			// 착용
 
 	IMAGEMANAGER->addImage("검80", "image/item/weapon/sword/bossSwordDrop(93x30)1x1.bmp", 93, 30, true, RGB(255, 0, 255));					// 드랍
-	IMAGEMANAGER->addImage("검81", "image/item/weapon/sword/BossSwordInven(17x36)1x1.bmp", 17, 36, true, RGB(255, 0, 255));					// 인벤
+	IMAGEMANAGER->addImage("검81", "image/item/weapon/sword/BossSwordInven(38x80)1x1.bmp", 38, 80, true, RGB(255, 0, 255));					// 인벤
 	IMAGEMANAGER->addRotateImage("검82", "image/item/weapon/sword/bossSword(93x30)1x1.bmp", 93, 30, true, RGB(255, 0, 255));					// 착용
 
 	IMAGEMANAGER->addImage("검90", "image/item/weapon/sword/RapierOfSuperSpeedDrop(115x30)1x1.bmp", 115, 30, true, RGB(255, 0, 255));		// 드랍
-	IMAGEMANAGER->addImage("검91", "image/item/weapon/sword/RapierOfSuperSpeedInven(6x23)1x1.bmp", 6, 23, true, RGB(255, 0, 255));			// 인벤
+	IMAGEMANAGER->addImage("검91", "image/item/weapon/sword/RapierOfSuperSpeedInven(21x80)1x1.bmp", 21, 80, true, RGB(255, 0, 255));			// 인벤
 	IMAGEMANAGER->addRotateImage("검92", "image/item/weapon/sword/RapierOfSuperSpeed(115x30)1x1.bmp", 115, 30, true, RGB(255, 0, 255));		// 착용
 
 	IMAGEMANAGER->addImage("검100", "image/item/weapon/sword/VineSwordDrop(131x47)1x1.bmp", 131, 47, true, RGB(255, 0, 255));				// 드랍
-	IMAGEMANAGER->addImage("검101", "image/item/weapon/sword/VineSwordInven(16x42)1x1.bmp", 16, 42, true, RGB(255, 0, 255));					// 인벤
+	IMAGEMANAGER->addImage("검101", "image/item/weapon/sword/VineSwordInven(30x80)1x1.bmp", 30, 80, true, RGB(255, 0, 255));					// 인벤
 	IMAGEMANAGER->addRotateImage("검102", "image/item/weapon/sword/VineSword(131x47)1x1.bmp", 131, 47, true, RGB(255, 0, 255));				// 착용
 
-
-
+																																			//바꿈 07 12																															//바꿈 07 12
+	// =================S=T==A==R==T==========================================
+	//바꿈 07 12
 	IMAGEMANAGER->addImage("해머10", "image/item/weapon/hammer/SteelWarHammerDrop(85x50)1x1.bmp", 85, 50, true, RGB(255, 0, 255));	//드랍
-	IMAGEMANAGER->addImage("해머11", "image/item/weapon/hammer/SteelWarHammerInven(13x22)1x1.bmp", 13, 22, true, RGB(255, 0, 255));	//인벤
+	IMAGEMANAGER->addImage("해머11", "image/item/weapon/hammer/SteelWarHammerInven(50x80)1x1.bmp", 50, 80, true, RGB(255, 0, 255));	//인벤
 	IMAGEMANAGER->addImage("해머12", "image/item/weapon/hammer/SteelWarHammerRight(50x85)1x1.bmp", 50, 85, true, RGB(255, 0, 255));	//착용
 	
 
 
 	IMAGEMANAGER->addImage("해머20", "image/item/weapon/hammer/DragonHammerDrop(79x50)1x1.bmp", 79, 50, true, RGB(255, 0, 255));		//드랍
-	IMAGEMANAGER->addImage("해머21", "image/item/weapon/hammer/DragonHammerInven(26x41)1x1.bmp", 26, 41, true, RGB(255, 0, 255));	//인벤
+	IMAGEMANAGER->addImage("해머21", "image/item/weapon/hammer/DragonHammerInven(50x80)1x1.bmp", 50, 80, true, RGB(255, 0, 255));	//인벤
 	IMAGEMANAGER->addRotateImage("해머22", "image/item/weapon/hammer/DragonHammer(50x79)1x1.bmp", 50, 79, true, RGB(255, 0, 255));	//착용
 
 
 	//원거리무기 이미지 
-	//민호우
+	//민호우	//바꿈 07 12
 	IMAGEMANAGER->addRotateImage("총10좌", "image/item/weapon/gun/deadlyKissLeft(100x25)1x1.bmp", 100, 25, true, RGB(255, 0, 255));		// 착용
 	IMAGEMANAGER->addRotateImage("총10우", "image/item/weapon/gun/deadlyKissRight(100x25)1x1.bmp", 100, 25, true, RGB(255, 0, 255));		// 착용
-	//건들지마3
+	//건들지마3	//바꿈 07 12
 
 	IMAGEMANAGER->addImage("총10", "image/item/weapon/gun/matchlockGunDrop(70x18)1x1.bmp", 70, 18, true, RGB(255, 0, 255));			// 드랍
-	IMAGEMANAGER->addImage("총11", "image/item/weapon/gun/matchlockGunInven(27x8)1x1.bmp", 27, 8, true, RGB(255, 0, 255));			// 인벤
+	IMAGEMANAGER->addImage("총11", "image/item/weapon/gun/MatchlockGunInven(80x24)1x1.bmp", 80, 24, true, RGB(255, 0, 255));			// 인벤
 	IMAGEMANAGER->addRotateImage("총12", "image/item/weapon/gun/matchlockGun(70x18)1x1.bmp", 70, 18, true, RGB(255, 0, 255));		// 착용
 	
 
 	IMAGEMANAGER->addImage("총20", "image/item/weapon/gun/deadlyKissDrop(80x20)1x1.bmp", 80, 20, true, RGB(255, 0, 255));			// 드랍
-	IMAGEMANAGER->addImage("총21", "image/item/weapon/gun/deadlyKissInven(40x10)1x1.bmp", 40, 10, true, RGB(255, 0, 255));			// 인벤
+	IMAGEMANAGER->addImage("총21", "image/item/weapon/gun/deadlyKissInven(80x20)1x1.bmp", 80, 20, true, RGB(255, 0, 255));			// 인벤
 	IMAGEMANAGER->addRotateImage("총22", "image/item/weapon/gun/deadlyKiss(80x20)1x1.bmp", 80, 20, true, RGB(255, 0, 255));			// 착용
 
 	IMAGEMANAGER->addImage("총30", "image/item/weapon/gun/flameThrowerDrop(80x40)1x1.bmp", 80, 40, true, RGB(255, 0, 255));			// 드랍
-	IMAGEMANAGER->addImage("총31", "image/item/weapon/gun/flameThrowerInven(22x11)1x1.bmp", 22, 11, true, RGB(255, 0, 255));			// 인벤
+	IMAGEMANAGER->addImage("총31", "image/item/weapon/gun/FlameThrowerInven(80x40)1x1.bmp", 80, 40, true, RGB(255, 0, 255));			// 인벤
 	IMAGEMANAGER->addRotateImage("총32", "image/item/weapon/gun/flameThrower(80x40)1x1.bmp", 80, 40, true, RGB(255, 0, 255));		// 착용
 
 	IMAGEMANAGER->addImage("총40", "image/item/weapon/gun/RailGunInvenDrop(86x30)1x1.bmp", 86, 30, true, RGB(255, 0, 255));					// 드랍
-	IMAGEMANAGER->addImage("총41", "image/item/weapon/gun/RailGunInven(21x9)1x1.bmp", 21, 9, true, RGB(255, 0, 255));						// 인벤
+	IMAGEMANAGER->addImage("총41", "image/item/weapon/gun/RailGunInven(80x34)1x1.bmp", 80, 34, true, RGB(255, 0, 255));						// 인벤
 	IMAGEMANAGER->addRotateFrameImage("총42", "image/item/weapon/gun/railGun(600x30)7x1.bmp", 600, 30, 7, 1, true, RGB(255, 0, 255));		// 착용
 
-
+	//바꿈018 07 12	//바꿈 07 12
 	IMAGEMANAGER->addImage("활10", "image/item/weapon/bow/CrossbowDrop(50x31)1x1.bmp", 50, 31, true, RGB(255, 0, 255));						// 드랍
-	IMAGEMANAGER->addImage("활11", "image/item/weapon/bow/CrossbowInven(18x11)1x1.bmp", 18, 11, true, RGB(255, 0, 255));						// 인벤
+	IMAGEMANAGER->addImage("활11", "image/item/weapon/bow/CrossbowInven(80x50)1x1.bmp", 80, 50, true, RGB(255, 0, 255));						// 인벤
 	IMAGEMANAGER->addRotateFrameImage("활12", "image/item/weapon/bow/Crossbow(100x34)2x1.bmp", 100, 34, 2, 1, true, RGB(255, 0, 255));		// 착용
 
 	IMAGEMANAGER->addImage("활20", "image/item/weapon/bow/darkbowDrop(50x27)1x1.bmp", 50, 27, true, RGB(255, 0, 255));						// 드랍 
-	IMAGEMANAGER->addImage("활21", "image/item/weapon/bow/darkbowInven(17x15)1x1.bmp", 17, 15, true, RGB(255, 0, 255));						// 인벤
+	IMAGEMANAGER->addImage("활21", "image/item/weapon/bow/DarkBowInven(91x80)1x1.bmp", 91, 80, true, RGB(255, 0, 255));						// 인벤
 	IMAGEMANAGER->addRotateFrameImage("활22", "image/item/weapon/bow/darkbow(300x50)6x1.bmp", 300, 50, 6, 1, true, RGB(255, 0, 255));		// 착용
 
 	IMAGEMANAGER->addImage("활30", "image/item/weapon/bow/lightbringerDrop(50x22)1x1.bmp", 50, 22, true, RGB(255, 0, 255));					// 드랍
-	IMAGEMANAGER->addImage("활31", "image/item/weapon/bow/lightbringerInven(11x25)1x1.bmp", 11, 25, true, RGB(255, 0, 255));					// 인벤
+	IMAGEMANAGER->addImage("활31", "image/item/weapon/bow/lightbringerInven(35x80)1x1.bmp", 35, 80, true, RGB(255, 0, 255));					// 인벤
 	IMAGEMANAGER->addRotateFrameImage("활32", "image/item/weapon/bow/lightbringer(300x50)6x1.bmp", 300, 50, 6, 1, true, RGB(255, 0, 255));	// 착용
 	
 
@@ -249,24 +265,24 @@ HRESULT playGround::Image_init(void)
 	// 방어구 이미지
 
 	IMAGEMANAGER->addImage("아머10", "image/item/armor/ClothArmorDrop(30x27)1x1.bmp", 30, 27, true, RGB(255, 0, 255));	// 드랍
-	IMAGEMANAGER->addImage("아머11", "image/item/armor/ClothArmorInven(30x27)1x1.bmp", 30, 27, true, RGB(255, 0, 255));	// 인벤
+	IMAGEMANAGER->addImage("아머11", "image/item/armor/ClothArmorInven(80x72)1x1.bmp", 80, 72, true, RGB(255, 0, 255));	// 인벤
 	
 	IMAGEMANAGER->addImage("아머20", "image/item/armor/LeatherArmorDrop(30x24)1x1.bmp", 30, 24, true, RGB(255, 0, 255));		// 드랍
-	IMAGEMANAGER->addImage("아머21", "image/item/armor/LeatherArmorInven(30x24)1x1.bmp", 30, 24, true, RGB(255, 0, 255));	// 인벤
+	IMAGEMANAGER->addImage("아머21", "image/item/armor/LeatherArmorInven(80x64)1x1.bmp", 80, 64, true, RGB(255, 0, 255));	// 인벤
 	
 	IMAGEMANAGER->addImage("아머30", "image/item/armor/CowLeatherDrop(30x24)1x1.bmp", 30, 24, true, RGB(255, 0, 255));	// 드랍
-	IMAGEMANAGER->addImage("아머31", "image/item/armor/CowLeatherInven(30x24)1x1.bmp", 30, 24, true, RGB(255, 0, 255));	// 인벤
+	IMAGEMANAGER->addImage("아머31", "image/item/armor/CowLeatherInven(80x64)1x1.bmp", 80, 64, true, RGB(255, 0, 255));	// 인벤
 	
 	IMAGEMANAGER->addImage("아머40", "image/item/armor/ChainArmorDrop(30x30)1x1.bmp", 30, 30, true, RGB(255, 0, 255));	// 드랍
-	IMAGEMANAGER->addImage("아머41", "image/item/armor/ChainArmorInven(30x30)1x1.bmp", 30, 30, true, RGB(255, 0, 255));	// 인벤
+	IMAGEMANAGER->addImage("아머41", "image/item/armor/ChainArmorInven(80x80)1x1.bmp", 80, 80, true, RGB(255, 0, 255));	// 인벤
 	
 
 	IMAGEMANAGER->addImage("방패10", "image/item/shield/HeaterShieldDrop(65x40)1x1.bmp", 65, 40, true, RGB(255, 0, 255));		// 드랍
-	IMAGEMANAGER->addImage("방패11", "image/item/shield/HeaterShieldInven(11x18)1x1.bmp", 11, 18, true, RGB(255, 0, 255));	// 인벤
+	IMAGEMANAGER->addImage("방패11", "image/item/shield/HeaterShieldInven(50x80)1x1.bmp", 50 , 80, true, RGB(255, 0, 255));	// 인벤
 	IMAGEMANAGER->addImage("방패12", "image/item/shield/HeaterShield(40x65)1x1.bmp", 40, 65, true, RGB(255, 0, 255));			// 착용
 
 	IMAGEMANAGER->addImage("방패20", "image/item/shield/DashShieldDrop(50x45)1x1.bmp", 50, 45, true, RGB(255, 0, 255));		// 드랍
-	IMAGEMANAGER->addImage("방패21", "image/item/shield/DashShieldInven(28x25)1x1.bmp", 28, 25, true, RGB(255, 0, 255));		// 인벤
+	IMAGEMANAGER->addImage("방패21", "image/item/shield/DashShieldInven(80x71)1x1.bmp", 80, 71, true, RGB(255, 0, 255));		// 인벤
 	IMAGEMANAGER->addImage("방패22", "image/item/shield/DashShield(50x45)1x1.bmp", 50, 45, true, RGB(255, 0, 255));			// 착용
 
 
@@ -274,33 +290,33 @@ HRESULT playGround::Image_init(void)
 
 	//악세사리 이미지(보조 장비/ 반지/ 펫)
 	IMAGEMANAGER->addImage("보조10", "image/item/second/BlessOfSageDrop(20x20)1x1.bmp", 20, 20, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("보조11", "image/item/second/BlessOfSageInven(20x20)1x1.bmp", 20, 20, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("보조11", "image/item/second/BlessOfSageInven(55x80)1x1.bmp", 55, 80, true, RGB(255, 0, 255));
 
 	IMAGEMANAGER->addImage("보조20", "image/item/second/BloodOfSrobeoDrop(25x31)1x1.bmp", 25, 31, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("보조21", "image/item/second/BloodOfSrobeoInven(25x31)1x1.bmp", 25, 31, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("보조21", "image/item/second/BloodOfSrobeoInven(65x80)1x1.bmp", 65, 80, true, RGB(255, 0, 255));
 
 	IMAGEMANAGER->addImage("보조30", "image/item/second/WingDrop(30x21)1x1.bmp", 30, 21, true, RGB(255, 0, 255));			// 드랍
-	IMAGEMANAGER->addImage("보조31", "image/item/second/WingInven(30x21)1x1.bmp", 30, 21, true, RGB(255, 0, 255));			// 인벤
+	IMAGEMANAGER->addImage("보조31", "image/item/second/WingInven(80x56)1x1.bmp", 80, 56, true, RGB(255, 0, 255));			// 인벤
 	IMAGEMANAGER->addFrameImage("보조32", "image/item/second/Wing(350x43)7x1.bmp", 350, 43, 7, 1, true, RGB(255, 0, 255));	// 착용
 
 	IMAGEMANAGER->addImage("보조40", "image/item/second/MartialArtOfTigerDrop(30x25)1x1.bmp", 30, 25, true, RGB(255, 0, 255));			// 드랍
-	IMAGEMANAGER->addImage("보조41", "image/item/second/MartialArtOfTigerInven(30x25)1x1.bmp", 30, 25, true, RGB(255, 0, 255));			// 인벤
+	IMAGEMANAGER->addImage("보조41", "image/item/second/MartialArtOfTigerInven(80x67)1x1.bmp", 80, 67, true, RGB(255, 0, 255));			// 인벤
 	IMAGEMANAGER->addFrameImage("보조42", "image/item/second/MartialArtOfTiger(441x49)9x1.bmp", 441, 49, 9, 1, true, RGB(255, 0, 255));	// 착용
 
 	IMAGEMANAGER->addImage("악세10", "image/item/accessory/BloodStoneRingDrop(30x35)1x1.bmp", 30, 35, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("악세11", "image/item/accessory/BloodStoneRingInven(30x35)1x1.bmp", 30, 35, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("악세11", "image/item/accessory/BloodStoneRingInven(69x80)1x1.bmp", 69, 80, true, RGB(255, 0, 255));
 
 	IMAGEMANAGER->addImage("악세20", "image/item/accessory/EnvirokEpauletDrop(30x29)1x1.bmp", 30, 29, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("악세21", "image/item/accessory/EnvirokEpauletInven(30x29)1x1.bmp", 30, 29, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("악세21", "image/item/accessory/EnvirokEpauletInven(80x77)1x1.bmp", 80, 77, true, RGB(255, 0, 255));
 
 	IMAGEMANAGER->addImage("악세30", "image/item/accessory/FrostChockerDrop(30x28)1x1.bmp", 30, 28, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("악세31", "image/item/accessory/FrostChockerInven(30x28)1x1.bmp", 30, 28, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("악세31", "image/item/accessory/FrostChockerInven(80x75)1x1.bmp", 80, 75, true, RGB(255, 0, 255));
 
 	IMAGEMANAGER->addImage("악세40", "image/item/accessory/GerberaRingDrop(30x34)1x1.bmp", 30, 34, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("악세41", "image/item/accessory/GerberaRingInven(30x34)1x1.bmp", 30, 34, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("악세41", "image/item/accessory/GerberaRingInven(71x80)1x1.bmp", 71, 80, true, RGB(255, 0, 255));
 
 	IMAGEMANAGER->addFrameImage("펫10", "image/item/pet/petDrop(95x22)5x1.bmp", 95, 22, 5, 1, true, RGB(255, 0, 255));	// 드랍
-	IMAGEMANAGER->addImage("펫11", "image/item/pet/petInven(19x22)1x1.bmp", 19, 22, true, RGB(255, 0, 255));				// 인벤
+	IMAGEMANAGER->addImage("펫11", "image/item/pet/petInven(69x80)1x1.bmp", 69, 80, true, RGB(255, 0, 255));				// 인벤
 	IMAGEMANAGER->addFrameImage("펫12", "image/item/pet/pet(240x22)12x1.bmp", 240, 22, 12, 1, true, RGB(255, 0, 255));	// 착용
 
 
@@ -371,6 +387,10 @@ HRESULT playGround::Image_init(void)
 	IMAGEMANAGER->addImage("minimap8", "image/icon/minimapBoss(120x120).bmp", 120, 120, true, RGB(255, 0, 255));
 	//픽셀
 	IMAGEMANAGER->addImage("pixel", 4800, 2400);
+
+	//f버튼
+
+	IMAGEMANAGER->addImage("f버튼", "image/icon/Keyboard_F(50x54)1x1.bmp", 50, 54, true, RGB(255, 0, 255));
 
 	//========임시로 애니메이션 추가함!==============
 	KEYANIMANAGER->addDefaultFrameAnimation("torchAni", "torch", 10, false, true);

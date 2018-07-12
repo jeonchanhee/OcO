@@ -91,10 +91,10 @@ void BigBat::render()
 {
 	_progressBar->render();
 	_img->aniRender(DC, _rc.left, _rc.top, _bigBatMotion);
-	if (KEYMANAGER->isToggleKey(VK_LMENU))
+	/*if (KEYMANAGER->isToggleKey(VK_LMENU))
 	{
 		Rectangle(DC, _rc.left, _rc.top, _rc.right, _rc.bottom);
-	}
+	}*/
 }
 
 void BigBat::attackMove()

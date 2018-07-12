@@ -8,6 +8,7 @@ public:
 	~dungeon6Scene();
 	HRESULT init();
 	void update();
+	void render();
 	void setRandMapNum();
 	void doorInit();
 	void setMonster();

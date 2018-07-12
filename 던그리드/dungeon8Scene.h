@@ -1,6 +1,7 @@
 #pragma once
 #include "dungeonScene.h"
 
+class RandomDungeon1;
 
 class dungeon8Scene : public dungeonScene
 {
@@ -15,6 +16,10 @@ private:
 
 private:
 	tagDungeonDoor _dungeonDoor;
+
+	RECT _doorRc;
+	RandomDungeon1* _randMap1;
+	bool _enter;
 public:
 	dungeon8Scene();
 	~dungeon8Scene();
@@ -22,6 +27,8 @@ public:
 	void setRandMapNum();
 	void doorInit();
 	void setDungeonDoor();
+
+	static void closeFunction(void * obj);
 
 	void update();
 
