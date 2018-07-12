@@ -7,5 +7,12 @@ HRESULT playGround::Sound_init(void)
 	SOUNDMANAGER->addSound("title", "sound/back/title.wav", true, true);
 	SOUNDMANAGER->addSound("town", "sound/back/town.wav", true, true);
 
+
+
+
+
+
+	//====================   PLAYER =================================
+
 	return S_OK;
 }

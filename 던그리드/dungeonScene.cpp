@@ -8,7 +8,8 @@ void dungeonScene::collision()
 {
 	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); )
 	{
-		
+		if (_player->getAttackCheck())
+		{
 			RECT checkRc;
 			if (IntersectRect(&checkRc, &_player->getEffect()->effectCheckBox(), &(*_viEnemy)->getRect()))
 			{
@@ -1015,6 +1016,8 @@ void dungeonScene::MusicAngelBulletFire()
 //º¸½ºÃÑ¾Ë
 void dungeonScene::BossBulletFire()
 {
+	if (_boss->getDieDie()) return;
+	
 	bossBulletCollision();
 	//==========================================================
 	//						º¸½º ÃÑ¾Ë
