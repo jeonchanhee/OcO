@@ -19,7 +19,7 @@ HRESULT dungeon7Scene::init()
 	chooseMap(8);
 	selectSize(8);
 	mapload();
-	setCamera();
+	//setCamera();
 
 	load();
 	_dungeonNum = 6;

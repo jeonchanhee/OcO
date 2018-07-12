@@ -3,7 +3,6 @@
 #include "tileNode.h"
 #include "Player.h"
 
-
 void dungeonScene::collision()
 {
 	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end();)
@@ -32,19 +31,18 @@ void dungeonScene::collision()
 				}
 
 			}
-			++_viEnemy;
-		}
-
-		for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); )
-		{
-			if ((*_viEnemy)->getIsDie())
-				_viEnemy = _vEnemy.erase(_viEnemy);
-			else
-			{
-				++_viEnemy;
-			}
 		}
 	}
+	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); )
+	{
+		if ((*_viEnemy)->getIsDie())
+			_viEnemy = _vEnemy.erase(_viEnemy);
+		else
+		{
+			++_viEnemy;
+		}
+	}
+
 }
 
 dungeonScene::dungeonScene() {}
@@ -1036,7 +1034,7 @@ void dungeonScene::bossBulletCollision()
 //음표요정 총알
 void dungeonScene::MusicAngelBulletFire()
 {
-	if (_musicAngel->getDieDie()) return;
+	if(_musicAngel == NULL || _musicAngel->getDieDie()) return;
 
 	musicAngelBulletCollision();
 	if (!(_count % 200))
