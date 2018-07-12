@@ -54,13 +54,16 @@ HRESULT dungeon2Scene::init()
 		_minimap->setEnemyXY(((_vEnemy[i]->getX() * 300) / (_tileX*TILESIZE)), ((_vEnemy[i]->getY() * 150) / (_tileY*TILESIZE)));
 	}
 	setDoorMinimap();
+
+	_mapValue[_dungeonNum] = "T";
+
 	return S_OK;
 }
 
 void dungeon2Scene::update()
 {
 	dungeonScene::update();
-	nextTest();
+	//nextTest();
 	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); ++_viEnemy)
 	{
 		(*_viEnemy)->update();
@@ -69,7 +72,11 @@ void dungeon2Scene::update()
 	}
 	bigbatbulletFire();
 	_bigBatBullet->bulletframe("fatherBatBullet2");
-	if (_start2 == 1)	_bigBatBullet->update();
+	if (_start2 != 0)
+	{
+		_bigBatBullet->update();
+	}
+
 	bigRadbatbulletFire();
 	for (int i = 0; i < 20; i++)
 	{
@@ -77,6 +84,27 @@ void dungeon2Scene::update()
 		_bigRadBatBullet[i]->bulletframe("fatherBatBullet2");
 
 		if(_start == 1) _bigRadBatBullet[i]->update();
+	}
+
+	redBatBullet();
+	_radBatBullet->bulletframe("fatherBatBullet2");
+	_radBatBullet->update();
+}
+
+void dungeon2Scene::render()
+{
+	dungeonScene::render();
+
+	_player->render();
+
+	if (KEYMANAGER->isToggleKey(VK_TAB))
+	{
+		IMAGEMANAGER->findImage("gray")->alphaRender(DC, CAMERAMANAGER->getCameraCenter().x - WINSIZEX / 2, CAMERAMANAGER->getCameraCenter().y - WINSIZEY / 2, 450);
+		_tabMap->render(UIDC, 0, 0);
+		dungeonScene::minimapIconRender();
+		char str[128];
+		sprintf_s(str, "%d %d", getCameraPoint().x, getCameraPoint().y);
+		TextOut(UIDC, 500, 500, str, strlen(str));
 	}
 }
 
@@ -150,25 +178,23 @@ void dungeon2Scene::doorInit()
 //¸ó½ºÅÍ À§Ä¡ Àâ¾ÆÁÖ´Â ÇÔ¼ö
 void dungeon2Scene::setMonster()
 {
-	
-	//°³»À
-	//int id[2][2];
+	//
+	////°³»À
+	int id[2][2];
 	//id[0][0] = 810 % _temp, id[0][1] = 810 / _temp;
 	//id[1][0] = 510 % _temp, id[1][1] = 510 / _temp;
 	//for (int i = 0; i < 2; i++)
 	//{
 	//	setDogBone(id[i][0], id[i][1]);
 	//}
-
-	//È°ÀïÀÌ
-	int id[2][2];
-	id[0][0] = 505 % _temp, id[0][1] = 505 / _temp;
-	id[1][0] = 514 % _temp, id[1][1] = 514 / _temp;
-	for (int i = 0; i < 2; i++)
-	{
-		setArrow(id[i][0], id[i][1]);
-	}
-	//Å«Ä®»À
+	////È°ÀïÀÌ
+	//id[0][0] = 505 % _temp, id[0][1] = 505 / _temp;
+	//id[1][0] = 514 % _temp, id[1][1] = 514 / _temp;
+	//for (int i = 0; i < 2; i++)
+	//{
+	//	setArrow(id[i][0], id[i][1]);
+	//}
+	////Å«Ä®»À
 	id[0][0] = 1107 % _temp, id[0][1] = 1107 / _temp;
 	id[1][0] = 1112 % _temp, id[1][1] = 1112 / _temp;
 	for (int i = 0; i < 2; i++)
@@ -176,7 +202,7 @@ void dungeon2Scene::setMonster()
 		setBigBone(id[i][0], id[i][1], i);
 	}
 	//ÀÛº¸¹Ú
-	setBat(303 % _temp, 303 / _temp);
+	setBat(416 % _temp, 416 / _temp);
 	//ÀÛ°¥¹Ú
 	setRedBat(318 % _temp, 318 / _temp);
 

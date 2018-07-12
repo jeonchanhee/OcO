@@ -52,6 +52,8 @@ HRESULT dungeon3Scene::init()
 		_minimap->setEnemyXY(((_vEnemy[i]->getX() * 300) / (_tileX*TILESIZE)), ((_vEnemy[i]->getY() * 150) / (_tileY*TILESIZE)));
 	}
 	setDoorMinimap();
+
+	_mapValue[_dungeonNum] = "T";
 	return S_OK;
 }
 
@@ -67,6 +69,23 @@ void dungeon3Scene::update()
 		_minimap->changeEnemyXY(idx, (((*_viEnemy)->getX() * 300) / (_tileX*TILESIZE)), (((*_viEnemy)->getY() * 150) / (_tileY*TILESIZE)));
 	}
 	_enemyBullet->update();
+}
+
+void dungeon3Scene::render()
+{
+	dungeonScene::render();
+	
+	_player->render();
+
+	if (KEYMANAGER->isToggleKey(VK_TAB))
+	{
+		IMAGEMANAGER->findImage("gray")->alphaRender(DC, CAMERAMANAGER->getCameraCenter().x - WINSIZEX / 2, CAMERAMANAGER->getCameraCenter().y - WINSIZEY / 2, 450);
+		_tabMap->render(UIDC, 0, 0);
+		dungeonScene::minimapIconRender();
+		char str[128];
+		sprintf_s(str, "%d %d", getCameraPoint().x, getCameraPoint().y);
+		TextOut(UIDC, 500, 500, str, strlen(str));
+	}
 }
 
 void dungeon3Scene::setMonster()

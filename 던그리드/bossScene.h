@@ -21,6 +21,7 @@ public:
 	HRESULT init();
 	void update();
 	void render();
+	void doorInit();
 	void setBossMon();
 	//void bossSwordFire();
 	//void bossSwordCollision();

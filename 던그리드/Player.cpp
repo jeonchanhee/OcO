@@ -7,6 +7,9 @@ Player::~Player() {}
 
 HRESULT Player::init()
 {
+	_inven = new inven;
+	_inven->init();
+
 	_pb = new playerBullet;
 	_pb->init("총알0", "총알1", "총알2", "총알3");
 	_player			= IMAGEMANAGER->findImage("기본플레이어");
@@ -80,25 +83,26 @@ void Player::release() {}
 
 void Player::update()
 {
-	if (_canMove == true)
-	{
-		keyInput();
-		mouseControl();
-		attack();
-		effect();
-		move();
-	}
+	effect();
+	EFFECTMANAGER->update();
+	if (KEYMANAGER->isOnceKeyDown(VK_F5)) _inven->pickUpItem(SWORD , "검", 2);
+	if (KEYMANAGER->isOnceKeyDown(VK_F6)) _inven->pickUpItem(SWORD, "검", 4);
+	if (KEYMANAGER->isOnceKeyDown(VK_F7)) _inven->pickUpItem(SWORD, "검", 4);
+	if (KEYMANAGER->isOnceKeyDown(VK_F8)) _inven->pickUpItem(SWORD, "검", 4);
+	keyInput();
+	mouseControl();
+	attack();
 	
-	
-	
+	move();
 	
 	KEYANIMANAGER->update();
-	EFFECTMANAGER->update();
+	
 	cameraSetting();
 	tileCollision();
 	_collisionRc = RectMakeCenter(_x, _y, _player->getFrameWidth(), _player->getFrameHeight());
 	pixelCollision();
 	_pb->update();
+	_inven->update();
 }
 
 void Player::render()
@@ -110,7 +114,7 @@ void Player::render()
 	imageDC = IMAGEMANAGER->addRotateImage("rotateimage", rc.right - rc.left, rc.bottom - rc.top ,true,RGB(0,0,0), false);
 	IMAGEMANAGER->findImage(strGun)->render(imageDC->getMemDC(), IMAGEMANAGER->findImage(strGun)->getWidth(),
 		0,0,0, IMAGEMANAGER->findImage(strGun)->getWidth(), IMAGEMANAGER->findImage(strGun)->getHeight());
-		
+	
 	// ===================
 	if (_direction == LEFT_RUN || _direction == LEFT_STOP)
 	{
@@ -147,7 +151,8 @@ void Player::render()
 		_attackEffect->rotateFrameRender(DC, _attackEffect->getX() , _attackEffect->getY(), _angle - 1.8);
 	}
 	//text !
-	char str[128]; sprintf_s(str, "Weapon Index : %d", _youUsingCount);
+	char str[128]; sprintf_s(str, "vector sizzE : %d", _inven->getItem().size());
+	TextOut(DC, _collisionRc.left - 50, _collisionRc.top - 350, str, strlen(str));
 	if (_isJumping)  sprintf_s(str, "점프 : true");
 	else if (!_isJumping) sprintf_s(str, "점프 : false");
 	TextOut(DC, _collisionRc.left - 50 , _collisionRc.top - 150, str, strlen(str));
@@ -161,6 +166,8 @@ void Player::render()
 
 	//pb
 	_pb->render();
+	//inven
+	_inven->render();
 	if (KEYMANAGER->isToggleKey(VK_F1))
 	{
 		for (int i = 0; i < 30; ++i)
@@ -172,14 +179,23 @@ void Player::render()
 		}
 		Rectangle(DC, _collisionRc.left, _collisionRc.top, _collisionRc.right, _collisionRc.bottom);
 		Rectangle(DC, _attackEffect->effectCheckBox().left, _attackEffect->effectCheckBox().top,
-			_attackEffect->effectCheckBox().right, _attackEffect->effectCheckBox().bottom);
+		_attackEffect->effectCheckBox().right, _attackEffect->effectCheckBox().bottom);
 	}
 }
 
 void Player::keyInput()
 {
-	if (KEYMANAGER->isOnceKeyDown('1'))		 _youUsingCount = 0;
-	else if (KEYMANAGER->isOnceKeyDown('2')) _youUsingCount = 1;
+	if (KEYMANAGER->isOnceKeyDown('1'))
+	{
+		_youUsingCount = 0;
+		_inven->setIsSelect(_youUsingCount);
+		
+	}
+	else if (KEYMANAGER->isOnceKeyDown('2'))
+	{
+		_youUsingCount = 1;
+		_inven->setIsSelect(_youUsingCount);
+	}
 
 	if (KEYMANAGER->isOnceKeyDown('A'))
 	{
@@ -313,6 +329,8 @@ void Player::mouseControl()
 
 void Player::move()
 {
+	if (_isJumping == false) _jumpCount = 0;
+
 	static int count;
 	count++;
 	if (count > 100)

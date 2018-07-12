@@ -1,6 +1,7 @@
 #pragma once
 #include "gameNode.h"
 #include "playerBullet.h"
+#include "inven.h"
 
 #define DASHSPEED 33
 #define PUNCHSPEED 6.0f
@@ -21,7 +22,7 @@ private:
 	class dungeonScene;
 
 private:
-	dungeonScene * _ds;
+	inven * _inven;
 	playerBullet * _pb;
 	RECT _collisionRc; //충돌렉트  
 	image* _player;
@@ -180,7 +181,7 @@ public:
 	void healing(int heal)				    { _currentHp += heal; if (_currentHp > _maxHp) _currentHp = _maxHp; }
 	void hitDamage(int damage)				{ _currentHp -= damage; }
 
-	//void setEnemyVector(vector<Enemy*> vEnemy) { _vEnemy = vEnemy; }
+//	void setEnemyVector(vector<Enemy*> vEnemy) { _vEnemy = vEnemy; }
 
 	Player();
 	~Player();

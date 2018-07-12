@@ -47,6 +47,7 @@ void itemManager::render()
 	for (_viItem = _vItem.begin(); _viItem != _vItem.end(); _viItem++)
 	{
 		(*_viItem)->render();
+		
 	}
 	if (KEYMANAGER->isToggleKey('I'))
 	{

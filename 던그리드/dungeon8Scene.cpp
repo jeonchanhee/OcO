@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "dungeon8Scene.h"
 #include "Player.h"
+#include "RandomDungeon1.h"
 
 dungeon8Scene::dungeon8Scene()
 {
@@ -35,6 +36,11 @@ HRESULT dungeon8Scene::init()
 
 	setMinimap();
 	setDoorMinimap();
+
+	_mapValue[_dungeonNum] = "T";
+
+	_doorRc = RectMake(_dungeonDoor.x + 100, _dungeonDoor.y + 200, 100, 200);
+
 	return S_OK;
 }
 
@@ -48,6 +54,10 @@ void dungeon8Scene::setRandMapNum()
 	if (_randNum == 2)
 	{
 		_route.push_back(11);
+	}
+	if (_randNum == 5)
+	{
+		_route.push_back(9);
 	}
 }
 
@@ -73,6 +83,22 @@ void dungeon8Scene::update()
 	//MusicAngelBulletFire();
 	//_enemyBullet->update();
 
+	RECT temp;
+	if (IntersectRect(&temp, &_player->getRc(), &_doorRc))
+	{
+		float size = (temp.right - temp.left)*(temp.bottom - temp.top);
+		if (size > 80 && !_enter)
+		{
+			/*vector<string> vStr = TXTDATA->txtLoad("random.txt");
+			vStr[_randNum - 1] = "T";
+			TXTDATA->txtSave("random.txt", vStr);
+			_randMap1 = new RandomDungeon1;
+			_randMap1->init();*/
+			_enter = true;
+			_dungeonDoor.ani->start();
+		}
+	}
+
 	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
 	{
 		if (!_dungeonDoor.ani->isPlay())
@@ -87,6 +113,18 @@ void dungeon8Scene::render()
 	dungeonScene::render();
 	_dungeonDoor.img->aniRender(DC, _dungeonDoor.x, _dungeonDoor.y, _dungeonDoor.ani);
 	_player->render();
+
+	if (KEYMANAGER->isToggleKey('T'))
+	{
+		Rectangle(DC, _doorRc.left, _doorRc.top, _doorRc.right, _doorRc.bottom);
+		Rectangle(DC, _player->getRc().left, _player->getRc().top, _player->getRc().right, _player->getRc().bottom);
+	}
+	if (KEYMANAGER->isToggleKey(VK_TAB))
+	{
+		IMAGEMANAGER->findImage("gray")->alphaRender(DC, CAMERAMANAGER->getCameraCenter().x - WINSIZEX / 2, CAMERAMANAGER->getCameraCenter().y - WINSIZEY / 2, 450);
+		_tabMap->render(UIDC, 0, 0);
+		dungeonScene::minimapIconRender();
+	}
 }
 
 void dungeon8Scene::setDungeonDoor()
@@ -96,8 +134,26 @@ void dungeon8Scene::setDungeonDoor()
 	_dungeonDoor.img = IMAGEMANAGER->findImage("dungeonDoor");
 	_dungeonDoor.count = 0;
 	
-	KEYANIMANAGER->addDefaultFrameAnimation("closeDungeon", "dungeonDoor", 10, false, false);
+	KEYANIMANAGER->addDefaultFrameAnimation("closeDungeon", "dungeonDoor", 10, false, false, closeFunction,this);
 	_dungeonDoor.ani = KEYANIMANAGER->findAnimation("closeDungeon");
+}
+
+void dungeon8Scene::closeFunction(void* obj)
+{
+	if (_dungeonNum == 7)
+	{
+		if (_floorNum < 3)
+		{
+			dungeon8Scene* c = (dungeon8Scene*)obj;
+			vector<string> vStr = TXTDATA->txtLoad("random.txt");
+			vStr[c->_randNum - 1] = "T";
+			TXTDATA->txtSave("random.txt", vStr);
+			c->_randMap1 = new RandomDungeon1;
+			c->_randMap1->init();
+		}
+		else if (_floorNum == 3)
+			SCENEMANAGER->changeScene("¸¶À»");
+	}
 }
 
 
