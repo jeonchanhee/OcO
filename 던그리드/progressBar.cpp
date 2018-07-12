@@ -61,17 +61,34 @@ void progressBar::update()
 
 void progressBar::render()
 {
-	//그려줄땐 뒤에 게이지부터 먼저 그린다
-	IMAGEMANAGER->render(_bottomName, DC,
-		_rcProgress.left + _progressBarBottom->getWidth() / 2,
-		_y + _progressBarBottom->getHeight() / 2, 0, 0,
-		_progressBarBottom->getWidth(), _progressBarBottom->getHeight());
+	if (_barType == BAR_BOSS)
+	{
+		//그려줄땐 뒤에 게이지부터 먼저 그린다
+		IMAGEMANAGER->render(_bottomName, UIDC,
+			_x,
+			_y, 0, 0,
+			_progressBarBottom->getWidth(), _progressBarBottom->getHeight());
 
-	//앞에 게이지는 가로크기 혹은 세로크기가 변해야하기때문에 변수가 크기값에 들어간다
-	IMAGEMANAGER->render(_frontName, DC, 
-		_rcProgress.left + _progressBarBottom->getWidth() / 2,
-		_y + _progressBarBottom->getHeight() / 2, 0, 0,
-		_width, _progressBarBottom->getHeight());
+		//앞에 게이지는 가로크기 혹은 세로크기가 변해야하기때문에 변수가 크기값에 들어간다
+		IMAGEMANAGER->render(_frontName, UIDC,
+			_x,
+			_y, 0, 0,
+			_width, _progressBarBottom->getHeight());
+	}
+	else
+	{
+		//그려줄땐 뒤에 게이지부터 먼저 그린다
+		IMAGEMANAGER->render(_bottomName, DC,
+			_rcProgress.left + _progressBarBottom->getWidth() / 2,
+			_y + _progressBarBottom->getHeight() / 2, 0, 0,
+			_progressBarBottom->getWidth(), _progressBarBottom->getHeight());
+
+		//앞에 게이지는 가로크기 혹은 세로크기가 변해야하기때문에 변수가 크기값에 들어간다
+		IMAGEMANAGER->render(_frontName, DC,
+			_rcProgress.left + _progressBarBottom->getWidth() / 2,
+			_y + _progressBarBottom->getHeight() / 2, 0, 0,
+			_width, _progressBarBottom->getHeight());
+	}
 }
 
 void progressBar::setGauge(float currentGauge, float maxGauge)

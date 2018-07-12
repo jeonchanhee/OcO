@@ -86,6 +86,7 @@ void dungeon8Scene::render()
 {
 	dungeonScene::render();
 	_dungeonDoor.img->aniRender(DC, _dungeonDoor.x, _dungeonDoor.y, _dungeonDoor.ani);
+	_player->render();
 }
 
 void dungeon8Scene::setDungeonDoor()

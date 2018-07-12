@@ -52,10 +52,6 @@ public:
 	virtual void update(void);
 	virtual void render(void);
 
-	void training();
-
-	void shop();
-
 	void inven();
 
 	void restaurant();

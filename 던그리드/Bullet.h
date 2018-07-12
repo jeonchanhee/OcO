@@ -25,6 +25,7 @@ struct tagBullet
 	int		frameX, frameY;
 	int		bulletNum;		// 원형이동인지 체크
 	int		swordIdx;
+	
 };
 
 class Bullet : public gameNode
@@ -38,6 +39,7 @@ private:
 	int			_bulletMax;		// 최대 총알 갯수
 	int			_index;			// 프레임 인덱스값
 	int			_count;
+
 public:
 	Bullet();
 	~Bullet();
@@ -60,6 +62,7 @@ public:
 	vector<tagBullet>			getVBullet() { return _vBullet; }
 	vector<tagBullet>::iterator	getVIBullet() { return _viBullet; }
 
+	FRAMEXY getFrameXY(int i) { return _vBullet[i].frameXY; }
 };
 
 class Bullet2 : public gameNode

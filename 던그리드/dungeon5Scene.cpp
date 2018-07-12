@@ -53,6 +53,8 @@ HRESULT dungeon5Scene::init()
 		_route.push_back(1);
 		_route.push_back(6);
 		_route.push_back(10);
+
+		_minimapIcon[4].x = 620, _minimapIcon[4].y = 500;
 	}
 
 	_vDoor.resize(3);
@@ -84,6 +86,8 @@ HRESULT dungeon5Scene::init()
 		_minimap->setEnemyXY(((_vEnemy[i]->getX() * 300) / (_tileX*TILESIZE)), ((_vEnemy[i]->getY() * 150) / (_tileY*TILESIZE)));
 	}
 	setDoorMinimap();
+
+	_mapValue[4] = "T";
 	return S_OK;
 }
 
@@ -101,6 +105,19 @@ void dungeon5Scene::update()
 	_enemyBullet->update();
 }
 
+void dungeon5Scene::render()
+{
+	dungeonScene::render();
+	
+	_player->render();
+
+	if (KEYMANAGER->isToggleKey(VK_TAB))
+	{
+		IMAGEMANAGER->findImage("gray")->alphaRender(DC, CAMERAMANAGER->getCameraCenter().x - WINSIZEX / 2, CAMERAMANAGER->getCameraCenter().y - WINSIZEY / 2, 450);
+		_tabMap->render(UIDC, 0, 0);
+		dungeonScene::minimapIconRender();
+	}
+}
 void dungeon5Scene::setMonster()
 {
 	//음표요정

@@ -37,6 +37,7 @@ private:
 	changeMode mode;
 	itemManager* _im;
 	titleScene* _title;
+	townScene* _town;
 	RandomDungeon1* _randomScene1;
 
 public:

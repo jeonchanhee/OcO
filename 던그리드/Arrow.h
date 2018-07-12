@@ -1,7 +1,6 @@
 #pragma once
 #include "Enemy.h"
 
-
 #define ARROWSPEED 10.0f
 
 struct tagArrow
@@ -11,19 +10,18 @@ struct tagArrow
 	float x, y;
 };
 
-class Player; //플레이어 클래스 전방선언
 
 class Arrow : public Enemy
 {
 private:
-	Player * _player;
-
 	tagArrow _arrow[3]; //0활쟁이.1활.2화살
 	bool _isShoot;
 	POINT _bowCenter;//활 중앙
 
 	int	_index;
 	float _arrowX, _arrowY;
+
+	bool _hit;
 public:
 	Arrow();
 	~Arrow();
@@ -41,6 +39,4 @@ public:
 	void hitDamage(float damage);//hp깎이게 하는 함수
 
 	RECT  getArrowRect() { return _arrow[0].rc; } //rc
-
-	void setPlayerAddressLink(Player* player) { _player = player; }
 };

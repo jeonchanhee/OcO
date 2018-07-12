@@ -8,7 +8,7 @@ playGround::~playGround(){}
 
 HRESULT playGround::init(void)	
 {
-	mode = 던전2; //본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
+	mode = 마을;		//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
 //	rectRotate(IMAGEMANAGER->findImage("검01"), 100, 100);
 
 	gameNode::init(true);
@@ -25,7 +25,9 @@ HRESULT playGround::init(void)
 	_im = new itemManager;
 	_im->init();
 
+	_town = new townScene;
 	_title = new titleScene;
+	_town->setImLink(_im);
 	_title->setImLink(_im);
 
 	SCENEMANAGER->setPlayerAddressLink(_player);
@@ -42,15 +44,16 @@ HRESULT playGround::init(void)
 	SCENEMANAGER->addScene("던전6", new dungeon6Scene);
 	SCENEMANAGER->addScene("던전7", new dungeon7Scene);
 	SCENEMANAGER->addScene("던전8", new dungeon8Scene);
-	SCENEMANAGER->addScene("마을", new townScene);
+	SCENEMANAGER->addScene("마을",_town);
 	SCENEMANAGER->addScene("무기", new weaponScene);
 	SCENEMANAGER->addScene("푸드", new foodScene);
-	//SCENEMANAGER->addScene("보스", new bossScene);
+	SCENEMANAGER->addScene("보스", new bossScene);
 
 //	
-	_randomScene1 = new RandomDungeon1;
-	_randomScene1->init();
-////	_randomScene1->init();
+	//_randomScene1 = new RandomDungeon1;
+	//SCENEMANAGER->addScene("랜덤맵1", _randomScene1);
+	//_randomScene1->init();
+//	_randomScene1->init();
 //
 //	
 //	_randomScene1->init();
@@ -139,8 +142,11 @@ void playGround::update(void)
 {
 	gameNode::update();
 	if(mode == 맵툴) _mapTool->update();
-	if(KEYMANAGER->isToggleKey(VK_F2))_player->update();
+	//_player->update();
 	SCENEMANAGER->update();
+	EFFECTMANAGER->update();
+	KEYANIMANAGER->update();
+
 	
 	/*if (KEYMANAGER->isStayKeyDown('D') && CAMERAMANAGER->getCameraRc2().right<BACKGROUNDSIZEX) CAMERAMANAGER->setCameraX2(CAMERAMANAGER->getCameraX2() + 50);
 	if (KEYMANAGER->isStayKeyDown('S') && CAMERAMANAGER->getCameraRc2().bottom<BACKGROUNDSIZEY) CAMERAMANAGER->setCameraY2(CAMERAMANAGER->getCameraY2() + 50);
@@ -219,7 +225,7 @@ void playGround::render(void)
 		break;
 	case 마을:
 		SCENEMANAGER->render();
-		_player->render();
+		//_player->render();
 		break;
 	case 맵선택:
 		SCENEMANAGER->render();
@@ -229,6 +235,8 @@ void playGround::render(void)
 	default:
 		break;
 	}
+	EFFECTMANAGER->render();
+
 	//SCENEMANAGER->render();
 
 	//char str[128];

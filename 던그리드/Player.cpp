@@ -111,7 +111,6 @@ void Player::render()
 		0,0,0, IMAGEMANAGER->findImage(strGun)->getWidth(), IMAGEMANAGER->findImage(strGun)->getHeight());
 	
 	// ===================
-	EFFECTMANAGER->render();
 	if (_direction == LEFT_RUN || _direction == LEFT_STOP)
 	{
 		_playerHand[0]->rotateRender(DC, _leftHandX , _leftHandY , _mouseAngle);
@@ -813,10 +812,3 @@ void Player::pixelCollision()
 		}
 	}
 }
-
-void Player::hitDamage(float damage)
-{
-	_currentHp -= damage;
-}
-
-

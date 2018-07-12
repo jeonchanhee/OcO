@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "DogBone.h"
-
+#include "Player.h"
 
 DogBone::DogBone()
 {
@@ -13,6 +13,8 @@ DogBone::~DogBone()
 
 HRESULT DogBone::init(float x, float y)
 {
+	_hit = false;
+
 	_dogBoneDirection = DOGBONE_LEFT_JUMP;
 	_x = x;
 	_y = _startY = y;
@@ -46,6 +48,8 @@ HRESULT DogBone::init(float x, float y)
 
 	_count = 80;
 
+	_hitCount = 0;
+
 	_isJumping = false;
 
 	//개뼈 체력 초기화
@@ -70,7 +74,7 @@ void DogBone::update()
 
 	move();
 	changeDirection();
-	
+	//playerCollision();
 
 	//if (_isJumping && _y > _startY)//초기 위치보다 크면 초기위치에서 멈춤 (_startY)
 	//{
@@ -436,11 +440,13 @@ void DogBone::changeDirection()
 		_jumpPower = 6.0f;
 		if (_dogBoneDirection == DOGBONE_RIGHT_MOVE)
 		{
+			//_hit = false;
 			_y -= 100;
 			changeAnimation(DOGBONE_RIGHT_JUMP);
 		}
 		if (_dogBoneDirection == DOGBONE_LEFT_MOVE)
 		{
+			//_hit = false;
 			_y -= 100;
 			changeAnimation(DOGBONE_LEFT_JUMP);
 		}
@@ -497,7 +503,24 @@ void DogBone::changeAnimation(DOGBONEDIRECTION dogBoneDirection)
 }
 
 void DogBone::playerCollision()
-{
+{ 
+	RECT temp;
+
+	if (IntersectRect(&temp, &_rc, &_player->getPlayerRect()))
+	{
+		if (!_hit)
+		{
+			_player->hitDamage(1.5f);
+			_hit = true;
+			_hitCount = 0;
+		}
+	}
+	_hitCount++;
+
+	if (!(_hitCount % 120) && _hit)
+	{
+		_hit = false;
+	}
 }
 
 void DogBone::hitDamage(float damage)
