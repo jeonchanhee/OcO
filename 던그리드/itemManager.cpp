@@ -18,12 +18,7 @@ HRESULT itemManager::init()
 		}
 	}
 
-	//_foodNpc = new FoodNpc;
-	//_foodNpc->init(NPC_LEFT_STOP, FOOD_NPC, "엔피시", 1, PointMake(200, 200));
 
-	//_weaponNpc = new WeaponNpc;
-	//_weaponNpc->init(NPC_LEFT_STOP, WEAPON_NPC, "엔피시", 2, PointMake(400, 100));
-	//
 	return S_OK;
 }
 
@@ -43,8 +38,7 @@ void itemManager::update()
 	}
 	if (KEYMANAGER->isOnceKeyDown('1')) _isSelect = 1;
 	if (KEYMANAGER->isOnceKeyDown('2')) _isSelect = 2;
-	//_weaponNpc->update();
-	//_foodNpc->update();
+
 }
 
 
@@ -68,8 +62,7 @@ void itemManager::render()
 		Rectangle(DC, _selectRect[i].left, _selectRect[i].top, _selectRect[i].right, _selectRect[i].bottom);
 	}
 
-	//_weaponNpc->render();
-	//_foodNpc->render();
+
 }
 
 void itemManager::CreateItem()

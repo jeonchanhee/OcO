@@ -9,6 +9,7 @@
 #include "WeaponNpc.h"
 #include "FoodNpc.h"
 #include "gameNode.h"
+#include "Player.h"
 
 class itemManager : public gameNode
 {
@@ -22,7 +23,7 @@ private:
 	FoodNpc * _foodNpc;
 	vItem  _vItem;
 	viItem _viItem;
-
+	Player* _player;
 	//inven 
 	bool _showInven;
 	char _isSelect;
