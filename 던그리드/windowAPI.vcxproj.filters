@@ -343,7 +343,7 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="inven.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>playGround\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -573,7 +573,7 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="inven.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>playGround\Player</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

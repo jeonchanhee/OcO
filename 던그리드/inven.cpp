@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "inven.h"
+#include "itemManager.h"
 
 
 HRESULT inven::init()
@@ -218,7 +219,16 @@ void inven::pickUpItem(ITEMTYPE type, const char * weaponName, int value)
 	_vItem.push_back(item);
 }
 
+void inven::buyItem(int num)
+{
+	//if (_vItem.size() >= INVENSIZE) return;
+	Item * item;
+	item = new Item;
+	item->init(_im->getItem()[num]->getItem().type, _im->getItem()[num]->getItem().name, _im->getItem()[num]->getItem().value, PointMake(500, 500));
 
+	_vItem.push_back(item);
+
+}
 
 void inven::deleteItem(int i)
 {

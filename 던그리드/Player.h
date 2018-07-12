@@ -49,6 +49,7 @@ private:
 	bool _goDownJump;												 // bool 의 기 적 10 
 
 	// int  
+	int _level;
 	int _currentHp, _maxHp;											 //현재 , 전체 체력 
 	int _armor;														 //방어력
 	int _currentDash, _maxDash;										 //대시 횟수 
@@ -117,6 +118,7 @@ public:
 	bool getAttackCheck()					{ return _attackSpeedCheckCount; } 	//you  attacking ;
 
 
+	int getLv()								{ return _level; }						
 	int getCurrentHp()					    { return _currentHp; }						 //현재 hp
 	int getMaxHp()						    { return _maxHp; }							 //전체hp
 	int getArmor()						    { return _armor; }							 // 방어력
@@ -137,6 +139,7 @@ public:
 	RECT  getPlayerRect()					{ return _collisionRc; }					 //충돌 rc 접 
 	playerBullet * getPBullet()				{ return _pb; }								 //총알 접
 	image * getEffect()						{ return _attackEffect; }					 //이펙트 이미지 접 
+	inven* getInven()						 { return _inven; }
 
 
 	float getPlayerX()					    { return _x; }								 // 플레이어 x 좌표
@@ -153,6 +156,7 @@ public:
 
 
 	//설정자 (set) 
+	void setLv(bool lv)						{ _level = lv; }
 	void setIsGun(bool isGun)				{ _isGun = isGun; }
 	void setIsAlive(bool isAlive)			{ _isAlive = isAlive; }
 	void setCurrentHp(int currentHp)		{ _currentHp = currentHp; }
