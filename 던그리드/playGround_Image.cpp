@@ -55,6 +55,11 @@ HRESULT playGround::Image_init(void)
 	//==========인벤토리==========
 	IMAGEMANAGER->addImage("inven", "image/UI/Inventory(707x1080).bmp", 0, 0, 707, 1080, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("inven0", "image/UI/Inven0(270x172).bmp", 0, 0, 270, 172, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("invenRectOff", "image/UI/inventoryM.bmp", 0, 0, 114, 114, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("invenRectOn", "image/UI/UIinvenslot.bmp", 0, 0, 114, 114, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("invenRectOnAc", "image/UI/Inven1(114x114).bmp" , 0, 0, 114, 114, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("mouseOnMain", "image/UI/mainWeaponOnMouse.bmp", 0, 0, 114, 114, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("mouseOnAs", "image/UI/assistWeaponOnMouse.bmp", 0, 0, 114, 114, true, RGB(255, 0, 255));
 
 	//==========트레이닝==========
 	IMAGEMANAGER->addImage("training", "image/UI/UItraning(1920x1080).bmp", 0, 0, 1920, 1080, true, RGB(255, 0, 255));

@@ -59,7 +59,7 @@ HRESULT dungeon2Scene::init()
 void dungeon2Scene::update()
 {
 	dungeonScene::update();
-	nextTest();
+	//nextTest();
 	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); ++_viEnemy)
 	{
 		(*_viEnemy)->update();

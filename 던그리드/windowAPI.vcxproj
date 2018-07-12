@@ -191,6 +191,7 @@
     <ClInclude Include="imageManager.h" />
     <ClInclude Include="iniDataManager.h" />
     <ClInclude Include="introScene.h" />
+    <ClInclude Include="inven.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="itemManager.h" />
     <ClInclude Include="keyAniManager.h" />
@@ -270,6 +271,7 @@
     <ClCompile Include="imageManager.cpp" />
     <ClCompile Include="iniDataManager.cpp" />
     <ClCompile Include="introScene.cpp" />
+    <ClCompile Include="inven.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="itemManager.cpp" />
     <ClCompile Include="keyAniManager.cpp" />
