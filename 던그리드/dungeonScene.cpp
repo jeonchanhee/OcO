@@ -6,7 +6,7 @@
 
 void dungeonScene::collision()
 {
-	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); )
+	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); ++_viEnemy)
 	{
 		if (_player->getAttackCheck())
 		{
@@ -15,24 +15,22 @@ void dungeonScene::collision()
 			{
 				(*_viEnemy)->setCurrentHp((*_viEnemy)->getCurrentHp() - 10);
 			}
-		
 
-		for (int i = 0; i < _player->getPBullet()->getvPBullet().size();)
-		{
-			RECT temp;
-			if (IntersectRect(&temp, &(*_viEnemy)->getRect(), &_player->getPBullet()->getvPBullet()[i].rc))
-			{
-				_player->getPBullet()->removeBullet(i);
-				(*_viEnemy)->setCurrentHp((*_viEnemy)->getCurrentHp() - 10);
-			}
-			else
-			{
-				++i;
-			}
 
+			for (int i = 0; i < _player->getPBullet()->getvPBullet().size();)
+			{
+				RECT temp;
+				if (IntersectRect(&temp, &(*_viEnemy)->getRect(), &_player->getPBullet()->getvPBullet()[i].rc))
+				{
+					_player->getPBullet()->removeBullet(i);
+					(*_viEnemy)->setCurrentHp((*_viEnemy)->getCurrentHp() - 10);
+				}
+				else
+				{
+					++i;
+				}
+			}	
 		}
-		++_viEnemy;
-		
 	}
 
 	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); )

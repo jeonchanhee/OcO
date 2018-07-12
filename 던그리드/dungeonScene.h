@@ -109,6 +109,8 @@ protected:
 	bool _isClickPortal;
 	string _floorName;
 
+	bool _diecount2;
+
 public:
 	virtual HRESULT init(void);
 	virtual void release(void);
