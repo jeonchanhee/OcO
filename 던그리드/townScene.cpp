@@ -56,6 +56,10 @@ HRESULT townScene::init()
 	setMinimap();
 	_start = 0;
 	_floorNum = 1;
+
+	for (int i = 0; i < 6; i++)
+		_trainStat[i] = 0;
+
 	return S_OK;
 }
 
@@ -73,6 +77,13 @@ void townScene::update()
 	{
 		_randMap = new RandomDungeon1;
 		_randMap->init();
+	}
+	if (KEYMANAGER->isOnceKeyDown('V')&&_ui[1]==false)
+	{
+		if(_ui[0]==true)
+			_ui[0] = false;
+		else
+			_ui[0] = true;
 	}
 }
 
@@ -222,7 +233,16 @@ void townScene::NPC()
 		IMAGEMANAGER->findImage("keyIcon")->frameRender(DC, _player->getPlayerX()-40, _player->getPlayerY()-150,2,0);
 		if (KEYMANAGER->isOnceKeyDown('F'))
 		{
-			_ui[2] == true ? _ui[2] = false : _ui[2] = true;
+			if (_ui[2] == true)
+			{
+				_ui[2] = false;
+				_canMove = true;
+			}
+			else
+			{
+				_ui[2] = true;
+				_canMove = false;
+			}
 		}
 	}
 	if (IntersectRect(&rc, &RectMake(72 * 96 - 20, 11 * 96 + 10, _shop->getFrameWidth(), _shop->getFrameHeight()), &_player->getRc()))
@@ -234,11 +254,13 @@ void townScene::NPC()
 			{
 				_ui[1] = true;
 				_ui[0] = true;
+				_canMove = false;
 			}
 			else
 			{
 				_ui[1] = false;
 				_ui[0] = false;
+				_canMove = true;
 			}
 		}
 	}
@@ -260,6 +282,7 @@ void townScene::training()
 	if (KEYMANAGER->isToggleKey(VK_TAB))
 	{
 		Rectangle(UIDC, rc.left, rc.top, rc.right, rc.bottom);
+		RectangleMake(UIDC, 350, 800, 80, 80);
 	}
 }
 

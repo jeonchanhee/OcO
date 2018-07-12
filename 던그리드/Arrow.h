@@ -14,6 +14,7 @@ struct tagArrow
 class Arrow : public Enemy
 {
 private:
+	animation * _arrowMotion[3];
 	tagArrow _arrow[3]; //0활쟁이.1활.2화살
 	bool _isShoot;
 	POINT _bowCenter;//활 중앙
@@ -22,6 +23,10 @@ private:
 	float _arrowX, _arrowY;
 
 	bool _hit;
+
+	bool _diedie;
+	int _dieCount;
+
 public:
 	Arrow();
 	~Arrow();
@@ -36,7 +41,9 @@ public:
 	void fireArrow(); //활쟁이가 마우스방향으로 활쏘게 하는 내용
 
 	void playerCollision(); //플레이어와 활쟁이의 충돌 함수
-	void hitDamage(float damage);//hp깎이게 하는 함수
+	void hitDamage();	//hp깎이게 하는 함수
+	//void DieImageChange();
+
 
 	RECT  getArrowRect() { return _arrow[0].rc; } //rc
 };

@@ -70,22 +70,26 @@ void dungeon2Scene::update()
 		int idx = _viEnemy - _vEnemy.begin();
 		_minimap->changeEnemyXY(idx, (((*_viEnemy)->getX() * 300) / (_tileX*TILESIZE)), (((*_viEnemy)->getY() * 150) / (_tileY*TILESIZE)));
 	}
-	bigbatbulletFire();
-	_bigBatBullet->bulletframe("fatherBatBullet2");
-	if (_start2 != 0)
+	if (!_bigbat->getdiedie())
 	{
-		_bigBatBullet->update();
+		bigbatbulletFire();
+		_bigBatBullet->bulletframe("fatherBatBullet2");
+		if (_start2 != 0)
+		{
+			_bigBatBullet->update();
+		}
 	}
-
-	bigRadbatbulletFire();
-	for (int i = 0; i < 20; i++)
+	if (!_bigRedBat->getdiedie())
 	{
+		bigRadbatbulletFire();
+		for (int i = 0; i < 20; i++)
+		{
 
-		_bigRadBatBullet[i]->bulletframe("fatherBatBullet2");
+			_bigRadBatBullet[i]->bulletframe("fatherBatBullet2");
 
-		if(_start == 1) _bigRadBatBullet[i]->update();
+			if (_start == 1) _bigRadBatBullet[i]->update();
+		}
 	}
-
 	redBatBullet();
 	_radBatBullet->bulletframe("fatherBatBullet2");
 	_radBatBullet->update();
@@ -202,7 +206,7 @@ void dungeon2Scene::setMonster()
 		setBigBone(id[i][0], id[i][1], i);
 	}
 	//작보박
-	setBat(416 % _temp, 416 / _temp);
+	setBat(405 % _temp, 405 / _temp);
 	//작갈박
 	setRedBat(318 % _temp, 318 / _temp);
 

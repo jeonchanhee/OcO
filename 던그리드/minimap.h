@@ -9,6 +9,7 @@ private:
 	{
 		image* img;
 		float x, y;
+		bool die;
 	};
 private:
 	image* _minimap;
@@ -36,6 +37,8 @@ public:
 
 	void setEnemyXY(float x, float y);
 	void changeEnemyXY(int idx, float x, float y);
+
+	void setDieMonster(int idx);
 
 	void setDoorXY(float x, float y, bool height);
 };

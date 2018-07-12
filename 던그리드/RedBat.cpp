@@ -34,9 +34,9 @@ HRESULT RedBat::init(float x, float y)
 	KEYANIMANAGER->addCoordinateFrameAnimation("redBatLeftAttack", "redBatMoveAttackDie", 24, 31, 10, false, false , leftAttack, this);
 	//Die
 	int rightDie[] = { 32 };
-	KEYANIMANAGER->addArrayFrameAnimation("redBatRightDie", "redBatMoveAttackDie", rightDie, 1, 6, false);
+	KEYANIMANAGER->addArrayFrameAnimation("redBatRightDie", "redBatMoveAttackDie", rightDie, 1, 6, false, redBatDieMotion, this);
 	int leftDie[] = { 33 };
-	KEYANIMANAGER->addArrayFrameAnimation("redBatLeftDie", "redBatMoveAttackDie", leftDie, 1, 6, false);
+	KEYANIMANAGER->addArrayFrameAnimation("redBatLeftDie", "redBatMoveAttackDie", leftDie, 1, 6, false, redBatDieMotion, this);
 
 	_redBatMotion = KEYANIMANAGER->findAnimation("redBatLeftMove");
 	_redBatMotion->start();
@@ -45,7 +45,7 @@ HRESULT RedBat::init(float x, float y)
 
 	//ÀÛ»¡¹Ú Ã¼·Â ÃÊ±âÈ­
 	_progressBar = new progressBar;
-	_progressBar->init(_x - 30, _y + 20, 70, 10, "ÀÛ»¡¹Ú¾Õ", "ÀÛºý¹ÚµÚ", BAR_MONSTER);
+	_progressBar->init(_x - 30, _y + 20, 70, 10, "ÀÛ»¡¹Ú¾Õ", "ÀÛ»¡¹ÚµÚ", BAR_MONSTER);
 	_currentHP = _maxHP = 100;
 
 	return S_OK;
@@ -67,33 +67,47 @@ void RedBat::update()
 
 	move();
 	Attack();
+	if(!_diedie)
+		hitDamage();
+
+	if (_diedie)
+	{
+		_dieCount++;
+		if (_dieCount > 60)
+		{
+			_isDie = true;
+		}
+	}
 	//KEYANIMANAGER->update();
 	
 	/////////////////////////Å×½ºÆ®/////////////////////////////
 	//Á×´Â¸ð¼Ç
 	if (KEYMANAGER->isOnceKeyDown(VK_F4))
 	{
-		if (_redBatDirection == REDBAT_RIGHT_MOVE)
-		{
-			changeAnimation(REDBAT_RIGHT_DIE);
-		}
-		if (_redBatDirection == REDBAT_LEFT_MOVE)
-		{
-			changeAnimation(REDBAT_LEFT_DIE);
-		}
+		_currentHP -= 5;
 	}
 	if (KEYMANAGER->isOnceKeyUp(VK_F4))
 	{
-		if (_redBatDirection == REDBAT_RIGHT_DIE)
+		/*if (_redBatDirection == REDBAT_RIGHT_DIE)
 		{
 			changeAnimation(REDBAT_RIGHT_MOVE);
 		}
 		if (_redBatDirection == REDBAT_LEFT_DIE)
 		{
 			changeAnimation(REDBAT_LEFT_MOVE);
-		}
+		}*/
 	}
 
+	
+	/*if (_redBatDirection == REDBAT_RIGHT_MOVE || _redBatDirection == REDBAT_RIGHT_UP_MOVE || _redBatDirection == REDBAT_RIGHT_DOWN_MOVE)
+	{
+		changeAnimation(REDBAT_RIGHT_DIE);
+	}
+	if (_redBatDirection == REDBAT_LEFT_MOVE || _redBatDirection == REDBAT_LEFT_UP_MOVE || _redBatDirection == REDBAT_LEFT_DOWN_MOVE)
+	{
+		changeAnimation(REDBAT_LEFT_DIE);
+	}*/
+	
 	////////////////////////¡ã¡ã¡ã¡ã¡ã¡ã//////////////////////////////
 
 }
@@ -114,113 +128,131 @@ void RedBat::render()
 
 void RedBat::move()
 {
-
-	_moveCount++;
-
-	int tileIndex[2];
-	int tileX = _x / TILESIZE, tileY = _y / TILESIZE;
-
-	if (!(_moveCount % 100))
+	if (!_diedie)
 	{
-		randNum = RND->getInt(8);
-		_moveCount = 0;
-	}
+		_moveCount++;
 
-	if (randNum == 0) _redBatDirection = REDBAT_RIGHT_MOVE;
-	if (randNum == 1) _redBatDirection = REDBAT_LEFT_MOVE;
-	if (randNum == 2) _redBatDirection = REDBAT_RIGHT_UP_MOVE;
-	if (randNum == 3) _redBatDirection = REDBAT_LEFT_UP_MOVE;
-	if (randNum == 4) _redBatDirection = REDBAT_RIGHT_DOWN_MOVE;
-	if (randNum == 5) _redBatDirection = REDBAT_LEFT_DOWN_MOVE;
-	if (randNum == 6) _redBatDirection = REDBAT_UP_MOVE;
-	if (randNum == 7) _redBatDirection = REDBAT_DOWN_MOVE;
+		int tileIndex[2];
+		int tileX = _x / TILESIZE, tileY = _y / TILESIZE;
 
-	switch (_redBatDirection)
-	{
-	case REDBAT_RIGHT_MOVE:
-		tileIndex[0] = (tileX + 1) + tileY * VARIABLE_SIZEX[_dungeonNum];
-		tileIndex[1] = (tileX + VARIABLE_SIZEX[_dungeonNum]) + tileY * VARIABLE_SIZEX[_dungeonNum];
-		rcCollision = RectMake(_rc.right, _rc.top, 4, 80);
-		break;
-	case REDBAT_LEFT_MOVE:
-		tileIndex[0] = tileX + tileY * VARIABLE_SIZEX[_dungeonNum];
-		tileIndex[1] = tileX + (tileY + 1) * VARIABLE_SIZEX[_dungeonNum];
-		rcCollision = RectMake(_rc.left - 4, _rc.top + 4, 4, 80);
-		break;
-	case REDBAT_RIGHT_UP_MOVE:
-		tileIndex[0] = tileX + tileY * VARIABLE_SIZEX[_dungeonNum];
-		tileIndex[1] = (tileX + 1) + (tileY - 1) * VARIABLE_SIZEX[_dungeonNum];
-		rcCollision = RectMake(_rc.right + 5, _rc.top - 10, 30, 30);
-		break;
-	case REDBAT_LEFT_UP_MOVE:
-		tileIndex[0] = tileX + tileY * VARIABLE_SIZEX[_dungeonNum];
-		tileIndex[1] = (tileX - 1) + (tileY - 1) * VARIABLE_SIZEX[_dungeonNum];
-		rcCollision = RectMake(_rc.left - 10, _rc.top - 10, 30, 30);
-		break;
-	case REDBAT_RIGHT_DOWN_MOVE:
-		tileIndex[0] = tileX + tileY * VARIABLE_SIZEX[_dungeonNum];
-		tileIndex[1] = (tileX + 1) + (tileY + 1) * VARIABLE_SIZEX[_dungeonNum];
-		rcCollision = RectMake(_rc.right + 10, _rc.bottom + 10, 30, 30);
-		break;
-	case REDBAT_LEFT_DOWN_MOVE:
-		tileIndex[0] = tileX + tileY * VARIABLE_SIZEX[_dungeonNum];
-		tileIndex[1] = tileX + (tileY + 1) * VARIABLE_SIZEX[_dungeonNum];
-		rcCollision = RectMake(_rc.left - 10, _rc.bottom + 10, 30, 30);
-		break;
-	case REDBAT_UP_MOVE:
-		tileIndex[0] = tileX + tileY * VARIABLE_SIZEX[_dungeonNum];
-		tileIndex[1] = (tileX + 1) + tileY * VARIABLE_SIZEX[_dungeonNum];
-		rcCollision = RectMake(_rc.left + 10, _rc.top - 4, 150, 4);
-		break;
-	case REDBAT_DOWN_MOVE:
-		tileIndex[0] = tileX + (tileY + 1) * VARIABLE_SIZEX[_dungeonNum];
-		tileIndex[1] = (tileX + 1) + (tileY + 1) * VARIABLE_SIZEX[_dungeonNum];
-		rcCollision = RectMake(_rc.left + 4, _rc.bottom, 150, 4);
-		break;
-	}
-
-	RECT temp;
-	for (int i = 0; i < 2; i++)
-	{
-		if (IntersectRect(&temp, &rcCollision, &_tiles[tileIndex[i]].rc) && _tiles[tileIndex[i]].object != OBJ_NONE)//(_tiles[tileIndex[i]].object == OBJ_GROUND || _tiles[tileIndex[i]].object == OBJ_CEILING))
+		if (!(_moveCount % 100))
 		{
-			return;
+			randNum = RND->getInt(8);
+			_moveCount = 0;
 		}
-	}
 
-	switch (_redBatDirection)
-	{
-	case REDBAT_RIGHT_MOVE:
-		_x += SPEED;
-		break;
-	case REDBAT_LEFT_MOVE:
-		_x -= SPEED;
-		break;
-	case REDBAT_RIGHT_UP_MOVE:
-		_x += SPEED;
-		_y -= SPEED;
-		break;
-	case REDBAT_LEFT_UP_MOVE:
-		_x -= SPEED;
-		_y -= SPEED;
-		break;
-	case REDBAT_RIGHT_DOWN_MOVE:
-		_x += SPEED;
-		_y += SPEED;
-		break;
-	case REDBAT_LEFT_DOWN_MOVE:
-		_x -= SPEED;
-		_y += SPEED;
-		break;
-	case REDBAT_UP_MOVE:
-		_y -= SPEED;
-		break;
-	case REDBAT_DOWN_MOVE:
-		_y += SPEED;
-		break;
-	}
+		if (randNum == 0) _redBatDirection = REDBAT_RIGHT_MOVE;
+		if (randNum == 1) _redBatDirection = REDBAT_LEFT_MOVE;
+		if (randNum == 2) _redBatDirection = REDBAT_RIGHT_UP_MOVE;
+		if (randNum == 3) _redBatDirection = REDBAT_LEFT_UP_MOVE;
+		if (randNum == 4) _redBatDirection = REDBAT_RIGHT_DOWN_MOVE;
+		if (randNum == 5) _redBatDirection = REDBAT_LEFT_DOWN_MOVE;
+		if (randNum == 6) _redBatDirection = REDBAT_UP_MOVE;
+		if (randNum == 7) _redBatDirection = REDBAT_DOWN_MOVE;
 
-	_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
+		switch (_redBatDirection)
+		{
+		case REDBAT_RIGHT_MOVE:
+			tileIndex[0] = (tileX + 1) + tileY * VARIABLE_SIZEX[_dungeonNum];
+			tileIndex[1] = (tileX + VARIABLE_SIZEX[_dungeonNum]) + tileY * VARIABLE_SIZEX[_dungeonNum];
+			rcCollision = RectMake(_rc.right, _rc.top, 4, 80);
+
+			break;
+		case REDBAT_LEFT_MOVE:
+			tileIndex[0] = tileX + tileY * VARIABLE_SIZEX[_dungeonNum];
+			tileIndex[1] = tileX + (tileY + 1) * VARIABLE_SIZEX[_dungeonNum];
+			rcCollision = RectMake(_rc.left - 4, _rc.top + 4, 4, 80);
+			break;
+		case REDBAT_RIGHT_UP_MOVE:
+			tileIndex[0] = tileX + tileY * VARIABLE_SIZEX[_dungeonNum];
+			tileIndex[1] = (tileX + 1) + (tileY - 1) * VARIABLE_SIZEX[_dungeonNum];
+			rcCollision = RectMake(_rc.right + 5, _rc.top - 10, 30, 30);
+			break;
+		case REDBAT_LEFT_UP_MOVE:
+			tileIndex[0] = tileX + tileY * VARIABLE_SIZEX[_dungeonNum];
+			tileIndex[1] = (tileX - 1) + (tileY - 1) * VARIABLE_SIZEX[_dungeonNum];
+			rcCollision = RectMake(_rc.left - 10, _rc.top - 10, 30, 30);
+			break;
+		case REDBAT_RIGHT_DOWN_MOVE:
+			tileIndex[0] = tileX + tileY * VARIABLE_SIZEX[_dungeonNum];
+			tileIndex[1] = (tileX + 1) + (tileY + 1) * VARIABLE_SIZEX[_dungeonNum];
+			rcCollision = RectMake(_rc.right + 10, _rc.bottom + 10, 30, 30);
+			break;
+		case REDBAT_LEFT_DOWN_MOVE:
+			tileIndex[0] = tileX + tileY * VARIABLE_SIZEX[_dungeonNum];
+			tileIndex[1] = tileX + (tileY + 1) * VARIABLE_SIZEX[_dungeonNum];
+			rcCollision = RectMake(_rc.left - 10, _rc.bottom + 10, 30, 30);
+			break;
+		case REDBAT_UP_MOVE:
+			tileIndex[0] = tileX + tileY * VARIABLE_SIZEX[_dungeonNum];
+			tileIndex[1] = (tileX + 1) + tileY * VARIABLE_SIZEX[_dungeonNum];
+			rcCollision = RectMake(_rc.left + 10, _rc.top - 4, 150, 4);
+			break;
+		case REDBAT_DOWN_MOVE:
+			tileIndex[0] = tileX + (tileY + 1) * VARIABLE_SIZEX[_dungeonNum];
+			tileIndex[1] = (tileX + 1) + (tileY + 1) * VARIABLE_SIZEX[_dungeonNum];
+			rcCollision = RectMake(_rc.left + 4, _rc.bottom, 150, 4);
+			break;
+		case REDBAT_RIGHT_DIE: case REDBAT_LEFT_DIE:
+			tileIndex[0] = tileX + (tileY + 1) * VARIABLE_SIZEX[_dungeonNum];
+			tileIndex[1] = (tileX + 1) + (tileY + 1) * VARIABLE_SIZEX[_dungeonNum];
+			rcCollision = RectMake(_rc.left + 4, _rc.bottom, 150, 4);
+			break;
+		}
+
+		RECT temp;
+		for (int i = 0; i < 2; i++)
+		{
+			if (IntersectRect(&temp, &rcCollision, &_tiles[tileIndex[i]].rc) && _tiles[tileIndex[i]].object != OBJ_NONE)//(_tiles[tileIndex[i]].object == OBJ_GROUND || _tiles[tileIndex[i]].object == OBJ_CEILING))
+			{
+				return;
+			}
+		}
+
+		switch (_redBatDirection)
+		{
+		case REDBAT_RIGHT_MOVE:
+			changeAnimation(REDBAT_RIGHT_MOVE);
+			_x += SPEED;
+			break;
+		case REDBAT_LEFT_MOVE:
+			changeAnimation(REDBAT_LEFT_MOVE);
+			_x -= SPEED;
+			break;
+		case REDBAT_RIGHT_UP_MOVE:
+			changeAnimation(REDBAT_RIGHT_UP_MOVE);
+			_x += SPEED;
+			_y -= SPEED;
+			break;
+		case REDBAT_LEFT_UP_MOVE:
+			changeAnimation(REDBAT_LEFT_UP_MOVE);
+			_x -= SPEED;
+			_y -= SPEED;
+			break;
+		case REDBAT_RIGHT_DOWN_MOVE:
+			changeAnimation(REDBAT_RIGHT_DOWN_MOVE);
+			_x += SPEED;
+			_y += SPEED;
+			break;
+		case REDBAT_LEFT_DOWN_MOVE:
+			changeAnimation(REDBAT_LEFT_DOWN_MOVE);
+			_x -= SPEED;
+			_y += SPEED;
+			break;
+		case REDBAT_UP_MOVE:
+			if (_redBatDirection == REDBAT_RIGHT_MOVE || _redBatDirection == REDBAT_RIGHT_UP_MOVE || _redBatDirection == REDBAT_RIGHT_DOWN_MOVE)	changeAnimation(REDBAT_RIGHT_MOVE);
+			else if (_redBatDirection == REDBAT_LEFT_MOVE || _redBatDirection == REDBAT_LEFT_UP_MOVE || _redBatDirection == REDBAT_LEFT_DOWN_MOVE)	changeAnimation(REDBAT_LEFT_MOVE);
+			_y -= SPEED;
+			break;
+		case REDBAT_DOWN_MOVE:
+			if (_redBatDirection == REDBAT_RIGHT_MOVE || _redBatDirection == REDBAT_RIGHT_UP_MOVE || _redBatDirection == REDBAT_RIGHT_DOWN_MOVE)	changeAnimation(REDBAT_RIGHT_MOVE);
+			else if (_redBatDirection == REDBAT_LEFT_MOVE || _redBatDirection == REDBAT_LEFT_UP_MOVE || _redBatDirection == REDBAT_LEFT_DOWN_MOVE)	changeAnimation(REDBAT_LEFT_MOVE);
+			_y += SPEED;
+			break;
+		}
+
+		_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
+	}
 }
 
 void RedBat::rightMove()
@@ -264,6 +296,13 @@ void RedBat::Attack()
 	}
 }
 
+void RedBat::redBatDieMotion(void * obj)
+{
+	RedBat* c = (RedBat *)obj;
+	c->_diedie = true;
+}
+
+
 
 void RedBat::changeAnimation(REDBATDIRECTION direction)
 {
@@ -276,6 +315,42 @@ void RedBat::changeAnimation(REDBATDIRECTION direction)
 		_redBatMotion->start();
 		break;
 	case REDBAT_LEFT_MOVE:
+		_img = IMAGEMANAGER->findImage("redBatMoveAttackDie");
+		_redBatDirection = REDBAT_LEFT_MOVE;
+		_redBatMotion = KEYANIMANAGER->findAnimation("redBatLeftMove");
+		_redBatMotion->start();
+		break;
+	case REDBAT_RIGHT_UP_MOVE:
+		_img = IMAGEMANAGER->findImage("redBatMoveAttackDie");
+		_redBatDirection = REDBAT_RIGHT_MOVE;
+		_redBatMotion = KEYANIMANAGER->findAnimation("redBatRightMove");
+		_redBatMotion->start();
+		break;
+	case REDBAT_LEFT_UP_MOVE:
+		_img = IMAGEMANAGER->findImage("redBatMoveAttackDie");
+		_redBatDirection = REDBAT_LEFT_MOVE;
+		_redBatMotion = KEYANIMANAGER->findAnimation("redBatLeftMove");
+		_redBatMotion->start();
+		break;
+	case REDBAT_RIGHT_DOWN_MOVE:
+		_img = IMAGEMANAGER->findImage("redBatMoveAttackDie");
+		_redBatDirection = REDBAT_RIGHT_MOVE;
+		_redBatMotion = KEYANIMANAGER->findAnimation("redBatRightMove");
+		_redBatMotion->start();
+		break;
+	case REDBAT_LEFT_DOWN_MOVE:
+		_img = IMAGEMANAGER->findImage("redBatMoveAttackDie");
+		_redBatDirection = REDBAT_LEFT_MOVE;
+		_redBatMotion = KEYANIMANAGER->findAnimation("redBatLeftMove");
+		_redBatMotion->start();
+		break;
+	case REDBAT_UP_MOVE:
+		_img = IMAGEMANAGER->findImage("redBatMoveAttackDie");
+		_redBatDirection = REDBAT_RIGHT_MOVE;
+		_redBatMotion = KEYANIMANAGER->findAnimation("redBatRightMove");
+		_redBatMotion->start();
+		break;
+	case REDBAT_DOWN_MOVE:
 		_img = IMAGEMANAGER->findImage("redBatMoveAttackDie");
 		_redBatDirection = REDBAT_LEFT_MOVE;
 		_redBatMotion = KEYANIMANAGER->findAnimation("redBatLeftMove");
@@ -308,6 +383,18 @@ void RedBat::changeAnimation(REDBATDIRECTION direction)
 	}
 }
 
+void RedBat::die()
+{
+	if (_redBatDirection == REDBAT_RIGHT_MOVE || _redBatDirection == REDBAT_RIGHT_UP_MOVE || _redBatDirection == REDBAT_RIGHT_DOWN_MOVE || _redBatDirection == REDBAT_UP_MOVE)
+	{
+		changeAnimation(REDBAT_RIGHT_DIE);
+	}
+	else if (_redBatDirection == REDBAT_LEFT_MOVE || _redBatDirection == REDBAT_LEFT_UP_MOVE || _redBatDirection == REDBAT_LEFT_DOWN_MOVE || _redBatDirection == REDBAT_DOWN_MOVE)
+	{
+		changeAnimation(REDBAT_LEFT_DIE);
+	}
+}
+
 void RedBat::rightAttack(void * obj)
 {
 	RedBat* rb = (RedBat*)obj;
@@ -331,7 +418,11 @@ void RedBat::playerCollision()
 {
 }
 
-void RedBat::hitDamage(float damage)
+void RedBat::hitDamage()
 {
-	_currentHP -= damage;
+	//_currentHP -= damage;
+	if (_currentHP <= 0)
+	{
+		die();
+	}
 }

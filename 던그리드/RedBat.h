@@ -27,6 +27,10 @@ class RedBat : public Enemy
 	bool _isAtteck;
 	int		randNum;	// 랜덤이동
 	int		_moveCount;
+
+	bool _diedie;
+	int _dieCount;
+
 public:
 	RedBat();
 	~RedBat();
@@ -41,8 +45,11 @@ public:
 	void leftMove();
 
 	void Attack();
+
+	static void redBatDieMotion(void * obj);
 	
 	void changeAnimation(REDBATDIRECTION direction);
+	void die();
 
 
 	static void rightAttack(void* obj);
@@ -56,7 +63,8 @@ public:
 	void setRedBatMotion(animation* ani) { _redBatMotion = ani; }
 
 	void playerCollision();
-	void hitDamage(float damage);
+	void hitDamage();
+	//void hitDamage(float damage);
 
 	int getCurrentHp() { return _currentHP; } //현재 hp
 	int getMaxHp() { return _maxHP; } //전체hp
@@ -66,5 +74,10 @@ public:
 
 	bool getisAtteck() { return _isAtteck; }
 	void setisAtteck(bool isAtteck) { _isAtteck = isAtteck; }
+
+	//REDBATDIRECTION getredBatDirection() { return _redBatDirection; }
+	
+	bool getdiedie() { return _diedie; }
+
 };
 

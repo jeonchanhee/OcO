@@ -13,6 +13,15 @@ HRESULT playGround::Image_init(void)
 	IMAGEMANAGER->addImage("floor0", "image/map/Floor0.bmp", 0, 0, 384, 96,true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("floor1", "image/map/Floor1.bmp", 0, 0, 4164, 864,true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("floor2", "image/map/Floor2.bmp", 0, 0, 4164, 864,true, RGB(255, 0, 255));
+	
+
+	//==========기본UI==========
+	IMAGEMANAGER->addImage("hpBar", "image/UI/UIhpBar(469x120).bmp", 0, 0, 469, 120, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("hp", "image/UI/UIhp(294,60).bmp", 0, 0, 294, 60, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("hpb", "image/UI/UIhpb(294,60).bmp", 0, 0, 294, 60, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("dashBar", "image/UI/UIdashBar(400x300,1,5).bmp", 0, 0, 400, 300,1,5, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("dash", "image/UI/UIdash(54x24).bmp", 0, 0, 54, 24, true, RGB(255, 0, 255));
+	
 
 	//==========타이틀이미지==========
 	IMAGEMANAGER->addImage("title", "image/UI/Title(1920x1080).bmp", 0, 0, 1920,1080, true, RGB(255, 0, 255));
@@ -98,6 +107,7 @@ HRESULT playGround::Image_init(void)
 	IMAGEMANAGER->addFrameImage("skeletonArcher", "image/enemy/skeletonArcher(100X80,2X1).bmp", 0, 0, 100, 80, 2, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addRotateFrameImage("skeletonBow", "image/enemy/skeletonBow2(150X25,6X1).bmp", 150, 25, 6, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addRotateImage("arrow", "image/enemy/arrow(40x10,1x1).bmp", 40, 10, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("arrow2", "image/enemy/arrow(40x10,1x1).bmp", 40, 10, 1, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("bansheeIdleAttack", "image/enemy/bansheeIdleAttack(600x440,6x4).bmp", 0, 0,  600, 440, 6, 4, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("bansheeNormalBullet", "image/enemy/bansheeNormalBullet(280x80,4x1).bmp", 0, 0, 280, 80, 4, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("batMoveDie", "image/enemy/batMoveDie(1120x180,7x2).bmp", 0, 0, 1120, 180, 7, 2, true, RGB(255, 0, 255));
@@ -118,9 +128,7 @@ HRESULT playGround::Image_init(void)
 	//IMAGEMANAGER->addRotateImage("RotateBossSword", "image/enemy/sword(390x126,1x1).bmp", 390, 126, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("bossSword", "image/enemy/sword(126x390,1x1).bmp", 126, 390, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addRotateImage("RotateBossSword", "image/enemy/sword(390x126,1x1).bmp", 390, 126, true, RGB(255, 0, 255));
-	
 	IMAGEMANAGER->addFrameImage("cowIdleChargeAttack", "image/enemy/cowIdleChargeAttack(1840x1320,8x6).bmp", 0, 0, 1840, 1320, 8, 6, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("dieEffect", "image/enemy/dieEffect(4224x384,11x1).bmp", 0, 0, 4224, 384, 11, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("fatherBatBullet", "image/enemy/fatherBatBullet(100x20,5x1).bmp", 0, 0, 100, 20, 5, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("fatherBatBullet2", "image/enemy/fatherBatBullet(250x50,5x1).bmp", 0, 0, 250, 50, 5, 1, true, RGB(255, 0, 255));
 	EFFECTMANAGER->addEffect("fatherBatBulletFX", "image/enemy/fatherBatBulletFX(396x36,11x1).bmp",396, 36, 396/11, 36, 1.0f, 0.3f, 5);
@@ -136,6 +144,8 @@ HRESULT playGround::Image_init(void)
 	IMAGEMANAGER->addFrameImage("skelDogMoveDie", "image/enemy/skelDogMoveDie(700x270,7x3).bmp", 0, 0, 700, 270, 7, 3, true, RGB(255, 0, 255));
 	//IMAGEMANAGER->addFrameImage("arrowEffect", "image/enemy/arrowEffect(720x370,3x1).bmp", 0, 0, 720, 370, 3, 1, true, RGB(255, 0, 255));
 	//IMAGEMANAGER->addFrameImage("bansheeBigBullet", "image/enemy/bansheeBigBullet(480x110,6x1).bmp", 0, 0, 480, 110, 6, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("dieEffect", "image/enemy/dieEffect(4224x384,11x1).bmp", 0, 0, 4224, 384, 11, 1, true, RGB(255, 0, 255));
+	EFFECTMANAGER->addEffect("dieEffect", "image/enemy/dieEffect(4224x384,11x1).bmp", 4224, 384, 4224 / 11, 384,20, 0.9f, 1);
 	EFFECTMANAGER->addEffect("bossCollisionBullet", "image/enemy/bossCollisionEffect(1100x100,11x1).bmp", 1100, 100, 1100 / 11, 100, 1.0f, 0.3f, 1);
 	EFFECTMANAGER->addEffect("bansheeBigBullet", "image/enemy/bansheeBigBullet(480x110,6x1).bmp", 480, 110, 480 / 6, 110, 1.0f, 0.3f, 1);
 	EFFECTMANAGER->addEffect("arrowEffect", "image/enemy/arrowEffect(300x100,3x1).bmp", 300, 100, 300 /3, 100, 1.0f, 0.3f, 1);

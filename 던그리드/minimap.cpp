@@ -82,14 +82,15 @@ void minimap::render()
 	
 	for (int i = 0; i < _vEnemyIcon.size(); i++)
 	{
-		if(_dungeonNum == 5)
-			_vEnemyIcon[i].img->render(UIDC, WINSIZEX - _mapX - 50 + _vEnemyIcon[i].x, 40 + _vEnemyIcon[i].y);
-		else
-		_vEnemyIcon[i].img->render(UIDC, WINSIZEX - _mapX - 50 + _vEnemyIcon[i].x, 50 + _vEnemyIcon[i].y);
+		if (!_vEnemyIcon[i].die)
+		{
+			if (_dungeonNum == 5)
+				_vEnemyIcon[i].img->render(UIDC, WINSIZEX - _mapX - 50 + _vEnemyIcon[i].x, 40 + _vEnemyIcon[i].y);
+			else
+				_vEnemyIcon[i].img->render(UIDC, WINSIZEX - _mapX - 50 + _vEnemyIcon[i].x, 50 + _vEnemyIcon[i].y);
+		}
 	}
 	
-	
-
 	_playerIcon.img->render(UIDC, WINSIZEX - _mapX - 50 + _playerIcon.x, 50 + _playerIcon.y);
 }
 
@@ -125,6 +126,7 @@ void minimap::setEnemyXY(float x, float y)
 	icon.img = IMAGEMANAGER->findImage("enemyIcon");
 	icon.x = x;
 	icon.y = y;
+	icon.die = false;
 	_vEnemyIcon.push_back(icon);
 }
 
@@ -132,6 +134,11 @@ void minimap::changeEnemyXY(int idx, float x, float y)
 {
 	_vEnemyIcon[idx].x = x;
 	_vEnemyIcon[idx].y = y;
+}
+
+void minimap::setDieMonster(int idx)
+{
+	_vEnemyIcon[idx].die = true;
 }
 
 void minimap::setDoorXY(float x, float y, bool height)
