@@ -30,16 +30,8 @@ void dungeonScene::collision()
 			}
 
 		}
-		//if ((*_viEnemy)->getCurrentHp() <= 0)   //적의 HP가 0이하가되면)
-		//{
-
-		//	//_viEnemy = _vEnemy.erase(_viEnemy);
-		//		//삭제!
-		//}
-		//else
-		{
-			++_viEnemy;
-		}
+		++_viEnemy;
+		
 	}
 
 	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); )
@@ -1076,6 +1068,9 @@ void dungeonScene::BossBulletFire()
 
 void dungeonScene::bigbatbulletFire()
 {
+	if (_bigbat->getdiedie() == true)
+		return;
+
 	bigbatBulletCollision();
 	if (_bigbat->getisAtteck() == true)
 	{
@@ -1106,6 +1101,9 @@ void dungeonScene::bigbatbulletFire()
 
 void dungeonScene::bigRadbatbulletFire()
 {
+	if (_bigRedBat->getdiedie() == true)
+		return;
+
 	bigRadbatBulletCollision();
 	_count3++;
 	if(!(_count3 % 5) && _count3 > 0)
@@ -1158,6 +1156,8 @@ void dungeonScene::bigRadbatbulletFire()
 
 void dungeonScene::redBatBullet()
 {
+	if (_redBat->getdiedie() == true) return;
+
 	redBatBulletCollision();
 	_count4++;
 	if (_count4 % 150 == 0 && _redBat->getisAtteck() == true)
@@ -1178,6 +1178,11 @@ void dungeonScene::bigbatBulletCollision()
 			EFFECTMANAGER->play("fatherBatBulletFX2", _bigBatBullet->getVBullet()[i].x, _bigBatBullet->getVBullet()[i].y);
 			_bigBatBullet->removeBullet(i);
 		}
+
+		if (_bigbat->getdiedie())
+		{
+			_bigBatBullet->removeBullet(i);
+		}
 	}
 }
 
@@ -1193,8 +1198,13 @@ void dungeonScene::bigRadbatBulletCollision()
 				EFFECTMANAGER->play("fatherBatBulletFX2", _bigRadBatBullet[j]->getVBullet()[i].x, _bigRadBatBullet[j]->getVBullet()[i].y);
 				_bigRadBatBullet[j]->removeBullet(i);
 			}
+			if (_bigRedBat->getdiedie())
+			{
+				_bigRadBatBullet[j]->removeBullet(i);
+			}
 		}
 	}
+	
 }
 
 void dungeonScene::redBatBulletCollision()

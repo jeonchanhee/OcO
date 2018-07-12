@@ -30,7 +30,7 @@ protected:
 	progressBar* _progressBar; //체력바
 	float _currentHP, _maxHP; //현재체력과 최대체력
 
-	bool _isDie;
+	//bool _isDie;
 	
 public:
 
