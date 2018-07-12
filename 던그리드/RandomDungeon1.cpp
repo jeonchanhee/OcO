@@ -49,8 +49,82 @@ void RandomDungeon1::keyControl()
 
 void RandomDungeon1::save()
 {
+	vector<string> vRand = TXTDATA->txtLoad("random.txt");
+	int randNum;
+	while (1)
+	{
+		randNum = RND->getInt(4);
+		if (vRand[randNum] == "F")
+			break;
+	}
+	int count = 0;
+	for (int i = 0; i < 4; i++)
+	{
+		if (vRand[i] == "T")
+			count++;
+	}
+	if (count == 1)
+		_floorNum = 2;
+	if (count == 2)
+	{
+		_floorNum = 3;
+		randNum = 4;
+	}
 	vector<string> vStr;
 	char str[128] = "";
+	switch (randNum)
+	{
+	case 0:
+		vStr.push_back(itoa(1, str, 10));
+		for (int i = 0; i < 11; i++)
+		{
+			if (i == 0 || i == 1 || i == 2 || i == 3 || i == 6 || i == 7)
+				vStr.push_back("F");
+			else
+				vStr.push_back("N");
+		}
+		break;
+	case 1:
+		vStr.push_back(itoa(2, str, 10));
+		for (int i = 0; i < 11; i++)
+		{
+			if (i == 0 || i == 5 || i == 6 || i == 7 || i == 10)
+				vStr.push_back("F");
+			else
+				vStr.push_back("N");
+		}
+		break;
+	case 2:
+		vStr.push_back(itoa(3, str, 10));
+		for (int i = 0; i < 11; i++)
+		{
+			if (i == 0 || i == 2 || i == 4 || i == 6 || i == 7 || i == 10)
+				vStr.push_back("F");
+			else
+				vStr.push_back("N");
+		}
+		break;
+	case 3:
+		vStr.push_back(itoa(4, str, 10));
+		for (int i = 0; i < 11; i++)
+		{
+			if (i == 0 || i == 2 || i == 4 || i == 5 || i == 6 || i == 7 || i == 9 || i == 10)
+				vStr.push_back("F");
+			else
+				vStr.push_back("N");
+		}
+		break;
+	case 4:
+		vStr.push_back(itoa(5, str, 10));
+		for (int i = 0; i < 11; i++)
+		{
+			if (i == 0 || i == 7 || i == 8)
+				vStr.push_back("F");
+			else
+				vStr.push_back("N");
+		}
+		break;
+	}
 	//==============1번===================
 	/*vStr.push_back(itoa(1, str, 10));
 	for (int i = 0; i < 11; i++)
@@ -61,32 +135,32 @@ void RandomDungeon1::save()
 			vStr.push_back("N");
 	}*/
 	//==============2번===================
-	//vStr.push_back(itoa(2, str, 10));
-	//for (int i = 0; i < 11; i++)
-	//{
-	//if (i == 0 || i == 5 || i == 6 || i == 7 || i == 10)
-	//vStr.push_back("F");
-	//else
-	//vStr.push_back("N");
-	//}
+	/*vStr.push_back(itoa(2, str, 10));
+	for (int i = 0; i < 11; i++)
+	{
+	if (i == 0 || i == 5 || i == 6 || i == 7 || i == 10)
+	vStr.push_back("F");
+	else
+	vStr.push_back("N");
+	}*/
 	////==============3번===================
-	//vStr.push_back(itoa(3, str, 10));
-	//for (int i = 0; i < 11; i++)
-	//{
-	//if (i == 0 || i == 2 || i == 4 || i == 6 || i == 7 || i == 10)
-	//	vStr.push_back("F");
-	//else
-	//	vStr.push_back("N");
-	//}
+	/*vStr.push_back(itoa(3, str, 10));
+	for (int i = 0; i < 11; i++)
+	{
+	if (i == 0 || i == 2 || i == 4 || i == 6 || i == 7 || i == 10)
+		vStr.push_back("F");
+	else
+		vStr.push_back("N");
+	}*/
 	//==============4번===================
-	vStr.push_back(itoa(4, str, 10));
+	/*vStr.push_back(itoa(4, str, 10));
 	for (int i = 0; i < 11; i++)
 	{
 		if (i == 0 || i == 2 || i == 4 || i == 5 || i == 6 || i == 7 || i == 9 || i == 10)
 			vStr.push_back("F");
 		else
 			vStr.push_back("N");
-	}
+	}*/
 
-	TXTDATA->txtSave("infoDungeon.txt",vStr);
+	TXTDATA->txtSave("infoDungeon.txt", vStr);
 }

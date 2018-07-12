@@ -19,7 +19,11 @@ HRESULT minimap::init(bool isDungeon)
 	else
 		_mapX = 400, _mapY = 200;
 
-	_minimap = IMAGEMANAGER->addImage("미니맵", _mapX, _mapY);
+	if(!_isDungeon)
+		_minimap = IMAGEMANAGER->addImage("마을", _mapX, _mapY);
+	else
+		_minimap = IMAGEMANAGER->addImage("던전", _mapX, _mapY);
+
 	_playerIcon.img = IMAGEMANAGER->findImage("playerIcon");
 
 	for (int i = 0; i < 2; i++)
@@ -42,8 +46,16 @@ void minimap::release()
 void minimap::render()
 {
 	//_minimap->render(DC, CAMERAMANAGER->getCameraCenter().x + WINSIZEX / 2 - 450, CAMERAMANAGER->getCameraCenter().y - WINSIZEY / 2 + 50);
-	RectangleMake(UIDC, WINSIZEX - _mapX - 60, 40, _mapX + 20, _mapY + 20);
-	_minimap->render(UIDC, WINSIZEX - _mapX - 50, 50);
+	if (!_isDungeon)
+	{
+		RectangleMake(UIDC, WINSIZEX - _mapX - 60, 40, _mapX + 20, _mapY + 20);
+		_minimap->render(UIDC, WINSIZEX - _mapX - 50, 50);
+	}
+	else
+	{
+		RectangleMake(UIDC, WINSIZEX - _mapX - 60, 40, _mapX + 20, _mapY + 20);
+		_minimap->render(UIDC, WINSIZEX - _mapX - 50, 50);
+	}
 	
 	for (int i = 0; i < _vDoorIcon.size(); i++)
 	{

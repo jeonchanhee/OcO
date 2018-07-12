@@ -50,6 +50,8 @@ struct minimapIcon
 {
 	image* img;
 	float x, y;
+	RECT rc;
+	int dungeonNum;
 };
 
 class dungeonScene : public gameNode
@@ -97,6 +99,10 @@ protected:
 	minimap* _minimap;
 	image*	_tabMap;
 	minimapIcon _minimapIcon[11];
+	minimapIcon _miniPortal[4];
+	float _movePortal[2][2];
+	bool _isClickPortal;
+	string _floorName;
 	//infoPlayer _infoPlayer;
 
 public:
@@ -112,6 +118,8 @@ public:
 	void mapload();
 
 	void setMinimap();
+
+	void setMinimapXY();
 
 	void setDoorMinimap();
 

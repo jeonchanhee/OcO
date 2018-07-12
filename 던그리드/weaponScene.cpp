@@ -47,6 +47,9 @@ HRESULT weaponScene::init()
 	setMinimap();
 	_minimap->setNPCXY(0, (((300 * ((290 % 25)*TILESIZE)) / (_tileX*TILESIZE))), ((((290 / 25) * TILESIZE)) * 150 / (_tileY * TILESIZE)));
 	setDoorMinimap();
+
+	_mapValue[_dungeonNum] = "T";
+
 	return S_OK;
 }
 
@@ -101,4 +104,14 @@ void weaponScene::render()
 	IMAGEMANAGER->render("d_restaurant", DC, (181 % 25)*TILESIZE, (181 / 25)*TILESIZE + 25);
 	_weaponNpc->render();
 	_player->render();
+
+	if (KEYMANAGER->isToggleKey(VK_TAB))
+	{
+		IMAGEMANAGER->findImage("gray")->alphaRender(DC, CAMERAMANAGER->getCameraCenter().x - WINSIZEX / 2, CAMERAMANAGER->getCameraCenter().y - WINSIZEY / 2, 450);
+		_tabMap->render(UIDC, 0, 0);
+		dungeonScene::minimapIconRender();
+		char str[128];
+		sprintf_s(str, "%d %d", getCameraPoint().x, getCameraPoint().y);
+		TextOut(UIDC, 500, 500, str, strlen(str));
+	}
 }

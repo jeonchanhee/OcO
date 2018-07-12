@@ -53,8 +53,6 @@ HRESULT dungeon5Scene::init()
 		_route.push_back(1);
 		_route.push_back(6);
 		_route.push_back(10);
-
-		_minimapIcon[4].x = 620, _minimapIcon[4].y = 500;
 	}
 
 	_vDoor.resize(3);
