@@ -6,15 +6,15 @@
 
 void dungeonScene::collision()
 {
-	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); )
+	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); ++_viEnemy)
 	{
-		
-			RECT checkRc;
-			if (IntersectRect(&checkRc, &_player->getEffect()->effectCheckBox(), &(*_viEnemy)->getRect()))
-			{
-				(*_viEnemy)->setCurrentHp((*_viEnemy)->getCurrentHp() - 10);
-			}
-		
+
+		RECT checkRc;
+		if (IntersectRect(&checkRc, &_player->getEffect()->effectCheckBox(), &(*_viEnemy)->getRect()))
+		{
+			(*_viEnemy)->setCurrentHp((*_viEnemy)->getCurrentHp() - 10);
+		}
+
 
 		for (int i = 0; i < _player->getPBullet()->getvPBullet().size();)
 		{
@@ -28,24 +28,15 @@ void dungeonScene::collision()
 			{
 				++i;
 			}
-
-		}
-		//if ((*_viEnemy)->getCurrentHp() <= 0)   //적의 HP가 0이하가되면)
-		//{
-
-		//	//_viEnemy = _vEnemy.erase(_viEnemy);
-		//		//삭제!
-		//}
-		//else
-		{
-			++_viEnemy;
 		}
 	}
-
 	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); )
 	{
-		if((*_viEnemy)->getIsDie())
+		if ((*_viEnemy)->getIsDie())
+		{
+			_minimap->setDieMonster(_viEnemy - _vEnemy.begin());
 			_viEnemy = _vEnemy.erase(_viEnemy);
+		}
 		else
 		{
 			++_viEnemy;
@@ -63,6 +54,7 @@ HRESULT dungeonScene::init(void)
 	KEYANIMANAGER->addDefaultFrameAnimation("torchAni", "torch", 10, false, true);
 	KEYANIMANAGER->addCoordinateFrameAnimation("portalAni", "portal", 9, 17, 10, false, true);
 	_player = SCENEMANAGER->getPlayerAddressLink();
+
 	j = 0;
 	_start = _start2 = 0;
 	_diecount2 = true;
@@ -92,6 +84,11 @@ void dungeonScene::update(void)
 	if(_minimap != NULL)
 	_minimap->setPlayerXY(((300 * _player->getPlayerX()) / (_tileX * TILESIZE)), ((150 * (_player->getPlayerY() - 80)) / (_tileY * TILESIZE)));
 	_player->update();
+
+	if (_vEnemy.size() == 0)
+	{
+		_mapValue[_dungeonNum] = "T";
+	}
 }
 
 void dungeonScene::render(void)
@@ -714,11 +711,13 @@ void dungeonScene::setBoss()
 void dungeonScene::nextTest()
 {
 	//if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON) && _mapValue[_dungeonNum] == "T")
-	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
+	//if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
 	{
 		for (int i = 0; i < _vDoor.size(); i++)
 		{
-			if (PtInRect(&_vDoor[i].rc, getMemDCPoint()))
+			//if (PtInRect(&_vDoor[i].rc, getMemDCPoint()))
+			RECT temp;
+			if(IntersectRect(&temp,&_vDoor[i].rc, &_player->getRc()) && _mapValue[_dungeonNum] == "T")
 			{
 				string str = "던전맵";
 				char temp[128] = "";

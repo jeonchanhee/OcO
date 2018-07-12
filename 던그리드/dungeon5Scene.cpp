@@ -85,7 +85,10 @@ HRESULT dungeon5Scene::init()
 	}
 	setDoorMinimap();
 
-	_mapValue[4] = "T";
+	_player->setPlayerX(_vDoor[0].x + TILESIZE * 2);
+	_player->setPlayerY(_vDoor[0].y);
+
+//	_mapValue[4] = "T";
 	return S_OK;
 }
 
