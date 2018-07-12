@@ -55,6 +55,7 @@ public:
 	void hitDamage();
 
 	static void batDieMotion(void * obj);
+	static void batDieMotionL(void * obj);
 
 	RECT  getBatRect() { return _rc; } //rc
 };

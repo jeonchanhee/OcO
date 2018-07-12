@@ -36,7 +36,7 @@ HRESULT Bat::init(float x, float y)
 	KEYANIMANAGER->addArrayFrameAnimation("batRightDie", "batMoveDie", rightDie, 1, 6, false, batDieMotion, this);
 	//¿ŞÂÊ Á×À½
 	int leftDie[] = { 13 };
-	KEYANIMANAGER->addArrayFrameAnimation("batLeftDie", "batMoveDie", leftDie, 1, 6, false, batDieMotion, this);
+	KEYANIMANAGER->addArrayFrameAnimation("batLeftDie", "batMoveDie", leftDie, 1, 6, false, batDieMotionL, this);
 
 	_batMotion = KEYANIMANAGER->findAnimation("batRightMove");
 	_batMotion->start();
@@ -344,6 +344,12 @@ void Bat::hitDamage()
 }
 
 void Bat::batDieMotion(void * obj)
+{
+	Bat* c = (Bat *)obj;
+	c->_diedie = true;
+}
+
+void Bat::batDieMotionL(void * obj)
 {
 	Bat* c = (Bat *)obj;
 	c->_diedie = true;
