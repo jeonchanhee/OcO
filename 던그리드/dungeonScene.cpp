@@ -151,6 +151,7 @@ void dungeonScene::render(void)
 	TextOut(DC, 100, 100, str, strlen(str));
 	_count++;
 	_enemyBullet->render();
+
 	for (int i = 0; i < 20; i++)
 	{
 		_bigRadBatBullet[i]->render();
