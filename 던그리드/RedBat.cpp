@@ -45,7 +45,7 @@ HRESULT RedBat::init(float x, float y)
 
 	//ÀÛ»¡¹Ú Ã¼·Â ÃÊ±âÈ­
 	_progressBar = new progressBar;
-	_progressBar->init(_x - 30, _y + 20, 70, 10, "ÀÛ»¡¹Ú¾Õ", "ÀÛºý¹ÚµÚ", BAR_MONSTER);
+	_progressBar->init(_x - 30, _y + 20, 70, 10, "ÀÛ»¡¹Ú¾Õ", "ÀÛ»¡¹ÚµÚ", BAR_MONSTER);
 	_currentHP = _maxHP = 100;
 
 	return S_OK;

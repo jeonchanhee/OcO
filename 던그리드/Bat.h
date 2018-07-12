@@ -13,8 +13,6 @@ enum BATDIRECTION
 class Bat : public Enemy
 {	
 private:
-	float _currentHP, _maxHP;
-
 	BATDIRECTION _batDirection;
 	animation* _batMotion;
 	RECT		_detectionrc;		// 타일 검출 렉트

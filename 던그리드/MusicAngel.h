@@ -18,6 +18,9 @@ private:
 	animation* _musicAngelMotion;
 	Bullet* _bullet;
 
+	bool _diedie;
+	int _diecount;
+	
 public:
 	MusicAngel();
 	~MusicAngel();
@@ -30,6 +33,7 @@ public:
 	void attackMove();
 	static void rightAttack(void* obj);
 	static void leftAttack(void* obj);
+	static void dieMotion(void* obj);
 
 	void changeAnimation(MUSICANGELDIRECTION musicAngelDirection);
 
@@ -41,7 +45,8 @@ public:
 	animation* getMusicAngelMotion() { return _musicAngelMotion; }
 	void setMusicAngelMotion(animation* ani) { _musicAngelMotion = ani; }
 
-	//void playerCollision();
-	void hitDamage(float damage);
+	void hitDamage();
+
+	bool getDieDie() { return _diedie; }
 };
 

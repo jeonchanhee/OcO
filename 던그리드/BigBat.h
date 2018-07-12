@@ -15,7 +15,6 @@ enum BIGBATDIRECTION
 class BigBat : public Enemy
 {
 private:
-
 	BIGBATDIRECTION _bigBatDirection;
 	animation* _bigBatMotion;
 	Bullet* _bullet;

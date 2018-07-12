@@ -27,6 +27,14 @@ HRESULT Arrow::init(float x, float y)
 	_arrow[1].img = IMAGEMANAGER->addRotateFrameImage(str, "image/enemy/skeletonBow2(150X25,6X1).bmp", 150, 25, 6, 1, true, RGB(255, 0, 255));
 	_arrow[2].img = IMAGEMANAGER->findImage("arrow");
 
+	int die0[] = { 0 };
+	KEYANIMANAGER->addArrayFrameAnimation("die0", "skelBone", die0, 1, 5, false);
+	int die1[] = { 0 };
+	KEYANIMANAGER->addArrayFrameAnimation("die1", "arrow2", die1, 1, 5, false);
+	int die2[] = { 0 };
+	KEYANIMANAGER->addArrayFrameAnimation("die2", "skeletonBow", die2, 1, 5, false);
+
+
 	_arrow[0].x = x;
 	//_arrow[1].x = _arrow[0].x + 70;
 	_arrow[1].x = _arrow[0].x + 40;
@@ -56,6 +64,8 @@ HRESULT Arrow::init(float x, float y)
 	_progressBar->init(_arrow[0].x, _arrow[0].y + 80, 70, 10, "»∞¿Ô¿Ãæ’", "»∞¿Ô¿Ãµ⁄", BAR_MONSTER);
 	_currentHP = _maxHP = 100;
 
+	_isDie = false;
+
 	return S_OK;
 }
 
@@ -78,6 +88,9 @@ void Arrow::update()
 
 	for (int i = 0; i < 2; i++)
 		_arrow[i].rc = RectMake(_arrow[i].x, _arrow[i].y, _arrow[i].img->getFrameWidth(), _arrow[i].img->getFrameHeight());
+
+	_rc = _arrow[0].rc;
+
 	//_arrow[2].rc = RectMake(_arrow[2].x, _arrow[2].y, _arrow[2].img->getWidth(), _arrow[2].img->getHeight());
 	//_arrow[2].rc = RectMakeCenter(_arrow[2].x, _arrow[2].y, _arrow[2].img->getWidth(), _arrow[2].img->getHeight());
 	_arrow[2].rc = RectMake(_arrowX, _arrowY, 15, 15);
@@ -90,21 +103,57 @@ void Arrow::update()
 	_progressBar->update();
 
 	playerCollision();
+
+	if (!_diedie)
+		hitDamage();
+
+	if (_diedie)
+	{
+		_dieCount++;
+		if (_dieCount > 120)
+			_isDie = true;
+	}
 }
 
 void Arrow::render()
-{	
-	_arrow[0].img->frameRender(DC, _arrow[0].x, _arrow[0].y);
-	_arrow[2].img->rotateRender(DC, _arrow[2].x, _arrow[2].y, _angle);
-	_arrow[1].img->rotateFrameRender(DC, _arrow[1].x, _arrow[1].y, _angle);
+{
+	if (!_diedie)
+	{
+		_arrow[0].img->frameRender(DC, _arrow[0].x, _arrow[0].y);
+		_arrow[2].img->rotateRender(DC, _arrow[2].x, _arrow[2].y, _angle);
+		_arrow[1].img->rotateFrameRender(DC, _arrow[1].x, _arrow[1].y, _angle);
+	}
+
 	_progressBar->render();
-	
+
+	if (_diedie)
+	{
+		for (int i = 0; i < 3; i++)
+		{
+			_arrow[i].img->aniRender(DC, _arrow[i].x + 30, _arrow[i].y + 20, _arrowMotion[i]);
+		}
+	}
+
 	if (KEYMANAGER->isToggleKey(VK_SPACE))
 		Rectangle(DC, _arrow[0].rc.left, _arrow[0].rc.top, _arrow[0].rc.right, _arrow[0].rc.bottom);
 	if (KEYMANAGER->isToggleKey('N'))
 	{
 		Rectangle(DC, _arrow[2].rc.left, _arrow[2].rc.top, _arrow[2].rc.right, _arrow[2].rc.bottom);
 	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	//if (_currentHP == 0)
+	//{
+	//	for (int i = 0; i < 3; i++)
+	//	{
+	//		_arrow[i].x = RND->getFromIntTo(_arrow[0].x, _arrow[2].x);
+	//		_arrow[i].y = RND->getFromIntTo(_arrow[0].y, _arrow[2].y);
+	//		//_arrow[i].img->frameRendermeRender("skelBone", DC, _arrow[i].x, _arrow[i].y);
+	//		_arrow[i].img = IMAGEMANAGER->findImage("skelBone");
+	//		_arrow[i].img->frameRender(DC, _arrow[i].x, _arrow[i].y);
+	//	}
+	//}
+	////////////////////////////////////////////////////////////////////////////////////////////////
 }
 
 void Arrow::frameMove()
@@ -225,7 +274,7 @@ void Arrow::playerCollision()
 	{
 		if (!_hit)
 		{
-		_player->hitDamage(0.5f);
+		_player->hitDamage(2);
 		//EFFECTMANAGER->play("arrowEffect", _arrow[2].x, _arrow[2].y);
 		
 			EFFECTMANAGER->play("arrowEffect", (_player->getPlayerRect().right + _player->getPlayerRect().left) / 2, (_player->getPlayerRect().bottom + _player->getPlayerRect().top) / 2);
@@ -234,7 +283,29 @@ void Arrow::playerCollision()
 	}
 }
 
-void Arrow::hitDamage(float damage)
+void Arrow::hitDamage() 
 {
-	_currentHP -= damage;
+	if (_currentHP <= 0 && !_diedie)
+	{
+		/*
+			int die0[] = { 0 };
+	KEYANIMANAGER->addArrayFrameAnimation("die0", "skelBone", die0, 1, 5, false);
+	int die1[] = { 0 };
+	KEYANIMANAGER->addArrayFrameAnimation("die1", "arrow", die1, 1, 5, false);
+	int die2[] = { 0 };
+	KEYANIMANAGER->addArrayFrameAnimation("die2", "skeletonBow", die2, 1, 5, false);
+		*/
+		_diedie = true;
+		_arrow[0].img = IMAGEMANAGER->findImage("skelBone");
+		_arrowMotion[0] = KEYANIMANAGER->findAnimation("die0");
+		_arrowMotion[0]->start();
+
+		_arrow[1].img = IMAGEMANAGER->findImage("arrow2");
+		_arrowMotion[1] = KEYANIMANAGER->findAnimation("die1");
+		_arrowMotion[1]->start();
+
+		_arrow[2].img = IMAGEMANAGER->findImage("skeletonBow");
+		_arrowMotion[2] = KEYANIMANAGER->findAnimation("die2");
+		_arrowMotion[2]->start();
+	}
 }

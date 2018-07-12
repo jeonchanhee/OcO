@@ -34,7 +34,9 @@ HRESULT Cow::init(float x, float y)
 	KEYANIMANAGER->addCoordinateFrameAnimation("cowLeftAttack", "cowIdleChargeAttack", 40, 46, 5, false, false, leftAttack, this);
 
 	//DIE
-	KEYANIMANAGER->addCoordinateFrameAnimation("cowDie", "dieEffect", 2, 10, 5, false, false);
+	//KEYANIMANAGER->addCoordinateFrameAnimation("cowDie", "dieEffect", 2, 10, 5, false, false);
+	int cowDie[] = { 47};
+	KEYANIMANAGER->addArrayFrameAnimation("cowDie", "cowIdleChargeAttack", cowDie, 1, 5, false, dieMotion,this);
 
 	//_cowMotion = KEYANIMANAGER->findAnimation("cowLeftMove");
 	_cowMotion = KEYANIMANAGER->findAnimation("cowRightMove");
@@ -47,6 +49,8 @@ HRESULT Cow::init(float x, float y)
 	_progressBar->init(_x, _y + 30, 70, 10, "소앞", "소뒤", BAR_MONSTER);
 	_currentHP = _maxHP = 100;
 
+	_isDie = false;
+	
 	return S_OK;
 }
 
@@ -80,8 +84,17 @@ void Cow::update()
 
 	move();
 	changeDirection();
-	//playerCollision();
+	playerCollision();
+	hitDamage();
 
+	if (_diedie)
+	{
+		_dieCount++;
+		if (_dieCount > 120)
+		{
+			_isDie = true;
+		}
+	}
 
 	///////////////////////DIE 테스트///////////////////////////
 	if (KEYMANAGER->isOnceKeyDown(VK_F8))
@@ -261,11 +274,18 @@ void Cow::leftAttack(void * obj)
 
 }
 
+void Cow::dieMotion(void* obj)
+{
+	Cow* c = (Cow*)obj;
+	c->_diedie = true;
+}
+
 void Cow::changeAnimation(COWDIRECTION cowDirection)
 {
 	switch (cowDirection)
 	{
 	case COW_RIGHT_MOVE:
+		_isDie = false;
 		_img = IMAGEMANAGER->findImage("cowIdleChargeAttack");
 		_cowDirection = COW_RIGHT_MOVE;
 		_cowMotion->stop();
@@ -275,6 +295,7 @@ void Cow::changeAnimation(COWDIRECTION cowDirection)
 		_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 		break;
 	case COW_LEFT_MOVE:
+		_isDie = false;
 		_img = IMAGEMANAGER->findImage("cowIdleChargeAttack");
 		_cowDirection = COW_LEFT_MOVE;
 		_cowMotion->stop();
@@ -284,6 +305,7 @@ void Cow::changeAnimation(COWDIRECTION cowDirection)
 		_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 		break;
 	case COW_RIGHT_CHARGE:
+		_isDie = false;
 		_img = IMAGEMANAGER->findImage("cowIdleChargeAttack");
 		_cowDirection = COW_RIGHT_CHARGE;
 		_cowMotion->stop();
@@ -293,6 +315,7 @@ void Cow::changeAnimation(COWDIRECTION cowDirection)
 		_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 		break;
 	case COW_LEFT_CHARGE:
+		_isDie = false;
 		_img = IMAGEMANAGER->findImage("cowIdleChargeAttack");
 		_cowDirection = COW_LEFT_CHARGE;
 		_cowMotion->stop();
@@ -302,6 +325,7 @@ void Cow::changeAnimation(COWDIRECTION cowDirection)
 		_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 		break;
 	case COW_RIGHT_ATTACK:
+		_isDie = false;
 		_img = IMAGEMANAGER->findImage("cowIdleChargeAttack");
 		_cowDirection = COW_RIGHT_ATTACK;
 		_cowMotion->stop();
@@ -311,6 +335,7 @@ void Cow::changeAnimation(COWDIRECTION cowDirection)
 		_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 		break;
 	case COW_LEFT_ATTACK:
+		_isDie = false;
 		_img = IMAGEMANAGER->findImage("cowIdleChargeAttack");
 		_cowDirection = COW_LEFT_ATTACK;
 		_cowMotion->stop();
@@ -320,7 +345,7 @@ void Cow::changeAnimation(COWDIRECTION cowDirection)
 		_rc = RectMakeCenter(_x,_y,_img->getFrameWidth(),_img->getFrameHeight());
 		break;
 	case COW_DIE:
-		_img = IMAGEMANAGER->findImage("dieEffect");
+		_img = IMAGEMANAGER->findImage("cowIdleChargeAttack");
 		_cowDirection = COW_DIE;
 		_cowMotion->stop();
 		_cowMotion = KEYANIMANAGER->findAnimation("cowDie");
@@ -340,13 +365,17 @@ void Cow::playerCollision()
 	{
 		if (!_hit)
 		{
-			_player->hitDamage(1.0f);
+			_player->hitDamage(3);
+			EFFECTMANAGER->play("bossCollisionBullet", (_player->getPlayerRect().right + _player->getPlayerRect().left) / 2, (_player->getPlayerRect().bottom + _player->getPlayerRect().top) / 2);
 			_hit = true;
 		}
 	}
 }
 
-void Cow::hitDamage(float damage)
+void Cow::hitDamage()
 {
-	_currentHP -= damage;
+	if (_currentHP <= 0)
+	{
+		changeAnimation(COW_DIE);
+	}
 }
