@@ -57,4 +57,3 @@ public:
 
 	bool getdiedie() { return _diedie; }
 };
-

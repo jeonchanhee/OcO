@@ -55,7 +55,9 @@ HRESULT dungeon2Scene::init()
 	}
 	setDoorMinimap();
 
-	_mapValue[_dungeonNum] = "T";
+	_player->setPlayerX(_vDoor[0].x + TILESIZE * 2);
+	_player->setPlayerY(_vDoor[0].y);
+	//_mapValue[_dungeonNum] = "T";
 
 	return S_OK;
 }
@@ -73,23 +75,28 @@ void dungeon2Scene::update()
 	if (!_bigbat->getdiedie())
 	{
 		bigbatbulletFire();
-		_bigBatBullet->bulletframe("fatherBatBullet2");
-		if (_start2 != 0)
-		{
-			_bigBatBullet->update();
-		}
+	}
+	_bigBatBullet->bulletframe("fatherBatBullet2");
+	if (_start2 != 0)
+	{
+		_bigBatBullet->update();
 	}
 	if (!_bigRedBat->getdiedie())
 	{
 		bigRadbatbulletFire();
+	}
+	else
+	{
+		_start = 1;
+	}
+
 		for (int i = 0; i < 20; i++)
 		{
-
 			_bigRadBatBullet[i]->bulletframe("fatherBatBullet2");
-
-			if (_start == 1) _bigRadBatBullet[i]->update();
+			if (_start == 1) 
+				_bigRadBatBullet[i]->update();
 		}
-	}
+	
 	redBatBullet();
 	_radBatBullet->bulletframe("fatherBatBullet2");
 	_radBatBullet->update();
