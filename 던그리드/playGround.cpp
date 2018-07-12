@@ -33,6 +33,7 @@ HRESULT playGround::init(void)
 	_title = new titleScene;
 	_town->setImLink(_im);
 	_title->setImLink(_im);
+	_player->getInven()->setImLink(_im);
 
 	SCENEMANAGER->setPlayerAddressLink(_player);
 

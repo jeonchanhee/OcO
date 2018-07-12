@@ -21,6 +21,7 @@ HRESULT playGround::Image_init(void)
 	IMAGEMANAGER->addImage("hpb", "image/UI/UIhpb(294,60).bmp", 0, 0, 294, 60, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("dashBar", "image/UI/UIdashBar(400x300,1,5).bmp", 0, 0, 400, 300,1,5, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("dash", "image/UI/UIdash(54x24).bmp", 0, 0, 54, 24, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("thank", "image/UI/UIresThank.bmp", 0, 0, 317, 76, true, RGB(255, 0, 255));
 	
 
 	//==========타이틀이미지==========
@@ -200,8 +201,7 @@ HRESULT playGround::Image_init(void)
 	IMAGEMANAGER->addImage("검100", "image/item/weapon/sword/VineSwordDrop(131x47)1x1.bmp", 131, 47, true, RGB(255, 0, 255));				// 드랍
 	IMAGEMANAGER->addImage("검101", "image/item/weapon/sword/VineSwordInven(30x80)1x1.bmp", 30, 80, true, RGB(255, 0, 255));					// 인벤
 	IMAGEMANAGER->addRotateImage("검102", "image/item/weapon/sword/VineSword(131x47)1x1.bmp", 131, 47, true, RGB(255, 0, 255));				// 착용
-
-																																			//바꿈 07 12																															//바꿈 07 12
+	//바꿈 07 12
 	// =================S=T==A==R==T==========================================
 	//바꿈 07 12
 	IMAGEMANAGER->addImage("해머10", "image/item/weapon/hammer/SteelWarHammerDrop(85x50)1x1.bmp", 85, 50, true, RGB(255, 0, 255));	//드랍
@@ -256,9 +256,9 @@ HRESULT playGround::Image_init(void)
 
 
 	//지우지마 지우지마 지우지마 지우지마 지우지마 지우지마 지우지마 지우지마 지우지마
-	IMAGEMANAGER->addRotateFrameImage("총알0", "image/item/weapon/gun/deadlyKissBullet(1200x110,12x1).bmp",1000,92,12,1,true, RGB(255,0,255 ));
-	IMAGEMANAGER->addRotateFrameImage("총알1", "image/item/weapon/gun/flameThrower(400x125,8x1).bmp",400,125,8,1,true, RGB(255 , 0 , 255));
-	IMAGEMANAGER->addRotateFrameImage("총알2", "image/item/weapon/gun/matchlockGunBullet(750x30,5x1).bmp",750,30,5,1,true , RGB(255,0,255));
+	IMAGEMANAGER->addRotateFrameImage("총알1", "image/item/weapon/gun/deadlyKissBullet(1200x110,12x1).bmp",1000,92,12,1,true, RGB(255,0,255 ));
+	IMAGEMANAGER->addRotateFrameImage("총알2", "image/item/weapon/gun/flameThrower(400x125,8x1).bmp",400,125,8,1,true, RGB(255 , 0 , 255));
+	IMAGEMANAGER->addRotateFrameImage("총알0", "image/item/weapon/gun/matchlockGunBullet(750x30,5x1).bmp",750,30,5,1,true , RGB(255,0,255));
 	IMAGEMANAGER->addRotateFrameImage("총알3", "image/item/weapon/gun/railGunBullet(300x100,6x1).bmp",300,100,6,1,true, RGB(255,0,255 ));
 
 		
@@ -347,14 +347,19 @@ HRESULT playGround::Image_init(void)
 	IMAGEMANAGER->addFrameImage("코인1", "image/item/treasurebox/coin(56x7)8x1.bmp", 56, 7, 8, 1, true, RGB(255, 0, 255));		// 프레임
 	IMAGEMANAGER->addFrameImage("골드1", "image/item/treasurebox/gold(140x9)7x1.bmp", 140, 9, 7, 1, true, RGB(255, 0, 255));		// 프레임
 
-	//이펙트 빠빠빠빠빠빠빠빠빠빠빠빠빠빠빠    EFFECTMANAGER->addEffect
+	//Effect
 	EFFECTMANAGER->addEffect("대시왼쪽", "image/player/dashManLeft(320x95,4x1).bmp", 320, 95, 80, 95, 1.0f, 0.3f, 5);
 	EFFECTMANAGER->addEffect("대시오른쪽", "image/player/dashManRight(320x95,4x1).bmp", 320, 95, 80, 95, 1.0f, 0.3f, 5);
 	EFFECTMANAGER->addEffect("왼쪽걸을때", "image/player/leftRunDust(200x40,5x1).bmp", 250, 50, 50, 50, 1.0f, 0.3f, 1);
 	EFFECTMANAGER->addEffect("오른쪽걸을때", "image/player/rightRunDust(200x40,5x1).bmp", 250, 50, 50, 50, 1.0f, 0.3f, 1);
 	EFFECTMANAGER->addEffect("점프야압", "image/player/jumpEffect(350x70,5x1).bmp", 350, 70, 70, 70, 1.0f, 0.3f, 1);
 	EFFECTMANAGER->addEffect("이건이단점프야압", "image/player/doubleJumpEffect(420x70,6x1).bmp", 420, 70, 70, 70, 1.0f, 0.3f, 1);
-	IMAGEMANAGER->addRotateFrameImage("검쓰르륵", "image/item/weapon/sword/effect/swing.bmp", 600 , 109 , 4 , 1, true , RGB(255,0,255));
+	//sword Effect 
+	IMAGEMANAGER->addRotateFrameImage("검1효과", "image/item/weapon/sword/effect/swing(600x109,4x1).bmp", 600 , 109 , 4 , 1, true , RGB(255,0,255));
+	IMAGEMANAGER->addRotateFrameImage("검2효과", "image/item/weapon/sword/effect/fireswing(800x91,7x1).bmp", 800, 91, 7, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addRotateFrameImage("검3효과", "image/item/weapon/sword/effect/emeraldEffect(900x93,7x1).bmp", 900, 93, 7, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addRotateFrameImage("검4효과", "image/item/weapon/sword/effect/bossSwordEffect(600x100,4x1).bmp", 600 , 100 , 4 , 1, true , RGB(255,0,255));
+
 
 	//상점 NPC
 	IMAGEMANAGER->addFrameImage("엔피시1", "image/npc/inn(420x200)6x2.bmp", 420, 200 , 6, 2, true, RGB(255, 0, 255)); // 음식파는 아줌마

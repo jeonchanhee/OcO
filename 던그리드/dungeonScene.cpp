@@ -31,19 +31,20 @@ void dungeonScene::collision()
 				{
 					++i;
 				}
-			}	
-		}
-	}
-	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); )
-	{
-		if ((*_viEnemy)->getIsDie())
-		{
-			_minimap->setDieMonster(_viEnemy - _vEnemy.begin());
-			_viEnemy = _vEnemy.erase(_viEnemy);
-		}
-		else
-		{
+
+			}
 			++_viEnemy;
+
+		}
+
+		for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); )
+		{
+			if ((*_viEnemy)->getIsDie())
+				_viEnemy = _vEnemy.erase(_viEnemy);
+			else
+			{
+				++_viEnemy;
+			}
 		}
 	}
 }

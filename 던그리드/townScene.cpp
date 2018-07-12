@@ -60,7 +60,29 @@ HRESULT townScene::init()
 	for (int i = 0; i < 6; i++)
 		_trainStat[i] = 0;
 
+	resetShop();
+
+
 	return S_OK;
+}
+
+void townScene::resetShop()
+{
+	//2~33
+	int rand;
+	for (int i = 0; i < 5; i++)
+	{
+		_itemNum[i] = 0;
+		while (1)
+		{
+			rand = RND->getFromIntTo(2, 33);
+			if (_itemNum[0] != rand && _itemNum[1] != rand && _itemNum[2] != rand && _itemNum[3] != rand && _itemNum[4] != rand)
+			{
+				_itemNum[i] = rand;
+				break;
+			}
+		}
+	}
 }
 
 void townScene::release()
@@ -77,13 +99,6 @@ void townScene::update()
 	{
 		_randMap = new RandomDungeon1;
 		_randMap->init();
-	}
-	if (KEYMANAGER->isOnceKeyDown('V')&&_ui[1]==false)
-	{
-		if(_ui[0]==true)
-			_ui[0] = false;
-		else
-			_ui[0] = true;
 	}
 }
 
@@ -115,8 +130,9 @@ void townScene::render()
 	NPC();
 	if (_ui[0] == true)
 	{
-		RECT rc = RectMake(50, 220, 100, 100);
-		IMAGEMANAGER->findImage("inven")->render(UIDC, WINSIZEX - IMAGEMANAGER->findImage("inven")->getWidth(), 0);
+		//RECT rc = RectMake(50, 220, 100, 100);
+		//IMAGEMANAGER->findImage("inven")->render(UIDC, WINSIZEX - IMAGEMANAGER->findImage("inven")->getWidth(), 0);
+
 		//_im->getItem()[0]->getItem().image[0]->render(UIDC, rc.left, rc.top);
 	}
 	if (_ui[1] == true)
@@ -126,6 +142,7 @@ void townScene::render()
 	if (_ui[2] == true)
 	{
 		training();
+		_trainStat[0] = _player->getLv() - _trainStat[1] - _trainStat[2] - _trainStat[3] - _trainStat[4] - _trainStat[5];
 	}
 }
 
@@ -253,13 +270,13 @@ void townScene::NPC()
 			if (_ui[1] == false)
 			{
 				_ui[1] = true;
-				_ui[0] = true;
+				_player->getInven()->setOnInven(true);
 				_canMove = false;
 			}
 			else
 			{
 				_ui[1] = false;
-				_ui[0] = false;
+				_player->getInven()->setOnInven(false);
 				_canMove = true;
 			}
 		}
@@ -276,36 +293,97 @@ void townScene::training()
 			IMAGEMANAGER->findImage("trainI")->frameRender(UIDC, 110 + (i * 72) + (j * 124), 720, j, i);
 	}
 	for (int i = 0; i < 5; i++)
-		IMAGEMANAGER->findImage("trainB")->frameRender(UIDC, 165 + (i * 371), 810, i, 0);
-	RECT rc = RectMake(1764, 50, 120, 115);
-
+		IMAGEMANAGER->findImage("trainB")->frameRender(UIDC, 165 + (i * 371), 810, i, 1);
+	RECT rc[6];
+	rc[0] = RectMake(1764, 50, 120, 115);
+	rc[1] = RectMake( 174, 822, 90, 90);
+	rc[2] = RectMake( 545, 822, 90, 90);
+	rc[3] = RectMake( 916, 822, 90, 90);
+	rc[4] = RectMake( 1287, 822, 90, 90);
+	rc[5] = RectMake( 1658, 822, 90, 90);
 	if (KEYMANAGER->isToggleKey(VK_TAB))
 	{
-		Rectangle(UIDC, rc.left, rc.top, rc.right, rc.bottom);
-		RectangleMake(UIDC, 350, 800, 80, 80);
+		Rectangle(UIDC, rc[0].left, rc[0].top, rc[0].right, rc[0].bottom);
+	}
+
+	char str[128];
+	HFONT font, oldFont;
+	font = CreateFont(50, 0, 0, 0, 100, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("家具官弗9"));
+	oldFont = (HFONT)SelectObject(UIDC, font);
+	SetTextColor(UIDC, RGB(255, 255, 255));
+	SetBkMode(UIDC, TRANSPARENT);
+
+	for (int i = 1; i < 6; i++)
+	{
+		if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON) && PtInRect(&rc[i], _ptMouse) && _trainStat[0] > 0)
+		{
+			_trainStat[0]--;
+			_trainStat[i]++;
+		}
+		sprintf(str, "%d", _trainStat[i]);
+		TextOut(UIDC, rc[i].left+35, rc[i].top-300, str, strlen(str));
+	}
+	sprintf(str, "%d", _trainStat[0]);
+	TextOut(UIDC, 1815, 975, str, strlen(str));
+
+	SelectObject(UIDC, oldFont);
+	DeleteObject(font);
+
+	if (KEYMANAGER->isOnceKeyDown('R'))
+	{
+		_trainStat[1] = _trainStat[2] = _trainStat[3] = _trainStat[4] = _trainStat[5] = 0;
+		_trainStat[0] = _player->getLv() - _trainStat[1] - _trainStat[2] - _trainStat[3] - _trainStat[4] - _trainStat[5];
 	}
 }
 
 void townScene::shop()
 {
 	char str[128];
-	RECT rc, rc2, rc3;
-	rc = RectMake(50, 220, 100, 100);
-	rc2 = RectMake(200, 200, 100, 100);
-	rc3 = RectMake(520, 255, 100, 100);
+	RECT rc[5], rc1[5], rc2[5], rc3[5];
 	IMAGEMANAGER->findImage("shopUI")->render(UIDC, 0, 0);
-	IMAGEMANAGER->findImage("slot")->render(UIDC, 165, 180);
-	_im->getItem()[0]->getItem().image[0]->render(UIDC, rc.left, rc.top);
+	for (int i = 0; i < 5; i++)
+	{
+		rc1[i] = RectMake(165, 180 + 170 * i, 493,126);
+		IMAGEMANAGER->findImage("slot")->render(UIDC, 165, 180 + 170 * i);
+	}
+	if(KEYMANAGER->isToggleKey(VK_TAB))
+	{
+		for (int i = 0; i < 5; i++)
+			Rectangle(UIDC, rc1[i].left, rc1[i].top, rc1[i].right, rc1[i].bottom);
+	}
 
 	HFONT font, oldFont;
 	font = CreateFont(40, 0, 0, 0, 100, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("家具官弗9"));
 	oldFont = (HFONT)SelectObject(UIDC, font);
 	SetTextColor(UIDC, RGB(255, 255, 255));
 	SetBkMode(UIDC, TRANSPARENT);
-	DrawText(UIDC, _im->getItem()[0]->getItem().name, strlen(_im->getItem()[0]->getItem().name), &rc2, DT_VCENTER);
-	DrawText(UIDC, itoa(_im->getItem()[0]->getItem().price, str, 10), strlen(itoa(_im->getItem()[0]->getItem().price, str, 10)), &rc3, DT_VCENTER);
+	for (int i = 0; i < 5; i++)
+	{
+		rc[i] = RectMake(50, 220 + 170 * i, 100, 100);
+		rc2[i] = RectMake(200, 200 + 170 * i, 100, 100);
+		rc3[i] = RectMake(500, 255 + 170 * i, 100, 100);
+
+		if (_itemNum[i] != 0)
+		{
+			_im->getItem()[_itemNum[i]]->getItem().image[0]->render(UIDC, rc[i].left, rc[i].top);
+
+			DrawText(UIDC, _im->getItem()[_itemNum[i]]->getItem().name, strlen(_im->getItem()[_itemNum[i]]->getItem().name), &rc2[i], DT_VCENTER);
+			DrawText(UIDC, itoa(_im->getItem()[_itemNum[i]]->getItem().price, str, 10), strlen(itoa(_im->getItem()[_itemNum[i]]->getItem().price, str, 10)), &rc3[i], DT_VCENTER);
+		}
+		else
+			IMAGEMANAGER->findImage("thank")->render(UIDC, rc2[i].left, rc2[i].top);
+	}
+
 	SelectObject(UIDC, oldFont);
 	DeleteObject(font);
+	for (int i = 0; i < 5; i++)
+	{
+		if (PtInRect(&rc1[i], _ptMouse) && KEYMANAGER->isOnceKeyDown(VK_RBUTTON) && _itemNum[i] != 0&&_player->getInven()->getItem().size() < INVENSIZE)
+		{
+			_player->getInven()->buyItem(_itemNum[i]);
+			_itemNum[i] = 0;
+		}
+	}
 }
 
 void townScene::dungeonGo()

@@ -9,12 +9,6 @@ HRESULT playGround::Sound_init(void)
 	SOUNDMANAGER->addSound("boss", "sound/back/boss.wav", true, true); //보스방에 있는동안
 
 
-
-
-
-	//====================   PLAYER =================================
-
-
 	//==================== ENEMY =================================
 	SOUNDMANAGER->addSound("bat", "sound/enemy/bat.wav", false, false);
 	SOUNDMANAGER->addSound("bat2", "sound/enemy/bat2.wav", false, false);
@@ -35,5 +29,11 @@ HRESULT playGround::Sound_init(void)
 
 
 
+	//====================   PLAYER =================================
+	SOUNDMANAGER->addSound("칼사운드", "sound/player/검.wav", false, false);
+	SOUNDMANAGER->addSound("대시사운드", "sound/player/dash.wav", false, false);
+	SOUNDMANAGER->addSound("점프사운드", "sound/player/Jump.wav", false, false);
+	SOUNDMANAGER->addSound("뒤짐사운드", "sound/player/dead.wav", false, false);
+	
 	return S_OK;
 }
