@@ -42,7 +42,8 @@ HRESULT dungeon4Scene::init()
 	_vDoor[0].img = IMAGEMANAGER->findImage("updownDoor");
 	_vDoor[0].dir = DOOR_UPDOWN;
 	setDoor();
-	setMonster();
+	if (_mapValue[_dungeonNum] == "F")
+		setMonster();
 
 	setMinimap();
 

@@ -43,8 +43,8 @@ HRESULT dungeon3Scene::init()
 		_vDoor[i].dir = DOOR_UPDOWN;
 	}
 	setDoor();
-	setMonster();
-
+	if (_mapValue[_dungeonNum] == "F")
+		setMonster();
 	setMinimap();
 
 	for (int i = 0; i < _vEnemy.size(); i++)

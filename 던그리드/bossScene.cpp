@@ -37,7 +37,8 @@ HRESULT bossScene::init()
 		_route.push_back(8);
 	}
 
-	setBossMon();
+	if (_mapValue[_dungeonNum] == "F")
+			setBossMon();
 
 	for (int i = 0; i < _vEnemy.size(); i++)
 	{
@@ -45,6 +46,9 @@ HRESULT bossScene::init()
 	}
 
 	//_mapValue[_dungeonNum] = "T";
+
+	_player->setPlayerX(_vDoor[0].x + TILESIZE * 2);
+	_player->setPlayerY(_vDoor[0].y);
 	
 	return S_OK;
 }
