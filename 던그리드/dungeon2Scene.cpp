@@ -54,13 +54,16 @@ HRESULT dungeon2Scene::init()
 		_minimap->setEnemyXY(((_vEnemy[i]->getX() * 300) / (_tileX*TILESIZE)), ((_vEnemy[i]->getY() * 150) / (_tileY*TILESIZE)));
 	}
 	setDoorMinimap();
+
+	_mapValue[_dungeonNum] = "T";
+
 	return S_OK;
 }
 
 void dungeon2Scene::update()
 {
 	dungeonScene::update();
-	nextTest();
+	//nextTest();
 	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); ++_viEnemy)
 	{
 		(*_viEnemy)->update();
@@ -86,6 +89,23 @@ void dungeon2Scene::update()
 	redBatBullet();
 	_radBatBullet->bulletframe("fatherBatBullet2");
 	_radBatBullet->update();
+}
+
+void dungeon2Scene::render()
+{
+	dungeonScene::render();
+
+	_player->render();
+
+	if (KEYMANAGER->isToggleKey(VK_TAB))
+	{
+		IMAGEMANAGER->findImage("gray")->alphaRender(DC, CAMERAMANAGER->getCameraCenter().x - WINSIZEX / 2, CAMERAMANAGER->getCameraCenter().y - WINSIZEY / 2, 450);
+		_tabMap->render(UIDC, 0, 0);
+		dungeonScene::minimapIconRender();
+		char str[128];
+		sprintf_s(str, "%d %d", getCameraPoint().x, getCameraPoint().y);
+		TextOut(UIDC, 500, 500, str, strlen(str));
+	}
 }
 
 void dungeon2Scene::setRandMapNum()

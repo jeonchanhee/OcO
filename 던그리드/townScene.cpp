@@ -43,6 +43,9 @@ HRESULT townScene::init()
 	_shopping->start();
 	//_suck->start();
 	
+	_ui[0] =false;
+	_ui[1] =false;
+	_ui[2] =false;
 	_canMove = true;
 	_sucking = false;
 	_mapName = "map/townmap(80x25).map";
@@ -52,6 +55,11 @@ HRESULT townScene::init()
 	mapload();
 	setMinimap();
 	_start = 0;
+	_floorNum = 1;
+
+	for (int i = 0; i < 6; i++)
+		_trainStat[i] = 0;
+
 	return S_OK;
 }
 
@@ -69,6 +77,13 @@ void townScene::update()
 	{
 		_randMap = new RandomDungeon1;
 		_randMap->init();
+	}
+	if (KEYMANAGER->isOnceKeyDown('V')&&_ui[1]==false)
+	{
+		if(_ui[0]==true)
+			_ui[0] = false;
+		else
+			_ui[0] = true;
 	}
 }
 
@@ -98,6 +113,20 @@ void townScene::render()
 	if (_start != 1)
 		_player->render();
 	NPC();
+	if (_ui[0] == true)
+	{
+		RECT rc = RectMake(50, 220, 100, 100);
+		IMAGEMANAGER->findImage("inven")->render(UIDC, WINSIZEX - IMAGEMANAGER->findImage("inven")->getWidth(), 0);
+		//_im->getItem()[0]->getItem().image[0]->render(UIDC, rc.left, rc.top);
+	}
+	if (_ui[1] == true)
+	{
+		shop();
+	}
+	if (_ui[2] == true)
+	{
+		training();
+	}
 }
 
 void townScene::mapload()
@@ -202,14 +231,38 @@ void townScene::NPC()
 	if (IntersectRect(&rc, &RectMake(10 * 96, 20 * 96, _trainer->getFrameWidth(), _trainer->getFrameHeight()), &_player->getRc()))
 	{
 		IMAGEMANAGER->findImage("keyIcon")->frameRender(DC, _player->getPlayerX()-40, _player->getPlayerY()-150,2,0);
-		if (KEYMANAGER->isStayKeyDown('F'))
-			training();
+		if (KEYMANAGER->isOnceKeyDown('F'))
+		{
+			if (_ui[2] == true)
+			{
+				_ui[2] = false;
+				_canMove = true;
+			}
+			else
+			{
+				_ui[2] = true;
+				_canMove = false;
+			}
+		}
 	}
 	if (IntersectRect(&rc, &RectMake(72 * 96 - 20, 11 * 96 + 10, _shop->getFrameWidth(), _shop->getFrameHeight()), &_player->getRc()))
 	{
 		IMAGEMANAGER->findImage("keyIcon")->frameRender(DC, _player->getPlayerX()-40, _player->getPlayerY()-150, 2, 0);
-		if (KEYMANAGER->isStayKeyDown('F'))
-			shop();
+		if (KEYMANAGER->isOnceKeyDown('F'))
+		{
+			if (_ui[1] == false)
+			{
+				_ui[1] = true;
+				_ui[0] = true;
+				_canMove = false;
+			}
+			else
+			{
+				_ui[1] = false;
+				_ui[0] = false;
+				_canMove = true;
+			}
+		}
 	}
 }
 
@@ -229,6 +282,7 @@ void townScene::training()
 	if (KEYMANAGER->isToggleKey(VK_TAB))
 	{
 		Rectangle(UIDC, rc.left, rc.top, rc.right, rc.bottom);
+		RectangleMake(UIDC, 350, 800, 80, 80);
 	}
 }
 
@@ -241,7 +295,6 @@ void townScene::shop()
 	rc3 = RectMake(520, 255, 100, 100);
 	IMAGEMANAGER->findImage("shopUI")->render(UIDC, 0, 0);
 	IMAGEMANAGER->findImage("slot")->render(UIDC, 165, 180);
-	IMAGEMANAGER->findImage("inven")->render(UIDC, WINSIZEX - IMAGEMANAGER->findImage("inven")->getWidth(), 0);
 	_im->getItem()[0]->getItem().image[0]->render(UIDC, rc.left, rc.top);
 
 	HFONT font, oldFont;

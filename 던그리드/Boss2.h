@@ -41,28 +41,12 @@ struct tagBoss
 	float x, y;
 };
 
-//칼 구조체
-struct tagSword
-{
-	RECT rc,collisionRC;
-	image* img;
-	float x, y, angle, speed;
-	float fireX, fireY;
-	float rcX, rcY;
-	int count;
-	bool isShoot, isAppear;
-};
-
 class player;
 
 class Boss2 : public Enemy
 {
 private:
 	tagBoss _boss[3]; //보스의 머리,왼손,오른손이 있는 구조체변수
-
-	tagSword _sword[5];
-	//bool _isShoot; //칼 던졌냐 안던졌냐
-	bool _hit, _isShoot;
 	
 	BOSSHEADDIRECTION _bossHeadDirection;
 	BOSSLEFTDIRECTION _bossLeftDirection;
@@ -75,8 +59,6 @@ private:
 	int x;
 	int y;
 	int _count2, _count3;
-	
-	int _swordCount;
 
 public:
 	Boss2();
@@ -88,11 +70,6 @@ public:
 	void render();
 
 	void frameMove();
-
-	//칼
-	void shootSword();
-	void fireSword(); //칼이 플레이어 방향으로 날라가는 함수
-	void playerCollision(); //칼이 플레이어에 충돌하는 함수
 	
 	//왼손
 	void leftMove(); //왼손 움직이게 하는 함수

@@ -58,7 +58,11 @@ void dungeon1Scene::setRandMapNum()
 		_route.push_back(5);
 		_minimapIcon[0].x = 500, _minimapIcon[0].y = 500;
 	}
-
+	if (_randNum == 5)
+	{
+		_route.push_back(9);
+		_minimapIcon[0].x = 700, _minimapIcon[0].y = 500;
+	}
 }
 
 void dungeon1Scene::update()
@@ -82,6 +86,9 @@ void dungeon1Scene::render()
 		IMAGEMANAGER->findImage("gray")->alphaRender(DC,CAMERAMANAGER->getCameraCenter().x - WINSIZEX/2,CAMERAMANAGER->getCameraCenter().y - WINSIZEY/2,450);
 		_tabMap->render(UIDC, 0, 0);
 		dungeonScene::minimapIconRender();
+		char str[128];
+		sprintf_s(str, "%d %d", getCameraPoint().x, getCameraPoint().y);
+		TextOut(UIDC, 500, 500, str, strlen(str));
 	}
 }
 

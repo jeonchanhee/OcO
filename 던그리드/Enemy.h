@@ -10,6 +10,7 @@ class Player; //플레이어 클래스 전방선언
 class Enemy :	public gameNode
 {
 protected:
+	bool _isDie;
 	Player* _player;
 	image* _img;				//적 이미지
 	RECT _rc;				//적 렉트

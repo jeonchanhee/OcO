@@ -43,8 +43,6 @@ HRESULT BigBat::init(float x, float y)
 
 	_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 
-
-
 	//큰보박 체력바 초기화
 	_progressBar = new progressBar;
 	_progressBar->init(_x, _y + 50, 70, 10, "큰보박앞", "큰보박뒤", BAR_MONSTER);

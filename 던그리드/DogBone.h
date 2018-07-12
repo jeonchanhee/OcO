@@ -9,8 +9,7 @@ enum DOGBONEDIRECTION
 	DOGBONE_LEFT_IDLE,
 	DOGBONE_RIGHT_MOVE,
 	DOGBONE_LEFT_MOVE,
-	DOGBONE_RIGHT_DIE,
-	DOGBONE_LEFT_DIE,
+	DOGBONE_DIE,
 	DOGBONE_RIGHT_JUMP,
 	DOGBONE_LEFT_JUMP
 };
@@ -27,6 +26,10 @@ private:
 	string _str;
 	bool _hit;
 	int _hitCount;
+
+	bool _diedie;
+	int _dieCount;
+	
 public:
 	DogBone();
 	~DogBone();
@@ -45,6 +48,6 @@ public:
 	void changeAnimation(DOGBONEDIRECTION dogBoneDirection);//방향에 따라 애니메이션 바꾸는 함수
 
 	void playerCollision();
-	void hitDamage(float damage);
+	void hitDamage();
 };
 
