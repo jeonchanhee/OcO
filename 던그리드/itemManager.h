@@ -1,28 +1,34 @@
 #pragma once
 #include "Item.h"
+#include "Weapon.h"
+#include "Armor.h"
+#include "Shield.h"
+#include "SecondEquipment.h"
+#include "Accessory.h"
+#include "Food.h"
+#include "WeaponNpc.h"
+#include "FoodNpc.h"
 #include "gameNode.h"
-
-
+#include "Player.h"
 
 class itemManager : public gameNode
 {
 private:
-	typedef vector <Item*> Vitem;
-	typedef vector <Item*>::iterator VIitem;
+	typedef vector <Item*>							vItem; 
+	typedef vector <Item*>::iterator				viItem;
 
-	Item inven[23];
 
 private:
-	Vitem _vItem;
-	VIitem _viItem;
-	
-	Item* item;
-
-	image* _image;
-	
-	bool _isFrame;
-
-	
+	WeaponNpc * _weaponNpc;
+	FoodNpc * _foodNpc;
+	vItem  _vItem;
+	viItem _viItem;
+	Player* _player;
+	//inven 
+	bool _showInven;
+	char _isSelect;
+	RECT _selectRect[15];
+	//인벤토리에 집어넣기 빼기 장착하기 해체하기 ;
 public:
 	itemManager();
 	~itemManager();
@@ -34,17 +40,14 @@ public:
 	void update();
 	void render();
 
-	void CreateWeapon(bool frame);																						// 무기 생성
-	void CreateDefenceMechanism(ITEMTYPE type, const char* itemName, int value, int num, bool frame);	// 방어구 생성
-	void CreateSecondEquipment(ITEMTYPE type, const char* itemName, int value, int num, bool frame);	// 보조장비 생성
-	void CreateAccessory(ITEMTYPE type, const char* itemName, int value, int num, bool frame);			// 악세서리 생성
-	void CreateFood(ITEMTYPE type, const char* itemName, int value, int num, bool frame);				// 음식 생성 
-	void CreateTreasureBox(ITEMTYPE type, const char* itemName, int value, int num, bool frame);		// 보물상자 생성
-	void CreateGold(ITEMTYPE type, const char* itemName, int value, int num, bool frame);				// 골드 생성
+	void CreateItem();		
 
-	
+
+
+
 
 	// 아이템 벡터 접근자
+
 	vector<Item*>			getvItem()	{ return _vItem; }
 	vector<Item*>::iterator getviItem()	{ return _viItem; }
 };

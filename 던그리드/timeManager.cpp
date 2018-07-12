@@ -45,7 +45,7 @@ void timeManager::render(HDC hdc)
 	//투명 : TRANSPARENT
 	//불투명 : OPAQUE
 	//SetTextColor(hdc, RGB(255, 255, 255));
-	SetTextColor(hdc, RGB(255, 0, 0));
+	SetTextColor(hdc, RGB(0, 255, 0)); // 눈에 편안하다는 green 255 로 수정 
 	//SetBkMode(hdc, TRANSPARENT);
 
 #ifdef _DEBUG

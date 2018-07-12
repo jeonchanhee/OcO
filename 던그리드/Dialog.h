@@ -16,6 +16,8 @@ protected:
 	vector<string> _vButtonDialog;
 	vector<vector<string>> _vDialog;
 
+	bool _isFin;
+
 public:
 	virtual HRESULT init();
 	virtual void release();
@@ -28,6 +30,9 @@ public:
 
 	virtual void keyControl();
 	virtual void setFrame();
+
+	bool getIsFin() { return _isFin; }
+	void setIsFin(bool isFin) { _isFin = isFin; }
 
 	Dialog();
 	~Dialog();

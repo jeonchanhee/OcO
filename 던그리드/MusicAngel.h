@@ -1,5 +1,6 @@
 #pragma once
 #include "Enemy.h"
+#include "Bullet.h"
 
 enum MUSICANGELDIRECTION
 {
@@ -15,12 +16,16 @@ class MusicAngel : public Enemy
 private:
 	MUSICANGELDIRECTION _musicAngelDirection;
 	animation* _musicAngelMotion;
+	Bullet* _bullet;
 
+	bool _diedie;
+	int _diecount;
+	
 public:
 	MusicAngel();
 	~MusicAngel();
 
-	HRESULT init();
+	HRESULT init(float x, float y);
 	void release();
 	void update();
 	void render();
@@ -28,6 +33,7 @@ public:
 	void attackMove();
 	static void rightAttack(void* obj);
 	static void leftAttack(void* obj);
+	static void dieMotion(void* obj);
 
 	void changeAnimation(MUSICANGELDIRECTION musicAngelDirection);
 
@@ -38,5 +44,9 @@ public:
 
 	animation* getMusicAngelMotion() { return _musicAngelMotion; }
 	void setMusicAngelMotion(animation* ani) { _musicAngelMotion = ani; }
+
+	void hitDamage();
+
+	bool getDieDie() { return _diedie; }
 };
 

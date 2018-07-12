@@ -49,9 +49,6 @@
     <Filter Include="2DFramework\button">
       <UniqueIdentifier>{f7d51706-c5d3-48b6-820a-231ce8fb495f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="2DFramework\loading">
-      <UniqueIdentifier>{da20ded3-a458-4aef-83e5-50e843ef8d30}</UniqueIdentifier>
-    </Filter>
     <Filter Include="playGround\Player">
       <UniqueIdentifier>{6d85e355-4285-474d-98a2-c32ed6fc85a1}</UniqueIdentifier>
     </Filter>
@@ -76,44 +73,29 @@
     <Filter Include="playGround\Item\Weapon">
       <UniqueIdentifier>{db612874-b389-4298-96c8-3a8526dd3fcd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="playGround\Item\Weapon\Bow">
-      <UniqueIdentifier>{c2cf4dcd-5a00-4156-832a-116cdb3ea19f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="playGround\Item\Weapon\Gun">
-      <UniqueIdentifier>{5d448028-9053-431a-b169-429ce5656002}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="playGround\Item\Weapon\Hammer">
-      <UniqueIdentifier>{28564559-ef96-48e5-b14b-c42d994e5e8d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="playGround\Item\Weapon\sword">
-      <UniqueIdentifier>{0e0785fd-1d2e-4110-bace-8b719053435a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="playGround\Item\Defence">
       <UniqueIdentifier>{75cdc708-d95c-46f3-9d55-d0365f784240}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="playGround\Item\Defence\Shield">
-      <UniqueIdentifier>{d35d2954-d5b2-45f0-acb8-d583d1fe9397}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="playGround\Item\Defence\Necklace">
-      <UniqueIdentifier>{150a5624-3bb2-4e35-8a0d-1a8865d127df}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="playGround\Item\Defence\Assist">
-      <UniqueIdentifier>{3a2f8a6a-2a3b-4b7a-bdbe-81fceeacd35d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="playGround\Item\Defence\Ring">
-      <UniqueIdentifier>{3d0bf438-3e04-4d33-9609-f6922378ccc6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="playGround\Item\Treasure">
-      <UniqueIdentifier>{58c7012e-99b8-4be6-a8a1-e924f07f9c17}</UniqueIdentifier>
     </Filter>
     <Filter Include="playGround\Item\Food">
       <UniqueIdentifier>{bc80371c-6763-4b69-9eed-957346f6b2fd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="playGround\NPC">
+      <UniqueIdentifier>{47ebe29a-c910-44da-97cc-a121ff2f0754}</UniqueIdentifier>
+    </Filter>
     <Filter Include="playGround\bullet">
       <UniqueIdentifier>{da504023-5401-4c49-b9e5-d2f47fd3d9ad}</UniqueIdentifier>
     </Filter>
-    <Filter Include="playGround\NPC">
-      <UniqueIdentifier>{47ebe29a-c910-44da-97cc-a121ff2f0754}</UniqueIdentifier>
+    <Filter Include="playGround\Scene\dungeon">
+      <UniqueIdentifier>{ca7ef291-05ba-4faf-9de4-9706c2e54464}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\Item\Property">
+      <UniqueIdentifier>{d38af98c-58c0-4f14-9c19-d1f45ae7da5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\Bullet">
+      <UniqueIdentifier>{da504023-5401-4c49-b9e5-d2f47fd3d9ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\minimap">
+      <UniqueIdentifier>{1fed8050-389a-4441-8ce2-263193c11262}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -186,12 +168,6 @@
     <ClInclude Include="keyAniManager.h">
       <Filter>2DFramework\Manager</Filter>
     </ClInclude>
-    <ClInclude Include="loadingScene.h">
-      <Filter>2DFramework\loading</Filter>
-    </ClInclude>
-    <ClInclude Include="inGameScene.h">
-      <Filter>2DFramework\loading</Filter>
-    </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>playGround\Player</Filter>
     </ClInclude>
@@ -209,9 +185,6 @@
     </ClInclude>
     <ClInclude Include="Dialog.h">
       <Filter>playGround\Diaiog</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyManager.h">
-      <Filter>playGround\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="BigBone.h">
       <Filter>playGround\Enemy</Filter>
@@ -237,14 +210,8 @@
     <ClInclude Include="BigRedBat.h">
       <Filter>playGround\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="Boss.h">
-      <Filter>playGround\Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="RedBat.h">
       <Filter>playGround\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="dungeonScene.h">
-      <Filter>playGround\Scene</Filter>
     </ClInclude>
     <ClInclude Include="DialogTraining.h">
       <Filter>playGround\Diaiog</Filter>
@@ -264,14 +231,8 @@
     <ClInclude Include="titleScene.h">
       <Filter>playGround\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Bullet.h">
-      <Filter>playGround\bullet</Filter>
-    </ClInclude>
     <ClInclude Include="cameraManager.h">
       <Filter>2DFramework\Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="Bullet.h">
-      <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="tileNode.h">
       <Filter>playGround\MapTool</Filter>
@@ -285,11 +246,89 @@
     <ClInclude Include="itemManager.h">
       <Filter>playGround\Item</Filter>
     </ClInclude>
-    <ClInclude Include="introScene.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="mapSelectScene.h">
       <Filter>playGround\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="commonMacroFunction.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Weapon.h">
+      <Filter>playGround\Item\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="Food.h">
+      <Filter>playGround\Item\Food</Filter>
+    </ClInclude>
+    <ClInclude Include="Accessory.h">
+      <Filter>playGround\Item\Defence</Filter>
+    </ClInclude>
+    <ClInclude Include="Armor.h">
+      <Filter>playGround\Item\Defence</Filter>
+    </ClInclude>
+    <ClInclude Include="SecondEquipment.h">
+      <Filter>playGround\Item\Defence</Filter>
+    </ClInclude>
+    <ClInclude Include="Shield.h">
+      <Filter>playGround\Item\Defence</Filter>
+    </ClInclude>
+    <ClInclude Include="Boss2.h">
+      <Filter>playGround\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="commonMacroFunction.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="dungeon2Scene.h">
+      <Filter>playGround\Scene\dungeon</Filter>
+    </ClInclude>
+    <ClInclude Include="dungeonScene.h">
+      <Filter>playGround\Scene\dungeon</Filter>
+    </ClInclude>
+    <ClInclude Include="dungeon1Scene.h">
+      <Filter>playGround\Scene\dungeon</Filter>
+    </ClInclude>
+    <ClInclude Include="dungeon3Scene.h">
+      <Filter>playGround\Scene\dungeon</Filter>
+    </ClInclude>
+    <ClInclude Include="dungeon4Scene.h">
+      <Filter>playGround\Scene\dungeon</Filter>
+    </ClInclude>
+    <ClInclude Include="dungeon5Scene.h">
+      <Filter>playGround\Scene\dungeon</Filter>
+    </ClInclude>
+    <ClInclude Include="dungeon6Scene.h">
+      <Filter>playGround\Scene\dungeon</Filter>
+    </ClInclude>
+    <ClInclude Include="dungeon7Scene.h">
+      <Filter>playGround\Scene\dungeon</Filter>
+    </ClInclude>
+    <ClInclude Include="dungeon8Scene.h">
+      <Filter>playGround\Scene\dungeon</Filter>
+    </ClInclude>
+    <ClInclude Include="foodScene.h">
+      <Filter>playGround\Scene\dungeon</Filter>
+    </ClInclude>
+    <ClInclude Include="bossScene.h">
+      <Filter>playGround\Scene\dungeon</Filter>
+    </ClInclude>
+    <ClInclude Include="weaponScene.h">
+      <Filter>playGround\Scene\dungeon</Filter>
+    </ClInclude>
+    <ClInclude Include="RandomDungeon1.h">
+      <Filter>playGround\Scene\dungeon</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet.h">
+      <Filter>playGround\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="playerBullet.h">
+      <Filter>playGround\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Property.h">
+      <Filter>playGround\Item\Property</Filter>
+    </ClInclude>
+    <ClInclude Include="introScene.h">
+      <Filter>playGround\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="townScene.h">
+      <Filter>playGround\Scene\dungeon</Filter>
     </ClInclude>
     <ClInclude Include="GodNpc.h">
       <Filter>playGround\NPC</Filter>
@@ -297,8 +336,14 @@
     <ClInclude Include="WeaponNpc.h">
       <Filter>playGround\NPC</Filter>
     </ClInclude>
-    <ClInclude Include="Boss2.h">
-      <Filter>playGround\Enemy</Filter>
+    <ClInclude Include="FoodNpc.h">
+      <Filter>playGround\NPC</Filter>
+    </ClInclude>
+    <ClInclude Include="inven.h">
+      <Filter>playGround\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="minimap.h">
+      <Filter>playGround\minimap</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -362,12 +407,6 @@
     <ClCompile Include="keyAniManager.cpp">
       <Filter>2DFramework\Manager</Filter>
     </ClCompile>
-    <ClCompile Include="loadingScene.cpp">
-      <Filter>2DFramework\loading</Filter>
-    </ClCompile>
-    <ClCompile Include="inGameScene.cpp">
-      <Filter>2DFramework\loading</Filter>
-    </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>playGround\Player</Filter>
     </ClCompile>
@@ -391,9 +430,6 @@
     </ClCompile>
     <ClCompile Include="cameraManager.cpp">
       <Filter>2DFramework\Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyManager.cpp">
-      <Filter>playGround\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="BigBone.cpp">
       <Filter>playGround\Enemy</Filter>
@@ -419,16 +455,10 @@
     <ClCompile Include="BigRedBat.cpp">
       <Filter>playGround\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="Boss.cpp">
-      <Filter>playGround\Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="RedBat.cpp">
       <Filter>playGround\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="titleScene.cpp">
-      <Filter>playGround\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="dungeonScene.cpp">
       <Filter>playGround\Scene</Filter>
     </ClCompile>
     <ClCompile Include="DialogTraining.cpp">
@@ -449,20 +479,83 @@
     <ClCompile Include="playGround_Sound.cpp">
       <Filter>playGround</Filter>
     </ClCompile>
-    <ClCompile Include="Bullet.cpp">
-      <Filter>playGround\bullet</Filter>
-    </ClCompile>
-    <ClCompile Include="Bullet.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="itemManager.cpp">
       <Filter>playGround\Item</Filter>
     </ClCompile>
-    <ClCompile Include="introScene.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="mapSelectScene.cpp">
       <Filter>playGround\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Weapon.cpp">
+      <Filter>playGround\Item\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="Food.cpp">
+      <Filter>playGround\Item\Food</Filter>
+    </ClCompile>
+    <ClCompile Include="Accessory.cpp">
+      <Filter>playGround\Item\Defence</Filter>
+    </ClCompile>
+    <ClCompile Include="Armor.cpp">
+      <Filter>playGround\Item\Defence</Filter>
+    </ClCompile>
+    <ClCompile Include="SecondEquipment.cpp">
+      <Filter>playGround\Item\Defence</Filter>
+    </ClCompile>
+    <ClCompile Include="Shield.cpp">
+      <Filter>playGround\Item\Defence</Filter>
+    </ClCompile>
+    <ClCompile Include="playerBullet.cpp">
+      <Filter>playGround\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss2.cpp">
+      <Filter>playGround\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="dungeon2Scene.cpp">
+      <Filter>playGround\Scene\dungeon</Filter>
+    </ClCompile>
+    <ClCompile Include="dungeonScene.cpp">
+      <Filter>playGround\Scene\dungeon</Filter>
+    </ClCompile>
+    <ClCompile Include="dungeon1Scene.cpp">
+      <Filter>playGround\Scene\dungeon</Filter>
+    </ClCompile>
+    <ClCompile Include="dungeon3Scene.cpp">
+      <Filter>playGround\Scene\dungeon</Filter>
+    </ClCompile>
+    <ClCompile Include="dungeon4Scene.cpp">
+      <Filter>playGround\Scene\dungeon</Filter>
+    </ClCompile>
+    <ClCompile Include="dungeon5Scene.cpp">
+      <Filter>playGround\Scene\dungeon</Filter>
+    </ClCompile>
+    <ClCompile Include="dungeon6Scene.cpp">
+      <Filter>playGround\Scene\dungeon</Filter>
+    </ClCompile>
+    <ClCompile Include="dungeon7Scene.cpp">
+      <Filter>playGround\Scene\dungeon</Filter>
+    </ClCompile>
+    <ClCompile Include="dungeon8Scene.cpp">
+      <Filter>playGround\Scene\dungeon</Filter>
+    </ClCompile>
+    <ClCompile Include="foodScene.cpp">
+      <Filter>playGround\Scene\dungeon</Filter>
+    </ClCompile>
+    <ClCompile Include="bossScene.cpp">
+      <Filter>playGround\Scene\dungeon</Filter>
+    </ClCompile>
+    <ClCompile Include="weaponScene.cpp">
+      <Filter>playGround\Scene\dungeon</Filter>
+    </ClCompile>
+    <ClCompile Include="RandomDungeon1.cpp">
+      <Filter>playGround\Scene\dungeon</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>playGround\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="introScene.cpp">
+      <Filter>playGround\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Property.cpp">
+      <Filter>playGround\Item\Property</Filter>
     </ClCompile>
     <ClCompile Include="GodNpc.cpp">
       <Filter>playGround\NPC</Filter>
@@ -470,8 +563,17 @@
     <ClCompile Include="WeaponNpc.cpp">
       <Filter>playGround\NPC</Filter>
     </ClCompile>
-    <ClCompile Include="Boss2.cpp">
-      <Filter>playGround\Enemy</Filter>
+    <ClCompile Include="FoodNpc.cpp">
+      <Filter>playGround\NPC</Filter>
+    </ClCompile>
+    <ClCompile Include="townScene.cpp">
+      <Filter>playGround\Scene\dungeon</Filter>
+    </ClCompile>
+    <ClCompile Include="inven.cpp">
+      <Filter>playGround\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="minimap.cpp">
+      <Filter>playGround\minimap</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

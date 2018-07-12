@@ -1,7 +1,7 @@
 #pragma once
 #include "Enemy.h"
 
-#define COWSPEED 10.0f;
+#define COWSPEED 9.0f;
 
 enum COWDIRECTION
 {
@@ -19,11 +19,16 @@ class Cow : public Enemy
 	COWDIRECTION _cowDirection;
 	animation* _cowMotion;
 
+	RECT _rcCollision;
+	bool _hit;
+	int _dieCount;
+	bool _diedie;
+
 public:
 	Cow();
 	~Cow();
 
-	HRESULT init();
+	HRESULT init(float x , float y);
 	void release();
 	void update();
 	void render();
@@ -36,7 +41,8 @@ public:
 
 	static void rightAttack(void* obj);
 	static void leftAttack(void* obj);
-	
+	static void dieMotion(void * obj);
+
 	void changeAnimation(COWDIRECTION cowDirection);
 
 	//콜백함수
@@ -45,5 +51,10 @@ public:
 
 	animation* getCowMotion() { return _cowMotion; }
 	void setCowMotion(animation* ani) { _cowMotion = ani; }
+
+	void playerCollision();
+	void hitDamage();
+
 };
+
 

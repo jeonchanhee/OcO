@@ -13,14 +13,18 @@ enum BIGREDBATDIRECTION
 
 class BigRedBat : public Enemy
 {
+private:
 	BIGREDBATDIRECTION _bigRedBatDirection;
 	animation* _bigRedBatMotion;
+	bool _isAttack;
+	bool _diedie;
 
+	int _diecount;
 public:
 	BigRedBat();
 	~BigRedBat();
 
-	HRESULT init();
+	HRESULT init(float x, float y);
 	void release();
 	void update();
 	void render();
@@ -39,5 +43,15 @@ public:
 	animation* getBigRedBatMotion() { return _bigRedBatMotion; }
 	void setBigRedBatMotion(animation* ani) { _bigRedBatMotion = ani; }
 
+	void playerCollision();
+	void hitDamage();
+	void die();
+	static void bigRedBatDieMotion(void * obj);
+	void hitDamage(float damage);
+
+	bool getisAtteck2() { return _isAttack; }
+	void setisAtteck2(bool isAttack) { _isAttack = isAttack; }
+
+	bool getdiedie() { return _diedie;	}
 };
 

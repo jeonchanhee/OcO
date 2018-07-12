@@ -61,7 +61,6 @@ gameNode * sceneManager::addScene(string sceneName, gameNode* scene)
 
 HRESULT sceneManager::changeScene(string sceneName)
 {
-
 	mapSceneIter find = _mSceneList.find(sceneName);
 
 	//이터레이터 == 맵의 엔드와 같다? -> 못찾았다
@@ -88,6 +87,5 @@ HRESULT sceneManager::changeScene(string sceneName)
 
 		return S_OK;
 	}
-
 	return E_FAIL;
 }

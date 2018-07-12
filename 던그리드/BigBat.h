@@ -1,5 +1,6 @@
 #pragma once
 #include "Enemy.h"
+#include "Bullet.h"
 
 enum BIGBATDIRECTION
 {
@@ -13,20 +14,27 @@ enum BIGBATDIRECTION
 
 class BigBat : public Enemy
 {
+private:
 	BIGBATDIRECTION _bigBatDirection;
 	animation* _bigBatMotion;
+	Bullet* _bullet;
 
+	bool _isAttack;
+	bool _diedie;
+
+	int _dieCount;
 public:
 	BigBat();
 	~BigBat();
 
-	HRESULT init();
+	HRESULT init(float x, float y);
 	void release();
 	void update();
 	void render();
 
 	void attackMove();
 	void changeAnimation(BIGBATDIRECTION direction);
+	void bulletfire();
 
 	static void rightAttack(void* obj);
 	static void leftAttack(void* obj);
@@ -37,7 +45,15 @@ public:
 
 	animation* getBigBatMotion() { return _bigBatMotion; }
 	void setBigBatMotion(animation* ani) { _bigBatMotion = ani; }
+	
+	bool getisAtteck() { return _isAttack; }
+	void setisAtteck(bool isAttack) { _isAttack = isAttack; }
 
+	void playerCollision();
+	void hitDamage();
+	void die();
+	static void bigbatDieMotion(void * obj);
+	void hitDamage(float damage);
 
+	bool getdiedie() { return _diedie; }
 };
-

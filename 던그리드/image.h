@@ -74,24 +74,20 @@ private:
 	BLENDFUNCTION	_blendFunc;		//알파블렌드 관련 함수를 사용할수있음.
 	LPIMAGE_INFO	_blendImage;	//알파블렌드 먹일 이미지
 
-
+	POINT _rotateCenter;
 public:
 	image();
 	~image();
 
 	//백버퍼를 옮겨와야겠다 + 이미지 초기화
 	HRESULT init(int width, int height, BOOL blend = FALSE);
+	HRESULT init(int width, int height, BOOL trans, COLORREF transColor, BOOL blend);
 	HRESULT init(const char* fileName, int width, int height,
 		BOOL trans = FALSE, COLORREF transColor = RGB(0, 0, 0), BOOL blend = FALSE);
 	HRESULT init(const char * fileName, float x, float y, int width, int height, BOOL trans, COLORREF transColor, BOOL blend);
 	HRESULT init(const char* fileName, float x, float y, int width, int height,
-		BOOL trans = FALSE, COLORREF transColor = RGB(0, 0, 0));
+		BOOL trans = FALSE, COLORREF transColor = RGB(0, 0, 0), BOOL blend = FALSE);
 	//rotateInit
-	HRESULT rotateInit(const char * fileName, int width, int height,
-		BOOL trans = FALSE, COLORREF transColor = RGB(0, 0, 0));
-
-	HRESULT rotateInit(const char * fileName, int width, int height,
-		int frameX, int frameY, BOOL trans = FALSE, COLORREF transColor = RGB(0, 0, 0));
 
 	HRESULT rotateInit(const char * fileName, int width, int height, BOOL trans, COLORREF transColor, BOOL blend = FALSE);
 
@@ -110,6 +106,7 @@ public:
 
 	void rotateRender(HDC hdc, float x, float y, float angle);
 	void rotateFrameRender(HDC hdc, float x, float y, float angle);
+	void rotateFrameRender(HDC hdc, float x, float y, int currentFrameX, int currentFrameY, float angle);
 
 	void release(void);
 
@@ -204,6 +201,18 @@ public:
 
 		return rc;
 	}
+	/*RectMakeCenter(_imageInfo->x,
+		_imageInfo->y,
+		_imageInfo->x + _imageInfo->frameWidth,
+		_imageInfo->y + _imageInfo->frameHeight);*/
+	inline RECT effectCheckBox()
+	{
+		RECT rc = { _imageInfo->x - (_imageInfo->frameWidth / 2) + 8,
+				   _imageInfo->y - (_imageInfo->frameHeight / 2) + 8,
+				   _imageInfo->x + (_imageInfo->frameWidth / 2) -  8,
+				   _imageInfo->y + (_imageInfo->frameHeight / 2) - 8 };
+		return rc;
+	}
 
 	inline void setFrameX(int frameX)
 	{
@@ -223,5 +232,7 @@ public:
 	inline int getFrameX(void) { return _imageInfo->currentFrameX; }
 	inline int getFrameY(void) { return _imageInfo->currentFrameY; }
 
+
+	POINT getRotateCenter() { return _rotateCenter; }
 };
 
