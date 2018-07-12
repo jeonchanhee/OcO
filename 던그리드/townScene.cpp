@@ -378,8 +378,9 @@ void townScene::shop()
 	DeleteObject(font);
 	for (int i = 0; i < 5; i++)
 	{
-		if (PtInRect(&rc1[i], _ptMouse) && KEYMANAGER->isOnceKeyDown(VK_RBUTTON) && _itemNum[i] != 0&&_player->getInven()->getItem().size() < INVENSIZE)
+		if (PtInRect(&rc1[i], _ptMouse) && KEYMANAGER->isOnceKeyDown(VK_RBUTTON) && _itemNum[i] != 0&&_player->getInven()->getItem().size() < INVENSIZE&&_im->getItem()[_itemNum[i]]->getItem().price<= _player->getInven()->getGold())
 		{
+			_player->getInven()->setGold(_player->getInven()->getGold() - _im->getItem()[_itemNum[i]]->getItem().price);
 			_player->getInven()->buyItem(_itemNum[i]);
 			_itemNum[i] = 0;
 		}
