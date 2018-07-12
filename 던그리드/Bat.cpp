@@ -309,6 +309,7 @@ void Bat::leftMove()
 
 void Bat::playerCollision()
 {
+	
 }
 
 void Bat::hitDamage(float damage)

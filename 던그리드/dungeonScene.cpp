@@ -6,11 +6,40 @@
 
 void dungeonScene::collision()
 {
-	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end();)
+	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); )
 	{
-		//for(_player->getPBullet()->getviPBullet() = _player->getPBullet()->getvPBullet().begin(); _player->getPBullet()->getviPBullet() !=)d
-		RECT temp;
-		//if(IntersectRect(&temp,&(*_viEnemy)->getRect(),&_player->getPBullet()->getviPBullet()->rc)
+		if (_player->getIsAttacking())
+		{
+			RECT checkRc;
+			if (IntersectRect(&checkRc, &_player->getEffect()->effectCheckBox(), &(*_viEnemy)->getRect()))
+			{
+				(*_viEnemy)->setCurrentHp((*_viEnemy)->getCurrentHp() - 10);
+			}
+		}
+
+		for (int i=0; i < _player->getPBullet()->getvPBullet().size();)
+		{
+			RECT temp;
+			if (IntersectRect(&temp, &(*_viEnemy)->getRect(), &_player->getPBullet()->getvPBullet()[i].rc))
+			{
+				_player->getPBullet()->removeBullet(i);
+				(*_viEnemy)->setCurrentHp((*_viEnemy)->getCurrentHp() - 10);
+			}
+			else
+			{
+				++i;
+			}
+
+		}
+		if ((*_viEnemy)->getCurrentHp() <= 0)   //적의 HP가 0이하가되면)
+		{
+			_viEnemy = _vEnemy.erase(_viEnemy);
+				//삭제!
+		}
+		else
+		{
+			++_viEnemy;
+		}
 	}
 }
 
@@ -20,9 +49,17 @@ dungeonScene::~dungeonScene() {}
 
 HRESULT dungeonScene::init(void)
 {
+	CAMERAMANAGER->setCameraCenter(PointMake(WINSIZEX / 2, WINSIZEY / 2));
+	KEYANIMANAGER->addDefaultFrameAnimation("torchAni", "torch", 10, false, true);
+	KEYANIMANAGER->addCoordinateFrameAnimation("portalAni", "portal", 9, 17, 10, false, true);
 	_player = SCENEMANAGER->getPlayerAddressLink();
 	j = 0;
 	_start = _start2 = 0;
+	for (int i = 0; i < 2; i++)
+	{
+		_bossLaserHitCount[i] = 0;
+		_bossLaserHit[i] = false;
+	}
 	return S_OK;
 }
 
@@ -32,9 +69,11 @@ void dungeonScene::release(void)
 
 void dungeonScene::update(void)
 {
-	KEYANIMANAGER->update();
+	collision();
 
-//	_player->setEnemyVector(_vEnemy);
+	if(_minimap != NULL)
+	_minimap->setPlayerXY(((300 * _player->getPlayerX()) / (_tileX * TILESIZE)), ((150 * (_player->getPlayerY() - 80)) / (_tileY * TILESIZE)));
+	_player->update();
 }
 
 void dungeonScene::render(void)
@@ -113,6 +152,10 @@ void dungeonScene::render(void)
 	_radBatBullet->render();
 
 	doorRender();
+	if(_minimap != NULL)
+		_minimap->render();
+
+	_player->render();
 }
 
 void dungeonScene::doorInit(void)
@@ -159,6 +202,7 @@ void dungeonScene::mapload()
 
 	ReadFile(file, _tiles, sizeof(tagTile) * TILEX * TILEY, &load, NULL);
 
+	//setMinimap();
 	//희진누나 바께 없다 여윽시 /
 	for (int i = 0; i < TILEX; ++i)
 	{
@@ -196,6 +240,8 @@ void dungeonScene::mapload()
 	}
 	CloseHandle(file);
 
+	//setMinimap();
+
 	_enemyBullet = new Bullet;
 	_enemyBullet->init(3000);
 
@@ -212,6 +258,57 @@ void dungeonScene::mapload()
 	_radBatBullet = new Bullet2;
 	_radBatBullet->init(2000);
 
+}
+
+void dungeonScene::setMinimap()
+{
+	_minimap = new minimap;
+	_minimap->init(true);
+
+	image* tempImg;
+	/*tempImg = IMAGEMANAGER->addImage("템푸", _tileX*TILESIZE, _tileY * TILESIZE);
+	PatBlt(tempImg->getMemDC(), 0, 0, _tileX * TILESIZE, _tileY * TILESIZE, BLACKNESS);*/
+
+	tempImg = IMAGEMANAGER->addImage("템푸", TILEX*TILESIZE, TILEY * TILESIZE);
+	PatBlt(tempImg->getMemDC(), 0, 0, TILEX * TILESIZE, TILEY * TILESIZE, BLACKNESS);
+
+
+	for (int i = 0; i < TILEY; i++)
+	{
+		for (int j = 0; j < TILEX; j++)
+		{
+			if (_tiles[i * TILEX + j].object == OBJ_NONE) continue;
+			IMAGEMANAGER->frameRender("map", tempImg->getMemDC(), _tiles[i * TILEX + j].rc.left, _tiles[i * TILEX + j].rc.top, _tiles[i * TILEX + j].objFrameX, _tiles[i * TILEX + j].objFrameY);
+			//IMAGEMANAGER->frameRender("map", tempImg->getMemDC(), _tiles[i * _temp + j].rc.left, _tiles[i * _temp + j].rc.top, _tiles[i * _temp + j].terrainFrameX, _tiles[i * _temp + j].terrainFrameY);
+		}
+	}
+	_minimap->setMinimap(tempImg->getMemDC());
+	_minimap->setPlayerXY(((300 * _player->getPlayerX()) / (_tileX * TILESIZE)), ((150 * _player->getPlayerY()) / (_tileY * TILESIZE)));
+	if (_vPortal.size() > 0)
+	{
+		_minimap->setPortalXY(((300 * _vPortal[0].x) / (_tileX*TILESIZE)), ((150 * (_vPortal[0].y - 50)) / (_tileY*TILESIZE)));
+	}
+	string randName = "tabMap1";
+	//randName += to_string(_randNum);
+	_tabMap = IMAGEMANAGER->findImage(randName);
+
+	for (int i = 0; i < 11; i++)
+	{
+		randName = "minimap";
+		randName += to_string(i);
+		_minimapIcon[i].img = IMAGEMANAGER->findImage(randName);
+	}
+}
+
+void dungeonScene::setDoorMinimap()
+{
+	for (int i = 0; i < _vDoor.size(); i++)
+	{
+		if (_vDoor[i].dir == DOOR_UPDOWN)
+			_minimap->setDoorXY((300*_vDoor[i].x)/(_tileX*TILESIZE), (150*_vDoor[i].y)/(_tileY*TILESIZE), false);
+		else
+			_minimap->setDoorXY((300 * _vDoor[i].x) / (_tileX*TILESIZE), (150 * _vDoor[i].y) / (_tileY*TILESIZE), true);
+	}
 }
 
 void dungeonScene::setCamera(void)
@@ -277,6 +374,17 @@ void dungeonScene::chooseMap(int idx)
 	_tileX = TILEVALUE[idx][0], _tileY = TILEVALUE[idx][1];
 }
 
+void dungeonScene::minimapIconRender()
+{
+	for (int i = 0; i < 11; i++)
+	{
+		if (_mapValue[i] == "T")
+		{
+			_minimapIcon[i].img->render(UIDC, _minimapIcon[i].x, _minimapIcon[i].y);
+		}
+	}
+}
+
 //몬스터 생성 함수
 //개뼈
 void dungeonScene::setDogBone(int idX, int idY)
@@ -287,6 +395,7 @@ void dungeonScene::setDogBone(int idX, int idY)
 	float y = TILESIZE * idY;
 	y += TILESIZE / 2 + 15;
 	dogBone->init(x, y);
+	dogBone->setPlayerAddressLink(_player);
 	_vEnemy.push_back(dogBone);
 }
 //큰칼뼈
@@ -298,6 +407,7 @@ void dungeonScene::setBigBone(int idX, int idY, int index)
 	float y = TILESIZE * idY;
 	y -= 20;
 	bigBone->init(x, y, index);
+	bigBone->setPlayerAddressLink(_player);
 	_vEnemy.push_back(bigBone);
 }
 //활쟁이
@@ -309,6 +419,7 @@ void dungeonScene::setArrow(int idX, int idY)
 	float y = TILESIZE * idY;
 	y += 15;
 	arrow->init(x, y);
+	arrow->setPlayerAddressLink(_player);
 	_vEnemy.push_back(arrow);
 }
 //작보박
@@ -319,6 +430,7 @@ void dungeonScene::setBat(int idX, int idY)
 	float x = TILESIZE * idX;
 	float y = TILESIZE * idY;
 	bat->init(x, y);
+	bat->setPlayerAddressLink(_player);
 	_vEnemy.push_back(bat);
 }
 //작빨박
@@ -328,8 +440,9 @@ void dungeonScene::setRedBat(int idX, int idY)
 	_redBat = new RedBat;
 	float x = TILESIZE * idX;
 	float y = TILESIZE * idY;
-	_redBat->init(x, y);
-	_vEnemy.push_back(_redBat);
+	redBat->init(x, y);
+	redBat->setPlayerAddressLink(_player);
+	_vEnemy.push_back(redBat);
 }
 
 void dungeonScene::setBigBat(int idX, int idY)
@@ -338,26 +451,27 @@ void dungeonScene::setBigBat(int idX, int idY)
 	float x = TILESIZE * idX;
 	float y = TILESIZE * idY;
 	_bigbat->init(x, y);
+	_bigbat->setPlayerAddressLink(_player);
 	_vEnemy.push_back(_bigbat);
 }
 
 void dungeonScene::setBigRedBat(int idX, int idY)
 {
-
 	_bigRedBat = new BigRedBat;
 	float x = TILESIZE * idX;
 	float y = TILESIZE * idY;
 	_bigRedBat->init(x, y);
+	_bigRedBat->setPlayerAddressLink(_player);
 	_vEnemy.push_back(_bigRedBat);
 }
 
 void dungeonScene::setMusicAngel(int idX, int idY)
 {
-
 	_musicAngel = new MusicAngel;
 	float x = TILESIZE * idX;
 	float y = TILESIZE * idY;
 	_musicAngel->init(x, y);
+	_musicAngel->setPlayerAddressLink(_player);
 	_vEnemy.push_back(_musicAngel);
 }
 
@@ -370,6 +484,7 @@ void dungeonScene::setCow(int idX, int idY)
 	x += 50;
 	y -= 15;
 	cow->init(x, y);
+	cow->setPlayerAddressLink(_player);
 	_vEnemy.push_back(cow);
 }
 
@@ -377,6 +492,7 @@ void dungeonScene::setBoss()
 {
 	_boss = new Boss2;
 	_boss->init();
+	_boss->setPlayerAddressLink(_player);
 	_vEnemy.push_back(_boss);
 }
 
@@ -390,7 +506,7 @@ void dungeonScene::nextTest()
 			if (PtInRect(&_vDoor[i].rc, getMemDCPoint()))
 			{
 				string str = "던전맵";
-				char temp[128];
+				char temp[128] = "";
 				str += itoa(_route[i], temp, 10);
 				save();
 				SCENEMANAGER->changeScene(str);
@@ -425,48 +541,8 @@ void dungeonScene::save()
 	TXTDATA->txtSave("infoDungeon.txt", vStr);
 }
 
-void dungeonScene::savePlayer()
-{
-	//int currentHp, maxHp;											 //현재 , 전체 체력 
-	//int armor;														 //방어력
-	//int currentDash, maxDash;										 //대시 횟수 
-	//int attackMinDamage, attackMaxDamage, attackPower;			 //최소 ~ 최대 데미지 , 위력 ()
-	//int fixedDamage;												 //고정데미지 
-	//																 // inven
-	//int  mainWeapon[2], assistWeapon[2];							 //현재 장착중인 메인 , 보조 무기들
-	//int  accessory[4];												 //악쎄사리
-	//int  inventory[15];											 //전체인벤토리 15칸 
-	//int  gold;														 //돈
-	//int  currentExp, maxExp;										 //현재 , 최대 경험치  
-	//int  currentFullNess, maxFullNess;							 //현재 , 최대 만복도 
-	//int  youUsingCount;											 // 1번무기 장착중인지 2번무기 장착중ㅇ인지 배열이라 0과 1값을 받게됨 ;
 
-	//															 //float 
-	//float attackSpeed, reloadSpeed;								 //공속 재장전속도 
-	//float evasionPersent, guardPersent;							 //회피확률 , 막을확률  	
-	//float moveMentSpeed;											 //이동속도 
-	//float criticalPercent, criticalAttackDamage;					 //크리티컬 확률 , 크리티컬 데미지 증가율 
-	//float dashDamage, dashSpeed;									 //대시할때 데미지 , 스피드
-	//float punchSpeed;
-	//_infoPlayer.currentHp = ;
-	//_infoPlayer.maxHp = ;
-	//_infoPlayer.armor = ;
-	//_infoPlayer.currentDash = ;
-	//_infoPlayer.maxDash = ;
-	//_infoPlayer.attackMinDamage = ;
-	//_infoPlayer.attackMaxDamage = ;
-	//_infoPlayer.attackPower = ;
-	//_infoPlayer.fixedDamage = ;
-	//_infoPlayer.mainWeapon = ;
-	//_infoPlayer.assistWeapon = ;
-	//_infoPlayer.accessory = ;
-	//_infoPlayer.inventory = ;
-	//_infoPlayer.g
-}
-void dungeonScene::loadPlayer()
-{
 
-}
 
 void dungeonScene::setDoor()
 {
@@ -628,11 +704,92 @@ void dungeonScene::portalRender()
 	}
 }
 
+void dungeonScene::musicAngelBulletCollision()
+{
+	for (int i = 0; i < _enemyBullet->getVBullet().size(); i++)
+	{
+		RECT temp;
+		if (IntersectRect(&temp, &_enemyBullet->getVBullet()[i].rc, &_player->getPlayerRect()))
+		{
+			_player->hitDamage(1.7f);
+			EFFECTMANAGER->play("bansheeBigBullet", (_player->getPlayerRect().right + _player->getPlayerRect().left) / 2, (_player->getPlayerRect().bottom + _player->getPlayerRect().top) / 2);
+			_enemyBullet->removeBullet(i);
+			break;
+		}
+	}
+}
+
+void dungeonScene::bossBulletCollision()
+{
+	for (int i = 0; i < _enemyBullet->getVBullet().size(); i++)
+	{
+		RECT temp;
+		//총알 충돌
+		//if (_enemyBullet->getFrameXY(_enemyBullet->getVBullet()[i].frameXY) == WIDTH)
+		if (_enemyBullet->getFrameXY(i) == WIDTH)
+		{
+			if (IntersectRect(&temp, &_enemyBullet->getVBullet()[i].rc, &_player->getPlayerRect()))
+			{
+				//_player->hitDamage(3.1f);
+				EFFECTMANAGER->play("bossCollisionBullet", (_player->getPlayerRect().right + _player->getPlayerRect().left) / 2, (_player->getPlayerRect().bottom + _player->getPlayerRect().top) / 2);
+				_enemyBullet->removeBullet(i);
+				break;
+			}
+		}
+	}
+
+	for (int i = 0; i < _enemyBullet->getVBullet().size(); i++)
+	{
+		//레이져 충돌
+		//if (_enemyBullet->getFrameXY(_enemyBullet->getVBullet()[i].frameXY) == HEIGHT)
+		if (_enemyBullet->getFrameXY(i) == HEIGHT)
+		{
+			RECT temp;
+			if (_boss->getLeftDirection() == LEFT_LASER_OFF)
+			{
+				if (IntersectRect(&temp, &_enemyBullet->getVBullet()[i].rc, &_player->getPlayerRect()))
+				{
+					if (!_bossLaserHit[0])
+					{
+						//_player->hitDamage(2.6f);
+						EFFECTMANAGER->play("bossCollisionBullet", (_player->getPlayerRect().right + _player->getPlayerRect().left) / 2, (_player->getPlayerRect().bottom + _player->getPlayerRect().top) / 2);
+						_bossLaserHit[0] = true;
+						_bossLaserHitCount[0] = 0;
+					}
+					_bossLaserHitCount[0]++;
+					if (!(_bossLaserHitCount[0] % 120) && _bossLaserHit[0])
+					{
+						_bossLaserHit[0] = false;
+					}
+				}
+			}
+			if (_boss->getRightDirection() == RIGHT_LASER_OFF)
+			{
+				if (IntersectRect(&temp, &_enemyBullet->getVBullet()[i].rc, &_player->getPlayerRect()))
+				{
+					if (!_bossLaserHit[1])
+					{
+						//_player->hitDamage(2.6f);
+						EFFECTMANAGER->play("bossCollisionBullet", (_player->getPlayerRect().right + _player->getPlayerRect().left) / 2, (_player->getPlayerRect().bottom + _player->getPlayerRect().top) / 2);
+						_bossLaserHit[1] = true;
+						_bossLaserHitCount[1] = 0;
+					}
+					_bossLaserHitCount[1]++;
+					if (!(_bossLaserHitCount[1] % 120) && _bossLaserHit[1])
+					{
+						_bossLaserHit[1] = false;
+					}
+				}
+			}
+		}
+	}
+}
 
 //총알 생성 함수
 //음표요정 총알
 void dungeonScene::MusicAngelBulletFire()
 {
+	musicAngelBulletCollision();
 	if (!(_count % 200))
 	{
 		for (int i = 0; i < 12; i++)
@@ -642,11 +799,13 @@ void dungeonScene::MusicAngelBulletFire()
 		}
 		_count = 0;
 	}
+
 }
 
 //보스총알
 void dungeonScene::BossBulletFire()
 {
+	bossBulletCollision();
 	//==========================================================
 	//						보스 총알
 	//==========================================================
@@ -690,7 +849,7 @@ void dungeonScene::BossBulletFire()
 		{
 			angle += (i * PI / 2);
 			//float angle = i * PI / 2;
-			_enemyBullet->bulletFire("bossBullet", _boss->getHeadX() + 50, _boss->getHeadY() + 120, angle, 9.0f, 800, true); //9.0f랑 위에 angle, count 로 조절해서 총알 조절 가능
+			_enemyBullet->bulletFire("bossBullet", _boss->getHeadX() + 50, _boss->getHeadY() + 120, angle, 9.0f, 1000, true); //9.0f랑 위에 angle, count 로 조절해서 총알 조절 가능
 		}
 		_count = 0;
 	}

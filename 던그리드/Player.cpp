@@ -15,7 +15,8 @@ HRESULT Player::init()
 	_playerWeapon   = IMAGEMANAGER->findImage("검10");
 	_x = WINSIZEX / 2; _y = WINSIZEY / 2 -100;
 	_attackEffect = IMAGEMANAGER->findImage("검쓰르륵");
-	_count = 0;  _mouseAngle = 0;
+	_dashCount = 0, _attackCount = 0;
+	_mouseAngle = 0;
 	_attackEffectCount = 0;
 	_gravity = GRAVITY;
 	_currentHp = 80; _maxHp = 80;
@@ -35,7 +36,7 @@ HRESULT Player::init()
 	_youUsingCount = 0;
 	_isDashing = false;
 	_isAttacking = false;
-	_isGun = true;
+	_isGun = false;
 	_attackSpeedCheckCount = false;
 	
 
@@ -60,7 +61,7 @@ HRESULT Player::init()
 	_playerAnimation = KEYANIMANAGER->findAnimation("오른쪽보고서있기");
 	
 	//equipment
-	_mainWeapon[0] = 2;
+	_mainWeapon[0] = 1;
 	_mainWeapon[1] = 0;
 	for (int i = 0; i < 15; ++i)
 	{
@@ -79,18 +80,24 @@ void Player::release() {}
 
 void Player::update()
 {
-	keyInput();
-	move();
-	mouseControl();
-	effect();	
-	attack();
+	if (_canMove == true)
+	{
+		keyInput();
+		mouseControl();
+		attack();
+		effect();
+		move();
+	}
+	
+	
+	
+	
 	KEYANIMANAGER->update();
 	EFFECTMANAGER->update();
 	cameraSetting();
 	tileCollision();
 	_collisionRc = RectMakeCenter(_x, _y, _player->getFrameWidth(), _player->getFrameHeight());
 	pixelCollision();
-	enemyCollision();
 	_pb->update();
 }
 
@@ -98,14 +105,13 @@ void Player::render()
 {
 	//여윽시 희진누나 작품 !!
 	char strGun[128]; 
-	if (_isLeftAttack) sprintf_s(strGun, "총10좌"); else if (!_isLeftAttack) sprintf_s(strGun, "총10우");
+	if (_isLeftAttack) sprintf_s(strGun, "검92"); else if (!_isLeftAttack) sprintf_s(strGun, "검92");
 	RECT rc = RectMake(0,0,IMAGEMANAGER->findImage(strGun)->getWidth() * 2, IMAGEMANAGER->findImage(strGun)->getHeight());
 	imageDC = IMAGEMANAGER->addRotateImage("rotateimage", rc.right - rc.left, rc.bottom - rc.top ,true,RGB(0,0,0), false);
 	IMAGEMANAGER->findImage(strGun)->render(imageDC->getMemDC(), IMAGEMANAGER->findImage(strGun)->getWidth(),
 		0,0,0, IMAGEMANAGER->findImage(strGun)->getWidth(), IMAGEMANAGER->findImage(strGun)->getHeight());
 		
 	// ===================
-	EFFECTMANAGER->render();
 	if (_direction == LEFT_RUN || _direction == LEFT_STOP)
 	{
 		_playerHand[0]->rotateRender(DC, _leftHandX , _leftHandY , _mouseAngle);
@@ -133,11 +139,12 @@ void Player::render()
 		imageDC->rotateRender(DC, _leftHandX, _leftHandY, _weaponAngle + 1.8f);
 		else if (!_isLeftAttack && _mainWeapon[_youUsingCount] != 0)
 		imageDC->rotateRender(DC, _rightHandX, _rightHandY, _weaponAngle + 1.8f);
-		_player->aniRender(DC, _x, _collisionRc.top, _playerAnimation);
+		_player->aniRender(DC, _collisionRc.left, _collisionRc.top, _playerAnimation);
 	}
 	if (_showAttackEffect)
 	{
-		_attackEffect->rotateFrameRender(DC, _collisionRc.left + (cosf(_angle) * ONE_HUNDRED) + _player->getFrameWidth() / 2 , _collisionRc.top + (-sinf(_angle) * ONE_HUNDRED) + _player->getFrameHeight() / 2, _angle - 1.8);
+		_attackEffect->setX(_collisionRc.left + (cosf(_angle) * ONE_HUNDRED) + _player->getFrameWidth() / 2), _attackEffect->setY(_collisionRc.top + (-sinf(_angle) * ONE_HUNDRED) + _player->getFrameHeight() / 2);
+		_attackEffect->rotateFrameRender(DC, _attackEffect->getX() , _attackEffect->getY(), _angle - 1.8);
 	}
 	//text !
 	char str[128]; sprintf_s(str, "Weapon Index : %d", _youUsingCount);
@@ -149,23 +156,24 @@ void Player::render()
 	TextOut(DC, _x-300, _y - 200, str, strlen(str));
 	sprintf(str, "y 좌표 : %f", _y);
 	TextOut(DC, _x- 300, _y - 300, str, strlen(str)); 
-	sprintf(str, "체크타일 %d,%d", leftRightCheck[0], leftRightCheck[1]);
+	sprintf(str, "currentHP : %d maxHP : %d", _currentHp, _maxHp);
 	TextOut(DC, _x - 10, _collisionRc.top , str, strlen(str));
-	sprintf(str, "위에 타일 %d,%d", _upStateCheck[0] , _upStateCheck[1]);
-	TextOut(DC, _x - 10, _collisionRc.top - 50, str, strlen(str));
-	sprintf(str, "아래 타일 %d,%d", _downStateCheck[0], _downStateCheck[1]);
-	TextOut(DC, _x - 10, _collisionRc.top - 100, str, strlen(str));
 
 	//pb
 	_pb->render();
-	for (int i = 0; i < 30; ++i)
+	if (KEYMANAGER->isToggleKey(VK_F1))
 	{
-		for (int j = 0; j < 30; ++j)
+		for (int i = 0; i < 30; ++i)
 		{
-		if(KEYMANAGER->isToggleKey(VK_F1))	Rectangle(DC, _tiles[j + i * 30].rc.left, _tiles[j + i * 30].rc.top, _tiles[j + i * 30].rc.right, _tiles[j + i * 30].rc.bottom);
+			for (int j = 0; j < 30; ++j)
+			{
+				Rectangle(DC, _tiles[j + i * 30].rc.left, _tiles[j + i * 30].rc.top, _tiles[j + i * 30].rc.right, _tiles[j + i * 30].rc.bottom);
+			}
 		}
+		Rectangle(DC, _collisionRc.left, _collisionRc.top, _collisionRc.right, _collisionRc.bottom);
+		Rectangle(DC, _attackEffect->effectCheckBox().left, _attackEffect->effectCheckBox().top,
+			_attackEffect->effectCheckBox().right, _attackEffect->effectCheckBox().bottom);
 	}
-	if (KEYMANAGER->isToggleKey(VK_F1)) Rectangle(DC,_collisionRc.left , _collisionRc.top , _collisionRc.right, _collisionRc.bottom);
 }
 
 void Player::keyInput()
@@ -180,11 +188,9 @@ void Player::keyInput()
 		_playerAnimation->start();
 
 	}
-	else if (KEYMANAGER->isOnceKeyUp('A')&&_direction!=RIGHT_RUN)
+	else if (KEYMANAGER->isOnceKeyUp('A') && _direction!=RIGHT_RUN)
 	{
-		_direction = LEFT_STOP;
-		_playerAnimation = KEYANIMANAGER->findAnimation("왼쪽보고서있기");
-		_playerAnimation->start();
+		leftStop();
 	}
 
 	if (KEYMANAGER->isOnceKeyDown('D'))
@@ -196,9 +202,7 @@ void Player::keyInput()
 	}
 	else if (KEYMANAGER->isOnceKeyUp('D') && _direction != LEFT_RUN)
 	{
-		_direction = RIGHT_STOP;
-		_playerAnimation = KEYANIMANAGER->findAnimation("오른쪽보고서있기");
-		_playerAnimation->start();
+		rightStop();
 	}
 
 	if (KEYMANAGER->isStayKeyDown('S')
@@ -245,6 +249,20 @@ void Player::keyInput()
 			_angle = getAngle(_collisionRc.left + _player->getFrameWidth() / 2, _collisionRc.top + _player->getFrameHeight() / 2, PTMOUSE_X, PTMOUSE_Y);
 		}
 	}
+}
+
+void Player::rightStop()
+{
+	_direction = RIGHT_STOP;
+	_playerAnimation = KEYANIMANAGER->findAnimation("오른쪽보고서있기");
+	_playerAnimation->start();
+}
+
+void Player::leftStop()
+{
+	_direction = LEFT_STOP;
+	_playerAnimation = KEYANIMANAGER->findAnimation("왼쪽보고서있기");
+	_playerAnimation->start();
 }
 
 void Player::mouseControl()
@@ -351,9 +369,10 @@ void Player::attack()
 	float _cosValue = cosf(_angle) * ONE_HUNDRED - 40, _sinValue = -sinf(_angle) * ONE_HUNDRED - 40;
 	static unsigned int attackSpeedCheckCount = 0;
 	if(_attackSpeedCheckCount)++attackSpeedCheckCount;
-	if(_isAttacking)
-	{
 	
+	if(_isAttacking && _attackCount == 0 )
+	{
+		if (_isAttacking)_attackCount++;
 		if (_isGun && _isLeftAttack) _weaponAngle -= PI / 100;
 		else if (_isGun && !_isLeftAttack) _weaponAngle += PI / 100;
 		if(_mainWeapon[_youUsingCount] == 0)_punchSpeed -= 0.7;
@@ -378,6 +397,7 @@ void Player::attack()
 		}
 		else if (_mainWeapon[_youUsingCount] == 1)
 		{
+			_attackCount++;
 			if (_isChap)_weaponAttackAngle += (PI / 180) * 200;
 			else if (!_isChap)_weaponAttackAngle -= (PI / 180) * 200;
 
@@ -386,14 +406,14 @@ void Player::attack()
 				(_isChap == false ? _isChap = true : _isChap = false);
 				_leftHandX = _collisionRc.left + 15, _leftHandY = _collisionRc.top + 60;
 				_rightHandX = _collisionRc.left + 60, _rightHandY = _collisionRc.top + 60;
-				_isAttacking = false;
+			
 			}
 			else if (!_isLeftAttack)
 			{
 				(_isChap == false ? _isChap = true : _isChap = false);
 				_leftHandX = _collisionRc.left + 10, _leftHandY = _collisionRc.top + 60;
 				_rightHandX = _collisionRc.left + 65 , _rightHandY = _collisionRc.top + 60 ;
-				_isAttacking = false;
+			
 			}
 		}
 		else if (_isGun)
@@ -429,20 +449,25 @@ void Player::attack()
 		_attackSpeedCheckCount = false;
 		if (_isGun) _weaponAttackAngle = 0;
 	}
+	if (_attackCount > 0)
+	{
+		_attackCount = 0;
+		_isAttacking = false;
+	}
 }
 
 void Player::effect()
 {
-	//if(_showAttackEffect)CAMERAMANAGER->cameraShaking();
+	if(_showAttackEffect)CAMERAMANAGER->cameraShaking();
 	if (!_isJumping)
 	{
 		if (KEYMANAGER->isStayKeyDown('A')) EFFECTMANAGER->play("왼쪽걸을때", _collisionRc.left + 70, _collisionRc.top + 70);
 		if (KEYMANAGER->isStayKeyDown('D')) EFFECTMANAGER->play("오른쪽걸을때", _collisionRc.left, _collisionRc.top + 70);
 	}
-	if (_isDashing) ++_count;
-	if (_count > 5)
+	if (_isDashing) ++_dashCount;
+	if (_dashCount > 5)
 	{
-		_count = 0;
+		_dashCount = 0;
 		if (_collisionRc.left > PTMOUSE_X)
 		{
 			EFFECTMANAGER->play("대시왼쪽", _collisionRc.left + 42 , _collisionRc.top +10 + _player->getFrameWidth() / 2);
@@ -490,9 +515,6 @@ void Player::cameraSetting()
 	if (_collisionRc.top > cameraY + 50 && cameraY + WINSIZEY / 2 < BACKGROUNDSIZEY)
 		CAMERAMANAGER->setCameraY(cameraY + plusCameraMoveValueY);
 }
-// 1. 왼쪽으로갈때 벽있으면 벽에붙음
-// 2. 
-
 
 void Player::tileCollision()
 {
@@ -502,9 +524,6 @@ void Player::tileCollision()
 	_downStateCheck[0] = xIndex + (VARIABLE_SIZEX[_dungeonNum] * (yIndex + 1)), _downStateCheck[1] = xIndex + (VARIABLE_SIZEX[_dungeonNum] * (yIndex + 1)) + 1;
 	_upStateCheck[0] = xIndex + (VARIABLE_SIZEX[_dungeonNum] * (yIndex )), _upStateCheck[1] = xIndex + (VARIABLE_SIZEX[_dungeonNum] * (yIndex )) + 1;
 
-
-	leftRightCheck[0] = (yIndex * VARIABLE_SIZEX[_dungeonNum]) + xIndex;
-	leftRightCheck[1] = (yIndex  * VARIABLE_SIZEX[_dungeonNum]) + xIndex +1;
 	_leftCheck[0] = (yIndex * VARIABLE_SIZEX[_dungeonNum]) + xIndex , _leftCheck[1] = ((yIndex + 1)  * VARIABLE_SIZEX[_dungeonNum]) + xIndex;
 	_rightCheck[0] = (yIndex  * VARIABLE_SIZEX[_dungeonNum]) + xIndex + 1 , _rightCheck[1] = ((yIndex + 1)  * VARIABLE_SIZEX[_dungeonNum]) + xIndex + 1;
 
@@ -555,35 +574,7 @@ void Player::tileCollision()
 				_jump = -(_jump / 2);
 				_y = _collisionRc.top + (rcHeight / 2);
 			}
-		}
-
-			
-		//왼쪽오른쪽 
-		/*if (_tiles[leftRightCheck[i]].object == OBJ_CULUMN)
-		{
-			RECT temp;
-
-			if (IntersectRect(&temp, &_tiles[leftRightCheck[i]].rc, &_collisionRc))
-			{
-				if (i == 0)
-				{
-					long rcSize = _collisionRc.right - _collisionRc.left;
-					_collisionRc.left = _tiles[leftRightCheck[i]].rc.right;
-					_collisionRc.right = _collisionRc.left + rcSize;
-					_x = _collisionRc.right - rcSize / 2;
-				}
-				else if (i == 1)
-				{
-					long rcSize = _collisionRc.right - _collisionRc.left;
-					_collisionRc.right = _tiles[leftRightCheck[i]].rc.left;
-					_collisionRc.left = _collisionRc.right - rcSize;
-					_x = _collisionRc.left + rcSize / 2;
-				}
-			}
-		}*/
-		//얍 
-		
-		//얍
+		} 
 		//위 체크 :upStateCheck
 		if (_tiles[_upStateCheck[i]].object == OBJ_CULUMN)
 		{
@@ -752,7 +743,6 @@ void Player::tileCollision()
 						_y = _collisionRc.top + (rcHeight / 2);
 						_goDownJump = false;
 					}
-
 				}
 			}
 		}
@@ -809,18 +799,3 @@ void Player::pixelCollision()
 		}
 	}
 }
-
-void Player::enemyCollision()
-{
-	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end();)
-	{
-		RECT temp;
-		if (IntersectRect(&temp, &(*_viEnemy)->getRect(), &_collisionRc))
-		{
-			_viEnemy = _vEnemy.erase(_viEnemy);
-		}
-		else _viEnemy++;
-	}
-}
-
-

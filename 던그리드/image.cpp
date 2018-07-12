@@ -643,6 +643,7 @@ void image::rotateRender(HDC hdc, float x, float y, float angle)
 			_imageInfo->width,
 			_imageInfo->height,
 			NULL, 0, 0);
+
 		GdiTransparentBlt(hdc,
 			x - _rotateImage->width / 2,
 			y - _rotateImage->height / 2,
@@ -659,7 +660,9 @@ void image::rotateRender(HDC hdc, float x, float y, float angle)
 	{
 		PlgBlt(hdc, rPoint, _imageInfo->hMemDC, 0, 0, _imageInfo->width, _imageInfo->height, NULL, 0, 0);
 	}
+	//_rotateCenter = PointMake(x - _rotateImage->width / 4 + (rPoint[1].x + rPoint[2].x) / 2, y - _rotateImage->height / 4 + (rPoint[1].y + rPoint[2].y) / 2);
 }
+
 
 void image::rotateFrameRender(HDC hdc, float x, float y, float angle)
 {

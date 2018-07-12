@@ -13,6 +13,7 @@
 #include "Cow.h"
 #include "Boss2.h"
 #include "Bullet.h"
+#include "minimap.h"
 #include "effect.h"
 
 class Player;
@@ -46,6 +47,12 @@ struct Portal
 	int frameX, frameY, count;
 };
 
+struct minimapIcon
+{
+	image* img;
+	float x, y;
+};
+
 class dungeonScene : public gameNode
 {
 protected:
@@ -61,6 +68,8 @@ protected:
 	RedBat*		_redBat;
 	MusicAngel* _musicAngel; //음표요정
 	Boss2* _boss;			 //보스
+	int _bossLaserHitCount[2];
+	bool _bossLaserHit[2];
 
 	Bullet* _enemyBullet;
 	Bullet* _bigBatBullet;
@@ -94,6 +103,9 @@ protected:
 	bool _bulletMove;
 	int _swordCount;
 
+	minimap* _minimap;
+	image*	_tabMap;
+	minimapIcon _minimapIcon[11];
 	//infoPlayer _infoPlayer;
 
 public:
@@ -108,26 +120,31 @@ public:
 
 	void mapload();
 
+	void setMinimap();
+
+	void setDoorMinimap();
+
 	void setCamera(void);
 
 	void selectSize(int idx);
 
 	void chooseMap(int idx);
 
+	void minimapIconRender();
+
 	void nextTest();
 
 	void load();
-
 	void save();
 
-	void savePlayer();
-	void loadPlayer();
 	
 	void setDoor();
 	void doorRender();
 	void portalRender();
 
 	void collision();
+	void musicAngelBulletCollision();
+	void bossBulletCollision();
 	dungeonScene();
 	~dungeonScene();
 

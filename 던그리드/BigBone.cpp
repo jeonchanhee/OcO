@@ -330,6 +330,7 @@ void BigBone::changeAnimation(BIGBONEDIRECTION bigBoneDirection)
 
 void BigBone::playerColiision()
 {
+	
 }
 
 void BigBone::hitDamage(float damage)

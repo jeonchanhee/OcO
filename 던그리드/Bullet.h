@@ -39,6 +39,7 @@ private:
 	int			_bulletMax;		// ÃÖ´ë ÃÑ¾Ë °¹¼ö
 	int			_index;			// ÇÁ·¹ÀÓ ÀÎµ¦½º°ª
 	int			_count;
+
 public:
 	Bullet();
 	~Bullet();
@@ -61,6 +62,7 @@ public:
 	vector<tagBullet>			getVBullet() { return _vBullet; }
 	vector<tagBullet>::iterator	getVIBullet() { return _viBullet; }
 
+	FRAMEXY getFrameXY(int i) { return _vBullet[i].frameXY; }
 };
 
 class Bullet2 : public gameNode

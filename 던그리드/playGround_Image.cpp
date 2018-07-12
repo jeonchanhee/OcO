@@ -6,6 +6,7 @@ HRESULT playGround::Image_init(void)
 {
 	IMAGEMANAGER->addImage("cursor", "image/UI/Cursor(61,70).bmp", 0, 0, 61, 70, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("black", "image/UI/Black(1920x1080).bmp", 0, 0, 1920, 1080, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addImage("gray", "image/UI/gray(1920x1080).bmp", 0, 0, 1920, 1080, false, RGB(255, 0, 255), true);
 
 	IMAGEMANAGER->addFrameImage("map", "image/map/Map(2208x2496,23x26).bmp", 0, 0, 2208, 2496, SAMPLETILEX, SAMPLETILEY, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("map2", "image/map/Map2(736x832,23x26).bmp", 0, 0, 736, 832, SAMPLETILEX, SAMPLETILEY, true, RGB(255, 0, 255));
@@ -33,7 +34,8 @@ HRESULT playGround::Image_init(void)
 	IMAGEMANAGER->addImage("soundbar", "image/UI/sounbar(900x50).bmp", 900, 50, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("toggleCheck", "image/UI/toggleCheck(200x100,2x1).bmp", 200, 100, 2, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("soundIcon", "image/UI/soundSetIcon(200x100,2x1).bmp", 200, 100, 2, 1, true, RGB(255, 0, 255));
-	
+
+	IMAGEMANAGER->addFrameImage("keyIcon", "image/etc/keyboard(432x84,3x1).bmp", 432, 84, 3, 1, true, RGB(255, 0, 255));
 	
 	//==========¸ÊUI=============
 	IMAGEMANAGER->addFrameImage("leftDoor", "image/etc/stele_left(384x2304,4x6).bmp", 0, 0, 384, 2304, 4, 6, true, RGB(255, 0, 255));
@@ -43,7 +45,6 @@ HRESULT playGround::Image_init(void)
 	IMAGEMANAGER->addFrameImage("dungeonDoor", "image/etc/door(1750x800,5x2).bmp", 0, 0, 1750, 800, 5, 2, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("portal", "image/UI/portal(1296x384,9x2).bmp", 0, 0, 1296, 384, 9, 2, true, RGB(255, 0, 255));
 	
-
 	IMAGEMANAGER->addImage("BackSky", "image/UI/BackSky(1920x1080).bmp", 0, 0, 1920, 1080, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("BackMountain", "image/UI/BackMountain(2451x1080).bmp", 0, 0, 2451, 1080, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("BackForest", "image/UI/BackForest(3638x1080).bmp", 0, 0, 3638, 1080, true, RGB(255, 0, 255));
@@ -62,7 +63,7 @@ HRESULT playGround::Image_init(void)
 	IMAGEMANAGER->addFrameImage("trainB", "image/UI/UItrainB(535x214,5x2).bmp", 0, 0, 535, 214 ,5 ,2, true, RGB(255, 0, 255));
 
 	//==========»óÁ¡==========
-	IMAGEMANAGER->addImage("shop", "image/UI/UIshop(720x1080).bmp", 0, 0, 720, 1080, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("shopUI", "image/UI/UIshop(720x1080).bmp", 0, 0, 720, 1080, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("slot", "image/UI/UISslot(493x126).bmp", 0, 0, 493, 126, true, RGB(255, 0, 255));
 
 	//==========·¹½ºÅä¶û==========
@@ -92,8 +93,6 @@ HRESULT playGround::Image_init(void)
 	IMAGEMANAGER->addFrameImage("skeletonArcher", "image/enemy/skeletonArcher(100X80,2X1).bmp", 0, 0, 100, 80, 2, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addRotateFrameImage("skeletonBow", "image/enemy/skeletonBow2(150X25,6X1).bmp", 150, 25, 6, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addRotateImage("arrow", "image/enemy/arrow(40x10,1x1).bmp", 40, 10, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("arrowEffect", "image/enemy/arrowEffect(720x370,3x1).bmp", 0, 0, 720, 370, 3, 1, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("bansheeBigBullet", "image/enemy/bansheeBigBullet(480x110,6x1).bmp", 0, 0, 480, 110, 6, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("bansheeIdleAttack", "image/enemy/bansheeIdleAttack(600x440,6x4).bmp", 0, 0,  600, 440, 6, 4, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("bansheeNormalBullet", "image/enemy/bansheeNormalBullet(280x80,4x1).bmp", 0, 0, 280, 80, 4, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("batMoveDie", "image/enemy/batMoveDie(1120x180,7x2).bmp", 0, 0, 1120, 180, 7, 2, true, RGB(255, 0, 255));
@@ -109,9 +108,12 @@ HRESULT playGround::Image_init(void)
 	IMAGEMANAGER->addFrameImage("bossLaser", "image/enemy/bossLaser(1550x2100,1x7).bmp", 0, 0, 1550, 2100, 1, 7, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("bossRLaser", "image/enemy/bossRLaser(1550x2100,1x7).bmp", 0, 0, 1550, 2100, 1, 7, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("bossRedBar", "image/enemy/bossRedBar(750x100,1x1).bmp", 0, 0, 750, 100, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("bossSword", "image/enemy/bossSword(1260x390,10x1).bmp", 0, 0, 1260, 390, 10, 1, true, RGB(255, 0, 255));
+	//IMAGEMANAGER->addFrameImage("bossSword", "image/enemy/bossSword(1260x390,10x1).bmp", 0, 0, 1260, 390, 10, 1, true, RGB(255, 0, 255));
 	//IMAGEMANAGER->addRotateFrameImage("RotateBossSword", "image/enemy/bossSword(1260x390,10x1).bmp", 1260, 390, 10, 1, true, RGB(255, 0, 255));
+	//IMAGEMANAGER->addRotateImage("RotateBossSword", "image/enemy/sword(390x126,1x1).bmp", 390, 126, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("bossSword", "image/enemy/sword(126x390,1x1).bmp", 126, 390, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addRotateImage("RotateBossSword", "image/enemy/sword(390x126,1x1).bmp", 390, 126, true, RGB(255, 0, 255));
+	
 	IMAGEMANAGER->addFrameImage("cowIdleChargeAttack", "image/enemy/cowIdleChargeAttack(1840x1320,8x6).bmp", 0, 0, 1840, 1320, 8, 6, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("dieEffect", "image/enemy/dieEffect(4224x384,11x1).bmp", 0, 0, 4224, 384, 11, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("fatherBatBullet", "image/enemy/fatherBatBullet(100x20,5x1).bmp", 0, 0, 100, 20, 5, 1, true, RGB(255, 0, 255));
@@ -127,7 +129,12 @@ HRESULT playGround::Image_init(void)
 	IMAGEMANAGER->addFrameImage("skelBone", "image/enemy/skelBone(480x60,8x1).bmp", 0, 0, 480, 60, 8, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("skelDogIdle", "image/enemy/skelDogIdle(500x180,5x2).bmp", 0, 0, 500, 180, 5, 2, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("skelDogMoveDie", "image/enemy/skelDogMoveDie(700x270,7x3).bmp", 0, 0, 700, 270, 7, 3, true, RGB(255, 0, 255));
-
+	//IMAGEMANAGER->addFrameImage("arrowEffect", "image/enemy/arrowEffect(720x370,3x1).bmp", 0, 0, 720, 370, 3, 1, true, RGB(255, 0, 255));
+	//IMAGEMANAGER->addFrameImage("bansheeBigBullet", "image/enemy/bansheeBigBullet(480x110,6x1).bmp", 0, 0, 480, 110, 6, 1, true, RGB(255, 0, 255));
+	EFFECTMANAGER->addEffect("bossCollisionBullet", "image/enemy/bossCollisionEffect(1100x100,11x1).bmp", 1100, 100, 1100 / 11, 100, 1.0f, 0.3f, 1);
+	EFFECTMANAGER->addEffect("bansheeBigBullet", "image/enemy/bansheeBigBullet(480x110,6x1).bmp", 480, 110, 480 / 6, 110, 1.0f, 0.3f, 1);
+	EFFECTMANAGER->addEffect("arrowEffect", "image/enemy/arrowEffect(300x100,3x1).bmp", 300, 100, 300 /3, 100, 1.0f, 0.3f, 1);
+	EFFECTMANAGER->addEffect("bossSword", "image/enemy/dieEffect(4224x384,11x1).bmp", 4224, 384, 4224 / 11, 384, 5, 0.3f, 1);
 
 	//==========´ÙÀÌ¾ó·Î±×=============
 	IMAGEMANAGER->addImage("uiBack", "image/UI/UIdia(1920x400).bmp", 1920, 400, true, RGB(255, 0, 255));
@@ -341,6 +348,27 @@ HRESULT playGround::Image_init(void)
 	IMAGEMANAGER->addFrameImage("NÃÌÀå", "image/npc/elder(700x400,7x4).bmp", 700, 400, 7, 4, true, RGB(255, 0, 255));
 
 
+	//¹Ì´Ï¸Ê
+	IMAGEMANAGER->addImage("playerIcon", "image/icon/playerIcon(20x20).bmp", 20, 20, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("npcIcon", "image/icon/npcIcon(20x20).bmp", 20, 20, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("enemyIcon", "image/icon/enemyIcon(20x20).bmp", 20, 20, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("portalIcon", "image/icon/worm(80x40,2x1).bmp", 80, 40, 2, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("heightDoorIcon", "image/icon/heightDoorIcon(10x50).bmp", 10, 50, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("tabMap1", "image/icon/tabMap(1920x1080).bmp", 1920,1080,true,RGB(255,0,255));
+	IMAGEMANAGER->addImage("tabMap2", "image/icon/tabMap2(1920x1080,1x1).bmp", 1920, 1080, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("tabMap3", "image/icon/tabMap3(1920x1080,1x1).bmp", 1920, 1080, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("tabMap4", "image/icon/tabMap4(1920x1080,1x1).bmp", 1920, 1080, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("minimap0", "image/icon/minimap1(120x120).bmp", 120, 120, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("minimap9", "image/icon/minimap2(120x120).bmp", 120, 120, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("minimap1", "image/icon/minimap3(120x120).bmp", 120, 120, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("minimap2", "image/icon/minimap4(120x120).bmp", 120, 120, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("minimap3", "image/icon/minimap5(120x120).bmp", 120, 120, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("minimap4", "image/icon/minimap6(120x120).bmp", 120, 120, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("minimap5", "image/icon/minimap7(120x120).bmp", 120, 120, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("minimap6", "image/icon/minimap8(120x120).bmp", 120, 120, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("minimap7", "image/icon/minimap9(120x120).bmp", 120, 120, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("minimap10", "image/icon/minimap11(120x120).bmp", 120, 120, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("minimap8", "image/icon/minimapBoss(120x120).bmp", 120, 120, true, RGB(255, 0, 255));
 	//ÇÈ¼¿
 	IMAGEMANAGER->addImage("pixel", 4800, 2400);
 

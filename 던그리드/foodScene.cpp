@@ -15,7 +15,7 @@ HRESULT foodScene::init()
 {
 	dungeonScene::init();
 
-	_isMapSet = true;
+//	_isMapSet = true;
 	chooseMap(2);
 	selectSize(2);
 	mapload();
@@ -36,6 +36,11 @@ HRESULT foodScene::init()
 	_foodNpc = new FoodNpc;
 	_foodNpc->init(NPC_LEFT_STOP, FOOD_NPC, "¿£ÇÇ½Ã", 1, PointMake((339 % 29)*TILESIZE, (339 / 29) * TILESIZE));
 
+	setMinimap();
+	_minimap->setNPCXY(0, (((300 * ((339 % 29)*TILESIZE))/(_tileX*TILESIZE))), ((((339 / 29) * TILESIZE) - 50)*150/(_tileY * TILESIZE)));
+	setDoorMinimap();
+
+	_mapValue[9] = "T";
 	return S_OK;
 }
 
@@ -57,6 +62,7 @@ void foodScene::setRandMapNum()
 	{
 		_route.push_back(5);
 		_route.push_back(11);
+		_minimapIcon[9].x = 620, _minimapIcon[9].y = 500;
 	}
 
 }
@@ -82,4 +88,12 @@ void foodScene::render()
 	dungeonScene::render();
 	IMAGEMANAGER->render("d_restaurant", DC, (184 % 29)*TILESIZE, (184 / 29)*TILESIZE + 25);
 	_foodNpc->render();
+	_player->render();
+
+	if (KEYMANAGER->isToggleKey(VK_TAB))
+	{
+		IMAGEMANAGER->findImage("gray")->alphaRender(DC, CAMERAMANAGER->getCameraCenter().x - WINSIZEX / 2, CAMERAMANAGER->getCameraCenter().y - WINSIZEY / 2, 450);
+		_tabMap->render(UIDC, 0, 0);
+		dungeonScene::minimapIconRender();
+	}
 }

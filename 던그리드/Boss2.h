@@ -1,6 +1,5 @@
 #pragma once
 #include "Enemy.h"
-#include "progressBar.h"
 
 #define BOSSSPEED 3.0f
 
@@ -42,14 +41,28 @@ struct tagBoss
 	float x, y;
 };
 
+//칼 구조체
+struct tagSword
+{
+	RECT rc,collisionRC;
+	image* img;
+	float x, y, angle, speed;
+	float fireX, fireY;
+	float rcX, rcY;
+	int count;
+	bool isShoot, isAppear;
+};
+
+class player;
+
 class Boss2 : public Enemy
 {
 private:
-	progressBar* _progressBar;
-	float _currentHP, _maxHP;
-
 	tagBoss _boss[3]; //보스의 머리,왼손,오른손이 있는 구조체변수
 
+	tagSword _sword[5];
+	//bool _isShoot; //칼 던졌냐 안던졌냐
+	bool _hit, _isShoot;
 	
 	BOSSHEADDIRECTION _bossHeadDirection;
 	BOSSLEFTDIRECTION _bossLeftDirection;
@@ -63,6 +76,7 @@ private:
 	int y;
 	int _count2, _count3;
 	
+	int _swordCount;
 
 public:
 	Boss2();
@@ -73,6 +87,13 @@ public:
 	void update();
 	void render();
 
+	void frameMove();
+
+	//칼
+	void shootSword();
+	void fireSword(); //칼이 플레이어 방향으로 날라가는 함수
+	void playerCollision(); //칼이 플레이어에 충돌하는 함수
+	
 	//왼손
 	void leftMove(); //왼손 움직이게 하는 함수
 	void changeLeftDirection(BOSSLEFTDIRECTION leftDirection); //방향바꿔주는 함수
@@ -123,13 +144,9 @@ public:
 	animation* getRightMotion2() { return _bossMotion[2]; }
 	void setRightMotion2(animation* ani) { _bossMotion[2] = ani; }
 
-	void playerCollision();
+	//void playerCollision();
 	void hitDamage(float damage);
 
-	int getCurrentHp() { return _currentHP; } //현재 hp
-	int getMaxHp() { return _maxHP; } //전체hp
-	void setCurrentHp(int currentHP) { _currentHP = currentHP; }
-	void setMaxHp(int maxHP) { _maxHP = maxHP; }
 	RECT  getBossRect() { return _boss[1].rc; } //rc
 };
 

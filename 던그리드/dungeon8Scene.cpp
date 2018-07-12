@@ -15,7 +15,7 @@ HRESULT dungeon8Scene::init()
 {
 	dungeonScene::init();
 
-	_isMapSet = true;
+	//_isMapSet = true;
 	chooseMap(9);
 	selectSize(9);
 	mapload();
@@ -32,6 +32,9 @@ HRESULT dungeon8Scene::init()
 
 	setDungeonDoor();
 	portalInit(363 % 50, 363 / 50);
+
+	setMinimap();
+	setDoorMinimap();
 	return S_OK;
 }
 
@@ -83,6 +86,7 @@ void dungeon8Scene::render()
 {
 	dungeonScene::render();
 	_dungeonDoor.img->aniRender(DC, _dungeonDoor.x, _dungeonDoor.y, _dungeonDoor.ani);
+	_player->render();
 }
 
 void dungeon8Scene::setDungeonDoor()
