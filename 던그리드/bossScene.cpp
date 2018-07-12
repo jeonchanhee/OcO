@@ -38,7 +38,7 @@ HRESULT bossScene::init()
 
 	setBossMon();
 
-	_mapValue[_dungeonNum] = "T";
+	//_mapValue[_dungeonNum] = "T";
 	
 	return S_OK;
 }

@@ -40,7 +40,10 @@ HRESULT foodScene::init()
 	_minimap->setNPCXY(0, (((300 * ((339 % 29)*TILESIZE))/(_tileX*TILESIZE))), ((((339 / 29) * TILESIZE) - 50)*150/(_tileY * TILESIZE)));
 	setDoorMinimap();
 
-	_mapValue[9] = "T";
+	//_mapValue[9] = "T";
+	_player->setPlayerX(_vDoor[0].x + TILESIZE * 2);
+	_player->setPlayerY(_vDoor[0].y);
+
 	return S_OK;
 }
 
