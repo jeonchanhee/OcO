@@ -75,7 +75,7 @@ void progressBar::render()
 			_y, 0, 0,
 			_width, _progressBarBottom->getHeight());
 	}
-	if (_barType == BAR_PLAYER)
+	else if (_barType == BAR_PLAYER)
 	{
 			//그려줄땐 뒤에 게이지부터 먼저 그린다
 			IMAGEMANAGER->render(_bottomName, UIDC,
@@ -89,7 +89,7 @@ void progressBar::render()
 				_y, 0, 0,
 				_width, _progressBarBottom->getHeight());
 	}
-	else
+	else if(_barType == BAR_MONSTER)
 	{
 		//그려줄땐 뒤에 게이지부터 먼저 그린다
 		IMAGEMANAGER->render(_bottomName, DC,

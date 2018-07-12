@@ -68,6 +68,10 @@ HRESULT Boss2::init()
 
 	_count2 = _count3 = 0;
 
+	_rc = _boss[1].rc;
+	_x = _boss[1].x;
+	_y = _boss[1].y;
+
 	//보스 체력바 초기화
 	_progressBar = new progressBar;
 	//_progressBar->init(500, WINSIZEY - 100, 1000, 100, "보스앞", "보스뒤", BAR_BOSS);
@@ -118,6 +122,8 @@ void Boss2::update()
 
 	//playerCollision();
 	_rc = _boss[1].rc;
+	_x = _boss[1].x;
+	_y = _boss[1].y;
 
 	if (!_diedie)
 		hitDamage();
