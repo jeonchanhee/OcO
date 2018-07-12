@@ -28,7 +28,9 @@ protected:
 	bool _isJumping;		//점프중이냐 아니냐
 
 	progressBar* _progressBar; //체력바
-	int _currentHP, _maxHP; //현재체력과 최대체력
+	float _currentHP, _maxHP; //현재체력과 최대체력
+
+	//bool _isDie;
 	
 public:
 

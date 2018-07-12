@@ -92,7 +92,6 @@ public:
 	void release();
 	void update();
 	void render();
-
 	RECT getRc() { return _collisionRc; }
 
 	void keyInput();
