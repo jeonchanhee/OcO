@@ -21,6 +21,9 @@ private:
 	Bullet* _bullet;
 
 	bool _isAttack;
+	bool _diedie;
+
+	int _dieCount;
 public:
 	BigBat();
 	~BigBat();
@@ -48,6 +51,9 @@ public:
 	void setisAtteck(bool isAttack) { _isAttack = isAttack; }
 
 	void playerCollision();
+	void hitDamage();
+	void die();
+	static void bigbatDieMotion(void * obj);
 	void hitDamage(float damage);
 };
 

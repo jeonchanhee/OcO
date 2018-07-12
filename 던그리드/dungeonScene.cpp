@@ -4,44 +4,7 @@
 #include "Player.h"
 
 
-void dungeonScene::collision()
-{
-	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); )
-	{
-		if (_player->getIsAttacking())
-		{
-			RECT checkRc;
-			if (IntersectRect(&checkRc, &_player->getEffect()->effectCheckBox(), &(*_viEnemy)->getRect()))
-			{
-				(*_viEnemy)->setCurrentHp((*_viEnemy)->getCurrentHp() - 10);
-			}
-		}
 
-		for (int i=0; i < _player->getPBullet()->getvPBullet().size();)
-		{
-			RECT temp;
-			if (IntersectRect(&temp, &(*_viEnemy)->getRect(), &_player->getPBullet()->getvPBullet()[i].rc))
-			{
-				_player->getPBullet()->removeBullet(i);
-				(*_viEnemy)->setCurrentHp((*_viEnemy)->getCurrentHp() - 10);
-			}
-			else
-			{
-				++i;
-			}
-
-		}
-		if ((*_viEnemy)->getCurrentHp() <= 0)   //적의 HP가 0이하가되면)
-		{
-			_viEnemy = _vEnemy.erase(_viEnemy);
-				//삭제!
-		}
-		else
-		{
-			++_viEnemy;
-		}
-	}
-}
 
 dungeonScene::dungeonScene() {}
 
@@ -55,6 +18,7 @@ HRESULT dungeonScene::init(void)
 	_player = SCENEMANAGER->getPlayerAddressLink();
 	j = 0;
 	_start = _start2 = 0;
+	_diecount2 = true;
 	for (int i = 0; i < 2; i++)
 	{
 		_bossLaserHitCount[i] = 0;
@@ -991,4 +955,68 @@ void dungeonScene::redBatBulletCollision()
 	}
 }
 
+void dungeonScene::collision()
+{
+	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); )
+	{
+		if (_player->getIsAttacking())
+		{
+			RECT checkRc;
+			if (IntersectRect(&checkRc, &_player->getEffect()->effectCheckBox(), &(*_viEnemy)->getRect()))
+			{
+				(*_viEnemy)->setCurrentHp((*_viEnemy)->getCurrentHp() - 10);
+			}
+		}
 
+		for (int i = 0; i < _player->getPBullet()->getvPBullet().size();)
+		{
+			RECT temp;
+			if (IntersectRect(&temp, &(*_viEnemy)->getRect(), &_player->getPBullet()->getvPBullet()[i].rc))
+			{
+				_player->getPBullet()->removeBullet(i);
+				(*_viEnemy)->setCurrentHp((*_viEnemy)->getCurrentHp() - 10);
+			}
+			else
+			{
+				++i;
+			}
+
+		}
+		//if ((*_viEnemy)->getCurrentHp() <= 0)   //적의 HP가 0이하가되면)
+		//{
+		//	if (_diecount2)
+		//	{
+		//		_dieCount++;
+		//		/*	if (_redBat->getRedBatDirection() == REDBAT_RIGHT_MOVE || _redBat->getRedBatDirection() == REDBAT_RIGHT_UP_MOVE || _redBat->getRedBatDirection() == REDBAT_RIGHT_DOWN_MOVE)
+		//		{
+		//		_redBat->changeAnimation(REDBAT_RIGHT_DIE);
+		//		}
+		//		if (_redBat->getRedBatDirection() == REDBAT_LEFT_MOVE || _redBat->getRedBatDirection() == REDBAT_LEFT_UP_MOVE || _redBat->getRedBatDirection() == REDBAT_LEFT_DOWN_MOVE)
+		//		{
+		//		_redBat->changeAnimation(REDBAT_LEFT_DIE);
+		//		}*/
+		//		_redBat->die();
+		//		if (_dieCount % 5000 == 0) _diecount2 = false;
+		//	}
+		//	else if (!(_diecount2))
+		//	{
+		//		_viEnemy = _vEnemy.erase(_viEnemy);
+		//		_diecount2 = true;
+		//	}
+
+		//	//삭제!
+		//}
+		//else
+		{
+			++_viEnemy;
+		}
+	}
+
+	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); )
+	{
+		if ((*_viEnemy)->getIsDie())
+			_viEnemy = _vEnemy.erase(_viEnemy);
+		else
+			++_viEnemy;
+	}
+}
