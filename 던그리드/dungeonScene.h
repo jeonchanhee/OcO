@@ -14,6 +14,7 @@
 #include "Boss2.h"
 #include "Bullet.h"
 #include "minimap.h"
+#include "effect.h"
 
 class Player;
 
@@ -66,6 +67,7 @@ protected:
 
 	BigBat*		_bigbat;
 	BigRedBat*	_bigRedBat;
+	RedBat*		_redBat;
 	MusicAngel* _musicAngel; //음표요정
 	Boss2* _boss;			 //보스
 	int _bossLaserHitCount[2];
@@ -73,9 +75,13 @@ protected:
 
 	Bullet* _enemyBullet;
 	Bullet* _bigBatBullet;
+	Bullet* _bigBatBullet2;
+	Bullet* _bigBatBullet3;
 	Bullet2* _bigRadBatBullet[MAX_BULLET];
 	// 임시
-	Bullet2* _bigRadBullet;
+	Bullet2* _radBatBullet;
+
+	effect* _effect;
 
 	vector<Door> _vDoor; //문
 	vector<torch> _vTorch; //횃불
@@ -89,9 +95,12 @@ protected:
 	int _count;
 	int _count2;
 	int _count3;
+	int _count4;
 	int  j;
 	int _start;
 	int _start2;
+	int i;
+	int k;
 
 	bool _bulletMove;
 	int _swordCount;
@@ -166,5 +175,11 @@ public:
 	void BossBulletFire();		 //보스 총알 발사 함수
 	void bigbatbulletFire();
 	void bigRadbatbulletFire();
+	void redBatBullet();
+
+	// 몬스터 총알 충돌 함수
+	void bigbatBulletCollision();
+	void bigRadbatBulletCollision();
+	void redBatBulletCollision();
 };
 

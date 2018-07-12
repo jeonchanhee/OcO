@@ -23,11 +23,8 @@ private:
 	vItem  _vItem;
 	viItem _viItem;
 
-	//inven 
-	bool _showInven;
-	char _isSelect;
-	RECT _selectRect[15];
-	//인벤토리에 집어넣기 빼기 장착하기 해체하기 ;
+
+
 public:
 	itemManager();
 	~itemManager();

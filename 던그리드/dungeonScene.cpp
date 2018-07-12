@@ -100,7 +100,7 @@ void dungeonScene::render(void)
 			for (int j = (CAMERAMANAGER->getCameraCenter().x - WINSIZEX / 2) / 96; j < (CAMERAMANAGER->getCameraCenter().x + WINSIZEX / 2) / 96 + 1; ++j)
 			{
 				if (_tiles[i * _temp + j].object == OBJ_NONE) continue;
-
+				
 				IMAGEMANAGER->frameRender("map", DC, _tiles[i * _temp + j].rc.left, _tiles[i * _temp + j].rc.top, _tiles[i * _temp + j].objFrameX, _tiles[i * _temp + j].objFrameY);
 			}
 		}
@@ -156,7 +156,7 @@ void dungeonScene::render(void)
 	}
 
 	_bigBatBullet->render();
-	_bigRadBullet->render();
+	_radBatBullet->render();
 
 	doorRender();
 
@@ -263,8 +263,8 @@ void dungeonScene::mapload()
 	_bigBatBullet = new Bullet;
 	_bigBatBullet->init(1000);
 
-	_bigRadBullet = new Bullet2;
-	_bigRadBullet->init(2000);
+	_radBatBullet = new Bullet2;
+	_radBatBullet->init(2000);
 
 }
 
@@ -640,13 +640,13 @@ void dungeonScene::setBat(int idX, int idY)
 //ÀÛ»¡¹Ú
 void dungeonScene::setRedBat(int idX, int idY)
 {
-	RedBat* redBat;
-	redBat = new RedBat;
+	
+	_redBat = new RedBat;
 	float x = TILESIZE * idX;
 	float y = TILESIZE * idY;
-	redBat->init(x, y);
-	redBat->setPlayerAddressLink(_player);
-	_vEnemy.push_back(redBat);
+	_redBat->init(x, y);
+	_redBat->setPlayerAddressLink(_player);
+	_vEnemy.push_back(_redBat);
 }
 
 void dungeonScene::setBigBat(int idX, int idY)
@@ -1061,29 +1061,37 @@ void dungeonScene::BossBulletFire()
 
 void dungeonScene::bigbatbulletFire()
 {
-	_count2++;
+	bigbatBulletCollision();
 	if (_bigbat->getisAtteck() == true)
 	{
-		if (_count2 % 10 == 0 && _count2 > 170)
+		_count2++;
+		
+		if (_bigBatBullet->getVBullet().size() == 0)
 		{
+			float angle = getAngle(_bigbat->getX(), _bigbat->getY(), _player->getPlayerX(), _player->getPlayerY());
+			
 			for (int i = 0; i < 3; i++)
 			{
-				float angle = -(PI2 / 9) * i;
-				_bigBatBullet->bulletFire("fatherBatBullet2", _bigbat->getX() + 50, _bigbat->getY() + 10, angle, 5.0f, 500);
+				for (int j = 0; j < 3; j++)
+				{
+					_bigBatBullet->bulletFire("fatherBatBullet2", _bigbat->getX() + 50, _bigbat->getY() + 10, angle + ((PI / 6) * i) - (i - 0.4f), 6.0f - (j - 1), 500);
+				}
 			}
-			_start2 = 1;
+			_start2 = 0;
 		}
-		if (_count2 > 200)
+
+		if (!(_count2 % 50))
 		{
+			_start2 = 1;
 			_count2 = 0;
 			_bigbat->setisAtteck(false);
 		}
 	}
 }
 
-
 void dungeonScene::bigRadbatbulletFire()
 {
+	bigRadbatBulletCollision();
 	_count3++;
 	if(!(_count3 % 5) && _count3 > 0)
 	{
@@ -1098,9 +1106,14 @@ void dungeonScene::bigRadbatbulletFire()
 					if (j == 0)
 						_start = 0;
 					float angle2 = PI2 / 20 * j;
+					float angle;
+					if (j == 0)
+						angle = getAngle(_bigRedBat->getX(), _bigRedBat->getY(), _player->getPlayerX(), _player->getPlayerY());
+					else
+						angle = _bigRadBatBullet[0]->getVBullet()[0].angle;
 					float bulletX = _bigRedBat->getX() + 150;
 					float bulletY = _bigRedBat->getY() + 50;
-					_bigRadBatBullet[j]->bulletFire("fatherBatBullet2", bulletX + cosf(angle2) * 150, _bigRedBat->getY() + -sinf(angle2) * 150, angle2, 5.0f, 500);
+					_bigRadBatBullet[j]->bulletFire("fatherBatBullet2", bulletX + cosf(angle2) * 150, _bigRedBat->getY() + -sinf(angle2) * 150, angle, 5.0f, 500);
 					j++;
 				}
 			}
@@ -1127,3 +1140,59 @@ void dungeonScene::bigRadbatbulletFire()
 		}
 	}
 }
+
+void dungeonScene::redBatBullet()
+{
+	redBatBulletCollision();
+	_count4++;
+	if (_count4 % 150 == 0 && _redBat->getisAtteck() == true)
+	{
+		float angle = GetAngle(_redBat->getX(), _redBat->getY(), _player->getPlayerX(), _player->getPlayerY());
+		_radBatBullet->bulletFire("fatherBatBullet2", _redBat->getX(), _redBat->getY(), angle, 5.0f, 500);
+		_redBat->setisAtteck(false);
+	}
+}
+
+void dungeonScene::bigbatBulletCollision()
+{
+	RECT temp;
+	for (int i = 0; i < _bigBatBullet->getVBullet().size(); i++)
+	{
+		if (IntersectRect(&temp, &_bigBatBullet->getVBullet()[i].rc, &_player->getPlayerRect()))
+		{
+			EFFECTMANAGER->play("fatherBatBulletFX2", _bigBatBullet->getVBullet()[i].x, _bigBatBullet->getVBullet()[i].y);
+			_bigBatBullet->removeBullet(i);
+		}
+	}
+}
+
+void dungeonScene::bigRadbatBulletCollision()
+{
+	RECT temp;
+	for (int j = 0; j < MAX_BULLET; j++)
+	{
+		for (int i = 0; i < _bigRadBatBullet[j]->getVBullet().size(); i++)
+		{
+			if (IntersectRect(&temp, &_bigRadBatBullet[j]->getVBullet()[i].rc, &_player->getPlayerRect()))
+			{
+				EFFECTMANAGER->play("fatherBatBulletFX2", _bigRadBatBullet[j]->getVBullet()[i].x, _bigRadBatBullet[j]->getVBullet()[i].y);
+				_bigRadBatBullet[j]->removeBullet(i);
+			}
+		}
+	}
+}
+
+void dungeonScene::redBatBulletCollision()
+{
+	RECT temp;
+	for (int i = 0; i < _enemyBullet->getVBullet().size(); i++)
+	{
+		if (IntersectRect(&temp, &_enemyBullet->getVBullet()[i].rc, &_player->getPlayerRect()))
+		{
+			EFFECTMANAGER->play("fatherBatBulletFX2", _enemyBullet->getVBullet()[i].x, _enemyBullet->getVBullet()[i].y);
+			_enemyBullet->removeBullet(i);
+		}
+	}
+}
+
+

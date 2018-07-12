@@ -41,6 +41,7 @@ struct tagproperty
 
 struct tagItem // 아이템
 {
+	const char* name;			// 이름
 	image* image[3];			// 0.드랍 1.인벤 2. 착용
 	RECT rc[3];					// 렉트
 	ITEMTYPE type;				// 아이템 종류
@@ -61,7 +62,6 @@ struct tagItem // 아이템
 	float dashPower;			//대시공격력 증감률 
 	int addMaxHp;				//최대 HP 증가
 	int price;					//가격 
-	const char* name;			// 이름
 	int value;					// 숫자받기위해씀
 
 };
@@ -84,6 +84,7 @@ public:
 	void release();
 	void update();
 	void render();
+	void invenRender(HDC hdc, int x, int y);
 
 
 	void CreateItem(ITEMTYPE type, const char* itemName, int value); // 아이템 만드러줌
@@ -98,6 +99,7 @@ public:
 	void setAccessory(const char* AccessoryName, int value);		// 악세 정의해줌
 	void setFood(const char* FoodName, int value);					// 음식 정의해줌
 
+	ITEMTYPE getItemType() { return _item.type; }
 	tagItem getItem() { return _item; }
 	
 

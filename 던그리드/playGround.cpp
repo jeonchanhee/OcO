@@ -10,7 +10,7 @@ HRESULT playGround::init(void)
 {
 	vector<string> vStr;
 	vStr.resize(4);
-	vStr = { "T","T","F","F" };
+	vStr = { "F","F","F","F" };
 	TXTDATA->txtSave("random.txt", vStr);
 	mode = 마을;		//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
 //	rectRotate(IMAGEMANAGER->findImage("검01"), 100, 100);
@@ -225,10 +225,12 @@ void playGround::render(void)
 	case 던전2: case 던전3: case 던전4: case 던전5: case 던전6: case 던전7: case 던전8:
 	case 랜덤맵1: case 보스:  case 무기: case 푸드:
 		SCENEMANAGER->render();
+		EFFECTMANAGER->render();
 		_player->render();
 		break;
 	case 마을:
 		SCENEMANAGER->render();
+		EFFECTMANAGER->render();
 		//_player->render();
 		break;
 	case 맵선택:
@@ -239,7 +241,8 @@ void playGround::render(void)
 	default:
 		break;
 	}
-	EFFECTMANAGER->render();
+	
+
 	//SCENEMANAGER->render();
 
 	//char str[128];
