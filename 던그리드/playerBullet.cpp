@@ -47,7 +47,7 @@ void playerBullet::render()
 void playerBullet::bulletFire(float x, float y, float angle, float range, float speed, int type)
 {
 	PBULLET bullet;
-	if (type == 0)bullet.bulletImage	  = IMAGEMANAGER->findImage(_iN0);
+	if (type == 0)	   bullet.bulletImage = IMAGEMANAGER->findImage(_iN0);
 	else if (type == 1)bullet.bulletImage = IMAGEMANAGER->findImage(_iN1);
 	else if (type == 2)bullet.bulletImage = IMAGEMANAGER->findImage(_iN2);
 	else if (type == 3)bullet.bulletImage = IMAGEMANAGER->findImage(_iN3);

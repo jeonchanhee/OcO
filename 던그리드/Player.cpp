@@ -22,8 +22,7 @@ HRESULT Player::init()
 	itemInfo();
 	_x = WINSIZEX / 2; _y = WINSIZEY / 2 -100;
 	_attackEffect = IMAGEMANAGER->findImage("검1효과");
-	//_attackEffect = IMAGEMANAGER->findImage("검쓰르륵");
-
+	
 	_level = 1;
 	_dashCount = 0, _attackCount = 0;
 	_mouseAngle = 0;
@@ -80,7 +79,8 @@ void Player::release() {}
 void Player::update()
 {
 	EFFECTMANAGER->update();
-	if (KEYMANAGER->isOnceKeyDown(VK_F5)) _inven->pickUpItem(SWORD , "검", 7);
+	if (KEYMANAGER->isOnceKeyDown(VK_DOWN)) _pb->bulletFire(_leftHandX + 500, _leftHandY + 500, _angle, 1000, 10.0f, 1);
+	if (KEYMANAGER->isOnceKeyDown(VK_F5)) _inven->pickUpItem(GUN , "총", 1);
 	if (KEYMANAGER->isOnceKeyDown(VK_F6)) _inven->pickUpItem(SWORD, "검", 5);
 	if (KEYMANAGER->isOnceKeyDown(VK_F7)) _inven->pickUpItem(ACCESSORY, "악세", 1);
 	if (KEYMANAGER->isOnceKeyDown(VK_F8)) _inven->pickUpItem(SECOND_EQUIPMENT, "보조", 1);
@@ -107,8 +107,19 @@ void Player::update()
 void Player::render()
 {
 	//여윽시 희진누나 작품 !!
-	_playerWeapon->render(imageDC->getMemDC(), _playerWeapon->getWidth(),
-		0, 0, 0, _playerWeapon->getWidth(), _playerWeapon->getHeight());
+	if (_inven->getMainWeapon().size() > _youUsingCount)
+	{
+		if (_inven->getMainWeapon()[_youUsingCount]->getItem().isFrame == false)
+		{
+			_playerWeapon->render(imageDC->getMemDC(), _playerWeapon->getWidth(),
+				0, 0, 0, _playerWeapon->getWidth(), _playerWeapon->getHeight());
+		} 
+		else if (_inven->getMainWeapon()[_youUsingCount]->getItem().isFrame == true)
+		{
+			_playerWeapon->frameRender(imageDC->getMemDC(), _playerWeapon->getFrameWidth(),
+				0, 0, 0, _playerWeapon->getFrameWidth(), _playerWeapon->getFrameHeight(),_playerWeapon->getFrameX(), _playerWeapon->getFrameY());
+		}
+	}
 	// ===================
 	if (_direction == LEFT_RUN || _direction == LEFT_STOP)
 	{
@@ -159,7 +170,7 @@ void Player::render()
 	else if (!_isJumping) sprintf_s(str, "점프 : false");
 	TextOut(DC, _collisionRc.left - 50 , _collisionRc.top - 150, str, strlen(str));
 	//// tile check 
-	sprintf(str, "x 좌표 : %f", _x);
+	sprintf(str, "아이템 타입 : %d", _inven->getMainWeapon()[_youUsingCount]->getItemType());
 	TextOut(DC, _x-300, _y - 200, str, strlen(str));
 	sprintf(str, "y 좌표 : %f", _y);
 	TextOut(DC, _x- 300, _y - 300, str, strlen(str)); 
@@ -202,7 +213,7 @@ void Player::render()
 	//DrawText(DC, _dialog[(int)_training][_idY].c_str(), strlen(_dialog[(int)_training][_idY].c_str()), &_rc[0], DT_VCENTER);
 	//DrawText(DC, str.c_str(), strlen(str.c_str()), &_rc[1], DT_VCENTER);
 	sprintf(str, "%d", _level);
-	TextOut(UIDC, 80, 65, str, strlen(str));
+	TextOut(UIDC, 80, 62, str, strlen(str));
 	SelectObject(UIDC, oldFont);
 	DeleteObject(font);
 }
@@ -439,7 +450,8 @@ void Player::attack()
 			}
 		}
 		else if (_inven->getMainWeapon()[_youUsingCount]->getItemType() == SWORD
-			|| _inven->getMainWeapon()[_youUsingCount]->getItemType() == HAMMER)
+			|| _inven->getMainWeapon()[_youUsingCount]->getItemType() == HAMMER 
+			&&_inven->getMainWeapon().size() > _youUsingCount)
 		{
 			_attackCount+=2;
 			_attackSpeedCheckCount = true;
@@ -461,12 +473,13 @@ void Player::attack()
 			
 			}
 		}
-		else if (_isGun)
+		else if (_inven->getMainWeapon()[_youUsingCount]->getItemType() == GUN
+		&& _inven->getMainWeapon().size() > _youUsingCount)
 		{
 			if (_isLeftAttack)
 			{
 				_attackSpeedCheckCount = true;
-				_pb->bulletFire(_leftHandX + _cosValue, _leftHandY + _sinValue, _angle, 500, 10.0f , _bulletType);
+				_pb->bulletFire(_leftHandX + _cosValue, _leftHandY + _sinValue, _angle, 1000, 10.0f , 0);
 				_weaponAttackAngle -= PI / 10;
 				_leftHandX = _collisionRc.left + 15, _leftHandY = _collisionRc.top + 60;
 				_rightHandX = _collisionRc.left + 60, _rightHandY = _collisionRc.top + 60;
@@ -475,7 +488,7 @@ void Player::attack()
 			else if (!_isLeftAttack)
 			{
 				_attackSpeedCheckCount = true;
-				_pb->bulletFire(_rightHandX + _cosValue, _rightHandY + _sinValue, _angle, 500, 10.0f, _bulletType);
+				_pb->bulletFire(_rightHandX + _cosValue, _rightHandY + _sinValue, _angle, 1000, 10.0f, 0);
 				_weaponAttackAngle += PI / 10;
 				_leftHandX = _collisionRc.left + 10, _leftHandY = _collisionRc.top + 60;
 				_rightHandX = _collisionRc.left + 65, _rightHandY = _collisionRc.top + 60;
@@ -871,9 +884,9 @@ void Player::itemInfo()
 				_attackEffect = IMAGEMANAGER->findImage("검3효과");
 			else _attackEffect = IMAGEMANAGER->findImage("검1효과");
 		}
-		else if (_inven->getMainWeapon()[_youUsingCount]->getItemType() == GUN)
+		if (_inven->getMainWeapon()[_youUsingCount]->getItemType() == GUN)
 		{
-			
+			_isGun = true;
 			//기본총  데드건 플레임건 레일건 
 			for (int i = 1; i < 5; ++i)
 			{
@@ -884,6 +897,7 @@ void Player::itemInfo()
 				}
 			}
 		}
+		
 	}
 
 

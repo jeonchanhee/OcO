@@ -224,14 +224,14 @@ void playGround::render(void)
 		break;
 	case 던전2: case 던전3: case 던전4: case 던전5: case 던전6: case 던전7: case 던전8:
 	case 랜덤맵1: case 보스:  case 무기: case 푸드:
-		SCENEMANAGER->render();
 		EFFECTMANAGER->render();
-		_player->render();
+		SCENEMANAGER->render();	
+		//_player->render();
 		break;
 	case 마을:
 		SCENEMANAGER->render();
 		EFFECTMANAGER->render();
-		//_player->render();
+		_player->render();
 		break;
 	case 맵선택:
 		SCENEMANAGER->render();
