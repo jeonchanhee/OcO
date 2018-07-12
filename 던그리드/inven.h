@@ -3,9 +3,13 @@
 #include "item.h"
 
 #define INVENSIZE 15
+
+class itemManager;
+
 class inven : public gameNode
 {
 private:
+	itemManager * _im;
 	//¿Œ∫•≈‰∏Æ 
 	vector<Item*> _vItem;
 	vector<Item*>::iterator _viItem;
@@ -24,6 +28,7 @@ private:
 	RECT _mainWeaponRect[2];
 	RECT _assistWeaponRect[2];
 	RECT _accessarryRect[4];
+	RECT _moneyRect;
 	bool _onMouseInven, _onMouseAc , _onMouseMain , _onMouseAs , _onInven;
 	int _isSelect;
 	int _gold;
@@ -38,7 +43,9 @@ public:
 	void update();
 	void render();
 
-	 
+	void setImLink(itemManager* im) { _im = im; } 
+
+	void setOnInven(int on) { _onInven = on; }
 	void setIsSelect(int index) { _isSelect = index; }
 	int getIsSelect()			{ return _isSelect; }
 
@@ -50,13 +57,16 @@ public:
 
 	
 	void mount(); //¿Â¬¯ 
-	void pickUpItem(ITEMTYPE type, const char * weaponName, int value); // »πµÊ 
+	void pickUpItem(ITEMTYPE type, const char * weaponName, int value);
+	void buyItem(int num);
+	// »πµÊ 
 	void deleteItem(int i);  //ªË¡¶ 
 	void dismantWeapon();
 	void dismantAs();
 	void dismantAccessarry();
 	
-
+	int getGold() { return _gold; }
+	void setGold(int i) { _gold = i; }
 	
 	inven();
 	~inven();

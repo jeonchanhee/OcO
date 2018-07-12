@@ -21,10 +21,14 @@ private:
 	animation* _suck;
 	int		_temp;
 	int _start;
+	int _trainStat[6];
+	int _itemNum[5];
 	bool _ui[3];
 	bool _sucking;
 	int _trainStat[6];
 	int _count;
+	
+
 	minimap* _minimap;
 	RandomDungeon1* _randMap;
 	
@@ -32,6 +36,7 @@ public:
 	void setImLink(itemManager* im) { _im = im; }
 
 	HRESULT init();
+	void resetShop();
 	void release();
 	void update();
 	void render();

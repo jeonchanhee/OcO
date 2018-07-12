@@ -57,7 +57,8 @@ HRESULT dungeon7Scene::init()
 	setDoor();
 	setMonster();
 
-	setMinimap();
+	if (_mapValue[_dungeonNum] == "F")
+		setMonster();
 
 	for (int i = 0; i < _vEnemy.size(); i++)
 	{

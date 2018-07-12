@@ -21,22 +21,25 @@ HRESULT Player::init()
 	_playerHand[1]  = IMAGEMANAGER->findImage("플레이어손");
 	itemInfo();
 	_x = WINSIZEX / 2; _y = WINSIZEY / 2 -100;
-	_attackEffect = IMAGEMANAGER->findImage("검쓰르륵");
+	_attackEffect = IMAGEMANAGER->findImage("검1효과");
+	//_attackEffect = IMAGEMANAGER->findImage("검쓰르륵");
+
+	_level = 1;
 	_dashCount = 0, _attackCount = 0;
 	_mouseAngle = 0;
 	_currentDash = 1024 , _maxDash = 1024;
+	//_currentDash = 2 , _maxDash =2;
 	_currentFullNess = 0; _maxFullNess = 100;
 	_jumpPower = 12.0f;
 	_moveMentSpeed = 10.0f;
 	_direction = RIGHT_STOP;
-	_gold = 0;
 	_jumpMax = 1; _jumpCount = 0;
 	_locusX = 0 , _locusY = 0;
 	_weaponAngle = 0;
 	_weaponAttackAngle = 0;
 	_fixedDamage = 0;
 	_youUsingCount = 0;
-
+	_bulletType = 0;
 	_currentHp = 50;
 	_maxHp = 100;
 
@@ -66,18 +69,6 @@ HRESULT Player::init()
 
 	_playerAnimation = KEYANIMANAGER->findAnimation("오른쪽보고서있기");
 	
-	//equipment
-	_mainWeapon[0] = 1;
-	_mainWeapon[1] = 0;
-	for (int i = 0; i < 15; ++i)
-	{
-		_inventory[i] = 0;
-	}
-	for (int i = 0; i < 4; ++i)
-	{
-		_accessory[i] = 0;
-	}
-	
 	_collisionRc = RectMakeCenter(_x, _y, _player->getFrameWidth(), _player->getFrameHeight());
 	RECT rc = RectMake(0, 0, _playerWeapon->getWidth() * 2, _playerWeapon->getHeight());
 	imageDC->rotateInit(rc.right - rc.left, rc.bottom - rc.top, true, RGB(0, 0, 0), false);
@@ -101,10 +92,7 @@ void Player::update()
 		effect();
 		move();
 	}
-
-	
 	KEYANIMANAGER->update();
-	
 	cameraSetting();
 	tileCollision();
 	_collisionRc = RectMakeCenter(_x, _y, _player->getFrameWidth(), _player->getFrameHeight());
@@ -200,8 +188,23 @@ void Player::render()
 	if(_currentDash>0)
 	IMAGEMANAGER->findImage("dash")->render(UIDC, 47, 162);
 	if (_currentDash>1)
-		IMAGEMANAGER->findImage("dash")->render(UIDC, 101, 162);
+	IMAGEMANAGER->findImage("dash")->render(UIDC, 101, 162);
 	_hpbar->render();
+
+	
+
+	HFONT font, oldFont;
+	font = CreateFont(50, 0, 0, 0, 100, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("소야바른9"));
+	oldFont = (HFONT)SelectObject(UIDC, font);
+	SetTextColor(UIDC, RGB(255, 255, 255));
+	SetBkMode(UIDC, TRANSPARENT);
+	//string str = _vDialog[(int)_elder][_idY].substr(0, _idX);
+	//DrawText(DC, _dialog[(int)_training][_idY].c_str(), strlen(_dialog[(int)_training][_idY].c_str()), &_rc[0], DT_VCENTER);
+	//DrawText(DC, str.c_str(), strlen(str.c_str()), &_rc[1], DT_VCENTER);
+	sprintf(str, "%d", _level);
+	TextOut(UIDC, 80, 65, str, strlen(str));
+	SelectObject(UIDC, oldFont);
+	DeleteObject(font);
 }
 
 void Player::keyInput()
@@ -247,6 +250,7 @@ void Player::keyInput()
 		&& _goDownJump) _y += 90 , _goDownJump = false;
 	else if (KEYMANAGER->isOnceKeyDown(VK_SPACE))
 	{
+		SOUNDMANAGER->play("점프사운드");
 		_jumpCount++;
 		_isJumping = true;
 		_gravity = GRAVITY;
@@ -272,6 +276,8 @@ void Player::keyInput()
 			 _punchSpeed = PUNCHSPEED;
 			_angle = getAngle(_collisionRc.left + _player->getFrameWidth() / 2, _collisionRc.top + _player->getFrameHeight() / 2, PTMOUSE_X, PTMOUSE_Y);
 			_isAttacking = true;
+			if(_inven->getMainWeapon().size() > _youUsingCount 
+			&& _inven->getMainWeapon()[_youUsingCount]->getItemType() == SWORD) SOUNDMANAGER->play("칼사운드");
 		}
 		
 	}
@@ -279,6 +285,7 @@ void Player::keyInput()
 	{	
 		if (_currentDash > 0)
 		{
+			SOUNDMANAGER->play("대시사운드");
 			_currentDash--;
 			_dashSpeed = DASHSPEED;
 			_isDashing = true;
@@ -366,8 +373,6 @@ void Player::move()
 		_jump -= _gravity;
 		_y -= _jump;
 	}
-
-	
 	if (_isDashing)
 	{
 		_dashSpeed -= 2.0f;
@@ -461,7 +466,7 @@ void Player::attack()
 			if (_isLeftAttack)
 			{
 				_attackSpeedCheckCount = true;
-				_pb->bulletFire(_leftHandX + _cosValue, _leftHandY + _sinValue, _angle, 500, 10.0f,0);
+				_pb->bulletFire(_leftHandX + _cosValue, _leftHandY + _sinValue, _angle, 500, 10.0f , _bulletType);
 				_weaponAttackAngle -= PI / 10;
 				_leftHandX = _collisionRc.left + 15, _leftHandY = _collisionRc.top + 60;
 				_rightHandX = _collisionRc.left + 60, _rightHandY = _collisionRc.top + 60;
@@ -470,7 +475,7 @@ void Player::attack()
 			else if (!_isLeftAttack)
 			{
 				_attackSpeedCheckCount = true;
-				_pb->bulletFire(_rightHandX + _cosValue, _rightHandY + _sinValue, _angle, 500, 10.0f, 0);
+				_pb->bulletFire(_rightHandX + _cosValue, _rightHandY + _sinValue, _angle, 500, 10.0f, _bulletType);
 				_weaponAttackAngle += PI / 10;
 				_leftHandX = _collisionRc.left + 10, _leftHandY = _collisionRc.top + 60;
 				_rightHandX = _collisionRc.left + 65, _rightHandY = _collisionRc.top + 60;
@@ -851,18 +856,39 @@ void Player::pixelCollision()
 
 void Player::itemInfo()
 {
-	if (_inven->getMainWeapon().size() > _youUsingCount )
+	if (_inven->getMainWeapon().size() > _youUsingCount)
 	{
 		_playerWeapon = _inven->getMainWeapon()[_youUsingCount]->equipmentImage();
 		RECT rc = RectMake(0, 0, _playerWeapon->getWidth() * 2, _playerWeapon->getHeight());
 		imageDC->rotateInit(rc.right - rc.left, rc.bottom - rc.top, true, RGB(0, 0, 0), false);
+		if (_inven->getMainWeapon()[_youUsingCount]->getItemType() == SWORD)
+		{
+			if (_inven->getMainWeapon()[_youUsingCount]->getItemValue() == 3)
+				_attackEffect = IMAGEMANAGER->findImage("검2효과");
+			else if (_inven->getMainWeapon()[_youUsingCount]->getItemValue() == 8)
+				_attackEffect = IMAGEMANAGER->findImage("검4효과");
+			else if (_inven->getMainWeapon()[_youUsingCount]->getItemValue() == 5)
+				_attackEffect = IMAGEMANAGER->findImage("검3효과");
+			else _attackEffect = IMAGEMANAGER->findImage("검1효과");
+		}
+		else if (_inven->getMainWeapon()[_youUsingCount]->getItemType() == GUN)
+		{
+			
+			//기본총  데드건 플레임건 레일건 
+			for (int i = 1; i < 5; ++i)
+			{
+				if (_inven->getMainWeapon()[_youUsingCount]->getItemValue() == i)
+				{
+					_bulletType = i - 1;
+					break;
+				}
+			}
+		}
 	}
+
+
+	//1. 기본 , 2 . 무라마사 , 3. 화염검 , 4.징그럽게 생긴검 ,5.에메랄드검  6. 이터널 스워드 , 7 . 빨간검 8. 보스검 ,9.노란검,10 나무검
 	
-	RECT rc = RectMake(0, 0, _playerWeapon->getWidth() * 2, _playerWeapon->getHeight());
-	imageDC->rotateInit(rc.right - rc.left, rc.bottom - rc.top, true, RGB(0, 0, 0), false);
-
-
-	//무기 이미지 넣어준다
 																			   
 
 }

@@ -68,6 +68,10 @@ HRESULT Boss2::init()
 
 	_count2 = _count3 = 0;
 
+	_rc = _boss[1].rc;
+	_x = _boss[1].x;
+	_y = _boss[1].y;
+
 	//보스 체력바 초기화
 	_progressBar = new progressBar;
 	//_progressBar->init(500, WINSIZEY - 100, 1000, 100, "보스앞", "보스뒤", BAR_BOSS);
@@ -118,6 +122,8 @@ void Boss2::update()
 
 	//playerCollision();
 	_rc = _boss[1].rc;
+	_x = _boss[1].x;
+	_y = _boss[1].y;
 
 	if (!_diedie)
 		hitDamage();
@@ -133,6 +139,7 @@ void Boss2::update()
 			_boss[1].y = 1300;
 			if (_dieCount > 240 && !(_dieCount % 3))
 			{
+				SOUNDMANAGER->play("enemySound");
 				//_rndX = RND->getFromIntTo(WINSIZEX / 3, WINSIZEX * 2 / 3);
 				//_rndY = RND->getFromIntTo(WINSIZEY / 3, WINSIZEY * 2 / 3);
 				_rndX = RND->getFromIntTo(_boss[1].rc.left- 100,_boss[1].rc.right + 100);

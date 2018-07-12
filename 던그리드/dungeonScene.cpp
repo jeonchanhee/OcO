@@ -14,6 +14,7 @@ void dungeonScene::collision()
 			if (IntersectRect(&checkRc, &_player->getEffect()->effectCheckBox(), &(*_viEnemy)->getRect()))
 			{
 				(*_viEnemy)->setCurrentHp((*_viEnemy)->getCurrentHp() - 10);
+				SOUNDMANAGER->play("hitMonster");
 			}
 
 
@@ -24,24 +25,26 @@ void dungeonScene::collision()
 				{
 					_player->getPBullet()->removeBullet(i);
 					(*_viEnemy)->setCurrentHp((*_viEnemy)->getCurrentHp() - 10);
+					SOUNDMANAGER->play("hitMonster");
 				}
 				else
 				{
 					++i;
 				}
-			}	
-		}
-	}
-	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); )
-	{
-		if ((*_viEnemy)->getIsDie())
-		{
-			_minimap->setDieMonster(_viEnemy - _vEnemy.begin());
-			_viEnemy = _vEnemy.erase(_viEnemy);			
-		}
-		else
-		{
+
+			}
 			++_viEnemy;
+
+		}
+
+		for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); )
+		{
+			if ((*_viEnemy)->getIsDie())
+				_viEnemy = _vEnemy.erase(_viEnemy);
+			else
+			{
+				++_viEnemy;
+			}
 		}
 	}
 }
@@ -1017,6 +1020,7 @@ void dungeonScene::MusicAngelBulletFire()
 	{
 		for (int i = 0; i < 12; i++)
 		{
+			SOUNDMANAGER->play("musicAngel");
 			float angle = (PI2 / 12)*i;
 			_enemyBullet->bulletFire("bansheeNormalBullet", _musicAngel->getX(), _musicAngel->getY(), angle, 5.0f, 500, true);
 		}

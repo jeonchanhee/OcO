@@ -44,7 +44,8 @@ HRESULT dungeon2Scene::init()
 	doorInit();
 	setDoor();
 	
-	setMonster();
+	if(_mapValue[_dungeonNum] == "F")
+		setMonster();
 
 	setMinimap();
 

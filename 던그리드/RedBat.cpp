@@ -114,6 +114,8 @@ void RedBat::update()
 
 void RedBat::render()
 {
+	if (_diedie) return;
+
 	_img->aniRender(DC, _rc.left, _rc.top, _redBatMotion);
 	_progressBar->render();
 	if (KEYMANAGER->isToggleKey('B'))
@@ -371,12 +373,14 @@ void RedBat::changeAnimation(REDBATDIRECTION direction)
 	case REDBAT_RIGHT_DIE:
 		_img = IMAGEMANAGER->findImage("redBatMoveAttackDie");
 		_redBatDirection = REDBAT_RIGHT_DIE;
+		_redBatMotion->stop();
 		_redBatMotion = KEYANIMANAGER->findAnimation("redBatRightDie");
 		_redBatMotion->start();
 		break;
 	case REDBAT_LEFT_DIE:
 		_img = IMAGEMANAGER->findImage("redBatMoveAttackDie");
 		_redBatDirection = REDBAT_LEFT_DIE;
+		_redBatMotion->stop();
 		_redBatMotion = KEYANIMANAGER->findAnimation("redBatLeftDie");
 		_redBatMotion->start();
 		break;
@@ -390,7 +394,7 @@ void RedBat::die()
 	{
 		changeAnimation(REDBAT_RIGHT_DIE);
 	}
-	else if (_redBatDirection == REDBAT_LEFT_MOVE || _redBatDirection == REDBAT_LEFT_UP_MOVE || _redBatDirection == REDBAT_LEFT_DOWN_MOVE || _redBatDirection == REDBAT_DOWN_MOVE)
+	else if (_redBatDirection == REDBAT_LEFT_MOVE || _redBatDirection == REDBAT_LEFT_UP_MOVE || _redBatDirection == REDBAT_LEFT_DOWN_MOVE || _redBatDirection == REDBAT_DOWN_MOVE || _redBatDirection == REDBAT_LEFT_ATTACK)
 	{
 		changeAnimation(REDBAT_LEFT_DIE);
 	}
