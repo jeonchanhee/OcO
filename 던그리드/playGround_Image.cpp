@@ -145,7 +145,7 @@ HRESULT playGround::Image_init(void)
 	//IMAGEMANAGER->addFrameImage("arrowEffect", "image/enemy/arrowEffect(720x370,3x1).bmp", 0, 0, 720, 370, 3, 1, true, RGB(255, 0, 255));
 	//IMAGEMANAGER->addFrameImage("bansheeBigBullet", "image/enemy/bansheeBigBullet(480x110,6x1).bmp", 0, 0, 480, 110, 6, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("dieEffect", "image/enemy/dieEffect(4224x384,11x1).bmp", 0, 0, 4224, 384, 11, 1, true, RGB(255, 0, 255));
-	EFFECTMANAGER->addEffect("dieEffect", "image/enemy/dieEffect(4224x384,11x1).bmp", 4224, 384, 4224 / 11, 384,20, 0.9f, 1);
+	EFFECTMANAGER->addEffect("dieEffect", "image/enemy/dieEffect(4224x384,11x1).bmp", 4224, 384, 4224 / 11, 384, 1, 0.1f, 50);
 	EFFECTMANAGER->addEffect("bossCollisionBullet", "image/enemy/bossCollisionEffect(1100x100,11x1).bmp", 1100, 100, 1100 / 11, 100, 1.0f, 0.3f, 1);
 	EFFECTMANAGER->addEffect("bansheeBigBullet", "image/enemy/bansheeBigBullet(480x110,6x1).bmp", 480, 110, 480 / 6, 110, 1.0f, 0.3f, 1);
 	EFFECTMANAGER->addEffect("arrowEffect", "image/enemy/arrowEffect(300x100,3x1).bmp", 300, 100, 300 /3, 100, 1.0f, 0.3f, 1);

@@ -6,7 +6,7 @@
 
 void dungeonScene::collision()
 {
-	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); )
+	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); ++_viEnemy)
 	{
 		if (_player->getAttackCheck())
 		{
@@ -57,9 +57,9 @@ HRESULT dungeonScene::init(void)
 	KEYANIMANAGER->addDefaultFrameAnimation("torchAni", "torch", 10, false, true);
 	KEYANIMANAGER->addCoordinateFrameAnimation("portalAni", "portal", 9, 17, 10, false, true);
 	_player = SCENEMANAGER->getPlayerAddressLink();
+
 	j = 0;
 	_start = _start2 = 0;
-	//_diecount2 = true;
 	for (int i = 0; i < 2; i++)
 	{
 		_bossLaserHitCount[i] = 0;
@@ -86,6 +86,11 @@ void dungeonScene::update(void)
 	if(_minimap != NULL)
 	_minimap->setPlayerXY(((300 * _player->getPlayerX()) / (_tileX * TILESIZE)), ((150 * (_player->getPlayerY() - 80)) / (_tileY * TILESIZE)));
 	_player->update();
+
+	if (_vEnemy.size() == 0)
+	{
+		_mapValue[_dungeonNum] = "T";
+	}
 }
 
 void dungeonScene::render(void)
@@ -155,6 +160,7 @@ void dungeonScene::render(void)
 	TextOut(DC, 100, 100, str, strlen(str));
 	_count++;
 	_enemyBullet->render();
+
 	for (int i = 0; i < 20; i++)
 	{
 		_bigRadBatBullet[i]->render();
@@ -708,11 +714,13 @@ void dungeonScene::setBoss()
 void dungeonScene::nextTest()
 {
 	//if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON) && _mapValue[_dungeonNum] == "T")
-	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
+	//if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
 	{
 		for (int i = 0; i < _vDoor.size(); i++)
 		{
-			if (PtInRect(&_vDoor[i].rc, getMemDCPoint()))
+			//if (PtInRect(&_vDoor[i].rc, getMemDCPoint()))
+			RECT temp;
+			if(IntersectRect(&temp,&_vDoor[i].rc, &_player->getRc()) && _mapValue[_dungeonNum] == "T")
 			{
 				string str = "´øÀü¸Ê";
 				char temp[128] = "";
@@ -1018,6 +1026,8 @@ void dungeonScene::MusicAngelBulletFire()
 //º¸½ºÃÑ¾Ë
 void dungeonScene::BossBulletFire()
 {
+	if (_boss->getDieDie()) return;
+	
 	bossBulletCollision();
 	//==========================================================
 	//						º¸½º ÃÑ¾Ë

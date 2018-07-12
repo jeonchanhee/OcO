@@ -14,6 +14,7 @@ bossScene::~bossScene()
 HRESULT bossScene::init()
 {
 	dungeonScene::init();
+	//SOUNDMANAGER->play("bossChest");
 //	_isMapSet = true;
 	chooseMap(10);
 	selectSize(10);
@@ -36,9 +37,18 @@ HRESULT bossScene::init()
 		_route.push_back(8);
 	}
 
-	setBossMon();
+	if (_mapValue[_dungeonNum] == "F")
+			setBossMon();
 
-	_mapValue[_dungeonNum] = "T";
+	for (int i = 0; i < _vEnemy.size(); i++)
+	{
+		_minimap->setEnemyXY(((_vEnemy[i]->getX() * 300) / (_tileX*TILESIZE)), ((_vEnemy[i]->getY() * 150) / (_tileY*TILESIZE)));
+	}
+
+	//_mapValue[_dungeonNum] = "T";
+
+	_player->setPlayerX(_vDoor[0].x + TILESIZE * 2);
+	_player->setPlayerY(_vDoor[0].y);
 	
 	return S_OK;
 }
@@ -55,6 +65,8 @@ void bossScene::update()
 	BossBulletFire();
 	_enemyBullet->update();
 	EFFECTMANAGER->update();
+	//if (!SOUNDMANAGER->isPauseSound("bossChest"))
+	//	SOUNDMANAGER->play("bossLaughter");
 }
 
 void bossScene::render()

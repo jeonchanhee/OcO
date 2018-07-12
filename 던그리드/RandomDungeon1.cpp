@@ -51,12 +51,13 @@ void RandomDungeon1::save()
 {
 	vector<string> vRand = TXTDATA->txtLoad("random.txt");
 	int randNum;
-	while (1)
+	/*while (1)
 	{
 		randNum = RND->getInt(4);
 		if (vRand[randNum] == "F")
 			break;
-	}
+	}*/
+	randNum = 3;
 	int count = 0;
 	for (int i = 0; i < 4; i++)
 	{

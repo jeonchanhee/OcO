@@ -37,9 +37,12 @@ HRESULT dungeon8Scene::init()
 	setMinimap();
 	setDoorMinimap();
 
-	_mapValue[_dungeonNum] = "T";
+	//_mapValue[_dungeonNum] = "T";
 
 	_doorRc = RectMake(_dungeonDoor.x + 100, _dungeonDoor.y + 200, 100, 200);
+
+	_player->setPlayerX(_vDoor[0].x + TILESIZE * 2);
+	_player->setPlayerY(_vDoor[0].y);
 
 	return S_OK;
 }

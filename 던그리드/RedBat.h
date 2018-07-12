@@ -78,6 +78,5 @@ public:
 	//REDBATDIRECTION getredBatDirection() { return _redBatDirection; }
 	
 	bool getdiedie() { return _diedie; }
-
 };
 

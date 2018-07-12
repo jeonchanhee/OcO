@@ -103,7 +103,10 @@ void BigBone::update()
 	{
 		_dieCount++;
 		if (_dieCount > 120)
+		{
+			//_bigBoneMotion->stop();
 			_isDie = true;
+		}
 	}
 }
 
@@ -359,6 +362,7 @@ void BigBone::changeAnimation(BIGBONEDIRECTION bigBoneDirection)
 		case BIGBONE_DIE:
 			//_isDie = true;
 			_diedie = true;
+			//_bigBoneMotion->stop();
 			_img = IMAGEMANAGER->findImage("skelBone");
 			_bigBoneDirection = BIGBONE_DIE;
 			_bigBoneMotion = KEYANIMANAGER->findAnimation("bigBoneDie");

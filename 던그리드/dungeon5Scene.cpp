@@ -75,8 +75,8 @@ HRESULT dungeon5Scene::init()
 	_vDoor[2].dir = DOOR_RIGHT;
 
 	setDoor();
-	setMonster();
-
+	if (_mapValue[_dungeonNum] == "F")
+		setMonster();
 	setMinimap();
 	
 	for (int i = 0; i < _vEnemy.size(); i++)
@@ -85,7 +85,10 @@ HRESULT dungeon5Scene::init()
 	}
 	setDoorMinimap();
 
-	_mapValue[4] = "T";
+	_player->setPlayerX(_vDoor[0].x + TILESIZE * 2);
+	_player->setPlayerY(_vDoor[0].y);
+
+//	_mapValue[4] = "T";
 	return S_OK;
 }
 
