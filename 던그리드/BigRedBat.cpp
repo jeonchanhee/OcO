@@ -28,9 +28,9 @@ HRESULT BigRedBat::init(float x, float y)
 	
 	//Die
 	int rightDie[] = { 14 };
-	KEYANIMANAGER->addArrayFrameAnimation("bigRedBatRightDie", "giantRedBatIdleDie", rightDie, 1, 5, false);
+	KEYANIMANAGER->addArrayFrameAnimation("bigRedBatRightDie", "giantRedBatIdleDie", rightDie, 1, 5, false, bigRedBatDieMotion, this);
 	int leftDie[] = { 15 };
-	KEYANIMANAGER->addArrayFrameAnimation("bigRedBatLeftDie", "giantRedBatIdleDie", leftDie, 1, 5, false);
+	KEYANIMANAGER->addArrayFrameAnimation("bigRedBatLeftDie", "giantRedBatIdleDie", leftDie, 1, 5, false, bigRedBatDieMotion, this);
 
 	_bigRedBatMotion = KEYANIMANAGER->findAnimation("bigRedBatRightMove");
 	_bigRedBatMotion->start();
@@ -58,22 +58,32 @@ void BigRedBat::update()
 	_progressBar->update();
 
 	attackMove();
+	if (!_diedie)
+		hitDamage();
+
+	if (_diedie)
+	{
+		_diecount++;
+		if (_diecount > 60)
+		{
+			_isDie = true;
+		}
+	}
+
+
 
 	/////////////////DIE ┼╫╜║╞о////////////////////
 	if (KEYMANAGER->isOnceKeyDown(VK_F6))
 	{
-		if (_bigRedBatDirection == BIGREDBAT_RIGHT_MOVE)
-			changeAnimation(BIGREDBAT_RIGHT_DIE);
-		if (_bigRedBatDirection == BIGREDBAT_LEFT_MOVE)
-			changeAnimation(BIGREDBAT_LEFT_DIE);
+		_currentHP -= 5;
 	}
-	if (KEYMANAGER->isOnceKeyUp(VK_F6))
+	/*if (KEYMANAGER->isOnceKeyUp(VK_F6))
 	{
 		if (_bigRedBatDirection == BIGREDBAT_RIGHT_DIE)
 			changeAnimation(BIGREDBAT_RIGHT_MOVE);
 		if (_bigRedBatDirection == BIGREDBAT_LEFT_DIE)
 			changeAnimation(BIGREDBAT_LEFT_MOVE);
-	}
+	}*/
 	/////////////////бубубубубубубубубу////////////////////
 
 
@@ -93,15 +103,18 @@ void BigRedBat::render()
 
 void BigRedBat::attackMove()
 {
-	_count++;
-	if(!(_count % 640)) _isAttack = true;
-	if (!(_count % 700))
+	if (!_diedie)
 	{
-		if (_bigRedBatDirection == BIGREDBAT_RIGHT_MOVE)
-			changeAnimation(BIGREDBAT_RIGHT_ATTACK);
-		if (_bigRedBatDirection == BIGREDBAT_LEFT_MOVE)
-			changeAnimation(BIGREDBAT_LEFT_ATTACK);
-		_count = 0;
+		_count++;
+		if (!(_count % 640)) _isAttack = true;
+		if (!(_count % 700))
+		{
+			if (_bigRedBatDirection == BIGREDBAT_RIGHT_MOVE)
+				changeAnimation(BIGREDBAT_RIGHT_ATTACK);
+			if (_bigRedBatDirection == BIGREDBAT_LEFT_MOVE)
+				changeAnimation(BIGREDBAT_LEFT_ATTACK);
+			_count = 0;
+		}
 	}
 }
 
@@ -160,6 +173,7 @@ void BigRedBat::changeAnimation(BIGREDBATDIRECTION bigRedBatDirection)
 	case BIGREDBAT_RIGHT_DIE:
 		_img = IMAGEMANAGER->findImage("giantRedBatIdleDie");
 		_bigRedBatDirection = BIGREDBAT_RIGHT_DIE;
+		_bigRedBatMotion->stop();
 		_bigRedBatMotion = KEYANIMANAGER->findAnimation("bigRedBatRightDie");
 		_bigRedBatMotion->start();
 		_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
@@ -167,6 +181,7 @@ void BigRedBat::changeAnimation(BIGREDBATDIRECTION bigRedBatDirection)
 	case BIGREDBAT_LEFT_DIE:
 		_img = IMAGEMANAGER->findImage("giantRedBatIdleDie");
 		_bigRedBatDirection = BIGREDBAT_LEFT_DIE;
+		_bigRedBatMotion->stop();
 		_bigRedBatMotion = KEYANIMANAGER->findAnimation("bigRedBatLeftDie");
 		_bigRedBatMotion->start();
 		_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
@@ -181,7 +196,24 @@ void BigRedBat::playerCollision()
 {
 }
 
-void BigRedBat::hitDamage(float damage)
+void BigRedBat::hitDamage()
 {
-	_currentHP -= damage;
+	if (_currentHP <= 0)
+	{
+		die();
+	}
+}
+
+void BigRedBat::die()
+{
+	if (_bigRedBatDirection == BIGREDBAT_RIGHT_ATTACK || _bigRedBatDirection == BIGREDBAT_RIGHT_MOVE)
+		changeAnimation(BIGREDBAT_RIGHT_DIE);
+	if (_bigRedBatDirection == BIGREDBAT_LEFT_ATTACK || _bigRedBatDirection == BIGREDBAT_RIGHT_MOVE)
+		changeAnimation(BIGREDBAT_LEFT_DIE);
+}
+
+void BigRedBat::bigRedBatDieMotion(void * obj)
+{
+	BigRedBat* c = (BigRedBat*)obj;
+	c->_diedie = true;
 }

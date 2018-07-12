@@ -28,6 +28,7 @@ private:
 	RECT _mainWeaponRect[2];
 	RECT _assistWeaponRect[2];
 	RECT _accessarryRect[4];
+	RECT _moneyRect;
 	bool _onMouseInven, _onMouseAc , _onMouseMain , _onMouseAs , _onInven;
 	int _isSelect;
 	int _gold;
@@ -64,7 +65,8 @@ public:
 	void dismantAs();
 	void dismantAccessarry();
 	
-
+	int getGold() { return _gold; }
+	void setGold(int i) { _gold = i; }
 	
 	inven();
 	~inven();

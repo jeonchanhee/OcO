@@ -29,7 +29,8 @@ HRESULT dungeon6Scene::init()
 	doorInit();
 	setDoor();
 	portalInit(655 % 25, 655 / 25);
-	setMonster();
+	if (_mapValue[_dungeonNum] == "F")
+		setMonster();
 
 	setMinimap();
 
@@ -40,7 +41,10 @@ HRESULT dungeon6Scene::init()
 
 	setDoorMinimap();
 
-	_mapValue[_dungeonNum] = "T";
+	_player->setPlayerX(_vDoor[0].x + TILESIZE * 2);
+	_player->setPlayerY(_vDoor[0].y);
+
+	//_mapValue[_dungeonNum] = "T";
 
 	return S_OK;
 }

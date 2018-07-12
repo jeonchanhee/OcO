@@ -36,7 +36,7 @@ HRESULT dungeon1Scene::init()
 	setMinimap();
 	setDoorMinimap();
 
-	_mapValue[0] = "T";
+	//_mapValue[0] = "T";
 	//_player->setGold(10);
 	return S_OK;
 }

@@ -64,7 +64,6 @@ protected:
 	vector<int> _route;
 	
 	Player* _player;
-
 	BigBat*		_bigbat;
 	BigRedBat*	_bigRedBat;
 	RedBat*		_redBat;
@@ -99,10 +98,7 @@ protected:
 	int  j;
 	int _start;
 	int _start2;
-	int i;
-	int k;
-
-	bool _bulletMove;
+	
 	int _swordCount;
 
 	minimap* _minimap;
@@ -112,7 +108,8 @@ protected:
 	float _movePortal[2][2];
 	bool _isClickPortal;
 	string _floorName;
-	//infoPlayer _infoPlayer;
+
+	bool _diecount2;
 
 public:
 	virtual HRESULT init(void);

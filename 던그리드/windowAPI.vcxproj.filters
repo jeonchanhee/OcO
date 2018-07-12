@@ -339,11 +339,11 @@
     <ClInclude Include="FoodNpc.h">
       <Filter>playGround\NPC</Filter>
     </ClInclude>
-    <ClInclude Include="minimap.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="inven.h">
       <Filter>playGround\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="minimap.h">
+      <Filter>playGround\minimap</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -569,11 +569,11 @@
     <ClCompile Include="townScene.cpp">
       <Filter>playGround\Scene\dungeon</Filter>
     </ClCompile>
-    <ClCompile Include="minimap.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="inven.cpp">
       <Filter>playGround\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="minimap.cpp">
+      <Filter>playGround\minimap</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

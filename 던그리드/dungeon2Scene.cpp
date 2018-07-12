@@ -45,7 +45,8 @@ HRESULT dungeon2Scene::init()
 	doorInit();
 	setDoor();
 	
-	setMonster();
+	if(_mapValue[_dungeonNum] == "F")
+		setMonster();
 
 	setMinimap();
 
@@ -55,7 +56,9 @@ HRESULT dungeon2Scene::init()
 	}
 	setDoorMinimap();
 
-	_mapValue[_dungeonNum] = "T";
+	_player->setPlayerX(_vDoor[0].x + TILESIZE * 2);
+	_player->setPlayerY(_vDoor[0].y);
+	//_mapValue[_dungeonNum] = "T";
 
 	return S_OK;
 }
@@ -70,22 +73,31 @@ void dungeon2Scene::update()
 		int idx = _viEnemy - _vEnemy.begin();
 		_minimap->changeEnemyXY(idx, (((*_viEnemy)->getX() * 300) / (_tileX*TILESIZE)), (((*_viEnemy)->getY() * 150) / (_tileY*TILESIZE)));
 	}
-	bigbatbulletFire();
+	if (!_bigbat->getdiedie())
+	{
+		bigbatbulletFire();
+	}
 	_bigBatBullet->bulletframe("fatherBatBullet2");
 	if (_start2 != 0)
 	{
 		_bigBatBullet->update();
 	}
-
-	bigRadbatbulletFire();
-	for (int i = 0; i < 20; i++)
+	if (!_bigRedBat->getdiedie())
 	{
-
-		_bigRadBatBullet[i]->bulletframe("fatherBatBullet2");
-
-		if(_start == 1) _bigRadBatBullet[i]->update();
+		bigRadbatbulletFire();
+	}
+	else
+	{
+		_start = 1;
 	}
 
+		for (int i = 0; i < 20; i++)
+		{
+			_bigRadBatBullet[i]->bulletframe("fatherBatBullet2");
+			if (_start == 1) 
+				_bigRadBatBullet[i]->update();
+		}
+	
 	redBatBullet();
 	_radBatBullet->bulletframe("fatherBatBullet2");
 	_radBatBullet->update();
@@ -202,7 +214,7 @@ void dungeon2Scene::setMonster()
 		setBigBone(id[i][0], id[i][1], i);
 	}
 	//작보박
-	setBat(416 % _temp, 416 / _temp);
+	setBat(405 % _temp, 405 / _temp);
 	//작갈박
 	setRedBat(318 % _temp, 318 / _temp);
 

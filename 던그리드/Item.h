@@ -99,9 +99,10 @@ public:
 	void setAccessory(const char* AccessoryName, int value);		// æ«ºº ¡§¿««ÿ¡‹
 	void setFood(const char* FoodName, int value);					// ¿ΩΩƒ ¡§¿««ÿ¡‹
 
-	ITEMTYPE getItemType() { return _item.type; }
-	image * equipmentImage() { return _item.image[2]; }
-	tagItem getItem() { return _item; }
+	int getItemValue()			 { return _item.value; }
+	ITEMTYPE getItemType()		 { return _item.type; }
+	image * equipmentImage()	 { return _item.image[2]; }
+	tagItem getItem()			 { return _item; }
 	
 
 

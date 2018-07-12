@@ -20,8 +20,6 @@ enum BATDIRECTION
 class Bat : public Enemy
 {	
 private:
-	float _currentHP, _maxHP;
-
 	BATDIRECTION _batDirection;
 	animation* _batMotion;
 	RECT rcCollision;	// 타일 검출 렉트
@@ -30,7 +28,8 @@ private:
 	int		_detectionX, _detectionY;
 	int		_moveCount;
 	float _startX, _startY;//박쥐 이동 기준점
-
+	bool _diedie;
+	int _dieCount;
 	//임시
 	int j = 0;
 
@@ -52,7 +51,10 @@ public:
 	void tileDetection();	// 타일 검출
 
 	void playerCollision();
-	void hitDamage(float damage);
+	void die();
+	void hitDamage();
+
+	static void batDieMotion(void * obj);
 
 	RECT  getBatRect() { return _rc; } //rc
 };

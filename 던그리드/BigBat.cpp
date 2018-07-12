@@ -34,16 +34,14 @@ HRESULT BigBat::init(float x, float y)
 	
 	//Die
 	int rightDie[] = { 17 };
-	KEYANIMANAGER->addArrayFrameAnimation("bigBatRightDie", "giantBat", rightDie, 1, 5, false);
+	KEYANIMANAGER->addArrayFrameAnimation("bigBatRightDie", "giantBat", rightDie, 1, 5, false,bigbatDieMotion, this);
 	int leftDie[] = { 38 };
-	KEYANIMANAGER->addArrayFrameAnimation("bigBatLeftDie", "giantBat", leftDie, 1, 5, false);
+	KEYANIMANAGER->addArrayFrameAnimation("bigBatLeftDie", "giantBat", leftDie, 1, 5, false, bigbatDieMotion, this);
 
 	_bigBatMotion = KEYANIMANAGER->findAnimation("bigBatRightMove");
 	_bigBatMotion->start();
 
 	_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
-
-
 
 	//큰보박 체력바 초기화
 	_progressBar = new progressBar;
@@ -67,25 +65,37 @@ void BigBat::update()
 
 	attackMove();
 
+	if (!_diedie)
+		hitDamage();
+
+	if (_diedie)
+	{
+		_dieCount++;
+		if (_dieCount > 60)
+		{
+			_isDie = true;
+		}
+	}
+
 	////////////////////DIE 테스트///////////////////////
 	if (KEYMANAGER->isOnceKeyDown(VK_F5))
 	{
-		if (_bigBatDirection == BIGBAT_RIGHT_MOVE)
-			changeAnimation(BIGBAT_RIGHT_DIE);
-		if (_bigBatDirection == BIGBAT_LEFT_MOVE)
-			changeAnimation(BIGBAT_LEFT_DIE);
+		_currentHP -= 5;
 	}
-	if (KEYMANAGER->isOnceKeyUp(VK_F5))
-	{
-		if (_bigBatDirection == BIGBAT_RIGHT_DIE)
-			changeAnimation(BIGBAT_RIGHT_MOVE);
-		if (_bigBatDirection == BIGBAT_LEFT_DIE)
-			changeAnimation(BIGBAT_LEFT_MOVE);
-	}
+	//if (KEYMANAGER->isOnceKeyUp(VK_F5))
+	//{
+	//	if (_bigBatDirection == BIGBAT_RIGHT_DIE)
+	//		changeAnimation(BIGBAT_RIGHT_MOVE);
+	//	if (_bigBatDirection == BIGBAT_LEFT_DIE)
+	//		changeAnimation(BIGBAT_LEFT_MOVE);
+	//}
 	////////////////////▲▲▲▲▲▲▲▲▲//////////////////////////
 
 	bulletfire();
 	//KEYANIMANAGER->update();
+
+
+
 	_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 }
 
@@ -148,6 +158,7 @@ void BigBat::changeAnimation(BIGBATDIRECTION direction)
 	case BIGBAT_RIGHT_DIE:
 		_img = IMAGEMANAGER->findImage("giantBat");
 		_bigBatDirection = BIGBAT_RIGHT_DIE;
+		_bigBatMotion->stop();
 		_bigBatMotion = KEYANIMANAGER->findAnimation("bigBatRightDie");
 		_bigBatMotion->start();
 		_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
@@ -155,6 +166,7 @@ void BigBat::changeAnimation(BIGBATDIRECTION direction)
 	case BIGBAT_LEFT_DIE:
 		_img = IMAGEMANAGER->findImage("giantBat");
 		_bigBatDirection = BIGBAT_LEFT_DIE;
+		_bigBatMotion->stop();
 		_bigBatMotion = KEYANIMANAGER->findAnimation("bigBatLeftDie");
 		_bigBatMotion->start();
 		_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
@@ -200,7 +212,26 @@ void BigBat::playerCollision()
 {
 }
 
-void BigBat::hitDamage(float damage)
+void BigBat::hitDamage()
 {
-	_currentHP -= damage;
+	if (_currentHP <= 0)
+	{
+		die();
+	}
+
+}
+
+void BigBat::die()
+{
+	//_bigBatMotion->stop();
+	if (_bigBatDirection == BIGBAT_RIGHT_ATTACK || _bigBatDirection == BIGBAT_RIGHT_MOVE)
+		changeAnimation(BIGBAT_RIGHT_DIE);
+	if (_bigBatDirection == BIGBAT_LEFT_ATTACK || _bigBatDirection == BIGBAT_LEFT_MOVE)
+		changeAnimation(BIGBAT_LEFT_DIE);
+}
+
+void BigBat::bigbatDieMotion(void * obj)
+{
+	BigBat* c = (BigBat*)obj;
+	c->_diedie = true;
 }

@@ -8,6 +8,7 @@ HRESULT inven::init()
 	
 	_onInven = false , _onMouseInven = false, _onMouseAc = false, _onMouseMain = false, _onMouseAs =false , _onInven =false;
 	_gold = 0;
+	_moneyRect = RectMake(WINSIZEX / 2 + 800, WINSIZEY / 2 + 427, 300, 50);
 	for (int i = 0; i < INVENSIZE; ++i)
 	{
 		_image[i] = IMAGEMANAGER->findImage("invenRectOff");
@@ -30,7 +31,7 @@ HRESULT inven::init()
 	{
 		_accessarryRect[i] = RectMake(WINSIZEX / 2 + 363 + i * 129 , WINSIZEY / 2 -180, 114, 114);
 	}
-	_isSelect = 1;
+	_isSelect = 0;
 	_index = 0;
 	_halfW = (_selectRect[0].right - _selectRect[0].left) / 2; 
 	_halfH = (_selectRect[0].bottom - _selectRect[0].top) / 2;
@@ -43,9 +44,18 @@ void inven::release(){}
 
 void inven::update()
 {
+
 	if (KEYMANAGER->isOnceKeyDown('I')) _onInven == false ? _onInven = true : _onInven = false;
 	if (_onInven)
 	{
+		if (KEYMANAGER->isOnceKeyDown(VK_LEFT)) _gold += 100;
+		if (KEYMANAGER->isOnceKeyDown(VK_RIGHT)) _gold += 1000;
+		int value=0;
+		if (_gold > 99) value = 1;
+		if (_gold > 999) value = 2; 
+		if (_gold > 9999) value = 3;
+		if (_gold > 99999) value = 4;
+		_moneyRect = RectMake(WINSIZEX / 2 + 800 - (value * 30), WINSIZEY / 2 + 427, 300, 50);
 		for (int i = 0; i < INVENSIZE; ++i)
 		{
 			if (PtInRect(&_selectRect[i], _ptMouse))
@@ -119,7 +129,8 @@ void inven::render()
 			else if (_onMouseAs) IMAGEMANAGER->findImage("mouseOnAs")->render(UIDC, _assistWeaponRect[_index].left, _assistWeaponRect[_index].top);
 			for (int i = 0; i < _vItem.size(); ++i)
 			{
-				_vItem[i]->invenRender(UIDC, _selectRect[i].left + _halfW - 10, _selectRect[i].top + _halfH / 2 - 10);
+				if(_vItem[i]->getItemType() == ACCESSORY)_vItem[i]->invenRender(UIDC, _selectRect[i].left + 25, _selectRect[i].top + _halfH / 2 - 10);
+				else _vItem[i]->invenRender(UIDC, _selectRect[i].left + _halfW - 10, _selectRect[i].top + _halfH / 2 - 10);
 			}
 			for (int i = 0; i < _vMainWeapon.size(); ++i)
 			{
@@ -131,7 +142,7 @@ void inven::render()
 			}
 			for (int i = 0; i < _vAccessary.size(); ++i)
 			{
-				_vAccessary[i]->invenRender(UIDC, _accessarryRect[i].left + _halfW - 10, _accessarryRect[i].top + _halfH / 2 - 10);
+				_vAccessary[i]->invenRender(UIDC, _accessarryRect[i].left + 25 , _accessarryRect[i].top + _halfH / 2 - 10);
 			}
 		}
 		if (KEYMANAGER->isToggleKey(VK_F6))
@@ -146,6 +157,17 @@ void inven::render()
 				Rectangle(UIDC, _accessarryRect[i].left, _accessarryRect[i].top, _accessarryRect[i].right, _accessarryRect[i].bottom);
 			}
 		}
+		char str[256];
+		sprintf_s(str, "%d", _gold);
+		HFONT font, oldFont;
+		font = CreateFont(50, 0, 0, 0, 100, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("소야바른9"));
+		oldFont = (HFONT)SelectObject(UIDC, font);
+		SetTextColor(UIDC, RGB(250, 250, 0));
+		SetBkMode(UIDC, TRANSPARENT);
+		DrawText(UIDC, str, strlen(str), &_moneyRect, DT_VCENTER);
+		SelectObject(UIDC, oldFont);
+		DeleteObject(font);
+		//Rectangle(UIDC, _moneyRect.left, _moneyRect.top, _moneyRect.right, _moneyRect.bottom);
 	}
 }
 

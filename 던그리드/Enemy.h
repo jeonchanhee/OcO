@@ -10,6 +10,7 @@ class Player; //플레이어 클래스 전방선언
 class Enemy :	public gameNode
 {
 protected:
+	bool _isDie;
 	Player* _player;
 	image* _img;				//적 이미지
 	RECT _rc;				//적 렉트
@@ -28,7 +29,6 @@ protected:
 
 	progressBar* _progressBar; //체력바
 	float _currentHP, _maxHP; //현재체력과 최대체력
-	
 public:
 
 	Enemy();
@@ -61,5 +61,6 @@ public:
 
 	void setPlayerAddressLink(Player* player) { _player = player; }
 	
+	bool getIsDie() { return _isDie; }
 };
 

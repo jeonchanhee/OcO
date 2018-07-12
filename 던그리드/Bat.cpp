@@ -33,10 +33,10 @@ HRESULT Bat::init(float x, float y)
 	KEYANIMANAGER->addCoordinateFrameAnimation("batLeftMove", "batMoveDie", 7, 12, 10, false, true);
 	//¿À¸¥ÂÊ Á×À½
 	int rightDie[] = { 6 };
-	KEYANIMANAGER->addArrayFrameAnimation("batRightDie", "batMoveDie", rightDie, 1, 6, false);
+	KEYANIMANAGER->addArrayFrameAnimation("batRightDie", "batMoveDie", rightDie, 1, 6, false, batDieMotion, this);
 	//¿ÞÂÊ Á×À½
 	int leftDie[] = { 13 };
-	KEYANIMANAGER->addArrayFrameAnimation("batLeftDie", "batMoveDie", leftDie, 1, 6, false);
+	KEYANIMANAGER->addArrayFrameAnimation("batLeftDie", "batMoveDie", leftDie, 1, 6, false, batDieMotion, this);
 
 	_batMotion = KEYANIMANAGER->findAnimation("batRightMove");
 	_batMotion->start();
@@ -67,30 +67,23 @@ void Bat::update()
 	_progressBar->update();
 
 	move();
+	if (!_diedie)
+		hitDamage();
 
+	if (_diedie)
+	{
+		_dieCount++;
+		if (_dieCount > 60)
+		{
+			_isDie = true;
+		}
+	}
 	///////////////////DIEÅ×½ºÆ®////////////////////
 	if (KEYMANAGER->isOnceKeyDown(VK_F3))
 	{
-		if (_batDirection == BAT_RIGHT_MOVE)
-		{
-			changeAnimation(BAT_RIGHT_DIE);
-		}
-		if (_batDirection == BAT_LEFT_MOVE)
-		{
-			changeAnimation(BAT_LEFT_DIE);
-		}
+		_currentHP -= 10;
 	}
-	if (KEYMANAGER->isOnceKeyUp(VK_F3))
-	{
-		if (_batDirection == BAT_RIGHT_DIE)
-		{
-			changeAnimation(BAT_RIGHT_MOVE);
-		}
-		if (_batDirection == BAT_LEFT_DIE)
-		{
-			changeAnimation(BAT_LEFT_MOVE);
-		}
-	}
+	
 	///////////////////¡ã¡ã¡ã¡ã¡ã¡ã¡ã¡ã////////////////////
 	//KEYANIMANAGER->update();
 	_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
@@ -108,112 +101,123 @@ void Bat::render()
 
 void Bat::move()
 {
-	_moveCount++;
-
-	int tileIndex[2];
-	int tileX = _x / TILESIZE, tileY = _y / TILESIZE;
-
-	if (!(_moveCount % 100))
+	if (!_diedie)
 	{
-		randNum = RND->getInt(8);
-		_moveCount = 0;
-	}
+		_moveCount++;
 
-	if (randNum == 0) _batDirection = BAT_RIGHT_MOVE;
-	if (randNum == 1) _batDirection = BAT_LEFT_MOVE;
-	if (randNum == 2) _batDirection = BAT_RIGHT_UP_MOVE;
-	if (randNum == 3) _batDirection = BAT_LEFT_UP_MOVE;
-	if (randNum == 4) _batDirection = BAT_RIGHT_DOWN_MOVE;
-	if (randNum == 5) _batDirection = BAT_LEFT_DOWN_MOVE;
-	if (randNum == 6) _batDirection = BAT_UP_MOVE;
-	if (randNum == 7) _batDirection = BAT_DOWN_MOVE;
+		int tileIndex[2];
+		int tileX = _x / TILESIZE, tileY = _y / TILESIZE;
 
-	switch (_batDirection)
-	{
-	case BAT_RIGHT_MOVE:
-		tileIndex[0] = (tileX + 1) + tileY * VARIABLE_SIZEX[_dungeonNum];
-		tileIndex[1] = (tileX + VARIABLE_SIZEX[_dungeonNum])  + tileY * VARIABLE_SIZEX[_dungeonNum];
-		rcCollision = RectMake(_rc.right, _rc.top, 4, 80);	
-		break;
-	case BAT_LEFT_MOVE:
-		tileIndex[0] = tileX + tileY * VARIABLE_SIZEX[_dungeonNum];
-		tileIndex[1] = tileX + (tileY + 1) * VARIABLE_SIZEX[_dungeonNum];
-		rcCollision = RectMake(_rc.left - 4, _rc.top + 4, 4, 80);
-		break;
-	case BAT_RIGHT_UP_MOVE:
-		tileIndex[0] = tileX + tileY * VARIABLE_SIZEX[_dungeonNum];
-		tileIndex[1] = (tileX + 1) + (tileY - 1) * VARIABLE_SIZEX[_dungeonNum];
-		rcCollision = RectMake(_rc.right + 5, _rc.top - 10, 30, 30);
-		break;
-	case BAT_LEFT_UP_MOVE:
-		tileIndex[0] = tileX + tileY * VARIABLE_SIZEX[_dungeonNum];
-		tileIndex[1] = (tileX - 1) + (tileY - 1) * VARIABLE_SIZEX[_dungeonNum];
-		rcCollision = RectMake(_rc.left - 10, _rc.top - 10, 30, 30);
-		break;
-	case BAT_RIGHT_DOWN_MOVE:
-		tileIndex[0] = tileX + tileY * VARIABLE_SIZEX[_dungeonNum];
-		tileIndex[1] = (tileX + 1) + (tileY + 1) * VARIABLE_SIZEX[_dungeonNum];
-		rcCollision = RectMake(_rc.right + 10, _rc.bottom + 10, 30, 30);
-		break;
-	case BAT_LEFT_DOWN_MOVE:
-		tileIndex[0] = tileX + tileY * VARIABLE_SIZEX[_dungeonNum];
-		tileIndex[1] = tileX + (tileY + 1) * VARIABLE_SIZEX[_dungeonNum];
-		rcCollision = RectMake(_rc.left - 10, _rc.bottom + 10, 30, 30);
-		break;
-	case BAT_UP_MOVE:
-		tileIndex[0] = tileX + tileY * VARIABLE_SIZEX[_dungeonNum];
-		tileIndex[1] = (tileX + 1) + tileY * VARIABLE_SIZEX[_dungeonNum];
-		rcCollision = RectMake(_rc.left + 10, _rc.top - 4, 150, 4);
-		break;
-	case BAT_DOWN_MOVE:
-		tileIndex[0] = tileX + (tileY + 1) * VARIABLE_SIZEX[_dungeonNum];
-		tileIndex[1] = (tileX + 1) + (tileY + 1) * VARIABLE_SIZEX[_dungeonNum];
-		rcCollision = RectMake(_rc.left + 4, _rc.bottom, 150, 4);
-		break;
-	}
-
-	RECT temp;
-	for (int i = 0; i < 2; i++)
-	{
-		if (IntersectRect(&temp, &rcCollision, &_tiles[tileIndex[i]].rc) && _tiles[tileIndex[i]].object != OBJ_NONE)//(_tiles[tileIndex[i]].object == OBJ_GROUND || _tiles[tileIndex[i]].object == OBJ_CEILING))
+		if (!(_moveCount % 100))
 		{
-			return;
+			randNum = RND->getInt(8);
+			_moveCount = 0;
 		}
-	}
 
-	switch (_batDirection)
-	{
-	case BAT_RIGHT_MOVE:
-		_x += SPEED;
-		break;
-	case BAT_LEFT_MOVE:
-		_x -= SPEED;
-		break;
-	case BAT_RIGHT_UP_MOVE:
-		_x += SPEED;
-		_y -= SPEED;
-		break;
-	case BAT_LEFT_UP_MOVE:
-		_x -= SPEED;
-		_y -= SPEED;
-		break;
-	case BAT_RIGHT_DOWN_MOVE:
-		_x += SPEED;
-		_y += SPEED;
-		break;
-	case BAT_LEFT_DOWN_MOVE:
-		_x -= SPEED;
-		_y += SPEED;
-		break;
-	case BAT_UP_MOVE:
-		_y -= SPEED;
-		break;
-	case BAT_DOWN_MOVE:
-		_y += SPEED;
-		break;
-	}
+		if (randNum == 0) _batDirection = BAT_RIGHT_MOVE;
+		if (randNum == 1) _batDirection = BAT_LEFT_MOVE;
+		if (randNum == 2) _batDirection = BAT_RIGHT_UP_MOVE;
+		if (randNum == 3) _batDirection = BAT_LEFT_UP_MOVE;
+		if (randNum == 4) _batDirection = BAT_RIGHT_DOWN_MOVE;
+		if (randNum == 5) _batDirection = BAT_LEFT_DOWN_MOVE;
+		if (randNum == 6) _batDirection = BAT_UP_MOVE;
+		if (randNum == 7) _batDirection = BAT_DOWN_MOVE;
 
-	_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
+		switch (_batDirection)
+		{
+		case BAT_RIGHT_MOVE:
+			tileIndex[0] = (tileX + 1) + tileY * VARIABLE_SIZEX[_dungeonNum];
+			tileIndex[1] = (tileX + VARIABLE_SIZEX[_dungeonNum]) + tileY * VARIABLE_SIZEX[_dungeonNum];
+			rcCollision = RectMake(_rc.right, _rc.top, 4, 80);
+			break;
+		case BAT_LEFT_MOVE:
+			tileIndex[0] = tileX + tileY * VARIABLE_SIZEX[_dungeonNum];
+			tileIndex[1] = tileX + (tileY + 1) * VARIABLE_SIZEX[_dungeonNum];
+			rcCollision = RectMake(_rc.left - 4, _rc.top + 4, 4, 80);
+			break;
+		case BAT_RIGHT_UP_MOVE:
+			tileIndex[0] = tileX + tileY * VARIABLE_SIZEX[_dungeonNum];
+			tileIndex[1] = (tileX + 1) + (tileY - 1) * VARIABLE_SIZEX[_dungeonNum];
+			rcCollision = RectMake(_rc.right + 5, _rc.top - 10, 30, 30);
+			break;
+		case BAT_LEFT_UP_MOVE:
+			tileIndex[0] = tileX + tileY * VARIABLE_SIZEX[_dungeonNum];
+			tileIndex[1] = (tileX - 1) + (tileY - 1) * VARIABLE_SIZEX[_dungeonNum];
+			rcCollision = RectMake(_rc.left - 10, _rc.top - 10, 30, 30);
+			break;
+		case BAT_RIGHT_DOWN_MOVE:
+			tileIndex[0] = tileX + tileY * VARIABLE_SIZEX[_dungeonNum];
+			tileIndex[1] = (tileX + 1) + (tileY + 1) * VARIABLE_SIZEX[_dungeonNum];
+			rcCollision = RectMake(_rc.right + 10, _rc.bottom + 10, 30, 30);
+			break;
+		case BAT_LEFT_DOWN_MOVE:
+			tileIndex[0] = tileX + tileY * VARIABLE_SIZEX[_dungeonNum];
+			tileIndex[1] = tileX + (tileY + 1) * VARIABLE_SIZEX[_dungeonNum];
+			rcCollision = RectMake(_rc.left - 10, _rc.bottom + 10, 30, 30);
+			break;
+		case BAT_UP_MOVE:
+			tileIndex[0] = tileX + tileY * VARIABLE_SIZEX[_dungeonNum];
+			tileIndex[1] = (tileX + 1) + tileY * VARIABLE_SIZEX[_dungeonNum];
+			rcCollision = RectMake(_rc.left + 10, _rc.top - 4, 150, 4);
+			break;
+		case BAT_DOWN_MOVE:
+			tileIndex[0] = tileX + (tileY + 1) * VARIABLE_SIZEX[_dungeonNum];
+			tileIndex[1] = (tileX + 1) + (tileY + 1) * VARIABLE_SIZEX[_dungeonNum];
+			rcCollision = RectMake(_rc.left + 4, _rc.bottom, 150, 4);
+			break;
+		}
+
+		RECT temp;
+		for (int i = 0; i < 2; i++)
+		{
+			if (IntersectRect(&temp, &rcCollision, &_tiles[tileIndex[i]].rc) && _tiles[tileIndex[i]].object != OBJ_NONE)//(_tiles[tileIndex[i]].object == OBJ_GROUND || _tiles[tileIndex[i]].object == OBJ_CEILING))
+			{
+				return;
+			}
+		}
+
+		switch (_batDirection)
+		{
+		case BAT_RIGHT_MOVE:
+			changeAnimation(BAT_RIGHT_MOVE);
+			_x += SPEED;
+			break;
+		case BAT_LEFT_MOVE:
+			changeAnimation(BAT_LEFT_MOVE);
+			_x -= SPEED;
+			break;
+		case BAT_RIGHT_UP_MOVE:
+			changeAnimation(BAT_RIGHT_UP_MOVE);
+			_x += SPEED;
+			_y -= SPEED;
+			break;
+		case BAT_LEFT_UP_MOVE:
+			changeAnimation(BAT_LEFT_UP_MOVE);
+			_x -= SPEED;
+			_y -= SPEED;
+			break;
+		case BAT_RIGHT_DOWN_MOVE:
+			changeAnimation(BAT_RIGHT_DOWN_MOVE);
+			_x += SPEED;
+			_y += SPEED;
+			break;
+		case BAT_LEFT_DOWN_MOVE:
+			changeAnimation(BAT_LEFT_DOWN_MOVE);
+			_x -= SPEED;
+			_y += SPEED;
+			break;
+		case BAT_UP_MOVE:
+			changeAnimation(BAT_UP_MOVE);
+			_y -= SPEED;
+			break;
+		case BAT_DOWN_MOVE:
+			changeAnimation(BAT_DOWN_MOVE);
+			_y += SPEED;
+			break;
+		}
+
+		_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
+	}
 }
 
 void Bat::changeAnimation(BATDIRECTION direction)
@@ -234,32 +238,38 @@ void Bat::changeAnimation(BATDIRECTION direction)
 		break;
 	case BAT_RIGHT_UP_MOVE:
 		_img = IMAGEMANAGER->findImage("batMoveDie");
-		_batDirection = BAT_RIGHT_UP_MOVE;
+		_batDirection = BAT_RIGHT_MOVE;
 		_batMotion = KEYANIMANAGER->findAnimation("batRightMove");
 		_batMotion->start();
 		break;
 	case BAT_LEFT_UP_MOVE:
 		_img = IMAGEMANAGER->findImage("batMoveDie");
-		_batDirection = BAT_LEFT_UP_MOVE;
+		_batDirection = BAT_LEFT_MOVE;
 		_batMotion = KEYANIMANAGER->findAnimation("batLeftMove");
 		_batMotion->start();
 		break;
 	case BAT_RIGHT_DOWN_MOVE:
 		_img = IMAGEMANAGER->findImage("batMoveDie");
-		_batDirection = BAT_RIGHT_DOWN_MOVE;
+		_batDirection = BAT_RIGHT_MOVE;
 		_batMotion = KEYANIMANAGER->findAnimation("batRightMove");
 		_batMotion->start();
 		break;
 	case BAT_LEFT_DOWN_MOVE:
 		_img = IMAGEMANAGER->findImage("batMoveDie");
-		_batDirection = BAT_LEFT_DOWN_MOVE;
+		_batDirection = BAT_LEFT_MOVE;
 		_batMotion = KEYANIMANAGER->findAnimation("batLeftMove");
 		_batMotion->start();
 		break;
-	case BAT_RIGHT_DIE:
+	case BAT_UP_MOVE:
 		_img = IMAGEMANAGER->findImage("batMoveDie");
-		_batDirection = BAT_LEFT_DIE;
-		_batMotion = KEYANIMANAGER->findAnimation("batRightDie");
+		_batDirection = BAT_RIGHT_MOVE;
+		_batMotion = KEYANIMANAGER->findAnimation("batRightMove");
+		_batMotion->start();
+		break;
+	case BAT_DOWN_MOVE:
+		_img = IMAGEMANAGER->findImage("batMoveDie");
+		_batDirection = BAT_LEFT_MOVE;
+		_batMotion = KEYANIMANAGER->findAnimation("batLeftMove");
 		_batMotion->start();
 		break;
 	case BAT_LEFT_DIE:
@@ -312,15 +322,28 @@ void Bat::playerCollision()
 	
 }
 
-void Bat::hitDamage(float damage)
+void Bat::die()
 {
-	_currentHP -= damage;
+	if (_batDirection == BAT_RIGHT_MOVE || _batDirection == BAT_RIGHT_UP_MOVE || _batDirection == BAT_RIGHT_DOWN_MOVE || _batDirection == BAT_UP_MOVE)
+	{
+		changeAnimation(BAT_RIGHT_DIE);
+	}
+	else if (_batDirection == BAT_LEFT_MOVE || _batDirection == BAT_LEFT_UP_MOVE || _batDirection == BAT_LEFT_DOWN_MOVE || _batDirection == BAT_DOWN_MOVE)
+	{
+		changeAnimation(BAT_LEFT_DIE);
+	}
 }
 
-
-void Bat::tileDetection()
+void Bat::hitDamage()
 {
-	int tileX = _x / TILESIZE, tileY = _y / TILESIZE;
+	if (_currentHP <= 0)
+	{
+		die();
+	}
+}
 
-
+void Bat::batDieMotion(void * obj)
+{
+	Bat* c = (Bat *)obj;
+	c->_diedie = true;
 }

@@ -15,12 +15,14 @@ enum BIGBATDIRECTION
 class BigBat : public Enemy
 {
 private:
-
 	BIGBATDIRECTION _bigBatDirection;
 	animation* _bigBatMotion;
 	Bullet* _bullet;
 
 	bool _isAttack;
+	bool _diedie;
+
+	int _dieCount;
 public:
 	BigBat();
 	~BigBat();
@@ -48,6 +50,10 @@ public:
 	void setisAtteck(bool isAttack) { _isAttack = isAttack; }
 
 	void playerCollision();
+	void hitDamage();
+	void die();
+	static void bigbatDieMotion(void * obj);
 	void hitDamage(float damage);
-};
 
+	bool getdiedie() { return _diedie; }
+};
