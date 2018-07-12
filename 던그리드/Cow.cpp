@@ -46,7 +46,7 @@ HRESULT Cow::init(float x, float y)
 
 	//소 체력바 초기화
 	_progressBar = new progressBar;
-	_progressBar->init(_x, _y + 30, 70, 10, "소앞", "소뒤", BAR_MONSTER);
+	_progressBar->init(_x - 70, _y + 110, 70, 10, "소앞", "소뒤", BAR_MONSTER);
 	_currentHP = _maxHP = 100;
 
 	_isDie = false;
@@ -61,8 +61,8 @@ void Cow::release()
 void Cow::update()
 {
 	//소 체력바 
-	_progressBar->setX(_x);
-	_progressBar->setY(_y + 30);
+	_progressBar->setX(_x - 70);
+	_progressBar->setY(_y + 110);
 	_progressBar->setGauge(_currentHP, _maxHP);
 	_progressBar->update();
 

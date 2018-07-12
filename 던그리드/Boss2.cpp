@@ -139,6 +139,7 @@ void Boss2::update()
 			_boss[1].y = 1300;
 			if (_dieCount > 240 && !(_dieCount % 3))
 			{
+				SOUNDMANAGER->play("enemySound");
 				//_rndX = RND->getFromIntTo(WINSIZEX / 3, WINSIZEX * 2 / 3);
 				//_rndY = RND->getFromIntTo(WINSIZEY / 3, WINSIZEY * 2 / 3);
 				_rndX = RND->getFromIntTo(_boss[1].rc.left- 100,_boss[1].rc.right + 100);
