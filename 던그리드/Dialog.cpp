@@ -18,6 +18,8 @@ HRESULT Dialog::init()
 	}
 	_count = _idX = _idY = 0;
 	
+	_isFin = false;
+
 	return S_OK;
 }
 
@@ -35,23 +37,23 @@ void Dialog::update()
 
 void Dialog::render()
 {
-	_uiBack->render(DC, 0, WINSIZEY - 400);
-	_uiNext->render(DC, WINSIZEX - 100, WINSIZEY - 100);
+	_uiBack->render(UIDC, 0, WINSIZEY - 400);
+	_uiNext->render(UIDC, WINSIZEX - 100, WINSIZEY - 100);
 	if (KEYMANAGER->isToggleKey(VK_TAB))
 	{
 		for (int i = 0; i < 3; i++)
 		{
-			Rectangle(DC, _rc[i].left, _rc[i].top, _rc[i].right, _rc[i].bottom);
+			Rectangle(UIDC, _rc[i].left, _rc[i].top, _rc[i].right, _rc[i].bottom);
 		}
 	}
 
 	HFONT font, oldFont;
 	font = CreateFont(80, 0, 0, 0, 100, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("소야바른9"));
-	oldFont = (HFONT)SelectObject(DC, font);
-	SetTextColor(DC, RGB(255, 94, 0));
-	SetBkMode(DC, TRANSPARENT);
-	DrawText(DC, _name.c_str(), strlen(_name.c_str()), &_rc[0], DT_VCENTER);
-	SelectObject(DC, oldFont);
+	oldFont = (HFONT)SelectObject(UIDC, font);
+	SetTextColor(UIDC, RGB(255, 94, 0));
+	SetBkMode(UIDC, TRANSPARENT);
+	DrawText(UIDC, _name.c_str(), strlen(_name.c_str()), &_rc[0], DT_VCENTER);
+	SelectObject(UIDC, oldFont);
 	DeleteObject(font);
 }
 

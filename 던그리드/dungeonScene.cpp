@@ -33,8 +33,7 @@ void dungeonScene::collision()
 		}
 		if ((*_viEnemy)->getCurrentHp() <= 0)   //적의 HP가 0이하가되면)
 		{
-			_viEnemy = _vEnemy.erase(_viEnemy);
-				//삭제!
+			_viEnemy = _vEnemy.erase(_viEnemy);//삭제!
 		}
 		else
 		{

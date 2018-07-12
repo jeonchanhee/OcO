@@ -36,6 +36,8 @@ protected:
 	bool _rightStop;			// 오른쪽으로 멈춰있냐
 	Player* _player;
 
+	bool _yesDialog;
+
 public:
 	GodNpc();
 	~GodNpc();
