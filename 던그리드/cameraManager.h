@@ -52,7 +52,7 @@ public:
 	POINT getCameraCenter(void) { return _center; }
 	image* getCamera(void) { return _camera; }
 
-	void render(void);
-	void render(image* img);
+	//void render(void);
+	//void render(image* img);
 };
 
