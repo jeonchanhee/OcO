@@ -178,5 +178,6 @@ public:
 	void bigbatBulletCollision();
 	void bigRadbatBulletCollision();
 	void redBatBulletCollision();
+	void removeMonster(int arrNum);
 };
 

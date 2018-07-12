@@ -206,6 +206,7 @@ void BigRedBat::hitDamage()
 
 void BigRedBat::die()
 {
+	SOUNDMANAGER->play("bat3");
 	if (_bigRedBatDirection == BIGREDBAT_RIGHT_ATTACK || _bigRedBatDirection == BIGREDBAT_RIGHT_MOVE)
 		changeAnimation(BIGREDBAT_RIGHT_DIE);
 	if (_bigRedBatDirection == BIGREDBAT_LEFT_ATTACK || _bigRedBatDirection == BIGREDBAT_RIGHT_MOVE)

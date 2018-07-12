@@ -37,7 +37,7 @@ void dungeonScene::collision()
 		if ((*_viEnemy)->getIsDie())
 		{
 			_minimap->setDieMonster(_viEnemy - _vEnemy.begin());
-			_viEnemy = _vEnemy.erase(_viEnemy);
+			_viEnemy = _vEnemy.erase(_viEnemy);			
 		}
 		else
 		{
@@ -52,6 +52,9 @@ dungeonScene::~dungeonScene() {}
 
 HRESULT dungeonScene::init(void)
 {
+	SOUNDMANAGER->stop("town");
+	SOUNDMANAGER->stop("dungeonIn");
+	SOUNDMANAGER->play("dungeon");
 	CAMERAMANAGER->setCameraCenter(PointMake(WINSIZEX / 2, WINSIZEY / 2));
 	KEYANIMANAGER->addDefaultFrameAnimation("torchAni", "torch", 10, false, true);
 	KEYANIMANAGER->addCoordinateFrameAnimation("portalAni", "portal", 9, 17, 10, false, true);

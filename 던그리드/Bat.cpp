@@ -324,6 +324,7 @@ void Bat::playerCollision()
 
 void Bat::die()
 {
+	SOUNDMANAGER->play("bat");
 	if (_batDirection == BAT_RIGHT_MOVE || _batDirection == BAT_RIGHT_UP_MOVE || _batDirection == BAT_RIGHT_DOWN_MOVE || _batDirection == BAT_UP_MOVE)
 	{
 		changeAnimation(BAT_RIGHT_DIE);

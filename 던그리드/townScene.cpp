@@ -56,6 +56,7 @@ HRESULT townScene::init()
 	setMinimap();
 	_start = 0;
 	_floorNum = 1;
+	_count = 0;
 
 	for (int i = 0; i < 6; i++)
 		_trainStat[i] = 0;
@@ -316,8 +317,10 @@ void townScene::dungeonGo()
 	{
 		if (IntersectRect(&temp, &_player->getRc(), &rc))
 		{
+			int starttime = TIMEMANAGER->getWorldTime();
 			//_suckImg->render(DC, _player->getRc().left, rc.top - 100);
 			_suck->start();
+			SOUNDMANAGER->play("dungeonIn");
 			_sucking = true;
 			_canMove = false;
 			if (_player->getIsLeftAttack() == true)

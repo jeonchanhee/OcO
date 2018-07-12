@@ -7,10 +7,11 @@ HRESULT playGround::Sound_init(void)
 	SOUNDMANAGER->addSound("title", "sound/back/title.wav", true, true);
 	SOUNDMANAGER->addSound("town", "sound/back/town.wav", true, true);
 
-
-
-
-
+	//====================   DUNGEIN =================================
+	SOUNDMANAGER->addSound("dungeon", "sound/back/던전사운드.wav", true, true);
+	SOUNDMANAGER->addSound("던전입장시", "sound/effect/던전입장시.wav", false, false);
+	SOUNDMANAGER->addSound("dungeonIn", "sound/effect/dungeonIn.wav", false, false);
+	SOUNDMANAGER->addSound("stoneDoor", "sound/effect/stoneDoor.wav", false, false);
 
 	//====================   PLAYER =================================
 

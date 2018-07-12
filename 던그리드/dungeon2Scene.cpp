@@ -31,7 +31,6 @@ HRESULT dungeon2Scene::init()
 	DeleteObject(oldPen);
 	DeleteObject(pen);
 
-//	_isMapSet = true;
 	chooseMap(3);
 	selectSize(3);
 	mapload();
@@ -57,7 +56,6 @@ HRESULT dungeon2Scene::init()
 
 	_player->setPlayerX(_vDoor[0].x + TILESIZE * 2);
 	_player->setPlayerY(_vDoor[0].y);
-	//_mapValue[_dungeonNum] = "T";
 
 	return S_OK;
 }
@@ -65,7 +63,7 @@ HRESULT dungeon2Scene::init()
 void dungeon2Scene::update()
 {
 	dungeonScene::update();
-	//nextTest();
+
 	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); ++_viEnemy)
 	{
 		(*_viEnemy)->update();

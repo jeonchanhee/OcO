@@ -24,7 +24,7 @@ private:
 	bool _ui[3];
 	bool _sucking;
 	int _trainStat[6];
-
+	int _count;
 	minimap* _minimap;
 	RandomDungeon1* _randMap;
 	
