@@ -81,6 +81,8 @@ void Player::release() {}
 
 void Player::update()
 {
+	//die
+	if (_currentHp <= 0)_currentHp = 0;
 	
 	if (KEYMANAGER->isOnceKeyDown(VK_F5)) _inven->pickUpItem(BOW , "활", 2);
 	if (KEYMANAGER->isOnceKeyDown(VK_F6)) _inven->pickUpItem(SWORD, "검", 5);
@@ -105,6 +107,7 @@ void Player::update()
 	_hpbar->setGauge(_currentHp, _maxHp);
 	_hpbar->update();
 	itemInfo();
+
 }
 
 void Player::render()
@@ -130,15 +133,18 @@ void Player::render()
 	}
 
 	//무기의 분기점
+
 	if (_isGun)
 	{
 		if (_isLeftAttack 
 			&& _inven->getMainWeapon().size() != 0
-			&& _inven->getMainWeapon().size() > _youUsingCount)
+			&& _inven->getMainWeapon().size() > _youUsingCount
+			&& _isAlive)
 			imageDC->rotateRender(DC, _leftHandX + TEN, _leftHandY, _weaponAngle);
 		else if (!_isLeftAttack 
 			&& _inven->getMainWeapon().size() != 0
-			&& _inven->getMainWeapon().size() > _youUsingCount)
+			&& _inven->getMainWeapon().size() > _youUsingCount
+			&& _isAlive)
 			imageDC->rotateRender(DC, _rightHandX  - TEN, _rightHandY, _weaponAngle);
 			_player->aniRender(DC, _collisionRc.left, _collisionRc.top, _playerAnimation);
 	}
@@ -146,11 +152,13 @@ void Player::render()
 	{
 		if (_isLeftAttack 
 			&& _inven->getMainWeapon().size() != 0
-			&& _inven->getMainWeapon().size() > _youUsingCount)
+			&& _inven->getMainWeapon().size() > _youUsingCount
+			&& _isAlive)
 		imageDC->rotateRender(DC, _leftHandX, _leftHandY, _weaponAngle + 1.8f);
 		else if (!_isLeftAttack 
 			&& _inven->getMainWeapon().size() != 0
-			&& _inven->getMainWeapon().size() > _youUsingCount)
+			&& _inven->getMainWeapon().size() > _youUsingCount
+			&& _isAlive)
 		imageDC->rotateRender(DC, _rightHandX, _rightHandY, _weaponAngle + 1.8f);
 		_player->aniRender(DC, _collisionRc.left, _collisionRc.top, _playerAnimation);
 	}
@@ -208,6 +216,8 @@ void Player::render()
 
 	sprintf(str, "%d", _level);
 	TextOut(UIDC, 80, 62, str, strlen(str));
+	sprintf(str, "%d/%d", _currentHp, _maxHp);
+	TextOut(UIDC, 250, 62, str, strlen(str));
 	SelectObject(UIDC, oldFont);
 	DeleteObject(font);
 }
@@ -363,7 +373,7 @@ void Player::mouseControl()
 void Player::move()
 {
 	//DIE === 
-	if (_currentHp <= 0) _isAlive = false;
+	if (_currentHp <= 0)_currentHp = 0, _isAlive = false;
 	if (!_isAlive)
 	{
 		if (_direction == LEFT_STOP ||
@@ -372,7 +382,6 @@ void Player::move()
 			_direction == RIGHT_RUN) _playerAnimation = KEYANIMANAGER->findAnimation("오른쪽죽음");
 		_playerAnimation->start();
 	}
-
 	// == DASH
 	static int count;
 	count++;
