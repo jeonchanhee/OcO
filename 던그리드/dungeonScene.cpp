@@ -1288,15 +1288,4 @@ void dungeonScene::RandomBoxCreating()
 		}
 	}
 
-	/*if (_isBoxOpen)
-	{
-		int random = RND->getInt(20);
-		for (int i = 0; i < 20; i++)
-		{
-			if (random == i)
-			{
-				_item->getvItem()[i * 3]->render();
-			}
-		}
-	}*/
 }
