@@ -198,14 +198,17 @@ void Player::render()
 		Rectangle(DC, _attackEffect->effectCheckBox().left, _attackEffect->effectCheckBox().top,
 		_attackEffect->effectCheckBox().right, _attackEffect->effectCheckBox().bottom);
 	}
-	IMAGEMANAGER->findImage("hpBar")->render(UIDC, 20, 20);
-	IMAGEMANAGER->findImage("dashBar")->frameRender(UIDC, 35, 150);
-	if(_currentDash>0)
-	IMAGEMANAGER->findImage("dash")->render(UIDC, 47, 162);
-	if (_currentDash>1)
-	IMAGEMANAGER->findImage("dash")->render(UIDC, 101, 162);
-	_hpbar->render();
 
+	if (_start != 3)
+	{
+		IMAGEMANAGER->findImage("hpBar")->render(UIDC, 20, 20);
+		IMAGEMANAGER->findImage("dashBar")->frameRender(UIDC, 35, 150);
+		if (_currentDash > 0)
+			IMAGEMANAGER->findImage("dash")->render(UIDC, 47, 162);
+		if (_currentDash > 1)
+			IMAGEMANAGER->findImage("dash")->render(UIDC, 101, 162);
+		_hpbar->render();
+	
 	
 
 	HFONT font, oldFont;
@@ -220,6 +223,7 @@ void Player::render()
 	TextOut(UIDC, 250, 62, str, strlen(str));
 	SelectObject(UIDC, oldFont);
 	DeleteObject(font);
+	}
 }
 
 void Player::keyInput()

@@ -109,10 +109,12 @@ void dungeonScene::update(void)
 	_minimap->setPlayerXY(((300 * _player->getPlayerX()) / (_tileX * TILESIZE)), ((150 * (_player->getPlayerY() - 80)) / (_tileY * TILESIZE)));
 	_player->update();
 
-	//if (_vEnemy.size() == 0)
+	if (_vEnemy.size() == 0)
 	{
 		_mapValue[_dungeonNum] = "T";
 	}
+
+	//playerDie();
 }
 
 void dungeonScene::render(void)
@@ -196,7 +198,7 @@ void dungeonScene::render(void)
 	if(_minimap != NULL)
 		_minimap->render();
 
-	_player->render();
+	//_player->render();
 
 	
 }

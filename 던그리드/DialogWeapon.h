@@ -2,6 +2,9 @@
 #include "Dialog.h"
 class DialogWeapon : public Dialog
 {
+private:
+	bool _isWeapon;
+
 public:
 	bool _reset;
 	bool _open;
@@ -20,5 +23,7 @@ public:
 	void clickButton();
 	void shop();
 	void resetShop();
+
+	bool getIsWeapon() { return _isWeapon; }
 };
 

@@ -102,7 +102,7 @@ void dungeon3Scene::render()
 {
 	dungeonScene::render();
 	
-	_player->render();
+	//_player->render();
 
 	if (KEYMANAGER->isToggleKey(VK_TAB))
 	{

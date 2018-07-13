@@ -301,9 +301,9 @@ void titleScene::selectData()
 				if (_select == i + 1)
 				{
 					_fileNum = i;
+					_start = 0;
 					SOUNDMANAGER->stop("title");
 					SCENEMANAGER->changeScene("¸¶À»");
-					_start = 0;
 					break;
 				}
 				_select = i + 1;

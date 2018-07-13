@@ -42,6 +42,8 @@ HRESULT DialogWeapon::init()
 	_open = false;
 	_reset = false;
 
+	_isWeapon = false;
+
 	return S_OK;
 }
 
@@ -59,36 +61,42 @@ void DialogWeapon::update()
 
 void DialogWeapon::render()
 {
+	if (_open == false)
+	{
+
 	Dialog::render();
 
-	_ansBack->render(UIDC, WINSIZEX - 350, WINSIZEY - 550);
+	
+		_ansBack->render(UIDC, WINSIZEX - 350, WINSIZEY - 550);
 
-	if (KEYMANAGER->isToggleKey(VK_TAB))
-	{
-		Rectangle(UIDC, _uiBack->boundingBox().left, _uiBack->boundingBox().top, _uiBack->boundingBox().right, _uiBack->boundingBox().bottom);
+		if (KEYMANAGER->isToggleKey(VK_TAB))
+		{
+			Rectangle(UIDC, _uiBack->boundingBox().left, _uiBack->boundingBox().top, _uiBack->boundingBox().right, _uiBack->boundingBox().bottom);
+			for (int i = 0; i < _vButton.size(); i++)
+			{
+				Rectangle(UIDC, _vButton[i].left, _vButton[i].top, _vButton[i].right, _vButton[i].bottom);
+			}
+		}
+		HFONT font, oldFont;
+		font = CreateFont(50, 0, 0, 0, 100, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("家具官弗9"));
+		oldFont = (HFONT)SelectObject(UIDC, font);
+		SetTextColor(UIDC, RGB(255, 255, 255));
+		SetBkMode(UIDC, TRANSPARENT);
+		string str = _vDialog[0][0].substr(0, _idX);
+		DrawText(UIDC, str.c_str(), strlen(str.c_str()), &_rc[1], DT_VCENTER);
+		SelectObject(UIDC, oldFont);
+		DeleteObject(font);
+
+		font = CreateFont(50, 0, 0, 0, 100, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("家具官弗9"));
+		oldFont = (HFONT)SelectObject(UIDC, font);
 		for (int i = 0; i < _vButton.size(); i++)
 		{
-			Rectangle(UIDC, _vButton[i].left, _vButton[i].top, _vButton[i].right, _vButton[i].bottom);
+			DrawText(UIDC, _vButtonDialog[i].c_str(), strlen(_vButtonDialog[i].c_str()), &_vButton[i], DT_VCENTER | DT_CENTER);
 		}
+		SelectObject(UIDC, oldFont);
+		DeleteObject(font);
+		_start = 1;
 	}
-	HFONT font, oldFont;
-	font = CreateFont(50, 0, 0, 0, 100, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("家具官弗9"));
-	oldFont = (HFONT)SelectObject(UIDC, font);
-	SetTextColor(UIDC, RGB(255, 255, 255));
-	SetBkMode(UIDC, TRANSPARENT);
-	string str = _vDialog[0][0].substr(0, _idX);
-	DrawText(UIDC, str.c_str(), strlen(str.c_str()), &_rc[1], DT_VCENTER);
-	SelectObject(UIDC, oldFont);
-	DeleteObject(font);
-
-	font = CreateFont(50, 0, 0, 0, 100, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("家具官弗9"));
-	oldFont = (HFONT)SelectObject(UIDC, font);
-	for (int i = 0; i < _vButton.size(); i++)
-	{
-		DrawText(UIDC, _vButtonDialog[i].c_str(), strlen(_vButtonDialog[i].c_str()), &_vButton[i], DT_VCENTER | DT_CENTER);
-	}
-	SelectObject(UIDC, oldFont);
-	DeleteObject(font);
 
 	if (_open == true)
 	{
@@ -98,8 +106,8 @@ void DialogWeapon::render()
 			_reset = true;
 		}
 		shop();
+		_start = 3;
 	}
-
 }
 
 void DialogWeapon::keyControl()
@@ -137,15 +145,16 @@ void DialogWeapon::clickButton()
 			{
 				if (i == 0)
 				{
-					//_isFin = true;
 					_open = true;
 					_player->getInven()->setOnInven(true);
 					_canMove = false;
+					_isWeapon = true;
 					
 				}
 				if (i == 1)
 				{
 					_isFin = true;
+					_start = 0;
 				}
 			}
 		}
