@@ -259,12 +259,14 @@ void playGround::render(void)
 
 	// 이 아래로도 건들지 마시오
 	/////////////////////////////////////////////////////////////////////////////////////////////
-	IMAGEMANAGER->render("cursor", UIDC, _ptMouse.x, _ptMouse.y);
+	
 	TIMEMANAGER->render(UIDC);
 
 	//if(mode == 타이틀)
-		IMAGEMANAGER->findImage("카메라DC")->render(DC, 54,240,CAMERAMANAGER->getCameraPoint().x, CAMERAMANAGER->getCameraPoint().y, 600, 670);
-
+	//IMAGEMANAGER->findImage("카메라DC")->render(UIDC, 54,240,CAMERAMANAGER->getCameraPoint().x, CAMERAMANAGER->getCameraPoint().y, 600, 670);
+	//->render(UIDC, 54, 240, CAMERAMANAGER->getCameraPoint().x, CAMERAMANAGER->getCameraPoint().y, 600, 670);
+	CAMERAMANAGER->cameraRender(UIDC);
+	IMAGEMANAGER->render("cursor", UIDC, _ptMouse.x, _ptMouse.y);
 	CAMERAMANAGER->render(this->getBackBuffer());
 	this->getBackBuffer()->render(getHDC(), 0, 0, CAMERAMANAGER->getCameraCenter().x - WINSIZEX / 2, CAMERAMANAGER->getCameraCenter().y - WINSIZEY / 2, WINSIZEX, WINSIZEY);
 	//IMAGEMANAGER->render("cursor", getHDC(), _ptMouse.x, _ptMouse.y);

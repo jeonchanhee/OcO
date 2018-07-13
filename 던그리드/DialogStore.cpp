@@ -36,7 +36,7 @@ HRESULT DialogStore::init()
 
 	setDialog();
 
-	//_restImg = IMAGEMANAGER->findImage("rest");
+	_restImg = IMAGEMANAGER->findImage("rest");
 	_scroll = false;
 	_currentScroll = 0;
 	_rrc = RectMake(686, 210, 42, 432);
@@ -122,6 +122,7 @@ void DialogStore::keyControl()
 	if (KEYMANAGER->isOnceKeyDown('F'))
 	{
 		_open = false;
+		IMAGEMANAGER->findImage("black")->render(UIDC2, 0, 0);
 	}
 }
 
@@ -200,7 +201,8 @@ void DialogStore::clickButton()
 void DialogStore::restaurant()
 {
 	IMAGEMANAGER->findImage("restaurant")->render(UIDC, 0, 0);
-	IMAGEMANAGER->findImage("rest")->frameRender(UIDC, 744, 216);
+	/*IMAGEMANAGER->findImage("rest")->frameRender(UIDC, 744, 216);
+	*/
 	IMAGEMANAGER->findImage("reslot")->render(UIDC2, 0, 0);
 	IMAGEMANAGER->findImage("reslot")->render(UIDC2, 0, 270);
 	IMAGEMANAGER->findImage("reslot")->render(UIDC2, 0, 540);
@@ -224,29 +226,66 @@ void DialogStore::restaurant()
 	if (_rrc.bottom >= 932)
 		_rrc = RectMake(686, 500, 42, 432);
 	if (_rrc.top >= 210 && _rrc.bottom <= 932)
-		CAMERAMANAGER->setCameraPoint(PointMake(0, (_rrc.top + 1 - 210)*1.4));
+		CAMERAMANAGER->setCameraPoint(PointMake(0,0+(_rrc.top + 1 - 210)*1.4));
 
-	IMAGEMANAGER->findImage("scroll")->render(DC, 686, _rrc.top);
+	IMAGEMANAGER->findImage("scroll")->render(UIDC, 686, _rrc.top);
 
 	if (KEYMANAGER->isToggleKey(VK_TAB))
 	{
-		Rectangle(DC, _rrc.left, _rrc.top, _rrc.right, _rrc.bottom);
+		Rectangle(UIDC, _rrc.left, _rrc.top, _rrc.right, _rrc.bottom);
 	}
 
-	//_restImg->aniRender(DC, 744, 216, _rest);
+	_restImg->aniRender(UIDC, 744, 216, _rest);
 
 	//28~31
+	char str[128];
+	RECT rrc = RectMake(1720, 1000, 200, 50);
+
 	RECT rc = RectMake(35, 35, 100, 50);
 	RECT rc2 = RectMake(35, 305, 100, 50);
-	_im->getItem()[34]->getItem().image[0]->render(DC, 1120, 540);
+	RECT rc3 = RectMake(35, 575, 100, 50);
+	RECT rc4 = RectMake(35, 845, 100, 50);
+
+	RECT brc = RectMake(455, 165, 100, 50);
+	RECT brc2 = RectMake(455, 435, 100, 50);
+	RECT brc3 = RectMake(455, 705, 100, 50);
+	RECT brc4 = RectMake(455, 975, 100, 50);
+
+	RECT bbrc = RectMake(455, 215, 100, 50);
+	RECT bbrc2 = RectMake(455, 485, 100, 50);
+	RECT bbrc3 = RectMake(455, 755, 100, 50);
+	RECT bbrc4 = RectMake(455, 1025, 100, 50);
+
+	_im->getItem()[34]->getItem().image[0]->render(UIDC, 1120, 540);
 
 	HFONT font, oldFont;
 	font = CreateFont(40, 0, 0, 0, 100, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("소야바른9"));
 	oldFont = (HFONT)SelectObject(UIDC2, font);
+	oldFont = (HFONT)SelectObject(UIDC, font);
 	SetTextColor(UIDC2, RGB(255, 255, 255));
+	SetTextColor(UIDC, RGB(255, 255, 255));
 	SetBkMode(UIDC2, TRANSPARENT);
-	DrawText(UIDC2, _im->getItem()[34]->getItem().name, strlen(_im->getItem()[34]->getItem().name), &rc, DT_VCENTER);
+	SetBkMode(UIDC, TRANSPARENT);
+	DrawText(UIDC2, _im->getItem()[33]->getItem().name, strlen(_im->getItem()[33]->getItem().name), &rc, DT_VCENTER);
 	DrawText(UIDC2, _im->getItem()[34]->getItem().name, strlen(_im->getItem()[34]->getItem().name), &rc2, DT_VCENTER);
+	DrawText(UIDC2, _im->getItem()[35]->getItem().name, strlen(_im->getItem()[35]->getItem().name), &rc3, DT_VCENTER);
+	DrawText(UIDC2, _im->getItem()[36]->getItem().name, strlen(_im->getItem()[36]->getItem().name), &rc4, DT_VCENTER);
+
+	DrawText(UIDC2, "20", strlen("20"), &brc, DT_VCENTER);
+	DrawText(UIDC2, "30", strlen("30"), &brc2, DT_VCENTER);
+	DrawText(UIDC2, "40", strlen("20"), &brc3, DT_VCENTER);
+	DrawText(UIDC2, "50", strlen("20"), &brc4, DT_VCENTER);
+
+	DrawText(UIDC2, "500", strlen("500"), &bbrc, DT_VCENTER);
+	DrawText(UIDC2, "1000", strlen("1000"), &bbrc2, DT_VCENTER);
+	DrawText(UIDC2, "1500", strlen("2000"), &bbrc3, DT_VCENTER);
+	DrawText(UIDC2, "2000", strlen("2000"), &bbrc4, DT_VCENTER);
+
+	DrawText(UIDC, itoa(_player->getInven()->getGold(),str,10), strlen(itoa(_player->getInven()->getGold(), str, 10)), &rrc, DT_VCENTER);
 	SelectObject(UIDC2, oldFont);
+	SelectObject(UIDC, oldFont);
 	DeleteObject(font);
+
+	//Rectangle(UIDC, 35, 160, 600, 160);
+	//Rectangle(UIDC, 35, 330, 600, 160);
 }

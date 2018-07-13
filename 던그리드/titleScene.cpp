@@ -16,14 +16,10 @@ HRESULT titleScene::init(void)
 	KEYANIMANAGER->addArrayFrameAnimation("bird0", "T_bird", bird, 8, 7, true);
 	int bird1[] = { 6,7,0,1,2,3,4,5 };
 	KEYANIMANAGER->addArrayFrameAnimation("bird1", "T_bird1", bird, 8, 7, true);
-	int rest[] = { 0,1,2 };
-	KEYANIMANAGER->addArrayFrameAnimation("rest", "rest", rest, 3, 7, true);
 	_abird0 = KEYANIMANAGER->findAnimation("bird0");
 	_abird1 = KEYANIMANAGER->findAnimation("bird1");
-	_rest = KEYANIMANAGER->findAnimation("rest");
 	_abird0->start();
 	_abird1->start();
-	_rest->start();
 	_button[0]=RectMake(850,700,210,62);
 	_button[1]=RectMake(912,800,92,62);
 	_button[2]=RectMake(907,900,102,62);
@@ -88,7 +84,7 @@ void titleScene::update(void)
 	{
 		drawSetting();
 	}
-	KEYANIMANAGER->update();
+	//KEYANIMANAGER->update();
 }
 
 void titleScene::render(void)
@@ -195,8 +191,8 @@ void titleScene::reward()
 	IMAGEMANAGER->findImage("expBar")->render(DC, 0, WINSIZEY- IMAGEMANAGER->findImage("expBar")->getHeight());
 	//IMAGEMANAGER->findImage("suck")->frameRender(DC, 780, 546);
 
-	_img->aniRender(DC, 740, 546, _suck);
-	KEYANIMANAGER->update();
+	//_img->aniRender(DC, 740, 546, _suck);
+	//KEYANIMANAGER->update();
 
 }
 

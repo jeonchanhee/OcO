@@ -6,7 +6,7 @@ class DialogStore : public Dialog
 	STORE_NPC _store;
 
 public:
-	//image * _restImg;
+	image * _restImg;
 	animation * _rest;
 	RECT _rrc;
 	bool _scroll;
