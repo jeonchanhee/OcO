@@ -47,6 +47,7 @@ public:
 	void Attack();
 
 	static void redBatDieMotion(void * obj);
+	static void redBatDieMotionL(void * obj);
 	
 	void changeAnimation(REDBATDIRECTION direction);
 	void die();

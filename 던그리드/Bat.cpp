@@ -43,7 +43,7 @@ HRESULT Bat::init(float x, float y)
 	//¿ŞÂÊ Á×À½
 	int leftDie[] = { 13 };
 	sprintf_s(str, "batLeftDie%d", _index);
-	KEYANIMANAGER->addArrayFrameAnimation(str, "batMoveDie", leftDie, 1, 6, false, batDieMotion, this);
+	KEYANIMANAGER->addArrayFrameAnimation(str, "batMoveDie", leftDie, 1, 6, false, batDieMotionL, this);
 
 	_batMotion = KEYANIMANAGER->findAnimation("batRightMove");
 	_batMotion->start();
