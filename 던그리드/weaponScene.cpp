@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "weaponScene.h"
 #include "Player.h"
+#include "townScene.h"
 
 weaponScene::weaponScene()
 {
@@ -116,4 +117,5 @@ void weaponScene::render()
 		sprintf_s(str, "%d %d", getCameraPoint().x, getCameraPoint().y);
 		TextOut(UIDC, 500, 500, str, strlen(str));
 	}
+	Rectangle(DC,(((300 * ((290 % 25)*TILESIZE)) / (_tileX*TILESIZE))), ((((290 / 25) * TILESIZE)) * 150 / (_tileY * TILESIZE)),100,100);
 }

@@ -32,6 +32,8 @@ HRESULT playGround::init(void)
 	_title = new titleScene;
 	_town->setImLink(_im);
 	_title->setImLink(_im);
+	_wc = new weaponScene;
+	_wc->setTcLink(_town);
 	_player->getInven()->setImLink(_im);
 
 	SCENEMANAGER->setPlayerAddressLink(_player);
@@ -49,7 +51,7 @@ HRESULT playGround::init(void)
 	SCENEMANAGER->addScene("던전7", new dungeon7Scene);
 	SCENEMANAGER->addScene("던전8", new dungeon8Scene);
 	SCENEMANAGER->addScene("마을",_town);
-	SCENEMANAGER->addScene("무기", new weaponScene);
+	SCENEMANAGER->addScene("무기", _wc);
 	SCENEMANAGER->addScene("푸드", new foodScene);
 	SCENEMANAGER->addScene("보스", new bossScene);
 

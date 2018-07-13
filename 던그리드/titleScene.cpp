@@ -148,7 +148,6 @@ void titleScene::render(void)
 	}
 	else
 	{
-		//inven();
 		//reward();
 		//restaurant();
 		//drawData();
