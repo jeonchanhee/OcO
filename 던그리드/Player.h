@@ -45,7 +45,7 @@ private:
 	bool _isLeftAttack;											
 	bool _isChap;												
 	bool _showAttackEffect;										
-	bool _attackSpeedCheckCount;								
+	bool _attackSpeedCheckCount;		
 	bool _goDownJump;											
 
 	// int  

@@ -56,7 +56,7 @@ void progressBar::release()
 
 void progressBar::update()
 {
-	_rcProgress = RectMakeCenter(_x, _y, _progressBarTop->getWidth(), _progressBarTop->getHeight());
+	_rcProgress = RectMakeCenter(_x, _y, _width, _progressBarTop->getHeight());
 }
 
 void progressBar::render()

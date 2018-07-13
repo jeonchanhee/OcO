@@ -12,6 +12,7 @@ HRESULT Player::init()
 
 	_hpbar = new progressBar;
 	_hpbar->init(170,56, 294,60,"hp","hpb", BAR_PLAYER);
+	
 
 	imageDC = new image;
 	//imageDC = IMAGEMANAGER->addImage("asd", 500, 500);
@@ -27,8 +28,8 @@ HRESULT Player::init()
 	_level = 1;
 	_dashCount = 0, _attackCount = 0;
 	_mouseAngle = 0;
-	_currentDash = 1024 , _maxDash = 1024;
-	//_currentDash = 2 , _maxDash =2;
+	//_currentDash = 1024 , _maxDash = 1024;
+	_currentDash = 2 , _maxDash =2;
 	_currentFullNess = 0; _maxFullNess = 100;
 	_jumpPower = 12.0f;
 	_moveMentSpeed = 10.0f;
@@ -40,7 +41,7 @@ HRESULT Player::init()
 	_fixedDamage = 0;
 	_youUsingCount = 0;
 	_bulletType = 0;
-	_currentHp = 50;
+	_currentHp = 100;
 	_maxHp = 100;
 	_frameX = 0, _frameY = 0;
 
@@ -81,6 +82,7 @@ void Player::release() {}
 
 void Player::update()
 {
+
 	//die
 	if (_currentHp <= 0)_currentHp = 0;
 	
@@ -88,6 +90,7 @@ void Player::update()
 	if (KEYMANAGER->isOnceKeyDown(VK_F6)) _inven->pickUpItem(SWORD, "°Ë", 5);
 	if (KEYMANAGER->isOnceKeyDown(VK_F7)) _inven->pickUpItem(ACCESSORY, "¾Ç¼¼", 1);
 	if (KEYMANAGER->isOnceKeyDown(VK_F8)) _currentHp -= 20;
+	if (KEYMANAGER->isOnceKeyDown(VK_F9)) _currentHp += 20;
 	
 	if (_canMove == true && _isAlive)
 	{
@@ -168,18 +171,18 @@ void Player::render()
 		_attackEffect->rotateFrameRender(DC, _attackEffect->getX() , _attackEffect->getY(), _angle - 1.8);
 	}
 	//text !
-	char str[128]; sprintf_s(str, "vector sizzE : %d", _inven->getItem().size());
-	TextOut(DC, _collisionRc.left - 50, _collisionRc.top - 350, str, strlen(str));
-	if (_isJumping)  sprintf_s(str, "Á¡ÇÁ : true");
-	else if (!_isJumping) sprintf_s(str, "Á¡ÇÁ : false");
-	TextOut(DC, _collisionRc.left - 50 , _collisionRc.top - 150, str, strlen(str));
-	//// tile check 
-	sprintf(str, "¾ÆÀÌÅÛ Å¸ÀÔ : %d", _inven->getMainWeapon()[_youUsingCount]->getItemType());
-	TextOut(DC, _x-300, _y - 200, str, strlen(str));
-	sprintf(str, "y ÁÂÇ¥ : %f", _y);
-	TextOut(DC, _x- 300, _y - 300, str, strlen(str)); 
-	sprintf(str, "currentHP : %d maxHP : %d", _currentHp, _maxHp);
-	TextOut(DC, _x - 10, _collisionRc.top , str, strlen(str));
+	char str[128]; //sprintf_s(str, "vector sizzE : %d", _inven->getItem().size());
+	//TextOut(DC, _collisionRc.left - 50, _collisionRc.top - 350, str, strlen(str));
+	//if (_isJumping)  sprintf_s(str, "Á¡ÇÁ : true");
+	//else if (!_isJumping) sprintf_s(str, "Á¡ÇÁ : false");
+	//TextOut(DC, _collisionRc.left - 50 , _collisionRc.top - 150, str, strlen(str));
+	////// tile check 
+	//sprintf(str, "¾ÆÀÌÅÛ Å¸ÀÔ : %d", _inven->getMainWeapon()[_youUsingCount]->getItemType());
+	//TextOut(DC, _x-300, _y - 200, str, strlen(str));
+	//sprintf(str, "y ÁÂÇ¥ : %f", _y);
+	//TextOut(DC, _x- 300, _y - 300, str, strlen(str)); 
+	//sprintf(str, "currentHP : %d maxHP : %d", _currentHp, _maxHp);
+	//TextOut(DC, _x - 10, _collisionRc.top , str, strlen(str));
 
 	//pb
 	_pb->render();
@@ -205,7 +208,8 @@ void Player::render()
 	if (_currentDash>1)
 	IMAGEMANAGER->findImage("dash")->render(UIDC, 101, 162);
 	_hpbar->render();
-
+	if(_isAlive
+	&& _currentHp < _maxHp - 5) IMAGEMANAGER->findImage("Ã¼·Â¹ÙÃâ··Ãâ··")->frameRender(UIDC, 170 + _hpbar->getWidth() , _hpbar->getRect().bottom - 30);
 	
 
 	HFONT font, oldFont;
@@ -540,6 +544,15 @@ void Player::attack()
 
 void Player::effect()
 {
+	static int frameCount = 0;
+	frameCount++;
+	if (!(frameCount % 4))
+	{
+		frameCount = 0, IMAGEMANAGER->findImage("Ã¼·Â¹ÙÃâ··Ãâ··")->setFrameX(IMAGEMANAGER->findImage("Ã¼·Â¹ÙÃâ··Ãâ··")->getFrameX() + 1);
+		if (IMAGEMANAGER->findImage("Ã¼·Â¹ÙÃâ··Ãâ··")->getFrameX() >= IMAGEMANAGER->findImage("Ã¼·Â¹ÙÃâ··Ãâ··")->getMaxFrameX())
+			IMAGEMANAGER->findImage("Ã¼·Â¹ÙÃâ··Ãâ··")->setFrameX(0);
+	}
+
 	if(_showAttackEffect)CAMERAMANAGER->cameraShaking();
 	if (!_isJumping)
 	{
@@ -560,14 +573,12 @@ void Player::effect()
 		}
 	}	
 
-	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
+	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON) 
+		&& !(_inven->getMainWeapon()[_youUsingCount]->getItemType() == BOW))
 	{
-	
-		if (_inven->getMainWeapon().size() <= _youUsingCount) return;
-		
+		if (_inven->getMainWeapon().size() <= _youUsingCount) return;	
 		if (_inven->getMainWeapon()[_youUsingCount]->getItemType() == SWORD)
 		{
-		 
 			_attackEffect->setFrameX(0) , _attackEffect->setFrameY(0);
 		}
 	}
