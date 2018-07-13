@@ -45,6 +45,7 @@ void dungeon1Scene::setRandMapNum()
 {
 	if (_randNum == 1 || _randNum == 3)
 	{
+		//_route.push_back(2);
 		_route.push_back(6);
 		_minimapIcon[0].x = 400, _minimapIcon[0].y = 400;
 	}

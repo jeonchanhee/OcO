@@ -64,7 +64,7 @@ HRESULT dungeon2Scene::init()
 void dungeon2Scene::update()
 {
 	dungeonScene::update();
-
+	nextTest();
 	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); ++_viEnemy)
 	{
 		(*_viEnemy)->update();
@@ -157,6 +157,13 @@ void dungeon2Scene::doorInit()
 		_vDoor[i].rc = RectMake(_vDoor[i].x, _vDoor[i].y, TILESIZE * 4, TILESIZE);
 		_vDoor[i].dir = DOOR_UPDOWN;
 		_vDoor[i].img = IMAGEMANAGER->findImage("updownDoor");
+	}
+
+	for (int i = 0; i < 4; i++)
+	{
+		_tiles[8 + i].object = OBJ_DOOR2;
+		_tiles[1208 + i].object = OBJ_DOOR2;
+		_tiles[500 + i * 100].object = OBJ_DOOR2;
 	}
 }
 //

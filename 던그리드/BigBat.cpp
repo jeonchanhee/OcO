@@ -13,6 +13,9 @@ BigBat::~BigBat()
 
 HRESULT BigBat::init(float x, float y)
 {
+	static int b = 0;
+	b += 1;
+	_index = b;
 	_x = x;
 	_y = y;
 	
@@ -26,17 +29,22 @@ HRESULT BigBat::init(float x, float y)
 	int leftMove[] = { 21,22,24,25,26,27 };
 	KEYANIMANAGER->addArrayFrameAnimation("bigBatLeftMove", "giantBat", leftMove, 6, 5, true);
 	
+	char str[50];
+	sprintf_s(str, "bigBatRightAttack%d",b);
 	//Attack
 	int rightAtt[] = { 7,8,9,10,11,12,13,15,16 };
-	KEYANIMANAGER->addArrayFrameAnimation("bigBatRightAttack", "giantBat", rightAtt, 9, 5, false, rightAttack, this);
+	KEYANIMANAGER->addArrayFrameAnimation(str, "giantBat", rightAtt, 9, 5, false, rightAttack, this);
+	sprintf_s(str, "bigBatLeftAttack%d", b);
 	int leftAtt[] = {28,29,30,31,32,33,34,35,36};
-	KEYANIMANAGER->addArrayFrameAnimation("bigBatLeftAttack", "giantBat", leftAtt, 9, 5, false,leftAttack,this);
+	KEYANIMANAGER->addArrayFrameAnimation(str, "giantBat", leftAtt, 9, 5, false,leftAttack,this);
 	
 	//Die
 	int rightDie[] = { 17 };
-	KEYANIMANAGER->addArrayFrameAnimation("bigBatRightDie", "giantBat", rightDie, 1, 5, false,bigbatDieMotion, this);
+	sprintf_s(str, "bigBatRightDie%d", b);
+	KEYANIMANAGER->addArrayFrameAnimation(str, "giantBat", rightDie, 1, 5, false,bigbatDieMotion, this);
 	int leftDie[] = { 38 };
-	KEYANIMANAGER->addArrayFrameAnimation("bigBatLeftDie", "giantBat", leftDie, 1, 5, false, bigbatDieMotion, this);
+	sprintf_s(str, "bigBatLeftDie%d", b);
+	KEYANIMANAGER->addArrayFrameAnimation(str, "giantBat", leftDie, 1, 5, false, bigbatDieMotion, this);
 
 	_bigBatMotion = KEYANIMANAGER->findAnimation("bigBatRightMove");
 	_bigBatMotion->start();
@@ -71,7 +79,7 @@ void BigBat::update()
 	if (_diedie)
 	{
 		_dieCount++;
-		if (_dieCount > 60)
+		if (_dieCount > 90)
 		{
 			_isDie = true;
 		}
@@ -144,22 +152,27 @@ void BigBat::changeAnimation(BIGBATDIRECTION direction)
 	case BIGBAT_RIGHT_ATTACK:
 		_img = IMAGEMANAGER->findImage("giantBat");
 		_bigBatDirection = BIGBAT_RIGHT_ATTACK;
-		_bigBatMotion = KEYANIMANAGER->findAnimation("bigBatRightAttack");
+		char str[50];
+		sprintf_s(str, "bigBatRightAttack%d", _index);
+		_bigBatMotion = KEYANIMANAGER->findAnimation(str);
 		_bigBatMotion->start();
 		_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 		break;
 	case BIGBAT_LEFT_ATTACK:
 		_img = IMAGEMANAGER->findImage("giantBat");
 		_bigBatDirection = BIGBAT_LEFT_ATTACK;
-		_bigBatMotion = KEYANIMANAGER->findAnimation("bigBatLeftAttack");
+		sprintf_s(str, "bigBatLeftAttack%d", _index);
+		_bigBatMotion = KEYANIMANAGER->findAnimation(str);
 		_bigBatMotion->start();
 		_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 		break;
 	case BIGBAT_RIGHT_DIE:
 		_img = IMAGEMANAGER->findImage("giantBat");
+
 		_bigBatDirection = BIGBAT_RIGHT_DIE;
 		_bigBatMotion->stop();
-		_bigBatMotion = KEYANIMANAGER->findAnimation("bigBatRightDie");
+		sprintf_s(str, "bigBatRightDie%d", _index);
+		_bigBatMotion = KEYANIMANAGER->findAnimation(str);
 		_bigBatMotion->start();
 		_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 		break;
@@ -167,7 +180,8 @@ void BigBat::changeAnimation(BIGBATDIRECTION direction)
 		_img = IMAGEMANAGER->findImage("giantBat");
 		_bigBatDirection = BIGBAT_LEFT_DIE;
 		_bigBatMotion->stop();
-		_bigBatMotion = KEYANIMANAGER->findAnimation("bigBatLeftDie");
+		sprintf_s(str, "bigBatLeftDie%d", _index);
+		_bigBatMotion = KEYANIMANAGER->findAnimation(str);
 		_bigBatMotion->start();
 		_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 		break;

@@ -38,6 +38,7 @@ private:
 	itemManager* _im;
 	titleScene* _title;
 	townScene* _town;
+	weaponScene* _wc;
 	RandomDungeon1* _randomScene1;
 
 public:
@@ -47,6 +48,8 @@ public:
 	virtual void release(void);
 	virtual void update(void);
 	virtual void render(void);
+
+	void saveData();
 
 	playGround();
 	~playGround();

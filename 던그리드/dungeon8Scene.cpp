@@ -26,8 +26,8 @@ HRESULT dungeon8Scene::init()
 	_dungeonNum = 7;
 
 	setRandMapNum();
+
 	doorInit();
-	
 	setDoor();
 	//setMonster();
 
@@ -73,6 +73,11 @@ void dungeon8Scene::doorInit()
 
 	_vDoor[0].img = IMAGEMANAGER->findImage("leftDoor");
 	_vDoor[0].dir = DOOR_LEFT;
+	
+	for (int i = 0; i < 4; i++)
+	{
+		_tiles[250 + i * 50].object = OBJ_DOOR2;
+	}
 }
 
 void dungeon8Scene::update()
@@ -109,8 +114,6 @@ void dungeon8Scene::update()
 			_dungeonDoor.ani->start();
 		}
 	}
-
-
 }
 
 void dungeon8Scene::render()

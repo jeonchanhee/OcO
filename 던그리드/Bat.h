@@ -33,6 +33,7 @@ private:
 	//임시
 	int j = 0;
 
+	int _index;
 public:
 	Bat();
 	~Bat();
@@ -54,8 +55,8 @@ public:
 	void die();
 	void hitDamage();
 
-	static void batDieMotion(void * obj); //오른쪽 뒤짐 콜백함수
-	static void batDieMotionL(void * obj); // 왼쪽뒤짐 콜백함수
+	static void batDieMotion(void * obj);
+	static void batDieMotionL(void * obj);
 
 	RECT  getBatRect() { return _rc; } //rc
 };
