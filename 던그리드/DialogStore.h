@@ -13,6 +13,7 @@ public:
 	long _currentScroll;
 	long _mouseY;
 	bool _open;
+	int _food[5];
 
 
 	DialogStore();

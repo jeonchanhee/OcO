@@ -48,6 +48,10 @@ HRESULT DialogStore::init()
 	_rest = KEYANIMANAGER->findAnimation("rest");
 	_rest->start();
 
+	for(int i=0; i<4; i++)
+		_food[i] = i+33;
+	_food[4] = 33;
+
 	return S_OK;
 }
 
@@ -226,7 +230,7 @@ void DialogStore::restaurant()
 	if (_rrc.bottom >= 932)
 		_rrc = RectMake(686, 500, 42, 432);
 	if (_rrc.top >= 210 && _rrc.bottom <= 932)
-		CAMERAMANAGER->setCameraPoint(PointMake(0,0+(_rrc.top + 1 - 210)*1.4));
+		CAMERAMANAGER->setCameraPoint(PointMake(0, 0 + (_rrc.top + 1 - 210)*1.4));
 
 	IMAGEMANAGER->findImage("scroll")->render(UIDC, 686, _rrc.top);
 
@@ -241,20 +245,23 @@ void DialogStore::restaurant()
 	char str[128];
 	RECT rrc = RectMake(1720, 1000, 200, 50);
 
-	RECT rc = RectMake(35, 35, 100, 50);
-	RECT rc2 = RectMake(35, 305, 100, 50);
-	RECT rc3 = RectMake(35, 575, 100, 50);
-	RECT rc4 = RectMake(35, 845, 100, 50);
+	RECT rc[4];
+	rc[0] = RectMake(35, 35, 200, 50);
+	rc[1] = RectMake(35, 305, 200, 50);
+	rc[2] = RectMake(35, 575, 200, 50);
+	rc[3] = RectMake(35, 845, 200, 50);
 
-	RECT brc = RectMake(455, 165, 100, 50);
-	RECT brc2 = RectMake(455, 435, 100, 50);
-	RECT brc3 = RectMake(455, 705, 100, 50);
-	RECT brc4 = RectMake(455, 975, 100, 50);
+	RECT brc[4];
+	brc[0] = RectMake(455, 165, 200, 50);
+	brc[1] = RectMake(455, 435, 200, 50);
+	brc[2] = RectMake(455, 705, 200, 50);
+	brc[3] = RectMake(455, 975, 200, 50);
 
-	RECT bbrc = RectMake(455, 215, 100, 50);
-	RECT bbrc2 = RectMake(455, 485, 100, 50);
-	RECT bbrc3 = RectMake(455, 755, 100, 50);
-	RECT bbrc4 = RectMake(455, 1025, 100, 50);
+	RECT bbrc[4];
+	bbrc[0]  = RectMake(455, 215, 200, 50);
+	bbrc[1] = RectMake(455, 485, 200, 50);
+	bbrc[2] = RectMake(455, 755, 200, 50);
+	bbrc[3] = RectMake(455, 1025, 200, 50);
 
 	_im->getItem()[34]->getItem().image[0]->render(UIDC, 1120, 540);
 
@@ -266,26 +273,44 @@ void DialogStore::restaurant()
 	SetTextColor(UIDC, RGB(255, 255, 255));
 	SetBkMode(UIDC2, TRANSPARENT);
 	SetBkMode(UIDC, TRANSPARENT);
-	DrawText(UIDC2, _im->getItem()[33]->getItem().name, strlen(_im->getItem()[33]->getItem().name), &rc, DT_VCENTER);
-	DrawText(UIDC2, _im->getItem()[34]->getItem().name, strlen(_im->getItem()[34]->getItem().name), &rc2, DT_VCENTER);
-	DrawText(UIDC2, _im->getItem()[35]->getItem().name, strlen(_im->getItem()[35]->getItem().name), &rc3, DT_VCENTER);
-	DrawText(UIDC2, _im->getItem()[36]->getItem().name, strlen(_im->getItem()[36]->getItem().name), &rc4, DT_VCENTER);
 
-	DrawText(UIDC2, "20", strlen("20"), &brc, DT_VCENTER);
-	DrawText(UIDC2, "30", strlen("30"), &brc2, DT_VCENTER);
-	DrawText(UIDC2, "40", strlen("20"), &brc3, DT_VCENTER);
-	DrawText(UIDC2, "50", strlen("20"), &brc4, DT_VCENTER);
 
-	DrawText(UIDC2, "500", strlen("500"), &bbrc, DT_VCENTER);
-	DrawText(UIDC2, "1000", strlen("1000"), &bbrc2, DT_VCENTER);
-	DrawText(UIDC2, "1500", strlen("2000"), &bbrc3, DT_VCENTER);
-	DrawText(UIDC2, "2000", strlen("2000"), &bbrc4, DT_VCENTER);
 
-	DrawText(UIDC, itoa(_player->getInven()->getGold(),str,10), strlen(itoa(_player->getInven()->getGold(), str, 10)), &rrc, DT_VCENTER);
+	DrawText(UIDC, itoa(_player->getInven()->getGold(), str, 10), strlen(itoa(_player->getInven()->getGold(), str, 10)), &rrc, DT_VCENTER);
+	
+
+	
+	for (int i = 0; i < 4; i++)
+	{
+		if (_food[i] != 0)
+		{
+			DrawText(UIDC2, _im->getItem()[_food[i]]->getItem().name, strlen(_im->getItem()[_food[i]]->getItem().name), &rc[i], DT_VCENTER);
+			DrawText(UIDC2, itoa(_im->getItem()[_food[i]]->getItem().price,str,10), strlen(itoa(_im->getItem()[_food[i]]->getItem().price, str, 10)), &bbrc[i], DT_VCENTER);
+			DrawText(UIDC2, itoa(_im->getItem()[_food[i]]->getItem().hpRecovery,str,10), strlen(itoa(_im->getItem()[_food[i]]->getItem().hpRecovery, str, 10)), &brc[i], DT_VCENTER);
+			if (PtInRect(&RectMake(35 , 160 +270*i- _currentScroll, 600, 270), _ptMouse) && KEYMANAGER->isOnceKeyDown(VK_RBUTTON)&& _im->getItem()[_food[i]]->getItem().price <= _player->getInven()->getGold())
+			{
+				_player->getInven()->setGold(_player->getInven()->getGold() - _im->getItem()[_food[i]]->getItem().price);
+				//RectMake(35, 330, 600, 270);
+				_food[4] = _food[i];
+				_player->setCurrentHp(_player->getCurrentHp() + _im->getItem()[_food[i]]->getItem().hpRecovery);
+				if (_player->getCurrentHp() > _player->getMaxHp())
+					_player->setCurrentHp(_player->getMaxHp());
+				_food[i] = 0;
+			}
+		}
+		else
+			IMAGEMANAGER->findImage("thank")->render(UIDC2, 35,160+i*270);
+	}
+	if (KEYMANAGER->isToggleKey(VK_TAB))
+	{
+		for (int i = 0; i < 4; i++)
+		{
+			int a = 35 + CAMERAMANAGER->getCameraCenter().x - WINSIZEX / 2;
+			int b = 160 + CAMERAMANAGER->getCameraCenter().y - WINSIZEY / 2 + 270 * i;
+			Rectangle(DC, a, b, 600, 270);
+		}
+	}
 	SelectObject(UIDC2, oldFont);
 	SelectObject(UIDC, oldFont);
 	DeleteObject(font);
-
-	//Rectangle(UIDC, 35, 160, 600, 160);
-	//Rectangle(UIDC, 35, 330, 600, 160);
 }

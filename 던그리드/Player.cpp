@@ -29,7 +29,7 @@ HRESULT Player::init()
 	_dashCount = 0, _attackCount = 0;
 	_mouseAngle = 0;
 	//_currentDash = 1024 , _maxDash = 1024;
-	_currentDash = 2 , _maxDash =2;
+	_currentDash = 100 , _maxDash =100;
 	_currentFullNess = 0; _maxFullNess = 100;
 	_jumpPower = 12.0f;
 	_moveMentSpeed = 10.0f;
