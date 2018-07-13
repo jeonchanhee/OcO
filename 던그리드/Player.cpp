@@ -28,8 +28,8 @@ HRESULT Player::init()
 	_level = 1;
 	_dashCount = 0, _attackCount = 0;
 	_mouseAngle = 0;
-	//_currentDash = 1024 , _maxDash = 1024;
-	_currentDash = 2 , _maxDash =2;
+	_currentDash = 1024 , _maxDash = 1024;
+	//_currentDash = 2 , _maxDash =2;
 	_currentFullNess = 0; _maxFullNess = 100;
 	_jumpPower = 12.0f;
 	_moveMentSpeed = 10.0f;
@@ -44,12 +44,14 @@ HRESULT Player::init()
 	_currentHp = 100;
 	_maxHp = 100;
 	_frameX = 0, _frameY = 0;
+	_groundCount = 0;
 
 	_isDashing = false;
 	_isAttacking = false;
 	_isGun = false;
 	_attackSpeedCheckCount = false;
 	_isAlive = true;
+	_goGroundCheck = true;
 	
 
 	int rightStop[] = { 0,1,2,3,4 };
@@ -86,6 +88,13 @@ void Player::update()
 	//die
 	if (_currentHp <= 0)_currentHp = 0;
 	
+	if (!_goGroundCheck)++_groundCount;
+	if (_groundCount > 12)
+	{
+		_groundCount = 0;
+		_goGroundCheck = true;
+	}
+
 	if (KEYMANAGER->isOnceKeyDown(VK_F5)) _inven->pickUpItem(BOW , "활", 2);
 	if (KEYMANAGER->isOnceKeyDown(VK_F6)) _inven->pickUpItem(SWORD, "검", 5);
 	if (KEYMANAGER->isOnceKeyDown(VK_F7)) _inven->pickUpItem(ACCESSORY, "악세", 1);
@@ -269,7 +278,10 @@ void Player::keyInput()
 
 	if (KEYMANAGER->isStayKeyDown('S')
 		&& KEYMANAGER->isOnceKeyDown(VK_SPACE)
-		&& _goDownJump) _y += 90 , _goDownJump = false;
+		&& _goDownJump)
+	{
+		_y += 15, _goDownJump = false, _goGroundCheck = false, _isJumping = true, _jump = -3;
+	}
 	else if (KEYMANAGER->isOnceKeyDown(VK_SPACE))
 	{
 		SOUNDMANAGER->play("점프사운드");
@@ -659,6 +671,7 @@ void Player::tileCollision()
 				_collisionRc.right = _tiles[_rightCheck[i]].rc.left;
 				_collisionRc.left = _collisionRc.right - rcSize;
 				_x = _collisionRc.left + rcSize / 2;
+
 			}
 		}
 	}
@@ -676,6 +689,7 @@ void Player::tileCollision()
 				_collisionRc.bottom = _collisionRc.top + rcHeight;
 				_jump = -(_jump / 2);
 				_y = _collisionRc.top + (rcHeight / 2);
+			
 			}
 		} 
 		//위 체크 :upStateCheck
@@ -688,6 +702,7 @@ void Player::tileCollision()
 				_collisionRc.top = _tiles[_upStateCheck[i]].rc.bottom;
 				_collisionRc.bottom = _collisionRc.top + rcHeight;
 				_y = _collisionRc.top + (rcHeight / 2);
+			
 			}
 		}
 
@@ -701,6 +716,7 @@ void Player::tileCollision()
 			_goDownJump = false;
 			_isJumping = true;
 			_gravity = GRAVITY;
+			
 		}
 		else if(_tiles[_downStateCheck[i]].object == OBJ_CULUMN
 		|| (_tiles[_downStateCheck[i]].terrain == TOWN_GROUND))
@@ -747,7 +763,8 @@ void Player::tileCollision()
 
 		}
 	
-		if ((_tiles[_downStateCheck[i]].object == OBJ_GOGROUND))
+		if ((_tiles[_downStateCheck[i]].object == OBJ_GOGROUND)
+			&& _goGroundCheck == true)
 		{
 			if (!_isDashing)
 			{
@@ -776,7 +793,7 @@ void Player::tileCollision()
 		{
 			if (_dungeonNum == 11)
 			{
-				if (!_isDashing)
+				if (!_isDashing && _goGroundCheck == true )
 				{
 					int value = 0;
 					if (_jump == 0) value = 1;
@@ -864,7 +881,7 @@ void Player::pixelCollision()
 		
 		if (_dungeonNum == 11)
 		{
-			if (!_isDashing)
+			if (!_isDashing && _goGroundCheck)
 			{
 				int r = GetRValue(color), g = GetGValue(color), b = GetBValue(color);
 

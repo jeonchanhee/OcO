@@ -46,7 +46,8 @@ private:
 	bool _isChap;												
 	bool _showAttackEffect;										
 	bool _attackSpeedCheckCount;		
-	bool _goDownJump;											
+	bool _goDownJump;	
+	bool _goGroundCheck;
 
 	// int  
 	int _level;
@@ -66,6 +67,7 @@ private:
 	int	 _attackEffectCount;
 	int  _bulletType;
 	int  _frameX, _frameY;
+	int  _groundCount;
 	
 	//float 
 	float _x, _y , _leftHandX, _leftHandY, _rightHandX, _rightHandY;
