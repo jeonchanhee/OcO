@@ -19,7 +19,7 @@ HRESULT dungeon7Scene::init()
 	chooseMap(8);
 	selectSize(8);
 	mapload();
-	setCamera();
+	//setCamera();
 
 	load();
 	_dungeonNum = 6;
@@ -117,7 +117,7 @@ void dungeon7Scene::render()
 {
 	dungeonScene::render();
 	
-	_player->render();
+	//_player->render();
 
 	if (KEYMANAGER->isToggleKey(VK_TAB))
 	{

@@ -34,7 +34,7 @@ HRESULT dungeon2Scene::init()
 	chooseMap(3);
 	selectSize(3);
 	mapload();
-	setCamera();
+//	setCamera();
 
 	load();
 
@@ -105,7 +105,7 @@ void dungeon2Scene::render()
 {
 	dungeonScene::render();
 
-	_player->render();
+	//_player->render();
 
 	if (KEYMANAGER->isToggleKey(VK_TAB))
 	{

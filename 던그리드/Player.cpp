@@ -12,6 +12,7 @@ HRESULT Player::init()
 
 	_hpbar = new progressBar;
 	_hpbar->init(170,56, 294,60,"hp","hpb", BAR_PLAYER);
+	
 
 	imageDC = new image;
 	//imageDC = IMAGEMANAGER->addImage("asd", 500, 500);
@@ -27,8 +28,8 @@ HRESULT Player::init()
 	_level = 1;
 	_dashCount = 0, _attackCount = 0;
 	_mouseAngle = 0;
-	_currentDash = 1024 , _maxDash = 1024;
-	//_currentDash = 2 , _maxDash =2;
+	//_currentDash = 1024 , _maxDash = 1024;
+	_currentDash = 2 , _maxDash =2;
 	_currentFullNess = 0; _maxFullNess = 100;
 	_jumpPower = 12.0f;
 	_moveMentSpeed = 10.0f;
@@ -43,12 +44,14 @@ HRESULT Player::init()
 	_currentHp = 100;
 	_maxHp = 100;
 	_frameX = 0, _frameY = 0;
+	_groundCount = 0;
 
 	_isDashing = false;
 	_isAttacking = false;
 	_isGun = false;
 	_attackSpeedCheckCount = false;
 	_isAlive = true;
+	_goGroundCheck = true;
 	
 
 	int rightStop[] = { 0,1,2,3,4 };
@@ -81,13 +84,22 @@ void Player::release() {}
 
 void Player::update()
 {
+
 	//die
 	if (_currentHp <= 0)_currentHp = 0;
 	
+	if (!_goGroundCheck)++_groundCount;
+	if (_groundCount > 12)
+	{
+		_groundCount = 0;
+		_goGroundCheck = true;
+	}
+
 	if (KEYMANAGER->isOnceKeyDown(VK_F5)) _inven->pickUpItem(BOW , "활", 2);
 	if (KEYMANAGER->isOnceKeyDown(VK_F6)) _inven->pickUpItem(SWORD, "검", 5);
 	if (KEYMANAGER->isOnceKeyDown(VK_F7)) _inven->pickUpItem(ACCESSORY, "악세", 1);
 	if (KEYMANAGER->isOnceKeyDown(VK_F8)) _currentHp -= 20;
+	if (KEYMANAGER->isOnceKeyDown(VK_F9)) _currentHp += 20;
 	
 	if (_canMove == true && _isAlive)
 	{
@@ -106,19 +118,22 @@ void Player::update()
 	_inven->update();
 	_hpbar->setGauge(_currentHp, _maxHp);
 	_hpbar->update();
-	itemInfo();
+
 
 }
 
 void Player::render()
 {
 	//여윽시 희진누나 작품 !! 
-	 if(_inven->getMainWeapon()[_youUsingCount]->getItem().isFrame)
-		 _playerWeapon->frameRender(imageDC->getMemDC(), _playerWeapon->getWidth(),
-		 0, 0, 0, _playerWeapon->getFrameWidth(), _playerWeapon->getFrameHeight() , _frameX , _frameY);
-	 else 
-	_playerWeapon->render(imageDC->getMemDC(), _playerWeapon->getWidth(),
-		0, 0, 0, _playerWeapon->getWidth(), _playerWeapon->getHeight());
+	if ((_inven->getMainWeapon().size() > _youUsingCount))
+	{
+		if (_inven->getMainWeapon()[_youUsingCount]->getItem().isFrame)
+			_playerWeapon->frameRender(imageDC->getMemDC(), _playerWeapon->getWidth(),
+				0, 0, 0, _playerWeapon->getFrameWidth(), _playerWeapon->getFrameHeight(), _frameX, _frameY);
+		else
+			_playerWeapon->render(imageDC->getMemDC(), _playerWeapon->getWidth(),
+				0, 0, 0, _playerWeapon->getWidth(), _playerWeapon->getHeight());
+	}
 	// ===================
 	if (_direction == LEFT_RUN || _direction == LEFT_STOP)
 	{
@@ -168,18 +183,18 @@ void Player::render()
 		_attackEffect->rotateFrameRender(DC, _attackEffect->getX() , _attackEffect->getY(), _angle - 1.8);
 	}
 	//text !
-	char str[128]; sprintf_s(str, "vector sizzE : %d", _inven->getItem().size());
-	TextOut(DC, _collisionRc.left - 50, _collisionRc.top - 350, str, strlen(str));
-	if (_isJumping)  sprintf_s(str, "점프 : true");
-	else if (!_isJumping) sprintf_s(str, "점프 : false");
-	TextOut(DC, _collisionRc.left - 50 , _collisionRc.top - 150, str, strlen(str));
-	//// tile check 
-	sprintf(str, "아이템 타입 : %d", _inven->getMainWeapon()[_youUsingCount]->getItemType());
-	TextOut(DC, _x-300, _y - 200, str, strlen(str));
-	sprintf(str, "y 좌표 : %f", _y);
-	TextOut(DC, _x- 300, _y - 300, str, strlen(str)); 
-	sprintf(str, "currentHP : %d maxHP : %d", _currentHp, _maxHp);
-	TextOut(DC, _x - 10, _collisionRc.top , str, strlen(str));
+	char str[128]; //sprintf_s(str, "vector sizzE : %d", _inven->getItem().size());
+	//TextOut(DC, _collisionRc.left - 50, _collisionRc.top - 350, str, strlen(str));
+	//if (_isJumping)  sprintf_s(str, "점프 : true");
+	//else if (!_isJumping) sprintf_s(str, "점프 : false");
+	//TextOut(DC, _collisionRc.left - 50 , _collisionRc.top - 150, str, strlen(str));
+	////// tile check 
+	//sprintf(str, "아이템 타입 : %d", _inven->getMainWeapon()[_youUsingCount]->getItemType());
+	//TextOut(DC, _x-300, _y - 200, str, strlen(str));
+	//sprintf(str, "y 좌표 : %f", _y);
+	//TextOut(DC, _x- 300, _y - 300, str, strlen(str)); 
+	//sprintf(str, "currentHP : %d maxHP : %d", _currentHp, _maxHp);
+	//TextOut(DC, _x - 10, _collisionRc.top , str, strlen(str));
 
 	//pb
 	_pb->render();
@@ -198,28 +213,36 @@ void Player::render()
 		Rectangle(DC, _attackEffect->effectCheckBox().left, _attackEffect->effectCheckBox().top,
 		_attackEffect->effectCheckBox().right, _attackEffect->effectCheckBox().bottom);
 	}
-	IMAGEMANAGER->findImage("hpBar")->render(UIDC, 20, 20);
-	IMAGEMANAGER->findImage("dashBar")->frameRender(UIDC, 35, 150);
-	if(_currentDash>0)
-	IMAGEMANAGER->findImage("dash")->render(UIDC, 47, 162);
-	if (_currentDash>1)
-	IMAGEMANAGER->findImage("dash")->render(UIDC, 101, 162);
-	_hpbar->render();
+	if (_start != 3)
+	{
+		IMAGEMANAGER->findImage("hpBar")->render(UIDC, 20, 20);
+		IMAGEMANAGER->findImage("dashBar")->frameRender(UIDC, 35, 150);
+		if (_currentDash > 0)
+			IMAGEMANAGER->findImage("dash")->render(UIDC, 47, 162);
+		if (_currentDash > 1)
+			IMAGEMANAGER->findImage("dash")->render(UIDC, 101, 162);
+		_hpbar->render();
+		if (_isAlive
+			&& _currentHp < _maxHp - 5) IMAGEMANAGER->findImage("체력바출렁출렁")->frameRender(UIDC, 170 + _hpbar->getWidth(), _hpbar->getRect().bottom - 30);
 
+
+		HFONT font, oldFont;
+		font = CreateFont(50, 0, 0, 0, 100, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("소야바른9"));
+		oldFont = (HFONT)SelectObject(UIDC, font);
+		SetTextColor(UIDC, RGB(255, 255, 255));
+		SetBkMode(UIDC, TRANSPARENT);
+
+		sprintf(str, "%d", _level);
+		TextOut(UIDC, 80, 62, str, strlen(str));
+		if (_currentHp > 0)
+			sprintf(str, "%d/%d", _currentHp, _maxHp);
+		else
+			sprintf(str, "0/%d", _maxHp);
+		TextOut(UIDC, 250, 62, str, strlen(str));
+		SelectObject(UIDC, oldFont);
+		DeleteObject(font);
 	
-
-	HFONT font, oldFont;
-	font = CreateFont(50, 0, 0, 0, 100, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("소야바른9"));
-	oldFont = (HFONT)SelectObject(UIDC, font);
-	SetTextColor(UIDC, RGB(255, 255, 255));
-	SetBkMode(UIDC, TRANSPARENT);
-
-	sprintf(str, "%d", _level);
-	TextOut(UIDC, 80, 62, str, strlen(str));
-	sprintf(str, "%d/%d", _currentHp, _maxHp);
-	TextOut(UIDC, 250, 62, str, strlen(str));
-	SelectObject(UIDC, oldFont);
-	DeleteObject(font);
+	}
 }
 
 void Player::keyInput()
@@ -228,12 +251,14 @@ void Player::keyInput()
 	{
 		_youUsingCount = 0;
 		_inven->setIsSelect(_youUsingCount);
+		itemInfo();
 		
 	}
 	else if (KEYMANAGER->isOnceKeyDown('2'))
 	{
 		_youUsingCount = 1;
 		_inven->setIsSelect(_youUsingCount);
+		itemInfo();
 	}
 
 	if (KEYMANAGER->isOnceKeyDown('A'))
@@ -262,7 +287,10 @@ void Player::keyInput()
 
 	if (KEYMANAGER->isStayKeyDown('S')
 		&& KEYMANAGER->isOnceKeyDown(VK_SPACE)
-		&& _goDownJump) _y += 90 , _goDownJump = false;
+		&& _goDownJump)
+	{
+		_y += 15, _goDownJump = false, _goGroundCheck = false, _isJumping = true, _jump = -3;
+	}
 	else if (KEYMANAGER->isOnceKeyDown(VK_SPACE))
 	{
 		SOUNDMANAGER->play("점프사운드");
@@ -373,7 +401,7 @@ void Player::mouseControl()
 void Player::move()
 {
 	//DIE === 
-	if (_currentHp <= 0)_currentHp = 0, _isAlive = false;
+	if (_currentHp <= 0) _currentHp = 0, _isAlive = false;
 	if (!_isAlive)
 	{
 		if (_direction == LEFT_STOP ||
@@ -489,7 +517,8 @@ void Player::attack()
 			}
 		}
 		else if (_inven->getMainWeapon()[_youUsingCount]->getItemType() == GUN
-		|| _inven->getMainWeapon()[_youUsingCount]->getItemType() == BOW)
+		|| _inven->getMainWeapon()[_youUsingCount]->getItemType() == BOW
+		&& (_inven->getMainWeapon().size() > _youUsingCount))
 		{
 			_attackSpeedCheckCount = true, _showAttackEffect = true;
 			if (_isLeftAttack)
@@ -540,6 +569,15 @@ void Player::attack()
 
 void Player::effect()
 {
+	static int frameCount = 0;
+	frameCount++;
+	if (!(frameCount % 4))
+	{
+		frameCount = 0, IMAGEMANAGER->findImage("체력바출렁출렁")->setFrameX(IMAGEMANAGER->findImage("체력바출렁출렁")->getFrameX() + 1);
+		if (IMAGEMANAGER->findImage("체력바출렁출렁")->getFrameX() >= IMAGEMANAGER->findImage("체력바출렁출렁")->getMaxFrameX())
+			IMAGEMANAGER->findImage("체력바출렁출렁")->setFrameX(0);
+	}
+
 	if(_showAttackEffect)CAMERAMANAGER->cameraShaking();
 	if (!_isJumping)
 	{
@@ -560,15 +598,16 @@ void Player::effect()
 		}
 	}	
 
-	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
+	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON) && _inven->getMainWeapon().size() > _youUsingCount)
 	{
-	
-		if (_inven->getMainWeapon().size() <= _youUsingCount) return;
 		
-		if (_inven->getMainWeapon()[_youUsingCount]->getItemType() == SWORD)
+		if (!(_inven->getMainWeapon()[_youUsingCount]->getItemType() == BOW))
 		{
-		 
-			_attackEffect->setFrameX(0) , _attackEffect->setFrameY(0);
+			if (_inven->getMainWeapon().size() <= _youUsingCount) return;
+			if (_inven->getMainWeapon()[_youUsingCount]->getItemType() == SWORD)
+			{
+				_attackEffect->setFrameX(0), _attackEffect->setFrameY(0);
+			}
 		}
 	}
 	if(_showAttackEffect)++_attackEffectCount;
@@ -641,6 +680,7 @@ void Player::tileCollision()
 				_collisionRc.right = _tiles[_rightCheck[i]].rc.left;
 				_collisionRc.left = _collisionRc.right - rcSize;
 				_x = _collisionRc.left + rcSize / 2;
+
 			}
 		}
 	}
@@ -658,6 +698,7 @@ void Player::tileCollision()
 				_collisionRc.bottom = _collisionRc.top + rcHeight;
 				_jump = -(_jump / 2);
 				_y = _collisionRc.top + (rcHeight / 2);
+			
 			}
 		} 
 		//위 체크 :upStateCheck
@@ -670,6 +711,7 @@ void Player::tileCollision()
 				_collisionRc.top = _tiles[_upStateCheck[i]].rc.bottom;
 				_collisionRc.bottom = _collisionRc.top + rcHeight;
 				_y = _collisionRc.top + (rcHeight / 2);
+			
 			}
 		}
 
@@ -683,6 +725,7 @@ void Player::tileCollision()
 			_goDownJump = false;
 			_isJumping = true;
 			_gravity = GRAVITY;
+			
 		}
 		else if(_tiles[_downStateCheck[i]].object == OBJ_CULUMN
 		|| (_tiles[_downStateCheck[i]].terrain == TOWN_GROUND))
@@ -729,7 +772,8 @@ void Player::tileCollision()
 
 		}
 	
-		if ((_tiles[_downStateCheck[i]].object == OBJ_GOGROUND))
+		if ((_tiles[_downStateCheck[i]].object == OBJ_GOGROUND)
+			&& _goGroundCheck == true)
 		{
 			if (!_isDashing)
 			{
@@ -758,7 +802,7 @@ void Player::tileCollision()
 		{
 			if (_dungeonNum == 11)
 			{
-				if (!_isDashing)
+				if (!_isDashing && _goGroundCheck == true )
 				{
 					int value = 0;
 					if (_jump == 0) value = 1;
@@ -846,7 +890,7 @@ void Player::pixelCollision()
 		
 		if (_dungeonNum == 11)
 		{
-			if (!_isDashing)
+			if (!_isDashing && _goGroundCheck)
 			{
 				int r = GetRValue(color), g = GetGValue(color), b = GetBValue(color);
 

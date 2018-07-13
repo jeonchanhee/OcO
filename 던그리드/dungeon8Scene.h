@@ -20,6 +20,7 @@ private:
 	RECT _doorRc;
 	RandomDungeon1* _randMap1;
 	bool _enter;
+	float _time;
 public:
 	dungeon8Scene();
 	~dungeon8Scene();

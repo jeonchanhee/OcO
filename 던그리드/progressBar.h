@@ -37,5 +37,7 @@ public:
 	void setX(int x) { _x = x; }
 	void setY(int y) { _y = y; }
 
+	RECT getRect()   { return _rcProgress; }
+	float getWidth() { return _width; }
 };
 

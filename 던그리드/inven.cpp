@@ -135,11 +135,14 @@ void inven::render()
 			for (int i = 0; i < _vItem.size(); ++i)
 			{
 				if(_vItem[i]->getItemType() == ACCESSORY)_vItem[i]->invenRender(UIDC, _selectRect[i].left + 25, _selectRect[i].top + _halfH / 2 - 10);
+				else if(_vItem[i]->getItemType() == BOW) _vItem[i]->invenRender(UIDC, _selectRect[i].left + 18, _selectRect[i].top + _halfH / 2 - 10);
 				else _vItem[i]->invenRender(UIDC, _selectRect[i].left + _halfW - 10, _selectRect[i].top + _halfH / 2 - 10);
 			}
 			for (int i = 0; i < _vMainWeapon.size(); ++i)
 			{
-				_vMainWeapon[i]->invenRender(UIDC, _mainWeaponRect[i].left + _halfW - 10, _mainWeaponRect[i].top + _halfH / 2 - 10);
+				if(_vMainWeapon[i]->getItemType() == BOW)
+				_vMainWeapon[i]->invenRender(UIDC, _mainWeaponRect[i].left + _halfW - 38, _mainWeaponRect[i].top + _halfH / 2 - 10);
+				else _vMainWeapon[i]->invenRender(UIDC, _mainWeaponRect[i].left + _halfW - 10, _mainWeaponRect[i].top + _halfH / 2 - 10);
 			}
 			for (int i = 0; i < _vAssistWeapon.size(); ++i)
 			{

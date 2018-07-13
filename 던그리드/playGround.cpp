@@ -199,15 +199,15 @@ void playGround::render(void)
 	switch (mode)
 	{
 	case 맵툴:
-	//	PatBlt(UIDC, 0, 0, BACKGROUNDSIZEX, BACKGROUNDSIZEY, WHITENESS);
-		
-		
+		//	PatBlt(UIDC, 0, 0, BACKGROUNDSIZEX, BACKGROUNDSIZEY, WHITENESS);
+
+
 		_mapTool->render();
-		if(KEYMANAGER->isToggleKey(VK_TAB))
+		if (KEYMANAGER->isToggleKey(VK_TAB))
 		{
-		
+
 		}
-		
+
 		break;
 	case 타이틀:
 		SCENEMANAGER->render();
@@ -219,7 +219,7 @@ void playGround::render(void)
 		SCENEMANAGER->render();
 		break;
 	case 플레이어:
-		_player->render();
+		//_player->render();
 		break;
 	case 아이템:
 		SCENEMANAGER->render();
@@ -227,13 +227,12 @@ void playGround::render(void)
 	case 던전2: case 던전3: case 던전4: case 던전5: case 던전6: case 던전7: case 던전8:
 	case 랜덤맵1: case 보스:  case 무기: case 푸드:
 		EFFECTMANAGER->render();
-		SCENEMANAGER->render();	
+		SCENEMANAGER->render();
 		//_player->render();
 		break;
 	case 마을:
 		SCENEMANAGER->render();
 		EFFECTMANAGER->render();
-		//_start = 0;
 		//_player->render();
 		break;
 	case 맵선택:
@@ -244,23 +243,25 @@ void playGround::render(void)
 	default:
 		break;
 	}
+	//	if (mode != 타이틀 && mode != 맵툴)
+	{
 		if (_start != 1)
 			_player->render();
 
-	//SCENEMANAGER->render();
+		//SCENEMANAGER->render();
 
-	//char str[128];
-	//sprintf_s(str, "%d, %d", CAMERAMANAGER->getCameraCenter().x + WINSIZEX / 2, CAMERAMANAGER->getCameraCenter().y + WINSIZEY / 2);
-	//TextOut(UIDC, 100, 100, str, strlen(str));
-	//
-	//char str2[128];
-	//sprintf_s(str2, "%d %d /// %d, %d", _tileX, _tileY, _tileX * 96, _tileY * 96);
-	//TextOut(UIDC, 100, 150, str2, strlen(str2));
+		//char str[128];
+		//sprintf_s(str, "%d, %d", CAMERAMANAGER->getCameraCenter().x + WINSIZEX / 2, CAMERAMANAGER->getCameraCenter().y + WINSIZEY / 2);
+		//TextOut(UIDC, 100, 100, str, strlen(str));
+		//
+		//char str2[128];
+		//sprintf_s(str2, "%d %d /// %d, %d", _tileX, _tileY, _tileX * 96, _tileY * 96);
+		//TextOut(UIDC, 100, 150, str2, strlen(str2));
 
-	// 이 아래로도 건들지 마시오
-	/////////////////////////////////////////////////////////////////////////////////////////////
-	
-	TIMEMANAGER->render(UIDC);
+		// 이 아래로도 건들지 마시오
+		/////////////////////////////////////////////////////////////////////////////////////////////
+		//IMAGEMANAGER->render("cursor", UIDC, _ptMouse.x, _ptMouse.y);
+		//TIMEMANAGER->render(UIDC);
 
 	//if(mode == 타이틀)
 	//IMAGEMANAGER->findImage("카메라DC")->render(UIDC, 54,240,CAMERAMANAGER->getCameraPoint().x, CAMERAMANAGER->getCameraPoint().y, 600, 670);
@@ -271,55 +272,56 @@ void playGround::render(void)
 	this->getBackBuffer()->render(getHDC(), 0, 0, CAMERAMANAGER->getCameraCenter().x - WINSIZEX / 2, CAMERAMANAGER->getCameraCenter().y - WINSIZEY / 2, WINSIZEX, WINSIZEY);
 	//IMAGEMANAGER->render("cursor", getHDC(), _ptMouse.x, _ptMouse.y);
 
-	//흰색도화지 한 장 깔아둔다
-	//PatBlt(DC, 0, 0, WINSIZEX, WINSIZEY, WHITENESS); // 카메라 매니저 DC -> getMemDC 로 바꾸었습니다.
-	
-	//============== 이 위로는 건드리지 말자 ==============
-	
-	//switch (mode)
-	//{
-	//case 맵툴:
-	//	PatBlt(UIDC, 0, 0, BACKGROUNDSIZEX, BACKGROUNDSIZEY, WHITENESS);
-	//	//_mapTool->render();
-	//	break;
-	//case 타이틀:
-	//	SCENEMANAGER->render();
-	//	break;
-	//case 다이얼로그:
-	//	SCENEMANAGER->render();
-	//	break;
-	//case 도그본:
-	//	SCENEMANAGER->render();
-	//	break;
-	//case 플레이어:
-	//	_player->render();
-	//	break;
-	//case 아이템:
-	//	SCENEMANAGER->render();
-	//	break;
-	//case 던전:
-	//	SCENEMANAGER->render();
-	//	break;
-	//case 맵선택:
-	//	SCENEMANAGER->render();
-	//	break;
-	//
-	//case 기타추가하셈:
-	//	break;
-	//default:
-	//	break;
-	//}
+		//흰색도화지 한 장 깔아둔다
+		//PatBlt(DC, 0, 0, WINSIZEX, WINSIZEY, WHITENESS); // 카메라 매니저 DC -> getMemDC 로 바꾸었습니다.
 
-	//TIMEMANAGER->render(DC);
-	//
-	////================이 밑으로도 건드리지 말자 =============
-	//
-	
-	
-	
-	// 맨마지막으로 카메라 매니저 의 DC를 그려줍니다.
-	// CAMERAMANAGER->setCameraX()  CAMERAMANAGER->setCameraY() 를 이용하면   X ,Y 에  WINSIZEX , WINSIZEY 만큼 화면에 그려주고있는 렉트를 이동시킬 수 있음 .
-	// 그리고 모든 렌더의 hdc 는 CAMERAMANAGER->getCameraDC()->getMemDC() 로 해주어야함 !~~!!$!$!#ㄸ!#ㄸ!$!$#@$!@#@!
+		//============== 이 위로는 건드리지 말자 ==============
+
+		//switch (mode)
+		//{
+		//case 맵툴:
+		//	PatBlt(UIDC, 0, 0, BACKGROUNDSIZEX, BACKGROUNDSIZEY, WHITENESS);
+		//	//_mapTool->render();
+		//	break;
+		//case 타이틀:
+		//	SCENEMANAGER->render();
+		//	break;
+		//case 다이얼로그:
+		//	SCENEMANAGER->render();
+		//	break;
+		//case 도그본:
+		//	SCENEMANAGER->render();
+		//	break;
+		//case 플레이어:
+		//	_player->render();
+		//	break;
+		//case 아이템:
+		//	SCENEMANAGER->render();
+		//	break;
+		//case 던전:
+		//	SCENEMANAGER->render();
+		//	break;
+		//case 맵선택:
+		//	SCENEMANAGER->render();
+		//	break;
+		//
+		//case 기타추가하셈:
+		//	break;
+		//default:
+		//	break;
+		//}
+
+		//TIMEMANAGER->render(DC);
+		//
+		////================이 밑으로도 건드리지 말자 =============
+		//
+
+
+
+		// 맨마지막으로 카메라 매니저 의 DC를 그려줍니다.
+		// CAMERAMANAGER->setCameraX()  CAMERAMANAGER->setCameraY() 를 이용하면   X ,Y 에  WINSIZEX , WINSIZEY 만큼 화면에 그려주고있는 렉트를 이동시킬 수 있음 .
+		// 그리고 모든 렌더의 hdc 는 CAMERAMANAGER->getCameraDC()->getMemDC() 로 해주어야함 !~~!!$!$!#ㄸ!#ㄸ!$!$#@$!@#@!
+	}
 }
  
 
@@ -352,6 +354,15 @@ void playGround::saveData()
 		vData[_fileNum].idx = _fileNum;
 		vData[_fileNum].hour = TIMEMANAGER->getWorldTime() / 3600;
 		vData[_fileNum].min = TIMEMANAGER->getWorldTime() / 60;
+		vData[_fileNum].floor = _floorNum;
+		vData[_fileNum].gold = _player->getGold();
+		vData[_fileNum].dash = 2;
+	}
+	else
+	{
+		vData[_fileNum].idx += _fileNum;
+		vData[_fileNum].hour += TIMEMANAGER->getWorldTime() / 3600;
+		vData[_fileNum].min += TIMEMANAGER->getWorldTime() / 60;
 		vData[_fileNum].floor = _floorNum;
 		vData[_fileNum].gold = _player->getGold();
 		vData[_fileNum].dash = 2;

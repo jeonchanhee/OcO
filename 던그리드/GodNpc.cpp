@@ -163,7 +163,7 @@ void GodNpc::render()
 
 	if (_npcCollision)
 	{
-		IMAGEMANAGER->render("f버튼", DC, _npcX, _npcY -50);
+		IMAGEMANAGER->render("f버튼", DC, _npcX, _npcY - 50);
 	}
 
 }

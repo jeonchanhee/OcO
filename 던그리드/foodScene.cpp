@@ -19,7 +19,7 @@ HRESULT foodScene::init()
 	chooseMap(2);
 	selectSize(2);
 	mapload();
-	setCamera();
+	//setCamera();
 
 	load();
 
@@ -91,7 +91,7 @@ void foodScene::render()
 	dungeonScene::render();
 	IMAGEMANAGER->render("d_restaurant", DC, (184 % 29)*TILESIZE, (184 / 29)*TILESIZE + 25);
 	_foodNpc->render();
-	_player->render();
+//	_player->render();
 
 	if (KEYMANAGER->isToggleKey(VK_TAB))
 	{

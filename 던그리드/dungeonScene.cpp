@@ -81,11 +81,15 @@ HRESULT dungeonScene::init(void)
 	else if (_floorNum == 2)
 		_floorName = "2Ãþ : ÁöÇÏ°¨¿Á";
 	else if (_floorNum == 3)
-		_floorName = "3Ãþ : ÁöÇÏ°¨¿Á";
+		_floorName = "2Ãþ : ÁöÇÏ°¨¿Á";
 	_vEnemy.clear();
 
 	_item = new itemManager;
 	_item->init();
+	_route.clear();
+
+	_img = IMAGEMANAGER->findImage("suck");
+	_suck = KEYANIMANAGER->findAnimation("suck");
 	return S_OK;
 }
 
@@ -95,13 +99,20 @@ void dungeonScene::release(void)
 
 void dungeonScene::update(void)
 {
+	if (KEYMANAGER->isOnceKeyDown('P'))
+	{
+		for (int i = 0; i < _vEnemy.size(); i++)
+		{
+			_vEnemy[i]->setIsDie();
+		}
+	}
 	collision();
 
 	if(_minimap != NULL)
 	_minimap->setPlayerXY(((300 * _player->getPlayerX()) / (_tileX * TILESIZE)), ((150 * (_player->getPlayerY() - 80)) / (_tileY * TILESIZE)));
 	_player->update();
 
-	//if (_vEnemy.size() == 0)
+	if (_vEnemy.size() == 0)
 	{
 		_mapValue[_dungeonNum] = "T";
 	}
@@ -129,7 +140,7 @@ void dungeonScene::render(void)
 			}
 		}
 	}
-	if (KEYMANAGER->isToggleKey(VK_TAB))
+	/*if (KEYMANAGER->isToggleKey(VK_TAB))
 	{
 		for (int i = (CAMERAMANAGER->getCameraCenter().y - WINSIZEY / 2) / 96; i < (CAMERAMANAGER->getCameraCenter().y + WINSIZEY / 2) / 96 + 1; ++i)
 		{
@@ -140,7 +151,7 @@ void dungeonScene::render(void)
 				TextOut(DC, _tiles[i * _temp + j].rc.left, _tiles[i * _temp + j].rc.top, str, strlen(str));
 			}
 		}
-	}
+	}*/
 
 	for (int i = 0; i < _vDoor.size(); i++)
 	{
@@ -188,9 +199,9 @@ void dungeonScene::render(void)
 	if(_minimap != NULL)
 		_minimap->render();
 
-	_player->render();
+	//_player->render();
 
-	
+	playerDie();
 }
 
 void dungeonScene::doorInit(void)
@@ -297,6 +308,8 @@ void dungeonScene::mapload()
 
 void dungeonScene::setMinimap()
 {
+	static int a = 0;
+	a += 1;
 	_minimap = new minimap;
 	_minimap->init(true);
 
@@ -304,8 +317,10 @@ void dungeonScene::setMinimap()
 	/*tempImg = IMAGEMANAGER->addImage("ÅÛÇª", _tileX*TILESIZE, _tileY * TILESIZE);
 	PatBlt(tempImg->getMemDC(), 0, 0, _tileX * TILESIZE, _tileY * TILESIZE, BLACKNESS);*/
 	string str = "ÅÛÇÁ";
-	str += to_string(_dungeonNum);
-	tempImg = IMAGEMANAGER->addImage(str, _tileX*TILESIZE, _tileY * TILESIZE);
+	str += to_string(a);
+	tempImg = new image;
+	tempImg->init(_tileX*TILESIZE, _tileY * TILESIZE);
+	//tempImg = IMAGEMANAGER->addImage(str, 
 	PatBlt(tempImg->getMemDC(), 0, 0, _tileX * TILESIZE, _tileY * TILESIZE, BLACKNESS);
 
 
@@ -571,27 +586,27 @@ void dungeonScene::minimapIconRender()
 			if (i == 0 && _miniPortal[0].x != -1)
 			{
 				_miniPortal[0].img->frameRender(UIDC, _miniPortal[0].x, _miniPortal[0].y);
-				if(KEYMANAGER->isToggleKey('T'))
-					Rectangle(UIDC, _miniPortal[0].rc.left, _miniPortal[0].rc.top, _miniPortal[0].rc.right, _miniPortal[0].rc.bottom);
+				//if(KEYMANAGER->isToggleKey('T'))
+					//Rectangle(UIDC, _miniPortal[0].rc.left, _miniPortal[0].rc.top, _miniPortal[0].rc.right, _miniPortal[0].rc.bottom);
 			}
 			else if (i == 5 && _miniPortal[1].x != -1)
 			{
 				_miniPortal[1].img->frameRender(UIDC, _miniPortal[1].x, _miniPortal[1].y);
-				if (KEYMANAGER->isToggleKey('T'))
-					Rectangle(UIDC, _miniPortal[1].rc.left, _miniPortal[1].rc.top, _miniPortal[1].rc.right, _miniPortal[1].rc.bottom);
+			//	if (KEYMANAGER->isToggleKey('T'))
+				//	Rectangle(UIDC, _miniPortal[1].rc.left, _miniPortal[1].rc.top, _miniPortal[1].rc.right, _miniPortal[1].rc.bottom);
 			}
 			else if (i == 7 && _miniPortal[2].x != -1)
 			{
 				_miniPortal[2].img->frameRender(UIDC, _miniPortal[2].x, _miniPortal[2].y);
-				if (KEYMANAGER->isToggleKey('T'))
-					Rectangle(UIDC, _miniPortal[2].rc.left, _miniPortal[2].rc.top, _miniPortal[2].rc.right, _miniPortal[2].rc.bottom);
+				//if (KEYMANAGER->isToggleKey('T'))
+				//	Rectangle(UIDC, _miniPortal[2].rc.left, _miniPortal[2].rc.top, _miniPortal[2].rc.right, _miniPortal[2].rc.bottom);
 			}
 
 			else if (i == 9 && _miniPortal[3].x != -1)
 			{
 				_miniPortal[3].img->frameRender(UIDC, _miniPortal[3].x, _miniPortal[3].y);
-				if (KEYMANAGER->isToggleKey('T'))
-					Rectangle(UIDC, _miniPortal[3].rc.left, _miniPortal[3].rc.top, _miniPortal[3].rc.right, _miniPortal[3].rc.bottom);
+				//if (KEYMANAGER->isToggleKey('T'))
+					//Rectangle(UIDC, _miniPortal[3].rc.left, _miniPortal[3].rc.top, _miniPortal[3].rc.right, _miniPortal[3].rc.bottom);
 			}
 		}
 	}
@@ -742,6 +757,7 @@ void dungeonScene::nextTest()
 				char temp[128] = "";
 				str += itoa(_route[i], temp, 10);
 				save();
+				_vEnemy.clear();
 				SCENEMANAGER->changeScene(str);
 				
 			}
@@ -1274,3 +1290,23 @@ void dungeonScene::redBatBulletCollision()
 	}
 }
 
+
+void dungeonScene::playerDie()
+{
+	if (_player->getIsAlive()) return;
+	//reward();
+}
+
+void dungeonScene::reward()
+{
+	if (!_suckFin)
+	{
+		_suck->start();
+		_suckFin = true;
+	}
+	IMAGEMANAGER->findImage("reward")->render(UIDC, 0, 0);
+	IMAGEMANAGER->findImage("expBar")->render(UIDC, 0, WINSIZEY - IMAGEMANAGER->findImage("expBar")->getHeight());
+	//IMAGEMANAGER->findImage("suck")->frameRender(DC, 780, 546);
+
+	_img->aniRender(UIDC, 740, 546, _suck);
+}

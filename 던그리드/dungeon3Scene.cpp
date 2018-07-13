@@ -19,7 +19,7 @@ HRESULT dungeon3Scene::init()
 	chooseMap(4);
 	selectSize(4);
 	mapload();
-	setCamera();
+//	setCamera();
 
 	load();
 
@@ -102,7 +102,7 @@ void dungeon3Scene::render()
 {
 	dungeonScene::render();
 	
-	_player->render();
+	//_player->render();
 
 	if (KEYMANAGER->isToggleKey(VK_TAB))
 	{

@@ -41,6 +41,8 @@ HRESULT titleScene::init(void)
 	_soundRC2 = RectMakeCenter(_soundX2, _soundY2, 100, 100);
 	_bgmBack = RectMake(600, 470, 900, 50);
 	_sfxBack = RectMake(600, 620, 900, 50);
+
+	
 	/*int suck[51];
 	for (int i = 0; i<51; i++)
 		suck[i] = i;
@@ -297,9 +299,9 @@ void titleScene::selectData()
 				if (_select == i + 1)
 				{
 					_fileNum = i;
+					_start = 0;
 					SOUNDMANAGER->stop("title");
 					SCENEMANAGER->changeScene("¸¶À»");
-					_start = 0;
 					break;
 				}
 				_select = i + 1;

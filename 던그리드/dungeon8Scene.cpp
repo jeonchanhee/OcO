@@ -20,7 +20,7 @@ HRESULT dungeon8Scene::init()
 	chooseMap(9);
 	selectSize(9);
 	mapload();
-	setCamera();
+	//setCamera();
 
 	load();
 	_dungeonNum = 7;
@@ -41,9 +41,11 @@ HRESULT dungeon8Scene::init()
 
 	_doorRc = RectMake(_dungeonDoor.x + 100, _dungeonDoor.y + 200, 100, 200);
 
-	_player->setPlayerX(_vDoor[0].x + TILESIZE * 2);
-	_player->setPlayerY(_vDoor[0].y);
-
+	//_player->setPlayerX(_vDoor[0].x + TILESIZE * 2);
+	//_player->setPlayerY(_vDoor[0].y);
+	_player->setPlayerX(300);
+	_player->setPlayerY(500);
+	_time = TIMEMANAGER->getWorldTime();
 	return S_OK;
 }
 
@@ -83,6 +85,13 @@ void dungeon8Scene::doorInit()
 void dungeon8Scene::update()
 {
 	dungeonScene::update();
+
+	if (_time >= TIMEMANAGER->getWorldTime() - 1)
+	{
+		_player->setPlayerX(_vDoor[0].x + TILESIZE * 3);
+		_player->setPlayerY(_vDoor[0].y);
+	}
+
 	nextTest();
 	//for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); ++_viEnemy)
 	//{
@@ -95,13 +104,13 @@ void dungeon8Scene::update()
 	if (IntersectRect(&temp, &_player->getRc(), &_doorRc))
 	{
 		float size = (temp.right - temp.left)*(temp.bottom - temp.top);
-		if (size > 80 && !_enter)
+		if (size > 70 && !_enter)
 		{
-			/*vector<string> vStr = TXTDATA->txtLoad("random.txt");
+			vector<string> vStr = TXTDATA->txtLoad("random.txt");
 			vStr[_randNum - 1] = "T";
 			TXTDATA->txtSave("random.txt", vStr);
 			_randMap1 = new RandomDungeon1;
-			_randMap1->init();*/
+			_randMap1->init();
 			_enter = true;
 			_dungeonDoor.ani->start();
 		}
@@ -114,13 +123,14 @@ void dungeon8Scene::update()
 			_dungeonDoor.ani->start();
 		}
 	}
+
 }
 
 void dungeon8Scene::render()
 {
 	dungeonScene::render();
 	_dungeonDoor.img->aniRender(DC, _dungeonDoor.x, _dungeonDoor.y, _dungeonDoor.ani);
-	_player->render();
+	//_player->render();
 
 	if (KEYMANAGER->isToggleKey('T'))
 	{

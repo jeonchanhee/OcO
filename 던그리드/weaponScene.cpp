@@ -32,7 +32,7 @@ HRESULT weaponScene::init()
 	chooseMap(11);
 	selectSize(11);
 	mapload();
-	//setCamera();
+//	setCamera();
 
 	load();
 
@@ -106,7 +106,7 @@ void weaponScene::render()
 	dungeonScene::render();
 	IMAGEMANAGER->render("d_restaurant", DC, (181 % 25)*TILESIZE, (181 / 25)*TILESIZE + 25);
 	_weaponNpc->render();
-	_player->render();
+	//_player->render();
 
 	if (KEYMANAGER->isToggleKey(VK_TAB))
 	{

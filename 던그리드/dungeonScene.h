@@ -112,6 +112,9 @@ protected:
 
 	bool _diecount2;
 	
+	image* _img;
+	animation* _suck;
+	bool _suckFin;
 public:
 	virtual HRESULT init(void);
 	virtual void release(void);
@@ -179,5 +182,7 @@ public:
 	void bigbatBulletCollision();
 	void bigRadbatBulletCollision();
 	void redBatBulletCollision();
+	void playerDie();
+	void reward();
 };
 

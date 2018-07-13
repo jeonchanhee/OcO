@@ -44,9 +44,9 @@ public:
 	virtual void update(void);
 	virtual void render(void);
 
-	void inven();
+	//void inven();
 
-	void restaurant();
+	//void restaurant();
 
 	void reward();
 
