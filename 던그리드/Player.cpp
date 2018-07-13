@@ -238,7 +238,7 @@ void Player::render()
 		TextOut(UIDC, 250, 62, str, strlen(str));
 		SelectObject(UIDC, oldFont);
 		DeleteObject(font);
-	}
+	
 	}
 }
 
