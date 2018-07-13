@@ -65,6 +65,7 @@ private:
 	int  _youUsingCount;											
 	int	 _attackEffectCount;
 	int  _bulletType;
+	int  _frameX, _frameY;
 	
 	//float 
 	float _x, _y , _leftHandX, _leftHandY, _rightHandX, _rightHandY;

@@ -219,8 +219,21 @@ HRESULT playGround::Image_init(void)
 
 	//ø¯∞≈∏Æπ´±‚ ¿ÃπÃ¡ˆ 
 	//πŒ»£øÏ	//πŸ≤ﬁ 07 12
-	IMAGEMANAGER->addRotateImage("√—10¡¬", "image/item/weapon/gun/deadlyKissLeft(100x25)1x1.bmp", 100, 25, true, RGB(255, 0, 255));		// ¬¯øÎ
-	IMAGEMANAGER->addRotateImage("√—10øÏ", "image/item/weapon/gun/deadlyKissRight(100x25)1x1.bmp", 100, 25, true, RGB(255, 0, 255));		// ¬¯øÎ
+
+
+
+	IMAGEMANAGER->addRotateImage("√—1¡¬", "image/item/weapon/gun/matchlockGunLeft(100x30)1x1.bmp", 100, 30, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addRotateImage("√—1øÏ", "image/item/weapon/gun/matchlockGunRight(100x30)1x1.bmp", 100, 30, true, RGB(255, 0, 255));
+
+	IMAGEMANAGER->addRotateImage("√—2¡¬", "image/item/weapon/gun/deadlyKissLeft(100x25)1x1.bmp", 100, 25, true, RGB(255, 0, 255));	
+	IMAGEMANAGER->addRotateImage("√—2øÏ", "image/item/weapon/gun/deadlyKissRight(100x25)1x1.bmp", 100, 25, true, RGB(255, 0, 255));	
+
+	IMAGEMANAGER->addRotateImage("√—3¡¬", "image/item/weapon/gun/flameThrowerLeft(100x50)1x1.bmp", 100, 50, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addRotateImage("√—3øÏ", "image/item/weapon/gun/flameThrowerRight(100x50)1x1.bmp", 100, 50, true, RGB(255, 0, 255));
+
+	IMAGEMANAGER->addRotateFrameImage("√—4¡¬", "image/item/weapon/gun/railGunLeft(600x30)7x1.bmp", 600, 30 , 7 , 1 , true, RGB(255, 0, 255));
+	IMAGEMANAGER->addRotateFrameImage("√—4øÏ", "image/item/weapon/gun/railGunRight(600x30)7x1.bmp", 600, 30, 7 , 1 , true, RGB(255, 0, 255));
+
 	//∞«µÈ¡ˆ∏∂3	//πŸ≤ﬁ 07 12
 
 	IMAGEMANAGER->addImage("√—10", "image/item/weapon/gun/matchlockGunDrop(70x18)1x1.bmp", 70, 18, true, RGB(255, 0, 255));			// µÂ∂¯
@@ -247,7 +260,7 @@ HRESULT playGround::Image_init(void)
 
 	IMAGEMANAGER->addImage("»∞20", "image/item/weapon/bow/darkbowDrop(50x27)1x1.bmp", 50, 27, true, RGB(255, 0, 255));						// µÂ∂¯ 
 	IMAGEMANAGER->addImage("»∞21", "image/item/weapon/bow/DarkBowInven(91x80)1x1.bmp", 91, 80, true, RGB(255, 0, 255));						// ¿Œ∫•
-	IMAGEMANAGER->addRotateFrameImage("»∞22", "image/item/weapon/bow/darkbow(300x50)6x1.bmp", 300, 50, 6, 1, true, RGB(255, 0, 255));		// ¬¯øÎ
+	IMAGEMANAGER->addRotateFrameImage("»∞22", "image/item/weapon/bow/darkbow(420x70)6x1.bmp", 420, 70, 6, 1, true, RGB(255, 0, 255));		// ¬¯øÎ
 
 	IMAGEMANAGER->addImage("»∞30", "image/item/weapon/bow/lightbringerDrop(50x22)1x1.bmp", 50, 22, true, RGB(255, 0, 255));					// µÂ∂¯
 	IMAGEMANAGER->addImage("»∞31", "image/item/weapon/bow/lightbringerInven(35x80)1x1.bmp", 35, 80, true, RGB(255, 0, 255));					// ¿Œ∫•
@@ -258,14 +271,15 @@ HRESULT playGround::Image_init(void)
 
 
 	//¡ˆøÏ¡ˆ∏∂ ¡ˆøÏ¡ˆ∏∂ ¡ˆøÏ¡ˆ∏∂ ¡ˆøÏ¡ˆ∏∂ ¡ˆøÏ¡ˆ∏∂ ¡ˆøÏ¡ˆ∏∂ ¡ˆøÏ¡ˆ∏∂ ¡ˆøÏ¡ˆ∏∂ ¡ˆøÏ¡ˆ∏∂
-	//√—æÀ0", "√—æÀ1", "√—æÀ2", "√—æÀ3
-	IMAGEMANAGER->addRotateFrameImage("√—æÀ0", "image/item/weapon/gun/matchlockGunBullet(750x30,5x1).bmp",750,30,5,1,true , RGB(255,0,255));
+	IMAGEMANAGER->addRotateFrameImage("√—æÀ0", "image/item/weapon/gun/matchlockGunBullet(5x1).bmp",750,30,5,1,true , RGB(255,0,255));
 	IMAGEMANAGER->addRotateFrameImage("√—æÀ1", "image/item/weapon/gun/deadlyKissBullet(1200x110,12x1).bmp",1000,92,12,1,true, RGB(255,0,255 ));
 	IMAGEMANAGER->addRotateFrameImage("√—æÀ2", "image/item/weapon/gun/flameThrower(400x125,8x1).bmp",400,125,8,1,true, RGB(255 , 0 , 255));
 	IMAGEMANAGER->addRotateFrameImage("√—æÀ3", "image/item/weapon/gun/railGunBullet(300x100,6x1).bmp",300,100,6,1,true, RGB(255,0,255 ));
+	IMAGEMANAGER->addRotateImage("»≠ªÏ", "image/item/weapon/bow/»∞ ¿Ã∆Â∆Æ/arrow.bmp", 50, 5, true, RGB(255, 0, 255));
 
 		
 	// πÊæÓ±∏ ¿ÃπÃ¡ˆ
+
 
 	IMAGEMANAGER->addImage("æ∆∏”10", "image/item/armor/ClothArmorDrop(30x27)1x1.bmp", 30, 27, true, RGB(255, 0, 255));	// µÂ∂¯
 	IMAGEMANAGER->addImage("æ∆∏”11", "image/item/armor/ClothArmorInven(80x72)1x1.bmp", 80, 72, true, RGB(255, 0, 255));	// ¿Œ∫•
