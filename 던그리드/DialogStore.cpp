@@ -43,6 +43,11 @@ HRESULT DialogStore::init()
 
 	_open = false;
 
+	int rest[] = { 0,1,2 };
+	KEYANIMANAGER->addArrayFrameAnimation("rest", "rest", rest, 3, 7, true);
+	_rest = KEYANIMANAGER->findAnimation("rest");
+	_rest->start();
+
 	return S_OK;
 }
 
@@ -194,8 +199,8 @@ void DialogStore::clickButton()
 
 void DialogStore::restaurant()
 {
-	IMAGEMANAGER->findImage("restaurant")->render(DC, 0, 0);
-	IMAGEMANAGER->findImage("rest")->frameRender(DC, 744, 216);
+	IMAGEMANAGER->findImage("restaurant")->render(UIDC, 0, 0);
+	IMAGEMANAGER->findImage("rest")->frameRender(UIDC, 744, 216);
 	IMAGEMANAGER->findImage("reslot")->render(UIDC2, 0, 0);
 	IMAGEMANAGER->findImage("reslot")->render(UIDC2, 0, 270);
 	IMAGEMANAGER->findImage("reslot")->render(UIDC2, 0, 540);

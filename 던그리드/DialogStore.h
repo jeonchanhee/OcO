@@ -7,6 +7,7 @@ class DialogStore : public Dialog
 
 public:
 	//image * _restImg;
+	animation * _rest;
 	RECT _rrc;
 	bool _scroll;
 	long _currentScroll;
