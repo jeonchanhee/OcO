@@ -118,7 +118,7 @@ void Player::update()
 	_inven->update();
 	_hpbar->setGauge(_currentHp, _maxHp);
 	_hpbar->update();
-	itemInfo();
+
 
 }
 
@@ -248,12 +248,14 @@ void Player::keyInput()
 	{
 		_youUsingCount = 0;
 		_inven->setIsSelect(_youUsingCount);
+		itemInfo();
 		
 	}
 	else if (KEYMANAGER->isOnceKeyDown('2'))
 	{
 		_youUsingCount = 1;
 		_inven->setIsSelect(_youUsingCount);
+		itemInfo();
 	}
 
 	if (KEYMANAGER->isOnceKeyDown('A'))
