@@ -57,7 +57,7 @@ void RandomDungeon1::save()
 		if (vRand[randNum] == "F")
 			break;
 	}*/
-	randNum = 0;
+	randNum = 3;
 	int count = 0;
 	for (int i = 0; i < 4; i++)
 	{

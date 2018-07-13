@@ -1,5 +1,7 @@
 #include "stdafx.h"
 #include "DialogWeapon.h"
+#include "itemManager.h"
+#include "Player.h"
 
 
 DialogWeapon::DialogWeapon()
@@ -36,6 +38,10 @@ HRESULT DialogWeapon::init()
 	_vButtonDialog[1] = "아무것도";
 
 	setDialog();
+
+	_open = false;
+	_reset = false;
+
 	return S_OK;
 }
 
@@ -48,6 +54,7 @@ void DialogWeapon::update()
 	keyControl();
 	clickButton();
 	setFrame();
+	
 }
 
 void DialogWeapon::render()
@@ -82,6 +89,17 @@ void DialogWeapon::render()
 	}
 	SelectObject(UIDC, oldFont);
 	DeleteObject(font);
+
+	if (_open == true)
+	{
+		if (_reset == false)
+		{
+			resetShop();
+			_reset = true;
+		}
+		shop();
+	}
+
 }
 
 void DialogWeapon::keyControl()
@@ -90,7 +108,12 @@ void DialogWeapon::keyControl()
 	{
 		_idX = _vDialog[0][0].size() - 1;
 	}
-
+	if (KEYMANAGER->isOnceKeyDown('F'))
+	{
+		_open = false;
+		_player->getInven()->setOnInven(false);
+		_canMove = true;
+	}
 }
 
 void DialogWeapon::setFrame()
@@ -112,10 +135,88 @@ void DialogWeapon::clickButton()
 		{
 			if (PtInRect(&_vButton[i], _ptMouse))
 			{
+				if (i == 0)
+				{
+					//_isFin = true;
+					_open = true;
+					_player->getInven()->setOnInven(true);
+					_canMove = false;
+					
+				}
 				if (i == 1)
 				{
 					_isFin = true;
 				}
+			}
+		}
+	}
+}
+
+void DialogWeapon::shop()
+{
+	char str[128];
+	RECT rc[5], rc1[5], rc2[5], rc3[5];
+	IMAGEMANAGER->findImage("shopUI")->render(UIDC, 0, 0);
+	for (int i = 0; i < 5; i++)
+	{
+		rc1[i] = RectMake(165, 180 + 170 * i, 493, 126);
+		IMAGEMANAGER->findImage("slot")->render(UIDC, 165, 180 + 170 * i);
+	}
+	if (KEYMANAGER->isToggleKey(VK_TAB))
+	{
+		for (int i = 0; i < 5; i++)
+			Rectangle(UIDC, rc1[i].left, rc1[i].top, rc1[i].right, rc1[i].bottom);
+	}
+
+	HFONT font, oldFont;
+	font = CreateFont(40, 0, 0, 0, 100, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("소야바른9"));
+	oldFont = (HFONT)SelectObject(UIDC, font);
+	SetTextColor(UIDC, RGB(255, 255, 255));
+	SetBkMode(UIDC, TRANSPARENT);
+	for (int i = 0; i < 5; i++)
+	{
+		rc[i] = RectMake(50, 220 + 170 * i, 100, 100);
+		rc2[i] = RectMake(200, 200 + 170 * i, 100, 100);
+		rc3[i] = RectMake(500, 255 + 170 * i, 100, 100);
+
+		if (_itemNum[i] != 0)
+		{
+			_im->getItem()[_itemNum[i]]->getItem().image[0]->render(UIDC, rc[i].left, rc[i].top);
+
+			DrawText(UIDC, _im->getItem()[_itemNum[i]]->getItem().name, strlen(_im->getItem()[_itemNum[i]]->getItem().name), &rc2[i], DT_VCENTER);
+			DrawText(UIDC, itoa(_im->getItem()[_itemNum[i]]->getItem().price, str, 10), strlen(itoa(_im->getItem()[_itemNum[i]]->getItem().price, str, 10)), &rc3[i], DT_VCENTER);
+		}
+		else
+			IMAGEMANAGER->findImage("thank")->render(UIDC, rc2[i].left, rc2[i].top);
+	}
+
+	SelectObject(UIDC, oldFont);
+	DeleteObject(font);
+	for (int i = 0; i < 5; i++)
+	{
+		if (PtInRect(&rc1[i], _ptMouse) && KEYMANAGER->isOnceKeyDown(VK_RBUTTON) && _itemNum[i] != 0 && _player->getInven()->getItem().size() < INVENSIZE&&_im->getItem()[_itemNum[i]]->getItem().price <= _player->getInven()->getGold())
+		{
+			_player->getInven()->setGold(_player->getInven()->getGold() - _im->getItem()[_itemNum[i]]->getItem().price);
+			_player->getInven()->buyItem(_itemNum[i]);
+			_itemNum[i] = 0;
+		}
+	}
+}
+
+void DialogWeapon::resetShop()
+{
+	//2~33
+	int rand;
+	for (int i = 0; i < 5; i++)
+	{
+		_itemNum[i] = 0;
+		while (1)
+		{
+			rand = RND->getFromIntTo(2, 33);
+			if (_itemNum[0] != rand && _itemNum[1] != rand && _itemNum[2] != rand && _itemNum[3] != rand && _itemNum[4] != rand)
+			{
+				_itemNum[i] = rand;
+				break;
 			}
 		}
 	}

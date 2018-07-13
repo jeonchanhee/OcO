@@ -39,7 +39,7 @@ HRESULT Player::init()
 	_fixedDamage = 0;
 	_youUsingCount = 0;
 	_bulletType = 0;
-	_currentHp = 50;
+	_currentHp = 100;
 	_maxHp = 100;
 
 	_isDashing = false;

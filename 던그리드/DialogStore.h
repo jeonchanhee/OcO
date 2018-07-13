@@ -6,6 +6,14 @@ class DialogStore : public Dialog
 	STORE_NPC _store;
 
 public:
+	//image * _restImg;
+	RECT _rrc;
+	bool _scroll;
+	long _currentScroll;
+	long _mouseY;
+	bool _open;
+
+
 	DialogStore();
 	~DialogStore();
 
@@ -21,6 +29,8 @@ public:
 	void setDialog();
 	void changeDialog();
 	void clickButton();
+
+	void restaurant();
 
 };
 

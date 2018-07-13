@@ -1,5 +1,7 @@
 #include "stdafx.h"
 #include "DialogStore.h"
+#include "itemManager.h"
+#include "Player.h"
 
 
 DialogStore::DialogStore()
@@ -33,6 +35,13 @@ HRESULT DialogStore::init()
 	_vButtonDialog[1] = "아무것도";
 
 	setDialog();
+
+	//_restImg = IMAGEMANAGER->findImage("rest");
+	_scroll = false;
+	_currentScroll = 0;
+	_rrc = RectMake(686, 210, 42, 432);
+
+	_open = false;
 
 	return S_OK;
 }
@@ -81,6 +90,11 @@ void DialogStore::render()
 	}
 	SelectObject(UIDC, oldFont);
 	DeleteObject(font);
+
+	if (_open == true)
+	{
+		restaurant();
+	}
 }
 
 void DialogStore::keyControl()
@@ -99,6 +113,10 @@ void DialogStore::keyControl()
 	if (KEYMANAGER->isOnceKeyDown(VK_RBUTTON))
 	{
 		changeDialog();
+	}
+	if (KEYMANAGER->isOnceKeyDown('F'))
+	{
+		_open = false;
 	}
 }
 
@@ -156,17 +174,74 @@ void DialogStore::clickButton()
 	{
 		for (int i = 0; i < _vButton.size(); i++)
 		{
-			if (PtInRect(&_vButton[i], _ptMouse))
+			if (PtInRect(&_vButton[i], getCameraPoint()))
 			{
 				if (i == 0)
 				{
+					//_isFin = true;
 					_store = STORE_MEET;
 					_count = _idX = _idY = 0;
 					setDialog();
+					_open = true;
+					
 				}
 				if (i == 1)
 					_isFin = true;
 			}
 		}
 	}
+}
+
+void DialogStore::restaurant()
+{
+	IMAGEMANAGER->findImage("restaurant")->render(DC, 0, 0);
+	IMAGEMANAGER->findImage("rest")->frameRender(DC, 744, 216);
+	IMAGEMANAGER->findImage("reslot")->render(UIDC2, 0, 0);
+	IMAGEMANAGER->findImage("reslot")->render(UIDC2, 0, 270);
+	IMAGEMANAGER->findImage("reslot")->render(UIDC2, 0, 540);
+	IMAGEMANAGER->findImage("reslot")->render(UIDC2, 0, 810);
+	if (PtInRect(&_rrc, _ptMouse) && KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
+	{
+		_scroll = true;
+		_mouseY = _ptMouse.y;
+	}
+	else if (KEYMANAGER->isOnceKeyUp(VK_LBUTTON))
+	{
+		_scroll = false;
+		_currentScroll = _rrc.top - 210;
+	}
+	if (_scroll == true)
+	{
+		_rrc = RectMake(686, 210 + _ptMouse.y - _mouseY + _currentScroll, 42, 432);
+	}
+	if (_rrc.top <= 210)
+		_rrc = RectMake(686, 210, 42, 432);
+	if (_rrc.bottom >= 932)
+		_rrc = RectMake(686, 500, 42, 432);
+	if (_rrc.top >= 210 && _rrc.bottom <= 932)
+		CAMERAMANAGER->setCameraPoint(PointMake(0, (_rrc.top + 1 - 210)*1.4));
+
+	IMAGEMANAGER->findImage("scroll")->render(DC, 686, _rrc.top);
+
+	if (KEYMANAGER->isToggleKey(VK_TAB))
+	{
+		Rectangle(DC, _rrc.left, _rrc.top, _rrc.right, _rrc.bottom);
+	}
+
+	//_restImg->aniRender(DC, 744, 216, _rest);
+
+	//28~31
+	RECT rc = RectMake(35, 35, 100, 50);
+	RECT rc2 = RectMake(35, 305, 100, 50);
+	_im->getItem()[34]->getItem().image[0]->render(DC, 1120, 540);
+
+	HFONT font, oldFont;
+	font = CreateFont(40, 0, 0, 0, 100, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("소야바른9"));
+	oldFont = (HFONT)SelectObject(UIDC2, font);
+	SetTextColor(UIDC2, RGB(255, 255, 255));
+	SetBkMode(UIDC2, TRANSPARENT);
+	DrawText(UIDC2, _im->getItem()[34]->getItem().name, strlen(_im->getItem()[34]->getItem().name), &rc, DT_VCENTER);
+	DrawText(UIDC2, _im->getItem()[34]->getItem().name, strlen(_im->getItem()[34]->getItem().name), &rc2, DT_VCENTER);
+	SelectObject(UIDC2, oldFont);
+	DeleteObject(font);
 }

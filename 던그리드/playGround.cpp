@@ -35,6 +35,7 @@ HRESULT playGround::init(void)
 	_player->getInven()->setImLink(_im);
 
 	SCENEMANAGER->setPlayerAddressLink(_player);
+	SCENEMANAGER->setIMAddressLink(_im);
 
 	SCENEMANAGER->addScene("Å¸ÀÌÆ²", _title);
 	SCENEMANAGER->addScene("´øÀü2", new dungeon2Scene);
@@ -122,6 +123,7 @@ HRESULT playGround::init(void)
 		break;
 	case ¸¶À»:
 		SCENEMANAGER->changeScene("¸¶À»");
+		_start = 0;
 		break;
 	case ¸Ê¼±ÅÃ:
 		SCENEMANAGER->changeScene("¸Ê¼±ÅÃ");
@@ -231,6 +233,7 @@ void playGround::render(void)
 	case ¸¶À»:
 		SCENEMANAGER->render();
 		EFFECTMANAGER->render();
+		//_start = 0;
 		//_player->render();
 		break;
 	case ¸Ê¼±ÅÃ:
@@ -241,11 +244,8 @@ void playGround::render(void)
 	default:
 		break;
 	}
-	if (mode != Å¸ÀÌÆ² && mode != ¸ÊÅø)
-	{
 		if (_start != 1)
 			_player->render();
-	}
 
 	//SCENEMANAGER->render();
 
