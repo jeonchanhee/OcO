@@ -116,7 +116,7 @@ void RandomDungeon1::save()
 		vStr.push_back(itoa(4, str, 10));
 		for (int i = 0; i < 11; i++)
 		{
-			if (i == 0 || i == 2 || i == 4 || i == 5 || i == 6 || i == 7 || i == 9 || i == 10)
+			if (i == 0 || i == 1 || i == 3 || i == 4 || i == 5 || i == 6 || i == 7 || i == 9 || i == 10)
 				vStr.push_back("F");
 			else
 				vStr.push_back("N");

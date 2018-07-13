@@ -219,7 +219,7 @@ void playGround::render(void)
 		SCENEMANAGER->render();
 		break;
 	case ÇÃ·¹ÀÌ¾î:
-		_player->render();
+		//_player->render();
 		break;
 	case ¾ÆÀÌÅÛ:
 		SCENEMANAGER->render();
@@ -228,12 +228,12 @@ void playGround::render(void)
 	case ·£´ı¸Ê1: case º¸½º:  case ¹«±â: case Çªµå:
 		EFFECTMANAGER->render();
 		SCENEMANAGER->render();
-		_player->render();
+		//_player->render();
 		break;
 	case ¸¶À»:
 		SCENEMANAGER->render();
 		EFFECTMANAGER->render();
-		_player->render();
+		//_player->render();
 		break;
 	case ¸Ê¼±ÅÃ:
 		SCENEMANAGER->render();

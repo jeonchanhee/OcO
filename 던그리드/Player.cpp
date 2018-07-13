@@ -213,29 +213,33 @@ void Player::render()
 		Rectangle(DC, _attackEffect->effectCheckBox().left, _attackEffect->effectCheckBox().top,
 		_attackEffect->effectCheckBox().right, _attackEffect->effectCheckBox().bottom);
 	}
-	IMAGEMANAGER->findImage("hpBar")->render(UIDC, 20, 20);
-	IMAGEMANAGER->findImage("dashBar")->frameRender(UIDC, 35, 150);
-	if(_currentDash>0)
-	IMAGEMANAGER->findImage("dash")->render(UIDC, 47, 162);
-	if (_currentDash>1)
-	IMAGEMANAGER->findImage("dash")->render(UIDC, 101, 162);
-	_hpbar->render();
-	if(_isAlive
-	&& _currentHp < _maxHp - 5) IMAGEMANAGER->findImage("체력바출렁출렁")->frameRender(UIDC, 170 + _hpbar->getWidth() , _hpbar->getRect().bottom - 30);
-	
+	if (_start != 3)
+	{
+		IMAGEMANAGER->findImage("hpBar")->render(UIDC, 20, 20);
+		IMAGEMANAGER->findImage("dashBar")->frameRender(UIDC, 35, 150);
+		if (_currentDash > 0)
+			IMAGEMANAGER->findImage("dash")->render(UIDC, 47, 162);
+		if (_currentDash > 1)
+			IMAGEMANAGER->findImage("dash")->render(UIDC, 101, 162);
+		_hpbar->render();
+		if (_isAlive
+			&& _currentHp < _maxHp - 5) IMAGEMANAGER->findImage("체력바출렁출렁")->frameRender(UIDC, 170 + _hpbar->getWidth(), _hpbar->getRect().bottom - 30);
 
-	HFONT font, oldFont;
-	font = CreateFont(50, 0, 0, 0, 100, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("소야바른9"));
-	oldFont = (HFONT)SelectObject(UIDC, font);
-	SetTextColor(UIDC, RGB(255, 255, 255));
-	SetBkMode(UIDC, TRANSPARENT);
 
-	sprintf(str, "%d", _level);
-	TextOut(UIDC, 80, 62, str, strlen(str));
-	sprintf(str, "%d/%d", _currentHp, _maxHp);
-	TextOut(UIDC, 250, 62, str, strlen(str));
-	SelectObject(UIDC, oldFont);
-	DeleteObject(font);
+		HFONT font, oldFont;
+		font = CreateFont(50, 0, 0, 0, 100, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("소야바른9"));
+		oldFont = (HFONT)SelectObject(UIDC, font);
+		SetTextColor(UIDC, RGB(255, 255, 255));
+		SetBkMode(UIDC, TRANSPARENT);
+
+		sprintf(str, "%d", _level);
+		TextOut(UIDC, 80, 62, str, strlen(str));
+		sprintf(str, "%d/%d", _currentHp, _maxHp);
+		TextOut(UIDC, 250, 62, str, strlen(str));
+		SelectObject(UIDC, oldFont);
+		DeleteObject(font);
+	}
+	}
 }
 
 void Player::keyInput()

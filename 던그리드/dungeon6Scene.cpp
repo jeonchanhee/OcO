@@ -92,7 +92,7 @@ void dungeon6Scene::render()
 {
 	dungeonScene::render();
 
-	_player->render();
+	//_player->render();
 
 	if (KEYMANAGER->isToggleKey(VK_TAB))
 	{
@@ -111,8 +111,8 @@ void dungeon6Scene::setRandMapNum()
 	{
 		_route.push_back(2);
 	}
-	//if (_randNum == 2 || _randNum == 4)
-	else
+	if (_randNum == 2 || _randNum == 4)
+	//else
 	{
 		_route.push_back(5);
 	}
