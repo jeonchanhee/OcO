@@ -15,6 +15,8 @@
 #include "Bullet.h"
 #include "minimap.h"
 #include "effect.h"
+#include "itemManager.h"
+
 
 class Player;
 
@@ -74,13 +76,12 @@ protected:
 
 	Bullet* _enemyBullet;
 	Bullet* _bigBatBullet;
-	Bullet* _bigBatBullet2;
-	Bullet* _bigBatBullet3;
 	Bullet2* _bigRadBatBullet[MAX_BULLET];
-	// ¿”Ω√
 	Bullet2* _radBatBullet;
 
 	effect* _effect;
+
+	itemManager* _item;
 
 	vector<Door> _vDoor; //πÆ
 	vector<torch> _vTorch; //»∂∫“
@@ -98,7 +99,7 @@ protected:
 	int  j;
 	int _start;
 	int _start2;
-	
+
 	int _swordCount;
 
 	minimap* _minimap;
@@ -110,7 +111,7 @@ protected:
 	string _floorName;
 
 	bool _diecount2;
-
+	
 public:
 	virtual HRESULT init(void);
 	virtual void release(void);
@@ -178,6 +179,5 @@ public:
 	void bigbatBulletCollision();
 	void bigRadbatBulletCollision();
 	void redBatBulletCollision();
-	void removeMonster(int arrNum);
 };
 

@@ -345,7 +345,7 @@ HRESULT playGround::Image_init(void)
 	//박스 / 코인 이미지
 
 	IMAGEMANAGER->addFrameImage("보스상자1", "image/item/treasurebox/bossbox(80x28)2x1.bmp", 80, 28, 2, 1, true, RGB(255, 0, 255));	//프레임
-	IMAGEMANAGER->addFrameImage("일반상자1", "image/item/treasurebox/bossbox(80x28)2x1.bmp", 80, 28, 2, 1, true, RGB(255, 0, 255));	//프레임
+	IMAGEMANAGER->addFrameImage("일반상자1", "image/item/treasurebox/coinbox(54x16)2x1.bmp", 80 * 4, 28 * 4, 2, 1, true, RGB(255, 0, 255));	//프레임
 	
 	IMAGEMANAGER->addFrameImage("코인1", "image/item/treasurebox/coin(56x7)8x1.bmp", 56, 7, 8, 1, true, RGB(255, 0, 255));		// 프레임
 	IMAGEMANAGER->addFrameImage("골드1", "image/item/treasurebox/gold(140x9)7x1.bmp", 140, 9, 7, 1, true, RGB(255, 0, 255));		// 프레임

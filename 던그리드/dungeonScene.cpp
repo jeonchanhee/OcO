@@ -83,6 +83,9 @@ HRESULT dungeonScene::init(void)
 	else if (_floorNum == 3)
 		_floorName = "3Ãþ : ÁöÇÏ°¨¿Á";
 	_vEnemy.clear();
+
+	_item = new itemManager;
+	_item->init();
 	return S_OK;
 }
 
@@ -186,6 +189,8 @@ void dungeonScene::render(void)
 		_minimap->render();
 
 	_player->render();
+
+	
 }
 
 void dungeonScene::doorInit(void)
@@ -738,6 +743,7 @@ void dungeonScene::nextTest()
 				str += itoa(_route[i], temp, 10);
 				save();
 				SCENEMANAGER->changeScene(str);
+				
 			}
 		}
 	}
@@ -1268,5 +1274,3 @@ void dungeonScene::redBatBulletCollision()
 	}
 }
 
-
-}
