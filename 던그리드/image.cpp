@@ -908,6 +908,38 @@ void image::frameRender(HDC hdc, int destX, int destY, int currentFrameX, int cu
 	}
 }
 
+void image::frameRender(HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight, int currentFrameX, int currentFrameY)
+{
+	_imageInfo->currentFrameX = currentFrameX;
+	_imageInfo->currentFrameY = currentFrameY;
+
+	if (_trans)
+	{
+		GdiTransparentBlt(
+			hdc,
+			destX,
+			destY,
+			sourWidth,
+			sourHeight,
+			_imageInfo->hMemDC,
+			sourX,
+			sourY,
+			sourWidth,
+			sourHeight,
+			_transColor);
+	
+	}
+	else
+	{
+		BitBlt(hdc, destX, destY,
+			sourWidth,
+			sourHeight,
+			_imageInfo->hMemDC,
+			sourX, sourY,
+			SRCCOPY);
+	}
+}
+
 //                    뿌려줄DC    루프이미지 그려줄영역,   루프방향X   루프방향Y
 void image::loopRender(HDC hdc, const LPRECT drawArea, int offSetX, int offSetY)
 {

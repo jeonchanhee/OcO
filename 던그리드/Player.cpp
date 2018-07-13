@@ -14,8 +14,9 @@ HRESULT Player::init()
 	_hpbar->init(170,56, 294,60,"hp","hpb", BAR_PLAYER);
 
 	imageDC = new image;
+	//imageDC = IMAGEMANAGER->addImage("asd", 500, 500);
 	_pb = new playerBullet;
-	_pb->init("√—æÀ0", "√—æÀ1", "√—æÀ2", "√—æÀ3");
+	_pb->init("√—æÀ0", "√—æÀ1", "√—æÀ2", "√—æÀ3" , "»≠ªÏ");
 	_player			= IMAGEMANAGER->findImage("±‚∫ª«√∑π¿ÃæÓ");
 	_playerHand[0]  = IMAGEMANAGER->findImage("«√∑π¿ÃæÓº’");
 	_playerHand[1]  = IMAGEMANAGER->findImage("«√∑π¿ÃæÓº’");
@@ -42,11 +43,13 @@ HRESULT Player::init()
 	_bulletType = 0;
 	_currentHp = 50;
 	_maxHp = 100;
+	_frameX = 0, _frameY = 0;
 
 	_isDashing = false;
 	_isAttacking = false;
 	_isGun = false;
 	_attackSpeedCheckCount = false;
+	_isAlive = true;
 	
 
 	int rightStop[] = { 0,1,2,3,4 };
@@ -79,12 +82,13 @@ void Player::release() {}
 
 void Player::update()
 {
-	EFFECTMANAGER->update();
-	if (KEYMANAGER->isOnceKeyDown(VK_F5)) _inven->pickUpItem(SWORD , "∞À", 7);
+	
+	if (KEYMANAGER->isOnceKeyDown(VK_F5)) _inven->pickUpItem(BOW , "»∞", 2);
 	if (KEYMANAGER->isOnceKeyDown(VK_F6)) _inven->pickUpItem(SWORD, "∞À", 5);
 	if (KEYMANAGER->isOnceKeyDown(VK_F7)) _inven->pickUpItem(ACCESSORY, "æ«ºº", 1);
-	if (KEYMANAGER->isOnceKeyDown(VK_F8)) _inven->pickUpItem(SECOND_EQUIPMENT, "∫∏¡∂", 1);
-	if (_canMove == true)
+	if (KEYMANAGER->isOnceKeyDown(VK_F8)) _currentHp -= 20;
+	
+	if (_canMove == true && _isAlive)
 	{
 		keyInput();
 		mouseControl();
@@ -106,7 +110,11 @@ void Player::update()
 
 void Player::render()
 {
-	//ø©¿πΩ√ »Ò¡¯¥©≥™ ¿€«∞ !!
+	//ø©¿πΩ√ »Ò¡¯¥©≥™ ¿€«∞ !! 
+	 if(_inven->getMainWeapon()[_youUsingCount]->getItem().isFrame)
+		 _playerWeapon->frameRender(imageDC->getMemDC(), _playerWeapon->getWidth(),
+		 0, 0, 0, _playerWeapon->getFrameWidth(), _playerWeapon->getFrameHeight() , _frameX , _frameY);
+	 else 
 	_playerWeapon->render(imageDC->getMemDC(), _playerWeapon->getWidth(),
 		0, 0, 0, _playerWeapon->getWidth(), _playerWeapon->getHeight());
 	// ===================
@@ -147,7 +155,7 @@ void Player::render()
 		imageDC->rotateRender(DC, _rightHandX, _rightHandY, _weaponAngle + 1.8f);
 		_player->aniRender(DC, _collisionRc.left, _collisionRc.top, _playerAnimation);
 	}
-	if (_showAttackEffect)
+	if (_showAttackEffect )
 	{
 		_attackEffect->setX(_collisionRc.left + (cosf(_angle) * ONE_HUNDRED) + _player->getFrameWidth() / 2), _attackEffect->setY(_collisionRc.top + (-sinf(_angle) * ONE_HUNDRED) + _player->getFrameHeight() / 2);
 		_attackEffect->rotateFrameRender(DC, _attackEffect->getX() , _attackEffect->getY(), _angle - 1.8);
@@ -198,9 +206,7 @@ void Player::render()
 	oldFont = (HFONT)SelectObject(UIDC, font);
 	SetTextColor(UIDC, RGB(255, 255, 255));
 	SetBkMode(UIDC, TRANSPARENT);
-	//string str = _vDialog[(int)_elder][_idY].substr(0, _idX);
-	//DrawText(DC, _dialog[(int)_training][_idY].c_str(), strlen(_dialog[(int)_training][_idY].c_str()), &_rc[0], DT_VCENTER);
-	//DrawText(DC, str.c_str(), strlen(str.c_str()), &_rc[1], DT_VCENTER);
+
 	sprintf(str, "%d", _level);
 	TextOut(UIDC, 80, 65, str, strlen(str));
 	SelectObject(UIDC, oldFont);
@@ -357,8 +363,18 @@ void Player::mouseControl()
 
 void Player::move()
 {
-	if (_isJumping == false) _jumpCount = 0;
+	//DIE === 
+	if (_currentHp <= 0) _isAlive = false;
+	if (!_isAlive)
+	{
+		if (_direction == LEFT_STOP ||
+			_direction == LEFT_RUN) _playerAnimation = KEYANIMANAGER->findAnimation("øﬁ¬ ¡◊¿Ω");
+		if (_direction == RIGHT_STOP ||
+			_direction == RIGHT_RUN) _playerAnimation = KEYANIMANAGER->findAnimation("ø¿∏•¬ ¡◊¿Ω");
+		_playerAnimation->start();
+	}
 
+	// == DASH
 	static int count;
 	count++;
 	if (count > 100)
@@ -368,6 +384,8 @@ void Player::move()
 	}
 	
 	// isJUMPING
+	// == JUMP
+	if (_isJumping == false) _jumpCount = 0;
 	if (_isJumping)
 	{
 		_jump -= _gravity;
@@ -442,7 +460,7 @@ void Player::attack()
 			|| _inven->getMainWeapon()[_youUsingCount]->getItemType() == HAMMER)
 		{
 			_attackCount+=2;
-			_attackSpeedCheckCount = true;
+			_attackSpeedCheckCount = true, _showAttackEffect = true;
 			if (_isChap)_weaponAttackAngle += (PI / 180) * 200;
 			else if (!_isChap)_weaponAttackAngle -= (PI / 180) * 200;
 
@@ -461,12 +479,13 @@ void Player::attack()
 			
 			}
 		}
-		else if (_isGun)
+		else if (_inven->getMainWeapon()[_youUsingCount]->getItemType() == GUN
+		|| _inven->getMainWeapon()[_youUsingCount]->getItemType() == BOW)
 		{
+			_attackSpeedCheckCount = true, _showAttackEffect = true;
 			if (_isLeftAttack)
 			{
-				_attackSpeedCheckCount = true;
-				_pb->bulletFire(_leftHandX + _cosValue, _leftHandY + _sinValue, _angle, 500, 10.0f , _bulletType);
+				_pb->bulletFire(_leftHandX + _cosValue, _leftHandY + _sinValue, _angle, _weaponAngle, 1500, 20.0f , _bulletType);
 				_weaponAttackAngle -= PI / 10;
 				_leftHandX = _collisionRc.left + 15, _leftHandY = _collisionRc.top + 60;
 				_rightHandX = _collisionRc.left + 60, _rightHandY = _collisionRc.top + 60;
@@ -474,8 +493,7 @@ void Player::attack()
 			}
 			else if (!_isLeftAttack)
 			{
-				_attackSpeedCheckCount = true;
-				_pb->bulletFire(_rightHandX + _cosValue, _rightHandY + _sinValue, _angle, 500, 10.0f, _bulletType);
+				_pb->bulletFire(_rightHandX + _cosValue, _rightHandY + _sinValue, _angle, _weaponAngle, 1500, 20.0f, _bulletType);
 				_weaponAttackAngle += PI / 10;
 				_leftHandX = _collisionRc.left + 10, _leftHandY = _collisionRc.top + 60;
 				_rightHandX = _collisionRc.left + 65, _rightHandY = _collisionRc.top + 60;
@@ -535,14 +553,16 @@ void Player::effect()
 
 	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
 	{
+	
 		if (_inven->getMainWeapon().size() <= _youUsingCount) return;
+		
 		if (_inven->getMainWeapon()[_youUsingCount]->getItemType() == SWORD)
 		{
-			_showAttackEffect = true;
+		 
 			_attackEffect->setFrameX(0) , _attackEffect->setFrameY(0);
 		}
 	}
-	++_attackEffectCount;
+	if(_showAttackEffect)++_attackEffectCount;
 	if (_attackEffectCount > 3)
 	{
 		_attackEffectCount = 0; 
@@ -859,10 +879,22 @@ void Player::itemInfo()
 	if (_inven->getMainWeapon().size() > _youUsingCount)
 	{
 		_playerWeapon = _inven->getMainWeapon()[_youUsingCount]->equipmentImage();
+		if (_inven->getMainWeapon()[_youUsingCount]->getItemType() == GUN)
+		{
+			char str1[128];
+			if (_isLeftAttack)sprintf_s(str1, "√—%d¡¬", _inven->getMainWeapon()[_youUsingCount]->getItemValue());
+			else if (!_isLeftAttack)sprintf_s(str1, "√—%døÏ", _inven->getMainWeapon()[_youUsingCount]->getItemValue());
+			_playerWeapon = IMAGEMANAGER->findImage(str1);
+		}
+		
+	
 		RECT rc = RectMake(0, 0, _playerWeapon->getWidth() * 2, _playerWeapon->getHeight());
 		imageDC->rotateInit(rc.right - rc.left, rc.bottom - rc.top, true, RGB(0, 0, 0), false);
+		
+		
 		if (_inven->getMainWeapon()[_youUsingCount]->getItemType() == SWORD)
 		{
+			_isGun = false;
 			if (_inven->getMainWeapon()[_youUsingCount]->getItemValue() == 3)
 				_attackEffect = IMAGEMANAGER->findImage("∞À2»ø∞˙");
 			else if (_inven->getMainWeapon()[_youUsingCount]->getItemValue() == 8)
@@ -871,17 +903,20 @@ void Player::itemInfo()
 				_attackEffect = IMAGEMANAGER->findImage("∞À3»ø∞˙");
 			else _attackEffect = IMAGEMANAGER->findImage("∞À1»ø∞˙");
 		}
-		else if (_inven->getMainWeapon()[_youUsingCount]->getItemType() == GUN)
+		else if (_inven->getMainWeapon()[_youUsingCount]->getItemType() == GUN
+			|| _inven->getMainWeapon()[_youUsingCount]->getItemType() == BOW)
 		{
-			
+			_isGun = true;
 			//±‚∫ª√—  µ•µÂ∞« «√∑π¿”∞« ∑π¿œ∞« 
 			for (int i = 1; i < 5; ++i)
 			{
-				if (_inven->getMainWeapon()[_youUsingCount]->getItemValue() == i)
+				if (_inven->getMainWeapon()[_youUsingCount]->getItemValue() == i
+					&& _inven->getMainWeapon()[_youUsingCount]->getItemType() == GUN)
 				{
 					_bulletType = i - 1;
 					break;
 				}
+				else if (_inven->getMainWeapon()[_youUsingCount]->getItemType() == BOW) _bulletType = 4;
 			}
 		}
 	}

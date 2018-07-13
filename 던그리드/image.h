@@ -125,6 +125,7 @@ public:
 
 	void frameRender(HDC hdc, int destX, int destY);
 	void frameRender(HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY);
+	void frameRender(HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight , int currentFrameX , int currentFrameY);
 
 	void loopRender(HDC hdc, const LPRECT drawArea, int offSetX, int offSetY);
 
@@ -144,6 +145,7 @@ public:
 
 	void alphaAniRender(HDC hdc, int destX, int destY, animation * ani, BYTE alpha);
 
+	void setWidHeight(int width, int height) { _imageInfo->width = width, _imageInfo->height = height, _rotateImage->width = width, _rotateImage->height = height; }
 	inline HDC getMemDC() { return _imageInfo->hMemDC; }
 
 	//================================================
