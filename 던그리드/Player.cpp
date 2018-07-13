@@ -116,12 +116,15 @@ void Player::update()
 void Player::render()
 {
 	//¿©À¹½Ã ÈñÁø´©³ª ÀÛÇ° !! 
-	 if(_inven->getMainWeapon()[_youUsingCount]->getItem().isFrame)
-		 _playerWeapon->frameRender(imageDC->getMemDC(), _playerWeapon->getWidth(),
-		 0, 0, 0, _playerWeapon->getFrameWidth(), _playerWeapon->getFrameHeight() , _frameX , _frameY);
-	 else 
-	_playerWeapon->render(imageDC->getMemDC(), _playerWeapon->getWidth(),
-		0, 0, 0, _playerWeapon->getWidth(), _playerWeapon->getHeight());
+	if ((_inven->getMainWeapon().size() > _youUsingCount))
+	{
+		if (_inven->getMainWeapon()[_youUsingCount]->getItem().isFrame)
+			_playerWeapon->frameRender(imageDC->getMemDC(), _playerWeapon->getWidth(),
+				0, 0, 0, _playerWeapon->getFrameWidth(), _playerWeapon->getFrameHeight(), _frameX, _frameY);
+		else
+			_playerWeapon->render(imageDC->getMemDC(), _playerWeapon->getWidth(),
+				0, 0, 0, _playerWeapon->getWidth(), _playerWeapon->getHeight());
+	}
 	// ===================
 	if (_direction == LEFT_RUN || _direction == LEFT_STOP)
 	{
@@ -493,7 +496,8 @@ void Player::attack()
 			}
 		}
 		else if (_inven->getMainWeapon()[_youUsingCount]->getItemType() == GUN
-		|| _inven->getMainWeapon()[_youUsingCount]->getItemType() == BOW)
+		|| _inven->getMainWeapon()[_youUsingCount]->getItemType() == BOW
+		&& (_inven->getMainWeapon().size() > _youUsingCount))
 		{
 			_attackSpeedCheckCount = true, _showAttackEffect = true;
 			if (_isLeftAttack)
@@ -573,13 +577,16 @@ void Player::effect()
 		}
 	}	
 
-	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON) 
-		&& !(_inven->getMainWeapon()[_youUsingCount]->getItemType() == BOW))
+	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON) && _inven->getMainWeapon().size() > _youUsingCount)
 	{
-		if (_inven->getMainWeapon().size() <= _youUsingCount) return;	
-		if (_inven->getMainWeapon()[_youUsingCount]->getItemType() == SWORD)
+		
+		if (!(_inven->getMainWeapon()[_youUsingCount]->getItemType() == BOW))
 		{
-			_attackEffect->setFrameX(0) , _attackEffect->setFrameY(0);
+			if (_inven->getMainWeapon().size() <= _youUsingCount) return;
+			if (_inven->getMainWeapon()[_youUsingCount]->getItemType() == SWORD)
+			{
+				_attackEffect->setFrameX(0), _attackEffect->setFrameY(0);
+			}
 		}
 	}
 	if(_showAttackEffect)++_attackEffectCount;
