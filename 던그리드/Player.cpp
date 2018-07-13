@@ -234,7 +234,10 @@ void Player::render()
 
 		sprintf(str, "%d", _level);
 		TextOut(UIDC, 80, 62, str, strlen(str));
-		sprintf(str, "%d/%d", _currentHp, _maxHp);
+		if (_currentHp > 0)
+			sprintf(str, "%d/%d", _currentHp, _maxHp);
+		else
+			sprintf(str, "0/%d", _maxHp);
 		TextOut(UIDC, 250, 62, str, strlen(str));
 		SelectObject(UIDC, oldFont);
 		DeleteObject(font);
@@ -398,7 +401,7 @@ void Player::mouseControl()
 void Player::move()
 {
 	//DIE === 
-	if (_currentHp <= 0)_currentHp = 0, _isAlive = false;
+	if (_currentHp <= 0) _currentHp = 0, _isAlive = false;
 	if (!_isAlive)
 	{
 		if (_direction == LEFT_STOP ||
