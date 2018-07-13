@@ -96,6 +96,8 @@ extern int VARIABLE_SIZEX[12];
 
 extern bool _canMove;
 
+extern int _start;
+
 extern int _dungeonNum;
 
 extern int _floorNum;
