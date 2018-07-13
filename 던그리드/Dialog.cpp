@@ -1,11 +1,16 @@
 #include "stdafx.h"
 #include "Dialog.h"
+#include "Player.h"
+#include "itemManager.h"
 
 Dialog::Dialog() {}
 Dialog::~Dialog() {}
 
 HRESULT Dialog::init()
 {
+	_player = SCENEMANAGER->getPlayerAddressLink();
+	_im = SCENEMANAGER->getIMAddressLink();
+
 	_uiBack = IMAGEMANAGER->findImage("uiBack");
 	_ansCur = IMAGEMANAGER->findImage("ansFront");
 	_uiNext = IMAGEMANAGER->findImage("uiNext");

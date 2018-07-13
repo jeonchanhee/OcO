@@ -219,8 +219,21 @@ HRESULT playGround::Image_init(void)
 
 	//원거리무기 이미지 
 	//민호우	//바꿈 07 12
-	IMAGEMANAGER->addRotateImage("총10좌", "image/item/weapon/gun/deadlyKissLeft(100x25)1x1.bmp", 100, 25, true, RGB(255, 0, 255));		// 착용
-	IMAGEMANAGER->addRotateImage("총10우", "image/item/weapon/gun/deadlyKissRight(100x25)1x1.bmp", 100, 25, true, RGB(255, 0, 255));		// 착용
+
+
+
+	IMAGEMANAGER->addRotateImage("총1좌", "image/item/weapon/gun/matchlockGunLeft(100x30)1x1.bmp", 100, 30, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addRotateImage("총1우", "image/item/weapon/gun/matchlockGunRight(100x30)1x1.bmp", 100, 30, true, RGB(255, 0, 255));
+
+	IMAGEMANAGER->addRotateImage("총2좌", "image/item/weapon/gun/deadlyKissLeft(100x25)1x1.bmp", 100, 25, true, RGB(255, 0, 255));	
+	IMAGEMANAGER->addRotateImage("총2우", "image/item/weapon/gun/deadlyKissRight(100x25)1x1.bmp", 100, 25, true, RGB(255, 0, 255));	
+
+	IMAGEMANAGER->addRotateImage("총3좌", "image/item/weapon/gun/flameThrowerLeft(100x50)1x1.bmp", 100, 50, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addRotateImage("총3우", "image/item/weapon/gun/flameThrowerRight(100x50)1x1.bmp", 100, 50, true, RGB(255, 0, 255));
+
+	IMAGEMANAGER->addRotateFrameImage("총4좌", "image/item/weapon/gun/railGunLeft(600x30)7x1.bmp", 600, 30 , 7 , 1 , true, RGB(255, 0, 255));
+	IMAGEMANAGER->addRotateFrameImage("총4우", "image/item/weapon/gun/railGunRight(600x30)7x1.bmp", 600, 30, 7 , 1 , true, RGB(255, 0, 255));
+
 	//건들지마3	//바꿈 07 12
 
 	IMAGEMANAGER->addImage("총10", "image/item/weapon/gun/matchlockGunDrop(70x18)1x1.bmp", 70, 18, true, RGB(255, 0, 255));			// 드랍
@@ -247,7 +260,7 @@ HRESULT playGround::Image_init(void)
 
 	IMAGEMANAGER->addImage("활20", "image/item/weapon/bow/darkbowDrop(50x27)1x1.bmp", 50, 27, true, RGB(255, 0, 255));						// 드랍 
 	IMAGEMANAGER->addImage("활21", "image/item/weapon/bow/DarkBowInven(91x80)1x1.bmp", 91, 80, true, RGB(255, 0, 255));						// 인벤
-	IMAGEMANAGER->addRotateFrameImage("활22", "image/item/weapon/bow/darkbow(300x50)6x1.bmp", 300, 50, 6, 1, true, RGB(255, 0, 255));		// 착용
+	IMAGEMANAGER->addRotateFrameImage("활22", "image/item/weapon/bow/darkbow(420x70)6x1.bmp", 420, 70, 6, 1, true, RGB(255, 0, 255));		// 착용
 
 	IMAGEMANAGER->addImage("활30", "image/item/weapon/bow/lightbringerDrop(50x22)1x1.bmp", 50, 22, true, RGB(255, 0, 255));					// 드랍
 	IMAGEMANAGER->addImage("활31", "image/item/weapon/bow/lightbringerInven(35x80)1x1.bmp", 35, 80, true, RGB(255, 0, 255));					// 인벤
@@ -258,14 +271,15 @@ HRESULT playGround::Image_init(void)
 
 
 	//지우지마 지우지마 지우지마 지우지마 지우지마 지우지마 지우지마 지우지마 지우지마
-	//총알0", "총알1", "총알2", "총알3
-	IMAGEMANAGER->addRotateFrameImage("총알0", "image/item/weapon/gun/matchlockGunBullet(750x30,5x1).bmp",750,30,5,1,true , RGB(255,0,255));
+	IMAGEMANAGER->addRotateFrameImage("총알0", "image/item/weapon/gun/matchlockGunBullet(5x1).bmp",750,30,5,1,true , RGB(255,0,255));
 	IMAGEMANAGER->addRotateFrameImage("총알1", "image/item/weapon/gun/deadlyKissBullet(1200x110,12x1).bmp",1000,92,12,1,true, RGB(255,0,255 ));
 	IMAGEMANAGER->addRotateFrameImage("총알2", "image/item/weapon/gun/flameThrower(400x125,8x1).bmp",400,125,8,1,true, RGB(255 , 0 , 255));
 	IMAGEMANAGER->addRotateFrameImage("총알3", "image/item/weapon/gun/railGunBullet(300x100,6x1).bmp",300,100,6,1,true, RGB(255,0,255 ));
+	IMAGEMANAGER->addRotateImage("화살", "image/item/weapon/bow/활 이펙트/arrow.bmp", 50, 5, true, RGB(255, 0, 255));
 
 		
 	// 방어구 이미지
+
 
 	IMAGEMANAGER->addImage("아머10", "image/item/armor/ClothArmorDrop(30x27)1x1.bmp", 30, 27, true, RGB(255, 0, 255));	// 드랍
 	IMAGEMANAGER->addImage("아머11", "image/item/armor/ClothArmorInven(80x72)1x1.bmp", 80, 72, true, RGB(255, 0, 255));	// 인벤
@@ -345,7 +359,7 @@ HRESULT playGround::Image_init(void)
 	//박스 / 코인 이미지
 
 	IMAGEMANAGER->addFrameImage("보스상자1", "image/item/treasurebox/bossbox(80x28)2x1.bmp", 80, 28, 2, 1, true, RGB(255, 0, 255));	//프레임
-	IMAGEMANAGER->addFrameImage("일반상자1", "image/item/treasurebox/bossbox(80x28)2x1.bmp", 80, 28, 2, 1, true, RGB(255, 0, 255));	//프레임
+	IMAGEMANAGER->addFrameImage("일반상자1", "image/item/treasurebox/coinbox(54x16)2x1.bmp", 80 * 4, 28 * 4, 2, 1, true, RGB(255, 0, 255));	//프레임
 	
 	IMAGEMANAGER->addFrameImage("코인1", "image/item/treasurebox/coin(56x7)8x1.bmp", 56, 7, 8, 1, true, RGB(255, 0, 255));		// 프레임
 	IMAGEMANAGER->addFrameImage("골드1", "image/item/treasurebox/gold(140x9)7x1.bmp", 140, 9, 7, 1, true, RGB(255, 0, 255));		// 프레임

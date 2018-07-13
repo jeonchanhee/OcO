@@ -7,7 +7,7 @@ struct PBULLET
 	RECT rc;
 	float fireX,x;
 	float fireY,y;
-	float angle;
+	float angle, renderAngle;
 	float speed;
 	float range;
 	int type;
@@ -25,17 +25,18 @@ private:
 	const char * _iN1;
 	const char * _iN2;
 	const char * _iN3;
+	const char * _iN4;
 
 	unsigned int _count;
 
 public:
-	HRESULT init(const char * in0 , const char * in1, const char * in2, const char * in3 );
+	HRESULT init(const char * in0 , const char * in1, const char * in2, const char * in3 , const char * iN4);
 	
 	void release();
 	void update();
 	void render();
 	
-	void bulletFire(float x, float y, float angle, float range ,float speed, int type);
+	void bulletFire(float x, float y, float angle, float range, float renderAngle ,float speed, int type);
 	void move();
 	void removeBullet(int i);
 	

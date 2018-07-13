@@ -71,7 +71,7 @@ void dungeon2Scene::update()
 		int idx = _viEnemy - _vEnemy.begin();
 		_minimap->changeEnemyXY(idx, (((*_viEnemy)->getX() * 300) / (_tileX*TILESIZE)), (((*_viEnemy)->getY() * 150) / (_tileY*TILESIZE)));
 	}
-	if (!_bigbat->getdiedie())
+	if (_bigbat!=NULL&&!_bigbat->getdiedie())
 	{
 		bigbatbulletFire();
 	}
@@ -80,7 +80,7 @@ void dungeon2Scene::update()
 	{
 		_bigBatBullet->update();
 	}
-	if (!_bigRedBat->getdiedie())
+	if (_bigbat != NULL && !_bigRedBat->getdiedie())
 	{
 		bigRadbatbulletFire();
 	}

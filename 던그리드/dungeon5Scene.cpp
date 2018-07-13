@@ -116,6 +116,35 @@ void dungeon5Scene::update()
 	}
 	MusicAngelBulletFire();
 	_enemyBullet->update();
+
+	if (!_bigbat->getdiedie())
+	{
+		bigbatbulletFire();
+	}
+	_bigBatBullet->bulletframe("fatherBatBullet2");
+	if (_start2 != 0)
+	{
+		_bigBatBullet->update();
+	}
+	if (!_bigRedBat->getdiedie())
+	{
+		bigRadbatbulletFire();
+	}
+	else
+	{
+		_start = 1;
+	}
+
+	for (int i = 0; i < 20; i++)
+	{
+		_bigRadBatBullet[i]->bulletframe("fatherBatBullet2");
+		if (_start == 1)
+			_bigRadBatBullet[i]->update();
+	}
+
+	redBatBullet();
+	_radBatBullet->bulletframe("fatherBatBullet2");
+	_radBatBullet->update();
 }
 
 void dungeon5Scene::render()

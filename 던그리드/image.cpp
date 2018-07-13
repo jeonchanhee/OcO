@@ -906,10 +906,10 @@ void image::frameRender(HDC hdc, int destX, int destY, int currentFrameX, int cu
 	}
 }
 
-void image::frameRender(HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight, int frameX, int frameY)
+void image::frameRender(HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight, int currentFrameX, int currentFrameY)
 {
-	_imageInfo->currentFrameX = frameX;
-	_imageInfo->currentFrameY = frameY;
+	_imageInfo->currentFrameX = currentFrameX;
+	_imageInfo->currentFrameY = currentFrameY;
 
 	if (_trans)
 	{
@@ -917,22 +917,23 @@ void image::frameRender(HDC hdc, int destX, int destY, int sourX, int sourY, int
 			hdc,
 			destX,
 			destY,
-			_imageInfo->frameWidth,
-			_imageInfo->frameHeight,
+			sourWidth,
+			sourHeight,
 			_imageInfo->hMemDC,
-			sourX, sourY,
+			sourX,
+			sourY,
 			sourWidth,
 			sourHeight,
 			_transColor);
+	
 	}
 	else
 	{
 		BitBlt(hdc, destX, destY,
-			_imageInfo->frameWidth,
-			_imageInfo->frameHeight,
+			sourWidth,
+			sourHeight,
 			_imageInfo->hMemDC,
-			frameX * _imageInfo->frameWidth,
-			frameY * _imageInfo->frameHeight,
+			sourX, sourY,
 			SRCCOPY);
 	}
 }

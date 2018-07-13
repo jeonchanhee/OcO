@@ -83,6 +83,9 @@ HRESULT dungeonScene::init(void)
 	else if (_floorNum == 3)
 		_floorName = "2Ãþ : ÁöÇÏ°¨¿Á";
 	_vEnemy.clear();
+
+	_item = new itemManager;
+	_item->init();
 	_route.clear();
 	return S_OK;
 }
@@ -106,7 +109,7 @@ void dungeonScene::update(void)
 	_minimap->setPlayerXY(((300 * _player->getPlayerX()) / (_tileX * TILESIZE)), ((150 * (_player->getPlayerY() - 80)) / (_tileY * TILESIZE)));
 	_player->update();
 
-	if (_vEnemy.size() == 0)
+	//if (_vEnemy.size() == 0)
 	{
 		_mapValue[_dungeonNum] = "T";
 	}
@@ -194,6 +197,8 @@ void dungeonScene::render(void)
 		_minimap->render();
 
 	_player->render();
+
+	
 }
 
 void dungeonScene::doorInit(void)
@@ -751,6 +756,7 @@ void dungeonScene::nextTest()
 				save();
 				_vEnemy.clear();
 				SCENEMANAGER->changeScene(str);
+				
 			}
 		}
 	}
@@ -1217,7 +1223,7 @@ void dungeonScene::bigRadbatbulletFire()
 
 void dungeonScene::redBatBullet()
 {
-	if (_redBat->getdiedie() == true) return;
+	if (_bigbat != NULL && _redBat->getdiedie() == true) return;
 
 	redBatBulletCollision();
 	_count4++;
@@ -1280,3 +1286,5 @@ void dungeonScene::redBatBulletCollision()
 		}
 	}
 }
+
+

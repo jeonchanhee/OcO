@@ -12,7 +12,7 @@ HRESULT playGround::init(void)
 	vStr.resize(4);
 	vStr = { "F","F","F","F" };
 	TXTDATA->txtSave("random.txt", vStr);
-	mode = 마을;		//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
+	mode = 타이틀;		//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
 
 	gameNode::init(true);
 	Image_init();
@@ -32,11 +32,10 @@ HRESULT playGround::init(void)
 	_title = new titleScene;
 	_town->setImLink(_im);
 	_title->setImLink(_im);
-	_wc = new weaponScene;
-	_wc->setTcLink(_town);
 	_player->getInven()->setImLink(_im);
 
 	SCENEMANAGER->setPlayerAddressLink(_player);
+	SCENEMANAGER->setIMAddressLink(_im);
 
 	SCENEMANAGER->addScene("타이틀", _title);
 	SCENEMANAGER->addScene("던전2", new dungeon2Scene);
@@ -51,7 +50,7 @@ HRESULT playGround::init(void)
 	SCENEMANAGER->addScene("던전7", new dungeon7Scene);
 	SCENEMANAGER->addScene("던전8", new dungeon8Scene);
 	SCENEMANAGER->addScene("마을",_town);
-	SCENEMANAGER->addScene("무기", _wc);
+	SCENEMANAGER->addScene("무기", new weaponScene);
 	SCENEMANAGER->addScene("푸드", new foodScene);
 	SCENEMANAGER->addScene("보스", new bossScene);
 
@@ -124,6 +123,7 @@ HRESULT playGround::init(void)
 		break;
 	case 마을:
 		SCENEMANAGER->changeScene("마을");
+		_start = 0;
 		break;
 	case 맵선택:
 		SCENEMANAGER->changeScene("맵선택");
@@ -247,7 +247,6 @@ void playGround::render(void)
 	{
 		if (_start != 1)
 			_player->render();
-	}
 
 	//SCENEMANAGER->render();
 
