@@ -32,6 +32,7 @@ public:
 	gameNode();
 	virtual ~gameNode();
 
+	virtual void saveData();
 
 	POINT getMemDCPoint(void) { return PointMake(CAMERAMANAGER->getCameraCenter().x - WINSIZEX / 2 + _ptMouse.x, CAMERAMANAGER->getCameraCenter().y - WINSIZEY / 2 + _ptMouse.y); }
 	POINT getCameraPoint(void) { return _ptMouse; }

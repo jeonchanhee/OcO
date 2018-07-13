@@ -312,8 +312,6 @@ HRESULT image::rotateInit(int width, int height, BOOL trans, COLORREF transColor
 	_imageInfo->height = height;
 
 
-
-
 	//rotate
 
 	int size;

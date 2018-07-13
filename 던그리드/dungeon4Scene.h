@@ -6,6 +6,7 @@ public:
 	dungeon4Scene();
 	~dungeon4Scene();
 	HRESULT init();
+	void doorInit();
 	void update();
 	void render();
 	void setMonster();
