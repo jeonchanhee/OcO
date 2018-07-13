@@ -29,7 +29,7 @@ HRESULT Player::init()
 	_dashCount = 0, _attackCount = 0;
 	_mouseAngle = 0;
 	//_currentDash = 1024 , _maxDash = 1024;
-	_currentDash = 2 , _maxDash =2;
+	_currentDash = 100 , _maxDash = 100;
 	_currentFullNess = 0; _maxFullNess = 100;
 	_jumpPower = 12.0f;
 	_moveMentSpeed = 10.0f;
@@ -225,11 +225,13 @@ void Player::render()
 
 		sprintf(str, "%d", _level);
 		TextOut(UIDC, 80, 62, str, strlen(str));
-		sprintf(str, "%d/%d", _currentHp, _maxHp);
+		if (_currentHp > 0)
+			sprintf(str, "%d/%d", _currentHp, _maxHp);
+		else
+			sprintf(str, "0/%d", _maxHp);
 		TextOut(UIDC, 250, 62, str, strlen(str));
 		SelectObject(UIDC, oldFont);
 		DeleteObject(font);
-	}
 	}
 }
 
@@ -384,7 +386,7 @@ void Player::mouseControl()
 void Player::move()
 {
 	//DIE === 
-	if (_currentHp <= 0)_currentHp = 0, _isAlive = false;
+	if (_currentHp <= 0) _currentHp = 0, _isAlive = false;
 	if (!_isAlive)
 	{
 		if (_direction == LEFT_STOP ||

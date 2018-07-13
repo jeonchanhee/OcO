@@ -87,6 +87,9 @@ HRESULT dungeonScene::init(void)
 	_item = new itemManager;
 	_item->init();
 	_route.clear();
+
+	_img = IMAGEMANAGER->findImage("suck");
+	_suck = KEYANIMANAGER->findAnimation("suck");
 	return S_OK;
 }
 
@@ -113,8 +116,6 @@ void dungeonScene::update(void)
 	{
 		_mapValue[_dungeonNum] = "T";
 	}
-
-	//playerDie();
 }
 
 void dungeonScene::render(void)
@@ -200,7 +201,7 @@ void dungeonScene::render(void)
 
 	//_player->render();
 
-	
+	playerDie();
 }
 
 void dungeonScene::doorInit(void)
@@ -1290,3 +1291,22 @@ void dungeonScene::redBatBulletCollision()
 }
 
 
+void dungeonScene::playerDie()
+{
+	if (_player->getIsAlive()) return;
+	reward();
+}
+
+void dungeonScene::reward()
+{
+	if (!_suckFin)
+	{
+		_suck->start();
+		_suckFin = true;
+	}
+	IMAGEMANAGER->findImage("reward")->render(UIDC, 0, 0);
+	IMAGEMANAGER->findImage("expBar")->render(UIDC, 0, WINSIZEY - IMAGEMANAGER->findImage("expBar")->getHeight());
+	//IMAGEMANAGER->findImage("suck")->frameRender(DC, 780, 546);
+
+	_img->aniRender(UIDC, 740, 546, _suck);
+}

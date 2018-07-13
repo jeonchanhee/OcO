@@ -12,7 +12,7 @@ HRESULT playGround::init(void)
 	vStr.resize(4);
 	vStr = { "F","F","F","F" };
 	TXTDATA->txtSave("random.txt", vStr);
-	mode = 마을;		//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
+	mode = 타이틀;		//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
 
 	gameNode::init(true);
 	Image_init();
@@ -352,6 +352,15 @@ void playGround::saveData()
 		vData[_fileNum].idx = _fileNum;
 		vData[_fileNum].hour = TIMEMANAGER->getWorldTime() / 3600;
 		vData[_fileNum].min = TIMEMANAGER->getWorldTime() / 60;
+		vData[_fileNum].floor = _floorNum;
+		vData[_fileNum].gold = _player->getGold();
+		vData[_fileNum].dash = 2;
+	}
+	else
+	{
+		vData[_fileNum].idx += _fileNum;
+		vData[_fileNum].hour += TIMEMANAGER->getWorldTime() / 3600;
+		vData[_fileNum].min += TIMEMANAGER->getWorldTime() / 60;
 		vData[_fileNum].floor = _floorNum;
 		vData[_fileNum].gold = _player->getGold();
 		vData[_fileNum].dash = 2;
