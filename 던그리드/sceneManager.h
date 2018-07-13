@@ -5,6 +5,7 @@
 //씬을 위한 게임노드 전방선언
 class gameNode;
 class Player;
+class itemManager;
 
 class sceneManager : public singletonBase<sceneManager>
 {
@@ -17,6 +18,7 @@ private:
 	mapSceneList		_mSceneList;
 
 	Player* _player;
+	itemManager* _im;
 
 public:
 	sceneManager();
@@ -35,5 +37,8 @@ public:
 
 	void setPlayerAddressLink(Player* player) { _player = player; }
 	Player* getPlayerAddressLink() { return _player; }
+
+	void setIMAddressLink(itemManager* im) { _im = im; }
+	itemManager* getIMAddressLink() { return _im; }
 };
 

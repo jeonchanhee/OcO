@@ -35,6 +35,7 @@ HRESULT playGround::init(void)
 	_player->getInven()->setImLink(_im);
 
 	SCENEMANAGER->setPlayerAddressLink(_player);
+	SCENEMANAGER->setIMAddressLink(_im);
 
 	SCENEMANAGER->addScene("타이틀", _title);
 	SCENEMANAGER->addScene("던전2", new dungeon2Scene);
@@ -122,6 +123,7 @@ HRESULT playGround::init(void)
 		break;
 	case 마을:
 		SCENEMANAGER->changeScene("마을");
+		_start = 0;
 		break;
 	case 맵선택:
 		SCENEMANAGER->changeScene("맵선택");
@@ -226,12 +228,12 @@ void playGround::render(void)
 	case 랜덤맵1: case 보스:  case 무기: case 푸드:
 		EFFECTMANAGER->render();
 		SCENEMANAGER->render();	
-		//_player->render();
+		_player->render();
 		break;
 	case 마을:
 		SCENEMANAGER->render();
 		EFFECTMANAGER->render();
-		//_player->render();
+		_player->render();
 		break;
 	case 맵선택:
 		SCENEMANAGER->render();
@@ -241,11 +243,10 @@ void playGround::render(void)
 	default:
 		break;
 	}
-	if (mode != 타이틀 && mode != 맵툴)
+//	if (mode != 타이틀 && mode != 맵툴)
 	{
 		if (_start != 1)
 			_player->render();
-	}
 
 	//SCENEMANAGER->render();
 
@@ -262,7 +263,7 @@ void playGround::render(void)
 	IMAGEMANAGER->render("cursor", UIDC, _ptMouse.x, _ptMouse.y);
 	TIMEMANAGER->render(UIDC);
 
-	//if(mode == 타이틀)
+	if(mode == 타이틀)
 		IMAGEMANAGER->findImage("카메라DC")->render(DC, 54,240,CAMERAMANAGER->getCameraPoint().x, CAMERAMANAGER->getCameraPoint().y, 600, 670);
 
 	CAMERAMANAGER->render(this->getBackBuffer());

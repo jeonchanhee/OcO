@@ -62,5 +62,7 @@ public:
 	void setPlayerAddressLink(Player* player) { _player = player; }
 	
 	bool getIsDie() { return _isDie; }
+
+	void setIsDie() { _isDie = true; }
 };
 

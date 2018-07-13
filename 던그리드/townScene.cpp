@@ -414,7 +414,7 @@ void townScene::dungeonGo()
 void townScene::suckDungeon(void* object)
 {
 	townScene* T = (townScene*)object;
-	T->resetShop();
+	//T->resetShop();
 	T->_suck->stop();
 	T->_suck = KEYANIMANAGER->findAnimation("suck2");
 	T->_suck->start();

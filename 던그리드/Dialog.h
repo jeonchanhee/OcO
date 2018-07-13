@@ -1,6 +1,9 @@
 #pragma once
 #include "gameNode.h"
 
+class Player;
+class itemManager;
+
 class Dialog :	public gameNode
 {
 protected:
@@ -17,6 +20,9 @@ protected:
 	vector<vector<string>> _vDialog;
 
 	bool _isFin;
+
+	Player* _player;
+	itemManager* _im;
 
 public:
 	virtual HRESULT init();

@@ -11,7 +11,7 @@ HRESULT titleScene::init(void)
 	_bird0 = { RND->getFromIntTo(-500,-300),RND->getFromIntTo(500,900) };
 	_bird1 = { RND->getFromIntTo(-1000,-700),RND->getFromIntTo(200,500) };
 	_loop0= _loop1 = 0;
-	_restImg = IMAGEMANAGER->findImage("rest");
+	
 	int bird[] = { 0,1,2,3,4,5,6,7 };
 	KEYANIMANAGER->addArrayFrameAnimation("bird0", "T_bird", bird, 8, 7, true);
 	int bird1[] = { 6,7,0,1,2,3,4,5 };
@@ -30,8 +30,7 @@ HRESULT titleScene::init(void)
 
 	_select = 0;
 	_clickData = false;
-	_scroll = false;
-	_currentScroll = 0;
+
 
 	for (int i = 0; i < 3; i++)
 	{
@@ -171,77 +170,24 @@ void titleScene::render(void)
 	}
 }
 
-void titleScene::inven()
-{
-	IMAGEMANAGER->findImage("inven")->render(DC, WINSIZEX - IMAGEMANAGER->findImage("inven")->getWidth(), 0);
-	IMAGEMANAGER->findImage("inven0")->render(DC, 1288, 155);
-	//IMAGEMANAGER->findImage("inven0")->render(DC, 1598, 155);
-	RECT rc[4];
-	rc[0] = RectMake(1310, 205, 100, 100);
-	rc[1] = RectMake(1435 , 205, 100, 100);
-	rc[2] = RectMake(1620 , 205, 100, 100);
-	rc[3] = RectMake(1745 , 205, 100, 100);
-	if (KEYMANAGER->isToggleKey(VK_TAB))
-	{
-		for (int i = 0; i<4; i++)
-		Rectangle(DC, rc[i].left, rc[i].top, rc[i].right, rc[i].bottom);
-	}
-	//_im->getItem()[0]->getItem().image[0]->render(DC, rc[0].left, rc[0].top);
-}
+//void titleScene::inven()
+//{
+//	IMAGEMANAGER->findImage("inven")->render(DC, WINSIZEX - IMAGEMANAGER->findImage("inven")->getWidth(), 0);
+//	IMAGEMANAGER->findImage("inven0")->render(DC, 1288, 155);
+//	//IMAGEMANAGER->findImage("inven0")->render(DC, 1598, 155);
+//	RECT rc[4];
+//	rc[0] = RectMake(1310, 205, 100, 100);
+//	rc[1] = RectMake(1435 , 205, 100, 100);
+//	rc[2] = RectMake(1620 , 205, 100, 100);
+//	rc[3] = RectMake(1745 , 205, 100, 100);
+//	if (KEYMANAGER->isToggleKey(VK_TAB))
+//	{
+//		for (int i = 0; i<4; i++)
+//		Rectangle(DC, rc[i].left, rc[i].top, rc[i].right, rc[i].bottom);
+//	}
+//	//_im->getItem()[0]->getItem().image[0]->render(DC, rc[0].left, rc[0].top);
+//}
 
-void titleScene::restaurant()
-{
-	IMAGEMANAGER->findImage("restaurant")->render(DC, 0, 0);
-	IMAGEMANAGER->findImage("rest")->frameRender(DC,744, 216);
-	IMAGEMANAGER->findImage("reslot")->render(UIDC2,0, 0);
-	IMAGEMANAGER->findImage("reslot")->render(UIDC2,0, 270);
-	IMAGEMANAGER->findImage("reslot")->render(UIDC2,0, 540);
-	IMAGEMANAGER->findImage("reslot")->render(UIDC2,0, 810);
-	if (PtInRect(&_rc, _ptMouse) && KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
-	{
-		_scroll = true;
-		_mouseY = _ptMouse.y;
-	}
-	else if (KEYMANAGER->isOnceKeyUp(VK_LBUTTON))
-	{
-		_scroll = false;
-		_currentScroll = _rc.top - 210;
-	}
-	if (_scroll == true)
-	{
-		_rc = RectMake(686, 210 + _ptMouse.y - _mouseY+_currentScroll, 42, 432);
-	}
-	if (_rc.top <= 210)
-		_rc = RectMake(686, 210 , 42, 432);
-	if (_rc.bottom >= 932)
-		_rc = RectMake(686, 500, 42, 432);
-	if (_rc.top >= 210 && _rc.bottom <= 932)
-		CAMERAMANAGER->setCameraPoint(PointMake(0, (_rc.top + 1 - 210)*1.4));
-
-	IMAGEMANAGER->findImage("scroll")->render(DC, 686, _rc.top);
-
-	if (KEYMANAGER->isToggleKey(VK_TAB))
-	{
-		Rectangle(DC, _rc.left, _rc.top, _rc.right, _rc.bottom);
-	}
-
-	_restImg->aniRender(DC, 744, 216, _rest);
-
-	//28~31
-	RECT rc=RectMake(35,35,100,50);
-	RECT rc2=RectMake(35,305,100,50);
-	_im->getItem()[34]->getItem().image[0]->render(DC, 1120, 540);
-	
-	HFONT font, oldFont;
-	font = CreateFont(40, 0, 0, 0, 100, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("소야바른9"));
-	oldFont = (HFONT)SelectObject(UIDC2, font);
-	SetTextColor(UIDC2, RGB(255, 255, 255));
-	SetBkMode(UIDC2, TRANSPARENT);
-	DrawText(UIDC2, _im->getItem()[34]->getItem().name, strlen(_im->getItem()[34]->getItem().name), &rc, DT_VCENTER);
-	DrawText(UIDC2, _im->getItem()[34]->getItem().name, strlen(_im->getItem()[34]->getItem().name), &rc2, DT_VCENTER);
-	SelectObject(UIDC2, oldFont);
-	DeleteObject(font);
-}
 
 void titleScene::reward()
 {
@@ -357,6 +303,7 @@ void titleScene::selectData()
 					_fileNum = i;
 					SOUNDMANAGER->stop("title");
 					SCENEMANAGER->changeScene("마을");
+					_start = 0;
 					break;
 				}
 				_select = i + 1;

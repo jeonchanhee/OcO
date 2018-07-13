@@ -57,7 +57,7 @@ void RandomDungeon1::save()
 		if (vRand[randNum] == "F")
 			break;
 	}*/
-	randNum = 0;
+	randNum = 3;
 	int count = 0;
 	for (int i = 0; i < 4; i++)
 	{
@@ -65,12 +65,18 @@ void RandomDungeon1::save()
 			count++;
 	}
 	if (count == 1)
-		_floorNum = 2;
+	{
+		_floorNum = 3;
+		randNum = 4;
+	}
 	if (count == 2)
 	{
 		_floorNum = 3;
 		randNum = 4;
 	}
+
+	if (_floorNum == 3)
+		randNum = 4;
 	vector<string> vStr;
 	char str[128] = "";
 	switch (randNum)

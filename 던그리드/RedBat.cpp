@@ -13,6 +13,9 @@ RedBat::~RedBat()
 
 HRESULT RedBat::init(float x, float y)
 {
+	static int a = 0;
+	a += 1;
+	_index = a;
 	//_x = WINSIZEX / 2;
 	//_y = 200;
 	_x = x;
@@ -30,13 +33,18 @@ HRESULT RedBat::init(float x, float y)
 	KEYANIMANAGER->addCoordinateFrameAnimation("redBatRightMove", "redBatMoveAttackDie", 0, 7, 10, false, true);
 	KEYANIMANAGER->addCoordinateFrameAnimation("redBatLeftMove", "redBatMoveAttackDie", 8, 15, 10, false, true);
 	//Attack
-	KEYANIMANAGER->addCoordinateFrameAnimation("redBatRightAttack", "redBatMoveAttackDie", 16, 23, 10, false, false, rightAttack, this);
-	KEYANIMANAGER->addCoordinateFrameAnimation("redBatLeftAttack", "redBatMoveAttackDie", 24, 31, 10, false, false , leftAttack, this);
+	char str[50];
+	sprintf_s(str, "redBatRightAttack%d", _index);
+	KEYANIMANAGER->addCoordinateFrameAnimation(str, "redBatMoveAttackDie", 16, 23, 10, false, false, rightAttack, this);
+	sprintf_s(str, "redBatLeftAttack%d", _index);
+	KEYANIMANAGER->addCoordinateFrameAnimation(str, "redBatMoveAttackDie", 24, 31, 10, false, false , leftAttack, this);
 	//Die
 	int rightDie[] = { 32 };
-	KEYANIMANAGER->addArrayFrameAnimation("redBatRightDie", "redBatMoveAttackDie", rightDie, 1, 6, false, redBatDieMotion, this);
+	sprintf_s(str, "redBatRightDie%d", _index);
+	KEYANIMANAGER->addArrayFrameAnimation(str, "redBatMoveAttackDie", rightDie, 1, 6, false, redBatDieMotion, this);
 	int leftDie[] = { 33 };
-	KEYANIMANAGER->addArrayFrameAnimation("redBatLeftDie", "redBatMoveAttackDie", leftDie, 1, 6, false, redBatDieMotion, this);
+	sprintf_s(str, "redBatLeftDie%d", _index);
+	KEYANIMANAGER->addArrayFrameAnimation(str, "redBatMoveAttackDie", leftDie, 1, 6, false, redBatDieMotion, this);
 
 	_redBatMotion = KEYANIMANAGER->findAnimation("redBatLeftMove");
 	_redBatMotion->start();
@@ -366,27 +374,32 @@ void RedBat::changeAnimation(REDBATDIRECTION direction)
 	case REDBAT_RIGHT_ATTACK:
 		_img = IMAGEMANAGER->findImage("redBatMoveAttackDie");
 		_redBatDirection = REDBAT_RIGHT_ATTACK;
-		_redBatMotion = KEYANIMANAGER->findAnimation("redBatRightAttack");
+		char str[50];
+		sprintf_s(str, "redBatRightAttack%d", _index);
+		_redBatMotion = KEYANIMANAGER->findAnimation(str);
 		_redBatMotion->start();
 		break;
 	case REDBAT_LEFT_ATTACK:
 		_img = IMAGEMANAGER->findImage("redBatMoveAttackDie");
 		_redBatDirection = REDBAT_LEFT_ATTACK;
-		_redBatMotion = KEYANIMANAGER->findAnimation("redBatLeftAttack");
+		sprintf_s(str, "redBatLeftAttack%d", _index);
+		_redBatMotion = KEYANIMANAGER->findAnimation(str);
 		_redBatMotion->start();
 		break;
 	case REDBAT_RIGHT_DIE:
 		_img = IMAGEMANAGER->findImage("redBatMoveAttackDie");
 		_redBatDirection = REDBAT_RIGHT_DIE;
 		_redBatMotion->stop();
-		_redBatMotion = KEYANIMANAGER->findAnimation("redBatRightDie");
+		sprintf_s(str, "redBatRightDie%d", _index);
+		_redBatMotion = KEYANIMANAGER->findAnimation(str);
 		_redBatMotion->start();
 		break;
 	case REDBAT_LEFT_DIE:
 		_img = IMAGEMANAGER->findImage("redBatMoveAttackDie");
 		_redBatDirection = REDBAT_LEFT_DIE;
 		_redBatMotion->stop();
-		_redBatMotion = KEYANIMANAGER->findAnimation("redBatLeftDie");
+		sprintf_s(str, "redBatLeftDie%d", _index);
+		_redBatMotion = KEYANIMANAGER->findAnimation(str);
 		_redBatMotion->start();
 		break;
 	}

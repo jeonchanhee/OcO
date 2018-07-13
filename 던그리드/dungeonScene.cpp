@@ -81,11 +81,12 @@ HRESULT dungeonScene::init(void)
 	else if (_floorNum == 2)
 		_floorName = "2Ãþ : ÁöÇÏ°¨¿Á";
 	else if (_floorNum == 3)
-		_floorName = "3Ãþ : ÁöÇÏ°¨¿Á";
+		_floorName = "2Ãþ : ÁöÇÏ°¨¿Á";
 	_vEnemy.clear();
 
 	_item = new itemManager;
 	_item->init();
+	_route.clear();
 	return S_OK;
 }
 
@@ -95,13 +96,20 @@ void dungeonScene::release(void)
 
 void dungeonScene::update(void)
 {
+	if (KEYMANAGER->isOnceKeyDown('P'))
+	{
+		for (int i = 0; i < _vEnemy.size(); i++)
+		{
+			_vEnemy[i]->setIsDie();
+		}
+	}
 	collision();
 
 	if(_minimap != NULL)
 	_minimap->setPlayerXY(((300 * _player->getPlayerX()) / (_tileX * TILESIZE)), ((150 * (_player->getPlayerY() - 80)) / (_tileY * TILESIZE)));
 	_player->update();
 
-	if (_vEnemy.size() == 0)
+	//if (_vEnemy.size() == 0)
 	{
 		_mapValue[_dungeonNum] = "T";
 	}
@@ -297,6 +305,8 @@ void dungeonScene::mapload()
 
 void dungeonScene::setMinimap()
 {
+	static int a = 0;
+	a += 1;
 	_minimap = new minimap;
 	_minimap->init(true);
 
@@ -304,8 +314,10 @@ void dungeonScene::setMinimap()
 	/*tempImg = IMAGEMANAGER->addImage("ÅÛÇª", _tileX*TILESIZE, _tileY * TILESIZE);
 	PatBlt(tempImg->getMemDC(), 0, 0, _tileX * TILESIZE, _tileY * TILESIZE, BLACKNESS);*/
 	string str = "ÅÛÇÁ";
-	str += to_string(_dungeonNum);
-	tempImg = IMAGEMANAGER->addImage(str, _tileX*TILESIZE, _tileY * TILESIZE);
+	str += to_string(a);
+	tempImg = new image;
+	tempImg->init(_tileX*TILESIZE, _tileY * TILESIZE);
+	//tempImg = IMAGEMANAGER->addImage(str, 
 	PatBlt(tempImg->getMemDC(), 0, 0, _tileX * TILESIZE, _tileY * TILESIZE, BLACKNESS);
 
 
@@ -742,6 +754,7 @@ void dungeonScene::nextTest()
 				char temp[128] = "";
 				str += itoa(_route[i], temp, 10);
 				save();
+				_vEnemy.clear();
 				SCENEMANAGER->changeScene(str);
 				
 			}
@@ -1273,4 +1286,5 @@ void dungeonScene::redBatBulletCollision()
 		}
 	}
 }
+
 
