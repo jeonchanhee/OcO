@@ -54,7 +54,8 @@ public:
 	void die();
 	void hitDamage();
 
-	static void batDieMotion(void * obj);
+	static void batDieMotion(void * obj); //오른쪽 뒤짐 콜백함수
+	static void batDieMotionL(void * obj); // 왼쪽뒤짐 콜백함수
 
 	RECT  getBatRect() { return _rc; } //rc
 };

@@ -84,8 +84,8 @@ public:
 	HRESULT init(int width, int height, BOOL trans, COLORREF transColor, BOOL blend);
 	HRESULT init(const char* fileName, int width, int height,
 		BOOL trans = FALSE, COLORREF transColor = RGB(0, 0, 0), BOOL blend = FALSE);
-	HRESULT init(const char* fileName, float x, float y, int width, int height,
-		BOOL trans = FALSE, COLORREF transColor = RGB(0, 0, 0), BOOL blend = FALSE);
+	HRESULT init(const char * fileName, float x, float y, int width, int height, BOOL trans, COLORREF transColor, BOOL blend);
+
 	//rotateInit
 
 	HRESULT rotateInit(const char * fileName, int width, int height, BOOL trans, COLORREF transColor, BOOL blend = FALSE);
@@ -125,7 +125,7 @@ public:
 
 	void frameRender(HDC hdc, int destX, int destY);
 	void frameRender(HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY);
-
+	void frameRender(HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight , int frameX ,int frameY);
 	void loopRender(HDC hdc, const LPRECT drawArea, int offSetX, int offSetY);
 
 	void alphaRender(HDC hdc, BYTE alpha);

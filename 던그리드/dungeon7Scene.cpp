@@ -19,7 +19,7 @@ HRESULT dungeon7Scene::init()
 	chooseMap(8);
 	selectSize(8);
 	mapload();
-	setCamera();
+	//setCamera();
 
 	load();
 	_dungeonNum = 6;
@@ -64,6 +64,7 @@ HRESULT dungeon7Scene::init()
 	{
 		_minimap->setEnemyXY(((_vEnemy[i]->getX() * 300) / (_tileX*TILESIZE)), ((_vEnemy[i]->getY() * 150) / (_tileY*TILESIZE)));
 	}
+	setMinimap();
 	setDoorMinimap();
 
 	_player->setPlayerX(_vDoor[0].x + TILESIZE * 2);
@@ -85,6 +86,28 @@ void dungeon7Scene::update()
 	}
 	MusicAngelBulletFire();
 	_enemyBullet->update();
+
+	if (!_bigbat->getdiedie())
+	{
+		bigbatbulletFire();
+	}
+
+	_bigBatBullet->bulletframe("fatherBatBullet2");
+	if (_start2 != 0)
+	{
+		_bigBatBullet->update();
+	}
+	if (!_bigRedBat->getdiedie())
+	{
+		bigRadbatbulletFire();
+	}
+	else
+	{
+		_start = 1;
+	}
+
+	_radBatBullet->bulletframe("fatherBatBullet2");
+	_radBatBullet->update();
 }
 
 void dungeon7Scene::render()

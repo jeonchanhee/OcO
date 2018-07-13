@@ -224,6 +224,7 @@ void BigBat::hitDamage()
 void BigBat::die()
 {
 	//_bigBatMotion->stop();
+	SOUNDMANAGER->play("bat3");
 	if (_bigBatDirection == BIGBAT_RIGHT_ATTACK || _bigBatDirection == BIGBAT_RIGHT_MOVE)
 		changeAnimation(BIGBAT_RIGHT_DIE);
 	if (_bigBatDirection == BIGBAT_LEFT_ATTACK || _bigBatDirection == BIGBAT_LEFT_MOVE)

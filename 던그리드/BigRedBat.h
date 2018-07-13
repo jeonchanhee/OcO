@@ -47,7 +47,6 @@ public:
 	void hitDamage();
 	void die();
 	static void bigRedBatDieMotion(void * obj);
-	void hitDamage(float damage);
 
 	bool getisAtteck2() { return _isAttack; }
 	void setisAtteck2(bool isAttack) { _isAttack = isAttack; }

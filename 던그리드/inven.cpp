@@ -49,12 +49,17 @@ void inven::update()
 	if (_onInven)
 	{
 		if (KEYMANAGER->isOnceKeyDown(VK_LEFT)) _gold += 100;
-		if (KEYMANAGER->isOnceKeyDown(VK_RIGHT)) _gold += 1000;
+		if (KEYMANAGER->isOnceKeyDown(VK_RIGHT)) _gold += 10000;
 		int value=0;
-		if (_gold > 99) value = 1;
-		if (_gold > 999) value = 2; 
-		if (_gold > 9999) value = 3;
-		if (_gold > 99999) value = 4;
+		if (_gold > 999999) value = 5;
+		else if (_gold > 99999) value = 4;
+		else if (_gold > 9999) value = 3;
+		else if (_gold > 999) value = 2; 
+		else if (_gold > 99) value = 1;
+		
+		
+		
+
 		_moneyRect = RectMake(WINSIZEX / 2 + 800 - (value * 30), WINSIZEY / 2 + 427, 300, 50);
 		for (int i = 0; i < INVENSIZE; ++i)
 		{
