@@ -86,10 +86,10 @@ void Bat::update()
 		}
 	}
 	///////////////////DIEÅ×½ºÆ®////////////////////
-	if (KEYMANAGER->isOnceKeyDown(VK_F3))
+	/*if (KEYMANAGER->isOnceKeyDown(VK_F3))
 	{
 		_currentHP -= 10;
-	}
+	}*/
 	
 	///////////////////¡ã¡ã¡ã¡ã¡ã¡ã¡ã¡ã////////////////////
 	//KEYANIMANAGER->update();
@@ -100,10 +100,10 @@ void Bat::render()
 {
 	_progressBar->render();
 	_img->aniRender(DC, _rc.left, _rc.top, _batMotion);
-	if (KEYMANAGER->isToggleKey(VK_TAB))
-	{
-		Rectangle(DC, rcCollision.left, rcCollision.top, rcCollision.right, rcCollision.bottom);
-	}
+	//if (KEYMANAGER->isToggleKey(VK_TAB))
+	//{
+	//	Rectangle(DC, rcCollision.left, rcCollision.top, rcCollision.right, rcCollision.bottom);
+	//}
 }
 
 void Bat::move()

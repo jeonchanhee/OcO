@@ -140,7 +140,7 @@ void dungeonScene::render(void)
 			}
 		}
 	}
-	if (KEYMANAGER->isToggleKey(VK_TAB))
+	/*if (KEYMANAGER->isToggleKey(VK_TAB))
 	{
 		for (int i = (CAMERAMANAGER->getCameraCenter().y - WINSIZEY / 2) / 96; i < (CAMERAMANAGER->getCameraCenter().y + WINSIZEY / 2) / 96 + 1; ++i)
 		{
@@ -151,7 +151,7 @@ void dungeonScene::render(void)
 				TextOut(DC, _tiles[i * _temp + j].rc.left, _tiles[i * _temp + j].rc.top, str, strlen(str));
 			}
 		}
-	}
+	}*/
 
 	for (int i = 0; i < _vDoor.size(); i++)
 	{
@@ -586,27 +586,27 @@ void dungeonScene::minimapIconRender()
 			if (i == 0 && _miniPortal[0].x != -1)
 			{
 				_miniPortal[0].img->frameRender(UIDC, _miniPortal[0].x, _miniPortal[0].y);
-				if(KEYMANAGER->isToggleKey('T'))
-					Rectangle(UIDC, _miniPortal[0].rc.left, _miniPortal[0].rc.top, _miniPortal[0].rc.right, _miniPortal[0].rc.bottom);
+				//if(KEYMANAGER->isToggleKey('T'))
+					//Rectangle(UIDC, _miniPortal[0].rc.left, _miniPortal[0].rc.top, _miniPortal[0].rc.right, _miniPortal[0].rc.bottom);
 			}
 			else if (i == 5 && _miniPortal[1].x != -1)
 			{
 				_miniPortal[1].img->frameRender(UIDC, _miniPortal[1].x, _miniPortal[1].y);
-				if (KEYMANAGER->isToggleKey('T'))
-					Rectangle(UIDC, _miniPortal[1].rc.left, _miniPortal[1].rc.top, _miniPortal[1].rc.right, _miniPortal[1].rc.bottom);
+			//	if (KEYMANAGER->isToggleKey('T'))
+				//	Rectangle(UIDC, _miniPortal[1].rc.left, _miniPortal[1].rc.top, _miniPortal[1].rc.right, _miniPortal[1].rc.bottom);
 			}
 			else if (i == 7 && _miniPortal[2].x != -1)
 			{
 				_miniPortal[2].img->frameRender(UIDC, _miniPortal[2].x, _miniPortal[2].y);
-				if (KEYMANAGER->isToggleKey('T'))
-					Rectangle(UIDC, _miniPortal[2].rc.left, _miniPortal[2].rc.top, _miniPortal[2].rc.right, _miniPortal[2].rc.bottom);
+				//if (KEYMANAGER->isToggleKey('T'))
+				//	Rectangle(UIDC, _miniPortal[2].rc.left, _miniPortal[2].rc.top, _miniPortal[2].rc.right, _miniPortal[2].rc.bottom);
 			}
 
 			else if (i == 9 && _miniPortal[3].x != -1)
 			{
 				_miniPortal[3].img->frameRender(UIDC, _miniPortal[3].x, _miniPortal[3].y);
-				if (KEYMANAGER->isToggleKey('T'))
-					Rectangle(UIDC, _miniPortal[3].rc.left, _miniPortal[3].rc.top, _miniPortal[3].rc.right, _miniPortal[3].rc.bottom);
+				//if (KEYMANAGER->isToggleKey('T'))
+					//Rectangle(UIDC, _miniPortal[3].rc.left, _miniPortal[3].rc.top, _miniPortal[3].rc.right, _miniPortal[3].rc.bottom);
 			}
 		}
 	}
@@ -1294,7 +1294,7 @@ void dungeonScene::redBatBulletCollision()
 void dungeonScene::playerDie()
 {
 	if (_player->getIsAlive()) return;
-	reward();
+	//reward();
 }
 
 void dungeonScene::reward()

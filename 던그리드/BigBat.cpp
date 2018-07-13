@@ -86,10 +86,10 @@ void BigBat::update()
 	}
 
 	////////////////////DIE Å×½ºÆ®///////////////////////
-	if (KEYMANAGER->isOnceKeyDown(VK_F5))
+	/*if (KEYMANAGER->isOnceKeyDown(VK_F5))
 	{
 		_currentHP -= 5;
-	}
+	}*/
 	//if (KEYMANAGER->isOnceKeyUp(VK_F5))
 	//{
 	//	if (_bigBatDirection == BIGBAT_RIGHT_DIE)

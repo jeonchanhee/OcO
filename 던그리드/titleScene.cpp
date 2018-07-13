@@ -46,10 +46,6 @@ HRESULT titleScene::init(void)
 	_bgmBack = RectMake(600, 470, 900, 50);
 	_sfxBack = RectMake(600, 620, 900, 50);
 
-	int suck[52];
-	for (int i = 0; i<52; i++)
-		suck[i] = i;
-	KEYANIMANAGER->addArrayFrameAnimation("suck", "suck", suck, 52, 3, false);
 	
 	/*int suck[51];
 	for (int i = 0; i<51; i++)

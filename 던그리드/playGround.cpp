@@ -261,7 +261,7 @@ void playGround::render(void)
 		// 이 아래로도 건들지 마시오
 		/////////////////////////////////////////////////////////////////////////////////////////////
 		IMAGEMANAGER->render("cursor", UIDC, _ptMouse.x, _ptMouse.y);
-		TIMEMANAGER->render(UIDC);
+		//TIMEMANAGER->render(UIDC);
 
 		if (mode == 타이틀)
 			IMAGEMANAGER->findImage("카메라DC")->render(DC, 54, 240, CAMERAMANAGER->getCameraPoint().x, CAMERAMANAGER->getCameraPoint().y, 600, 670);
