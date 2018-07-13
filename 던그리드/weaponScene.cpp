@@ -32,7 +32,7 @@ HRESULT weaponScene::init()
 	chooseMap(11);
 	selectSize(11);
 	mapload();
-	setCamera();
+	//setCamera();
 
 	load();
 

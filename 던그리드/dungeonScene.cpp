@@ -1204,7 +1204,7 @@ void dungeonScene::bigRadbatbulletFire()
 
 void dungeonScene::redBatBullet()
 {
-	if (_redBat->getdiedie() == true) return;
+	if (_bigbat != NULL && _redBat->getdiedie() == true) return;
 
 	redBatBulletCollision();
 	_count4++;
@@ -1266,7 +1266,4 @@ void dungeonScene::redBatBulletCollision()
 			_enemyBullet->removeBullet(i);
 		}
 	}
-}
-
-
 }
