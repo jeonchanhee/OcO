@@ -19,7 +19,7 @@ HRESULT dungeon6Scene::init()
 	chooseMap(7);
 	selectSize(7);
 	mapload();
-	setCamera();
+//	setCamera();
 
 	load();
 
@@ -29,6 +29,7 @@ HRESULT dungeon6Scene::init()
 	doorInit();
 	setDoor();
 	portalInit(655 % 25, 655 / 25);
+
 	if (_mapValue[_dungeonNum] == "F")
 		setMonster();
 
@@ -101,6 +102,11 @@ void dungeon6Scene::doorInit()
 
 	_vDoor[0].img = IMAGEMANAGER->findImage("updownDoor");
 	_vDoor[0].dir = DOOR_UPDOWN;
+
+	for (int i = 0; i < 4; i++)
+	{
+		_tiles[2 + i * 25].object = OBJ_DOOR2;
+	}
 }
 
 void dungeon6Scene::setMonster()

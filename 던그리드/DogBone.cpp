@@ -241,7 +241,7 @@ void DogBone::move()
 	
 
 
-		if (_dungeonNum == 1 && !(tileIndex[0] % 100))
+		/*if (_dungeonNum == 1 && !(tileIndex[0] % 100))
 		{
 			changeAnimation(DOGBONE_RIGHT_MOVE);
 			return;
@@ -257,11 +257,11 @@ void DogBone::move()
 		{
 			changeAnimation(DOGBONE_LEFT_MOVE);
 			return;
-		}
+		}*/
 
 		RECT temp;
 		
-		if ((_tiles[tileIndex[0]].object == OBJ_CULUMN) && IntersectRect(&temp, &_tiles[tileIndex[0]].rc, &rcCollision))
+		if ((_tiles[tileIndex[0]].object == OBJ_CULUMN || _tiles[tileIndex[0]].object == OBJ_DOOR2) && IntersectRect(&temp, &_tiles[tileIndex[0]].rc, &rcCollision))
 		{
 			switch (_dogBoneDirection)
 			{
@@ -316,7 +316,7 @@ void DogBone::move()
 		{
 			if (tileIndex[i] == 1205)
 				int a = 0;
-			if ((_tiles[tileIndex[i]].object == OBJ_CULUMN || _tiles[tileIndex[i]].object == OBJ_GOGROUND) && IntersectRect(&temp, &_tiles[tileIndex[i]].rc, &rcCollision))
+			if ((_tiles[tileIndex[i]].object == OBJ_CULUMN || _tiles[tileIndex[i]].object == OBJ_GOGROUND || _tiles[tileIndex[i]].object == OBJ_DOOR2) && IntersectRect(&temp, &_tiles[tileIndex[i]].rc, &rcCollision))
 			{
 				/*switch (_dogBoneDirection)
 				{

@@ -23,6 +23,8 @@ private:
 	bool _diedie;
 
 	int _dieCount;
+
+	int _index;
 public:
 	BigBat();
 	~BigBat();
@@ -53,7 +55,6 @@ public:
 	void hitDamage();
 	void die();
 	static void bigbatDieMotion(void * obj);
-	void hitDamage(float damage);
-
+	
 	bool getdiedie() { return _diedie; }
 };

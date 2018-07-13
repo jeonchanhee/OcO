@@ -40,6 +40,30 @@ HRESULT dungeon7Scene::init()
 		_route.push_back(8);
 	}
 
+	doorInit();
+	setDoor();
+	setMonster();
+
+	if (_mapValue[_dungeonNum] == "F")
+		setMonster();
+
+	setMinimap();
+	setDoorMinimap();
+
+	for (int i = 0; i < _vEnemy.size(); i++)
+	{
+		_minimap->setEnemyXY(((_vEnemy[i]->getX() * 300) / (_tileX*TILESIZE)), ((_vEnemy[i]->getY() * 150) / (_tileY*TILESIZE)));
+	}
+
+	_player->setPlayerX(_vDoor[0].x + TILESIZE * 2);
+	_player->setPlayerY(_vDoor[0].y);
+	//_mapValue[_dungeonNum] = "T";
+
+	return S_OK;
+}
+
+void dungeon7Scene::doorInit()
+{
 	_vDoor.resize(2);
 
 	_vDoor[0].x = (8 % 20) * TILESIZE, _vDoor[0].y = (8 / 20) * TILESIZE;
@@ -54,23 +78,11 @@ HRESULT dungeon7Scene::init()
 	_vDoor[1].img = IMAGEMANAGER->findImage("rightDoor");
 	_vDoor[1].dir = DOOR_RIGHT;
 
-	setDoor();
-	setMonster();
-
-	if (_mapValue[_dungeonNum] == "F")
-		setMonster();
-
-	for (int i = 0; i < _vEnemy.size(); i++)
+	for (int i = 0; i < 4; i++)
 	{
-		_minimap->setEnemyXY(((_vEnemy[i]->getX() * 300) / (_tileX*TILESIZE)), ((_vEnemy[i]->getY() * 150) / (_tileY*TILESIZE)));
+		_tiles[8 + i].object = OBJ_DOOR2;
+		_tiles[99 + i * 20].object = OBJ_DOOR2;
 	}
-	setDoorMinimap();
-
-	_player->setPlayerX(_vDoor[0].x + TILESIZE * 2);
-	_player->setPlayerY(_vDoor[0].y);
-	//_mapValue[_dungeonNum] = "T";
-
-	return S_OK;
 }
 
 void dungeon7Scene::update()

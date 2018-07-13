@@ -20,6 +20,7 @@ private:
 	bool _diedie;
 
 	int _diecount;
+	int _index;
 public:
 	BigRedBat();
 	~BigRedBat();

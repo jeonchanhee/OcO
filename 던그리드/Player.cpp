@@ -23,8 +23,7 @@ HRESULT Player::init()
 	itemInfo();
 	_x = WINSIZEX / 2; _y = WINSIZEY / 2 -100;
 	_attackEffect = IMAGEMANAGER->findImage("검1효과");
-	//_attackEffect = IMAGEMANAGER->findImage("검쓰르륵");
-
+	
 	_level = 1;
 	_dashCount = 0, _attackCount = 0;
 	_mouseAngle = 0;
@@ -167,7 +166,7 @@ void Player::render()
 	else if (!_isJumping) sprintf_s(str, "점프 : false");
 	TextOut(DC, _collisionRc.left - 50 , _collisionRc.top - 150, str, strlen(str));
 	//// tile check 
-	sprintf(str, "x 좌표 : %f", _x);
+	sprintf(str, "아이템 타입 : %d", _inven->getMainWeapon()[_youUsingCount]->getItemType());
 	TextOut(DC, _x-300, _y - 200, str, strlen(str));
 	sprintf(str, "y 좌표 : %f", _y);
 	TextOut(DC, _x- 300, _y - 300, str, strlen(str)); 
@@ -208,7 +207,7 @@ void Player::render()
 	SetBkMode(UIDC, TRANSPARENT);
 
 	sprintf(str, "%d", _level);
-	TextOut(UIDC, 80, 65, str, strlen(str));
+	TextOut(UIDC, 80, 62, str, strlen(str));
 	SelectObject(UIDC, oldFont);
 	DeleteObject(font);
 }
@@ -457,7 +456,8 @@ void Player::attack()
 			}
 		}
 		else if (_inven->getMainWeapon()[_youUsingCount]->getItemType() == SWORD
-			|| _inven->getMainWeapon()[_youUsingCount]->getItemType() == HAMMER)
+			|| _inven->getMainWeapon()[_youUsingCount]->getItemType() == HAMMER 
+			&&_inven->getMainWeapon().size() > _youUsingCount)
 		{
 			_attackCount+=2;
 			_attackSpeedCheckCount = true, _showAttackEffect = true;
@@ -919,6 +919,7 @@ void Player::itemInfo()
 				else if (_inven->getMainWeapon()[_youUsingCount]->getItemType() == BOW) _bulletType = 4;
 			}
 		}
+		
 	}
 
 

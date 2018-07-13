@@ -54,8 +54,8 @@ HRESULT townScene::init()
 	_dungeonNum = 11;
 	mapload();
 	setMinimap();
-	_start = 0;
 	_floorNum = 1;
+	_count = 0;
 
 	for (int i = 0; i < 6; i++)
 		_trainStat[i] = 0;
@@ -125,8 +125,6 @@ void townScene::render()
 	
 	_minimap->render();
 	dungeonGo();
-	if (_start != 1)
-		_player->render();
 	NPC();
 	if (_ui[0] == true)
 	{
@@ -142,7 +140,7 @@ void townScene::render()
 	if (_ui[2] == true)
 	{
 		training();
-		_trainStat[0] = _player->getLv() - _trainStat[1] - _trainStat[2] - _trainStat[3] - _trainStat[4] - _trainStat[5];
+		_trainStat[0] = _player->getLv() * 2 - _trainStat[1] - _trainStat[2] - _trainStat[3] - _trainStat[4] - _trainStat[5];
 	}
 }
 
@@ -332,7 +330,7 @@ void townScene::training()
 	if (KEYMANAGER->isOnceKeyDown('R'))
 	{
 		_trainStat[1] = _trainStat[2] = _trainStat[3] = _trainStat[4] = _trainStat[5] = 0;
-		_trainStat[0] = _player->getLv() - _trainStat[1] - _trainStat[2] - _trainStat[3] - _trainStat[4] - _trainStat[5];
+		_trainStat[0] = _player->getLv()*2 - _trainStat[1] - _trainStat[2] - _trainStat[3] - _trainStat[4] - _trainStat[5];
 	}
 }
 
@@ -395,8 +393,10 @@ void townScene::dungeonGo()
 	{
 		if (IntersectRect(&temp, &_player->getRc(), &rc))
 		{
+			int starttime = TIMEMANAGER->getWorldTime();
 			//_suckImg->render(DC, _player->getRc().left, rc.top - 100);
 			_suck->start();
+			SOUNDMANAGER->play("dungeonIn");
 			_sucking = true;
 			_canMove = false;
 			if (_player->getIsLeftAttack() == true)
@@ -414,10 +414,11 @@ void townScene::dungeonGo()
 void townScene::suckDungeon(void* object)
 {
 	townScene* T = (townScene*)object;
+	T->resetShop();
 	T->_suck->stop();
 	T->_suck = KEYANIMANAGER->findAnimation("suck2");
 	T->_suck->start();
-	T->_start = 1;
+	_start = 1;
 }
 
  void townScene::moveDungeon(void* object)
@@ -432,7 +433,7 @@ void townScene::suckDungeon(void* object)
 	 //SCENEMANAGER->changeScene("·£´ý¸Ê1");
 	/* T->_randMap = new RandomDungeon1;
 	 T->_randMap->init();*/
-	 T->_start = 2;
+	 _start = 2;
 	 T->_player->setPlayerX(650);
 	 T->_player->setPlayerY(770);
 }

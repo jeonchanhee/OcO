@@ -13,6 +13,10 @@ Bat::~Bat()
 
 HRESULT Bat::init(float x, float y)
 {
+	static int a = 0;
+	a += 1;
+	_index = a;
+
 	_batDirection = BAT_RIGHT_MOVE;
 
 	_x = x;
@@ -33,10 +37,13 @@ HRESULT Bat::init(float x, float y)
 	KEYANIMANAGER->addCoordinateFrameAnimation("batLeftMove", "batMoveDie", 7, 12, 10, false, true);
 	//¿À¸¥ÂÊ Á×À½
 	int rightDie[] = { 6 };
-	KEYANIMANAGER->addArrayFrameAnimation("batRightDie", "batMoveDie", rightDie, 1, 6, false, batDieMotion, this);
+	char str[50];
+	sprintf_s(str, "batRightDie%d", _index);
+	KEYANIMANAGER->addArrayFrameAnimation(str, "batMoveDie", rightDie, 1, 6, false, batDieMotion, this);
 	//¿ŞÂÊ Á×À½
 	int leftDie[] = { 13 };
-	KEYANIMANAGER->addArrayFrameAnimation("batLeftDie", "batMoveDie", leftDie, 1, 6, false, batDieMotion, this);
+	sprintf_s(str, "batLeftDie%d", _index);
+	KEYANIMANAGER->addArrayFrameAnimation(str, "batMoveDie", leftDie, 1, 6, false, batDieMotionL, this);
 
 	_batMotion = KEYANIMANAGER->findAnimation("batRightMove");
 	_batMotion->start();
@@ -275,7 +282,9 @@ void Bat::changeAnimation(BATDIRECTION direction)
 	case BAT_LEFT_DIE:
 		_img = IMAGEMANAGER->findImage("batMoveDie");
 		_batDirection = BAT_LEFT_DIE;
-		_batMotion = KEYANIMANAGER->findAnimation("batLeftDie");
+		char str[50];
+		sprintf_s(str, "batLeftDie%d", _index);
+		_batMotion = KEYANIMANAGER->findAnimation(str);
 		_batMotion->start();
 		break;
 	}
@@ -324,6 +333,7 @@ void Bat::playerCollision()
 
 void Bat::die()
 {
+	SOUNDMANAGER->play("bat");
 	if (_batDirection == BAT_RIGHT_MOVE || _batDirection == BAT_RIGHT_UP_MOVE || _batDirection == BAT_RIGHT_DOWN_MOVE || _batDirection == BAT_UP_MOVE)
 	{
 		changeAnimation(BAT_RIGHT_DIE);
@@ -343,6 +353,12 @@ void Bat::hitDamage()
 }
 
 void Bat::batDieMotion(void * obj)
+{
+	Bat* c = (Bat *)obj;
+	c->_diedie = true;
+}
+
+void Bat::batDieMotionL(void * obj)
 {
 	Bat* c = (Bat *)obj;
 	c->_diedie = true;

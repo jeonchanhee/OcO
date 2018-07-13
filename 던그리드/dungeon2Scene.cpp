@@ -31,7 +31,6 @@ HRESULT dungeon2Scene::init()
 	DeleteObject(oldPen);
 	DeleteObject(pen);
 
-//	_isMapSet = true;
 	chooseMap(3);
 	selectSize(3);
 	mapload();
@@ -58,7 +57,6 @@ HRESULT dungeon2Scene::init()
 
 	_player->setPlayerX(_vDoor[0].x + TILESIZE * 2);
 	_player->setPlayerY(_vDoor[0].y);
-	//_mapValue[_dungeonNum] = "T";
 
 	return S_OK;
 }
@@ -66,14 +64,14 @@ HRESULT dungeon2Scene::init()
 void dungeon2Scene::update()
 {
 	dungeonScene::update();
-	//nextTest();
+	nextTest();
 	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); ++_viEnemy)
 	{
 		(*_viEnemy)->update();
 		int idx = _viEnemy - _vEnemy.begin();
 		_minimap->changeEnemyXY(idx, (((*_viEnemy)->getX() * 300) / (_tileX*TILESIZE)), (((*_viEnemy)->getY() * 150) / (_tileY*TILESIZE)));
 	}
-	if (!_bigbat->getdiedie())
+	if (_bigbat!=NULL&&!_bigbat->getdiedie())
 	{
 		bigbatbulletFire();
 	}
@@ -82,7 +80,7 @@ void dungeon2Scene::update()
 	{
 		_bigBatBullet->update();
 	}
-	if (!_bigRedBat->getdiedie())
+	if (_bigbat != NULL && !_bigRedBat->getdiedie())
 	{
 		bigRadbatbulletFire();
 	}
@@ -159,6 +157,13 @@ void dungeon2Scene::doorInit()
 		_vDoor[i].rc = RectMake(_vDoor[i].x, _vDoor[i].y, TILESIZE * 4, TILESIZE);
 		_vDoor[i].dir = DOOR_UPDOWN;
 		_vDoor[i].img = IMAGEMANAGER->findImage("updownDoor");
+	}
+
+	for (int i = 0; i < 4; i++)
+	{
+		_tiles[8 + i].object = OBJ_DOOR2;
+		_tiles[1208 + i].object = OBJ_DOOR2;
+		_tiles[500 + i * 100].object = OBJ_DOOR2;
 	}
 }
 //

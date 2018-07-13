@@ -304,6 +304,11 @@ void RedBat::redBatDieMotion(void * obj)
 	c->_diedie = true;
 }
 
+void RedBat::redBatDieMotionL(void * obj)
+{
+	RedBat* c = (RedBat *)obj;
+	c->_diedie = true;
+}
 
 
 void RedBat::changeAnimation(REDBATDIRECTION direction)
@@ -389,7 +394,8 @@ void RedBat::changeAnimation(REDBATDIRECTION direction)
 
 void RedBat::die()
 {
-	if (_redBatDirection == REDBAT_RIGHT_MOVE || _redBatDirection == REDBAT_RIGHT_UP_MOVE || _redBatDirection == REDBAT_RIGHT_DOWN_MOVE || _redBatDirection == REDBAT_UP_MOVE || _redBatDirection == REDBAT_RIGHT_ATTACK)
+	SOUNDMANAGER->play("bat3");
+	if (_redBatDirection == REDBAT_RIGHT_MOVE || _redBatDirection == REDBAT_RIGHT_UP_MOVE || _redBatDirection == REDBAT_RIGHT_DOWN_MOVE || _redBatDirection == REDBAT_UP_MOVE)
 	{
 		changeAnimation(REDBAT_RIGHT_DIE);
 	}

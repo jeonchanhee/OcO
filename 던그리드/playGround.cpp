@@ -13,7 +13,6 @@ HRESULT playGround::init(void)
 	vStr = { "F","F","F","F" };
 	TXTDATA->txtSave("random.txt", vStr);
 	mode = 마을;		//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
-//	rectRotate(IMAGEMANAGER->findImage("검01"), 100, 100);
 
 	gameNode::init(true);
 	Image_init();
@@ -225,9 +224,9 @@ void playGround::render(void)
 		break;
 	case 던전2: case 던전3: case 던전4: case 던전5: case 던전6: case 던전7: case 던전8:
 	case 랜덤맵1: case 보스:  case 무기: case 푸드:
-		SCENEMANAGER->render();
 		EFFECTMANAGER->render();
-		_player->render();
+		SCENEMANAGER->render();	
+		//_player->render();
 		break;
 	case 마을:
 		SCENEMANAGER->render();
@@ -242,7 +241,11 @@ void playGround::render(void)
 	default:
 		break;
 	}
-	
+	if (mode != 타이틀 && mode != 맵툴)
+	{
+		if (_start != 1)
+			_player->render();
+	}
 
 	//SCENEMANAGER->render();
 
@@ -317,3 +320,52 @@ void playGround::render(void)
 	// 그리고 모든 렌더의 hdc 는 CAMERAMANAGER->getCameraDC()->getMemDC() 로 해주어야함 !~~!!$!$!#ㄸ!#ㄸ!$!$#@$!@#@!
 }
  
+
+void playGround::saveData()
+{
+	vector<string> vStr = TXTDATA->txtLoad("data.txt");
+	vector<tagData> vData;
+
+	vData.clear();
+	vData.resize(3);
+
+	for (int i = 0; i < 3; i++)
+	{
+		vData[i].idx = -1;
+	}
+
+	for (int i = 0; i < vStr.size() / 6; i++)
+	{
+		int idx = atoi(vStr[i * 6].c_str());
+		vData[idx].idx = idx;
+		vData[idx].hour = atoi(vStr[i * 6 + 1].c_str());
+		vData[idx].min = atoi(vStr[i * 6 + 2].c_str());
+		vData[idx].floor = atoi(vStr[i * 6 + 3].c_str());
+		vData[idx].gold = atoi(vStr[i * 6 + 4].c_str());
+		vData[idx].dash = atoi(vStr[i * 6 + 5].c_str());
+	}
+
+	if (vData[_fileNum].idx == -1)
+	{
+		vData[_fileNum].idx = _fileNum;
+		vData[_fileNum].hour = TIMEMANAGER->getWorldTime() / 3600;
+		vData[_fileNum].min = TIMEMANAGER->getWorldTime() / 60;
+		vData[_fileNum].floor = _floorNum;
+		vData[_fileNum].gold = _player->getGold();
+		vData[_fileNum].dash = 2;
+	}
+
+	vector<string> vString;
+	for (int i = 0; i < 3; i++)
+	{
+		if (vData[i].idx == -1)continue;
+		char str[128];
+		vString.push_back(itoa(vData[i].idx, str, 10));
+		vString.push_back(itoa(vData[i].hour, str, 10));
+		vString.push_back(itoa(vData[i].min, str, 10));
+		vString.push_back(itoa(vData[i].floor, str, 10));
+		vString.push_back(itoa(vData[i].gold, str, 10));
+		vString.push_back(itoa(vData[i].dash, str, 10));
+	}
+	TXTDATA->txtSave("data.txt", vString);
+}

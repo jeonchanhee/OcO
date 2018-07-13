@@ -8,6 +8,14 @@ HRESULT playGround::Sound_init(void)
 	SOUNDMANAGER->addSound("town", "sound/back/town.wav", true, true);
 	SOUNDMANAGER->addSound("boss", "sound/back/boss.wav", true, true); //보스방에 있는동안
 
+	//====================   DUNGEIN =================================
+	SOUNDMANAGER->addSound("dungeon", "sound/back/던전사운드.wav", true, true);
+	SOUNDMANAGER->addSound("던전입장시", "sound/effect/던전입장시.wav", false, false);
+	SOUNDMANAGER->addSound("dungeonIn", "sound/effect/dungeonIn.wav", false, false);
+	SOUNDMANAGER->addSound("stoneDoor", "sound/effect/stoneDoor.wav", false, false);
+
+	//====================   PLAYER =================================
+
 
 	//==================== ENEMY =================================
 	SOUNDMANAGER->addSound("bat", "sound/enemy/bat.wav", false, false);

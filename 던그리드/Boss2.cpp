@@ -115,6 +115,7 @@ void Boss2::update()
 		}
 	}*/
 	/////////////////////////////////////////////////
+	
 	_count++;
 	leftMove();
 	headMove();
@@ -126,7 +127,9 @@ void Boss2::update()
 	_y = _boss[1].y;
 
 	if (!_diedie)
+	{
 		hitDamage();
+	}
 	if (_diedie)
 	{
 		_dieCount++;
@@ -171,6 +174,17 @@ void Boss2::render()
 
 	_progressBar->render();
 
+	//if (_bossHeadDirection != HEAD_DIE || _bossHeadDirection != HEAD_ATTACK)
+	//if(_bossHeadDirection == HEAD_IDLE)
+	//{
+	//	_rndX = RND->getFromIntTo(_boss[1].rc.left - 100, _boss[1].rc.right + 100);
+	//	_rndY = RND->getFromIntTo(_boss[1].rc.top - 100, _boss[1].rc.bottom + 100);
+	//	EFFECTMANAGER->play("bossBack", _rndX, _rndY);
+	//}
+	if (_bossHeadDirection == HEAD_ATTACK)
+	{
+		IMAGEMANAGER->frameRender("bossBackBullet", DC, _boss[1].x - 30, _boss[1].y + 50);
+	}
 	for (int i = 0; i < 3; i++)
 	{
 		//_boss[i].img->aniRender(DC, _boss[i].rc.left, _boss[i].rc.top, _bossMotion[i]);
