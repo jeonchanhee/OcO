@@ -23,10 +23,17 @@ HRESULT Arrow::init(float x, float y)
 	sprintf_s(str2, "skeletonArcher%d", _index);
 
 	//_arrow[0].img = IMAGEMANAGER->findImage("skeletonArcher");
-	_arrow[0].img = IMAGEMANAGER->addFrameImage(str2, "image/enemy/skeletonArcher(100X80,2X1).bmp", 0, 0, 100, 80, 2, 1, true, RGB(255, 0, 255));
+	/*_arrow[0].img = IMAGEMANAGER->addFrameImage(str2, "image/enemy/skeletonArcher(100X80,2X1).bmp", 0, 0, 100, 80, 2, 1, true, RGB(255, 0, 255));
 	_arrow[1].img = IMAGEMANAGER->addRotateFrameImage(str, "image/enemy/skeletonBow2(150X25,6X1).bmp", 150, 25, 6, 1, true, RGB(255, 0, 255));
-	_arrow[2].img = IMAGEMANAGER->findImage("arrow");
+	_arrow[2].img = IMAGEMANAGER->findImage("arrow");*/
 
+	for (int i = 0; i < 3; i++)
+	{
+		_arrow[i].img = new image;
+	}
+	_arrow[0].img->init("image/enemy/skeletonArcher(100X80,2X1).bmp", 0, 0, 100, 80, 2, 1, true, RGB(255, 0, 255));
+	_arrow[1].img->rotateInit("image/enemy/skeletonBow2(150X25,6X1).bmp", 150, 25, 6, 1, true, RGB(255, 0, 255));
+	_arrow[2].img->rotateInit("image/enemy/arrow(40x10,1x1).bmp", 40, 10, true, RGB(255, 0, 255));
 	int die0[] = { 0 };
 	KEYANIMANAGER->addArrayFrameAnimation("die0", "skelBone", die0, 1, 5, false);
 	int die1[] = { 0 };
@@ -38,7 +45,7 @@ HRESULT Arrow::init(float x, float y)
 	_arrow[0].x = x;
 	//_arrow[1].x = _arrow[0].x + 70;
 	_arrow[1].x = _arrow[0].x + 40;
-	_arrow[2].x = _arrow[1].x - _arrow[2].img->getFrameWidth() / 2 ;
+	_arrow[2].x = _arrow[1].x - _arrow[2].img->getWidth() / 2 ;
 
 	_arrow[0].y = y;
 	_arrow[1].y = _arrow[0].y + 50;

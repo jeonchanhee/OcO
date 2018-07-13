@@ -30,6 +30,7 @@ class RedBat : public Enemy
 
 	bool _diedie;
 	int _dieCount;
+	int _index;
 
 public:
 	RedBat();

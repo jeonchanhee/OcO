@@ -12,7 +12,7 @@ HRESULT playGround::init(void)
 	vStr.resize(4);
 	vStr = { "F","F","F","F" };
 	TXTDATA->txtSave("random.txt", vStr);
-	mode = 던전2;		//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
+	mode = 마을;		//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
 
 	gameNode::init(true);
 	Image_init();
@@ -228,12 +228,12 @@ void playGround::render(void)
 	case 랜덤맵1: case 보스:  case 무기: case 푸드:
 		EFFECTMANAGER->render();
 		SCENEMANAGER->render();	
-		//_player->render();
+		_player->render();
 		break;
 	case 마을:
 		SCENEMANAGER->render();
 		EFFECTMANAGER->render();
-		//_player->render();
+		_player->render();
 		break;
 	case 맵선택:
 		SCENEMANAGER->render();
@@ -243,7 +243,7 @@ void playGround::render(void)
 	default:
 		break;
 	}
-	if (mode != 타이틀 && mode != 맵툴)
+//	if (mode != 타이틀 && mode != 맵툴)
 	{
 		if (_start != 1)
 			_player->render();
@@ -264,7 +264,7 @@ void playGround::render(void)
 	IMAGEMANAGER->render("cursor", UIDC, _ptMouse.x, _ptMouse.y);
 	TIMEMANAGER->render(UIDC);
 
-	//if(mode == 타이틀)
+	if(mode == 타이틀)
 		IMAGEMANAGER->findImage("카메라DC")->render(DC, 54,240,CAMERAMANAGER->getCameraPoint().x, CAMERAMANAGER->getCameraPoint().y, 600, 670);
 
 	CAMERAMANAGER->render(this->getBackBuffer());

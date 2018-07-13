@@ -19,7 +19,7 @@ HRESULT dungeon3Scene::init()
 	chooseMap(4);
 	selectSize(4);
 	mapload();
-	setCamera();
+//	setCamera();
 
 	load();
 

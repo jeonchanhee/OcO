@@ -19,7 +19,7 @@ HRESULT foodScene::init()
 	chooseMap(2);
 	selectSize(2);
 	mapload();
-	setCamera();
+	//setCamera();
 
 	load();
 

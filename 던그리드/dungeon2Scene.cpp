@@ -34,7 +34,7 @@ HRESULT dungeon2Scene::init()
 	chooseMap(3);
 	selectSize(3);
 	mapload();
-	setCamera();
+//	setCamera();
 
 	load();
 

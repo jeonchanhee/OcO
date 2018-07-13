@@ -19,7 +19,7 @@ HRESULT dungeon4Scene::init()
 	chooseMap(5);
 	selectSize(5);
 	mapload();
-	setCamera();
+	//setCamera();
 	
 	load();
 

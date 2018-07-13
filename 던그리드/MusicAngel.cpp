@@ -122,7 +122,7 @@ void MusicAngel::attackMove()
 void MusicAngel::rightAttack(void * obj)
 {
 	MusicAngel* ma = (MusicAngel*)obj;
-
+	if (ma->_diedie || ma->_isDie) return;
 	ma->_img = IMAGEMANAGER->findImage("bansheeIdleAttack");
 	ma->setMusicAngelDirection(MUSICANGEL_RIGHT_MOVE);
 	ma->setMusicAngelMotion(KEYANIMANAGER->findAnimation("musicAngelRightMove"));
@@ -132,7 +132,7 @@ void MusicAngel::rightAttack(void * obj)
 void MusicAngel::leftAttack(void * obj)
 {
 	MusicAngel* ma = (MusicAngel*)obj;
-
+	if (ma->_diedie || ma->_isDie) return;
 	ma->_img = IMAGEMANAGER->findImage("bansheeIdleAttack");
 	ma->setMusicAngelDirection(MUSICANGEL_LEFT_MOVE);
 	ma->setMusicAngelMotion(KEYANIMANAGER->findAnimation("musicAngelLeftMove"));
@@ -151,7 +151,6 @@ void MusicAngel::changeAnimation(MUSICANGELDIRECTION musicAngelDirection)
 	switch (musicAngelDirection)
 	{
 	case MUSICANGEL_RIGHT_MOVE:
-		_isDie = false;
 		_img = IMAGEMANAGER->findImage("bansheeIdleAttack");
 		_musicAngelDirection = MUSICANGEL_RIGHT_MOVE;
 		_musicAngelMotion = KEYANIMANAGER->findAnimation("musicAngelRightMove");
@@ -159,7 +158,6 @@ void MusicAngel::changeAnimation(MUSICANGELDIRECTION musicAngelDirection)
 		_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 		break;
 	case MUSICANGEL_LEFT_MOVE:
-		_isDie = false;
 		_img = IMAGEMANAGER->findImage("bansheeIdleAttack");
 		_musicAngelDirection = MUSICANGEL_LEFT_MOVE;
 		_musicAngelMotion = KEYANIMANAGER->findAnimation("musicAngelLeftMove");
@@ -167,7 +165,6 @@ void MusicAngel::changeAnimation(MUSICANGELDIRECTION musicAngelDirection)
 		_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 		break;
 	case MUSICANGEL_RIGHT_ATTACK:
-		_isDie = false;
 		_img = IMAGEMANAGER->findImage("bansheeIdleAttack");
 		_musicAngelDirection = MUSICANGEL_RIGHT_ATTACK;
 		_musicAngelMotion = KEYANIMANAGER->findAnimation("musicAngelRightAttack");
@@ -175,7 +172,6 @@ void MusicAngel::changeAnimation(MUSICANGELDIRECTION musicAngelDirection)
 		_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 		break;
 	case MUSICANGEL_LEFT_ATTACK:
-		_isDie = false;
 		_img = IMAGEMANAGER->findImage("bansheeIdleAttack");
 		_musicAngelDirection = MUSICANGEL_LEFT_ATTACK;
 		_musicAngelMotion = KEYANIMANAGER->findAnimation("musicAngelLeftAttack");
@@ -183,7 +179,7 @@ void MusicAngel::changeAnimation(MUSICANGELDIRECTION musicAngelDirection)
 		_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 		break;
 	case MUSICANGEL_DIE:
-		_isDie = true;
+	//	_isDie = true;
 		_img = IMAGEMANAGER->findImage("dieEffect");
 		_musicAngelDirection = MUSICANGEL_DIE;
 		_musicAngelMotion = KEYANIMANAGER->findAnimation("musicAngelDie");
@@ -197,6 +193,7 @@ void MusicAngel::hitDamage()
 {
 	if (_currentHP <= 0)
 	{
+		_diedie = true;
 		changeAnimation(MUSICANGEL_DIE);
 	}
 }
