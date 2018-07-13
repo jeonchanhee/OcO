@@ -234,7 +234,7 @@ void playGround::render(void)
 	case ¸¶À»:
 		SCENEMANAGER->render();
 		EFFECTMANAGER->render();
-		_player->render();
+		//_player->render();
 		break;
 	case ¸Ê¼±ÅÃ:
 		SCENEMANAGER->render();
@@ -244,7 +244,11 @@ void playGround::render(void)
 	default:
 		break;
 	}
-	
+	if (mode != Å¸ÀÌÆ² && mode != ¸ÊÅø)
+	{
+		if (_start != 1)
+			_player->render();
+	}
 
 	//SCENEMANAGER->render();
 

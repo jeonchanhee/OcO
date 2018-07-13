@@ -54,7 +54,6 @@ HRESULT townScene::init()
 	_dungeonNum = 11;
 	mapload();
 	setMinimap();
-	_start = 0;
 	_floorNum = 1;
 	_count = 0;
 
@@ -126,8 +125,6 @@ void townScene::render()
 	
 	_minimap->render();
 	dungeonGo();
-	if (_start != 1)
-		_player->render();
 	NPC();
 	if (_ui[0] == true)
 	{
@@ -421,7 +418,7 @@ void townScene::suckDungeon(void* object)
 	T->_suck->stop();
 	T->_suck = KEYANIMANAGER->findAnimation("suck2");
 	T->_suck->start();
-	T->_start = 1;
+	_start = 1;
 }
 
  void townScene::moveDungeon(void* object)
@@ -436,7 +433,7 @@ void townScene::suckDungeon(void* object)
 	 //SCENEMANAGER->changeScene("·£´ý¸Ê1");
 	/* T->_randMap = new RandomDungeon1;
 	 T->_randMap->init();*/
-	 T->_start = 2;
+	 _start = 2;
 	 T->_player->setPlayerX(650);
 	 T->_player->setPlayerY(770);
 }
