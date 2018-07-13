@@ -12,6 +12,10 @@ gameNode::~gameNode()
 
 }
 
+void gameNode::saveData()
+{
+}
+
 // 초기화 함수
 HRESULT gameNode::init(void)  
 {
@@ -127,6 +131,7 @@ LRESULT gameNode::MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lPara
 			{
 			case VK_ESCAPE:
 				//뒤지시겠습니까 사시겠습니까?
+				this->saveData();
 				PostMessage(hWnd, WM_DESTROY, 0, 0);
 				break;
 			}

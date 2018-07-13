@@ -113,13 +113,13 @@ void titleScene::render(void)
 				_titleType = TITLE_START;
 				loadData();
 				
-				int suck[52];
+				/*int suck[52];
 				for (int i = 0; i<52; i++)
 					suck[i] = i;
 				KEYANIMANAGER->addArrayFrameAnimation("suck", "suck", suck, 52, 3, false);
 				_img = IMAGEMANAGER->findImage("suck");
 				_suck = KEYANIMANAGER->findAnimation("suck");
-				_suck->start();
+				_suck->start();*/
 			}
 		}
 		else
@@ -150,10 +150,10 @@ void titleScene::render(void)
 	{
 		//inven();
 		//reward();
-		restaurant();
+		//restaurant();
 		//drawData();
 	}
-	//drawData();
+	drawData();
 	setting();
 
 	if (_select != 0)
@@ -355,6 +355,7 @@ void titleScene::selectData()
 			{
 				if (_select == i + 1)
 				{
+					_fileNum = i;
 					SOUNDMANAGER->stop("title");
 					SCENEMANAGER->changeScene("¸¶À»");
 					break;

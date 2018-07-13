@@ -23,6 +23,8 @@ private:
 	bool _diedie;
 
 	int _dieCount;
+
+	int _index;
 public:
 	BigBat();
 	~BigBat();

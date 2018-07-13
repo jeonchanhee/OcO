@@ -34,14 +34,9 @@ HRESULT dungeon4Scene::init()
 		_route.push_back(2);
 	}
 
-	_vDoor.resize(1);
-
-	_vDoor[0].x = (361 % 25) * TILESIZE;
-	_vDoor[0].y = (361 / 25) * TILESIZE;
-	_vDoor[0].rc = RectMake(_vDoor[0].x, _vDoor[0].y, TILESIZE*4, TILESIZE);
-	_vDoor[0].img = IMAGEMANAGER->findImage("updownDoor");
-	_vDoor[0].dir = DOOR_UPDOWN;
+	doorInit();
 	setDoor();
+
 	if (_mapValue[_dungeonNum] == "F")
 		setMonster();
 
@@ -60,6 +55,22 @@ HRESULT dungeon4Scene::init()
 	return S_OK;
 }
 
+void dungeon4Scene::doorInit()
+{
+	_vDoor.resize(1);
+
+	_vDoor[0].x = (361 % 25) * TILESIZE;
+	_vDoor[0].y = (361 / 25) * TILESIZE;
+	_vDoor[0].rc = RectMake(_vDoor[0].x, _vDoor[0].y, TILESIZE * 4, TILESIZE);
+	_vDoor[0].img = IMAGEMANAGER->findImage("updownDoor");
+	_vDoor[0].dir = DOOR_UPDOWN;
+
+	for (int i = 0; i < 4; i++)
+	{
+		_tiles[361 + i].object = OBJ_DOOR2;
+	}
+}
+
 void dungeon4Scene::update()
 {
 	dungeonScene::update();
@@ -72,17 +83,7 @@ void dungeon4Scene::update()
 		_minimap->changeEnemyXY(idx, (((*_viEnemy)->getX() * 300) / (_tileX*TILESIZE)), (((*_viEnemy)->getY() * 150) / (_tileY*TILESIZE)));
 	}
 	MusicAngelBulletFire();
-
 	_enemyBullet->update();
-	if (!_bigbat->getdiedie())
-	{
-		bigbatbulletFire();
-	}
-	_bigBatBullet->bulletframe("fatherBatBullet2");
-	if (_start2 != 0)
-	{
-		_bigBatBullet->update();
-	}
 }
 void dungeon4Scene::render()
 {

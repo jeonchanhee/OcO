@@ -5,7 +5,7 @@
 
 void dungeonScene::collision()
 {
-	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end();)
+	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); ++_viEnemy)
 	{
 		if (_player->getAttackCheck())
 		{
@@ -15,6 +15,7 @@ void dungeonScene::collision()
 				(*_viEnemy)->setCurrentHp((*_viEnemy)->getCurrentHp() - 10);
 				SOUNDMANAGER->play("hitMonster");
 			}
+
 
 			for (int i = 0; i < _player->getPBullet()->getvPBullet().size();)
 			{
@@ -33,16 +34,25 @@ void dungeonScene::collision()
 			}
 		}
 	}
-	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); )
-	{
-		if ((*_viEnemy)->getIsDie())
-			_viEnemy = _vEnemy.erase(_viEnemy);
-		else
+		for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); )
 		{
-			++_viEnemy;
+			if ((*_viEnemy)->getIsDie())
+			{
+				_viEnemy = _vEnemy.erase(_viEnemy);
+				_minimap->setDieMonster();
+			}
+			else
+			{
+				++_viEnemy;
+			}
 		}
-	}
-
+		if (_minimap->getEnemySize())
+		{
+			for (int i = 0; i < _vEnemy.size(); i++)
+			{
+				_minimap->setEnemyXY(((_vEnemy[i]->getX() * 300) / (_tileX*TILESIZE)), ((_vEnemy[i]->getY() * 150) / (_tileY*TILESIZE)));
+			}
+		}
 }
 
 dungeonScene::dungeonScene() {}
@@ -72,14 +82,7 @@ HRESULT dungeonScene::init(void)
 		_floorName = "2층 : 지하감옥";
 	else if (_floorNum == 3)
 		_floorName = "3층 : 지하감옥";
-
-	_isBoxOpen = false;
-	RandomBoxCreating();
-
-	random = RND->getInt(20);
-
-	_item = new itemManager;
-	_item->init();
+	_vEnemy.clear();
 	return S_OK;
 }
 
@@ -98,9 +101,7 @@ void dungeonScene::update(void)
 	if (_vEnemy.size() == 0)
 	{
 		_mapValue[_dungeonNum] = "T";
-		RandomBoxCreating();
 	}
-	
 }
 
 void dungeonScene::render(void)
@@ -119,7 +120,7 @@ void dungeonScene::render(void)
 		{
 			for (int j = (CAMERAMANAGER->getCameraCenter().x - WINSIZEX / 2) / 96; j < (CAMERAMANAGER->getCameraCenter().x + WINSIZEX / 2) / 96 + 1; ++j)
 			{
-				if (_tiles[i * _temp + j].object == OBJ_NONE) continue;
+				if (_tiles[i * _temp + j].object == OBJ_NONE || _tiles[i*_temp+j].object == OBJ_DOOR2) continue;
 				
 				IMAGEMANAGER->frameRender("map", DC, _tiles[i * _temp + j].rc.left, _tiles[i * _temp + j].rc.top, _tiles[i * _temp + j].objFrameX, _tiles[i * _temp + j].objFrameY);
 			}
@@ -185,22 +186,6 @@ void dungeonScene::render(void)
 		_minimap->render();
 
 	_player->render();
-	if (_vEnemy.size() == 0)
-	{
-		_randomBox.img->frameRender(DC, _randomBox.rc.left, _randomBox.rc.top);
-	}
-
-	if (_isBoxOpen)
-	{
-		for (int i = 0; i < 19; i++)
-		{
-			if (random == i)
-			{
-				_item->getItem()[i]->getItem().image[0]->render(DC, _randomBox.rc.left, _randomBox.rc.top);
-			}
-			
-		}
-	}
 }
 
 void dungeonScene::doorInit(void)
@@ -329,6 +314,7 @@ void dungeonScene::setMinimap()
 		}
 	}
 	_minimap->setMinimap(tempImg->getMemDC());
+
 	_minimap->setPlayerXY(((300 * _player->getPlayerX()) / (_tileX * TILESIZE)), ((150 * _player->getPlayerY()) / (_tileY * TILESIZE)));
 	if (_vPortal.size() > 0)
 	{
@@ -450,7 +436,6 @@ void dungeonScene::setMinimapXY()
 
 	for (int i = 0; i < 2; i++)
 		_movePortal[i][0] = _movePortal[i][1] = -1;
-	
 }
 
 void dungeonScene::setDoorMinimap()
@@ -806,6 +791,30 @@ void dungeonScene::setDoor()
 
 void dungeonScene::doorRender()
 {
+	/*int count = 0;
+	for (int i = 0; i < _vDoor.size(); i++)
+	{
+		if (_vDoor[i].state == DOOR_CLOSE)
+		{
+			if (_vDoor[i].dir == DOOR_UPDOWN)
+			{
+				if (_vDoor[i].img->getFrameX() >= _vDoor[i].img->getMaxFrameX())
+				{
+					count++;
+				}
+			}
+			else
+			{
+				if (_vDoor[i].img->getFrameY() >= _vDoor[i].img->getMaxFrameY())
+					count++;
+			}
+		}
+	}
+
+	if(count == _vDoor.size()) return;*/
+
+	if (_mapValue[_dungeonNum] == "T") return;
+
 	for (int i = 0; i < _vDoor.size(); i++)
 	{
 		_vDoor[i].count++;
@@ -1034,7 +1043,7 @@ void dungeonScene::bossBulletCollision()
 //음표요정 총알
 void dungeonScene::MusicAngelBulletFire()
 {
-	if(_musicAngel == NULL || _musicAngel->getDieDie()) return;
+	if (_musicAngel == NULL || _musicAngel->getDieDie()) return;
 
 	musicAngelBulletCollision();
 	if (!(_count % 200))
@@ -1129,7 +1138,7 @@ void dungeonScene::bigbatbulletFire()
 			_start2 = 0;
 		}
 
-		if (!(_count2 % 50))
+		if (!(_count2 % 1))
 		{
 			_start2 = 1;
 			_count2 = 0;
@@ -1259,44 +1268,4 @@ void dungeonScene::redBatBulletCollision()
 	}
 }
 
-void dungeonScene::RandomBoxCreating()
-{
-	_randomBox.img = IMAGEMANAGER->findImage("일반상자1");
-	_randomBox.x = WINSIZEX / 2;
-	_randomBox.y = WINSIZEY / 2;
-	_randomBox.rc = RectMakeCenter(_randomBox.x, _randomBox.y, _randomBox.img->getFrameWidth(), _randomBox.img->getFrameHeight());
-	
-	if (!_isBoxOpen)
-	{
-		_randomBox.img = IMAGEMANAGER->findImage("일반상자1");
-		_randomBox.img->setFrameY(0);
-		_randomBox.img->setFrameX(0);
-	}
-	else
-	{
-		_randomBox.img = IMAGEMANAGER->findImage("일반상자1");
-		_randomBox.img->setFrameY(0);
-		_randomBox.img->setFrameX(1);
-	}
 
-	RECT tmep;
-	if (IntersectRect(&tmep, &_randomBox.rc, &_player->getRc()))
-	{
-		if (KEYMANAGER->isOnceKeyDown('F'))
-		{
-			_isBoxOpen = true;
-		}
-	}
-
-	/*if (_isBoxOpen)
-	{
-		int random = RND->getInt(20);
-		for (int i = 0; i < 20; i++)
-		{
-			if (random == i)
-			{
-				_item->getvItem()[i * 3]->render();
-			}
-		}
-	}*/
-}

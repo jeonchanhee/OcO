@@ -23,7 +23,7 @@ class Cow : public Enemy
 	bool _hit;
 	int _dieCount;
 	bool _diedie;
-
+	int _index;
 public:
 	Cow();
 	~Cow();
