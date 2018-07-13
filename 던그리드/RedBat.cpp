@@ -304,6 +304,11 @@ void RedBat::redBatDieMotion(void * obj)
 	c->_diedie = true;
 }
 
+void RedBat::redBatDieMotionL(void * obj)
+{
+	RedBat* c = (RedBat *)obj;
+	c->_diedie = true;
+}
 
 
 void RedBat::changeAnimation(REDBATDIRECTION direction)
