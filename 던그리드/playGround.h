@@ -38,6 +38,7 @@ private:
 	itemManager* _im;
 	titleScene* _title;
 	townScene* _town;
+	weaponScene* _wc;
 	RandomDungeon1* _randomScene1;
 
 public:

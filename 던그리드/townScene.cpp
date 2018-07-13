@@ -142,7 +142,7 @@ void townScene::render()
 	if (_ui[2] == true)
 	{
 		training();
-		_trainStat[0] = _player->getLv() - _trainStat[1] - _trainStat[2] - _trainStat[3] - _trainStat[4] - _trainStat[5];
+		_trainStat[0] = _player->getLv() * 2 - _trainStat[1] - _trainStat[2] - _trainStat[3] - _trainStat[4] - _trainStat[5];
 	}
 }
 
@@ -332,7 +332,7 @@ void townScene::training()
 	if (KEYMANAGER->isOnceKeyDown('R'))
 	{
 		_trainStat[1] = _trainStat[2] = _trainStat[3] = _trainStat[4] = _trainStat[5] = 0;
-		_trainStat[0] = _player->getLv() - _trainStat[1] - _trainStat[2] - _trainStat[3] - _trainStat[4] - _trainStat[5];
+		_trainStat[0] = _player->getLv()*2 - _trainStat[1] - _trainStat[2] - _trainStat[3] - _trainStat[4] - _trainStat[5];
 	}
 }
 
@@ -414,6 +414,7 @@ void townScene::dungeonGo()
 void townScene::suckDungeon(void* object)
 {
 	townScene* T = (townScene*)object;
+	T->resetShop();
 	T->_suck->stop();
 	T->_suck = KEYANIMANAGER->findAnimation("suck2");
 	T->_suck->start();

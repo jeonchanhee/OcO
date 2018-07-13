@@ -12,6 +12,7 @@ HRESULT playGround::init(void)
 	vStr.resize(4);
 	vStr = { "F","F","F","F" };
 	TXTDATA->txtSave("random.txt", vStr);
+
 	mode = 마을;		//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
 //	rectRotate(IMAGEMANAGER->findImage("검01"), 100, 100);
 
@@ -33,6 +34,8 @@ HRESULT playGround::init(void)
 	_title = new titleScene;
 	_town->setImLink(_im);
 	_title->setImLink(_im);
+	_wc = new weaponScene;
+	_wc->setTcLink(_town);
 	_player->getInven()->setImLink(_im);
 
 	SCENEMANAGER->setPlayerAddressLink(_player);
@@ -50,7 +53,7 @@ HRESULT playGround::init(void)
 	SCENEMANAGER->addScene("던전7", new dungeon7Scene);
 	SCENEMANAGER->addScene("던전8", new dungeon8Scene);
 	SCENEMANAGER->addScene("마을",_town);
-	SCENEMANAGER->addScene("무기", new weaponScene);
+	SCENEMANAGER->addScene("무기", _wc);
 	SCENEMANAGER->addScene("푸드", new foodScene);
 	SCENEMANAGER->addScene("보스", new bossScene);
 

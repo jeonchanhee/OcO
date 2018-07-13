@@ -148,12 +148,10 @@ void titleScene::render(void)
 	}
 	else
 	{
-		//inven();
 		//reward();
-		restaurant();
 		//drawData();
 	}
-	//drawData();
+	drawData();
 	setting();
 
 	if (_select != 0)
