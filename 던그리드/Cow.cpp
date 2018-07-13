@@ -13,6 +13,10 @@ Cow::~Cow()
 
 HRESULT Cow::init(float x, float y)
 {
+	static int a = 0;
+	a += 1;
+	_index = a;
+
 	_hit = false;
 	_x = x;
 	_y = y;
@@ -26,17 +30,23 @@ HRESULT Cow::init(float x, float y)
 	KEYANIMANAGER->addCoordinateFrameAnimation("cowLeftMove", "cowIdleChargeAttack", 8, 13, 5, false, true);
 
 	//CHARGE
-	KEYANIMANAGER->addCoordinateFrameAnimation("cowRightCharge", "cowIdleChargeAttack", 16, 23, 5, false, false, rightCharge, this);
-	KEYANIMANAGER->addCoordinateFrameAnimation("cowLeftCharge", "cowIdleChargeAttack", 24, 31, 5, false, false, leftCharge, this);
+	char str[50];
+	sprintf_s(str, "cowRightCharge%d", _index);
+	KEYANIMANAGER->addCoordinateFrameAnimation(str, "cowIdleChargeAttack", 16, 23, 5, false, false, rightCharge, this);
+	sprintf_s(str, "cowLeftCharge%d", _index);
+	KEYANIMANAGER->addCoordinateFrameAnimation(str, "cowIdleChargeAttack", 24, 31, 5, false, false, leftCharge, this);
 
 	//ATTACK
-	KEYANIMANAGER->addCoordinateFrameAnimation("cowRightAttack", "cowIdleChargeAttack", 32, 38, 5, false, false, rightAttack, this);
-	KEYANIMANAGER->addCoordinateFrameAnimation("cowLeftAttack", "cowIdleChargeAttack", 40, 46, 5, false, false, leftAttack, this);
+	sprintf_s(str, "cowRightAttack%d", _index);
+	KEYANIMANAGER->addCoordinateFrameAnimation(str, "cowIdleChargeAttack", 32, 38, 5, false, false, rightAttack, this);
+	sprintf_s(str, "cowLeftAttack%d", _index);
+	KEYANIMANAGER->addCoordinateFrameAnimation(str, "cowIdleChargeAttack", 40, 46, 5, false, false, leftAttack, this);
 
 	//DIE
 	//KEYANIMANAGER->addCoordinateFrameAnimation("cowDie", "dieEffect", 2, 10, 5, false, false);
 	int cowDie[] = { 47};
-	KEYANIMANAGER->addArrayFrameAnimation("cowDie", "cowIdleChargeAttack", cowDie, 1, 5, false, dieMotion,this);
+	sprintf_s(str, "cowDie%d", _index);
+	KEYANIMANAGER->addArrayFrameAnimation(str, "cowIdleChargeAttack", cowDie, 1, 5, false, dieMotion,this);
 
 	//_cowMotion = KEYANIMANAGER->findAnimation("cowLeftMove");
 	_cowMotion = KEYANIMANAGER->findAnimation("cowRightMove");
@@ -67,14 +77,14 @@ void Cow::update()
 	_progressBar->update();
 
 	_count++;
-	if (!(_count % 250))
+	if (!(_count % 250) && !_diedie)
 	{
 		if (_cowDirection == COW_RIGHT_MOVE)
 			changeAnimation(COW_RIGHT_CHARGE);
 		if (_cowDirection == COW_LEFT_MOVE)
 			changeAnimation(COW_LEFT_CHARGE);
 	}
-	if (!(_count % 300))
+	if (!(_count % 300) && !_diedie)
 	{
 		if (_cowDirection == COW_RIGHT_MOVE)
 			changeAnimation(COW_RIGHT_ATTACK);
@@ -124,6 +134,7 @@ void Cow::render()
 
 void Cow::move()
 {
+	if (_diedie) return;
 	RECT rcCollision;
 
 	int tileIndex[2];
@@ -237,6 +248,7 @@ void Cow::rightCharge(void * obj)
 void Cow::leftCharge(void * obj)
 {
 	Cow* c = (Cow*)obj;
+	if (c->_diedie) return;
 	c->_img = IMAGEMANAGER->findImage("cowIdleChargeAttack");
 	if (_dungeonNum == 6)
 	{
@@ -254,7 +266,7 @@ void Cow::leftCharge(void * obj)
 void Cow::rightAttack(void * obj)
 {
 	Cow* c = (Cow*)obj;
-
+	if (c->_diedie) return;
 	c->_img = IMAGEMANAGER->findImage("cowIdleChargeAttack");
 	c->setCowDirection(COW_RIGHT_MOVE);
 	c->setCowMotion(KEYANIMANAGER->findAnimation("cowRightMove"));
@@ -264,7 +276,7 @@ void Cow::rightAttack(void * obj)
 void Cow::leftAttack(void * obj)
 {
 	Cow* c = (Cow*)obj;
-
+	if (c->_diedie)return;
 	c->_img = IMAGEMANAGER->findImage("cowIdleChargeAttack");
 	c->setCowDirection(COW_LEFT_MOVE);
 	c->setCowMotion(KEYANIMANAGER->findAnimation("cowLeftMove"));
@@ -283,7 +295,6 @@ void Cow::changeAnimation(COWDIRECTION cowDirection)
 	switch (cowDirection)
 	{
 	case COW_RIGHT_MOVE:
-		_isDie = false;
 		_img = IMAGEMANAGER->findImage("cowIdleChargeAttack");
 		_cowDirection = COW_RIGHT_MOVE;
 		_cowMotion->stop();
@@ -293,7 +304,6 @@ void Cow::changeAnimation(COWDIRECTION cowDirection)
 		_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 		break;
 	case COW_LEFT_MOVE:
-		_isDie = false;
 		_img = IMAGEMANAGER->findImage("cowIdleChargeAttack");
 		_cowDirection = COW_LEFT_MOVE;
 		_cowMotion->stop();
@@ -303,42 +313,43 @@ void Cow::changeAnimation(COWDIRECTION cowDirection)
 		_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 		break;
 	case COW_RIGHT_CHARGE:
-		_isDie = false;
 		_img = IMAGEMANAGER->findImage("cowIdleChargeAttack");
 		_cowDirection = COW_RIGHT_CHARGE;
 		_cowMotion->stop();
 		_hit = false;
-		_cowMotion = KEYANIMANAGER->findAnimation("cowRightCharge");
+		char str[50];
+		sprintf_s(str, "cowRightCharge%d", _index);
+		_cowMotion = KEYANIMANAGER->findAnimation(str);
 		_cowMotion->start();
 		_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 		break;
 	case COW_LEFT_CHARGE:
-		_isDie = false;
 		_img = IMAGEMANAGER->findImage("cowIdleChargeAttack");
 		_cowDirection = COW_LEFT_CHARGE;
 		_cowMotion->stop();
 		_hit = false;
-		_cowMotion = KEYANIMANAGER->findAnimation("cowLeftCharge");
+		sprintf_s(str, "cowLeftCharge%d", _index);
+		_cowMotion = KEYANIMANAGER->findAnimation(str);
 		_cowMotion->start();
 		_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 		break;
 	case COW_RIGHT_ATTACK:
-		_isDie = false;
 		_img = IMAGEMANAGER->findImage("cowIdleChargeAttack");
 		_cowDirection = COW_RIGHT_ATTACK;
 		_cowMotion->stop();
 		_hit = false;
-		_cowMotion = KEYANIMANAGER->findAnimation("cowRightAttack");
+		sprintf_s(str, "cowRightAttack%d", _index);
+		_cowMotion = KEYANIMANAGER->findAnimation(str);
 		_cowMotion->start();
 		_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 		break;
 	case COW_LEFT_ATTACK:
-		_isDie = false;
 		_img = IMAGEMANAGER->findImage("cowIdleChargeAttack");
 		_cowDirection = COW_LEFT_ATTACK;
 		_cowMotion->stop();
 		_hit = false;
-		_cowMotion = KEYANIMANAGER->findAnimation("cowLeftAttack");
+		sprintf_s(str, "cowLeftAttack%d", _index);
+		_cowMotion = KEYANIMANAGER->findAnimation(str);
 		_cowMotion->start();
 		_rc = RectMakeCenter(_x,_y,_img->getFrameWidth(),_img->getFrameHeight());
 		break;
@@ -346,7 +357,8 @@ void Cow::changeAnimation(COWDIRECTION cowDirection)
 		_img = IMAGEMANAGER->findImage("cowIdleChargeAttack");
 		_cowDirection = COW_DIE;
 		_cowMotion->stop();
-		_cowMotion = KEYANIMANAGER->findAnimation("cowDie");
+		sprintf_s(str, "cowDie%d", _index);
+		_cowMotion = KEYANIMANAGER->findAnimation(str);
 		_cowMotion->start();
 		_rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
 		break;

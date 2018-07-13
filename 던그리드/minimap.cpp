@@ -13,6 +13,9 @@ minimap::~minimap()
 
 HRESULT minimap::init(bool isDungeon)
 {
+	_vEnemyIcon.clear();
+	_vDoorIcon.clear();
+
 	_isDungeon = isDungeon;
 	if (_isDungeon)
 		_mapX = 300, _mapY = 150;
@@ -136,9 +139,19 @@ void minimap::changeEnemyXY(int idx, float x, float y)
 	_vEnemyIcon[idx].y = y;
 }
 
-void minimap::setDieMonster(int idx)
+void minimap::setDieMonster()
 {
-	_vEnemyIcon[idx].die = true;
+	//_vEnemyIcon[idx].die = true;
+	if (_vEnemyIcon.size() != 0)
+		_vEnemyIcon.clear();
+}
+
+bool minimap::getEnemySize()
+{
+	if (_vEnemyIcon.size() > 0)
+		return false;
+	else
+		return true;
 }
 
 void minimap::setDoorXY(float x, float y, bool height)

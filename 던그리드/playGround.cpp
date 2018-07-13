@@ -12,8 +12,7 @@ HRESULT playGround::init(void)
 	vStr.resize(4);
 	vStr = { "F","F","F","F" };
 	TXTDATA->txtSave("random.txt", vStr);
-
-	mode = 마을;		//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
+	mode = 던전2;		//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
 
 	gameNode::init(true);
 	Image_init();
@@ -323,3 +322,52 @@ void playGround::render(void)
 	// 그리고 모든 렌더의 hdc 는 CAMERAMANAGER->getCameraDC()->getMemDC() 로 해주어야함 !~~!!$!$!#ㄸ!#ㄸ!$!$#@$!@#@!
 }
  
+
+void playGround::saveData()
+{
+	vector<string> vStr = TXTDATA->txtLoad("data.txt");
+	vector<tagData> vData;
+
+	vData.clear();
+	vData.resize(3);
+
+	for (int i = 0; i < 3; i++)
+	{
+		vData[i].idx = -1;
+	}
+
+	for (int i = 0; i < vStr.size() / 6; i++)
+	{
+		int idx = atoi(vStr[i * 6].c_str());
+		vData[idx].idx = idx;
+		vData[idx].hour = atoi(vStr[i * 6 + 1].c_str());
+		vData[idx].min = atoi(vStr[i * 6 + 2].c_str());
+		vData[idx].floor = atoi(vStr[i * 6 + 3].c_str());
+		vData[idx].gold = atoi(vStr[i * 6 + 4].c_str());
+		vData[idx].dash = atoi(vStr[i * 6 + 5].c_str());
+	}
+
+	if (vData[_fileNum].idx == -1)
+	{
+		vData[_fileNum].idx = _fileNum;
+		vData[_fileNum].hour = TIMEMANAGER->getWorldTime() / 3600;
+		vData[_fileNum].min = TIMEMANAGER->getWorldTime() / 60;
+		vData[_fileNum].floor = _floorNum;
+		vData[_fileNum].gold = _player->getGold();
+		vData[_fileNum].dash = 2;
+	}
+
+	vector<string> vString;
+	for (int i = 0; i < 3; i++)
+	{
+		if (vData[i].idx == -1)continue;
+		char str[128];
+		vString.push_back(itoa(vData[i].idx, str, 10));
+		vString.push_back(itoa(vData[i].hour, str, 10));
+		vString.push_back(itoa(vData[i].min, str, 10));
+		vString.push_back(itoa(vData[i].floor, str, 10));
+		vString.push_back(itoa(vData[i].gold, str, 10));
+		vString.push_back(itoa(vData[i].dash, str, 10));
+	}
+	TXTDATA->txtSave("data.txt", vString);
+}

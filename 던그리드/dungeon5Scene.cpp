@@ -55,6 +55,28 @@ HRESULT dungeon5Scene::init()
 		_route.push_back(10);
 	}
 
+	doorInit();
+	setDoor();
+
+	if (_mapValue[_dungeonNum] == "F")
+		setMonster();
+	setMinimap();
+	
+	for (int i = 0; i < _vEnemy.size(); i++)
+	{
+		_minimap->setEnemyXY(((_vEnemy[i]->getX() * 300) / (_tileX*TILESIZE)), ((_vEnemy[i]->getY() * 150) / (_tileY*TILESIZE)));
+	}
+	setDoorMinimap();
+
+	_player->setPlayerX(_vDoor[0].x + TILESIZE * 2);
+	_player->setPlayerY(_vDoor[0].y);
+
+//	_mapValue[4] = "T";
+	return S_OK;
+}
+
+void dungeon5Scene::doorInit()
+{
 	_vDoor.resize(3);
 
 	_vDoor[0].x = (850 % 50) * TILESIZE, _vDoor[0].y = (850 / 50) * TILESIZE;
@@ -74,22 +96,12 @@ HRESULT dungeon5Scene::init()
 	_vDoor[2].img = IMAGEMANAGER->findImage("rightDoor");
 	_vDoor[2].dir = DOOR_RIGHT;
 
-	setDoor();
-	if (_mapValue[_dungeonNum] == "F")
-		setMonster();
-	setMinimap();
-	
-	for (int i = 0; i < _vEnemy.size(); i++)
+	for (int i = 0; i < 4; i++)
 	{
-		_minimap->setEnemyXY(((_vEnemy[i]->getX() * 300) / (_tileX*TILESIZE)), ((_vEnemy[i]->getY() * 150) / (_tileY*TILESIZE)));
+		_tiles[850 + i * 50].object = OBJ_DOOR2;
+		_tiles[448 + i * 50].object = OBJ_DOOR2;
+		_tiles[1375 + i].object = OBJ_DOOR2;
 	}
-	setDoorMinimap();
-
-	_player->setPlayerX(_vDoor[0].x + TILESIZE * 2);
-	_player->setPlayerY(_vDoor[0].y);
-
-//	_mapValue[4] = "T";
-	return S_OK;
 }
 
 void dungeon5Scene::update()
@@ -104,35 +116,6 @@ void dungeon5Scene::update()
 	}
 	MusicAngelBulletFire();
 	_enemyBullet->update();
-
-		if (!_bigbat->getdiedie())
-	{
-		bigbatbulletFire();
-	}
-	_bigBatBullet->bulletframe("fatherBatBullet2");
-	if (_start2 != 0)
-	{
-		_bigBatBullet->update();
-	}
-	if (!_bigRedBat->getdiedie())
-	{
-		bigRadbatbulletFire();
-	}
-	else
-	{
-		_start = 1;
-	}
-
-		for (int i = 0; i < 20; i++)
-		{
-			_bigRadBatBullet[i]->bulletframe("fatherBatBullet2");
-			if (_start == 1) 
-				_bigRadBatBullet[i]->update();
-		}
-	
-	redBatBullet();
-	_radBatBullet->bulletframe("fatherBatBullet2");
-	_radBatBullet->update();
 }
 
 void dungeon5Scene::render()
