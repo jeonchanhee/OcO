@@ -9,6 +9,7 @@ HRESULT cameraManager::init()
 	
 
 	_cameraDC = IMAGEMANAGER->addImage("카메라DC", 600, 1080,true,RGB(0,0,0));
+	//_cameraDC = IMAGEMANAGER->addImage("카메라DC", WINSIZEX, WINSIZEY, true, RGB(0, 0, 0));
 	_point = PointMake(0, 0);
 	//_cameraDC2 = IMAGEMANAGER->addImage("카메라DC2", BACKGROUNDSIZEX, BACKGROUNDSIZEY);
 	//_cameraX = 0; _cameraY = 0;
@@ -69,6 +70,15 @@ void cameraManager::render(image* img)
 		_camera->getMemDC(), 0, 0, WINSIZEX, WINSIZEY, RGB(0, 0, 0));
 }
 
+void cameraManager::cameraRender(HDC hdc)
+{
+	GdiTransparentBlt(hdc, 54, 240, 600, 670,
+		_cameraDC->getMemDC(), CAMERAMANAGER->getCameraPoint().x, CAMERAMANAGER->getCameraPoint().y, 600, 670, RGB(0, 0, 0));
+	//RectangleMake(hdc, 100, 100, 100, 100);
+	//_cameraDC->render(hdc, 54, 240, _center.x, _center.y, 600, 670);
+		//IMAGEMANAGER->findImage("카메라DC")->render(UIDC, 54, 240, CAMERAMANAGER->getCameraPoint().x, CAMERAMANAGER->getCameraPoint().y, 600, 670);
+}
+
 void cameraManager::setCameraCenter(POINT point)
 {
 	_center.x = point.x;
@@ -89,12 +99,12 @@ void cameraManager::setCameraPoint(POINT point)
 	_point.y = point.y;
 
 	//if (_isMapSet)
-	{
-		if (_point.x <= WINSIZEX / 2) _point.x = WINSIZEX / 2;
-		if (_point.x >= _tileX * 96 - WINSIZEX / 2) _point.x = _tileX * 96 - WINSIZEX / 2;
-		if (_point.y <= WINSIZEY / 2) _point.y = WINSIZEY / 2;
-		if (_point.y >= _tileY * 96 - WINSIZEY / 2) _point.y = _tileY * 96 - WINSIZEY / 2;
-	}
+	//{
+	//	if (_point.x <= WINSIZEX / 2) _point.x = WINSIZEX / 2;
+	//	if (_point.x >= _tileX * 96 - WINSIZEX / 2) _point.x = _tileX * 96 - WINSIZEX / 2;
+	//	if (_point.y <= WINSIZEY / 2) _point.y = WINSIZEY / 2;
+	//	if (_point.y >= _tileY * 96 - WINSIZEY / 2) _point.y = _tileY * 96 - WINSIZEY / 2;
+	//}
 }
 
 //주석자제  쓰고있는 거에요 ~

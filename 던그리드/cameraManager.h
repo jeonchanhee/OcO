@@ -50,6 +50,7 @@ public:
 
 	void render(void);
 	void render(image* img);
+	void cameraRender(HDC hdc);
 
 	HDC getCameraDC(void) { return _camera->getMemDC(); }
 	HDC getCameraDC2(void) { return _cameraDC->getMemDC(); }

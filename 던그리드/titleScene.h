@@ -24,7 +24,6 @@ class titleScene : public gameNode
 	image* _img;
 	animation* _abird0, *_abird1;
 	animation* _suck;
-	animation* _rest;
 	RECT _button[3];
 
 	vector<tagData> _vData;
@@ -45,9 +44,9 @@ public:
 	virtual void update(void);
 	virtual void render(void);
 
-	void inven();
+	//void inven();
 
-	void restaurant();
+	//void restaurant();
 
 	void reward();
 

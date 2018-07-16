@@ -819,10 +819,13 @@ void Item::setFood(const char * FoodName, int value)
 		_item.rc[i] = RectMake(_item.x + i * 300, _item.y, _item.image[i]->getWidth(),
 			_item.image[i]->getHeight());
 
+		
+
 		if (value == 1 && i == 0)
 		{
+			_item.name = "토마토수프";
 			_item.addMaxHp = 4;				// 최대체력 증가
-			_item.hpRecovery = 4.0f;		// 체력회복
+			_item.hpRecovery = 10;		// 체력회복
 			_item.ad = 4.0f;				// 공격력 증가.
 			_item.attackSpeed = 4.0f;		// 공속증가
 			_item.price = 250;				// 음식 가격
@@ -830,8 +833,9 @@ void Item::setFood(const char * FoodName, int value)
 
 		if (value == 1 && i == 1)
 		{
+			
 			_item.addMaxHp = 5;				// 최대체력 증가
-			_item.hpRecovery = 5.0f;		// 체력회복
+			_item.hpRecovery = 15;		// 체력회복
 			_item.criticalPersent = 5.0f;	// 크리율 증가
 			_item.evasionPersent = 5.0f;	// 회피율 증가
 			_item.price = 300;				// 음식 가격
@@ -839,8 +843,9 @@ void Item::setFood(const char * FoodName, int value)
 
 		if (value == 1 && i == 2)
 		{
+			
 			_item.addMaxHp = 6;				// 최대체력 증가
-			_item.hpRecovery = 6.0f;		// 체력회복
+			_item.hpRecovery = 20;		// 체력회복
 			_item.attackSpeed = 6.0f;		// 공속증가
 			_item.moveMentSpeed = 6.0f;		// 이동속도 증가
 			_item.price = 350;				// 음식 가격
@@ -848,8 +853,9 @@ void Item::setFood(const char * FoodName, int value)
 
 		if (value == 2 && i == 0)
 		{
+			_item.name = "김치찌개";
 			_item.addMaxHp = 7;				// 최대체력 증가
-			_item.hpRecovery = 7.0f;		// 체력회복
+			_item.hpRecovery = 15;		// 체력회복
 			_item.evasionPersent = 7.0f;	// 회피율 증가
 			_item.moveMentSpeed = 7.0f;		// 이동속도 증가
 			_item.price = 400;				// 음식 가격
@@ -874,8 +880,9 @@ void Item::setFood(const char * FoodName, int value)
 		}
 		if (value == 3 && i == 0)
 		{
+			_item.name = "리조또";
 			_item.addMaxHp = 10;			// 최대체력 증가
-			_item.hpRecovery = 10.0f;		// 체력회복
+			_item.hpRecovery = 20;		// 체력회복
 			_item.ad = 10.0f;				// 공격력 증가.
 			_item.attackSpeed = 10.0f;		// 공속증가
 			_item.moveMentSpeed = 10.0f;	// 이동속도 증가
@@ -900,8 +907,9 @@ void Item::setFood(const char * FoodName, int value)
 		}
 		if (value == 4 && i == 0)
 		{
+			_item.name = "떡볶이";
 			_item.addMaxHp = 10;			// 최대체력 증가
-			_item.hpRecovery = 10.0f;		// 체력회복
+			_item.hpRecovery = 25;		// 체력회복
 			_item.ad = 5.0f;				// 공격력 증가.
 			_item.attackSpeed = 5.0f;		// 공속증가
 			_item.criticalPersent = 5.0f;	// 크리율 증가

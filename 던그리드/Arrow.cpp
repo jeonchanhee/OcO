@@ -141,12 +141,12 @@ void Arrow::render()
 		}
 	}
 
-	if (KEYMANAGER->isToggleKey(VK_SPACE))
+	/*if (KEYMANAGER->isToggleKey(VK_SPACE))
 		Rectangle(DC, _arrow[0].rc.left, _arrow[0].rc.top, _arrow[0].rc.right, _arrow[0].rc.bottom);
 	if (KEYMANAGER->isToggleKey('N'))
 	{
 		Rectangle(DC, _arrow[2].rc.left, _arrow[2].rc.top, _arrow[2].rc.right, _arrow[2].rc.bottom);
-	}
+	}*/
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	//if (_currentHP == 0)

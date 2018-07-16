@@ -12,7 +12,7 @@ HRESULT playGround::init(void)
 	vStr.resize(4);
 	vStr = { "F","F","F","F" };
 	TXTDATA->txtSave("random.txt", vStr);
-	mode = 마을;		//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
+	mode = 타이틀;		//본인이 편집하는 부분으로 이넘에 추가하고 수정해서 사용하기!!
 
 	gameNode::init(true);
 	Image_init();
@@ -260,15 +260,17 @@ void playGround::render(void)
 
 		// 이 아래로도 건들지 마시오
 		/////////////////////////////////////////////////////////////////////////////////////////////
-		IMAGEMANAGER->render("cursor", UIDC, _ptMouse.x, _ptMouse.y);
-		TIMEMANAGER->render(UIDC);
+		//IMAGEMANAGER->render("cursor", UIDC, _ptMouse.x, _ptMouse.y);
+		//TIMEMANAGER->render(UIDC);
 
-		if (mode == 타이틀)
-			IMAGEMANAGER->findImage("카메라DC")->render(DC, 54, 240, CAMERAMANAGER->getCameraPoint().x, CAMERAMANAGER->getCameraPoint().y, 600, 670);
-
-		CAMERAMANAGER->render(this->getBackBuffer());
-		this->getBackBuffer()->render(getHDC(), 0, 0, CAMERAMANAGER->getCameraCenter().x - WINSIZEX / 2, CAMERAMANAGER->getCameraCenter().y - WINSIZEY / 2, WINSIZEX, WINSIZEY);
-		//IMAGEMANAGER->render("cursor", getHDC(), _ptMouse.x, _ptMouse.y);
+	//if(mode == 타이틀)
+	//IMAGEMANAGER->findImage("카메라DC")->render(UIDC, 54,240,CAMERAMANAGER->getCameraPoint().x, CAMERAMANAGER->getCameraPoint().y, 600, 670);
+	//->render(UIDC, 54, 240, CAMERAMANAGER->getCameraPoint().x, CAMERAMANAGER->getCameraPoint().y, 600, 670);
+	CAMERAMANAGER->cameraRender(UIDC);
+	IMAGEMANAGER->render("cursor", UIDC, _ptMouse.x, _ptMouse.y);
+	CAMERAMANAGER->render(this->getBackBuffer());
+	this->getBackBuffer()->render(getHDC(), 0, 0, CAMERAMANAGER->getCameraCenter().x - WINSIZEX / 2, CAMERAMANAGER->getCameraCenter().y - WINSIZEY / 2, WINSIZEX, WINSIZEY);
+	//IMAGEMANAGER->render("cursor", getHDC(), _ptMouse.x, _ptMouse.y);
 
 		//흰색도화지 한 장 깔아둔다
 		//PatBlt(DC, 0, 0, WINSIZEX, WINSIZEY, WHITENESS); // 카메라 매니저 DC -> getMemDC 로 바꾸었습니다.
@@ -352,6 +354,15 @@ void playGround::saveData()
 		vData[_fileNum].idx = _fileNum;
 		vData[_fileNum].hour = TIMEMANAGER->getWorldTime() / 3600;
 		vData[_fileNum].min = TIMEMANAGER->getWorldTime() / 60;
+		vData[_fileNum].floor = _floorNum;
+		vData[_fileNum].gold = _player->getGold();
+		vData[_fileNum].dash = 2;
+	}
+	else
+	{
+		vData[_fileNum].idx += _fileNum;
+		vData[_fileNum].hour += TIMEMANAGER->getWorldTime() / 3600;
+		vData[_fileNum].min += TIMEMANAGER->getWorldTime() / 60;
 		vData[_fileNum].floor = _floorNum;
 		vData[_fileNum].gold = _player->getGold();
 		vData[_fileNum].dash = 2;
