@@ -230,7 +230,6 @@ void Player::render()
 		SelectObject(UIDC, oldFont);
 		DeleteObject(font);
 	}
-	}
 }
 
 void Player::keyInput()

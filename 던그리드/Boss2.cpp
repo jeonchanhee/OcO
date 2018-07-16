@@ -163,6 +163,8 @@ void Boss2::update()
 	//KEYANIMANAGER->update();
 	for (int i = 0; i < 3; i++)
 		_boss[i].rc = RectMakeCenter(_boss[i].x, _boss[i].y, _boss[i].img->getFrameWidth(), _boss[i].img->getFrameHeight());	
+
+	EFFECTMANAGER->update();
 }
 
 void Boss2::render()
@@ -197,6 +199,8 @@ void Boss2::render()
 	//char str[128];
 	//sprintf_s(str, "%f %f", _boss[1].x, _boss[1].y);
 	//TextOut(DC, 100, 100, str, strlen(str));
+
+	EFFECTMANAGER->render();
 }
 
 void Boss2::frameMove()

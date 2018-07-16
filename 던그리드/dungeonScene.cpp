@@ -179,9 +179,9 @@ void dungeonScene::render(void)
 		//{
 		//	_mapValue[_dungeonNum] = "T";
 		//}
-	char str[128];
+	/*char str[128];
 	sprintf_s(str, "¸Ê : %d, °ñµå : %d", _dungeonNum, _player->getGold());
-	TextOut(DC, 100, 100, str, strlen(str));
+	TextOut(DC, 100, 100, str, strlen(str));*/
 	_count++;
 	_enemyBullet->render();
 
